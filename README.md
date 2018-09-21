@@ -1,6 +1,6 @@
 # Basemate::Ui::Core
-Short description and motivation --> TODO
-
+Create component based, object oriented views. Get dynamic SPA-like behaviour through integrated vue.js with zero effort.
+TODO
 
 ## Current State
 This repo is currently under heavy development and should not be used until the first tested, stable version is released. Please use it only, if you are onboarded by the Basemate Team. Feel free to reach out :)
@@ -38,7 +38,7 @@ Create a folder called 'basemate' to your app directory. All your Basemate apps,
 
 Include the Basemate Helper to your controllers. If you want to make the helpers available in all controllers, include it to your 'ApplicationController' like:
 
-controllers/application_controller.rb
+app/controllers/application_controller.rb
 ```ruby
 class ApplicationController < ActionController::Base
   include Basemate::Ui::Core::ApplicationHelper
@@ -126,7 +126,7 @@ Note:
 
 Add a ruby file to the correct basemate customize folder, for example:
 
-basemate/customize/ui/core/row.rb
+app/basemate/customize/ui/core/row.rb
 ```ruby
 
 module Customize::Ui::Core
