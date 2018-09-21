@@ -16,7 +16,7 @@ Add 'basemate-ui-core' to your Gemfile
 
 Gemfile
 ```ruby
-gem 'basemate-ui-core'
+gem 'basemate-ui-core', :git => 'https://github.com/basemate/basemate-ui-core.git'
 ```
 
 and run bundle install.
