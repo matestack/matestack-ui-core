@@ -1,0 +1,11 @@
+%component{"is": "app", "inline-template": true}
+  %div
+    .navigation
+      %button{"@click": 'navigateTo("dashboard")'}
+        Dashboard
+      %button{"@click": 'navigateTo("page_with_table")'}
+        Page with Table
+    %div{"v-if": "asyncTemplate == null"}
+      = yield
+    %div{"v-if": "asyncTemplate != null"}
+      %v-runtime-template{":template":"asyncTemplate"}

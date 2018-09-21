@@ -1,0 +1,9 @@
+{
+  "name": "basemate-ui-core",
+  "private": true,
+  "dependencies": {
+    "vue": "^2.5.17",
+    "v-runtime-template": "^1.5.2",
+    "axios": "^0.18.0"
+  }
+}
