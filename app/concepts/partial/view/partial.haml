@@ -1,3 +1,2 @@
-%div
-  = include_partial do
-    = yield
+- @children_cells.each do |key, cell|
+  = cell.call(:show)

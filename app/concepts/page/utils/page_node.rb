@@ -25,20 +25,23 @@ module Page::Utils
         node_id = @node_start_id + 1
         @node_start_id = node_id
         current_node = "#{meth}_#{@node_start_id}"
-
         @hash[current_node] = {}
         @hash[current_node]["component_name"] = meth.to_s
         @hash[current_node]["config"] = {}
         @hash[current_node]["argument"] = nil
 
-        if args.first.is_a?(Hash)
-          @hash[current_node]["config"] = args.first
+        if meth == :partial
+          @hash[current_node]["components"] = @page_instance.send(args.first, *args.drop(1))
         else
-          @hash[current_node]["argument"] = args.first
-        end
+          if args.first.is_a?(Hash)
+            @hash[current_node]["config"] = args.first
+          else
+            @hash[current_node]["argument"] = args.first
+          end
 
-        if block_given?
-          @hash[current_node]["components"] = PageNode.build(@page_instance, &block)
+          if block_given?
+            @hash[current_node]["components"] = PageNode.build(@page_instance, &block)
+          end
         end
       end
 

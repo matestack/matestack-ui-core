@@ -33,6 +33,10 @@ module Page::Cell
       end
     end
 
+    def partial(&block)
+      ::Page::Utils::PageNode.build(self, &block)
+    end
+
     def show(component_key=nil, app_key=nil)
       if app_key.nil? && component_key.nil?
         render :page

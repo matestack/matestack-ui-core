@@ -5,6 +5,6 @@ const componentDef = {
   mixins: [componentMixin]
 }
 
-let component = Vue.component('partial-cell', componentDef)
+let component = Vue.component('html-cell', componentDef)
 
 export default component
