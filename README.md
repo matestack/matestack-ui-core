@@ -180,7 +180,88 @@ This gives you following, customized output:
 ```
 ## Structure your Basemate Page response
 
-TODO
+If you don't want to define the response of you page in one block, you can use partials:
+
+You could refactor this:
+
+app/basemate/landing_page/home.rb
+```ruby
+module LandingPage
+  class Home < Page::Cell::Page
+
+    def response
+
+      components {
+        row center: true do
+          col do
+            plain @foo
+          end
+          col do
+            plain @bar
+          end
+        end
+        row center: true do
+          col do
+            plain @foo
+          end
+          col do
+            plain @bar
+          end
+        end
+      }
+
+    end
+
+  end
+end
+
+```
+
+to this:
+
+```ruby
+module LandingPage
+  class Home < Page::Cell::Page
+
+    def response
+      components {
+        partial :row_1
+        partial :row_2
+      }
+    end
+
+    def row_1
+      partial {
+        row center: true do
+          col do
+            plain @foo
+          end
+          col do
+            plain @bar
+          end
+        end
+      }
+    end
+
+    def row_2
+      partial {
+        row center: true do
+          col do
+            plain "hello"
+          end
+          col do
+            plain "world"
+          end
+        end
+      }
+    end
+
+
+  end
+end
+
+```
+
 
 ## Create your own Component
 
