@@ -178,7 +178,7 @@ This gives you following, customized output:
   </div>
 </div>
 ```
-## Structure your Basemate Page response
+## Structure your Basemate Page response with partials
 
 If you don't want to define the response of you page in one block, you can use partials:
 
@@ -202,10 +202,10 @@ module LandingPage
         end
         row center: true do
           col do
-            plain @foo
+            plain "hello"
           end
           col do
-            plain @bar
+            plain "world"
           end
         end
       }
@@ -261,6 +261,38 @@ module LandingPage
 end
 
 ```
+
+You could also implement dynamic partials, for example:
+
+```ruby
+module LandingPage
+  class Home < Page::Cell::Page
+
+    def response
+      components {
+        partial :row, @foo, @bar
+        partial :row, "hello", "world"
+      }
+    end
+
+    def row first_col, second_col
+      partial {
+        row center: true do
+          col do
+            plain first_col
+          end
+          col do
+            plain second_col
+          end
+        end
+      }
+    end
+
+  end
+end
+
+```
+
 
 
 ## Create your own Component
