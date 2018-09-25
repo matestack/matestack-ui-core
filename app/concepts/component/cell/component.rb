@@ -9,7 +9,7 @@ module Component::Cell
 
     def initialize(model=nil, options={})
       super
-      @component_config = options.except(:context, :children)
+      @component_config = options.except(:context, :children, :url_params)
       @url_params = options[:url_params].except(:action, :controller, :component_key)
       @component_key = options[:component_key]
       @children_cells = {}
@@ -36,6 +36,14 @@ module Component::Cell
       render do
         render_children
       end
+    end
+
+    def component_id
+      @component_key
+    end
+
+    def custom_id
+      options[:id]
     end
 
     private
