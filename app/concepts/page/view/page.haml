@@ -1,2 +1,3 @@
-- @cells.each do |key, cell|
-  = cell.call(:show)
+%div{id: @page_name}
+  - @cells.each do |key, cell|
+    = cell.call(:show)

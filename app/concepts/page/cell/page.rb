@@ -10,6 +10,7 @@ module Page::Cell
 
     def initialize(model=nil, options={})
       super
+      generate_page_name
       @nodes = {}
       @cells = {}
       options[:controller_instance].instance_variables.each do |controller_instance_var_key|
@@ -55,6 +56,13 @@ module Page::Cell
         end
       end
     end
+
+    private
+
+      def generate_page_name
+        name_parts = self.class.name.split("::").map { |name| name.underscore }
+        @page_name = name_parts.join("_")
+      end
 
 
   end
