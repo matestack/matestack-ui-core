@@ -58,20 +58,20 @@ Your routes:
 config/routes.rb
 ```ruby
 Rails.application.routes.draw do
-  get '/home', to:'landing_page#home'
+  get '/home', to:'website#home'
 end
 ```
 
 Your Controller Action:
 
-app/controllers/landing_page_controller.rb
+app/controllers/website_controller.rb
 ```ruby
-class LandingPageController < ApplicationController
+class WebsiteController < ApplicationController
 
   def home
     @foo = "foo"
     @bar = "bar"
-    responder_for(LandingPage::Home)
+    responder_for(Website::Home)
   end
 
 end
@@ -80,9 +80,9 @@ end
 
 Your Basemate Page:
 
-app/basemate/landing_page/home.rb
+app/basemate/website/home.rb
 ```ruby
-module LandingPage
+module Website
   class Home < Page::Cell::Page
 
     def response
@@ -142,9 +142,9 @@ end
 
 and change your Basemate Page to use your new interface:
 
-app/basemate/landing_page/home.rb
+app/basemate/website/home.rb
 ```ruby
-module LandingPage
+module Website
   class Home < Page::Cell::Page
 
     def response
@@ -184,9 +184,9 @@ If you don't want to define the response of you page in one block, you can use p
 
 You could refactor this:
 
-app/basemate/landing_page/home.rb
+app/basemate/website/home.rb
 ```ruby
-module LandingPage
+module Website
   class Home < Page::Cell::Page
 
     def response
@@ -220,7 +220,7 @@ end
 to this:
 
 ```ruby
-module LandingPage
+module Website
   class Home < Page::Cell::Page
 
     def response
@@ -265,7 +265,7 @@ end
 You could also implement dynamic partials, for example:
 
 ```ruby
-module LandingPage
+module Website
   class Home < Page::Cell::Page
 
     def response
