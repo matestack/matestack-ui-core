@@ -57,11 +57,16 @@ module Page::Cell
       end
     end
 
+
+    def page_id
+      @custom_page_id ||= @page_id
+    end
+
     private
 
       def generate_page_name
         name_parts = self.class.name.split("::").map { |name| name.underscore }
-        @page_name = name_parts.join("_")
+        @page_id = name_parts.join("_")
       end
 
 

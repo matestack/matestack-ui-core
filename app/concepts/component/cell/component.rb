@@ -39,11 +39,7 @@ module Component::Cell
     end
 
     def component_id
-      @component_key
-    end
-
-    def custom_id
-      options[:id]
+      options[:id] ||= @component_key
     end
 
     private

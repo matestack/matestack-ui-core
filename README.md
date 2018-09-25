@@ -129,7 +129,7 @@ module Website
           col do
             plain @foo
           end
-          col do
+          col id: "my_special_col" do
             plain @bar
           end
         end
@@ -144,21 +144,36 @@ end
 This gives you following output:
 
 ```html
-<div class='row'>
-  <div class='col'>
-    foo
-  </div>
-  <div class='col'>
-    bar
+<div id='website_home'>
+  <div class='row' id="row_1">
+    <div class='col' id="row_1__col_1">
+      foo
+    </div>
+    <div class='col' id="my_special_col">
+      bar
+    </div>
   </div>
 </div>
 ```
+As you can see, the page is wrapped in a div with an id generated from the
+class/module name. The tags get ids automatically, but can be overwritten while
+defining the page response. Ids should help you style specific parts of your
+page later on.
+
 Note:
 - "row", "col", "plain" are predefined core components
-- you can customize the output of the core components (see: [Customize](#customize))
-- you can add your own components (see: [Customize](#customize))
-- you can use styles from Basemate Themes (see: [Themes](#themes))
-- you can use components from Basemate Bundles (see: [Bundles](#bundles))
+  - a documentation of predefined core component can be found here: TODO
+- row/col class setup for bootstrap 4.x and material-design-lite can be found here:
+  - bootstrap 4.x: TODO
+  - material-design-lite: TODO
+- you can customize the output of the core components
+  - see: [Customize](#customize)
+- you can add your own components
+  - see: [Customize](#customize)
+- you can use styles from Basemate Themes
+  - see: [Themes](#themes)
+- you can use components from Basemate Bundles
+  - see: [Bundles](#bundles)
 
 #### Structure your Basemate Page response with partials
 
