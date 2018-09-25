@@ -75,12 +75,16 @@ end
 
 ## Usage
 
-- [Basemate Page](#create-a-basemate-page)
+- [Basemate Page](#basemate-page)
+  - [Setup](#basic-page-setup)
   - [Partials](#structure-your-basemate-page-response-with-partials)
   - [Prepare Block](#use-a-prepare-block-to-implement-page-related-business-logic)
-- [Basemate App](#wrap-your-basemate-page-into-a-basemate-app-for-spa-like-behaviour)
+- [Basemate App](#basemate-app)
+  - [Setup](#basic-app-setup)
 
-### Create a Basemate Page
+### Basemate Page
+
+#### Basic Page Setup
 Scenario: You want to use a Basemate Page instead of a classic Rails view as a
 response for your controller action.
 Your setup would be:
@@ -103,7 +107,7 @@ class WebsiteController < ApplicationController
   def home
     @foo = "foo"
     @bar = "bar"
-    responder_for(Website::Home)
+    responder_for(Website::Home) #-> Basemate::Ui::Core::ApplicationHelper
   end
 
 end
@@ -155,7 +159,7 @@ Note:
 - you can use styles from Basemate Themes (see: [Themes](#themes))
 - you can use components from Basemate Bundles (see: [Bundles](#bundles))
 
-### Structure your Basemate Page response with partials
+#### Structure your Basemate Page response with partials
 
 If you don't want to define the response of you page in one block, you can use
 partials:
@@ -170,7 +174,7 @@ module Website
     def response
 
       components {
-        row center: true do
+        row do
           col do
             plain @foo
           end
@@ -178,7 +182,7 @@ module Website
             plain @bar
           end
         end
-        row center: true do
+        row do
           col do
             plain "hello"
           end
@@ -210,7 +214,7 @@ module Website
 
     def row_1
       partial {
-        row center: true do
+        row do
           col do
             plain @foo
           end
@@ -223,7 +227,7 @@ module Website
 
     def row_2
       partial {
-        row center: true do
+        row do
           col do
             plain "hello"
           end
@@ -255,7 +259,7 @@ module Website
 
     def row first_col, second_col
       partial {
-        row center: true do
+        row do
           col do
             plain first_col
           end
@@ -270,11 +274,13 @@ module Website
 end
 
 ```
-### Use a Prepare block to implement page-related business logic
+#### Use a Prepare block to implement page-related business logic
 
 TODO
 
-### Wrap your Basemate Page into a Basemate App for SPA-like behaviour
+### Basemate App
+
+### Basic App Setup
 
 TODO
 
