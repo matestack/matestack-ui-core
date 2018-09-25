@@ -78,7 +78,8 @@ end
 - [Basemate Page](#basemate-page)
   - [Setup](#basic-page-setup)
   - [Partials](#structure-your-basemate-page-response-with-partials)
-  - [Prepare Block](#use-a-prepare-block-to-implement-page-related-business-logic)
+  - [Prepare Block](#use-the-prepare-method-to-implement-page-related-business-logic)
+  - [Iterators](#use-iterators)
 - [Basemate App](#basemate-app)
   - [Setup](#basic-app-setup)
 
@@ -274,9 +275,89 @@ module Website
 end
 
 ```
-#### Use a Prepare block to implement page-related business logic
+#### Use the Prepare method to implement page-related business logic
 
-TODO
+If you want to move code out of your controller action, you could place your
+page-related business logic in the 'prepare'-method of your Basemate Page.
+
+
+app/controllers/website_controller.rb
+```ruby
+class WebsiteController < ApplicationController
+
+  def home
+    #@foo = "foo" #moved to prepare method
+    #@bar = "bar" #moved to prepare method
+    responder_for(Website::Home)
+  end
+
+end
+
+```
+
+app/basemate/website/home.rb
+```ruby
+module Website
+  class Home < Page::Cell::Page
+
+    def prepare
+      @foo = "foo"
+      @bar = "bar"
+    end
+
+    def response
+      components {
+        row do
+          col do
+            plain @foo
+          end
+          col do
+            plain @bar
+          end
+        end
+      }
+    end
+
+  end
+end
+
+```
+
+#### Use Iterators
+
+Often you need to iterate through some datastructure on your UI. Since you're
+writing pure Ruby, it's straight forward. Iterations can use dynamic partials:
+
+app/basemate/website/home.rb
+```ruby
+module Website
+  class Home < Page::Cell::Page
+
+    def prepare
+      @team_members = ["Mike", "Laura", "John"]
+    end
+
+    def response
+      components {
+        @team_members.each do |member|
+          partial :member_profile, member
+        end
+      }
+    end
+
+    def member_profile member
+      partial {
+        row do
+          col do
+            plain member
+          end
+        end
+      }
+    end
+  end
+end
+
+```
 
 ### Basemate App
 
