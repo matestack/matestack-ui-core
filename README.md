@@ -19,13 +19,13 @@ onboarded by the Basemate Team. Feel free to reach out :)
 First stable release is scheduled for October 2018.
 
 ## Table of Contents
-1. [Setup](##setup)
-2. [Usage](##usage)
-3. [Customize](##customize)
-4. [Bundles](##bundles)
-5. [Themes](##themes)
-6. [Contribution](##contribution)
-7. [License](##license)
+1. [Setup](#setup)
+2. [Usage](#usage)
+3. [Customize](#customize)
+4. [Bundles](#bundles)
+5. [Themes](#themes)
+6. [Contribution](#contribution)
+7. [License](#license)
 
 ## Setup
 This setup part documents the simplest approach to use Basemate::Ui::Core
@@ -33,7 +33,7 @@ without any Basemate Bundle or Theme in charge. Assets are compiled and served
 only via sprockets. This makes it very easy to integrate it in a classic Rails
 Project without any further dependencies. It is not recommend if you want to
 extend Basemate through building your own vue.js components; you should use
-Webpacker instead (see: [Setup with Webpacker](###setup-with-webpacker)).
+Webpacker instead (see: [Setup with Webpacker](#setup-with-webpacker)).
 
 ### Gemfile
 
@@ -145,10 +145,10 @@ This gives you following output:
 ```
 Note:
 - "row", "col", "plain" are predefined core components
-- you can customize the output of the core components (see: [Customize](##customize))
-- you can add your own components (see: [Customize](##customize))
-- you can use styles from Basemate Themes (see: [Themes](##themes))
-- you can use components from Basemate Bundles (see: [Bundles](##bundles))
+- you can customize the output of the core components (see: [Customize](#customize))
+- you can add your own components (see: [Customize](#customize))
+- you can use styles from Basemate Themes (see: [Themes](#themes))
+- you can use components from Basemate Bundles (see: [Bundles](#bundles))
 
 ### Structure your Basemate Page response with partials
 
