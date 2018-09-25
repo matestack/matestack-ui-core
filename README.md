@@ -75,6 +75,11 @@ end
 
 ## Usage
 
+1. [Basemate Page](#create-a-basemate-page)
+  1. [Partials](#structure-your-basemate-page-response-with-partials)
+  2. [Prepare Block](#use-a-prepare-block-to-implement-page-related-business-logic)
+2. [Basemate App](#wrap-your-basemate-page-into-a-basemate-app-for-SPA-like-behaviour)
+
 ### Create a Basemate Page
 Scenario: You want to use a Basemate Page instead of a classic Rails view as a
 response for your controller action.
