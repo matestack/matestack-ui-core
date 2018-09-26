@@ -13,10 +13,11 @@ TODO
 
 ## Current State
 This repo is currently under heavy development and should not be used until the
-first tested, stable version is released. Please use it only, if you are
-onboarded by the Basemate Team. Feel free to reach out :)
+first tested, stable version is released. Please use it only after being
+onboarded by the basemate team. Feel free to reach out if you really can't
+wait to start :)
 
-First stable release is scheduled for October 2018.
+First stable release is scheduled for mid October 2018.
 
 ## Table of Contents
 1. [Setup](#setup)
@@ -44,7 +45,10 @@ Gemfile
 gem 'basemate-ui-core', :git => 'https://github.com/basemate/basemate-ui-core.git'
 ```
 
-and run bundle install.
+and run
+````
+$ bundle install
+````
 
 ### Javascript
 
