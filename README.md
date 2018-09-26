@@ -32,9 +32,10 @@ First stable release is scheduled for mid October 2018.
 This setup part documents the simplest approach to use Basemate::Ui::Core
 without any basemate bundle or theme involved. Assets are compiled and served
 only via sprockets. This makes it very easy to integrate it in a classic Rails
-project without any further dependencies. If you want to extend basemate it is
-not recommended to build your own vue.js components; you should use
-Webpacker instead (see: [Setup with Webpacker](#setup-with-webpacker)).
+project without any further dependencies.
+**Do not use this setup if you want to build custom vue.js components.**
+If you want to extend basemate by building your own vue.js components,
+use Webpacker (see: [Setup with Webpacker](#setup-with-webpacker)).
 
 ### Gemfile
 
@@ -153,10 +154,9 @@ This gives you following output:
   </div>
 </div>
 ```
-As you can see, the page is wrapped in a div with an id generated from the
-class/module name. These ids get created automatically, but can be overwritten
-in the page response. Those ids should help you style specific parts of your
-page later on.
+As you can see, each component receives an id that is automatically created
+using the components' name. Those ids should help you style specific parts of
+your page later on, and can be overwritten in the page response if you need more freedom. 
 
 Note:
 - "row", "col", "plain" are predefined core components
