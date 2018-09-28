@@ -7,16 +7,17 @@ through integrated vue.js with zero effort.
 
 TODO
 
-## Why Basemate?
+## Why basemate?
 
 TODO
 
 ## Current State
 This repo is currently under heavy development and should not be used until the
-first tested, stable version is released. Please use it only, if you are
-onboarded by the Basemate Team. Feel free to reach out :)
+first tested, stable version is released. Please use it only after being
+onboarded by the basemate team. Feel free to reach out if you really can't
+wait to start :)
 
-First stable release is scheduled for October 2018.
+First stable release is scheduled for mid October 2018.
 
 ## Table of Contents
 1. [Setup](#setup)
@@ -29,48 +30,49 @@ First stable release is scheduled for October 2018.
 
 ## Setup
 This setup part documents the simplest approach to use Basemate::Ui::Core
-without any Basemate Bundle or Theme in charge. Assets are compiled and served
+without any basemate bundle or theme involved. Assets are compiled and served
 only via sprockets. This makes it very easy to integrate it in a classic Rails
-Project without any further dependencies. It is not recommend if you want to
-extend Basemate through building your own vue.js components; you should use
-Webpacker instead (see: [Setup with Webpacker](#setup-with-webpacker)).
+project without any further dependencies.
+**Do not use this setup if you want to build custom vue.js components.**
+If you want to extend basemate by building your own vue.js components,
+use Webpacker (see: [Setup with Webpacker](#setup-with-webpacker)).
 
 ### Gemfile
 
 Add 'basemate-ui-core' to your Gemfile
 
-Gemfile
 ```ruby
 gem 'basemate-ui-core', :git => 'https://github.com/basemate/basemate-ui-core.git'
 ```
 
-and run bundle install.
+and run
+````
+$ bundle install
+````
 
 ### Javascript
 
-Add 'basemate-ui-core' to your application.js
+Require 'basemate-ui-core' in your assets/javascript/application.js
 
-assets/javascript/application.js
 ```
 //= require basemate-ui-core
 ```
 
 ### Basemate Folder
 
-Create a folder called 'basemate' to your app directory. All your Basemate apps,
-pages, components will be defined there.
+Create a folder called 'basemate' in your app directory. All your basemate apps,
+pages, components (and more to come) will be defined there.
 
 ### Include Helper
 
-Include the Basemate Helper to your controllers. If you want to make the helpers
-available in all controllers, include it to your 'ApplicationController' like:
+Add the basemate Helper to your controllers. If you want to make the helpers
+available in all controllers, add it to your 'ApplicationController' this way:
 
 app/controllers/application_controller.rb
 ```ruby
 class ApplicationController < ActionController::Base
   include Basemate::Ui::Core::ApplicationHelper
 end
-
 ```
 
 ## Usage
@@ -86,9 +88,8 @@ end
 ### Basemate Page
 
 #### Basic Page Setup
-Scenario: You want to use a Basemate Page instead of a classic Rails view as a
-response for your controller action.
-Your setup would be:
+Scenario: You want to use a basemate Page instead of a classic Rails view as a
+response for a controller action. This is what your setup looks like:
 
 Your routes:
 
@@ -98,6 +99,30 @@ Rails.application.routes.draw do
   get '/home', to:'website#home'
 end
 ```
+
+Your Application Layout:
+
+app/views/layouts/application.html.erb
+```erb
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My App</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div id="basemate_ui">
+      <%= yield %>
+    </div>
+  </body>
+</html>
+```
+Note: Wrap your content with a div and assgin the id  "basemate_ui"
 
 Your Controller Action:
 
@@ -112,10 +137,9 @@ class WebsiteController < ApplicationController
   end
 
 end
-
 ```
 
-Your Basemate Page:
+Your basemate Page:
 
 app/basemate/website/home.rb
 ```ruby
@@ -139,7 +163,6 @@ module Website
 
   end
 end
-
 ```
 This gives you following output:
 
@@ -155,10 +178,9 @@ This gives you following output:
   </div>
 </div>
 ```
-As you can see, the page is wrapped in a div with an id generated from the
-class/module name. The tags get ids automatically, but can be overwritten while
-defining the page response. Ids should help you style specific parts of your
-page later on.
+As you can see, each component receives an id that is automatically created
+using the components' name. Those ids should help you style specific parts of
+your page later on, and can be overwritten in the page response if you need more freedom. 
 
 Note:
 - "row", "col", "plain" are predefined core components
@@ -175,14 +197,13 @@ Note:
 - you can use components from Basemate Bundles
   - see: [Bundles](#bundles)
 
-#### Structure your Basemate Page response with partials
+#### Structure your basemate Page response with partials
 
 If you don't want to define the response of you page in one block, you can use
-partials:
+partials.
 
-You could refactor this:
+Let's take our app/basemate/website/home.rb and refactor it from this:
 
-app/basemate/website/home.rb
 ```ruby
 module Website
   class Home < Page::Cell::Page
@@ -427,7 +448,7 @@ module Website
 end
 
 ```
-This gives you following, customized output:
+The result is the following, customized output:
 
 ```html
 <div class='row justify-content-md-center'>
