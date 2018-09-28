@@ -100,6 +100,30 @@ Rails.application.routes.draw do
 end
 ```
 
+Your Application Layout:
+
+app/views/layouts/application.html.erb
+```erb
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My App</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div id="basemate_ui">
+      <%= yield %>
+    </div>
+  </body>
+</html>
+```
+Note: Wrap your content with a div and assgin the id  "basemate_ui"
+
 Your Controller Action:
 
 app/controllers/website_controller.rb
