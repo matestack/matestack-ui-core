@@ -5,6 +5,7 @@
     "@rails/webpacker": "3.5"
   },
   "devDependencies": {
-    "webpack-dev-server": "2.11.2"
+    "webpack-dev-server": "2.11.2",
+    "webpack-merge": "4.1.4"
   }
 }
