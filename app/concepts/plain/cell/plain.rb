@@ -1,5 +1,5 @@
 module Plain::Cell
-  class Plain < Component::Cell::Component
+  class Plain < Component::Cell::Static
 
     def show
       @argument

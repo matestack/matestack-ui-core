@@ -1,7 +1,7 @@
 require_dependency "cell/partial"
 
 module Html::Cell
-  class Html < Component::Cell::Component
+  class Html < Component::Cell::Dynamic
 
     include Cell::ViewModel::Partial
 

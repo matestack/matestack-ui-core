@@ -11,6 +11,7 @@ module Page::Cell
     def initialize(model=nil, options={})
       super
       generate_page_name
+      set_app_class
       @nodes = {}
       @cells = {}
       options[:controller_instance].instance_variables.each do |controller_instance_var_key|
@@ -18,8 +19,6 @@ module Page::Cell
           self.instance_variable_set(controller_instance_var_key, options[:controller_instance].instance_variable_get(controller_instance_var_key))
         end
       end
-      prepare
-      response
     end
 
     def prepare
@@ -38,14 +37,22 @@ module Page::Cell
       ::Page::Utils::PageNode.build(self, &block)
     end
 
-    def show(component_key=nil, app_key=nil)
-      if app_key.nil? && component_key.nil?
+    def show(component_key=nil, only_page=false)
+      prepare
+      response
+
+      render_mode = nil
+      render_mode = :only_page if only_page == true
+      render_mode = :render_page_with_app if !@app_class.nil? && only_page == false
+      render_mode = :render_component if !component_key.nil?
+
+      case render_mode
+
+      when :only_page
         render :page
-      elsif !app_key.nil? && component_key.nil?
-        concept(App::Cell::App).call(:show) do
-          render :page
-        end
-      elsif !component_key.nil?
+      when :render_page_with_app
+        concept(@app_class).call(:show, @nodes)
+      when :render_component
         if component_key.include?("__")
           keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
           node = @nodes.dig(*keys_array)
@@ -67,6 +74,27 @@ module Page::Cell
       def generate_page_name
         name_parts = self.class.name.split("::").map { |name| name.underscore }
         @page_id = name_parts.join("_")
+      end
+
+      def set_app_class
+        class_name = self.class.name
+        app_name = "#{class_name.split("::")[0]}"
+        begin
+          app_class = Apps.const_get(app_name)
+          if app_class.is_a?(Class)
+            @app_class = app_class
+          else
+            require_dependency "apps/#{app_name.underscore}"
+            app_class = Apps.const_get(app_name)
+            if app_class.is_a?(Class)
+              @app_class = app_class
+            else
+              @app_class = nil
+            end
+          end
+        rescue
+          @app_class = nil
+        end
       end
 
 

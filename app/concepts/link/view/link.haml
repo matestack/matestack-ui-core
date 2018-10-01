@@ -1,0 +1,6 @@
+- if options[:text].nil?
+  = link_to link_path, {"class": options[:class], "id": component_id, method: options[:method] ||= :get, "target": options[:target] ||= nil} do
+    - if block_given?
+      = yield
+- else
+  = link_to options[:text], link_path, {"class": options[:class], "id": component_id, method: options[:method] ||= :get, "target": options[:target] ||= nil}

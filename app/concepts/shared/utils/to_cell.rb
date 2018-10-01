@@ -9,7 +9,7 @@ module Shared::Utils::ToCell
     config.merge!(origin_url: request_uri.gsub("?" + query_string, ""))
     config.merge!(url_params: context[:params])
 
-    name = component_name
+    name = component_name.gsub("_", "/")
     if name.include?("/")
       name = "#{name.split("/")[0]}/cell/#{name.split("/")[1]}"
     else

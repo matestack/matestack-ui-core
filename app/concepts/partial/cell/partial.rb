@@ -1,8 +1,5 @@
 module Partial::Cell
-  class Partial < Component::Cell::Component
+  class Partial < Component::Cell::Static
 
-    def setup
-      @static = true
-    end
   end
 end

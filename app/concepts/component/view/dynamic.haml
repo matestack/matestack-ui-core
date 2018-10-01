@@ -1,0 +1,6 @@
+%component{"is": @component_class, ":params":  @url_params.to_json, ":component-config": @component_config.to_json, "inline-template": true}
+  %div{"id": component_id, "class": @component_class}
+    %div{"v-if": "asyncTemplate == null"}
+      = render_content
+    %div{"v-if": "asyncTemplate != null"}
+      %v-runtime-template{":template":"asyncTemplate"}

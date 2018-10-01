@@ -11,11 +11,15 @@ const componentDef = {
   },
   methods: {
     navigateTo: function(url){
+      if (typeof basemateUiCoreTransitionStart !== 'undefined') {
+        basemateUiCoreTransitionStart(url);
+      }
       var self = this;
-      // if(self.params == undefined) {
-      //   self.params = {}
-      // }
-      // self.params["only_page"] = true;
+      if (window.history.pushState) {
+        window.history.pushState("object or string", "Title", url);
+      } else {
+        document.location.href = url;
+      }
       axios({
         method: "get",
         url: url,
@@ -25,7 +29,13 @@ const componentDef = {
         params: {"only_page": true}
       })
       .then(function(response){
-        self.asyncTemplate = response["data"];
+        setTimeout(function () {
+          self.asyncTemplate = response["data"];
+          if (typeof basemateUiCoreTransitionSuccess !== 'undefined') {
+            basemateUiCoreTransitionSuccess(url);
+          }
+        }, 500);
+
       })
     }
   },

@@ -7,7 +7,7 @@ import html from 'html/js/html'
 document.addEventListener('DOMContentLoaded', () => {
 
     const basemateUiApp = new Vue({
-      el: "#basemate-ui"
+      el: "#basemate_ui"
     })
 
 })

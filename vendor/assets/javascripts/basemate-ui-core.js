@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/packs/";
+/******/ 	__webpack_require__.p = "/../../../vendor/assets/javascripts/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 13);
@@ -11345,7 +11345,7 @@ Vue.compile = compileToFunctions;
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(/*! ./../../../spec/build/node_modules/webpack/buildin/global.js */ 2), __webpack_require__(/*! ./../../../spec/build/node_modules/timers-browserify/main.js */ 15).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(/*! ./../../../spec/builder/node_modules/webpack/buildin/global.js */ 2), __webpack_require__(/*! ./../../../spec/builder/node_modules/timers-browserify/main.js */ 15).setImmediate))
 
 /***/ }),
 /* 2 */
@@ -11486,7 +11486,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../spec/build/node_modules/process/browser.js */ 4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../spec/builder/node_modules/process/browser.js */ 4)))
 
 /***/ }),
 /* 4 */
@@ -12151,7 +12151,7 @@ console.log('Hello World from Webpacker');
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_js_app__ = __webpack_require__(/*! app/js/app */ 17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_component_js_component__ = __webpack_require__(/*! component/js/component */ 12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_partial_js_partial__ = __webpack_require__(/*! partial/js/partial */ 36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_html_js_html__ = __webpack_require__(/*! html/js/html */ 36);
 
 
 
@@ -12161,7 +12161,7 @@ console.log('Hello World from Webpacker');
 document.addEventListener('DOMContentLoaded', () => {
 
   const basemateUiApp = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]({
-    el: "#basemate-ui"
+    el: "#basemate_ui"
   });
 });
 
@@ -12466,11 +12466,15 @@ const componentDef = {
   },
   methods: {
     navigateTo: function (url) {
+      if (typeof basemateUiCoreTransitionStart !== 'undefined') {
+        basemateUiCoreTransitionStart(url);
+      }
       var self = this;
-      // if(self.params == undefined) {
-      //   self.params = {}
-      // }
-      // self.params["only_page"] = true;
+      if (window.history.pushState) {
+        window.history.pushState("object or string", "Title", url);
+      } else {
+        document.location.href = url;
+      }
       __WEBPACK_IMPORTED_MODULE_1_axios___default()({
         method: "get",
         url: url,
@@ -12479,7 +12483,12 @@ const componentDef = {
         },
         params: { "only_page": true }
       }).then(function (response) {
-        self.asyncTemplate = response["data"];
+        setTimeout(function () {
+          self.asyncTemplate = response["data"];
+          if (typeof basemateUiCoreTransitionSuccess !== 'undefined') {
+            basemateUiCoreTransitionSuccess(url);
+          }
+        }, 500);
       });
     }
   },
@@ -13466,9 +13475,9 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 36 */
-/*!*********************************************************************************************************!*\
-  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/partial/js/partial.js ***!
-  \*********************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/html/js/html.js ***!
+  \***************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -13482,10 +13491,10 @@ const componentDef = {
   mixins: [__WEBPACK_IMPORTED_MODULE_1_component_js_component__["a" /* default */]]
 };
 
-let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('partial-cell', componentDef);
+let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('html-cell', componentDef);
 
 /* unused harmony default export */ var _unused_webpack_default_export = (component);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=application-6460805af758363f33d0.js.map
+//# sourceMappingURL=basemate-ui-core.js.map

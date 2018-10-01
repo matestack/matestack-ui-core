@@ -1,9 +1,5 @@
 module Col::Cell
-  class Col < Component::Cell::Component
-
-    def setup
-      @static = true
-    end
+  class Col < Component::Cell::Static
 
     def col_classes
       classes = []

@@ -1,0 +1,50 @@
+- case options[:size]
+- when 1
+  %h1{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]
+- when 2
+  %h2{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]
+- when 3
+  %h3{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]
+- when 4
+  %h4{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]
+- when 5
+  %h5{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]
+- when 6
+  %h6{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]
+- else
+  %h1{"class": options[:class], "id": component_id}
+    - if options[:text].blank?
+      - if block_given?
+        = yield
+    - else
+      = options[:text]

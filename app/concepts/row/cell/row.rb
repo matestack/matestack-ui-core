@@ -1,9 +1,5 @@
 module Row::Cell
-  class Row < Component::Cell::Component
-
-    def setup
-      @static = true
-    end
+  class Row < Component::Cell::Static
 
     def row_classes
       classes = []
