@@ -23,6 +23,7 @@ const componentDef = {
       } else {
         document.location.href = url;
       }
+      const self = this;
       axios({
         method: "get",
         url: url,
