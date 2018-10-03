@@ -10,13 +10,16 @@ const componentDef = {
     }
   },
   methods: {
-    navigateTo: function(url){
+    navigateTo: function(url, backwards){
       if (typeof basemateUiCoreTransitionStart !== 'undefined') {
         basemateUiCoreTransitionStart(url);
       }
-      var self = this;
       if (window.history.pushState) {
-        window.history.pushState("object or string", "Title", url);
+        if (backwards){
+          window.history.replaceState({basemateApp: true, url: url}, null, url);
+        } else {
+          window.history.pushState({basemateApp: true, url: url}, null, url);
+        }
       } else {
         document.location.href = url;
       }
@@ -37,6 +40,12 @@ const componentDef = {
         }, 500);
 
       })
+    }
+  },
+  mounted: function(){
+    const self = this;
+    window.onpopstate = function(event) {
+      self.navigateTo(document.location.pathname, true);
     }
   },
   components: {
