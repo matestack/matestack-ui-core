@@ -16,7 +16,12 @@ module Shared::Utils::ToCell
       name = "#{name}/cell/#{name}"
     end
 
-    concept(name, argument, config)
+    begin
+      concept(name, argument, config)
+    rescue
+      name = "components/" + name
+      concept(name, argument, config)
+    end
   end
 
 end

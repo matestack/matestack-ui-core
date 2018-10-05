@@ -1,5 +1,9 @@
 module Transition::Cell
-  class Transition < Component::Cell::Static
+  class Transition < Component::Cell::Dynamic
+
+    def setup
+      @component_config[:link_path] = link_path
+    end
 
     def link_path
       if options[:path].is_a?(Symbol)

@@ -1,6 +1,6 @@
 - if options[:text].nil?
-  = link_to link_path, {"class": options[:class], "id": component_id, "@click.prevent": navigate_to(link_path)} do
+  = link_to link_path, {"class": options[:class], "id": component_id, "@click.prevent": navigate_to(link_path), "v-bind:class": "{ active: isActive }"} do
     - if block_given?
       = yield
 - else
-  = link_to options[:text], link_path, {"class": options[:class], "id": component_id, "@click.prevent": navigate_to(link_path)}
+  = link_to options[:text], link_path, {"class": options[:class], "id": component_id, "@click.prevent": navigate_to(link_path), "v-bind:class": "{ active: isActive }"}

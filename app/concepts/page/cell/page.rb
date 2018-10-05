@@ -44,6 +44,7 @@ module Page::Cell
       render_mode = nil
       render_mode = :only_page if only_page == true
       render_mode = :render_page_with_app if !@app_class.nil? && only_page == false
+      render_mode = :only_page if @app_class.nil? && only_page == false
       render_mode = :render_component if !component_key.nil?
 
       case render_mode
@@ -78,7 +79,13 @@ module Page::Cell
 
       def set_app_class
         class_name = self.class.name
-        app_name = "#{class_name.split("::")[0]}"
+        name_parts = class_name.split("::")
+        if name_parts.count <= 2
+          @app_class = nil
+          return
+        end
+
+        app_name = "#{name_parts[1]}"
         begin
           app_class = Apps.const_get(app_name)
           if app_class.is_a?(Class)

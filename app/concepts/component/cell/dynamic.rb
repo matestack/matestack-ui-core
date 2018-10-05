@@ -31,6 +31,7 @@ module Component::Cell
     include Shared::Utils::ToCell
 
     view_paths << "#{Basemate::Ui::Core::Engine.root}/app/concepts"
+    view_paths << "#{::Rails.root}/app/basemate"
 
     def initialize(model=nil, options={})
       super
