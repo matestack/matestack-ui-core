@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.authors     = ["Jonas Jabari", "Pascal Wengerter"]
   s.email       = ["jonas@basemate.io", "pascal@basemate.io"]
   s.homepage    = "https://basemate.io"
-  s.summary     = "Summary of Basemate::Ui::Core."
-  s.description = "Description of Basemate::Ui::Core."
+  s.summary     = "Escape the frontend hustle. Create beautiful software easily. Use basemate."
+  s.description = "We're replacing the original view-layer of Ruby on Rails, the most productive MVC framework we know, with our technology. By introducing basemate we get dynamic, fast and simple user interfaces without the need to touch HTML/HAML/ERB/JS/CSS. Plus, it feels like a single page application, but there's no need for all the API hustle SPAs usually bring with them."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", ">= 5.0.0"
   s.add_dependency "trailblazer"
