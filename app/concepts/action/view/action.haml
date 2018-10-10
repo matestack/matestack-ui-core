@@ -1,0 +1,9 @@
+- if options[:type] == :button || options[:type] == "button"
+
+  %button{"@click.prevent": "perform"}
+    = options[:text]
+
+- if options[:type] == :link || options[:type] == "link"
+
+  %a{href: "#", "@click.prevent": "perform"}
+    = options[:text]

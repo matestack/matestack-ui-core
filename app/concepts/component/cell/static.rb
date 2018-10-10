@@ -3,11 +3,20 @@ module Component::Cell
 
     def initialize(model=nil, options={})
       super
-      @static = true
+      if options[:dynamic]
+        @static = false
+        @component_class = "anonym-dynamic-component-cell"
+      else
+        @static = true
+      end
     end
 
     def show(&block)
-      render(view: :static, &block)
+      if @static
+        render(view: :static, &block)
+      else
+        render(view: :dynamic, &block)
+      end
     end
 
   end

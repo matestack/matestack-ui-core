@@ -12152,8 +12152,12 @@ console.log('Hello World from Webpacker');
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_js_app__ = __webpack_require__(/*! app/js/app */ 17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_js_store__ = __webpack_require__(/*! app/js/store */ 36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_js_component__ = __webpack_require__(/*! component/js/component */ 4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_html_js_html__ = __webpack_require__(/*! html/js/html */ 38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_transition_js_transition__ = __webpack_require__(/*! transition/js/transition */ 39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_js_anonym_dynamic_component__ = __webpack_require__(/*! component/js/anonym-dynamic-component */ 41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_html_js_html__ = __webpack_require__(/*! html/js/html */ 38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_transition_js_transition__ = __webpack_require__(/*! transition/js/transition */ 39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_action_js_action__ = __webpack_require__(/*! action/js/action */ 40);
+
+
 
 
 
@@ -14546,6 +14550,82 @@ const componentDef = {
 };
 
 let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('transition-cell', componentDef);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
+
+/***/ }),
+/* 40 */
+/*!*******************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/action/js/action.js ***!
+  \*******************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_js_component__ = __webpack_require__(/*! component/js/component */ 4);
+
+
+
+
+
+
+const componentDef = {
+  mixins: [__WEBPACK_IMPORTED_MODULE_3_component_js_component__["a" /* default */]],
+  data: function () {
+    return {};
+  },
+  methods: {
+    perform: function () {
+      const self = this;
+      __WEBPACK_IMPORTED_MODULE_2_axios___default()({
+        method: self.componentConfig["method"],
+        url: self.componentConfig["action_path"],
+        headers: {
+          'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
+        }
+      }).then(function (response) {
+        for (let key in self.componentConfig["success"]) {
+          self.$root.$refs[key][self.componentConfig["success"][key]]();
+        }
+        if (typeof basemateUiCoreActionSuccess !== 'undefined') {
+          basemateUiCoreActionSuccess(response);
+        }
+      }).catch(function (response) {
+        if (typeof basemateUiCoreActionError !== 'undefined') {
+          basemateUiCoreActionError(response);
+        }
+      });
+    }
+  }
+};
+
+let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('action-cell', componentDef);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
+
+/***/ }),
+/* 41 */
+/*!****************************************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/component/js/anonym-dynamic-component.js ***!
+  \****************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_component_js_component__ = __webpack_require__(/*! component/js/component */ 4);
+
+
+
+const componentDef = {
+  mixins: [__WEBPACK_IMPORTED_MODULE_1_component_js_component__["a" /* default */]]
+};
+
+let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('anonym-dynamic-component-cell', componentDef);
 
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
