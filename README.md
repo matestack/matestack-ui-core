@@ -7,7 +7,7 @@ Fullstack Web-Development Framework. With basemate you are able to write dynamic
 Web-Apps in pure Ruby. Javascript/HTML/CSS is only used for adding special, custom
 UI-Behaviour.
 
-basemate is designed to write maintainable, dynamic Web-UIs on top of Rails with
+basemate is designed to write maintainable, dynamic Web-UIs on top of Rails and Vue.js with
 minimum effort. In order to increase development speed, basemate's architecture
 moves back- and frontend development closer together. In other words: basemate
 melts Rails and Vue.js down to one holistic Web App Development Framework.
