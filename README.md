@@ -1,16 +1,21 @@
-# Basemate::Ui::Core
+# Basemate UI Core
 
-Create component based, object oriented views. Get dynamic SPA-like behaviour
-through integrated vue.js with zero effort.
+## What is basemate?
 
-## Why basemate?
+basemate is a "Rails Engine", turning the MVC-Framework "Ruby on Rails" into a
+Fullstack Web-Development Framework. With basemate you are able to write dynamic
+Web-Apps in pure Ruby. Javascript/HTML/CSS is only used for adding special, custom
+UI-Behaviour.
 
-### Our why:
-Frontend development has gotten unnecessarily complex, messy and expensive. Implementing responsive, basic user interfaces often keeps us from creating the really valuable juice (= business logic).
-### Our how:
-We're replacing the original view-layer of Ruby on Rails, the most productive MVC framework we know, with our technology. By introducing basemate we get dynamic, fast and simple user interfaces without the need to touch HTML/HAML/ERB/JS/CSS. Plus, it feels like a single page application, but there's no need for all the API hustle SPAs usually bring with them.
-### Our what:
-basemate. Declarative frontend solutions.
+basemate is designed to write maintainable, dynamic Web-UIs on top of Rails and Vue.js with
+minimum effort. In order to increase development speed, basemate's architecture
+moves back- and frontend development closer together. In other words: basemate
+melts Rails and Vue.js down to one holistic Web App Development Framework.
+
+basemate progressively replaces the classic Rails-View-Layer. You are able to use
+it alongside your classic views and incrementally turn your Rails-App into a
+dynamic, more maintainable Web-App.
+
 
 ## Current State
 This repo is currently under heavy development and should not be used until the
