@@ -11,13 +11,5 @@ module Component::Cell
       end
     end
 
-    def show(&block)
-      if @static
-        render(view: :static, &block)
-      else
-        render(view: :dynamic, &block)
-      end
-    end
-
   end
 end

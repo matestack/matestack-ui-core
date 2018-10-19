@@ -42,13 +42,11 @@ module Component::Cell
       @controller_context = context[:controller_context]
       @argument = model
       @static = false
+      @nodes = {}
+      @cells = {}
       generate_component_name
       generate_children_cells
       setup
-    end
-
-    def self.static
-      @static = true
     end
 
     def setup
@@ -56,7 +54,19 @@ module Component::Cell
     end
 
     def show(&block)
-      render(view: :dynamic, &block)
+      if respond_to? :prepare
+        prepare
+      end
+      if respond_to? :response
+        response &block
+        render :response
+      else
+        if @static
+          render(view: :static, &block)
+        else
+          render(view: :dynamic, &block)
+        end
+      end
     end
 
     def render_children
@@ -70,7 +80,7 @@ module Component::Cell
     end
 
     def component_id
-      options[:id] ||= @component_key
+      options[:id] ||= nil
     end
 
     def js_action name, arguments
@@ -81,6 +91,18 @@ module Component::Cell
 
     def navigate_to path
       js_action("navigateTo", [path])
+    end
+
+    def components(&block)
+      @nodes = ::Component::Utils::ComponentNode.build(self, &block)
+
+      @nodes.each do |key, node|
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"])
+      end
+    end
+
+    def partial(&block)
+      ::Component::Utils::ComponentNode.build(self, &block)
     end
 
     private

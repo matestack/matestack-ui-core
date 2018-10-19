@@ -7,12 +7,13 @@ import anonymDynamicComponent from 'component/js/anonym-dynamic-component'
 import html from 'html/js/html'
 import transition from 'transition/js/transition'
 import action from 'action/js/action'
+import form from 'form/js/form'
 
-
+let basemateUiApp = undefined
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const basemateUiApp = new Vue({
+    basemateUiApp = new Vue({
       el: "#basemate_ui",
       store: store
     })

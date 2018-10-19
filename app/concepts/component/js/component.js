@@ -2,6 +2,8 @@ import Vue from 'vue/dist/vue.esm'
 import axios from 'axios'
 import VRuntimeTemplate from "v-runtime-template"
 
+import basemateEventHub from 'core/js/event-hub'
+
 const componentMixin = {
   props: ['componentConfig', 'params'],
   data: function(){
@@ -10,6 +12,11 @@ const componentMixin = {
     }
   },
   methods: {
+    onRerender: function(event){
+      if (this.$el.id === event){
+        this.rerender()
+      }
+    },
     rerender: function(){
       var self = this;
       self.params["component_key"] = self.componentConfig["component_key"]
@@ -29,6 +36,14 @@ const componentMixin = {
       Object.assign(this.params, newParams);
       this.rerender()
     }
+  },
+  created: function () {
+    const self = this
+    basemateEventHub.$on('rerender', self.onRerender)
+  },
+  beforeDestroy: function() {
+    const self = this
+    basemateEventHub.$off('rerender', self.onRerender);
   },
   components: {
     VRuntimeTemplate: VRuntimeTemplate

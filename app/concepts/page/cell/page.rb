@@ -27,7 +27,9 @@ module Page::Cell
 
     def components(&block)
       @nodes = ::Page::Utils::PageNode.build(self, &block)
+    end
 
+    def nodes_to_cell
       @nodes.each do |key, node|
         @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"])
       end
@@ -50,14 +52,18 @@ module Page::Cell
       case render_mode
 
       when :only_page
+        nodes_to_cell
         render :page
       when :render_page_with_app
         concept(@app_class).call(:show, @nodes)
       when :render_component
         if component_key.include?("__")
           keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
+          if keys_array.include?("page_content_1")
+            keys_array = keys_array.drop(keys_array.find_index("page_content_1")+2)
+          end
           node = @nodes.dig(*keys_array)
-          cell = to_cell(component_key, node["component_name"], node["config"], node["components"])
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"])
           return cell.render_content
         else
           return @cells.dig(component_key).render_content
