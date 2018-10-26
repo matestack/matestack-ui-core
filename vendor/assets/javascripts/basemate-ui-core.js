@@ -1,3 +1,4 @@
+var BasemateUiCore =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -76,7 +77,7 @@
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ 9);
-var isBuffer = __webpack_require__(/*! is-buffer */ 21);
+var isBuffer = __webpack_require__(/*! is-buffer */ 19);
 
 /*global toString:true*/
 
@@ -11345,7 +11346,7 @@ Vue.compile = compileToFunctions;
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(/*! ./../../../spec/builder/node_modules/webpack/buildin/global.js */ 5), __webpack_require__(/*! ./../../../spec/builder/node_modules/timers-browserify/main.js */ 17).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(/*! ./../../../spec/builder/node_modules/webpack/buildin/global.js */ 6), __webpack_require__(/*! ./../../../spec/builder/node_modules/timers-browserify/main.js */ 16).setImmediate))
 
 /***/ }),
 /* 2 */
@@ -11358,10 +11359,10 @@ Vue.compile = compileToFunctions;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 5);
 
 
 
@@ -11378,6 +11379,11 @@ const componentMixin = {
   methods: {
     onRerender: function (event) {
       if (this.$el.id === event) {
+        this.rerender();
+      }
+    },
+    onBasemateUiCoreChannel: function (event) {
+      if (this.componentConfig["rerender_on"] == event.message) {
         this.rerender();
       }
     },
@@ -11403,10 +11409,12 @@ const componentMixin = {
   created: function () {
     const self = this;
     __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$on('rerender', self.onRerender);
+    __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$on('BasemateUiCoreChannel', self.onBasemateUiCoreChannel);
   },
   beforeDestroy: function () {
     const self = this;
     __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$off('rerender', self.onRerender);
+    __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$off('BasemateUiCoreChannel', self.onBasemateUiCoreChannel);
   },
   components: {
     VRuntimeTemplate: __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__["a" /* default */]
@@ -11417,17 +11425,6 @@ const componentMixin = {
 
 /***/ }),
 /* 3 */
-/*!**************************************************************************************************!*\
-  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/index.js ***!
-  \**************************************************************************************************/
-/*! dynamic exports provided */
-/*! exports used: default */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! ./lib/axios */ 20);
-
-/***/ }),
-/* 4 */
 /*!*********************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/vuex/dist/vuex.esm.js ***!
   \*********************************************************************************************************/
@@ -12377,7 +12374,35 @@ var index_esm = {
 
 
 /***/ }),
+/* 4 */
+/*!**************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/index.js ***!
+  \**************************************************************************************************/
+/*! dynamic exports provided */
+/*! exports used: default */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./lib/axios */ 18);
+
+/***/ }),
 /* 5 */
+/*!********************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/core/js/event-hub.js ***!
+  \********************************************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
+
+
+const basemateEventHub = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]();
+
+/* harmony default export */ __webpack_exports__["a"] = (basemateEventHub);
+
+/***/ }),
+/* 6 */
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -12409,7 +12434,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /*!*********************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/defaults.js ***!
   \*********************************************************************************************************/
@@ -12421,7 +12446,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(/*! ./utils */ 0);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 23);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 21);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -12516,23 +12541,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../spec/builder/node_modules/process/browser.js */ 8)))
-
-/***/ }),
-/* 7 */
-/*!********************************************************************************************************!*\
-  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/core/js/event-hub.js ***!
-  \********************************************************************************************************/
-/*! exports provided: default */
-/*! exports used: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-
-
-const basemateEventHub = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]();
-
-/* harmony default export */ __webpack_exports__["a"] = (basemateEventHub);
 
 /***/ }),
 /* 8 */
@@ -12765,12 +12773,12 @@ module.exports = function bind(fn, thisArg) {
 
 
 var utils = __webpack_require__(/*! ./../utils */ 0);
-var settle = __webpack_require__(/*! ./../core/settle */ 24);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 26);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 27);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 28);
+var settle = __webpack_require__(/*! ./../core/settle */ 22);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 24);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 25);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 26);
 var createError = __webpack_require__(/*! ../core/createError */ 11);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 29);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 27);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -12867,7 +12875,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 30);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 28);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -12956,7 +12964,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 25);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 23);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -13102,13 +13110,24 @@ var index = {
 /*!*********************************************!*\
   !*** ./app/javascript/packs/application.js ***!
   \*********************************************/
-/*! no exports provided */
+/*! exports provided: Vue, Vuex, axios, basemateEventHub, componentMixin */
 /*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_core__ = __webpack_require__(/*! core/js/core */ 16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_js_component__ = __webpack_require__(/*! component/js/component */ 2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_core_js_core__ = __webpack_require__(/*! core/js/core */ 36);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vuex", function() { return __WEBPACK_IMPORTED_MODULE_1_vuex__["a"]; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return __WEBPACK_IMPORTED_MODULE_2_axios___default.a; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "basemateEventHub", function() { return __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "componentMixin", function() { return __WEBPACK_IMPORTED_MODULE_4_component_js_component__["a"]; });
 /* eslint no-console:0 */
 // This file is automatically compiled by Webpack, along with any other files
 // present in this directory. You're encouraged to place your actual application logic in
@@ -13120,51 +13139,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-console.log('Hello World from Webpacker');
+
+
+
+
+
+
+
 
 /***/ }),
 /* 16 */
-/*!***************************************************************************************************!*\
-  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/core/js/core.js ***!
-  \***************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_js_app__ = __webpack_require__(/*! app/js/app */ 19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_js_store__ = __webpack_require__(/*! app/js/store */ 38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_js_component__ = __webpack_require__(/*! component/js/component */ 2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_js_anonym_dynamic_component__ = __webpack_require__(/*! component/js/anonym-dynamic-component */ 39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_html_js_html__ = __webpack_require__(/*! html/js/html */ 40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_transition_js_transition__ = __webpack_require__(/*! transition/js/transition */ 41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_action_js_action__ = __webpack_require__(/*! action/js/action */ 42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_form_js_form__ = __webpack_require__(/*! form/js/form */ 43);
-
-
-
-
-
-
-
-
-
-
-
-let basemateUiApp = undefined;
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  basemateUiApp = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]({
-    el: "#basemate_ui",
-    store: __WEBPACK_IMPORTED_MODULE_2_app_js_store__["a" /* default */]
-  });
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]);
-
-/***/ }),
-/* 17 */
 /*!************************************************!*\
   !*** ./node_modules/timers-browserify/main.js ***!
   \************************************************/
@@ -13225,7 +13209,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(/*! setimmediate */ 18);
+__webpack_require__(/*! setimmediate */ 17);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -13236,10 +13220,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 6)))
 
 /***/ }),
-/* 18 */
+/* 17 */
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
   \***************************************************/
@@ -13434,52 +13418,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 5), __webpack_require__(/*! ./../process/browser.js */ 8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 6), __webpack_require__(/*! ./../process/browser.js */ 8)))
 
 /***/ }),
-/* 19 */
-/*!*************************************************************************************************!*\
-  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/app/js/app.js ***!
-  \*************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(/*! vuex */ 4);
-
-
-
-
-
-const componentDef = {
-  props: ['appConfig', 'params'],
-  data: function () {
-    return {};
-  },
-  computed: __WEBPACK_IMPORTED_MODULE_3_vuex__["a" /* default */].mapState({
-    asyncTemplate: state => state.pageTemplate
-  }),
-  mounted: function () {
-    const self = this;
-    window.onpopstate = function (event) {
-      self.$store.dispatch("navigateTo", { url: document.location.pathname, backwards: true });
-    };
-  },
-  components: {
-    VRuntimeTemplate: __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__["a" /* default */]
-  }
-};
-
-let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('app', componentDef);
-
-/* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
-
-/***/ }),
-/* 20 */
+/* 18 */
 /*!******************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/axios.js ***!
   \******************************************************************************************************/
@@ -13492,8 +13434,8 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 var utils = __webpack_require__(/*! ./utils */ 0);
 var bind = __webpack_require__(/*! ./helpers/bind */ 9);
-var Axios = __webpack_require__(/*! ./core/Axios */ 22);
-var defaults = __webpack_require__(/*! ./defaults */ 6);
+var Axios = __webpack_require__(/*! ./core/Axios */ 20);
+var defaults = __webpack_require__(/*! ./defaults */ 7);
 
 /**
  * Create an instance of Axios
@@ -13527,14 +13469,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 13);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 36);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 34);
 axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 12);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 37);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 35);
 
 module.exports = axios;
 
@@ -13543,7 +13485,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 21 */
+/* 19 */
 /*!******************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/is-buffer/index.js ***!
   \******************************************************************************************************/
@@ -13575,7 +13517,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 22 */
+/* 20 */
 /*!***********************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/core/Axios.js ***!
   \***********************************************************************************************************/
@@ -13586,10 +13528,10 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(/*! ./../defaults */ 6);
+var defaults = __webpack_require__(/*! ./../defaults */ 7);
 var utils = __webpack_require__(/*! ./../utils */ 0);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 31);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 32);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 29);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 30);
 
 /**
  * Create a new instance of Axios
@@ -13666,7 +13608,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 23 */
+/* 21 */
 /*!****************************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \****************************************************************************************************************************/
@@ -13690,7 +13632,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 24 */
+/* 22 */
 /*!************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/core/settle.js ***!
   \************************************************************************************************************/
@@ -13728,7 +13670,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 25 */
+/* 23 */
 /*!******************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/core/enhanceError.js ***!
   \******************************************************************************************************************/
@@ -13761,7 +13703,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 26 */
+/* 24 */
 /*!*****************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/buildURL.js ***!
   \*****************************************************************************************************************/
@@ -13839,7 +13781,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 27 */
+/* 25 */
 /*!*********************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/parseHeaders.js ***!
   \*********************************************************************************************************************/
@@ -13904,7 +13846,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 28 */
+/* 26 */
 /*!************************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \************************************************************************************************************************/
@@ -13984,7 +13926,7 @@ module.exports = (
 
 
 /***/ }),
-/* 29 */
+/* 27 */
 /*!*************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/btoa.js ***!
   \*************************************************************************************************************/
@@ -14032,7 +13974,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 30 */
+/* 28 */
 /*!****************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/cookies.js ***!
   \****************************************************************************************************************/
@@ -14097,7 +14039,7 @@ module.exports = (
 
 
 /***/ }),
-/* 31 */
+/* 29 */
 /*!************************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/core/InterceptorManager.js ***!
   \************************************************************************************************************************/
@@ -14161,7 +14103,7 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 32 */
+/* 30 */
 /*!*********************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/core/dispatchRequest.js ***!
   \*********************************************************************************************************************/
@@ -14173,11 +14115,11 @@ module.exports = InterceptorManager;
 
 
 var utils = __webpack_require__(/*! ./../utils */ 0);
-var transformData = __webpack_require__(/*! ./transformData */ 33);
+var transformData = __webpack_require__(/*! ./transformData */ 31);
 var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 12);
-var defaults = __webpack_require__(/*! ../defaults */ 6);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 34);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 35);
+var defaults = __webpack_require__(/*! ../defaults */ 7);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 32);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 33);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -14259,7 +14201,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 33 */
+/* 31 */
 /*!*******************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/core/transformData.js ***!
   \*******************************************************************************************************************/
@@ -14291,7 +14233,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 34 */
+/* 32 */
 /*!**********************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \**********************************************************************************************************************/
@@ -14317,7 +14259,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 35 */
+/* 33 */
 /*!********************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/combineURLs.js ***!
   \********************************************************************************************************************/
@@ -14343,7 +14285,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 36 */
+/* 34 */
 /*!*******************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/cancel/CancelToken.js ***!
   \*******************************************************************************************************************/
@@ -14412,7 +14354,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 37 */
+/* 35 */
 /*!***************************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/node_modules/axios/lib/helpers/spread.js ***!
   \***************************************************************************************************************/
@@ -14451,6 +14393,89 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
+/* 36 */
+/*!***************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/core/js/core.js ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_js_app__ = __webpack_require__(/*! app/js/app */ 37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_js_store__ = __webpack_require__(/*! app/js/store */ 38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_js_component__ = __webpack_require__(/*! component/js/component */ 2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_js_anonym_dynamic_component__ = __webpack_require__(/*! component/js/anonym-dynamic-component */ 39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_html_js_html__ = __webpack_require__(/*! html/js/html */ 40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_transition_js_transition__ = __webpack_require__(/*! transition/js/transition */ 41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_action_js_action__ = __webpack_require__(/*! action/js/action */ 42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_form_js_form__ = __webpack_require__(/*! form/js/form */ 43);
+
+
+
+
+
+
+
+
+
+
+
+let basemateUiApp = undefined;
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  basemateUiApp = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]({
+    el: "#basemate_ui",
+    store: __WEBPACK_IMPORTED_MODULE_2_app_js_store__["a" /* default */]
+  });
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]);
+
+/***/ }),
+/* 37 */
+/*!*************************************************************************************************!*\
+  !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/app/js/app.js ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(/*! vuex */ 3);
+
+
+
+
+
+const componentDef = {
+  props: ['appConfig', 'params'],
+  data: function () {
+    return {};
+  },
+  computed: __WEBPACK_IMPORTED_MODULE_3_vuex__["a" /* default */].mapState({
+    asyncTemplate: state => state.pageTemplate
+  }),
+  mounted: function () {
+    const self = this;
+    window.onpopstate = function (event) {
+      self.$store.dispatch("navigateTo", { url: document.location.pathname, backwards: true });
+    };
+  },
+  components: {
+    VRuntimeTemplate: __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__["a" /* default */]
+  }
+};
+
+let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('app', componentDef);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
+
+/***/ }),
 /* 38 */
 /*!***************************************************************************************************!*\
   !*** /home/jonas/Projects/basemate/basemate-ui-dev/basemate-ui-core/app/concepts/app/js/store.js ***!
@@ -14461,8 +14486,8 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 
 
@@ -14583,7 +14608,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_component_js_component__ = __webpack_require__(/*! component/js/component */ 2);
 
 
@@ -14622,10 +14647,10 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_js_component__ = __webpack_require__(/*! component/js/component */ 2);
 
 
@@ -14684,10 +14709,10 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(/*! vuex */ 3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(/*! axios */ 4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__ = __webpack_require__(/*! core/js/event-hub */ 5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_js_component__ = __webpack_require__(/*! component/js/component */ 2);
 
 
