@@ -1,0 +1,6 @@
+%li{"class": options[:class], "id": component_id}
+  - if options[:text].blank?
+    - if block_given?
+      = yield
+  - else
+    = options[:text]
