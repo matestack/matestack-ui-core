@@ -1,7 +1,7 @@
 - if options[:text].nil?
-  %a{"href": link_path, "class": options[:class], "id": component_id, "@click.prevent": navigate_to(link_path), "v-bind:class": "{ active: isActive }"}
+  %a{@tag_attributes}
     - if block_given?
       = yield
 - else
-  %a{"href": link_path, "class": options[:class], "id": component_id, "@click.prevent": navigate_to(link_path), "v-bind:class": "{ active: isActive }"}
+  %a{@tag_attributes}
     = options[:text]

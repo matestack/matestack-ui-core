@@ -17,6 +17,11 @@ const componentMixin = {
         this.rerender()
       }
     },
+    onBasemateUiCoreChannel: function(event){
+      if (this.componentConfig["rerender_on"] == event.message){
+        this.rerender()
+      }
+    },
     rerender: function(){
       var self = this;
       self.params["component_key"] = self.componentConfig["component_key"]
@@ -40,10 +45,12 @@ const componentMixin = {
   created: function () {
     const self = this
     basemateEventHub.$on('rerender', self.onRerender)
+    basemateEventHub.$on('BasemateUiCoreChannel', self.onBasemateUiCoreChannel)
   },
   beforeDestroy: function() {
     const self = this
     basemateEventHub.$off('rerender', self.onRerender);
+    basemateEventHub.$off('BasemateUiCoreChannel', self.onBasemateUiCoreChannel)
   },
   components: {
     VRuntimeTemplate: VRuntimeTemplate

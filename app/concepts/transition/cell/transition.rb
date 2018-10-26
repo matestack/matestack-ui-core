@@ -3,6 +3,11 @@ module Transition::Cell
 
     def setup
       @component_config[:link_path] = link_path
+      @tag_attributes.merge!({
+        "href": link_path,
+        "@click.prevent": navigate_to(link_path),
+        "v-bind:class": "{ active: isActive }"
+      })
     end
 
     def link_path

@@ -8,6 +8,8 @@ module Form::Cell
       if options[:notify].nil?
         @component_config[:notify] = true
       end
+
+      @tag_attributes.merge!({"@submit.prevent": true})
     end
 
     def submit_path

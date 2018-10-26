@@ -46,6 +46,7 @@ module Component::Cell
       @cells = {}
       generate_component_name
       generate_children_cells
+      set_tag_attributes
       setup
     end
 
@@ -59,7 +60,11 @@ module Component::Cell
       end
       if respond_to? :response
         response &block
-        render :response
+        if @static
+          render :response
+        else
+          render :response_dynamic
+        end
       else
         if @static
           render(view: :static, &block)
@@ -74,8 +79,16 @@ module Component::Cell
     end
 
     def render_content(&block)
-      render do
-        render_children
+      if respond_to? :prepare
+        prepare
+      end
+      if respond_to? :response
+        response &block
+          render :response
+      else
+        render do
+          render_children
+        end
       end
     end
 
@@ -117,6 +130,10 @@ module Component::Cell
 
       def generate_component_name
         name_parts = self.class.name.split("::")
+        module_name = name_parts[0]
+        if module_name == "Components"
+          name_parts.shift
+        end
         name = name_parts[0] + name_parts[1]
         if name_parts[0] == name_parts[2]
           name = name_parts[0] + name_parts[1]
@@ -126,6 +143,18 @@ module Component::Cell
           @component_class = name.underscore.gsub("_", "-")
         end
         @component_name = @component_class.gsub("-cell", "")
+      end
+
+      def set_tag_attributes
+        default_attributes = {
+          "class": options[:class],
+          "id": component_id
+         }
+         unless options[:attributes].nil?
+           default_attributes.merge!(options[:attributes])
+         end
+
+         @tag_attributes = default_attributes
       end
 
   end

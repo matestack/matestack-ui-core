@@ -1,7 +1,7 @@
 - if options[:text].nil?
-  %button{"class": options[:class], "id": component_id}
+  %button{@tag_attributes}
     - if block_given?
       = yield
 - else
-  %button{"class": options[:class], "id": component_id}
+  %button{@tag_attributes}
     = options[:text]
