@@ -7,6 +7,18 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
+import axios from 'axios'
+import basemateEventHub from 'core/js/event-hub'
+import componentMixin from 'component/js/component'
+
 import basemateUiCore from 'core/js/core'
 
-console.log('Hello World from Webpacker')
+export {
+  Vue,
+  Vuex,
+  axios,
+  basemateEventHub,
+  componentMixin
+}

@@ -12,8 +12,12 @@ const environment = require('./environment')
 
 const customConfig = {
     output: {
-        filename: 'basemate-ui-core.js'
+        filename: 'basemate-ui-core.js',
+        libraryTarget: 'var',
+        library: 'BasemateUiCore'
     }
 };
 
-module.exports = merge(environment.toWebpackConfig(), customConfig)
+const config = environment.toWebpackConfig();
+
+module.exports = merge(environment.toWebpackConfig(), config, customConfig)
