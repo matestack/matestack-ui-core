@@ -20,4 +20,11 @@ gem "trailblazer-cells"
 gem "cells-rails"
 gem "cells-haml"
 
-gem 'webpacker', '~> 3.5'
+group :development, :test do
+  gem 'rspec-rails', '~> 3.8'
+  gem 'capybara'
+  gem 'webpacker', '~> 3.5'
+  gem 'sqlite3'
+  gem 'selenium-webdriver'
+  gem 'puma'
+end
