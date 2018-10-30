@@ -29,6 +29,31 @@ Documentation is built with basemate and hosted here: [Docs](https://basemate-ui
 
 Source code of documentation can be found here: [Docs Source](https://github.com/basemate/basemate-ui-core-docs)
 
+## Core Contribution
+
+### Webpacker
+
+Webpacker is used for managing all JS assets. In order to deploy a packed JS, we
+use a "builder" app found in repo_root/builder
+This builder app uses a symlink in order to reference the actual core found in
+builder/vendor.
+
+You can run webpacker inside this builder app in order to pack JS assets:
+
+```shell
+cd builder
+
+./bin/webpack
+
+#or
+
+./bin/webpack --watch
+```
+
+All webpack configuration can be found within the builder folder.
+
+For further webpacker documentation: [webpacker](https://github.com/rails/webpacker)
+
 ## License
 The gem is available as open source under the terms of the
 [MIT License](https://opensource.org/licenses/MIT).
