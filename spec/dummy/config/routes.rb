@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # mount BasemateUiCore::Engine => "/basemate_ui_core"
+
+  scope :components_tests do
+    get "/:key", to: 'components_tests#resolve', as: "components_tests"
+  end
+
 end
