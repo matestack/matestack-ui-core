@@ -40,6 +40,12 @@ jobs:
       # - run: bundle exec rake db:create
       # - run: bundle exec rake db:schema:load
 
+      # Yarn Update
+
+      - run: yarn install
+      - run: cd spec/dummy
+      - run: yarn install
+
       # run tests!
       - run:
           name: run tests
