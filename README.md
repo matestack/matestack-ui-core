@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/basemate/basemate-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/basemate/basemate-ui-core/tree/master)
+
 # Basemate UI Core
 
 ## What is basemate?
