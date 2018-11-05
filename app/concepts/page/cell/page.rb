@@ -55,7 +55,7 @@ module Page::Cell
         nodes_to_cell
         render :page
       when :render_page_with_app
-        concept(@app_class).call(:show, @nodes)
+        concept(@app_class).call(:show, @page_id, @nodes)
       when :render_component
         if component_key.include?("__")
           keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
@@ -66,7 +66,9 @@ module Page::Cell
           cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"])
           return cell.render_content
         else
-          return @cells.dig(component_key).render_content
+          node = @nodes[component_key]
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"])
+          return cell.render_content
         end
       end
     end
