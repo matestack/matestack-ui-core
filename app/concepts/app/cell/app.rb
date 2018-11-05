@@ -36,6 +36,7 @@ module App::Cell
       @nodes = {}
       @cells = {}
       @page_block = nil
+      @page_id = ""
       setup
     end
 
@@ -47,8 +48,8 @@ module App::Cell
       true
     end
 
-
-    def show(page_nodes, &block)
+    def show(page_id, page_nodes, &block)
+      @page_id = page_id
       @page_nodes = page_nodes
       prepare
       response

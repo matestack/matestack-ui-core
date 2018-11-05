@@ -1,4 +1,4 @@
 %component{"is": "app", "inline-template": true}
-  %div
+  %div{"id": @page_id}
     - @cells.each do |key, cell|
       = cell.call(:show)

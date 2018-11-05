@@ -13,7 +13,7 @@ const componentMixin = {
   },
   methods: {
     onRerender: function(event){
-      if (this.$el.id === event){
+      if (this.$el.id === event+"__wrapper"){
         this.rerender()
       }
     },
