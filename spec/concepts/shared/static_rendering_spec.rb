@@ -10,67 +10,93 @@ describe "static component", type: :feature, js: true do
     visit "/components_tests_with_app/static_rendering_test/#{component}"
   end
 
-  def within_main_page_div &block
-    within("#pages_components_tests_static_rendering_test") do
-      yield
-    end
-  end
-
   @components.each do |component_key, component|
 
     component[:options][:optional].each do |optional_option, option_type|
 
+
       it "#{component_key} can take #{optional_option}" do
         visit_page component_key
-        within_main_page_div do
+        within("#pages_components_tests_static_rendering_test") do
           case option_type
           when :string
-            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='attr_value']")).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='attr_value']", visible: :all)).to be true
           when :hash
-            expect(page.has_xpath?("//#{component[:tag]}[@key1='value1']")).to be true
-            expect(page.has_xpath?("//#{component[:tag]}[@key2='value2']")).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@key1='value1']", visible: :all)).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@key2='value2']", visible: :all)).to be true
           when :boolean
-            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='true']")).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='true']", visible: :all)).to be true
           end
         end
       end
 
       it "#{component_key} can take #{optional_option}" do
         visit_page_with_app component_key
-        within_main_page_div do
+        within("#pages_components_tests_with_app_static_rendering_test") do
           case option_type
           when :string
-            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='attr_value']")).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='attr_value']", visible: :all)).to be true
           when :hash
-            expect(page.has_xpath?("//#{component[:tag]}[@key1='value1']")).to be true
-            expect(page.has_xpath?("//#{component[:tag]}[@key2='value2']")).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@key1='value1']", visible: :all)).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@key2='value2']", visible: :all)).to be true
           when :boolean
-            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='true']")).to be true
+            expect(page.has_xpath?("//#{component[:tag]}[@#{optional_option}='true']", visible: :all)).to be true
           end
         end
       end
 
     end
-    #
-    # it "#{component_key} can be rendered without any options but with content" do
-    #   visit_page component_key
-    #   within_main_page_div do
-    #     rendered_component = all(component[:tag])[1]
-    #     expect(rendered_component[:id]).to eq("")
-    #     expect(rendered_component[:class]).to eq("")
-    #     expect(rendered_component.text).to eq("content")
-    #   end
-    # end
-    #
-    # it "#{component_key} can be rendered with class and id option and content" do
-    #   visit_page component_key
-    #   within_main_page_div do
-    #     rendered_component = all(component[:tag])[2]
-    #     expect(rendered_component[:id]).to eq("my-id")
-    #     expect(rendered_component[:class]).to eq("my-class")
-    #     expect(rendered_component.text).to eq("content")
-    #   end
-    # end
+
+    if component[:block] == true
+
+      it "#{component_key} can take a block of components" do
+        visit_page component_key
+        within("#pages_components_tests_static_rendering_test") do
+          element = page.find("#with_block")
+          expect(element.text).to eq("block content")
+        end
+      end
+
+
+      it "#{component_key} can take a block of components" do
+        visit_page_with_app component_key
+        within("#pages_components_tests_with_app_static_rendering_test") do
+          element = page.find("#with_block")
+          expect(element.text).to eq("block content")
+        end
+      end
+
+    end
+
+    unless component[:optional_dynamics].nil?
+      if component[:optional_dynamics][:rerender_on][:client_side_event] == true
+
+        it "#{component_key} can rerender on client side event if set to dynamic without app" do
+          visit_page component_key
+          within("#pages_components_tests_static_rendering_test") do
+            element = page.find("#rerender_on_client_side_event")
+            before_rerendering = element.text
+            page.execute_script('BasemateUiCore.basemateEventHub.$emit("rerender", "rerender_on_client_side_event")')
+            element = page.find("#rerender_on_client_side_event")
+            after_rerendering = element.text
+            expect(before_rerendering).not_to eq(after_rerendering)
+          end
+        end
+
+        it "#{component_key} can rerender on client side event if set to dynamic with app" do
+          visit_page_with_app component_key
+          within("#pages_components_tests_with_app_static_rendering_test") do
+            element = page.find("#rerender_on_client_side_event")
+            before_rerendering = element.text
+            page.execute_script('BasemateUiCore.basemateEventHub.$emit("rerender", "rerender_on_client_side_event")')
+            element = page.find("#rerender_on_client_side_event")
+            after_rerendering = element.text
+            expect(before_rerendering).not_to eq(after_rerendering)
+          end
+        end
+
+      end
+    end
 
   end
 

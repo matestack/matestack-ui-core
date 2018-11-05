@@ -1,4 +1,4 @@
 {
-  "application.js": "/../../../vendor/assets/javascripts/basemate-ui-core.js",
-  "application.js.map": "/../../../vendor/assets/javascripts/basemate-ui-core.js.map"
+  "application.js": "/../../vendor/assets/javascripts/basemate-ui-core.js",
+  "application.js.map": "/../../vendor/assets/javascripts/basemate-ui-core.js.map"
 }

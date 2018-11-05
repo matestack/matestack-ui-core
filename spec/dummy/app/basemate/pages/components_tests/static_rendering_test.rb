@@ -25,6 +25,22 @@ class Pages::ComponentsTests::StaticRenderingTest < Page::Cell::Page
         self.send(@component, attrs)
       end
 
+      if @component_spec[:block] == true
+        self.send(@component, {id: "with_block"}) do
+          plain "block content"
+        end
+      end
+
+      unless @component_spec[:optional_dynamics].nil?
+
+        if @component_spec[:optional_dynamics][:rerender_on][:client_side_event] == true
+          self.send(@component, {id: "rerender_on_client_side_event", dynamic: true}) do
+            plain DateTime.now.strftime('%Q')
+          end
+        end
+
+      end
+
     }
   end
 
