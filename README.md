@@ -33,7 +33,21 @@ Source code of documentation can be found here: [Docs Source](https://github.com
 
 ## Core Contribution
 
-### Webpacker
+### Tests
+
+Tests are defined in /spec folder.
+
+Execute them with:
+
+```shell
+
+bundle exec rspec
+
+```
+
+CircleCI is integrated and gets triggered when new commits get pushed on master branch.
+
+### Release
 
 Webpacker is used for managing all JS assets. In order to deploy a packed JS, we
 use a "builder" app found in repo_root/builder
