@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    basemate-ui-core (0.5.0)
+    basemate-ui-core (0.5.1)
       cells-haml
       cells-rails
       rails (>= 5.0.0)
       trailblazer
       trailblazer-cells
-      trailblazer-rails
+      trailblazer-rails (= 1.0.9)
 
 GEM
   remote: https://rubygems.org/
