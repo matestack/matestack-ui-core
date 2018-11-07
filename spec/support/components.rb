@@ -1,10 +1,11 @@
 module Support
   module Components
 
+    # list of core components is not complete yet
     def self.specs
       {
         div: {
-          type: :static,
+          type: :static, #has no effect yet
           tag: "div",
           options: {
             optional: {
@@ -12,13 +13,13 @@ module Support
               class: :string,
               attributes: :hash,
             },
-            required: {}
+            required: {} #not tested yet
           },
           block: true,
           optional_dynamics: {
             rerender_on: {
               client_side_event: true,
-              websocket_event: true
+              websocket_event: true #not tested yet
             }
           }
         },

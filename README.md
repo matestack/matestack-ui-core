@@ -41,7 +41,7 @@ Execute them with:
 
 ```shell
 
-bundle exec rspec
+bundle exec rspec spec/concepts
 
 ```
 

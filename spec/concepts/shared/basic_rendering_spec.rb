@@ -1,4 +1,4 @@
-describe "static component", type: :feature, js: true do
+describe "component", type: :feature, js: true do
 
   @components = Support::Components.specs
 
@@ -15,7 +15,7 @@ describe "static component", type: :feature, js: true do
     component[:options][:optional].each do |optional_option, option_type|
 
 
-      it "#{component_key} can take #{optional_option}" do
+      it "#{component_key} can take #{optional_option} without app" do
         visit_page component_key
         within("#pages_components_tests_static_rendering_test") do
           case option_type
@@ -30,7 +30,7 @@ describe "static component", type: :feature, js: true do
         end
       end
 
-      it "#{component_key} can take #{optional_option}" do
+      it "#{component_key} can take #{optional_option} with app" do
         visit_page_with_app component_key
         within("#pages_components_tests_with_app_static_rendering_test") do
           case option_type
@@ -49,7 +49,7 @@ describe "static component", type: :feature, js: true do
 
     if component[:block] == true
 
-      it "#{component_key} can take a block of components" do
+      it "#{component_key} can take a block of components without app" do
         visit_page component_key
         within("#pages_components_tests_static_rendering_test") do
           element = page.find("#with_block")
@@ -58,7 +58,7 @@ describe "static component", type: :feature, js: true do
       end
 
 
-      it "#{component_key} can take a block of components" do
+      it "#{component_key} can take a block of components with app" do
         visit_page_with_app component_key
         within("#pages_components_tests_with_app_static_rendering_test") do
           element = page.find("#with_block")
