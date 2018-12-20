@@ -14728,10 +14728,22 @@ const componentDef = {
   data: function () {
     return {
       data: {},
-      showInlineForm: false
+      showInlineForm: false,
+      errors: {}
     };
   },
   methods: {
+    initDataKey: function (key) {
+      this.data[key] = null;
+    },
+    inputChanged: function (key) {
+      this.resetErrors(key);
+    },
+    resetErrors: function (key) {
+      if (this.errors[key]) {
+        this.errors[key] = null;
+      }
+    },
     launchInlineForm: function (key, value) {
       this.showInlineForm = true;
       this.data[key] = value;
@@ -14783,12 +14795,23 @@ const componentDef = {
         self.setProps(self.data, null);
         self.showInlineForm = false;
       }).catch(function (error) {
+        if (error.response && error.response.data && error.response.data.errors) {
+          self.errors = error.response.data.errors;
+        }
         if (self.componentConfig["notify"] === true) {
           if (typeof basemateUiCoreActionError !== 'undefined') {
             basemateUiCoreActionError(error);
           }
         }
       });
+    }
+  },
+  mounted: function () {
+    let self = this;
+    for (let key in self.$refs) {
+      if (key.startsWith("input.")) {
+        self.initDataKey(key.replace('input.', ''));
+      }
     }
   }
 };
