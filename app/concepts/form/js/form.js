@@ -50,7 +50,14 @@ const componentDef = {
       })
       .then(function(response){
         for (let key in self.componentConfig["success"]) {
-          basemateEventHub.$emit(self.componentConfig["success"][key], key);
+          switch(key){
+            case "transition":
+              let path = self.componentConfig["success"]["transition"]["path"]
+              self.$store.dispatch('navigateTo', {url: path, backwards: false})
+              break;
+            default:
+              basemateEventHub.$emit(self.componentConfig["success"][key], key);
+          }
         }
         if (self.componentConfig["notify"] === true) {
           if (typeof basemateUiCoreActionSuccess !== 'undefined') {

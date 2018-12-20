@@ -19,6 +19,7 @@ const store = new Vuex.Store({
   },
   actions: {
     navigateTo ({ commit, state }, { url, backwards }) {
+      console.log("navigate")
       if (typeof basemateUiCoreTransitionStart !== 'undefined') {
         basemateUiCoreTransitionStart(url);
       }

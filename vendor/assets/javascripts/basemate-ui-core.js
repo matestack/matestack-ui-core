@@ -14510,6 +14510,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   },
   actions: {
     navigateTo({ commit, state }, { url, backwards }) {
+      console.log("navigate");
       if (typeof basemateUiCoreTransitionStart !== 'undefined') {
         basemateUiCoreTransitionStart(url);
       }
@@ -14765,7 +14766,14 @@ const componentDef = {
         }
       }).then(function (response) {
         for (let key in self.componentConfig["success"]) {
-          __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit(self.componentConfig["success"][key], key);
+          switch (key) {
+            case "transition":
+              let path = self.componentConfig["success"]["transition"]["path"];
+              self.$store.dispatch('navigateTo', { url: path, backwards: false });
+              break;
+            default:
+              __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit(self.componentConfig["success"][key], key);
+          }
         }
         if (self.componentConfig["notify"] === true) {
           if (typeof basemateUiCoreActionSuccess !== 'undefined') {

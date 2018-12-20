@@ -5,6 +5,9 @@ module Form::Cell
       @component_config[:submit_path] = submit_path
       @component_config[:method] = options[:method]
       @component_config[:success] = options[:success]
+      unless options[:success][:transition].nil?
+        @component_config[:success][:transition][:path] = transition_path
+      end
       if options[:notify].nil?
         @component_config[:notify] = true
       end
@@ -15,6 +18,17 @@ module Form::Cell
     def submit_path
       begin
         return ::Rails.application.routes.url_helpers.send(options[:path], options[:params])
+      rescue
+        "path_not_found"
+      end
+    end
+
+    def transition_path
+      begin
+        return ::Rails.application.routes.url_helpers.send(
+          options[:success][:transition][:path],
+          options[:success][:transition][:params]
+        )
       rescue
         "path_not_found"
       end
