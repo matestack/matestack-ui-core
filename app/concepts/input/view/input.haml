@@ -1,9 +1,0 @@
-%input{"v-model": input_key,
-  class: options[:class],
-  id: component_id,
-  "@change": "inputChanged(\"#{attr_key}\")",
-  ref: "input.#{attr_key}",
-  placeholder: options[:placeholder]}
-%span{"v-if": error_key }
-  %span{"v-for": "error in  #{error_key}"}
-    {{ error }}

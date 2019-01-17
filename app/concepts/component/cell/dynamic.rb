@@ -44,6 +44,8 @@ module Component::Cell
       @static = false
       @nodes = {}
       @cells = {}
+      # p options[:included_config]
+      @included_config = options[:included_config]
       generate_component_name
       generate_children_cells
       set_tag_attributes
@@ -107,15 +109,15 @@ module Component::Cell
     end
 
     def components(&block)
-      @nodes = ::Component::Utils::ComponentNode.build(self, &block)
+      @nodes = ::Component::Utils::ComponentNode.build(self, nil, &block)
 
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"])
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
       end
     end
 
     def partial(&block)
-      ::Component::Utils::ComponentNode.build(self, &block)
+      ::Component::Utils::ComponentNode.build(self, nil, &block)
     end
 
     private
@@ -123,7 +125,7 @@ module Component::Cell
       def generate_children_cells
         unless options[:children].nil?
           options[:children].each do |key, node|
-            @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"])
+            @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
           end
         end
       end

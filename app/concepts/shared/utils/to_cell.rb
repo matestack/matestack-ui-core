@@ -1,6 +1,6 @@
 module Shared::Utils::ToCell
 
-  def to_cell(key, component_name, config, argument, children)
+  def to_cell(key, component_name, config, argument, children, included_config)
     request_uri = context[:request].env["REQUEST_URI"]
     query_string = context[:request].env["QUERY_STRING"]
 
@@ -8,6 +8,7 @@ module Shared::Utils::ToCell
     config.merge!(children: children)
     config.merge!(origin_url: request_uri.gsub("?" + query_string, ""))
     config.merge!(url_params: context[:params])
+    config.merge!(included_config: included_config)
 
     name = component_name.gsub("_", "/")
     if name.include?("/")

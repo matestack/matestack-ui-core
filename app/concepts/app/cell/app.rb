@@ -64,7 +64,7 @@ module App::Cell
       @nodes = ::App::Utils::AppNode.build(self, &block)
 
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"])
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], nil)
       end
     end
 

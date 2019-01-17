@@ -1,4 +1,4 @@
-module Submit::Cell
+module Form::Cell
   class Submit < Component::Cell::Static
 
     def setup

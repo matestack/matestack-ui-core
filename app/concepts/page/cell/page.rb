@@ -26,17 +26,18 @@ module Page::Cell
     end
 
     def components(&block)
-      @nodes = ::Page::Utils::PageNode.build(self, &block)
+      @nodes = ::Page::Utils::PageNode.build(self, nil, &block)
     end
 
     def nodes_to_cell
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"])
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
       end
     end
 
     def partial(&block)
-      ::Page::Utils::PageNode.build(self, &block)
+      return block
+      # ::Page::Utils::PageNode.build(self, included, &block)
     end
 
     def show(component_key=nil, only_page=false)
@@ -53,6 +54,8 @@ module Page::Cell
 
       when :only_page
         nodes_to_cell
+        # keys_array = ["div_2","components", "partial_1", "components", "form_1"]
+        # puts @nodes.dig(*keys_array)
         render :page
       when :render_page_with_app
         concept(@app_class).call(:show, @page_id, @nodes)
@@ -63,11 +66,11 @@ module Page::Cell
             keys_array = keys_array.drop(keys_array.find_index("page_content_1")+2)
           end
           node = @nodes.dig(*keys_array)
-          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"])
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
           return cell.render_content
         else
           node = @nodes[component_key]
-          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"])
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
           return cell.render_content
         end
       end

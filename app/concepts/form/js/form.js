@@ -16,8 +16,8 @@ const componentDef = {
     }
   },
   methods: {
-    initDataKey: function(key){
-      this.data[key] = null;
+    initDataKey: function(key, initValue){
+      this.data[key] = initValue;
     },
     inputChanged: function(key){
       this.resetErrors(key)
@@ -93,11 +93,37 @@ const componentDef = {
   },
   mounted: function(){
     let self = this;
+    let data = {}
     for (let key in self.$refs) {
       if (key.startsWith("input.")){
-        self.initDataKey(key.replace('input.', ''));
+        if(self.$refs[key]["attributes"]["init-value"]){
+          data[key.replace('input.', '')] = self.$refs[key]["attributes"]["init-value"]["value"]
+        }else{
+          data[key.replace('input.', '')] = null
+        }
+      }
+      if (key.startsWith("select.")){
+        if (key.startsWith("select.multiple.")){
+          if(self.$refs[key]["attributes"]["init-value"]){
+            data[key.replace('select.multiple.', '')] = JSON.parse(self.$refs[key]["attributes"]["init-value"]["value"])
+          }else{
+            data[key.replace('select.multiple.', '')] = []
+          }
+        }else{
+          if(self.$refs[key]["attributes"]["init-value"]){
+            if(self.$refs[key]["attributes"]["value-type"]["value"] == "Integer")
+              data[key.replace('select.', '')] = parseInt(self.$refs[key]["attributes"]["init-value"]["value"])
+            else{
+              data[key.replace('select.', '')] = self.$refs[key]["attributes"]["init-value"]["value"]
+            }
+          }else{
+            data[key.replace('select.', '')] = null
+          }
+        }
+
       }
     }
+    self.data = data;
   }
 }
 

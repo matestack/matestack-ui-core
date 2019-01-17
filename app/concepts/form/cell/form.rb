@@ -2,6 +2,7 @@ module Form::Cell
   class Form < Component::Cell::Dynamic
 
     def setup
+      @component_config[:for] = form_wrapper
       @component_config[:submit_path] = submit_path
       @component_config[:method] = options[:method]
       @component_config[:success] = options[:success]
@@ -31,6 +32,19 @@ module Form::Cell
         )
       rescue
         "path_not_found"
+      end
+    end
+
+    def form_wrapper
+      case options[:for]
+      when Symbol
+        return options[:for]
+      when String
+        return options[:for]
+      end
+
+      if options[:for].respond_to?(:model_name)
+        return options[:for].model_name.singular
       end
     end
 

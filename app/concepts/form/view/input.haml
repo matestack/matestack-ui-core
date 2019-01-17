@@ -1,0 +1,29 @@
+- if options[:label]
+  %label=options[:label]
+
+- if [:text, :number, :date, :password].include?(options[:type])
+  %input{"v-model#{'.number' if options[:type] == :number}": input_key,
+    type: options[:type],
+    class: options[:class],
+    id: component_id,
+    "@change": "inputChanged(\"#{attr_key}\")",
+    ref: "input.#{attr_key}",
+    placeholder: options[:placeholder],
+    "init-value": init_value}
+  %span{"v-if": error_key }
+    %span{"v-for": "error in  #{error_key}"}
+      {{ error }}
+
+- if options[:type] == :textarea
+  %textarea{"v-model": input_key,
+    class: options[:class],
+    id: component_id,
+    "@change": "inputChanged(\"#{attr_key}\")",
+    ref: "input.#{attr_key}",
+    placeholder: options[:placeholder],
+    "init-value": init_value,
+    rows: options[:rows],
+    cols: options[:cols]}
+  %span{"v-if": error_key }
+    %span{"v-for": "error in  #{error_key}"}
+      {{ error }}
