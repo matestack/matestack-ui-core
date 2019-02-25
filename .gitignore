@@ -17,3 +17,4 @@ builder/yarn-error.log
 builder/storage/
 builder/tmp/
 builder/public/packs
+.idea/
