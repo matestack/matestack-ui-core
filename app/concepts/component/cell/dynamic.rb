@@ -44,12 +44,25 @@ module Component::Cell
       @static = false
       @nodes = {}
       @cells = {}
-      # p options[:included_config]
       @included_config = options[:included_config]
       generate_component_name
       generate_children_cells
       set_tag_attributes
+      validate_options
       setup
+    end
+
+    def validate_options
+      if defined? self.class::REQUIRED_KEYS
+        self.class::REQUIRED_KEYS.each do |key|
+          raise "required key '#{key}' is missing" if options[key].nil?
+        end
+      end
+      custom_options_validation
+    end
+
+    def custom_options_validation
+      true
     end
 
     def setup

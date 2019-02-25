@@ -17,11 +17,24 @@ module Shared::Utils::ToCell
       name = "#{name}/cell/#{name}"
     end
 
+    a = name.split("/")
+    a2 = a.map { |x| x.camelize }
+    name = a2.join("::")
+
     begin
-      concept(name, argument, config)
-    rescue
-      name = "components/" + name
-      concept(name, argument, config)
+      begin
+        component_class = Object.const_get(name)
+      rescue
+        begin
+          name = "Components::" + name
+          component_class = Object.const_get(name)
+        rescue
+          raise "Component #{component_name} not found"
+        end
+      end
+      concept(component_class, argument, config)
+    rescue => e
+      raise "#{component_name} > #{e.message}"
     end
   end
 
