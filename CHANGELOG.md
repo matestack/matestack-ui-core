@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.6.0-pre.1
+## v0.6.0.pre.1
 
 This release is marked as PRE. Test coverage is not sufficient at the moment.
 
