@@ -42,7 +42,6 @@ module Form::Cell
         return options[:init]
       end
 
-<<<<<<< HEAD
       unless options[:for].nil?
         value = options[:for].send(options[:key])
         if [true, false].include? value
@@ -52,22 +51,20 @@ module Form::Cell
         end
       else
         unless @included_config.nil? && @included_config[:for].nil?
-          value = @included_config[:for].send(options[:key])
-          if [true, false].include? value
-            value ? 1 : 0
+          if @included_config[:for].respond_to?(options[:key])
+            value = @included_config[:for].send(options[:key])
+            if [true, false].include? value
+              value ? 1 : 0
+            else
+              return value
+            end
           else
-            return value
-=======
-      unless @included_config.nil? && @included_config[:for].nil?
-        if @included_config[:for].respond_to?(options[:key])
-          return @included_config[:for].send(options[:key])
-        else
-          if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
-            return nil
-          end
-          if @included_config[:for].is_a?(Hash)
-            return @included_config[:for][options[:key]]
->>>>>>> fdaef624a1f3c475b7aa2cb99e8de794ba10a211
+            if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
+              return nil
+            end
+            if @included_config[:for].is_a?(Hash)
+              return @included_config[:for][options[:key]]
+            end
           end
         end
       end
