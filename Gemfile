@@ -29,4 +29,5 @@ group :development, :test do
   gem 'poltergeist'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
+  gem 'byebug'
 end

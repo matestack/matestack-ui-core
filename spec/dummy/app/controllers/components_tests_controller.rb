@@ -6,4 +6,8 @@ class ComponentsTestsController < ApplicationController
     responder_for(Pages::ComponentsTests::StaticRenderingTest)
   end
 
+  def custom_components_test
+    responder_for(Pages::ComponentsTests::CustomComponentsTest)
+  end
+
 end

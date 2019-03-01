@@ -1,9 +1,11 @@
 module Form::Cell
   class Input < Component::Cell::Static
 
-    # def setup
-    #   p @included_config[:init].send(:code)
-    # end
+    REQUIRED_KEYS = [:key, :type]
+
+    def custom_options_validation
+      raise "included form config is missing, please add ':include' to parent form component" if @included_config.nil?
+    end
 
     def input_key
       'data["' + options[:key].to_s + '"]'
@@ -40,6 +42,7 @@ module Form::Cell
         return options[:init]
       end
 
+<<<<<<< HEAD
       unless options[:for].nil?
         value = options[:for].send(options[:key])
         if [true, false].include? value
@@ -54,6 +57,17 @@ module Form::Cell
             value ? 1 : 0
           else
             return value
+=======
+      unless @included_config.nil? && @included_config[:for].nil?
+        if @included_config[:for].respond_to?(options[:key])
+          return @included_config[:for].send(options[:key])
+        else
+          if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
+            return nil
+          end
+          if @included_config[:for].is_a?(Hash)
+            return @included_config[:for][options[:key]]
+>>>>>>> fdaef624a1f3c475b7aa2cb99e8de794ba10a211
           end
         end
       end

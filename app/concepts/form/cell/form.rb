@@ -1,37 +1,53 @@
 module Form::Cell
   class Form < Component::Cell::Dynamic
 
-    def setup
-      @component_config[:for] = form_wrapper
-      @component_config[:submit_path] = submit_path
-      @component_config[:method] = options[:method]
-      @component_config[:success] = options[:success]
-      unless options[:success][:transition].nil?
-        @component_config[:success][:transition][:path] = transition_path
-      end
-      if options[:notify].nil?
-        @component_config[:notify] = true
-      end
+    REQUIRED_KEYS = [:for, :path, :method]
 
-      @tag_attributes.merge!({"@submit.prevent": true})
+    def setup
+      begin
+        @component_config[:for] = form_wrapper
+        @component_config[:submit_path] = submit_path
+        @component_config[:method] = options[:method]
+        @component_config[:success] = options[:success]
+        unless options[:success].nil?
+          unless options[:success][:transition].nil?
+            @component_config[:success][:transition][:path] = transition_path
+          end
+        end
+        if options[:notify].nil?
+          @component_config[:notify] = true
+        end
+
+        @tag_attributes.merge!({"@submit.prevent": true})
+      rescue => e
+        raise "Form component could not be setted up. Reason: #{e}"
+      end
     end
 
     def submit_path
       begin
-        return ::Rails.application.routes.url_helpers.send(options[:path], options[:params])
+        if options[:path].is_a?(Symbol)
+          return ::Rails.application.routes.url_helpers.send(options[:path], options[:params])
+        else
+          return options[:path]
+        end
       rescue
-        "path_not_found"
+        raise "Submit path not found"
       end
     end
 
     def transition_path
       begin
-        return ::Rails.application.routes.url_helpers.send(
-          options[:success][:transition][:path],
-          options[:success][:transition][:params]
-        )
+        if options[:success][:transition][:path].is_a?(Symbol)
+          return ::Rails.application.routes.url_helpers.send(
+            options[:success][:transition][:path],
+            options[:success][:transition][:params]
+          )
+        else
+          return options[:success][:transition][:path]
+        end
       rescue
-        "path_not_found"
+        raise "Transition path not found"
       end
     end
 
