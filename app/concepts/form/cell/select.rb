@@ -39,7 +39,12 @@ module Form::Cell
       end
 
       unless @included_config.nil? && @included_config[:for].nil?
-        return @included_config[:for].send(options[:key])
+        value = @included_config[:for].send(options[:key])
+        if [true, false].include? value
+          value ? 1 : 0
+        else
+          return value
+        end
       end
     end
 

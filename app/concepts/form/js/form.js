@@ -22,6 +22,10 @@ const componentDef = {
     inputChanged: function(key){
       this.resetErrors(key)
     },
+    updateFormValue: function(key, value){
+      console.log(key, value)
+      this.data[key] = value;
+    },
     resetErrors: function(key){
       if (this.errors[key]){
         this.errors[key] = null;
@@ -95,26 +99,29 @@ const componentDef = {
     let self = this;
     let data = {}
     for (let key in self.$refs) {
+      let initValue = self.$refs[key]["attributes"]["init-value"]
+      let valueType = self.$refs[key]["attributes"]["value-type"]
+
       if (key.startsWith("input.")){
-        if(self.$refs[key]["attributes"]["init-value"]){
-          data[key.replace('input.', '')] = self.$refs[key]["attributes"]["init-value"]["value"]
+        if(initValue){
+          data[key.replace('input.', '')] = initValue["value"]
         }else{
           data[key.replace('input.', '')] = null
         }
       }
       if (key.startsWith("select.")){
         if (key.startsWith("select.multiple.")){
-          if(self.$refs[key]["attributes"]["init-value"]){
-            data[key.replace('select.multiple.', '')] = JSON.parse(self.$refs[key]["attributes"]["init-value"]["value"])
+          if(initValue){
+            data[key.replace('select.multiple.', '')] = JSON.parse(initValue["value"])
           }else{
             data[key.replace('select.multiple.', '')] = []
           }
         }else{
-          if(self.$refs[key]["attributes"]["init-value"]){
-            if(self.$refs[key]["attributes"]["value-type"]["value"] == "Integer")
-              data[key.replace('select.', '')] = parseInt(self.$refs[key]["attributes"]["init-value"]["value"])
+          if(initValue){
+            if(valueType && valueType["value"] == "Integer")
+              data[key.replace('select.', '')] = parseInt(initValue["value"])
             else{
-              data[key.replace('select.', '')] = self.$refs[key]["attributes"]["init-value"]["value"]
+              data[key.replace('select.', '')] = initValue["value"]
             }
           }else{
             data[key.replace('select.', '')] = null

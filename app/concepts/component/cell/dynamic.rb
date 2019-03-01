@@ -35,7 +35,7 @@ module Component::Cell
 
     def initialize(model=nil, options={})
       super
-      @component_config = options.except(:context, :children, :url_params)
+      @component_config = options.except(:context, :children, :url_params, :included_config)
       @url_params = options[:url_params].except(:action, :controller, :component_key)
       @component_key = options[:component_key]
       @children_cells = {}
@@ -157,6 +157,19 @@ module Component::Cell
          end
 
          @tag_attributes = default_attributes
+      end
+
+      def dynamic_tag_attributes
+         attrs = {
+           "is": @component_class,
+           "id": "#{component_id}__wrapper",
+           "ref": component_id,
+           ":params":  @url_params.to_json,
+           ":component-config": @component_config.to_json,
+           "inline-template": true,
+         }
+         attrs.merge!(options[:attributes]) unless options[:attributes].nil?
+         return attrs
       end
 
   end
