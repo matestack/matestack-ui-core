@@ -1,5 +1,6 @@
 {
   "name": "basemate-ui-core",
+  "version": "0.6.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
