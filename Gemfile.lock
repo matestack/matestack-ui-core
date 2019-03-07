@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    basemate-ui-core (0.5.1)
+    basemate-ui-core (0.6.0.pre.1)
       cells-haml
       cells-rails
       rails (>= 5.0.0)
