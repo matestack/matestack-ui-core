@@ -44,7 +44,7 @@ module Component::Utils
           if args.second == :include
             included = args.first
           else
-            unless @included_config .nil?
+            unless @included_config.nil?
               included = @included_config
             else
               included = nil
@@ -53,6 +53,8 @@ module Component::Utils
 
           if block_given?
             @hash[current_node]["components"] = ComponentNode.build(@component_instance, included, &block)
+          elsif meth == :slot
+            @hash = args.first
           end
         end
       end

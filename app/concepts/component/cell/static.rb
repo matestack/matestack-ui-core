@@ -5,6 +5,7 @@ module Component::Cell
       super
       if options[:dynamic]
         @static = false
+        @rerender = true
         @component_class = "anonym-dynamic-component-cell"
       else
         @static = true

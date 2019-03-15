@@ -1,7 +1,7 @@
 - if options[:label]
   %label=options[:label]
 
-- if [:text, :number, :date, :password].include?(options[:type])
+- if [:text, :number, :date, :password, :radio].include?(options[:type])
   %input{"v-model#{'.number' if options[:type] == :number}": input_key,
     type: options[:type],
     class: options[:class],

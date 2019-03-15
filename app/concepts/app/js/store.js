@@ -2,6 +2,8 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+import basemateEventHub from 'core/js/event-hub'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -19,7 +21,7 @@ const store = new Vuex.Store({
   },
   actions: {
     navigateTo ({ commit, state }, { url, backwards }) {
-      console.log("navigate")
+      basemateEventHub.$emit("page_loading", url);
       if (typeof basemateUiCoreTransitionStart !== 'undefined') {
         basemateUiCoreTransitionStart(url);
       }
@@ -46,14 +48,16 @@ const store = new Vuex.Store({
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
             commit('setCurrentPath', url)
+            basemateEventHub.$emit("page_loaded", url);
             if (typeof basemateUiCoreTransitionSuccess !== 'undefined') {
               basemateUiCoreTransitionSuccess(url);
             }
           }, 300);
         })
-        .catch(function(response){
+        .catch(function(error){
           setTimeout(function () {
-            resolve(response["data"])
+            resolve(error)
+            basemateEventHub.$emit("page_loading_error", error);
             if (typeof basemateUiCoreTransitionError !== 'undefined') {
               basemateUiCoreTransitionError(url);
             }

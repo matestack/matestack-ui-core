@@ -45,6 +45,7 @@ module Component::Cell
       @nodes = {}
       @cells = {}
       @included_config = options[:included_config]
+      @rerender = false
       generate_component_name
       generate_children_cells
       set_tag_attributes
@@ -78,13 +79,21 @@ module Component::Cell
         if @static
           render :response
         else
-          render :response_dynamic
+          if @rerender
+            render :response_dynamic
+          else
+            render :response_dynamic_without_rerender
+          end
         end
       else
         if @static
           render(view: :static, &block)
         else
-          render(view: :dynamic, &block)
+          if @rerender
+            render(view: :dynamic, &block)
+          else
+            render(view: :dynamic_without_rerender, &block)
+          end
         end
       end
     end
@@ -130,8 +139,26 @@ module Component::Cell
     end
 
     def partial(&block)
-      ::Component::Utils::ComponentNode.build(self, nil, &block)
+      return ::Component::Utils::ComponentNode.build(self, nil, &block)
     end
+
+    def to_css_class(symbol)
+      symbol.to_s.gsub("_", "-")
+    end
+
+    def modifiers
+      result = []
+      return unless defined? self.class::OPTIONS
+      self.class::OPTIONS.select{ |modifer_key, modifier_options|
+        modifier_options[:css_modifier] == true
+      }.each do |modifer_key, modifier_options|
+        if !options[modifer_key] == false || modifier_options[:default] == true
+          result << "#{to_css_class(self.class::CSSClASS)}--#{to_css_class(modifer_key)}"
+        end
+      end
+      result.join(" ")
+    end
+
 
     private
 

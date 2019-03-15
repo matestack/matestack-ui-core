@@ -40,6 +40,12 @@ module Page::Cell
       # ::Page::Utils::PageNode.build(self, included, &block)
     end
 
+    def slot(&block)
+      # return block
+      ::Page::Utils::PageNode.build(self, nil, &block)
+    end
+
+
     def show(component_key=nil, only_page=false)
       prepare
       response

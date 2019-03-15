@@ -1,6 +1,6 @@
 %div{"id": component_id, "class": "page_content"}
-  %div{"v-if": "asyncTemplate == null"}
+  %div{"v-if": "asyncPageTemplate == null"}
     - @children_cells.each do |key, cell|
       = cell.call(:show)
-  %div{"v-if": "asyncTemplate != null"}
-    %v-runtime-template{":template":"asyncTemplate"}
+  %div{"v-if": "asyncPageTemplate != null"}
+    %v-runtime-template{":template":"asyncPageTemplate"}
