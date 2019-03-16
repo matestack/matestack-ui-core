@@ -14722,12 +14722,14 @@ const componentDef = {
           __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit(self.componentConfig["success"][key], key);
         }
         if (self.componentConfig["notify"] === true) {
+          __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("action_success", response);
           if (typeof basemateUiCoreActionSuccess !== 'undefined') {
             basemateUiCoreActionSuccess(response);
           }
         }
       }).catch(function (error) {
         if (self.componentConfig["notify"] === true) {
+          __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("action_error", error);
           if (typeof basemateUiCoreActionError !== 'undefined') {
             basemateUiCoreActionError(error);
           }
@@ -14833,6 +14835,7 @@ const componentDef = {
           }
         }
         if (self.componentConfig["notify"] === true) {
+          __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("action_success", response);
           if (typeof basemateUiCoreActionSuccess !== 'undefined') {
             basemateUiCoreActionSuccess(response);
           }
@@ -14844,6 +14847,7 @@ const componentDef = {
           self.errors = error.response.data.errors;
         }
         if (self.componentConfig["notify"] === true) {
+          __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("action_error", error);
           if (typeof basemateUiCoreActionError !== 'undefined') {
             basemateUiCoreActionError(error);
           }

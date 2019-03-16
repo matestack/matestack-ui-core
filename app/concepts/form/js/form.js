@@ -76,6 +76,7 @@ const componentDef = {
           }
         }
         if (self.componentConfig["notify"] === true) {
+          basemateEventHub.$emit("action_success", response);
           if (typeof basemateUiCoreActionSuccess !== 'undefined') {
             basemateUiCoreActionSuccess(response);
           }
@@ -88,6 +89,7 @@ const componentDef = {
           self.errors = error.response.data.errors;
         }
         if (self.componentConfig["notify"] === true) {
+          basemateEventHub.$emit("action_error", error);
           if (typeof basemateUiCoreActionError !== 'undefined') {
             basemateUiCoreActionError(error);
           }
