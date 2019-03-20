@@ -6,7 +6,7 @@ module Link::Cell
     def setup
       @tag_attributes.merge!({ "class": options[:class],
         "id": component_id,
-        "method": options[:method] ||= :get,
+        "method": options[:method],
         "target": options[:target] ||= nil
       })
     end
