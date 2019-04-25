@@ -14479,7 +14479,7 @@ const componentDef = {
   }
 };
 
-let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('app', componentDef);
+let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('app-cell', componentDef);
 
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 

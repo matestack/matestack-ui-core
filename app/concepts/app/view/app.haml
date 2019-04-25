@@ -1,4 +1,4 @@
-%component{"is": "app", "inline-template": true}
+%component{"is": "app-cell", "inline-template": true}
   %div{"class": "basemate_app"}
     - @cells.each do |key, cell|
       = cell.call(:show)
