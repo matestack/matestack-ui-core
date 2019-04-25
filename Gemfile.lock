@@ -82,6 +82,8 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     cliver (0.3.2)
     concurrent-ruby (1.0.5)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     crass (1.0.4)
     declarative (0.0.10)
     declarative-builder (0.1.0)
@@ -102,6 +104,7 @@ GEM
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
+    hashdiff (0.3.8)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
@@ -186,6 +189,7 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     rubyzip (1.2.2)
+    safe_yaml (1.0.5)
     selenium-webdriver (3.14.1)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -224,6 +228,10 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uber (0.1.0)
+    webmock (3.5.1)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     webpacker (3.5.5)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
@@ -252,7 +260,8 @@ DEPENDENCIES
   trailblazer
   trailblazer-cells
   trailblazer-rails
+  webmock
   webpacker (~> 3.5)
 
 BUNDLED WITH
-   1.17.1
+   1.17.2

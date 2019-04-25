@@ -54,7 +54,8 @@ module Component::Utils
           if block_given?
             @hash[current_node]["components"] = ComponentNode.build(@component_instance, included, &block)
           elsif meth == :slot
-            @hash = args.first
+            # @hash[current_node]["components"] = ComponentNode.build(@component_instance, included, &args.first)
+            @hash[current_node]["components"] =  args.first
           end
         end
       end

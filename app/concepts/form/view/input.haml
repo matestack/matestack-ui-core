@@ -1,7 +1,7 @@
 - if options[:label]
   %label=options[:label]
 
-- if [:text, :number, :date, :password, :radio].include?(options[:type])
+- if [:text, :number, :email, :date, :password].include?(options[:type])
   %input{"v-model#{'.number' if options[:type] == :number}": input_key,
     type: options[:type],
     class: options[:class],
@@ -10,8 +10,8 @@
     ref: "input.#{attr_key}",
     placeholder: options[:placeholder],
     "init-value": init_value}
-  %span{"v-if": error_key }
-    %span{"v-for": "error in  #{error_key}"}
+  %span{class: "errors", "v-if": error_key }
+    %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}
 
 - if options[:type] == :textarea
@@ -24,6 +24,6 @@
     "init-value": init_value,
     rows: options[:rows],
     cols: options[:cols]}
-  %span{"v-if": error_key }
-    %span{"v-for": "error in  #{error_key}"}
+  %span{class: "errors", "v-if": error_key }
+    %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}

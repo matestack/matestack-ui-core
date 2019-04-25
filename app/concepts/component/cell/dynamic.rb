@@ -164,8 +164,13 @@ module Component::Cell
 
       def generate_children_cells
         unless options[:children].nil?
-          options[:children].each do |key, node|
-            @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+          begin
+            #needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
+            #quickfix: except them from iteration
+            options[:children].except(:component_key, :children, :origin_url, :url_params, :included_config).each do |key, node|
+              @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+            end
+          rescue => e
           end
         end
       end
@@ -189,8 +194,8 @@ module Component::Cell
 
       def set_tag_attributes
         default_attributes = {
-          "class": options[:class],
-          "id": component_id
+          "id": component_id,
+          "class": options[:class]
          }
          unless options[:attributes].nil?
            default_attributes.merge!(options[:attributes])

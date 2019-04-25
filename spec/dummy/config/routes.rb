@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  mount Basemate::Ui::Core::Engine, at: '/basemate'
+
   scope :components_tests do
     get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"
     get "custom_components_test", to: 'components_tests#custom_components_test'
@@ -14,5 +16,7 @@ Rails.application.routes.draw do
     post "submit", to: 'form_tests#submit'
     get "back", to: 'form_tests#back'
   end
+
+  get '/example', to: 'example#page'
 
 end

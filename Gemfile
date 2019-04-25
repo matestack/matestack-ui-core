@@ -30,4 +30,5 @@ group :development, :test do
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
+  gem 'webmock'
 end

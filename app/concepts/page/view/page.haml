@@ -1,3 +1,7 @@
-%div{"id": page_id}
+- if context[:params][:only_page] == "true"
   - @cells.each do |key, cell|
     = cell.call(:show)
+- else
+  %div{class: "basemate_page"}
+    - @cells.each do |key, cell|
+      = cell.call(:show)

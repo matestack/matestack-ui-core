@@ -23,22 +23,21 @@ const componentDef = {
         }
       })
       .then(function(response){
-        for (let key in self.componentConfig["success"]) {
-          basemateEventHub.$emit(self.componentConfig["success"][key], key);
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
+          basemateEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
         }
-        if (self.componentConfig["notify"] === true) {
-          basemateEventHub.$emit("action_success", response);
-          if (typeof basemateUiCoreActionSuccess !== 'undefined') {
-            basemateUiCoreActionSuccess(response);
-          }
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && self.$store != undefined) {
+          let path = self.componentConfig["success"]["transition"]["path"]
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
         }
       })
       .catch(function(error){
-        if (self.componentConfig["notify"] === true) {
-          basemateEventHub.$emit("action_error", error);
-          if (typeof basemateUiCoreActionError !== 'undefined') {
-            basemateUiCoreActionError(error);
-          }
+        if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
+          basemateEventHub.$emit(self.componentConfig["failure"]["emit"], error.response.data);
+        }
+        if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
+          let path = self.componentConfig["failure"]["transition"]["path"]
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
         }
       })
     }

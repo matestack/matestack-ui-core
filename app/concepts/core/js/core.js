@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.esm'
 
 import app from 'app/js/app'
+import async from 'async/js/async'
 import pageContent from 'page/js/content'
 import store from 'app/js/store'
 import component from 'component/js/component'

@@ -1,4 +1,4 @@
-%div{"id": component_id, "class": "page_content"}
+%div{"class": "basemate_page"}
   %div{"v-if": "asyncPageTemplate == null"}
     - @children_cells.each do |key, cell|
       = cell.call(:show)
