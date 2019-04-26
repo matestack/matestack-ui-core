@@ -1,5 +1,7 @@
 # basemate core component: Icon
 
+Show [specs](../../spec/usage/components/icon_spec.rb)
+
 The HTML `<i>` tag implemented in ruby. Use it for fancy icons!
 
 ## Parameters

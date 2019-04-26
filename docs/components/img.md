@@ -1,5 +1,7 @@
 # basemate core component: Img
 
+Show [specs](../../spec/usage/components/icon_spec.rb)
+
 The HTML img tag implemented in ruby.
 
 ## Parameters

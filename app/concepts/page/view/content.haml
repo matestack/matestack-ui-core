@@ -1,6 +1,7 @@
 %div{"class": "basemate_page"}
   %div{"v-if": "asyncPageTemplate == null"}
-    - @children_cells.each do |key, cell|
-      = cell.call(:show)
+    %div{"class": "basemate_page_content"}
+      - @children_cells.each do |key, cell|
+        = cell.call(:show)
   %div{"v-if": "asyncPageTemplate != null"}
     %v-runtime-template{":template":"asyncPageTemplate"}

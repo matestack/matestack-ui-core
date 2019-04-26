@@ -1,5 +1,7 @@
 # basemate core component: Heading
 
+Show [specs](../../spec/usage/components/heading_spec.rb)
+
 The HTML heading tag implemented in ruby.
 
 ## Parameters

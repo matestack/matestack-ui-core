@@ -1,5 +1,7 @@
 # basemate core component: Table
 
+Show [specs](../../spec/usage/components/table_spec.rb)
+
 Use tables to implement `<table>`, `<tr>`, `<th>` and `<td>`-tags.
 
 ## Parameters

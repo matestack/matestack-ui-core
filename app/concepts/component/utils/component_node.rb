@@ -34,6 +34,9 @@ module Component::Utils
 
         if meth == :partial
           @hash[current_node]["components"] = @component_instance.send(args.first, *args.drop(1))
+        elsif meth == :yield_components
+          @hash[current_node]["component_name"] = "partial"
+          @hash[current_node]["components"] = @component_instance.send(:get_children)
         else
           if args.first.is_a?(Hash)
             @hash[current_node]["config"] = args.first

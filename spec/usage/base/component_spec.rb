@@ -380,12 +380,13 @@ describe "Component", type: :feature, js: true do
   describe "Options" do
 
     it "components can take a options hash" do
+
       class Static::Cell::Component < Component::Cell::Static
 
         def response
           components {
             div id: "my-component" do
-              plain "I'm a static component and got some option: #{options[:some_option]} and some other option: #{options[:some_other][:option]}"
+              plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
             end
           }
         end
@@ -408,17 +409,19 @@ describe "Component", type: :feature, js: true do
       visit "/component_test"
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a static component and got some option: hello! and some other option: world!")]')
+
     end
 
-    it "components can validate if options is given and raise error if not" do
-      class Static::Cell::Component < Component::Cell::Static
+    it "components can auto validate if options is given and raise error if not" do
+
+      class Static::Cell::SpecialComponent < Component::Cell::Static
 
         REQUIRED_KEYS = [:some_option]
 
         def response
           components {
             div id: "my-component" do
-              plain "I'm a static component and got some option: #{options[:some_option]} and some other option: #{options[:some_other][:option]}"
+              plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
             end
           }
         end
@@ -431,7 +434,7 @@ describe "Component", type: :feature, js: true do
         def response
           components {
             div id: "div-on-page" do
-              static_component some_other: { option: "world!" }
+              static_specialComponent some_other: { option: "world!" }
             end
           }
         end
@@ -440,22 +443,446 @@ describe "Component", type: :feature, js: true do
 
       visit "/component_test"
 
-      expect(page).to have_content("div > static_component > required key 'some_option' is missing")
+      expect(page).to have_content("div > static_specialComponent > required key 'some_option' is missing")
+
+    end
+
+    it "components can manually validate if given options are correct and raise error if not"
+
+  end
+
+  describe "Slots" do
+
+    it "a page can fill slots of components with access to page instance scope" do
+
+      class Static::Cell::Component < Component::Cell::Static
+
+        def prepare
+          @foo = "foo from component"
+        end
+
+        def response
+          components {
+            div id: "my-component" do
+              slot @options[:my_first_slot]
+              br
+              slot @options[:my_second_slot]
+            end
+          }
+        end
+
+
+      end
+
+      class ExamplePage < Page::Cell::Page
+
+        def prepare
+          @foo = "foo from page"
+        end
+
+        def response
+          components {
+            div do
+              static_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
+            end
+          }
+        end
+
+        def my_simple_slot
+          slot {
+            span id: "my_simple_slot" do
+              plain "some content"
+            end
+          }
+        end
+
+        def my_second_simple_slot
+          slot {
+            span id: "my_simple_slot" do
+              plain @foo
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      static_output = page.html
+
+      expected_static_output = <<~HTML
+      <div>
+        <div id="my-component">
+          <span id="my_simple_slot">
+            some content
+          </span>
+          <br/>
+          <span id="my_simple_slot">
+            foo from page
+          </span>
+        </div>
+      </div>
+      HTML
+
+      expect(stripped(static_output)).to include(stripped(expected_static_output))
+
+    end
+
+    it "a component can fill slots of components with access to comoponent instance scope" do
+
+      class Static::Cell::Component < Component::Cell::Static
+
+        def prepare
+          @foo = "foo from component"
+        end
+
+        def response
+          components {
+            div id: "my-component" do
+              static_otherComponent slots: {
+                my_slot_from_component: my_slot_from_component,
+                my_slot_from_page: @options[:my_slot_from_page]
+              }
+            end
+          }
+        end
+
+        def my_slot_from_component
+          slot {
+            span id: "my-slot-from-component" do
+              plain @foo
+            end
+          }
+        end
+
+
+      end
+
+      class Static::Cell::OtherComponent < Component::Cell::Static
+
+        def prepare
+          @foo = "foo from other component"
+        end
+
+        def response
+          components {
+            div id: "my-other-component" do
+              slot @options[:slots][:my_slot_from_component]
+              br
+              slot @options[:slots][:my_slot_from_page]
+              br
+              plain @foo
+            end
+          }
+        end
+
+      end
+
+      class ExamplePage < Page::Cell::Page
+
+        def prepare
+          @foo = "foo from page"
+        end
+
+        def response
+          components {
+            div id: "page-div" do
+              static_component my_slot_from_page: my_slot_from_page
+            end
+          }
+        end
+
+        def my_slot_from_page
+          slot {
+            span id: "my-slot-from-page" do
+              plain @foo
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      static_output = page.html
+
+      expected_static_output = <<~HTML
+        <div id="page-div">
+          <div id="my-component">
+            <div id="my-other-component">
+              <span id="my-slot-from-component">
+                foo from component
+              </span>
+              <br/>
+              <span id="my-slot-from-page">
+                foo from page
+              </span>
+              <br/>
+              foo from other component
+            </div>
+          </div>
+        </div>
+      HTML
+
+      expect(stripped(static_output)).to include(stripped(expected_static_output))
 
     end
 
   end
 
-  describe "Slots"
+  describe "Yield" do
 
-  describe "Yield"
+    it "components can yield a block with access to scope, where block is defined" do
 
-  describe "Partials"
+      class Static::Cell::Component < Component::Cell::Static
 
-  describe "Prepare"
+        def response
+          components {
+            div id: "my-component" do
+              yield_components
+            end
+          }
+        end
 
-  describe "Request Access"
+      end
 
-  describe "Controller Action Scope Access"
 
+      class ExamplePage < Page::Cell::Page
+
+        def prepare
+          @foo = "foo from page"
+        end
+
+        def response
+          components {
+            div id: "div-on-page" do
+              static_component do
+                plain @foo
+              end
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"foo from page")]')
+
+    end
+
+  end
+
+  describe "Partials" do
+
+    it "components can use local partials to structure their response" do
+
+      class Static::Cell::Component < Component::Cell::Static
+
+        def response
+          components {
+            div id: "my-component" do
+              partial :my_partial, "foo from component"
+            end
+          }
+        end
+
+        def my_partial text
+          partial {
+            plain text
+          }
+        end
+
+      end
+
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              static_component
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"foo from component")]')
+
+    end
+
+    it "components can use partials form included modules to structure their response" do
+
+      module MySharedPartials
+
+        def my_partial text
+          partial {
+            plain text
+          }
+        end
+
+      end
+
+      class Static::Cell::Component < Component::Cell::Static
+
+        include MySharedPartials
+
+        def response
+          components {
+            div id: "my-component" do
+              partial :my_partial, "foo from component"
+            end
+          }
+        end
+
+      end
+
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              static_component
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"foo from component")]')
+
+    end
+
+  end
+
+  describe "Argument" do
+
+    it "a component can access a simple argument, if no hash was given" do
+
+      class Static::Cell::Component < Component::Cell::Static
+
+
+        def response
+          components {
+            div id: "my-component" do
+              plain @argument
+            end
+          }
+        end
+
+
+      end
+
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              static_component "foo from page"
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"foo from page")]')
+
+
+    end
+
+  end
+
+  describe "Prepare" do
+
+    it "a component can resolve data before rendering in a prepare method" do
+
+      class Static::Cell::Component < Component::Cell::Static
+
+        def prepare
+          @some_data = "some data"
+        end
+
+
+        def response
+          components {
+            div id: "my-component" do
+              plain @some_data
+            end
+          }
+        end
+
+      end
+
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              static_component "foo from page"
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"some data")]')
+
+    end
+
+  end
+
+  describe "Request Access" do
+
+    it "a component can access request informations" do
+
+      class Static::Cell::Component < Component::Cell::Static
+
+        def response
+          components {
+            div id: "my-component" do
+              plain @url_params[:foo]
+            end
+          }
+        end
+
+      end
+
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              static_component "foo from page"
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test?foo=bar"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"bar")]')
+
+    end
+
+  end
+
+  describe "Doesn't have Controller Action Scope Access"
+
+  describe "Default Tag Attributes"
+
+  describe "Setup"
 end

@@ -49,7 +49,7 @@ describe "Page", type: :feature, js: true do
       def response
         components {
           div do
-            plain @foo
+            plain @bar
           end
         }
       end
@@ -63,7 +63,7 @@ describe "Page", type: :feature, js: true do
       include Basemate::Ui::Core::ApplicationHelper
 
       def my_action
-        @foo = "bar"
+        @bar = "bar"
         responder_for(ExamplePage)
       end
 

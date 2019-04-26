@@ -46,6 +46,7 @@ module Component::Cell
       @cells = {}
       @included_config = options[:included_config]
       @rerender = false
+      @options = options
       generate_component_name
       generate_children_cells
       set_tag_attributes
@@ -140,6 +141,14 @@ module Component::Cell
 
     def partial(&block)
       return ::Component::Utils::ComponentNode.build(self, nil, &block)
+    end
+
+    def slot(&block)
+      return ::Component::Utils::ComponentNode.build(self, nil, &block)
+    end
+
+    def get_children
+      return options[:children]
     end
 
     def to_css_class(symbol)

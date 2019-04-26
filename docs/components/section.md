@@ -1,5 +1,7 @@
 # basemate core component: Section
 
+Show [specs](../../spec/usage/components/section_spec.rb)
+
 The HTML section tag implemented in ruby.
 
 ## Parameters

@@ -1,5 +1,7 @@
 # basemate core component: Lists
 
+Show [specs](../../spec/usage/components/list_spec.rb)
+
 Use lists to implement `<ol>`, `<ul>` and `<li>`-tags.
 
 ## Parameters

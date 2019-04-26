@@ -1,5 +1,7 @@
 # basemate core component: Link
 
+Show [specs](../../spec/usage/components/link_spec.rb)
+
 This component is used to either navigate within your basemate application or to send requests to outside URLs.
 
 ## Parameters
@@ -39,7 +41,7 @@ and returns
 
 ```html
 <div id="foo" class="bar">
-  <a data-method="get" href="https://basemate.io">Here</a>
+  <a href="https://basemate.io">Here</a>
 </div>
 ```
 
@@ -58,7 +60,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a data-method="get" href="https://basemate.io">Here</a>
+  <a href="https://basemate.io">Here</a>
 </div>
 ```
 
@@ -79,7 +81,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a target="_blank" data-method="get" href="https://basemate.io">
+  <a target="_blank" href="https://basemate.io">
     <div>Here</div>
   </a>
 </div>
@@ -100,7 +102,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a data-method="get" href="/">
+  <a href="/">
     Here
   </a>
 </div>

@@ -1,5 +1,7 @@
 # basemate core component: Br
 
+Show [specs](../../spec/usage/components/br_spec.rb)
+
 The HTML `<br>` tag implemented in ruby.
 
 ## Parameters

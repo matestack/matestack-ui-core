@@ -1,5 +1,7 @@
 # basemate core component: Pg
 
+Show [specs](../../spec/usage/components/pg_spec.rb)
+
 The HTML `<p>` tag implemented in ruby. This is a workaround because the single `p` is the short version of `puts` in ruby.
 
 ## Parameters

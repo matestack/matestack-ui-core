@@ -73,12 +73,12 @@ describe "App", type: :feature, js: true do
     visit "app_specs/my_example_app/page1"
 
     expect(page).to have_xpath('//div[@class="basemate_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@class="basemate_page_content"]/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
 
     visit "app_specs/my_example_app/page2"
 
     expect(page).to have_xpath('//div[@class="basemate_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
+    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@class="basemate_page_content"]/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
 
 
   end
@@ -149,17 +149,21 @@ describe "App", type: :feature, js: true do
     end
 
     visit "app_specs/my_example_app/page1"
-
+    
     expect(page).to have_xpath('//div[@class="basemate_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@class="basemate_page_content"]/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
 
     click_button "Page 2"
 
     expect(page).to have_xpath('//div[@class="basemate_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
+    expect(page).to have_xpath('//div[@class="basemate_app"]/main/div[@class="basemate_page"]/div/div[@class="basemate_page_content"]/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
 
 
   end
+
+  it "can navigate back using browser history"
+
+  it "just uses serverside routes, which works standalone"
 
 
 end

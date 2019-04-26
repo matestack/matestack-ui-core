@@ -1,7 +1,9 @@
 - if context[:params][:only_page] == "true"
-  - @cells.each do |key, cell|
-    = cell.call(:show)
-- else
-  %div{class: "basemate_page"}
+  %div{class: "basemate_page_content"}
     - @cells.each do |key, cell|
       = cell.call(:show)
+- else
+  %div{class: "basemate_page"}
+    %div{class: "basemate_page_content"}
+      - @cells.each do |key, cell|
+        = cell.call(:show)

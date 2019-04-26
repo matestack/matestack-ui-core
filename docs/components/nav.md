@@ -1,5 +1,7 @@
 # basemate core component: Nav
 
+Show [specs](../../spec/usage/components/nav_spec.rb)
+
 The HTML nav tag implemented in ruby.
 
 ## Parameters
