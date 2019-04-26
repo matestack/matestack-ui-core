@@ -1,17 +1,17 @@
-[![CircleCI](https://circleci.com/gh/basemate/basemate-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/basemate/basemate-ui-core/tree/master)
+[![CircleCI](https://circleci.com/gh/matestack/matestack-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/matestack/matestack-ui-core/tree/master)
 
-# Basemate: Escape the frontend hustle
+# Matestack: Escape the frontend hustle
 
 ## Create maintainable, dynamic and beautiful UIs easily
 
-As a Rails Engine, basemate deeply integrates a Vue.js based UI into Rails, offering optional prebuilt components. Use it to write dynamic Web-UIs with minimum effort and maximum dev happiness in pure Ruby. The main goals are:
+As a Rails Engine, matestack deeply integrates a Vue.js based UI into Rails, offering optional prebuilt components. Use it to write dynamic Web-UIs with minimum effort and maximum dev happiness in pure Ruby. The main goals are:
 
 - Reduction of complexity of modern web development, moving front and backend closer together
 - More maintainable UI code, using a component-based structure written in Ruby
 - Increased development speed and happiness, offering prebuilt UI-Components for classic requirements
 - Modern, dynamic UI feeling without the need to implement a separate JavaScript Application
 
-basemate can progressively replace the classic Rails-View-Layer. You are able to use
+matestack can progressively replace the classic Rails-View-Layer. You are able to use
 it alongside your classic views and incrementally turn your Rails-App into a
 dynamic Web-App.
 
@@ -29,7 +29,7 @@ class Pages::MyPage < Page::Cell::Page
     components{
       div id: "technologies" do
         @technologies.each do |technology|
-          plain "basemate uses #{technology}"
+          plain "matestack uses #{technology}"
         end
       end
     }
@@ -190,7 +190,7 @@ end
 somewhere else on the backend:
 
 ```ruby
-ActionCable.server.broadcast("basemate_ui_core", {
+ActionCable.server.broadcast("matestack_ui_core", {
   message: "comments_changed"
 })
 ```

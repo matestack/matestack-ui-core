@@ -4,9 +4,9 @@ require 'trailblazer/cell'
 require 'cell/rails'
 require 'cell/haml'
 
-require "basemate/ui/core/engine"
+require "matestack/ui/core/engine"
 
-module Basemate
+module Matestack
   module Ui
     module Core
       # Your code goes here...

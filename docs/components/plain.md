@@ -1,4 +1,4 @@
-# basemate core component: Plain
+# matestack core component: Plain
 
 Show [specs](../../spec/usage/components/plain_spec.rb)
 

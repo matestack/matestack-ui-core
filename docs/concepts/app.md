@@ -4,7 +4,7 @@ Show [specs](../../spec/usage/base/app_spec.rb)
 
 ## An App can wrap pages with a layout
 
-`app/basemate/apps/example_app.rb`
+`app/matestack/apps/example_app.rb`
 
 ```ruby
 class Apps::ExampleApp < App::Cell::App
@@ -23,7 +23,7 @@ class Apps::ExampleApp < App::Cell::App
 end
 ```
 
-`app/basemate/pages/example_app/example_page.rb`
+`app/matestack/pages/example_app/example_page.rb`
 
 ```ruby
 class Pages::ExampleApp::ExamplePage < Page::Cell::Page
@@ -39,7 +39,7 @@ class Pages::ExampleApp::ExamplePage < Page::Cell::Page
 end
 ```
 
-`app/basemate/pages/example_app/second_example_page.rb`
+`app/matestack/pages/example_app/second_example_page.rb`
 
 ```ruby
 class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
@@ -57,7 +57,7 @@ end
 
 ## An App enables transitions between pages without page reload
 
-`app/basemate/apps/example_app.rb`
+`app/matestack/apps/example_app.rb`
 
 ```ruby
 class Apps::ExampleApp < App::Cell::App

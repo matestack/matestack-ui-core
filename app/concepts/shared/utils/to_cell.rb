@@ -45,7 +45,7 @@ module Shared::Utils::ToCell
       rescue => e
         raise "#{e.message.nil? ? '': 'Got Error: '+e.message}. \
               Make sure to define your custom component class correctly \
-              in \"basemate/components/#{rewritten_path.join('/')}.rb\""
+              in \"matestack/components/#{rewritten_path.join('/')}.rb\""
       end
       if component_class.is_a?(Class)
         return concept(component_class, argument, config)

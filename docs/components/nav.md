@@ -1,4 +1,4 @@
-# basemate core component: Nav
+# matestack core component: Nav
 
 Show [specs](../../spec/usage/components/nav_spec.rb)
 

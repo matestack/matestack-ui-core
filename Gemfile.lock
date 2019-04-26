@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    basemate-ui-core (0.6.0.pre.1)
+    matestack-ui-core (0.6.0.pre.1)
       cells-haml
       cells-rails
       haml
@@ -246,7 +246,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  basemate-ui-core!
+  matestack-ui-core!
   byebug
   capybara
   cells-haml

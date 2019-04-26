@@ -7,7 +7,7 @@ describe "Component", type: :feature, js: true do
     class ComponentTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         responder_for(ExamplePage)
@@ -160,7 +160,7 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "custom components defined in the basemate/components folder have to be prefixed with 'custom_' when referenced" do
+    it "custom components defined in the matestack/components folder have to be prefixed with 'custom_' when referenced" do
 
       module Components end
 
@@ -168,7 +168,7 @@ describe "Component", type: :feature, js: true do
 
       module Components::MyComponent::Cell end
 
-      #defined in app/basemate/components/my_component/cell/my_component.rb
+      #defined in app/matestack/components/my_component/cell/my_component.rb
       class Components::MyComponent::Cell::MyComponent < Component::Cell::Static
 
         def response
@@ -181,7 +181,7 @@ describe "Component", type: :feature, js: true do
 
       end
 
-      #defined in app/basemate/components/my_component/cell/my_second_component.rb
+      #defined in app/matestack/components/my_component/cell/my_second_component.rb
       class Components::MyComponent::Cell::MySecondComponent < Component::Cell::Static
 
         def response
@@ -290,7 +290,7 @@ describe "Component", type: :feature, js: true do
       element = page.find("#my-component")
       before_content = element.text
 
-      page.execute_script('BasemateUiCore.basemateEventHub.$emit("my_event")')
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div/div/div/div[@id="my-component" and contains(.,"I\'m a static component!")]')
@@ -320,8 +320,8 @@ describe "Component", type: :feature, js: true do
 
       component_definition = <<~javascript
 
-        BasemateUiCore.Vue.component('dynamic-component-cell', {
-          mixins: [BasemateUiCore.componentMixin],
+        MatestackUiCore.Vue.component('dynamic-component-cell', {
+          mixins: [MatestackUiCore.componentMixin],
           data: function data() {
             return {
               dynamic_value: "foo"
@@ -366,7 +366,7 @@ describe "Component", type: :feature, js: true do
 
       #async rerendering is only needed in this test as we define the
       #vue.js component after initial page load
-      page.execute_script('BasemateUiCore.basemateEventHub.$emit("refresh")')
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("refresh")')
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a fancy dynamic component!")]')
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"foo")]')

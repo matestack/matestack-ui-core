@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  mount Basemate::Ui::Core::Engine, at: '/basemate'
+  mount Matestack::Ui::Core::Engine, at: '/matestack'
 
   scope :components_tests do
     get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"

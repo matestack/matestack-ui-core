@@ -1,4 +1,4 @@
-# basemate core component: Header
+# matestack core component: Header
 
 Show [specs](../../spec/usage/components/header_spec.rb)
 

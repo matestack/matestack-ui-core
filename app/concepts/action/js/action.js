@@ -2,7 +2,7 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-import basemateEventHub from 'core/js/event-hub'
+import matestackEventHub from 'core/js/event-hub'
 
 import componentMixin from 'component/js/component'
 
@@ -24,7 +24,7 @@ const componentDef = {
       })
       .then(function(response){
         if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
-          basemateEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
+          matestackEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
         }
         if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && self.$store != undefined) {
           let path = self.componentConfig["success"]["transition"]["path"]
@@ -33,7 +33,7 @@ const componentDef = {
       })
       .catch(function(error){
         if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
-          basemateEventHub.$emit(self.componentConfig["failure"]["emit"], error.response.data);
+          matestackEventHub.$emit(self.componentConfig["failure"]["emit"], error.response.data);
         }
         if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
           let path = self.componentConfig["failure"]["transition"]["path"]

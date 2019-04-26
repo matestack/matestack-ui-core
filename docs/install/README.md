@@ -1,14 +1,14 @@
 # Install
 
 If your're using the classic Rails assets pipeline, this guide shows you how to
-add basemate to your Rails app.
+add matestack to your Rails app.
 
 ## Gemfile
 
-Add 'basemate-ui-core' to your Gemfile
+Add 'matestack-ui-core' to your Gemfile
 
 ```ruby
-gem 'basemate-ui-core'
+gem 'matestack-ui-core'
 ```
 
 and run
@@ -19,34 +19,34 @@ $ bundle install
 
 ## Javascript
 
-Require 'basemate-ui-core' in your `assets/javascript/application.js`
+Require 'matestack-ui-core' in your `assets/javascript/application.js`
 
 ```javascript
-//= require basemate-ui-core
+//= require matestack-ui-core
 ```
 
-## Basemate Folder
+## Matestack Folder
 
-Create a folder called 'basemate' in your app directory. All your basemate apps,
+Create a folder called 'matestack' in your app directory. All your matestack apps,
 pages, components (and more to come) will be defined there.
 
 ## Include Helper
 
-Add the basemate helper to your controllers. If you want to make the helpers
+Add the matestack helper to your controllers. If you want to make the helpers
 available in all controllers, add it to your 'ApplicationController' this way:
 
 `app/controllers/application_controller.rb`
 
 ```ruby
 class ApplicationController < ActionController::Base
-  include Basemate::Ui::Core::ApplicationHelper
+  include Matestack::Ui::Core::ApplicationHelper
   #...
 end
 ```
 
 ## Application Layout
 
-You need to add the ID "basemate_ui" to some part of your application layout (or any layout you use)
+You need to add the ID "matestack_ui" to some part of your application layout (or any layout you use)
 
 For Example, your `app/views/layouts/application.html.erb` should look like this:
 
@@ -63,7 +63,7 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
   </head>
 
   <body>
-    <div id="basemate_ui">
+    <div id="matestack_ui">
       <%= yield %>
     </div>
   </body>
@@ -71,14 +71,14 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
 
 
 ```
-Don't apply the basemate_ui ID to the body tag.
+Don't apply the matestack_ui ID to the body tag.
 
 ## Extend Asset Paths
 
-In order to enable custom Vue.js components, add the basemate folder to the asset paths:
+In order to enable custom Vue.js components, add the matestack folder to the asset paths:
 
 `config/initializers/assets.rb`
 
 ```ruby
-Rails.application.config.assets.paths << Rails.root.join('app/basemate/components')
+Rails.application.config.assets.paths << Rails.root.join('app/matestack/components')
 ```

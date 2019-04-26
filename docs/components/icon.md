@@ -1,4 +1,4 @@
-# basemate core component: Icon
+# matestack core component: Icon
 
 Show [specs](../../spec/usage/components/icon_spec.rb)
 

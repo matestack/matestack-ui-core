@@ -1,8 +1,8 @@
-# basemate core component: Link
+# matestack core component: Link
 
 Show [specs](../../spec/usage/components/link_spec.rb)
 
-This component is used to either navigate within your basemate application or to send requests to outside URLs.
+This component is used to either navigate within your matestack application or to send requests to outside URLs.
 
 ## Parameters
 
@@ -33,7 +33,7 @@ This example renders a simple link within a `<div`-tag
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://basemate.io", text: "Here"
+  link path: "https://matestack.io", text: "Here"
 end
 ```
 
@@ -41,7 +41,7 @@ and returns
 
 ```html
 <div id="foo" class="bar">
-  <a href="https://basemate.io">Here</a>
+  <a href="https://matestack.io">Here</a>
 </div>
 ```
 
@@ -50,7 +50,7 @@ This example renders a link without a specific link-text, so it wraps the rest o
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://basemate.io" do
+  link path: "https://matestack.io" do
     plain "Here"
   end
 end
@@ -60,7 +60,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a href="https://basemate.io">Here</a>
+  <a href="https://matestack.io">Here</a>
 </div>
 ```
 
@@ -69,7 +69,7 @@ This example renders a link around a div and the link opens in a new tab.
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://basemate.io", target: "_blank" do
+  link path: "https://matestack.io", target: "_blank" do
     div do
       plain "Here"
     end
@@ -81,7 +81,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a target="_blank" href="https://basemate.io">
+  <a target="_blank" href="https://matestack.io">
     <div>Here</div>
   </a>
 </div>

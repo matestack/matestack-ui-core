@@ -1,4 +1,4 @@
-var BasemateUiCore =
+var MatestackUiCore =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -11382,7 +11382,7 @@ const componentMixin = {
         this.rerender();
       }
     },
-    onBasemateUiCoreChannel: function (event) {
+    onMatestackUiCoreChannel: function (event) {
       if (this.componentConfig["rerender_on"] == event.message) {
         this.rerender();
       }
@@ -11409,12 +11409,12 @@ const componentMixin = {
   created: function () {
     const self = this;
     __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$on('rerender', self.onRerender);
-    __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$on('BasemateUiCoreChannel', self.onBasemateUiCoreChannel);
+    __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$on('MatestackUiCoreChannel', self.onMatestackUiCoreChannel);
   },
   beforeDestroy: function () {
     const self = this;
     __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$off('rerender', self.onRerender);
-    __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$off('BasemateUiCoreChannel', self.onBasemateUiCoreChannel);
+    __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$off('MatestackUiCoreChannel', self.onMatestackUiCoreChannel);
   },
   components: {
     VRuntimeTemplate: __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__["a" /* default */]
@@ -11436,9 +11436,9 @@ const componentMixin = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 
 
-const basemateEventHub = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]();
+const matestackEventHub = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]();
 
-/* harmony default export */ __webpack_exports__["a"] = (basemateEventHub);
+/* harmony default export */ __webpack_exports__["a"] = (matestackEventHub);
 
 /***/ }),
 /* 4 */
@@ -13110,7 +13110,7 @@ var index = {
 /*!*********************************************!*\
   !*** ./app/javascript/packs/application.js ***!
   \*********************************************/
-/*! exports provided: Vue, Vuex, axios, basemateEventHub, componentMixin */
+/*! exports provided: Vue, Vuex, axios, matestackEventHub, componentMixin */
 /*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -13126,7 +13126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vuex", function() { return __WEBPACK_IMPORTED_MODULE_1_vuex__["a"]; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return __WEBPACK_IMPORTED_MODULE_2_axios___default.a; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "basemateEventHub", function() { return __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matestackEventHub", function() { return __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "componentMixin", function() { return __WEBPACK_IMPORTED_MODULE_4_component_js_component__["a"]; });
 /* eslint no-console:0 */
 // This file is automatically compiled by Webpack, along with any other files
@@ -14429,12 +14429,12 @@ module.exports = function spread(callback) {
 
 
 
-let basemateUiApp = undefined;
+let matestackUiApp = undefined;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  basemateUiApp = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]({
-    el: "#basemate_ui",
+  matestackUiApp = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]({
+    el: "#matestack_ui",
     store: __WEBPACK_IMPORTED_MODULE_4_app_js_store__["a" /* default */]
   });
 });
@@ -14622,8 +14622,8 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   actions: {
     navigateTo({ commit, state }, { url, backwards }) {
       __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("page_loading", url);
-      if (typeof basemateUiCoreTransitionStart !== 'undefined') {
-        basemateUiCoreTransitionStart(url);
+      if (typeof matestackUiCoreTransitionStart !== 'undefined') {
+        matestackUiCoreTransitionStart(url);
       }
       if (!window.history.pushState) {
         document.location.href = url;
@@ -14639,25 +14639,25 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
           params: { "only_page": true }
         }).then(function (response) {
           if (backwards) {
-            window.history.replaceState({ basemateApp: true, url: url }, null, url);
+            window.history.replaceState({ matestackApp: true, url: url }, null, url);
           } else {
-            window.history.pushState({ basemateApp: true, url: url }, null, url);
+            window.history.pushState({ matestackApp: true, url: url }, null, url);
           }
           setTimeout(function () {
             resolve(response["data"]);
             commit('setPageTemplate', response["data"]);
             commit('setCurrentPath', url);
             __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("page_loaded", url);
-            if (typeof basemateUiCoreTransitionSuccess !== 'undefined') {
-              basemateUiCoreTransitionSuccess(url);
+            if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
+              matestackUiCoreTransitionSuccess(url);
             }
           }, 300);
         }).catch(function (error) {
           setTimeout(function () {
             resolve(error);
             __WEBPACK_IMPORTED_MODULE_3_core_js_event_hub__["a" /* default */].$emit("page_loading_error", error);
-            if (typeof basemateUiCoreTransitionError !== 'undefined') {
-              basemateUiCoreTransitionError(url);
+            if (typeof matestackUiCoreTransitionError !== 'undefined') {
+              matestackUiCoreTransitionError(url);
             }
           }, 300);
         });
@@ -15052,4 +15052,4 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=basemate-ui-core.js.map
+//# sourceMappingURL=matestack-ui-core.js.map

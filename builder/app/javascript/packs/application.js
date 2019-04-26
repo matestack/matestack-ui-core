@@ -10,15 +10,15 @@
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import axios from 'axios'
-import basemateEventHub from 'core/js/event-hub'
+import matestackEventHub from 'core/js/event-hub'
 import componentMixin from 'component/js/component'
 
-import basemateUiCore from 'core/js/core'
+import matestackUiCore from 'core/js/core'
 
 export {
   Vue,
   Vuex,
   axios,
-  basemateEventHub,
+  matestackEventHub,
   componentMixin
 }

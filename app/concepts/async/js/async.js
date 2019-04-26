@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
 
-import basemateEventHub from 'core/js/event-hub'
+import matestackEventHub from 'core/js/event-hub'
 
 import componentMixin from 'component/js/component'
 
@@ -33,9 +33,9 @@ const componentDef = {
   },
   created: function () {
     const self = this
-    basemateEventHub.$on(this.componentConfig["rerender_on"], self.rerender)
-    basemateEventHub.$on(this.componentConfig["show_on"], self.show)
-    basemateEventHub.$on(this.componentConfig["hide_on"], self.hide)
+    matestackEventHub.$on(this.componentConfig["rerender_on"], self.rerender)
+    matestackEventHub.$on(this.componentConfig["show_on"], self.show)
+    matestackEventHub.$on(this.componentConfig["hide_on"], self.hide)
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
     }
@@ -46,9 +46,9 @@ const componentDef = {
   beforeDestroy: function() {
     const self = this
     clearTimeout(self.hide_after_timeout)
-    basemateEventHub.$off(this.componentConfig["rerender_on"], self.rerender);
-    basemateEventHub.$off(this.componentConfig["show_on"], self.show);
-    basemateEventHub.$off(this.componentConfig["hide_on"], self.hide);
+    matestackEventHub.$off(this.componentConfig["rerender_on"], self.rerender);
+    matestackEventHub.$off(this.componentConfig["show_on"], self.show);
+    matestackEventHub.$off(this.componentConfig["hide_on"], self.hide);
   },
 }
 

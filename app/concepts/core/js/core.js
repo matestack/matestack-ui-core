@@ -13,12 +13,12 @@ import form from 'form/js/form'
 import view from 'view/js/view'
 import onclick from 'onclick/js/onclick'
 
-let basemateUiApp = undefined
+let matestackUiApp = undefined
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    basemateUiApp = new Vue({
-      el: "#basemate_ui",
+    matestackUiApp = new Vue({
+      el: "#matestack_ui",
       store: store
     })
 

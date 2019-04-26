@@ -8,7 +8,7 @@ default: &default
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
-  resolved_paths: ['vendor/basemate-ui-core/app/concepts', 'vendor/basemate-ui-core/node_modules']
+  resolved_paths: ['vendor/matestack-ui-core/app/concepts', 'vendor/matestack-ui-core/node_modules']
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false

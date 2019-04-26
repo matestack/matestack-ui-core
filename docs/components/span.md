@@ -1,4 +1,4 @@
-# basemate core component: Span
+# matestack core component: Span
 
 Show [specs](../../spec/usage/components/span_spec.rb)
 

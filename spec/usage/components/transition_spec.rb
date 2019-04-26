@@ -60,7 +60,7 @@ describe "Transition Component", type: :feature, js: true do
     end
 
     class ExampleAppPagesController < ExampleController
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def page1
         responder_for(Pages::ExampleApp::ExamplePage)

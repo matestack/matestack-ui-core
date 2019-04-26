@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/jonas/projects/matestack/basemate-ui-core/lib/basemate/ui/core.rb": [
+      "/home/jonas/projects/matestack/basemate-ui-core/lib/matestack/ui/core.rb": [
         1,
         1,
         1,
@@ -18,7 +18,7 @@
         null,
         null
       ],
-      "/home/jonas/projects/matestack/basemate-ui-core/lib/basemate/ui/core/engine.rb": [
+      "/home/jonas/projects/matestack/basemate-ui-core/lib/matestack/ui/core/engine.rb": [
         1,
         1,
         1,
@@ -292,7 +292,7 @@
         null,
         null
       ],
-      "/home/jonas/projects/matestack/basemate-ui-core/app/helpers/basemate/ui/core/application_helper.rb": [
+      "/home/jonas/projects/matestack/basemate-ui-core/app/helpers/matestack/ui/core/application_helper.rb": [
         1,
         1,
         1,
@@ -1507,7 +1507,7 @@
         0,
         null
       ],
-      "/home/jonas/projects/matestack/basemate-ui-core/lib/basemate/ui/core/version.rb": [
+      "/home/jonas/projects/matestack/basemate-ui-core/lib/matestack/ui/core/version.rb": [
         0,
         0,
         0,
@@ -1517,6 +1517,6 @@
         0
       ]
     },
-    "timestamp": 1556302759
+    "timestamp": 1556303274
   }
 }

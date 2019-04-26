@@ -1,4 +1,4 @@
-# basemate core component: Lists
+# matestack core component: Lists
 
 Show [specs](../../spec/usage/components/list_spec.rb)
 

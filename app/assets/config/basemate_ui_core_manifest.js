@@ -1,2 +1,2 @@
-//= link_directory ../javascripts/basemate/ui/core .js
-//= link_directory ../stylesheets/basemate/ui/core .css
+//= link_directory ../javascripts/matestack/ui/core .js
+//= link_directory ../stylesheets/matestack/ui/core .css

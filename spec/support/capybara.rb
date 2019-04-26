@@ -3,12 +3,12 @@ require 'capybara/rails'
 # require 'capybara/poltergeist'
 require "selenium/webdriver"
 
-require "basemate/ui/core"
+require "matestack/ui/core"
 
 
 # Capybara.javascript_driver = :poltergeist
 
-# Capybara.app = Basemate::Ui::Core::Engine
+# Capybara.app = Matestack::Ui::Core::Engine
 Capybara.app = Dummy::Application
 
 Capybara.register_driver :chrome do |app|

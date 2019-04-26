@@ -28,7 +28,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         responder_for(ExamplePage)
@@ -60,7 +60,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         @bar = "bar"
@@ -99,7 +99,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         responder_for(ExamplePage)
@@ -160,7 +160,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         responder_for(ExamplePage)
@@ -255,7 +255,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         responder_for(ExamplePage)
@@ -361,7 +361,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Basemate::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
         responder_for(ExamplePage)

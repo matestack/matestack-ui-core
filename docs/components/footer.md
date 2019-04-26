@@ -1,4 +1,4 @@
-# basemate core component: Footer
+# matestack core component: Footer
 
 Show [specs](../../spec/usage/components/footer_spec.rb)
 

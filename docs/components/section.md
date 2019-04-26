@@ -1,4 +1,4 @@
-# basemate core component: Section
+# matestack core component: Section
 
 Show [specs](../../spec/usage/components/section_spec.rb)
 

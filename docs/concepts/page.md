@@ -4,7 +4,7 @@ Show [specs](../../spec/usage/base/page_spec.rb)
 
 ## A Page orchestrates components
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -28,7 +28,7 @@ end
 class MyController < ApplicationController
 
   # if not already included
-  include Basemate::Ui::Core::ApplicationHelper
+  include Matestack::Ui::Core::ApplicationHelper
 
   def my_action
     responder_for(Pages::ExamplePage)
@@ -41,7 +41,7 @@ end
 
 `visit "/my_action_path/?foo=bar"`
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -65,7 +65,7 @@ end
 class MyController < ApplicationController
 
   # if not already included
-  include Basemate::Ui::Core::ApplicationHelper
+  include Matestack::Ui::Core::ApplicationHelper
 
   def my_action
     @foo = "bar"
@@ -75,7 +75,7 @@ class MyController < ApplicationController
 end
 ```
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -93,7 +93,7 @@ end
 
 ## A Page can resolve data in a prepare method, which runs before rendering
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -114,7 +114,7 @@ end
 ```
 ## A Page can use classic ruby within component orchestration
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -142,7 +142,7 @@ end
 
 ## A Page can use page methods within component orchestration
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -174,7 +174,7 @@ end
 
 ## A Page can structure the response using local partials
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page
@@ -247,7 +247,7 @@ renders to:
 ```
 ## A Page can structure the response using partials from included modules
 
-`app/basemate/pages/my_shared_partials.rb`
+`app/matestack/pages/my_shared_partials.rb`
 
 ```ruby
 module Pages::MySharedPartials
@@ -263,7 +263,7 @@ module Pages::MySharedPartials
 end
 ```
 
-`app/basemate/pages/example_page.rb`
+`app/matestack/pages/example_page.rb`
 
 ```ruby
 class Pages::ExamplePage < Page::Cell::Page

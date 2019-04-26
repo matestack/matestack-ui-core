@@ -1,4 +1,4 @@
-# basemate core component: Div
+# matestack core component: Div
 
 Show [specs](../../spec/usage/components/div_spec.rb)
 

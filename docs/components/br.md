@@ -1,4 +1,4 @@
-# basemate core component: Br
+# matestack core component: Br
 
 Show [specs](../../spec/usage/components/br_spec.rb)
 

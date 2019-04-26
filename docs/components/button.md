@@ -1,3 +1,3 @@
-# basemate core component: Button
+# matestack core component: Button
 
 Show [specs](../../spec/usage/components/button_spec.rb)

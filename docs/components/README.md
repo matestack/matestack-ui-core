@@ -1,6 +1,6 @@
 # Core Components
 
-basemate provides a wide set of core components, which enables you to easily build your UI.
+matestack provides a wide set of core components, which enables you to easily build your UI.
 You can build your [own components](../extend/custom_components.md) as well, either static or dynamic.
 
 ## Static Core Components

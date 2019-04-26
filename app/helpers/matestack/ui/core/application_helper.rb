@@ -1,4 +1,4 @@
-module Basemate
+module Matestack
   module Ui
     module Core
       module ApplicationHelper

@@ -1,4 +1,4 @@
-# basemate core component: Main
+# matestack core component: Main
 
 Show [specs](../../spec/usage/components/main_spec.rb)
 

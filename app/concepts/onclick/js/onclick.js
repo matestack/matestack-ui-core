@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
 
-import basemateEventHub from 'core/js/event-hub'
+import matestackEventHub from 'core/js/event-hub'
 
 import componentMixin from 'component/js/component'
 
@@ -11,7 +11,7 @@ const componentDef = {
   },
   methods: {
     perform: function(){
-      basemateEventHub.$emit(this.componentConfig["emit"], this.componentConfig["data"])
+      matestackEventHub.$emit(this.componentConfig["emit"], this.componentConfig["data"])
     }
   }
 }

@@ -1,4 +1,4 @@
-# basemate core component: Pg
+# matestack core component: Pg
 
 Show [specs](../../spec/usage/components/pg_spec.rb)
 

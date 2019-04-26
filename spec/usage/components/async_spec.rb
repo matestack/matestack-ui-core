@@ -24,7 +24,7 @@ describe "Async Component", type: :feature, js: true do
     element = page.find("#my-div")
     before_content = element.text
 
-    page.execute_script('BasemateUiCore.basemateEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
     element = page.find("#my-div")
     after_content = element.text
@@ -52,7 +52,7 @@ describe "Async Component", type: :feature, js: true do
 
     expect(page).not_to have_selector "#my-div"
 
-    page.execute_script('BasemateUiCore.basemateEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
     expect(page).to have_selector "#my-div"
   end
@@ -77,7 +77,7 @@ describe "Async Component", type: :feature, js: true do
 
     expect(page).to have_selector "#my-div"
 
-    page.execute_script('BasemateUiCore.basemateEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
     expect(page).not_to have_selector "#my-div"
   end
@@ -101,7 +101,7 @@ describe "Async Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).not_to have_selector "#my-div"
-    page.execute_script('BasemateUiCore.basemateEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
     expect(page).to have_selector "#my-div"
     sleep 1
     expect(page).not_to have_selector "#my-div"
@@ -127,7 +127,7 @@ describe "Async Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).not_to have_content "test!"
-    page.execute_script('BasemateUiCore.basemateEventHub.$emit("my_event", { message: "test!" })')
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event", { message: "test!" })')
     expect(page).to have_content "test!"
 
   end
