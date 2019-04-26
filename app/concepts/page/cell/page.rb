@@ -3,10 +3,10 @@ module Page::Cell
 
     include ActionView::Helpers::TranslationHelper
     include ::Cell::Haml
-    include ::Basemate::Ui::Core::ApplicationHelper
+    include ::Matestack::Ui::Core::ApplicationHelper
     include ::Shared::Utils::ToCell
 
-    view_paths << "#{Basemate::Ui::Core::Engine.root}/app/concepts"
+    view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
 
     def initialize(model=nil, options={})
       super
@@ -39,6 +39,12 @@ module Page::Cell
       return block
       # ::Page::Utils::PageNode.build(self, included, &block)
     end
+
+    def slot(&block)
+      # return block
+      ::Page::Utils::PageNode.build(self, nil, &block)
+    end
+
 
     def show(component_key=nil, only_page=false)
       prepare

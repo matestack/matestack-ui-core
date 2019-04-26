@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Basemate::Ui::Core::Engine => "/basemate-ui-core"
+  mount Matestack::Ui::Core::Engine => "/matestack-ui-core"
 end

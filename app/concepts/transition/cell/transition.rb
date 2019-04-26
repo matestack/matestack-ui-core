@@ -22,8 +22,8 @@ module Transition::Cell
     def resolve_path
       begin
         return ::Rails.application.routes.url_helpers.send(options[:path], options[:params])
-      rescue
-        "path_not_found"
+      rescue => e
+        raise "path '#{options[:path]}' not found, using params: #{options[:params]}"
       end
     end
 

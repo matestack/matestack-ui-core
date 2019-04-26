@@ -8,7 +8,7 @@ require 'rdoc/task'
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Basemate::Ui::Core'
+  rdoc.title    = 'Matestack::Ui::Core'
   rdoc.options << '--line-numbers'
   rdoc.rdoc_files.include('README.md')
   rdoc.rdoc_files.include('lib/**/*.rb')
@@ -18,6 +18,8 @@ APP_RAKEFILE = File.expand_path("spec/dummy/Rakefile", __dir__)
 load 'rails/tasks/engine.rake'
 
 load 'rails/tasks/statistics.rake'
+
+load 'lib/tasks/matestack/ui/core_tasks.rake'
 
 require 'bundler/gem_tasks'
 

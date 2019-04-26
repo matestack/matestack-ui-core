@@ -1,4 +1,4 @@
-%component{"is": @component_class, "ref": component_id, ":params":  @url_params.to_json, ":component-config": @component_config.to_json, "inline-template": true}
+%component{dynamic_tag_attributes}
   %div{"id": component_id, "class": @component_class}
     %div{"v-if": "asyncTemplate == null"}
       - @cells.each do |key, cell|

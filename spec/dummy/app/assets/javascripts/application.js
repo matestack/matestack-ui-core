@@ -12,7 +12,5 @@
 //
 //= require rails-ujs
 //= require activestorage
-// = require basemate-ui-core
+// = require matestack-ui-core
 //= require_tree .
-
-var blub = "foo"

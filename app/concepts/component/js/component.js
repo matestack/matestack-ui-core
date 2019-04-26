@@ -2,7 +2,7 @@ import Vue from 'vue/dist/vue.esm'
 import axios from 'axios'
 import VRuntimeTemplate from "v-runtime-template"
 
-import basemateEventHub from 'core/js/event-hub'
+import matestackEventHub from 'core/js/event-hub'
 
 const componentMixin = {
   props: ['componentConfig', 'params'],
@@ -17,7 +17,7 @@ const componentMixin = {
         this.rerender()
       }
     },
-    onBasemateUiCoreChannel: function(event){
+    onMatestackUiCoreChannel: function(event){
       if (this.componentConfig["rerender_on"] == event.message){
         this.rerender()
       }
@@ -44,13 +44,13 @@ const componentMixin = {
   },
   created: function () {
     const self = this
-    basemateEventHub.$on('rerender', self.onRerender)
-    basemateEventHub.$on('BasemateUiCoreChannel', self.onBasemateUiCoreChannel)
+    matestackEventHub.$on('rerender', self.onRerender)
+    matestackEventHub.$on('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   beforeDestroy: function() {
     const self = this
-    basemateEventHub.$off('rerender', self.onRerender);
-    basemateEventHub.$off('BasemateUiCoreChannel', self.onBasemateUiCoreChannel)
+    matestackEventHub.$off('rerender', self.onRerender);
+    matestackEventHub.$off('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   components: {
     VRuntimeTemplate: VRuntimeTemplate

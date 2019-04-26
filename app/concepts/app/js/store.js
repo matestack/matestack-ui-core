@@ -2,6 +2,8 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+import matestackEventHub from 'core/js/event-hub'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -19,9 +21,9 @@ const store = new Vuex.Store({
   },
   actions: {
     navigateTo ({ commit, state }, { url, backwards }) {
-      console.log("navigate")
-      if (typeof basemateUiCoreTransitionStart !== 'undefined') {
-        basemateUiCoreTransitionStart(url);
+      matestackEventHub.$emit("page_loading", url);
+      if (typeof matestackUiCoreTransitionStart !== 'undefined') {
+        matestackUiCoreTransitionStart(url);
       }
       if (!window.history.pushState) {
         document.location.href = url;
@@ -38,24 +40,26 @@ const store = new Vuex.Store({
         })
         .then(function(response){
           if (backwards){
-            window.history.replaceState({basemateApp: true, url: url}, null, url);
+            window.history.replaceState({matestackApp: true, url: url}, null, url);
           } else {
-            window.history.pushState({basemateApp: true, url: url}, null, url);
+            window.history.pushState({matestackApp: true, url: url}, null, url);
           }
           setTimeout(function () {
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
             commit('setCurrentPath', url)
-            if (typeof basemateUiCoreTransitionSuccess !== 'undefined') {
-              basemateUiCoreTransitionSuccess(url);
+            matestackEventHub.$emit("page_loaded", url);
+            if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
+              matestackUiCoreTransitionSuccess(url);
             }
           }, 300);
         })
-        .catch(function(response){
+        .catch(function(error){
           setTimeout(function () {
-            resolve(response["data"])
-            if (typeof basemateUiCoreTransitionError !== 'undefined') {
-              basemateUiCoreTransitionError(url);
+            resolve(error)
+            matestackEventHub.$emit("page_loading_error", error);
+            if (typeof matestackUiCoreTransitionError !== 'undefined') {
+              matestackUiCoreTransitionError(url);
             }
           }, 300);
         })

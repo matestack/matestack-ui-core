@@ -1,4 +1,4 @@
-%component{"is": @component_class, "id": "#{component_id}__wrapper", "ref": component_id, ":params":  @url_params.to_json, ":component-config": @component_config.to_json, "inline-template": true}
+%component{dynamic_tag_attributes}
   %div
     %div{"v-if": "asyncTemplate == null"}
       = render_content

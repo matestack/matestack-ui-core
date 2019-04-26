@@ -2,7 +2,7 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-import basemateEventHub from 'core/js/event-hub'
+import matestackEventHub from 'core/js/event-hub'
 
 import componentMixin from 'component/js/component'
 
@@ -21,6 +21,9 @@ const componentDef = {
     },
     inputChanged: function(key){
       this.resetErrors(key)
+    },
+    updateFormValue: function(key, value){
+      this.data[key] = value;
     },
     resetErrors: function(key){
       if (this.errors[key]){
@@ -48,6 +51,43 @@ const componentDef = {
          }
       }
     },
+    initValues: function(){
+      let self = this;
+      let data = {}
+      for (let key in self.$refs) {
+        let initValue = self.$refs[key]["attributes"]["init-value"]
+        let valueType = self.$refs[key]["attributes"]["value-type"]
+
+        if (key.startsWith("input.")){
+          if(initValue){
+            data[key.replace('input.', '')] = initValue["value"]
+          }else{
+            data[key.replace('input.', '')] = null
+          }
+        }
+        if (key.startsWith("select.")){
+          if (key.startsWith("select.multiple.")){
+            if(initValue){
+              data[key.replace('select.multiple.', '')] = JSON.parse(initValue["value"])
+            }else{
+              data[key.replace('select.multiple.', '')] = []
+            }
+          }else{
+            if(initValue){
+              if(valueType && valueType["value"] == "Integer")
+                data[key.replace('select.', '')] = parseInt(initValue["value"])
+              else{
+                data[key.replace('select.', '')] = initValue["value"]
+              }
+            }else{
+              data[key.replace('select.', '')] = null
+            }
+          }
+
+        }
+      }
+      self.data = data;
+    },
     perform: function(){
       const self = this
       let payload = {}
@@ -61,69 +101,33 @@ const componentDef = {
         }
       })
       .then(function(response){
-        for (let key in self.componentConfig["success"]) {
-          switch(key){
-            case "transition":
-              let path = self.componentConfig["success"]["transition"]["path"]
-              self.$store.dispatch('navigateTo', {url: path, backwards: false})
-              break;
-            default:
-              basemateEventHub.$emit(self.componentConfig["success"][key], key);
-          }
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
+          matestackEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
         }
-        if (self.componentConfig["notify"] === true) {
-          if (typeof basemateUiCoreActionSuccess !== 'undefined') {
-            basemateUiCoreActionSuccess(response);
-          }
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && self.$store != undefined) {
+          let path = self.componentConfig["success"]["transition"]["path"]
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
         }
         self.setProps(self.data, null);
+        self.initValues()
         self.showInlineForm = false;
       })
       .catch(function(error){
         if(error.response && error.response.data && error.response.data.errors){
           self.errors = error.response.data.errors;
         }
-        if (self.componentConfig["notify"] === true) {
-          if (typeof basemateUiCoreActionError !== 'undefined') {
-            basemateUiCoreActionError(error);
-          }
+        if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
+          matestackEventHub.$emit(self.componentConfig["failure"]["emit"], error.response.data);
+        }
+        if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
+          let path = self.componentConfig["failure"]["transition"]["path"]
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
         }
       })
     }
   },
   mounted: function(){
-    let self = this;
-    let data = {}
-    for (let key in self.$refs) {
-      if (key.startsWith("input.")){
-        if(self.$refs[key]["attributes"]["init-value"]){
-          data[key.replace('input.', '')] = self.$refs[key]["attributes"]["init-value"]["value"]
-        }else{
-          data[key.replace('input.', '')] = null
-        }
-      }
-      if (key.startsWith("select.")){
-        if (key.startsWith("select.multiple.")){
-          if(self.$refs[key]["attributes"]["init-value"]){
-            data[key.replace('select.multiple.', '')] = JSON.parse(self.$refs[key]["attributes"]["init-value"]["value"])
-          }else{
-            data[key.replace('select.multiple.', '')] = []
-          }
-        }else{
-          if(self.$refs[key]["attributes"]["init-value"]){
-            if(self.$refs[key]["attributes"]["value-type"]["value"] == "Integer")
-              data[key.replace('select.', '')] = parseInt(self.$refs[key]["attributes"]["init-value"]["value"])
-            else{
-              data[key.replace('select.', '')] = self.$refs[key]["attributes"]["init-value"]["value"]
-            }
-          }else{
-            data[key.replace('select.', '')] = null
-          }
-        }
-
-      }
-    }
-    self.data = data;
+    this.initValues()
   }
 }
 

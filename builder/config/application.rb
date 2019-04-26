@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "basemate/ui/core"
+require "matestack/ui/core"
 
 module Builder
   class Application < Rails::Application

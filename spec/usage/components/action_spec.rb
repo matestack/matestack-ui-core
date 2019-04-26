@@ -1,0 +1,389 @@
+require_relative "../../support/utils"
+include Utils
+
+class TestController < ActionController::Base
+
+  before_action :check_params
+
+  def check_params
+    expect_params(params.permit!.to_h)
+  end
+
+  def expect_params(params)
+  end
+
+end
+
+describe "Action Component", type: :feature, js: true do
+
+  before :each do
+
+    class ActionTestController < TestController
+
+      def test
+        render json: {}, status: 200
+      end
+
+    end
+
+    allow_any_instance_of(ActionTestController).to receive(:expect_params)
+
+  end
+
+  it "Example 1 - Async request with payload" do
+
+    Rails.application.routes.append do
+      post '/action_test', to: 'action_test#test', as: 'action_test'
+    end
+    Rails.application.reload_routes!
+
+
+    class ExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :action_test_path,
+          data: {
+            foo: "bar"
+          }
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    click_button "Click me!"
+
+    expect_any_instance_of(ActionTestController).to receive(:expect_params)
+      .with(hash_including(:foo => "bar"))
+
+  end
+
+  it "Example 2 - Async request with URL param" do
+
+    Rails.application.routes.append do
+      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param'
+    end
+    Rails.application.reload_routes!
+
+
+    class ExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :action_test_with_url_param_path,
+          params: {
+            id: 42
+          }
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    click_button "Click me!"
+
+    expect_any_instance_of(ActionTestController).to receive(:expect_params)
+      .with(hash_including(:id => "42"))
+
+  end
+
+  describe "Success/Failure Behavior" do
+
+    before :all do
+      class ActionTestController < TestController
+
+        def success_test
+          render json: { message: "server says: good job!" }, status: 200
+        end
+
+        def failure_test
+          render json: { message: "server says: something went wrong!" }, status: 400
+        end
+
+      end
+
+      Rails.application.routes.append do
+        post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test'
+        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test'
+      end
+      Rails.application.reload_routes!
+    end
+
+    it "Example 3 - Async request with success event emit used for rerendering" do
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            action action_config do
+              button text: "Click me!"
+            end
+            async rerender_on: "my_action_success" do
+              div id: "my-div" do
+                plain "#{DateTime.now.strftime('%Q')}"
+              end
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :success_action_test_path,
+            success: {
+              emit: "my_action_success"
+            }
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      element = page.find("#my-div")
+      before_content = element.text
+
+      click_button "Click me!"
+
+      sleep 0.3
+
+      element = page.find("#my-div")
+      after_content = element.text
+
+      expect(before_content).not_to eq(after_content)
+
+    end
+
+    it "Example 4 - Async request with success event emit used for notification" do
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            action action_config do
+              button text: "Click me!"
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :success_action_test_path,
+            success: {
+              emit: "my_action_success"
+            }
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      expect(page).not_to have_content("server says: good job!")
+
+      click_button "Click me!"
+
+      expect(page).to have_content("server says: good job!")
+      sleep 0.3
+      expect(page).not_to have_content("server says: good job!")
+
+    end
+
+    it "Example 5 - Async request with failure event emit used for notification" do
+
+      class ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            action action_config do
+              button text: "Click me!"
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+            async show_on: "my_action_failure", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :failure_action_test_path,
+            success: {
+              emit: "my_action_success"
+            },
+            failure: {
+              emit: "my_action_failure"
+            }
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      expect(page).not_to have_content("server says: good job!")
+      expect(page).not_to have_content("server says: something went wrong!")
+
+      click_button "Click me!"
+
+      expect(page).not_to have_content("server says: good job!")
+      expect(page).to have_content("server says: something went wrong!")
+      sleep 0.3
+      expect(page).not_to have_content("server says: good job!")
+      expect(page).not_to have_content("server says: something went wrong!")
+
+    end
+
+    it "Example 6 - Async request with success event emit used for transition" do
+      class Apps::ExampleApp < App::Cell::App
+
+        def response
+          components {
+            heading size: 1, text: "My Example App Layout"
+            main do
+              page_content
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+            async show_on: "my_action_failure", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+          }
+        end
+
+      end
+
+      module Pages::ExampleApp
+
+      end
+
+      class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            heading size: 2, text: "This is Page 1"
+            action action_config do
+              button text: "Click me!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :success_action_test_path,
+            success: {
+              emit: "my_action_success",
+              transition: {
+                path: :action_test_page2_path,
+                params: { id: 42 }
+              }
+            }
+          }
+        end
+
+      end
+
+      class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+
+        def response
+          components {
+            heading size: 2, text: "This is Page 2"
+            action action_config do
+              button text: "Click me!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :failure_action_test_path,
+            failure: {
+              emit: "my_action_failure",
+              transition: {
+                path: :action_test_page1_path
+              }
+            }
+          }
+        end
+
+      end
+
+      class ExampleAppPagesController < ExampleController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def page1
+          responder_for(Pages::ExampleApp::ExamplePage)
+        end
+
+        def page2
+          responder_for(Pages::ExampleApp::SecondExamplePage)
+        end
+
+      end
+
+      Rails.application.routes.append do
+        scope :action_test do
+          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
+          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
+        end
+      end
+      Rails.application.reload_routes!
+
+      visit "action_test/page1"
+
+      expect(page).to have_content("My Example App Layout")
+      expect(page).to have_content("This is Page 1")
+      expect(page).not_to have_content("This is Page 2")
+
+      click_button "Click me!"
+
+      expect(page).to have_content("My Example App Layout")
+      expect(page).to have_content("server says: good job!")
+
+      expect(page).not_to have_content("This is Page 1")
+      expect(page).to have_content("This is Page 2")
+
+      click_button "Click me!"
+
+      expect(page).to have_content("My Example App Layout")
+      expect(page).to have_content("server says: something went wrong!")
+
+      expect(page).not_to have_content("This is Page 2")
+      expect(page).to have_content("This is Page 1")
+
+    end
+
+  end
+
+end

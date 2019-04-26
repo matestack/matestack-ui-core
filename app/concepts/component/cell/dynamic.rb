@@ -27,15 +27,15 @@ module Component::Cell
     # include ActionView::Helpers::UrlHelper
     # include ActionView::Helpers::TranslationHelper
     include ::Cell::Haml
-    include ::Basemate::Ui::Core::ApplicationHelper
+    include ::Matestack::Ui::Core::ApplicationHelper
     include Shared::Utils::ToCell
 
-    view_paths << "#{Basemate::Ui::Core::Engine.root}/app/concepts"
-    view_paths << "#{::Rails.root}/app/basemate"
+    view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
+    view_paths << "#{::Rails.root}/app/matestack"
 
     def initialize(model=nil, options={})
       super
-      @component_config = options.except(:context, :children, :url_params)
+      @component_config = options.except(:context, :children, :url_params, :included_config)
       @url_params = options[:url_params].except(:action, :controller, :component_key)
       @component_key = options[:component_key]
       @children_cells = {}
@@ -45,6 +45,8 @@ module Component::Cell
       @nodes = {}
       @cells = {}
       @included_config = options[:included_config]
+      @rerender = false
+      @options = options
       generate_component_name
       generate_children_cells
       set_tag_attributes
@@ -78,13 +80,21 @@ module Component::Cell
         if @static
           render :response
         else
-          render :response_dynamic
+          if @rerender
+            render :response_dynamic
+          else
+            render :response_dynamic_without_rerender
+          end
         end
       else
         if @static
           render(view: :static, &block)
         else
-          render(view: :dynamic, &block)
+          if @rerender
+            render(view: :dynamic, &block)
+          else
+            render(view: :dynamic_without_rerender, &block)
+          end
         end
       end
     end
@@ -130,14 +140,42 @@ module Component::Cell
     end
 
     def partial(&block)
-      ::Component::Utils::ComponentNode.build(self, nil, &block)
+      return ::Component::Utils::ComponentNode.build(self, nil, &block)
     end
+
+    def slot(&block)
+      return ::Component::Utils::ComponentNode.build(self, nil, &block)
+    end
+
+    def get_children
+      return options[:children]
+    end
+
+    def to_css_class(symbol)
+      symbol.to_s.gsub("_", "-")
+    end
+
+    def modifiers
+      result = []
+      return unless defined? self.class::OPTIONS
+      self.class::OPTIONS.select{ |modifer_key, modifier_options|
+        modifier_options[:css_modifier] == true
+      }.each do |modifer_key, modifier_options|
+        if !options[modifer_key] == false || modifier_options[:default] == true
+          result << "#{to_css_class(self.class::CSSClASS)}--#{to_css_class(modifer_key)}"
+        end
+      end
+      result.join(" ")
+    end
+
 
     private
 
       def generate_children_cells
         unless options[:children].nil?
-          options[:children].each do |key, node|
+          #needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
+          #quickfix: except them from iteration
+          options[:children].except(:component_key, :children, :origin_url, :url_params, :included_config).each do |key, node|
             @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
           end
         end
@@ -162,14 +200,26 @@ module Component::Cell
 
       def set_tag_attributes
         default_attributes = {
-          "class": options[:class],
-          "id": component_id
+          "id": component_id,
+          "class": options[:class]
          }
          unless options[:attributes].nil?
            default_attributes.merge!(options[:attributes])
          end
 
          @tag_attributes = default_attributes
+      end
+
+      def dynamic_tag_attributes
+         attrs = {
+           "is": @component_class,
+           "ref": component_id,
+           ":params":  @url_params.to_json,
+           ":component-config": @component_config.to_json,
+           "inline-template": true,
+         }
+         attrs.merge!(options[:attributes]) unless options[:attributes].nil?
+         return attrs
       end
 
   end
