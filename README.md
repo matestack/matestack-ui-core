@@ -1,5 +1,7 @@
 [![CircleCI](https://circleci.com/gh/basemate/matestack-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/basemate/matestack-ui-core/tree/master)
 
+![matestack logo](./logo.png)
+
 # Matestack: Escape the frontend hustle
 
 ## Create maintainable, dynamic and beautiful UIs easily
