@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/matestack/matestack-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/matestack/matestack-ui-core/tree/master)
+[![CircleCI](https://circleci.com/gh/basemate/matestack-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/basemate/matestack-ui-core/tree/master)
 
 # Matestack: Escape the frontend hustle
 
