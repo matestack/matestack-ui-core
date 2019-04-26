@@ -34,6 +34,9 @@ module Component::Utils
 
         if meth == :partial
           @hash[current_node]["components"] = @component_instance.send(args.first, *args.drop(1))
+        elsif meth == :yield_components
+          @hash[current_node]["component_name"] = "partial"
+          @hash[current_node]["components"] = @component_instance.send(:get_children)
         else
           if args.first.is_a?(Hash)
             @hash[current_node]["config"] = args.first
@@ -44,7 +47,7 @@ module Component::Utils
           if args.second == :include
             included = args.first
           else
-            unless @included_config .nil?
+            unless @included_config.nil?
               included = @included_config
             else
               included = nil
@@ -53,6 +56,9 @@ module Component::Utils
 
           if block_given?
             @hash[current_node]["components"] = ComponentNode.build(@component_instance, included, &block)
+          elsif meth == :slot
+            # @hash[current_node]["components"] = ComponentNode.build(@component_instance, included, &args.first)
+            @hash[current_node]["components"] =  args.first
           end
         end
       end

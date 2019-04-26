@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# Declare your gem's dependencies in basemate-ui-core.gemspec.
+# Declare your gem's dependencies in matestack-ui-core.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
 gemspec
@@ -24,10 +24,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'capybara'
   gem 'webpacker', '~> 3.5'
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.13'
   gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
+  gem 'webmock'
 end

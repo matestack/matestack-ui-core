@@ -13,12 +13,12 @@
     %option{disabled: true}= options[:placeholder]
     - if options[:options].is_a?(Hash)
       - options[:options].each do |key, value|
-        %option{value: value}=key
+        %option{value: key}=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |option|
         %option{value: option}=option
-  %span{"v-if": error_key }
-    %span{"v-for": "error in  #{error_key}"}
+  %span{class: "errors", "v-if": error_key }
+    %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}
 
 - if options[:type] == :checkbox
@@ -30,18 +30,20 @@
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
-        value: value}/
-        %label=key
+        name: value,
+        value: key}/
+        %label=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |value|
         %input{type: :checkbox,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
+        name: value,
         value: value}/
         %label=value
-  %span{"v-if": error_key }
-    %span{"v-for": "error in  #{error_key}"}
+  %span{class: "errors", "v-if": error_key }
+    %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}
 
 - if options[:type] == :radio
@@ -53,16 +55,18 @@
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
-        value: value}/
-        %label=key
+        name: value,
+        value: key}/
+        %label=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |value|
         %input{type: :radio,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
+        name: value,
         value: value}/
         %label=value
-  %span{"v-if": error_key }
-    %span{"v-for": "error in  #{error_key}"}
+  %span{class: "errors", "v-if": error_key }
+    %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}

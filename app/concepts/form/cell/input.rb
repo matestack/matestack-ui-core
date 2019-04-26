@@ -15,8 +15,26 @@ module Form::Cell
       'errors["' + options[:key].to_s + '"]'
     end
 
+    def input_wrapper
+      case options[:for]
+      when nil
+        return nil
+      when Symbol
+        return options[:for]
+      when String
+        return options[:for]
+      end
+      if options[:for].respond_to?(:model_name)
+        return options[:for].model_name.singular
+      end
+    end
+
     def attr_key
-      options[:key].to_s
+      if input_wrapper.nil?
+        return options[:key].to_s
+      else
+        return "#{input_wrapper}.#{options[:key].to_s}"
+      end
     end
 
     def init_value
@@ -24,15 +42,29 @@ module Form::Cell
         return options[:init]
       end
 
-      unless @included_config.nil? && @included_config[:for].nil?
-        if @included_config[:for].respond_to?(options[:key])
-          return @included_config[:for].send(options[:key])
+      unless options[:for].nil?
+        value = options[:for].send(options[:key])
+        if [true, false].include? value
+          value ? 1 : 0
         else
-          if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
-            return nil
-          end
-          if @included_config[:for].is_a?(Hash)
-            return @included_config[:for][options[:key]]
+          return value
+        end
+      else
+        unless @included_config.nil? && @included_config[:for].nil?
+          if @included_config[:for].respond_to?(options[:key])
+            value = @included_config[:for].send(options[:key])
+            if [true, false].include? value
+              value ? 1 : 0
+            else
+              return value
+            end
+          else
+            if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
+              return nil
+            end
+            if @included_config[:for].is_a?(Hash)
+              return @included_config[:for][options[:key]]
+            end
           end
         end
       end

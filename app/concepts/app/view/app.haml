@@ -1,4 +1,4 @@
-%component{"is": "app", "inline-template": true}
-  %div{"id": @page_id}
+%component{"is": "app-cell", "inline-template": true}
+  %div{"class": "matestack_app"}
     - @cells.each do |key, cell|
       = cell.call(:show)

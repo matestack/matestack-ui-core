@@ -12,9 +12,9 @@ const environment = require('./environment')
 
 const customConfig = {
     output: {
-        filename: 'basemate-ui-core.js',
+        filename: 'matestack-ui-core.js',
         libraryTarget: 'var',
-        library: 'BasemateUiCore'
+        library: 'MatestackUiCore'
     }
 };
 
