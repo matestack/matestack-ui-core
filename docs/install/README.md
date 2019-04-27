@@ -24,11 +24,12 @@ Require 'matestack-ui-core' in your `assets/javascript/application.js`
 ```javascript
 //= require matestack-ui-core
 ```
+(Webpacker Integration is coming in 0.7.0)
 
 ## Matestack Folder
 
 Create a folder called 'matestack' in your app directory. All your matestack apps,
-pages, components (and more to come) will be defined there.
+pages and components will be defined there.
 
 ## Include Helper
 
@@ -68,8 +69,6 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
     </div>
   </body>
 </html>
-
-
 ```
 Don't apply the matestack_ui ID to the body tag.
 
@@ -82,3 +81,7 @@ In order to enable custom Vue.js components, add the matestack folder to the ass
 ```ruby
 Rails.application.config.assets.paths << Rails.root.join('app/matestack/components')
 ```
+
+## Websocket Integration
+
+If you want to use websockets, please read [this guide](../integrations/websockets.md)

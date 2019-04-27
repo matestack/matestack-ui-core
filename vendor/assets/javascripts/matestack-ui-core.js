@@ -14651,7 +14651,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
             }
-          }, 300);
+          }, 5);
         }).catch(function (error) {
           setTimeout(function () {
             resolve(error);
@@ -14659,7 +14659,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
             if (typeof matestackUiCoreTransitionError !== 'undefined') {
               matestackUiCoreTransitionError(url);
             }
-          }, 300);
+          }, 5);
         });
       });
     }

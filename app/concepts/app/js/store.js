@@ -52,7 +52,7 @@ const store = new Vuex.Store({
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
             }
-          }, 300);
+          }, 5);
         })
         .catch(function(error){
           setTimeout(function () {
@@ -61,7 +61,7 @@ const store = new Vuex.Store({
             if (typeof matestackUiCoreTransitionError !== 'undefined') {
               matestackUiCoreTransitionError(url);
             }
-          }, 300);
+          }, 5);
         })
       })
     }
