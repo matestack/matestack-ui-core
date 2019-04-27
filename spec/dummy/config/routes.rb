@@ -19,4 +19,20 @@ Rails.application.routes.draw do
 
   get '/example', to: 'example#page'
 
+  scope :my_app do
+    get 'my_first_page', to: 'my_app#my_first_page'
+    get 'my_second_page', to: 'my_app#my_second_page'
+    get 'my_third_page', to: 'my_app#my_third_page'
+    get 'my_fourth_page', to: 'my_app#my_fourth_page'
+    get 'my_fifth_page', to: 'my_app#my_fifth_page'
+    get 'my_sixth_page', to: 'my_app#my_sixth_page'
+
+    post 'some_action', to: 'my_app#some_action'
+    post 'form_action', to: 'my_app#form_action'
+  end
+
+  scope :api do
+    get 'data', to: 'api#data'
+  end
+
 end
