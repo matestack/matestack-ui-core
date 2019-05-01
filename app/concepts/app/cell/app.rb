@@ -31,7 +31,7 @@ module App::Cell
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
 
-    def initialize(model=nil, options={})
+    def initialize(model = nil, options = {})
       super
       @nodes = {}
       @cells = {}

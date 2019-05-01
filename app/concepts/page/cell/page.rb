@@ -45,7 +45,6 @@ module Page::Cell
       ::Page::Utils::PageNode.build(self, nil, &block)
     end
 
-
     def show(component_key=nil, only_page=false)
       prepare
       response
@@ -81,7 +80,6 @@ module Page::Cell
         end
       end
     end
-
 
     def page_id
       @custom_page_id ||= @page_id
@@ -120,7 +118,6 @@ module Page::Cell
           @app_class = nil
         end
       end
-
 
   end
 

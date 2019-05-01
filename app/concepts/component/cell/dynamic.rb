@@ -33,7 +33,7 @@ module Component::Cell
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
     view_paths << "#{::Rails.root}/app/matestack"
 
-    def initialize(model=nil, options={})
+    def initialize(model = nil, options = {})
       super
       @component_config = options.except(:context, :children, :url_params, :included_config)
       @url_params = options[:url_params].except(:action, :controller, :component_key)
@@ -79,22 +79,18 @@ module Component::Cell
         response &block
         if @static
           render :response
+        elsif @rerender
+          render :response_dynamic
         else
-          if @rerender
-            render :response_dynamic
-          else
-            render :response_dynamic_without_rerender
-          end
+          render :response_dynamic_without_rerender
         end
       else
         if @static
           render(view: :static, &block)
+        elsif @rerender
+          render(view: :dynamic, &block)
         else
-          if @rerender
-            render(view: :dynamic, &block)
-          else
-            render(view: :dynamic_without_rerender, &block)
-          end
+          render(view: :dynamic_without_rerender, &block)
         end
       end
     end
@@ -158,7 +154,7 @@ module Component::Cell
     def modifiers
       result = []
       return unless defined? self.class::OPTIONS
-      self.class::OPTIONS.select{ |modifer_key, modifier_options|
+      self.class::OPTIONS.select { |modifer_key, modifier_options|
         modifier_options[:css_modifier] == true
       }.each do |modifer_key, modifier_options|
         if !options[modifer_key] == false || modifier_options[:default] == true
@@ -171,56 +167,56 @@ module Component::Cell
 
     private
 
-      def generate_children_cells
-        unless options[:children].nil?
-          #needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
-          #quickfix: except them from iteration
-          options[:children].except(:component_key, :children, :origin_url, :url_params, :included_config).each do |key, node|
-            @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
-          end
+    def generate_children_cells
+      unless options[:children].nil?
+        # needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
+        # quickfix: except them from iteration
+        options[:children].except(:component_key, :children, :origin_url, :url_params, :included_config).each do |key, node|
+          @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
         end
       end
+    end
 
-      def generate_component_name
-        name_parts = self.class.name.split("::")
-        module_name = name_parts[0]
-        if module_name == "Components"
-          name_parts.shift
-        end
+    def generate_component_name
+      name_parts = self.class.name.split("::")
+      module_name = name_parts[0]
+      if module_name == "Components"
+        name_parts.shift
+      end
+      name = name_parts[0] + name_parts[1]
+      if name_parts[0] == name_parts[2]
         name = name_parts[0] + name_parts[1]
-        if name_parts[0] == name_parts[2]
-          name = name_parts[0] + name_parts[1]
-          @component_class =  name.underscore.gsub("_", "-")
-        else
-          name = name_parts[0] + name_parts[2] + name_parts[1]
-          @component_class = name.underscore.gsub("_", "-")
+        @component_class = name.underscore.gsub("_", "-")
+      else
+        name = name_parts[0] + name_parts[2] + name_parts[1]
+        @component_class = name.underscore.gsub("_", "-")
+      end
+      @component_name = @component_class.gsub("-cell", "")
+    end
+
+    def set_tag_attributes
+      default_attributes = {
+        "id": component_id,
+        "class": options[:class]
+        }
+        unless options[:attributes].nil?
+          default_attributes.merge!(options[:attributes])
         end
-        @component_name = @component_class.gsub("-cell", "")
-      end
 
-      def set_tag_attributes
-        default_attributes = {
-          "id": component_id,
-          "class": options[:class]
-         }
-         unless options[:attributes].nil?
-           default_attributes.merge!(options[:attributes])
-         end
+        @tag_attributes = default_attributes
+    end
 
-         @tag_attributes = default_attributes
-      end
-
-      def dynamic_tag_attributes
-         attrs = {
-           "is": @component_class,
-           "ref": component_id,
-           ":params":  @url_params.to_json,
-           ":component-config": @component_config.to_json,
-           "inline-template": true,
-         }
-         attrs.merge!(options[:attributes]) unless options[:attributes].nil?
-         return attrs
-      end
+    def dynamic_tag_attributes
+      attrs = {
+        "is": @component_class,
+        "ref": component_id,
+        ":params":  @url_params.to_json,
+        ":component-config": @component_config.to_json,
+        "inline-template": true,
+      }
+      attrs.merge!(options[:attributes]) unless options[:attributes].nil?
+      return attrs
+    end
 
   end
 end
