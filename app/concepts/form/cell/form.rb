@@ -11,13 +11,15 @@ module Form::Cell
         @component_config[:success] = options[:success]
         unless options[:success].nil?
           unless options[:success][:transition].nil?
-            @component_config[:success][:transition][:path] = transition_path
+            @component_config[:success][:transition][:path] = transition_path options[:success]
           end
         end
-        if options[:notify].nil?
-          @component_config[:notify] = true
+        @component_config[:failure] = options[:failure]
+        unless options[:failure].nil?
+          unless options[:failure][:transition].nil?
+            @component_config[:failure][:transition][:path] = transition_path options[:failure]
+          end
         end
-
         @tag_attributes.merge!({"@submit.prevent": true})
       rescue => e
         raise "Form component could not be setted up. Reason: #{e}"
@@ -36,15 +38,15 @@ module Form::Cell
       end
     end
 
-    def transition_path
+    def transition_path callback_options
       begin
-        if options[:success][:transition][:path].is_a?(Symbol)
+        if callback_options[:transition][:path].is_a?(Symbol)
           return ::Rails.application.routes.url_helpers.send(
-            options[:success][:transition][:path],
-            options[:success][:transition][:params]
+            callback_options[:transition][:path],
+            callback_options[:transition][:params]
           )
         else
-          return options[:success][:transition][:path]
+          return callback_options[:transition][:path]
         end
       rescue
         raise "Transition path not found"

@@ -1,4 +1,4 @@
-%li{"class": options[:class], "id": component_id}
+%li{@tag_attributes}
   - if options[:text].blank?
     - if block_given?
       = yield

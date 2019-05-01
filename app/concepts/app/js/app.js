@@ -22,6 +22,6 @@ const componentDef = {
   }
 }
 
-let component = Vue.component('app', componentDef)
+let component = Vue.component('app-cell', componentDef)
 
 export default componentDef

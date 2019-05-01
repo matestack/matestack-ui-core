@@ -1,3 +1,9 @@
-%div{"id": page_id}
-  - @cells.each do |key, cell|
-    = cell.call(:show)
+- if context[:params][:only_page] == "true"
+  %div{class: "matestack_page_content"}
+    - @cells.each do |key, cell|
+      = cell.call(:show)
+- else
+  %div{class: "matestack_page"}
+    %div{class: "matestack_page_content"}
+      - @cells.each do |key, cell|
+        = cell.call(:show)

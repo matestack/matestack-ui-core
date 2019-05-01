@@ -3,10 +3,10 @@ module Page::Cell
 
     include ActionView::Helpers::TranslationHelper
     include ::Cell::Haml
-    include ::Basemate::Ui::Core::ApplicationHelper
+    include ::Matestack::Ui::Core::ApplicationHelper
     include ::Shared::Utils::ToCell
 
-    view_paths << "#{Basemate::Ui::Core::Engine.root}/app/concepts"
+    view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
 
     def initialize(model=nil, options={})
       super
@@ -40,6 +40,12 @@ module Page::Cell
       # ::Page::Utils::PageNode.build(self, included, &block)
     end
 
+    def slot(&block)
+      # return block
+      ::Page::Utils::PageNode.build(self, nil, &block)
+    end
+
+
     def show(component_key=nil, only_page=false)
       prepare
       response
@@ -62,8 +68,9 @@ module Page::Cell
       when :render_component
         if component_key.include?("__")
           keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
-          if keys_array.include?("page_content_1")
-            keys_array = keys_array.drop(keys_array.find_index("page_content_1")+2)
+          page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
+          if page_content_keys.any?
+            keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
           end
           node = @nodes.dig(*keys_array)
           cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])

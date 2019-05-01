@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue.esm'
 
-const basemateEventHub = new Vue();
+const matestackEventHub = new Vue();
 
-export default basemateEventHub
+export default matestackEventHub

@@ -1,10 +1,12 @@
 {
-  "name": "basemate-ui-core",
+  "name": "matestack-ui-core",
+  "version": "0.6.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
     "v-runtime-template": "^1.5.2",
     "vue": "^2.5.17",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "yarn": "^1.15.2"
   }
 }
