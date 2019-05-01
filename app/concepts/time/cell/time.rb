@@ -2,8 +2,7 @@ module Time::Cell
   class Time < Component::Cell::Static
 
     def setup
-      @tag_attributes.merge!({ "class": options[:class],
-        "id": component_id,
+      @tag_attributes.merge!({
         "datetime": options[:datetime] ||= nil
       })
     end
