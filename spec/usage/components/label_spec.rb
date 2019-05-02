@@ -1,7 +1,7 @@
 require_relative '../../support/utils'
 include Utils
 
-describe 'Main Component', type: :feature, js: true do
+describe 'Label Component', type: :feature, js: true do
 
   it 'Example 1' do
 
@@ -9,8 +9,12 @@ describe 'Main Component', type: :feature, js: true do
 
       def response
         components {
-          main id: 'my-id', class: 'my-class' do
-            plain 'Hello World' #optional content
+          # simple label
+          label text: 'I am simple'
+
+          # enhanced label
+          label id: 'my-id', class: 'my-class' do
+            plain 'I am enhanced'
           end
         }
       end
@@ -22,9 +26,8 @@ describe 'Main Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <main id="my-id" class="my-class">
-      Hello World
-    </main>
+    <label>I am simple</label>
+    <label id="my-id" class="my-class">I am enhanced</label>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
