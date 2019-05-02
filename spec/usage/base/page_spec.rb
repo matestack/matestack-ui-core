@@ -122,9 +122,7 @@ describe "Page", type: :feature, js: true do
         components {
           div do
             partial :my_simple_partial
-            br
             partial :my_partial_with_param, "foo"
-            br
             partial :my_partial_with_partial
           end
         }
@@ -179,13 +177,9 @@ describe "Page", type: :feature, js: true do
         some content
       </span>
 
-      <br/>
-
       <span id="my_partial_with_param">
         content with param: foo
       </span>
-
-      <br/>
 
       <span id="my_partial_with_partial">
 
@@ -198,8 +192,6 @@ describe "Page", type: :feature, js: true do
     </div>
     HTML
 
-    p stripped(static_output)
-    p stripped(expected_static_output)
     expect(stripped(static_output)).to include(stripped(expected_static_output))
 
   end
@@ -226,9 +218,7 @@ describe "Page", type: :feature, js: true do
         components {
           div do
             partial :my_simple_partial
-            br
             partial :my_partial_with_param, "foo"
-            br
             partial :my_partial_with_partial
           end
         }
@@ -275,13 +265,9 @@ describe "Page", type: :feature, js: true do
         some content
       </span>
 
-      <br/>
-
       <span id="my_partial_with_param">
         content with param: foo
       </span>
-
-      <br/>
 
       <span id="my_partial_with_partial">
 
@@ -317,7 +303,6 @@ describe "Page", type: :feature, js: true do
         components {
           div id: "my-component" do
             slot options[:my_first_slot]
-            br
             slot options[:my_second_slot]
           end
         }
@@ -380,7 +365,6 @@ describe "Page", type: :feature, js: true do
         <span id="my_simple_slot">
           some content
         </span>
-        <br/>
         <span id="my_simple_slot">
           foo from page
         </span>
