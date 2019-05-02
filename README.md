@@ -220,7 +220,7 @@ Scheduled for 0.7.0:
 
 ### Community
 
-TODO: Gitter
+As a low-barrier feedback channel for our early users, we have set up a Gitter chat that can be found here [here](https://gitter.im/basemate/community). You are very welcome to ask questions and send us feedback there!
 
 ### Contribution
 
