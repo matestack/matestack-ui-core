@@ -1,30 +1,30 @@
-require_relative "../../support/utils"
+require_relative '../../support/utils'
 include Utils
 
-describe "Section Component", type: :feature, js: true do
+describe 'Section Component', type: :feature, js: true do
 
-  it "Example 1" do
+  it 'Example 1' do
 
     class ExamplePage < Page::Cell::Page
 
       def response
         components {
-          nav id: "my-id", class: "my-class" do
-            plain "Hello World" #optional content
+          section id: 'my-id', class: 'my-class' do
+            plain 'Hello World' #optional content
           end
         }
       end
 
     end
 
-    visit "/example"
+    visit '/example'
 
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <nav id="my-id" class="my-class">
+    <section id="my-id" class="my-class">
       Hello World
-    </nav>
+    </section>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
