@@ -198,7 +198,8 @@ describe "Page", type: :feature, js: true do
     </div>
     HTML
 
-
+    p stripped(static_output)
+    p stripped(expected_static_output)
     expect(stripped(static_output)).to include(stripped(expected_static_output))
 
   end
