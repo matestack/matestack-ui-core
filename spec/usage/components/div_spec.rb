@@ -26,7 +26,6 @@ describe "Div Component", type: :feature, js: true do
 
     visit "/example"
 
-
     static_output = page.html
 
     expected_static_output = <<~HTML

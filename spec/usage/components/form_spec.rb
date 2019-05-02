@@ -14,7 +14,6 @@ class TestController < ActionController::Base
 
 end
 
-
 describe "Form Component", type: :feature, js: true do
 
   before :all do
