@@ -4,7 +4,7 @@
 
 ![matestack logo](./logo.png)
 
-# Matestack: Escape the frontend hustle
+# matestack: Escape the frontend hustle
 
 ## Create maintainable, dynamic and beautiful UIs easily
 
