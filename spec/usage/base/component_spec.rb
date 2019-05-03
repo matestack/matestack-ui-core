@@ -465,7 +465,6 @@ describe "Component", type: :feature, js: true do
           components {
             div id: "my-component" do
               slot @options[:my_first_slot]
-              br
               slot @options[:my_second_slot]
             end
           }
@@ -516,7 +515,6 @@ describe "Component", type: :feature, js: true do
           <span id="my_simple_slot">
             some content
           </span>
-          <br/>
           <span id="my_simple_slot">
             foo from page
           </span>
@@ -568,9 +566,7 @@ describe "Component", type: :feature, js: true do
           components {
             div id: "my-other-component" do
               slot @options[:slots][:my_slot_from_component]
-              br
               slot @options[:slots][:my_slot_from_page]
-              br
               plain @foo
             end
           }
@@ -613,11 +609,9 @@ describe "Component", type: :feature, js: true do
               <span id="my-slot-from-component">
                 foo from component
               </span>
-              <br/>
               <span id="my-slot-from-page">
                 foo from page
               </span>
-              <br/>
               foo from other component
             </div>
           </div>
