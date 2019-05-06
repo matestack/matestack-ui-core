@@ -210,6 +210,7 @@ Changelog can be found [here](./CHANGELOG.md)
 ### Roadmap
 
 Scheduled for 0.7.0:
+- Better naming conventions
 - Webpacker/Yarn Integration
 - Advanced Websockets Integration
 - 1:n Relations in Form components
