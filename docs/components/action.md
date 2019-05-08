@@ -1,3 +1,445 @@
 # matestack core component: Action
 
 Show [specs](../../spec/usage/components/action_spec.rb)
+
+The action component allows us to trigger async/AJAX requests!
+
+## Parameters
+
+The core action component accepts the following parameters:
+
+### Method
+
+This specifies which kind of HTTP method should get triggered. It accepts a symbol like so:
+
+```ruby
+method: :post
+```
+
+### Path
+
+This parameter accepts a classic Rails path, usually in the form of a symbol like so:
+
+```ruby
+path: :action_test_path
+```
+
+### Params
+
+Using the standard Rails params, we can pass information to our route!
+
+### Data
+
+Here, we can pass data with our request, e.g. in the form of a hash:
+
+```ruby
+data: {
+  foo: 'bar'
+}
+```
+
+### Success
+
+The success part of the action component gets triggered once the action we wanted to perform returns a success code, usually the `200` HTTP status code.
+
+To trigger further behavior, we can configure the success part of an action to emit a message like so:
+
+```ruby
+success: {
+  emit: 'my_action_success'
+}
+```
+
+We can also perform a transition that only gets triggered on success and also accepts further params:
+
+```ruby
+success: {
+  emit: 'my_action_success',
+  transition: {
+    path: :action_test_page2_path,
+    params: { id: 42 }
+  }
+}
+```
+
+### Failure
+
+As counterpart to the success part of the action component, there is also the possibility to define the failure behavior. This is what gets triggered after the response to our action returns a failure code, usually in the range of `400` or `500` HTTP status codes.
+
+To trigger further behavior, we can configure the failure part of an action to emit a message like so:
+
+```ruby
+failure: {
+  emit: 'my_action_failure'
+}
+```
+
+We can also perform a transition that only gets triggered on failure:
+
+```ruby
+failure: {
+  emit: 'my_action_failure',
+  transition: {
+    path: :root_path
+  }
+}
+```
+
+### Notify
+
+Not in use right now.
+
+## Examples
+
+See two common use cases below:
+
+### Example 1 - Async request with payload
+
+First, make sure our routes accept requests the way we want to use them!
+
+```ruby
+Rails.application.routes.append do
+  post '/action_test', to: 'action_test#test', as: 'action_test'
+end
+Rails.application.reload_routes!
+```
+
+After that, you can specify an action on our example page. Notice how we wrap a button to have something visible to click and trigger the action!
+
+```ruby
+class ExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      # our action component wraps a simple button
+      action action_config do
+        button text: 'Click me!'
+      end
+    }
+  end
+
+  # this is where our action is defined
+  def action_config
+    return {
+      method: :post,
+      path: :action_test_path,
+      data: {
+        foo: 'bar'
+      }
+    }
+  end
+
+end
+```
+
+In this case, the `ActionTestController` receives `:foo => 'bar'` in the params.
+
+### Example 2: Async request with URL param
+
+Instead of sending _raw_ data, we can also explicitly pass params to a route. Like before, we open up the route we intend to use:
+
+```ruby
+Rails.application.routes.append do
+  post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param'
+end
+Rails.application.reload_routes!
+```
+
+And on the example page, we specify our action component's behavior:
+
+```ruby
+class ExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      # our action component again wraps a button
+      action action_config do
+        button text: 'Click me!'
+      end
+    }
+  end
+
+  def action_config
+    return {
+      method: :post,
+      path: :action_test_with_url_param_path,
+      params: {
+        id: 42
+      }
+    }
+  end
+
+end
+```
+
+This example simply sends the param `:id => '42'` to the route we have defined!
+
+### Example 3: Success/Failure Behavior
+
+In this example, we examine different cases on how to handle success/failure scenarios.
+
+Again, we look at our routes beforehand. This time, we define two different endpoints.
+
+```ruby
+Rails.application.routes.append do
+  post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test'
+  post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test'
+end
+Rails.application.reload_routes!
+end
+```
+
+Let's also take a look at the `app/controllers/action_test_controller.rb` to see what the endpoints do:
+
+```ruby
+class ActionTestController < TestController
+
+  def success_test
+    render json: { message: 'server says: good job!' }, status: 200
+  end
+
+  def failure_test
+    render json: { message: 'server says: something went wrong!' }, status: 400
+  end
+
+end
+```
+
+### Example 3.1: Async request with success event emit used for rerendering
+
+Below, we define an action component and an async component. The async component is documented [here](./async.md),
+so for us it's just important that it waits for our `action_config` success message and will get rerendered.
+
+```ruby
+class ExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      # this is our action component
+      action action_config do
+        button text: 'Click me!'
+      end
+      # here, we have an async component gets rerendered on action success
+      async rerender_on: 'my_action_success' do
+        div id: 'my-div' do
+          plain "#{DateTime.now.strftime('%Q')}"
+        end
+      end
+    }
+  end
+
+  def action_config
+    return {
+      method: :post,
+      path: :success_action_test_path,
+      success: {
+        emit: 'my_action_success'
+      }
+    }
+  end
+
+end
+```
+
+Now, if we click the button and everything goes well (which should be the case in this very simple example), we can see the timestamp gets updated - nice!
+
+### Example 3.2: Async request with success event emit used for notification
+
+In this example, we will show a message that gets triggered once the controller returns a status code of `200`
+
+```ruby
+class ExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      # same configuration as before
+      action action_config do
+        button text: 'Click me!'
+      end
+      # different async behavior
+      async show_on: 'my_action_success', hide_after: 300 do
+        plain '{{event.data.message}}'
+      end
+    }
+  end
+
+  def action_config
+    return {
+      method: :post,
+      path: :success_action_test_path,
+      success: {
+        emit: 'my_action_success'
+      }
+    }
+  end
+
+end  
+```
+
+This time, after clicking our action component we should see the `good job!` message that was initially hidden and disappears again after 300ms.
+
+### Example 3.3: Async request with failure event emit used for notification
+
+In the examples before, we always assumed (and made sure) that things went well. Now, it's the first time to use the `failure_action_test_path` to see how we can notify the user if things go wrong!
+
+```ruby
+class ExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      # our good old action including a button
+      action action_config do
+        button text: 'Click me!'
+      end
+      # success message, initially hidden and removed after 300ms
+      async show_on: 'my_action_success', hide_after: 300 do
+        plain '{{event.data.message}}'
+      end
+      # failure message, initially hidden and removed after 300ms
+      async show_on: 'my_action_failure', hide_after: 300 do
+        plain '{{event.data.message}}'
+      end
+    }
+  end
+
+  def action_config
+    return {
+      method: :post,
+      # notice that we post to the failure path on purpose to receive a status code of 500
+      path: :failure_action_test_path,
+      success: {
+        emit: 'my_action_success'
+      },
+      failure: {
+        emit: 'my_action_failure'
+      }
+    }
+  end
+
+end
+```
+
+Now, clicking the button shows the failure message - just as we expected it to!
+
+### Example 3.4: Async request with success event emit used for transition
+
+Unlike before, we will use the action component to trigger a page transition!
+
+Again, we start by defining our routes:
+
+```ruby
+Rails.application.routes.append do
+  scope :action_test do
+    get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
+    get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
+  end
+end
+Rails.application.reload_routes!
+```
+
+Our example app layout, already including placeholders for success/failure notifications:
+
+```ruby
+class Apps::ExampleApp < App::Cell::App
+
+  def response
+    components {
+      heading size: 1, text: 'My Example App Layout'
+      main do
+        page_content
+      end
+      async show_on: 'my_action_success', hide_after: 300 do
+        plain '{{event.data.message}}'
+      end
+      async show_on: 'my_action_failure', hide_after: 300 do
+        plain '{{event.data.message}}'
+      end
+    }
+  end
+
+end
+```
+
+To make a transition from one page to the other work, we need to make both of them available in our controller:
+
+```ruby
+class ExampleAppPagesController < ExampleController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def page1
+    responder_for(Pages::ExampleApp::ExamplePage)
+  end
+
+  def page2
+    responder_for(Pages::ExampleApp::SecondExamplePage)
+  end
+
+end
+```
+
+The first page, including an action component that performs a page transition to page 2 on success!
+
+```ruby
+class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      heading size: 2, text: 'This is Page 1'
+      action action_config do
+        button text: 'Click me!'
+      end
+    }
+  end
+
+  def action_config
+    return {
+      method: :post,
+      path: :success_action_test_path,
+      success: {
+        emit: 'my_action_success',
+        transition: {
+          path: :action_test_page2_path,
+          params: { id: 42 }
+        }
+      }
+    }
+  end
+
+end
+```
+
+The second page, including an action that shows us the failure message we defined in the controller and then transfers us back to page 1.
+
+```ruby
+class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+
+  def response
+    components {
+      heading size: 2, text: 'This is Page 2'
+      action action_config do
+        button text: 'Click me!'
+      end
+    }
+  end
+
+  def action_config
+    return {
+      method: :post,
+      path: :failure_action_test_path,
+      failure: {
+        emit: 'my_action_failure',
+        transition: {
+          path: :action_test_page1_path
+        }
+      }
+    }
+  end
+
+end
+```
+
+Now, we can visit `localhost:3000/action_test/page1` and see our first page, shown by the `This is Page 1` text.
+
+There, we can click on our button (`Click me!`) and get transfered to the second page. There, we see the `This is Page 2` text and, for 300ms, our `server says: good job!` success message. Neat!
+
+If we click the button (`Click me!`) on the second page, we get the failure message (`server says: something went wrong!`) and get sent back to page 2, just as we wanted to.
