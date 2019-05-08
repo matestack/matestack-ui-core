@@ -1,9 +1,10 @@
 [![CircleCI](https://circleci.com/gh/basemate/matestack-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/basemate/matestack-ui-core/tree/master)
 [![Gitter](https://badges.gitter.im/basemate/community.svg)](https://gitter.im/basemate/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
 
 ![matestack logo](./logo.png)
 
-# Matestack: Escape the frontend hustle
+# matestack: Escape the frontend hustle
 
 ## Create maintainable, dynamic and beautiful UIs easily
 
@@ -220,7 +221,7 @@ Scheduled for 0.7.0:
 
 ### Community
 
-TODO: Gitter
+As a low-barrier feedback channel for our early users, we have set up a Gitter chat that can be found [here](https://gitter.im/basemate/community). You are very welcome to ask questions and send us feedback there!
 
 ### Contribution
 

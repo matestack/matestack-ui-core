@@ -81,7 +81,7 @@ describe "Async Component", type: :feature, js: true do
     Rails.application.reload_routes!
 
     visit "/async_specs/in_app/example"
-    
+
     element = page.find("#my-div")
     before_content = element.text
 
@@ -169,7 +169,7 @@ describe "Async Component", type: :feature, js: true do
 
   end
 
-  it "Example 4 -show on event with event payload" do
+  it "Example 4: show on event with event payload" do
 
     class ExamplePage < Page::Cell::Page
 

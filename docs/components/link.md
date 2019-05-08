@@ -6,7 +6,7 @@ This component is used to either navigate within your matestack application or t
 
 ## Parameters
 
-This component create a `<a>`-tag and expects a mandatory path input and optional options parameters.
+This component creates an `<a>`-tag and expects a mandatory path input and optional options parameters.
 
 #### # path
 If the path input is a **string** it creates a link to the outside web.
@@ -33,7 +33,7 @@ This example renders a simple link within a `<div`-tag
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://matestack.io", text: "Here"
+  link path: "https://matestack.org", text: "Here"
 end
 ```
 
@@ -41,7 +41,7 @@ and returns
 
 ```html
 <div id="foo" class="bar">
-  <a href="https://matestack.io">Here</a>
+  <a href="https://matestack.org">Here</a>
 </div>
 ```
 
@@ -50,7 +50,7 @@ This example renders a link without a specific link-text, so it wraps the rest o
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://matestack.io" do
+  link path: "https://matestack.org" do
     plain "Here"
   end
 end
@@ -60,7 +60,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a href="https://matestack.io">Here</a>
+  <a href="https://matestack.org">Here</a>
 </div>
 ```
 
@@ -69,7 +69,7 @@ This example renders a link around a div and the link opens in a new tab.
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://matestack.io", target: "_blank" do
+  link path: "https://matestack.org", target: "_blank" do
     div do
       plain "Here"
     end
@@ -81,7 +81,7 @@ returns
 
 ```html
 <div id="foo" class="bar">
-  <a target="_blank" href="https://matestack.io">
+  <a target="_blank" href="https://matestack.org">
     <div>Here</div>
   </a>
 </div>
