@@ -2,7 +2,7 @@
 
 Show [specs](../../spec/usage/components/async_spec.rb)
 
-The async component allows us to ...!
+As the name suggests, the async component allows us to let our components behave asynchronously!
 
 ## Parameters
 
@@ -10,34 +10,50 @@ The core async component accepts the following parameters:
 
 ### Rerender_on
 
-Lalala
+The `rerender_on` option lets us define an event on which the component gets rerendered.
 
 ```ruby
-method: :post
+async rerender_on: 'my_event' do
+  div id: 'my-div' do
+    plain "#{DateTime.now.strftime('%Q')}"
+  end
+end
 ```
 
 ### Show_on
 
-Lalala
+The `show_on` option lets us define an event on which the component gets shown.
 
 ```ruby
-method: :post
+async show_on: 'my_event' do
+  div id: 'my-div' do
+    plain 'I was not here before the event'
+  end
+end
 ```
 
 ### Hide_on
 
-Lalala
+The `hide_on` option lets us define an event on which the component gets hidden.
 
 ```ruby
-method: :post
+async hide_on: 'my_event' do
+  div id: 'my-div' do
+    plain 'You will not see me after the event'
+  end
+end
 ```
 
 ### Hide_after
 
-Lalala
+The `hide_after` option lets us define a timespan after which the component gets hidden.
 
 ```ruby
-method: :post
+async hide_after: 1000 do
+  div id: 'my-div' do
+    plain 'I will be hidden after 1000ms'
+  end
+end
 ```
 
 ## Examples
@@ -75,8 +91,8 @@ class ExamplePage < Page::Cell::Page
 
   def response
     components {
-      async show_on: "my_event" do
-        div id: "my-div" do
+      async show_on: 'my_event' do
+        div id: 'my-div' do
           plain "#{DateTime.now.strftime('%Q')}"
         end
       end
@@ -97,8 +113,8 @@ class ExamplePage < Page::Cell::Page
 
   def response
     components {
-      async hide_on: "my_event" do
-        div id: "my-div" do
+      async hide_on: 'my_event' do
+        div id: 'my-div' do
           plain "#{DateTime.now.strftime('%Q')}"
         end
       end
@@ -119,8 +135,8 @@ class ExamplePage < Page::Cell::Page
 
   def response
     components {
-      async show_on: "my_event", hide_after: 1000 do
-        div id: "my-div" do
+      async show_on: 'my_event', hide_after: 1000 do
+        div id: 'my-div' do
           plain "#{DateTime.now.strftime('%Q')}"
         end
       end
@@ -141,8 +157,8 @@ class ExamplePage < Page::Cell::Page
 
   def response
     components {
-      async show_on: "my_event" do
-        div id: "my-div" do
+      async show_on: 'my_event' do
+        div id: 'my-div' do
           plain "{{event.data.message}}"
         end
       end
