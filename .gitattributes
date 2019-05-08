@@ -1,4 +1,8 @@
-spec/dummy/public/* linguist-vendored
-spec/dummy/app/views/* linguist-vendored
 builder/app/views/* linguist-vendored
 builder/public/* linguist-vendored
+spec/dummy/app/views/* linguist-vendored
+spec/dummy/public/* linguist-vendored
+vendor/* linguist-vendored
+
+docs/* linguist-documentation
+coverage/* linguist-documentation
