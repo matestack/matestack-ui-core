@@ -1,0 +1,4 @@
+spec/dummy/public/* linguist-vendored
+spec/dummy/app/views/* linguist-vendored
+builder/app/views/* linguist-vendored
+builder/public/* linguist-vendored
