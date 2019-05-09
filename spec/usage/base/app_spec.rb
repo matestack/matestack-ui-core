@@ -56,7 +56,6 @@ describe "App", type: :feature, js: true do
 
     end
 
-
     class ExampleAppPagesController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
@@ -79,7 +78,6 @@ describe "App", type: :feature, js: true do
 
     expect(page).to have_xpath('//div[@class="matestack_app"]/h1[contains(.,"My Example App Layout")]')
     expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page"]/div/div[@class="matestack_page_content"]/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
-
 
   end
 
@@ -158,12 +156,10 @@ describe "App", type: :feature, js: true do
     expect(page).to have_xpath('//div[@class="matestack_app"]/h1[contains(.,"My Example App Layout")]')
     expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page"]/div/div[@class="matestack_page_content"]/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
 
-
   end
 
   it "can navigate back using browser history"
 
   it "just uses serverside routes, which works standalone"
-
 
 end

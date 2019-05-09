@@ -14,7 +14,6 @@ class TestController < ActionController::Base
 
 end
 
-
 describe "Form Component", type: :feature, js: true do
 
   before :all do
@@ -152,7 +151,6 @@ describe "Form Component", type: :feature, js: true do
     expect(find_field("my-test-input").value).to eq ""
 
   end
-
 
   it "Example 2 - Async submit request with success event" do
 
@@ -729,7 +727,6 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-
         class ExamplePage < Page::Cell::Page
 
           def prepare
@@ -784,7 +781,6 @@ describe "Form Component", type: :feature, js: true do
           enum status: { active: 0, archived: 1 }
 
         end
-
 
         class ExamplePage < Page::Cell::Page
 
@@ -842,7 +838,6 @@ describe "Form Component", type: :feature, js: true do
           validates :status, presence: true
 
         end
-
 
         class ExamplePage < Page::Cell::Page
 
@@ -989,7 +984,6 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-
         class ExamplePage < Page::Cell::Page
 
           def prepare
@@ -1032,7 +1026,6 @@ describe "Form Component", type: :feature, js: true do
         click_button "Submit me!"
         expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
 
-
         check "Hash Option 2"
         check "Hash Option 1"
         check "Array Option 1"
@@ -1041,7 +1034,7 @@ describe "Form Component", type: :feature, js: true do
 
         expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
 
-        #form should now be resetted
+        #form should now be reset
         expect(page).to have_field('Array Option 1', checked: false)
         expect(page).to have_field('Array Option 2', checked: true)
         expect(page).to have_field('Hash Option 1', checked: false)
@@ -1053,7 +1046,6 @@ describe "Form Component", type: :feature, js: true do
       end
 
       it "can have a label"
-
 
     end
 
@@ -1153,7 +1145,6 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-
         class ExamplePage < Page::Cell::Page
 
           def prepare
@@ -1208,7 +1199,6 @@ describe "Form Component", type: :feature, js: true do
           enum status: [ :active, :archived ]
 
         end
-
 
         class ExamplePage < Page::Cell::Page
 
@@ -1265,7 +1255,6 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-
         class ExamplePage < Page::Cell::Page
 
           def prepare
@@ -1313,14 +1302,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "can have a label"
 
-
     end
-
-
-
-
-
   end
-
 
 end

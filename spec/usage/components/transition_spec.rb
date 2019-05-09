@@ -113,5 +113,4 @@ describe "Transition Component", type: :feature, js: true do
     expect(first_content_on_page_1).not_to eq(refreshed_content_on_page_1)
   end
 
-
 end
