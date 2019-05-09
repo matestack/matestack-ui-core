@@ -6,7 +6,7 @@ As the name suggests, the async component allows us to let our components behave
 
 ## Parameters
 
-The core async component accepts the following parameters:
+The async core component accepts the following parameters:
 
 ### Rerender_on
 
@@ -58,7 +58,7 @@ end
 
 ## Examples
 
-See two common use cases below:
+See some common use cases below:
 
 ### Example 1 - Rerender on event
 
@@ -124,7 +124,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-As expected, the timestamp only is hidden _after_ our event was fired!
+As expected, the timestamp is only visible _before_ our event was fired and is hidden/invisible _after_ the event!
 
 ### Example 4: Hide after show on event
 

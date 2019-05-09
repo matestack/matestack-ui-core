@@ -2,7 +2,7 @@
 
 Show [specs](../../spec/usage/components/action_spec.rb)
 
-The action component allows us to trigger async/AJAX requests!
+The action component allows us to trigger HTTP requests!
 
 ## Parameters
 
@@ -91,17 +91,14 @@ Not in use right now.
 
 ## Examples
 
-See two common use cases below:
+See some common use cases for the action core component below:
 
 ### Example 1 - Async request with payload
 
-First, make sure our routes accept requests the way we want to use them!
+First, make sure our routes accept requests the way we want to use them.  Modify them in `config/routes.rb`
 
 ```ruby
-Rails.application.routes.append do
-  post '/action_test', to: 'action_test#test', as: 'action_test'
-end
-Rails.application.reload_routes!
+post '/action_test', to: 'action_test#test', as: 'action_test'
 ```
 
 After that, you can specify an action on our example page. Notice how we wrap a button to have something visible to click and trigger the action!
@@ -136,13 +133,10 @@ In this case, the `ActionTestController` receives `:foo => 'bar'` in the params.
 
 ### Example 2: Async request with URL param
 
-Instead of sending _raw_ data, we can also explicitly pass params to a route. Like before, we open up the route we intend to use:
+Instead of sending _raw_ data, we can also explicitly pass params to a route. Like in the example above, we open up the route we intend to use in `config/routes.rb`:
 
 ```ruby
-Rails.application.routes.append do
-  post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param'
-end
-Rails.application.reload_routes!
+post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param'
 ```
 
 And on the example page, we specify our action component's behavior:
@@ -176,17 +170,13 @@ This example simply sends the param `:id => '42'` to the route we have defined!
 
 ### Example 3: Success/Failure Behavior
 
-In this example, we examine different cases on how to handle success/failure scenarios.
+Now, we examine different cases on how to handle success/failure scenarios.
 
-Again, we look at our routes beforehand. This time, we define two different endpoints.
+Again, we look at our routes beforehand. This time, we define two different endpoints in `config/routes.rb`:
 
 ```ruby
-Rails.application.routes.append do
-  post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test'
-  post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test'
-end
-Rails.application.reload_routes!
-end
+post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test'
+post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test'
 ```
 
 Let's also take a look at the `app/controllers/action_test_controller.rb` to see what the endpoints do:
@@ -208,7 +198,7 @@ end
 ### Example 3.1: Async request with success event emit used for rerendering
 
 Below, we define an action component and an async component. The async component is documented [here](./async.md),
-so for us it's just important that it waits for our `action_config` success message and will get rerendered.
+for now it is just important that it waits for our `action_config` success message and will get re-rendered.
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -219,7 +209,7 @@ class ExamplePage < Page::Cell::Page
       action action_config do
         button text: 'Click me!'
       end
-      # here, we have an async component gets rerendered on action success
+      # here, we have an async component gets re-rendered on action success
       async rerender_on: 'my_action_success' do
         div id: 'my-div' do
           plain "#{DateTime.now.strftime('%Q')}"
@@ -245,7 +235,7 @@ Now, if we click the button and everything goes well (which should be the case i
 
 ### Example 3.2: Async request with success event emit used for notification
 
-In this example, we will show a message that gets triggered once the controller returns a status code of `200`
+In this example, we will show a message that gets triggered once the controller returns a status code of `200`:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -325,16 +315,13 @@ Now, clicking the button shows the failure message - just as we expected it to!
 
 Unlike before, we will use the action component to trigger a page transition!
 
-Again, we start by defining our routes:
+Again, we start by defining our routes in `config/routes.rb`:
 
 ```ruby
-Rails.application.routes.append do
-  scope :action_test do
-    get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
-    get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
-  end
+scope :action_test do
+  get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
+  get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
 end
-Rails.application.reload_routes!
 ```
 
 Our example app layout, already including placeholders for success/failure notifications:

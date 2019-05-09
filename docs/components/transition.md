@@ -36,14 +36,11 @@ The transition core component renders the HTML `<a>` tag and performs a page tra
 
 ### Example 1: Perform transition from one page to another without full page reload
 
-First, we define our routes and the corresponding endpoints in our example controller:
+First, we define our routes (`config/routes.rb`) and the corresponding endpoints in our example controller:
 
 ```ruby
-Rails.application.routes.append do
-  get 'my_example_app/page1', to: 'example_app_pages#page1', as: 'page1'
-  get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
-end
-Rails.application.reload_routes!
+get 'my_example_app/page1', to: 'example_app_pages#page1', as: 'page1'
+get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
 ```
 
 ```ruby
