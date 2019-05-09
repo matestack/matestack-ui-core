@@ -1,7 +1,7 @@
 require_relative '../../support/utils'
 include Utils
 
-describe 'Section Component', type: :feature, js: true do
+describe 'Absolute Component', type: :feature, js: true do
 
   it 'Example 1' do
 
@@ -9,8 +9,8 @@ describe 'Section Component', type: :feature, js: true do
 
       def response
         components {
-          section id: 'my-id', class: 'my-class' do
-            plain 'Hello World' #optional content
+          absolute top: 50, left: 50, right: 50, bottom: 100, z: 3 do
+            plain 'I am absolute content'
           end
         }
       end
@@ -22,9 +22,7 @@ describe 'Section Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <section id="my-id" class="my-class">
-      Hello World
-    </section>
+    <div style="position: absolute; top: 50px; left: 50px; right: 50px; bottom: 100px; z-index: 3;">I am absolute content</div>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))

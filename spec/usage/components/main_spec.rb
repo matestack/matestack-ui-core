@@ -1,23 +1,23 @@
-require_relative "../../support/utils"
+require_relative '../../support/utils'
 include Utils
 
-describe "Main Component", type: :feature, js: true do
+describe 'Main Component', type: :feature, js: true do
 
-  it "Example 1" do
+  it 'Example 1' do
 
     class ExamplePage < Page::Cell::Page
 
       def response
         components {
-          main id: "my-id", class: "my-class" do
-            plain "Hello World" #optional content
+          main id: 'my-id', class: 'my-class' do
+            plain 'Hello World' #optional content
           end
         }
       end
 
     end
 
-    visit "/example"
+    visit '/example'
 
     static_output = page.html
 
