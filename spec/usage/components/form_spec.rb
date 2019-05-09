@@ -1300,6 +1300,116 @@ describe "Form Component", type: :feature, js: true do
 
       end
 
+      it "can be mapped to Active Record Model Errors - string options[:for] version" do
+
+        Object.send(:remove_const, :TestModel)
+
+        class TestModel < ApplicationRecord
+
+          enum status: { active: 0, archived: 1 }
+
+        end
+
+        class ExamplePage < Page::Cell::Page
+
+          def prepare
+            @test_model = TestModel.new
+            @test_model.status = "active"
+          end
+
+          def response
+            components {
+              form form_config, :include do
+                form_input id: "description", key: :description, type: :text
+                # TODO: Provide better Enum Options API
+                form_select id: "status", key: :status, type: :radio, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
+                form_submit do
+                  button text: "Submit me!"
+                end
+              end
+            }
+          end
+
+          def form_config
+            return {
+              for: 'test_model',
+              method: :post,
+              path: :model_form_test_path
+            }
+          end
+
+        end
+
+        visit "/example"
+
+        value = "#{DateTime.now}"
+
+        expect(page).to have_field('active', checked: true)
+        fill_in "description", with: value
+        choose('archived')
+        click_button "Submit me!"
+        expect(page).to have_field('active', checked: true)
+        expect(page).to have_field("description", with: "")
+        expect(TestModel.last.description).to eq(value)
+        expect(TestModel.last.status).to eq("archived")
+
+      end
+
+      it "can be mapped to Active Record Model Errors - symbol options[:for] version" do
+
+        Object.send(:remove_const, :TestModel)
+
+        class TestModel < ApplicationRecord
+
+          enum status: { active: 0, archived: 1 }
+
+        end
+
+        class ExamplePage < Page::Cell::Page
+
+          def prepare
+            @test_model = TestModel.new
+            @test_model.status = "active"
+          end
+
+          def response
+            components {
+              form form_config, :include do
+                form_input id: "description", key: :description, type: :text
+                # TODO: Provide better Enum Options API
+                form_select id: "status", key: :status, type: :radio, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
+                form_submit do
+                  button text: "Submit me!"
+                end
+              end
+            }
+          end
+
+          def form_config
+            return {
+              for: :test_model,
+              method: :post,
+              path: :model_form_test_path
+            }
+          end
+
+        end
+
+        visit "/example"
+
+        value = "#{DateTime.now}"
+
+        expect(page).to have_field('active', checked: true)
+        fill_in "description", with: value
+        choose('archived')
+        click_button "Submit me!"
+        expect(page).to have_field('active', checked: true)
+        expect(page).to have_field("description", with: "")
+        expect(TestModel.last.description).to eq(value)
+        expect(TestModel.last.status).to eq("archived")
+
+      end
+
       it "can have a label"
 
     end
