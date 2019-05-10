@@ -1,8 +1,8 @@
 - if options[:text].nil?
-  %td{"class": options[:class], "id": component_id}
+  %td{@tag_attributes}
     - if block_given?
       = yield
 
 - else
-  %td{"class": options[:class], "id": component_id}
+  %td{@tag_attributes}
     = options[:text]

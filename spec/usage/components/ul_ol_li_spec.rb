@@ -17,7 +17,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
           end
 
           # advanced unordered list
-          ul id: 'custom-unordered-list' do
+          ul id: 'custom-unordered-list', class: 'custom-list' do
             li class: 'inline-li-element', text: 'I am inline text'
             li class: 'yield-li-element' do
               plain 'I am yielded plain'
@@ -42,7 +42,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
       <li>I am simple!</li>
     </ul>
 
-    <ul id="custom-unordered-list">
+    <ul id="custom-unordered-list" class="custom-list">
       <li class="inline-li-element">I am inline text</li>
       <li class="yield-li-element">I am yielded plain</li>
       <li class="inline-li-element">I am inline text</li>
@@ -66,7 +66,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
           end
 
           # advanced ordered list
-          ol id: 'custom-ordered-list' do
+          ol id: 'custom-ordered-list', class: 'custom-list' do
             li class: 'inline-li-element', text: 'I am inline text'
             li class: 'yield-li-element' do
               plain 'I am yielded plain'
@@ -91,7 +91,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
       <li>I am simple!</li>
     </ol>
 
-    <ol id="custom-ordered-list">
+    <ol id="custom-ordered-list" class="custom-list">
       <li class="inline-li-element">I am inline text</li>
       <li class="yield-li-element">I am yielded plain</li>
       <li class="inline-li-element">I am inline text</li>
