@@ -165,10 +165,10 @@ As expected, it will get rendered into
 
 ### Custom components in your own Matestack project
 
-To create a custom component, simply create it in your `app/matestack/component` folder like so: `my_component/cell/my_component.rb`.
+To create a custom component, simply create it in your `app/matestack/components` folder like so: `my_component/cell/my_component.rb`.
 
 ```ruby
-class MyComponent::Cell::MyComponent < Component::Cell::Static
+class Components::MyComponent::Cell::MyComponent < Component::Cell::Static
 
   def response
     components {
@@ -316,16 +316,6 @@ class ExamplePage < Page::Cell::Page
 
   def response
     components {
-      #async rerendering is only needed in this test as we define the
-      #vue.js component after initial page load
-      async rerender_on: "refresh" do
-        partial :relevant_part
-      end
-    }
-  end
-
-  def relevant_part
-    partial {
       div id: "div-on-page" do
         dynamic_component
       end
