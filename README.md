@@ -19,6 +19,10 @@ matestack can progressively replace the classic Rails-View-Layer. You are able t
 it alongside your classic views and incrementally turn your Rails-App into a
 dynamic Web-App.
 
+### Installation:
+
+Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](./docs/install)
+
 ### Features:
 
 #### Define your UI in a Ruby Class
