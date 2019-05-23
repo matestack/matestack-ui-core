@@ -299,48 +299,6 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "static component can get options[:dynamic] to turn them into anonymous dynamic components" do
-
-      class ExamplePage < Page::Cell::Page
-
-        def response
-          components {
-            div id: "div-on-page", dynamic: true do
-              pg id: "my-component", text: 'I am feeling a little dynamic today!'
-            end
-          }
-        end
-
-      end
-
-      visit "/component_test"
-
-      static_output = page.html
-
-      # this is what chrome page source gives me
-      expected_static_output = <<~HTML
-      <component :component-config='{"id":"div-on-page","dynamic":true,"component_key":"div_1","origin_url":"/component_test"}' :params='{}' inline-template is='anonym-dynamic-component-cell' ref='div-on-page'>
-        <div>
-          <div v-if=\"asyncTemplate == null\">
-            <div id="div-on-page">
-              <p id="my-component">I am feeling a little dynamic today!</p>
-            </div>
-          </div>
-          <div v-if="asyncTemplate != null">
-            <v-runtime-template :template="asyncTemplate"></v-runtime-template>
-          </div>
-        </div>
-      </component>
-      HTML
-
-      # this does not work
-      #  expect(stripped(static_output)).to include(stripped(expected_static_output))
-
-      # this does work as expected
-      expect(page).to have_xpath('//div[@id="div-on-page"]/p[@id="my-component" and contains(.,"I am feeling a little dynamic today!")]')
-
-    end
-
     it "components can render dynamic content with vue.js involved if inherit from 'Component::Cell::Dynamic'" do
 
       class Dynamic::Cell::Component < Component::Cell::Dynamic
