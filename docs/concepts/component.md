@@ -33,7 +33,7 @@ end
 and add it to the response part of an Example Page that lives somewhere in `app/matestack/pages/example_app/example_page.rb`
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -94,7 +94,7 @@ end
 then add both components to the response part of the Example Page in `app/matestack/pages/example_app/example_page.rb`
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
    def response
      components {
@@ -149,7 +149,7 @@ end
 and add it to the response part of the Example Page (`app/matestack/pages/example_app/example_page.rb`, remember?) via *downcased reference*
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -200,7 +200,7 @@ end
 and add it to the Example Page, wrapping it into an *async component* to make it *dynamic*! The *async component* is a core component and therefore does not need a *custom_* prefix.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -260,7 +260,7 @@ MatestackUiCore.Vue.component('dynamic-component-cell', {
 Add the dynamic component to an example page the same way it is done with static components:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -314,7 +314,7 @@ end
 On the example page, directly pass the options to the static component as shown below:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def prepare
     @hello = "hello!"
@@ -364,7 +364,7 @@ end
 Notice that this example *does not* pass the required option to the component on the example page, provoking an error message:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -418,7 +418,7 @@ end
 Passing arguments for those slots on the example page works very similar to the options introduced above:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def prepare
     @foo = "foo from page"
@@ -527,7 +527,7 @@ end
 Then, put both components to use on the example page:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def prepare
     @foo = "foo from page"
@@ -595,7 +595,7 @@ end
 Pass a block to a component on the page as shown below:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def prepare
     @foo = "foo from page"
@@ -655,7 +655,7 @@ end
 As everything is already defined in the component, calling the `custom_static_component` on the example page is all there is to do:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -715,7 +715,7 @@ end
 Then reference the component on the example page as before:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -761,7 +761,7 @@ end
 Just make sure to pass an argument on the example page:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -810,7 +810,7 @@ Use a prepare method to resolve data before rendering a component!
 In this example, the `@some_data` overwrites the `"foo from page"`-string passed on the example page:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
@@ -856,7 +856,7 @@ end
 On the example page, reference the component as usual.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Page::Cell::Page
 
   def response
     components {
