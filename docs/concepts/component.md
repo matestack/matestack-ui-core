@@ -2,15 +2,19 @@
 
 Show [specs](../../spec/usage/base/component_spec.rb)
 
-A component allows you to define reusable UI elements.
+A component is used to define reusable UI elements. This documentation enables anyone to write custom components that live within a Rails application. All custom components need a *prefixed 'custom_'* to be referenced within the `app/matestack/` folder in a Rails application.
+
+To extend the available core components, feel free to fork this repo and create them within the `app/concepts` folder, analogous to the existing core components.
+
+In the beginning, static components are introduced. Later, dynamic components follow by integrating Vue.js. After that, all the configuration options for Matestack components get explained!  
 
 ## Static components
 
-In the beginning, we will ony use static components. Later, we introduce dynamic components that integrate Vue.js!
+All static components inherit from the `Component::Cell::Static` class and get rendered without any javascript involved.
 
 ### A simple static component
 
-Define the component in `component1/cell/component1.rb`
+Define the component in `app/matestack/components/component1/cell/component1.rb` like so
 
 ```ruby
 class Component1::Cell::Component1 < Component::Cell::Static
@@ -26,7 +30,7 @@ class Component1::Cell::Component1 < Component::Cell::Static
 end
 ```
 
-and add it to the response part of our Example Page
+and add it to the response part of an Example Page that lives somewhere in `app/matestack/pages/example_app/example_page.rb`
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -34,8 +38,8 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        # below is our component
-        component1
+        # below is the reference to the custom component
+        custom_component1
       end
     }
   end
@@ -55,14 +59,14 @@ This will get rendered into
 
 ### Multiple components may live in one namespace
 
-Define the first component in `namespace1/cell/component1.rb`
+Define the first component in `app/matestack/components/namespace1/cell/component1.rb`
 
 ```ruby
 class Namespace1::Cell::Component1 < Component::Cell::Static
 
   def response
     components {
-      div id: "my-component" do
+      div class: "my-component" do
         plain "I'm a static component!"
       end
     }
@@ -71,15 +75,15 @@ class Namespace1::Cell::Component1 < Component::Cell::Static
 end
 ```
 
-Define the second component in `namespace1/cell/component2.rb`
+and define a second component in the same namespace: `app/matestack/components/namespace1/cell/component2.rb`
 
 ```ruby
 class Namespace1::Cell::Component2 < Component::Cell::Static
 
   def response
     components {
-      div id: "my-component-2" do
-        plain "I'm a static component!"
+      div class: "my-component-2" do
+        plain "I'm a second custom static component!"
       end
     }
   end
@@ -87,7 +91,7 @@ class Namespace1::Cell::Component2 < Component::Cell::Static
 end
 ```
 
-and add both components to the response part of our Example Page
+then add both components to the response part of the Example Page in `app/matestack/pages/example_app/example_page.rb`
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -95,31 +99,38 @@ class ExamplePage < Page::Cell::Page
    def response
      components {
        div id: "div-on-page" do
-         namespace1_component1
-         namespace1_component2
+         custom_namespace1
+         custom_namespace1_component1
+         custom_namespace1_component2
        end
      }
    end
 
 end
-```
+```  
 
-As expected, it will get rendered into
+Noticed that `Namespace1::Cell::Component1` gets referenced twice?
+As namespace and component name are the same, the component name may be skipped!
+The output looks like this:
 
 ```html
 <div id="div-on-page">
-  <div id="my-component-1">
+  <div class="my-component-1">
     I'm a static component!
   </div>
-  <div id="my-component-2">
+  <div class="my-component-1">
     I'm a static component!
+  </div>
+  <div class="my-component-2">
+    I'm a second custom static component!
   </div>
 </div>
 ```
 
 ### Camelcased module or class names
 
-Those are referenced with their downcased counterpart! As an example, we define the camelcased component in `my_component/cell/my_component.rb`
+Components named in camelcase  are referenced to with their downcased counterpart!
+As an example, define the camelcased component in `app/matestack/components/my_component/cell/my_component.rb`
 
 ```ruby
 class MyComponent::Cell::MyComponent < Component::Cell::Static
@@ -135,7 +146,7 @@ class MyComponent::Cell::MyComponent < Component::Cell::Static
 end
 ```
 
-and add it to the response part of our Example Page via *downcased reference*
+and add it to the response part of the Example Page (`app/matestack/pages/example_app/example_page.rb`, remember?) via *downcased reference*
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -143,9 +154,9 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        # notice we do not reference our component as my_component
-        # as this would refer to My::Cell::Component
-        myComponent
+        # if my_component was called, this would refer to My::Cell::Component
+        # and woulnd't deliver the desired outcome
+        custom_myComponent
       end
     }
   end
@@ -163,78 +174,13 @@ As expected, it will get rendered into
 </div>
 ```
 
-### Custom components in your own Matestack project
-
-To create a custom component, simply create it in your `app/matestack/components` folder like so: `my_component/cell/my_component.rb`.
-
-```ruby
-class Components::MyComponent::Cell::MyComponent < Component::Cell::Static
-
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a static component!"
-      end
-    }
-  end
-
-end
-```
-
-We will also create another custom component in the same namespace: `app/matestack/components/my_component/cell/my_second_component.rb`
-
-```ruby
-class Components::MyComponent::Cell::MySecondComponent < Component::Cell::Static
-
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a second custom static component!"
-      end
-    }
-  end
-
-end
-```
-
-Now, we add both to our example page using a *prefixed 'custom_'* to reference them!
-
-```ruby
-class ExamplePage < Page::Cell::Page
-
-  def response
-    components {
-      div id: "div-on-page" do
-        custom_myComponent
-        custom_myComponent_mySecondComponent
-      end
-    }
-  end
-
-end
-```
-
-Notice how, if namespace and component name are the same, can skip adding the component name for the first custom component! The output looks like this:
-
-```html
-<div id="div-on-page">
-  <div id="my-component-1">
-    I'm a static component!
-  </div>
-  <div id="my-component-2">
-    I'm a second custom static component!
-  </div>
-</div>
-```
-
 ## Dynamic components
 
-So far, we have only used static components. All components that inherit from 'Component::Cell::Static'" get rendered without any javascript involved.
+So far, all custom components were static ones. Reminder: All components that inherit from `Component::Cell::Static` get rendered without any javascript involved. But static components can also be wrapped inside dynamic components to create, well, dynamic behavior!
 
+### Async wrapper to add basic dynamic behavior
 
-### Async wrappers to add basic dynamic behavior
-
-We create a custom *static* component in `app/matestack/components/static/cell/component.rb`
+Create a custom *static* component in `app/matestack/components/static/cell/component.rb`
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -251,7 +197,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-and add it to our example page, wrapping it into an *async event* to make it *dynamic*!
+and add it to the Example Page, wrapping it into an *async component* to make it *dynamic*! The *async component* is a core component and therefore does not need a *custom_* prefix.
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -260,7 +206,7 @@ class ExamplePage < Page::Cell::Page
     components {
       div id: "div-on-page" do
         async rerender_on: "my_event" do
-          static_component
+          custom_static_component
         end
       end
     }
@@ -269,11 +215,14 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-Now, the page will respond with the basic static content, but the custom component (visible by looking at the timestamp) will get rerendered on every instance of *"my_event"*. Awesome!
+Now, the page will respond with static content, but gets rerendered (visible by looking at the timestamp) whenever *"my_event"* happens. Awesome!
 
 ### Dynamic content with integrated Vue.js
 
-We create a custom dynamic component in `app/matestack/components/dynamic/cell/component.rb`. Notice that we inherit from *a different class* than before: 'Component::Cell::Dynamic'
+To create a custom dynamic component, create an associated file such as `app/matestack/components/dynamic/cell/component.rb`.
+
+
+In contrast to static components that inherit from `Component::Cell::Static`, a custom dynamic component inherits from *a different class*, `Component::Cell::Dynamic`:
 
 ```ruby
 class Dynamic::Cell::Component < Component::Cell::Dynamic
@@ -281,8 +230,7 @@ class Dynamic::Cell::Component < Component::Cell::Dynamic
   def response
     components {
       div id: "my-component" do
-        plain "I'm a fancy dynamic component!"
-        plain "{{dynamic_value}}"
+        plain "I'm a fancy dynamic component! Call me {{dynamic_value}}!"
       end
     }
   end
@@ -290,7 +238,7 @@ class Dynamic::Cell::Component < Component::Cell::Dynamic
 end
 ```
 
-The JavaScript part is defined in `app/matestack/components/dynamic/js/component.js`
+The JavaScript part is defined in `app/matestack/components/dynamic/js/component.js` as a Vue.js component:
 
 ```javascript
 MatestackUiCore.Vue.component('dynamic-component-cell', {
@@ -309,7 +257,7 @@ MatestackUiCore.Vue.component('dynamic-component-cell', {
 });
 ```
 
-We add the dynamic component to our example page as usual:
+Add the dynamic component to an example page the same way it is done with static components:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -317,7 +265,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        dynamic_component
+        custom_dynamic_component
       end
     }
   end
@@ -325,13 +273,12 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-On initial pageload, this is the HTML we're receiving:
+On initial pageload, this is the HTML received:
 
 ```html
 <div id="div-on-page">
   <div id="my-component">
-    I'm a fancy dynamic component!
-    foo
+    I'm a fancy dynamic component! Call me foo!
   </div>
 </div>
 ```
@@ -340,15 +287,15 @@ And after 300ms, *foo* changes into *bar* dynamically - magic!
 
 ## Component configuration
 
-Below, we give an overview of the various possibilities Matestack gives you with your components!
+See below for an overview of the various possibilities Matestack provides for component configuration, both for custom and core components!
 
 ### Passing options to components
 
-By passing options to your component, they get even more useful and flexible!
+By passing options to a component, they get very flexible and can take various input, e.g. *i18n* strings or *instance variables*!
 
 #### Passing options as a hash
 
-As before, we create our component in it's respective file:
+As before, create a component in it's respective file, in this case `app/matestack/components/static/cell/component.rb`:
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -364,7 +311,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-On our example page, we directly pass the options to our static component as shown below:
+On the example page, directly pass the options to the static component as shown below:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -376,7 +323,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_component some_option: @hello, some_other: { option: "world!" }
+        custom_static_component some_option: @hello, some_other: { option: "world!" }
       end
     }
   end
@@ -396,7 +343,7 @@ The outcome is quite as expected:
 
 #### Introducing required options
 
-This feature is pretty straightforward - just declare your options as required key in the component config!
+This feature is pretty straightforward - just declare the options as a required key in the component config!
 
 ```ruby
 class Static::Cell::SpecialComponent < Component::Cell::Static
@@ -414,7 +361,7 @@ class Static::Cell::SpecialComponent < Component::Cell::Static
 end
 ```
 
-Notice that we *do not* pass the required option to our component on the example page:
+Notice that this example *does not* pass the required option to the component on the example page, provoking an error message:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -422,7 +369,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_specialComponent some_other: { option: "world!" }
+        custom_static_specialComponent some_other: { option: "world!" }
       end
     }
   end
@@ -430,10 +377,10 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-Which leads to an error message:
+The error message looks like this:
 
 ```html
-"div > static_specialComponent > required key 'some_option' is missing"
+"div > custom_static_specialComponent > required key 'some_option' is missing"
 ```
 
 #### Options validation
@@ -442,11 +389,11 @@ Coming soon, stay tuned!
 
 ### Create even more flexible components using slots
 
-Similar to named slots in Vue.js, slots in Matestack allow you to create useful placeholders.
+Similar to named slots in Vue.js, slots in Matestack allow for useful placeholders.
 
 #### Slots on the page instance scope
 
-We define our slots within the component file as shown below:
+Define the slots within the component file as shown below:
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -468,7 +415,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-Then, we can pass arguments for those slots on the example page. This is similar to how options work.
+Passing arguments for those slots on the example page works very similar to the options introduced above:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -480,7 +427,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div do
-        static_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
+        custom_static_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
       end
     }
   end
@@ -522,7 +469,7 @@ This gets rendered into HTML as shown below. Notice that the `@foo` from the com
 
 #### Using slots of components within components
 
-To use `component instance scope slots`, first we define slots within a static component:
+To use *component instance scope slots*, first define slots within a static component:
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -577,7 +524,7 @@ class Static::Cell::OtherComponent < Component::Cell::Static
 end
 ```
 
-Then, we put both components to use on our example page:
+Then, put both components to use on the example page:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -589,7 +536,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "page-div" do
-        static_component my_slot_from_page: my_slot_from_page
+        custom_static_component my_slot_from_page: my_slot_from_page
       end
     }
   end
@@ -629,7 +576,7 @@ This may seem complicated at first, but it can provide valuable freedom of confi
 
 ### Yielding inside components
 
-Components can yield a block with access to scope, where a block is defined. This works like *yield* usually works in Ruby. But make sure to explicitly call *'yield_components'* within your component configuration!
+Components can yield a block with access to scope, where a block is defined. This works the way *yield* usually works in Ruby. But make sure to explicitly call *'yield_components'* within the component configuration!
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -645,7 +592,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-Pass a block to your component on the page as shown below:
+Pass a block to a component on the page as shown below:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -657,7 +604,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_component do
+        custom_static_component do
           plain @foo
         end
       end
@@ -667,7 +614,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-Not too fancy of an example, but this is the result:
+Not a fancy example, but this is the result:
 
 ```html
 <div id="div-on-page">
@@ -679,11 +626,11 @@ Not too fancy of an example, but this is the result:
 
 ### Partials
 
-Use partials to keep your code dry and indentation layers manageable!
+Use partials to keep the code dry and indentation layers manageable!
 
 #### Local partials on component level
 
-Define your component. This time, we will also define a partial in addition to the response.
+In the component definition, see how this time from inside the response, the `my_partial` method below is called:
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -705,7 +652,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-As everything we need is already defined in the component, we can simply use it on our example page:
+As everything is already defined in the component, calling the `custom_static_component` on the example page is all there is to do:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -713,7 +660,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_component
+        custom_static_component
       end
     }
   end
@@ -721,7 +668,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-The outcome is our usual, boring HTML response. Continue below the HTML snippet for more exciting example of partial usage!
+The outcome is the usual, boring HTML response. Below the HTML snippet, a more exciting example of partial usage is waiting!
 
 ```html
 <div id="div-on-page">
@@ -733,7 +680,7 @@ The outcome is our usual, boring HTML response. Continue below the HTML snippet 
 
 #### Modules: Partials on steriods!
 
-Extract code snippets to modules for an even better project structure. Fist, create a module:
+Extract code snippets to modules for an even better project structure. First, create a module:
 
 ```ruby
 module MySharedPartials
@@ -747,7 +694,7 @@ module MySharedPartials
 end
 ```
 
-Include the module in your component as shown below:
+Include the module in the component created in `app/matestack/components/component/cell/static.rb` as shown below:
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -765,7 +712,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-Use the component on the example page as we've done before:
+Then reference the component on the example page as before:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -773,7 +720,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_component
+        custom_static_component
       end
     }
   end
@@ -781,7 +728,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-We may have seen the output before, but have you noticed that the component configuration reads much nicer?!
+The output is unspectacular in this example, but more complex codebases will greatly benefit from this configuration option!
 
 ```html
 <div id="div-on-page">
@@ -811,7 +758,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-Just make sure to pass one on the example page:
+Just make sure to pass an argument on the example page:
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -819,7 +766,8 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_component "foo from page"
+        # simply pass a string here
+        custom_static_component "foo from page"
       end
     }
   end
@@ -827,7 +775,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-No miracle to find here, just what we expected!
+No miracle to find here, just what was expected!
 
 ```html
 <div id="div-on-page">
@@ -875,7 +823,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-This is the HTMl we receive:
+This is the HTMl which gets created:
 
 ```html
 <div id="div-on-page">
@@ -885,11 +833,11 @@ This is the HTMl we receive:
 </div>
 ```
 
-The prepare method comes in handy if you want to read from the database or want to modify content before displaying it!
+The prepare method comes in handy to read from the database or to modify content before displaying it!
 
 ### Request Access
 
-A component can also access request informations, e.g. by reading the `@url_params`. We do this in our component defined below:
+A component can also access request information, e.g. by reading the `@url_params`. Do this in the component defined below:
 
 ```ruby
 class Static::Cell::Component < Component::Cell::Static
@@ -905,7 +853,7 @@ class Static::Cell::Component < Component::Cell::Static
 end
 ```
 
-On our example page, we then use the component as usual.
+On the example page, reference the component as usual.
 
 ```ruby
 class ExamplePage < Page::Cell::Page
@@ -913,7 +861,7 @@ class ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        static_component "foo from page"
+        custom_static_component "foo from page"
       end
     }
   end
@@ -921,7 +869,7 @@ class ExamplePage < Page::Cell::Page
 end
 ```
 
-Now if we visit our component, e.g. via `/component_test?foo=bar`, the component reads the `[:foo]` from the params and displays it like so:
+Now, visiting the respective route to the page, e.g. via `/component_test?foo=bar`, the component reads the `[:foo]` from the params and displays it like so:
 
 ```html
 <div id="div-on-page">
