@@ -11,7 +11,7 @@ Other case: You plan to built something that you think should be part of the Mat
 
 ## Documentation
 
-Documentation can be found in the /docs folder. Please make sure to cover basic use cases of your concepts & components for other users!
+Documentation can be found in the `/docs` folder. Please make sure to cover basic use cases of your concepts & components for other users!
 Feel free to take a look at other examples and copy their structure!
 
 Note: We will not approve pull requests that introduce new concepts or components without documentation. Same goes for existing concepts & components.
@@ -19,15 +19,13 @@ If you change the behavior of an existing part of this project, make sure to als
 
 ## Tests
 
-To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in /spec folder and can be executed by running:
+To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
 
 ```shell
 bundle exec rspec
 ```
 
-Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with tests will not be approved.
-
-CircleCI is integrated and gets triggered when new commits get pushed on master branch.
+Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
 
 ## Release
 
