@@ -1,7 +1,7 @@
 require_relative '../../support/utils'
 include Utils
 
-describe 'Section Component', type: :feature, js: true do
+describe 'Progress Component', type: :feature, js: true do
 
   it 'Example 1' do
 
@@ -9,9 +9,10 @@ describe 'Section Component', type: :feature, js: true do
 
       def response
         components {
-          section id: 'my-id', class: 'my-class' do
-            plain 'Hello World' #optional content
-          end
+          # simple progress bar
+          progress value: 75, max: 100
+          # enhanced progress bar
+          progress id: 'my-id', class: 'my-class', value: 33, max: 330
         }
       end
 
@@ -22,9 +23,8 @@ describe 'Section Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <section id="my-id" class="my-class">
-      Hello World
-    </section>
+    <progress max="100" value="75"></progress>
+    <progress id="my-id" max="330" value="33" class="my-class"></progress>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
