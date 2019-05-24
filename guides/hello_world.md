@@ -96,4 +96,4 @@ Even though we have only seen static content in this hello world example, you ma
 
 ## Next steps
 
-Feel invited to check the [other guides](./guides/) for more complex examples or fork our [example application]() to start playing around yourself!
+Feel invited to check the [other guides](./guides/) for more complex examples or fork our [example application](https://github.com/basemate/matestack-example-application) to start playing around yourself!
