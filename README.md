@@ -57,10 +57,10 @@ class Apps::MyApp < App::Cell::App
       end
       nav do
         transition path: :my_first_page_path do
-          button "Page 1"
+          button text: "Page 1"
         end
         transition path: :my_second_page_path do
-          button "Page 2"
+          button text: "Page 2"
         end
       end
       main do
