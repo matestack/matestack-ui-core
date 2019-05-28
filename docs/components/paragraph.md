@@ -1,6 +1,6 @@
-# matestack core component: Pg
+# matestack core component: Paragraph
 
-Show [specs](../../spec/usage/components/pg_spec.rb)
+Show [specs](../../spec/usage/components/paragraph_spec.rb)
 
 The HTML `<p>` tag implemented in ruby. This is a workaround because the single `p` is the short version of `puts` in ruby.
 
@@ -22,7 +22,7 @@ Specifying the text directly
 
 ```ruby
 div id: "foo", class: "bar" do
-  pg text: "Hello World"
+  paragraph text: "Hello World"
 end
 ```
 
@@ -39,7 +39,7 @@ Rendering a content block between the `<p>` tags
 
 ```ruby
 div id: "foo", class: "bar" do
-  pg do
+  paragraph do
     plain "Hello World"
   end
 end
@@ -57,7 +57,7 @@ returns
 Rendering a `<span>` tag into `<p>` tags
 
 ```ruby
-pg id: "foo", class: "bar" do
+paragraph id: "foo", class: "bar" do
   span do
     plain "Hello World"
   end

@@ -10,10 +10,10 @@ describe 'Paragraph Component', type: :feature, js: true do
       def response
         components {
           # simple paragraph
-          pg text: 'I am simple'
+          paragraph text: 'I am simple'
 
           # enhanced paragraph
-          pg id: 'my-id', class: 'my-class' do
+          paragraph id: 'my-id', class: 'my-class' do
             plain 'I am enhanced'
           end
         }

@@ -534,7 +534,7 @@ describe "Action Component", type: :feature, js: true do
       def response
         components {
           heading size: 2, text: "This is Page 2"
-          pg text: 'You made it!'
+          paragraph text: 'You made it!'
         }
       end
 
