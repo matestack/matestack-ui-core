@@ -386,6 +386,33 @@ describe "Action Component", type: :feature, js: true do
 
   end
 
+  it 'accepts class and id attributes and returns them as the corresponding HTML attributes' do
+
+    class ExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          id: 'action-id',
+          class: 'action-class'
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).to have_css('a#action-id.action-class')
+
+  end
+
   it 'action_path: passing path as a string (not recommended)' do
 
     Rails.application.routes.append do

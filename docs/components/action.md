@@ -85,6 +85,34 @@ failure: {
 }
 ```
 
+### ID (optional)
+
+This parameter accepts a string of ids that the action component should have:
+
+```ruby
+id: 'my-action-id'
+```
+
+which renders as an HTML `id` attribute, like so:
+
+```html
+<a id="my-action-id">...</a>
+```
+
+### Class (optional)
+
+This parameter accepts a string of classes that the action component should have:
+
+```ruby
+class: 'my-action-class'
+```
+
+which renders as an HTML `class` attribute, like so:
+
+```html
+<a class="my-action-class">...</a>
+```
+
 ### Notify
 
 Not in use right now.
