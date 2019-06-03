@@ -32,7 +32,7 @@ returns
 ```
 
 ## Example 2
-Rendering a content block between the `<p>` tags
+Adding an optional class
 
 ```ruby
 div id: "foo", class: "bar" do
