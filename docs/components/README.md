@@ -12,6 +12,7 @@ You can build your [own components](../extend/custom_components.md) as well, eit
 - [nav](./nav,md)
 - [section](./section.md)
 - [br](./br.md)
+- [hr](./hr.md)
 - [heading](./heading.md)
 - [plain](./plain.md)
 - [pg](./pg.md)
