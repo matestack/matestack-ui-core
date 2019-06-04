@@ -16,7 +16,7 @@ describe 'Footer Component', type: :feature, js: true do
 
           # advanced footer tag
           footer id: 'my-unique-footer', class: 'awesome-footer' do
-            pg class: 'footer-text', text: 'hello world!'
+            paragraph class: 'footer-text', text: 'hello world!'
           end
         }
       end

@@ -10,7 +10,7 @@ describe 'Time Component', type: :feature, js: true do
       def response
         components {
           # simple time tag
-          pg do
+          paragraph do
             plain 'This should show '
             time class: 'my-simple-time' do
               plain '12:00'
@@ -18,7 +18,7 @@ describe 'Time Component', type: :feature, js: true do
           end
 
           # time tag with timestamp
-          pg id: 'my-parent-paragraph' do
+          paragraph id: 'my-parent-paragraph' do
             plain 'Today is '
             time id: 'example-timestamp', datetime: DateTime.new(2019,2,12,10,38,39,'+02:00') do
               plain 'July 7'
