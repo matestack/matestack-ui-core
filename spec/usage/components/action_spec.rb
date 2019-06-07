@@ -386,4 +386,237 @@ describe "Action Component", type: :feature, js: true do
 
   end
 
+  it 'accepts class and id attributes and returns them as the corresponding HTML attributes' do
+
+    class ExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          id: 'action-id',
+          class: 'action-class'
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).to have_css('a#action-id.action-class')
+
+  end
+
+  it 'action_path: passing path as a string (not recommended)' do
+
+    Rails.application.routes.append do
+      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param_and_string_route'
+    end
+    Rails.application.reload_routes!
+
+    class ExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: '/action_test/42'
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    click_button "Click me!"
+
+    expect_any_instance_of(ActionTestController).to receive(:expect_params)
+      .with(hash_including(:id => "42"))
+
+  end
+
+  # not working right now
+  # it 'action_path: passing no path and expecting an error' do
+  #
+  #   Rails.application.routes.append do
+  #     post '/action_test/:id', to: 'action_test#test', as: 'action_test_fail_route'
+  #   end
+  #   Rails.application.reload_routes!
+  #
+  #   class ExamplePage < Page::Cell::Page
+  #
+  #     def response
+  #       components {
+  #         action action_config do
+  #           button text: "Click me!"
+  #         end
+  #       }
+  #     end
+  #
+  #     def action_config
+  #       return {
+  #         method: :post,
+  #         action_path: nil
+  #       }
+  #     end
+  #
+  #   end
+  #
+  #   visit "/example"
+  #
+  #   click_button "Click me!"
+  #
+  #   # this is somewhat not happening
+  #   expect(page).to have_content("Action path not found")
+  #
+  # end
+
+  it 'transition_path: passing path as a string (not recommended)' do
+
+    class ActionTestController < TestController
+      def success_test
+        render json: { message: "server says: good job!" }, status: 200
+      end
+    end
+
+    Rails.application.routes.append do
+      post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test_string'
+      scope :action_test do
+        get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1_string'
+        get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2_string'
+      end
+    end
+    Rails.application.reload_routes!
+
+    class ExampleAppPagesController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def page1
+        responder_for(Pages::ExampleApp::ExamplePage)
+      end
+
+      def page2
+        responder_for(Pages::ExampleApp::SecondExamplePage)
+      end
+
+    end
+
+    class Apps::ExampleApp < App::Cell::App
+
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+        }
+      end
+
+    end
+
+    module Pages::ExampleApp
+    end
+
+    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 1"
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :success_action_test_string_path,
+          success: {
+            emit: "my_action_success",
+            transition: {
+              path: 'page2/42'
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 2"
+          paragraph text: 'You made it!'
+        }
+      end
+
+    end
+
+    visit "action_test/page1"
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_content("This is Page 1")
+    expect(page).not_to have_content("This is Page 2")
+
+    click_button "Click me!"
+
+    expect(page).to have_content("My Example App Layout")
+
+    expect(page).not_to have_content("This is Page 1")
+    expect(page).to have_content("This is Page 2")
+    expect(page).to have_content("You made it!")
+
+  end
+
+  # not working right now
+  # it 'transition_path: passing no path and expecting an error' do
+  #
+  #   Rails.application.routes.append do
+  #     post '/action_test/:id', to: 'action_test#test', as: 'action_test_fail_route'
+  #   end
+  #   Rails.application.reload_routes!
+  #
+  #   class ExamplePage < Page::Cell::Page
+  #
+  #     def response
+  #       components {
+  #         action action_config do
+  #           button text: "Click me!"
+  #         end
+  #       }
+  #     end
+  #
+  #     def action_config
+  #       return {
+  #         method: :post,
+  #         action_path: nil
+  #       }
+  #     end
+  #
+  #   end
+  #
+  #   visit "/example"
+  #
+  #   click_button "Click me!"
+  #
+  #   # this is somewhat not happening
+  #   expect(page).to have_content("Action path not found")
+  #
+  # end
+
 end

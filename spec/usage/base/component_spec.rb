@@ -232,7 +232,6 @@ describe "Component", type: :feature, js: true do
 
       end
 
-
       class ExamplePage < Page::Cell::Page
 
         def response
@@ -268,7 +267,6 @@ describe "Component", type: :feature, js: true do
 
       end
 
-
       class ExamplePage < Page::Cell::Page
 
         def response
@@ -292,14 +290,12 @@ describe "Component", type: :feature, js: true do
 
       page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
-
       expect(page).to have_xpath('//div[@id="div-on-page"]/div/div/div/div[@id="my-component" and contains(.,"I\'m a static component!")]')
 
       element = page.find("#my-component")
       after_content = element.text
 
       expect(before_content).not_to eq(after_content)
-
 
     end
 
@@ -336,7 +332,6 @@ describe "Component", type: :feature, js: true do
         });
 
       javascript
-
 
       class ExamplePage < Page::Cell::Page
 
@@ -393,13 +388,16 @@ describe "Component", type: :feature, js: true do
 
       end
 
-
       class ExamplePage < Page::Cell::Page
+
+        def prepare
+          @hello = "hello!"
+        end
 
         def response
           components {
             div id: "div-on-page" do
-              static_component some_option: "hello!", some_other: { option: "world!" }
+              static_component some_option: @hello, some_other: { option: "world!" }
             end
           }
         end
@@ -427,7 +425,6 @@ describe "Component", type: :feature, js: true do
         end
 
       end
-
 
       class ExamplePage < Page::Cell::Page
 
@@ -469,7 +466,6 @@ describe "Component", type: :feature, js: true do
             end
           }
         end
-
 
       end
 
@@ -526,7 +522,9 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "a component can fill slots of components with access to comoponent instance scope" do
+    # todo: Add test to check if placeholder from component works on page if no slot input is defined there
+
+    it "a component can fill slots of components with access to component instance scope" do
 
       class Static::Cell::Component < Component::Cell::Static
 
@@ -552,7 +550,6 @@ describe "Component", type: :feature, js: true do
             end
           }
         end
-
 
       end
 
@@ -640,7 +637,6 @@ describe "Component", type: :feature, js: true do
 
       end
 
-
       class ExamplePage < Page::Cell::Page
 
         def prepare
@@ -689,7 +685,6 @@ describe "Component", type: :feature, js: true do
 
       end
 
-
       class ExamplePage < Page::Cell::Page
 
         def response
@@ -708,7 +703,7 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "components can use partials form included modules to structure their response" do
+    it "components can use partials from included modules to structure their response" do
 
       module MySharedPartials
 
@@ -733,7 +728,6 @@ describe "Component", type: :feature, js: true do
         end
 
       end
-
 
       class ExamplePage < Page::Cell::Page
 
@@ -761,7 +755,6 @@ describe "Component", type: :feature, js: true do
 
       class Static::Cell::Component < Component::Cell::Static
 
-
         def response
           components {
             div id: "my-component" do
@@ -770,9 +763,7 @@ describe "Component", type: :feature, js: true do
           }
         end
 
-
       end
-
 
       class ExamplePage < Page::Cell::Page
 
@@ -790,7 +781,6 @@ describe "Component", type: :feature, js: true do
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"foo from page")]')
 
-
     end
 
   end
@@ -805,7 +795,6 @@ describe "Component", type: :feature, js: true do
           @some_data = "some data"
         end
 
-
         def response
           components {
             div id: "my-component" do
@@ -815,7 +804,6 @@ describe "Component", type: :feature, js: true do
         end
 
       end
-
 
       class ExamplePage < Page::Cell::Page
 
@@ -853,13 +841,12 @@ describe "Component", type: :feature, js: true do
 
       end
 
-
       class ExamplePage < Page::Cell::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component "foo from page"
+              static_component
             end
           }
         end

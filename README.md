@@ -19,6 +19,10 @@ matestack can progressively replace the classic Rails-View-Layer. You are able t
 it alongside your classic views and incrementally turn your Rails-App into a
 dynamic Web-App.
 
+### Installation:
+
+Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](./docs/install)
+
 ### Features:
 
 #### Define your UI in a Ruby Class
@@ -53,10 +57,10 @@ class Apps::MyApp < App::Cell::App
       end
       nav do
         transition path: :my_first_page_path do
-          button "Page 1"
+          button text: "Page 1"
         end
         transition path: :my_second_page_path do
-          button "Page 2"
+          button text: "Page 2"
         end
       end
       main do
@@ -210,6 +214,7 @@ Changelog can be found [here](./CHANGELOG.md)
 ### Roadmap
 
 Scheduled for 0.7.0:
+- Better naming conventions
 - Webpacker/Yarn Integration
 - Advanced Websockets Integration
 - 1:n Relations in Form components
@@ -217,7 +222,6 @@ Scheduled for 0.7.0:
 - Component Based Caching
 - Rails View Integration
 - Dockerized Core Development
-
 
 ### Community
 
