@@ -861,7 +861,7 @@ class Pages::ExamplePage < Page::Cell::Page
   def response
     components {
       div id: "div-on-page" do
-        custom_static_component "foo from page"
+        custom_static_component
       end
     }
   end

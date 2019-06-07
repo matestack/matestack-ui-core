@@ -846,7 +846,7 @@ describe "Component", type: :feature, js: true do
         def response
           components {
             div id: "div-on-page" do
-              static_component "foo from page"
+              static_component
             end
           }
         end
