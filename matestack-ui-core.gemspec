@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "matestack-ui-core"
   s.version     = Matestack::Ui::Core::VERSION
   s.authors     = ["Jonas Jabari", "Pascal Wengerter", "Christopher Bastert"]
-  s.email       = ["jonas@basemate.io", "pascal@basemate.io", "chris@basemate.io"]
+  s.email       = ["jonas@basemate.com", "pascal@basemate.com", "chris@basemate.com"]
   s.homepage    = "https://basemate.io"
   s.summary     = "Escape the frontend hustle. Create beautiful software easily. Use matestack."
   s.description = "We're replacing the original view-layer of Ruby on Rails, the most productive MVC framework we know, with our technology. By introducing matestack we get dynamic, fast and simple user interfaces without the need to touch HTML/HAML/ERB/JS/CSS. Plus, it feels like a single page application, but there's no need for all the API hustle SPAs usually bring with them."
