@@ -18,6 +18,11 @@ describe 'Br Component', type: :feature, js: true do
           plain 'hello'
           br times: 5
           plain 'world!'
+
+          # br tag with id and class
+          plain 'hello'
+          br id: 'my-br', class: 'fancy-br-class'
+          plain 'world!'
         }
       end
 
@@ -39,6 +44,10 @@ describe 'Br Component', type: :feature, js: true do
     <br>
     <br>
     world!
+
+    hello
+    <br id="my-br" class="fancy-br-class">
+    world!
     HTML
 
     expected_static_output_2 = <<~HTML
@@ -52,6 +61,10 @@ describe 'Br Component', type: :feature, js: true do
     <br/>
     <br/>
     <br/>
+    world!
+
+    hello
+    <br id="my-br" class="fancy-br-class">
     world!
     HTML
 

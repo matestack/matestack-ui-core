@@ -72,10 +72,10 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
 
       def response
         components {
-          table class: 'foo' do
-            tr class: 'bar' do
+          table id: 'my-table-component', class: 'foo' do
+            tr id: 'my-first-table-row', class: 'bar' do
               @users.each do |user|
-                th text: user
+                th class: 'user-cell', text: user
               end
             end
             tr do
@@ -108,12 +108,12 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <table class="foo">
+    <table id="my-table-component" class="foo">
       <tbody>
-        <tr class="bar">
-          <th>Jonas</th>
-          <th>Pascal</th>
-          <th>Chris</th>
+        <tr id="my-first-table-row" class="bar">
+          <th class="user-cell">Jonas</th>
+          <th class="user-cell">Pascal</th>
+          <th class="user-cell">Chris</th>
         </tr>
         <tr>
           <td>One</td>
