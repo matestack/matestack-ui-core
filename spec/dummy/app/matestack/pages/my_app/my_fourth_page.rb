@@ -9,16 +9,21 @@ class Pages::MyApp::MyFourthPage < Page::Cell::Page
       heading size: 2, text: "Dummy Model Form:"
       form my_form_config, :include do
         form_input key: :title, type: :text, placeholder: "title"
-        pg
+        br
+        br
         form_submit do
           button text: "Submit me!"
         end
       end
-      pg
+
+      br
+
       async show_on: "form_has_errors", hide_after: 5000 do
         plain "Data could not be submitted, please check form"
       end
-      pg
+
+      br
+
       async rerender_on: "form_succeeded" do
         heading size: 2, text: "Dummy Models:"
         ul do

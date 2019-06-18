@@ -6,13 +6,18 @@ class Pages::MyApp::MyThirdPage < Page::Cell::Page
         action my_action_config do
           button text: "Click me!"
         end
-        pg
+
+        br
+        br
+
         async rerender_on: "my_action_succeeded" do
           div id: "my-div" do
             plain DateTime.now.strftime("%Q")
           end
         end
-        pg
+
+        br
+
         async show_on: "my_action_succeeded", hide_after: 2000 do
           plain "action succeeded!"
         end
