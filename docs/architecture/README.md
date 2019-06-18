@@ -1,8 +1,8 @@
 # Architecture
 
-In this section we want to show you, how Matestack actually is implemented.
+In this section, we take a deep dive into how Matestack is implemented.
 
-**Matestacks core was developed while iterating concepts following the main goal to just make it work. The core is not yet well engineered. We're about to refactor the core asap.**
+**The Matestack core was developed while iterating concepts following the main goal of `just making it work`. Therefore, the core is not yet well engineered in some places. After we were happy with it working, we've spent quite some time writing tests to save the status quo, and now we're about to refactor the core.**
 
 Please refer to the [detailed architectural drawing](./matestack_rendering.png) while reading the following documentation.
 
@@ -36,7 +36,6 @@ class Apps::MyApp < App::Cell::App
       end
     }
   end
-
 
 end
 ```
@@ -77,17 +76,17 @@ end
 
 ### Trailblazer Cell
 
-Matestacks Pages, Components and Apps all inherits from base classes. These classes themselves inherit from [Trailblazers Cell](https://github.com/trailblazer/cells).
+Matestacks Pages, Components and Apps all inherit from their respective base classes. These classes themselves inherit from [Trailblazers Cell](https://github.com/trailblazer/cells).
 
-Alongside with many other advantages, this gives us the basic building blocks to render Ruby into HTML. Trailblazers Cells encourage you to create a Ruby class and a corresponding view template. Within this template you may call methods which are defined in the Cell and even nest more Cells.
+Alongside many other advantages, this gives us the basic building blocks to render Ruby into HTML. Trailblazers Cells encourage you to create a Ruby class and a corresponding view template. Within this template, you may call methods which are defined in the Cell and even nest more Cells.
 
-The Cell parses the template, executes Ruby methods and optionally calls the nested Cells rendering and finally returns an HTML string. The result is a serverside rendered static HTML output, just like what you would have got with classic Rails ERB/HAML/Slim. But with Trailblazers cells, you truly encapsulated parts of the UI and didn't build just one big template.
+The Cell parses the template, executes Ruby methods and optionally calls the nested Cells rendering and finally returns an HTML string. The result is a serverside rendered static HTML output, just like what you would have got with classic Rails ERB/HAML/Slim. But with Trailblazers cells, you truly encapsulated parts of the UI (making them test- and reusable) and don't just build one big template.
 
 Matestacks core is built on top of this rendering approach.
 
 ## Matestack Responder
 
-In order to enable Matestack rendering, the `responder_for` helper is used within a Rails controller action. This helper awaits a Page Cell class as first parameter. On every request, the helper instantiates the assigned Page Cell class and calls 'show' on the created instance.
+In order to enable Matestack rendering, the `responder_for` helper is used within a Rails controller action. This helper awaits a Page Cell class as first parameter. On every request, the helper instantiates the assigned Page Cell class and calls `show` on the created instance.
 
 ## Page Cell
 
@@ -97,7 +96,7 @@ The constructor of a Page Cell triggers following processes:
 
 #### Prepare
 
-If a prepare method is defined, the method gets executed. It might be used in order to set some instance variables, which can be used later on.
+If a prepare method is defined, the method gets executed first. It might be used to set instance variables, which can be used later on.
 
 #### Response
 
@@ -105,7 +104,7 @@ A Page Cell class always has a response method which gets called from the constr
 
 ##### Nodes
 
-The `components` method within the `response` method calls the `Node Builder` with a block. The `Node Builder` then generates the `@nodes` hash which represents all used Components.
+The `components` method within the `response` method calls the `Node Builder` with a block as an argument. The `Node Builder` then generates the `@nodes` hash which represents all used Components.
 
 - --> [Node Builder](#node-builder)
 
@@ -115,7 +114,7 @@ Each **top level** key of `@nodes` needs to be translated to a Component Cell in
 
 **a) lookup**
 
-In order to find the corresponding Cell class `Shared::Utils::ToCell` is used:
+In order to find the corresponding Cell class, `Shared::Utils::ToCell` is used:
 
 - --> [Component Lookup](#component-lookup)
 
@@ -129,15 +128,14 @@ All top-level nodes of a Page gets translated to a corresponding Component Cell 
 
 **Note**
 
-It is important to understand, where and when Cell instantiation is happening:
+It is important to understand where and when Cell instantiation is happening:
 
 1. a page Cell (like `Pages::MyApp::MyFirstPage`) gets instantiated when `responder_for(Pages::MyApp::MyFirstPage)` is called within a controller action
 2. the page Cell instance then instantiates all top-level nodes defined in its response method (in this case `div`)
-3. all now instantiated top-level cells from page, instantiate their top-level nodes if present (in this case `div` instantiates `plain` as its single top-level node)
+3. all now instantiated top-level cells from page, instantiate their top-level nodes if present (in this case, `div` instantiates `plain` as its single top-level node)
 4. and so on (in our example we're done, but it could go on like this)
 
-As we can see, a Page doesn't instantiate all components defined in its response method itself. It only takes care of its top-level nodes. That's why in our example the instance variable `@cells` of `Pages::MyPage` only contains a reference to the instance of `Div::Cell::Div` and `@cells` of the instance `Div::Cell::Div` only contains a reference to the instance of `Plain::Cell::Plain`
-
+As we can see, a Page doesn't instantiate all components defined in its response method itself. It only takes care of its top-level nodes. That's why, in our example, the instance variable `@cells` of `Pages::MyPage` only contains a reference to the instance of `Div::Cell::Div`, and `@cells` of the instance `Div::Cell::Div` only contains a reference to the instance of `Plain::Cell::Plain`.
 
 ### Page Rendering
 
@@ -145,7 +143,7 @@ After a Page Cell is instantiated, it can be rendered to HTML. The `show` method
 
 **a) with_app**
 
-This render_mode applies, if ALL following conditions are met:
+This `render_mode` applies if ALL of the following conditions are met:
 
 - Initial page load
   - the browser requests the route directly
@@ -160,18 +158,17 @@ The Page Rendering is therefore delegated to the corresponding App Cell instance
 - --> [App Instantiation](#app-instantiation)
 - --> [App Rendering](#app-rendering)
 
-
 **b) only_page**
 
-This render_mode applies, if ONE OF the following conditions are met:
+This `render_mode` applies if ONE OF the following conditions is met:
 
-- Explicit only_page request
+- Explicit `only_page` request
   - the page is requested with the query param: `only_page=true`
   - (these requests are used for dynamic transitions)
 - Page Cell is NOT related to an App Cell
   - --> `Pages::MyFirstPage` --> not related to an App Cell
 
-If one of the conditions are met, the page.haml template is used in order add some markup
+If one of the conditions is met, the page.haml template is used to add `div`-wrapper:
 
 ```HAML
 %div{class: "matestack_page_content"}
@@ -179,15 +176,15 @@ If one of the conditions are met, the page.haml template is used in order add so
     = cell.call(:show)
 ```
 
-and to iterate through all Component Cell instances stored in `@cells`, call show on each of them and render their response to HTML.
+The Page then iterates through all Component Cell instances stored in `@cells`, calls show on each of them and renders their response to HTML.
 
 - --> [Component Rendering](#component-rendering)
 
 **c) only_component**
 
-This render_mode applies, if the following condition is met:
+This `render_mode` applies if the following condition is met:
 
-- Explicit only_component request
+- Explicit request for **exactly one** component:
   - the page is requested with the query param: `component_key=xyz`
 
 If the Page is asked to only render one of its Components, the given `component_key` is used to find the corresponding node within the Pages `@nodes`. If found, the corresponding Component Cell is instantiated and ONLY this Cell is rendered:
@@ -196,37 +193,36 @@ If the Page is asked to only render one of its Components, the given `component_
 - --> [Component Instantiation](#component-instantiation)
 - --> [Component Rendering](#component-rendering)
 
-
 ## Component Cell
 
 ### Component Lookup
 
 Whenever `Shared::Utils::ToCell` is used to transform a node into a Cell, the corresponding Cell class is looked up in following order:
 
-1. custom components inside the projects `app/matestack/components` folder if component name is prefixed with "custom_"
-2. core components inside matestacks own `app/concepts` folder
-3. add-on components defined in other engines if no core component is found
+1. custom components inside the projects `app/matestack/components` folder (if component name is prefixed with "custom_")
+2. core components inside Matestack UI Core's own `app/concepts` folder
+3. add-on components defined in other engines (if no core component is found)
 
 While looking for the Cell classes, `Shared::Utils::ToCell` translates the string based component names (e.g. "form") to a class name following these rules:
 
-no namespace (underscore) used:
+Using no namespace (underscore):
 - `form` gets translated to `Form::Cell::Form`
 - `someComponent` gets translated to `SomeComponent::Cell::SomeComponent`
 
-(parent module and Cell class name are expected to be the same)
+(Parent module and Cell class name are expected to be the same)
 
-namespace (underscore) used:
+Using a namespace (underscore):
 - `form_input` gets translated to `Form::Cell::Input`
 - `someNamespace_someComponent` gets translated to `SomeNamespace::Cell::SomeComponent`
 
-(parent module and Cell class names are not expected to be the same)
+(Parent module and Cell class names are not expected to be the same)
 
-custom prefixed used;
+Using a prefixed `_custom`:
 - `custom_component` gets translated to `Components::Component::Cell::Component`
 - `custom_namespaced_component` gets translated to `Components::Namespaced::Cell::Component`
 - `custom_namespaced_someComponent` gets translated to `Components::Namespaced::Cell::SomeComponent`
 
-(parent module is `Components` as custom components live inside the `components` folder, all other rules still apply)
+(Parent module is `Components`, as custom components live inside the `components` folder. All the other rules still apply)
 
 ### Component Instantiation
 
@@ -234,7 +230,7 @@ The constructor of a Component Cell triggers following processes:
 
 #### Prepare
 
-If a prepare method is defined, the method gets executed. It might be used in order to set some instance variables, which can be used later on.
+If a prepare method is defined, the method gets executed. It might be used to set some instance variables, which can be used later on.
 
 #### Response
 
@@ -242,7 +238,7 @@ In contrast to a Page Cell class, a Component Cell class optionally may have a r
 
 **Note**
 
-It is important to realize that all basic core Components (div, span, ul, li etc...) don't use a response method in order to define their UI. They just use a template file as described here:
+It is important to realize that all basic core Components (div, span, ul, li etc...) **do not** use a response method to define their UI. They just use a template file as described here:
 
 - --> [Component Rendering](#component-rendering)
 
@@ -260,7 +256,7 @@ Each **top level** key of `@nodes` needs to be translated to a Component Cell in
 
 **a) lookup**
 
-In order to find the corresponding Cell class `Shared::Utils::ToCell` is used:
+To find the corresponding Cell class, `Shared::Utils::ToCell` is used:
 
 - --> [Component Lookup](#component-lookup)
 
@@ -270,11 +266,11 @@ If a Cell class is found, a new instance of this class is created:
 
 - --> [Component Instantiation](#component-instantiation)
 
-All top-level nodes of a Component gets translated to a corresponding Component Cell instance and stored in `@cells`
+All top-level nodes of a Component get translated to a corresponding Component Cell instance and stored in `@cells`.
 
 #### Children Cells
 
-In contrast to a Page or App, a Component may be called with a block:
+In contrast to a Page or an App, a Component may be called with a block:
 
 ```ruby
 class Pages::MyApp::MyFirstPage < Page::Cell::Page
@@ -292,7 +288,7 @@ class Pages::MyApp::MyFirstPage < Page::Cell::Page
 end
 ```
 
-As you can see in this example, the `div` Component is called with a block including the `plain` Component call. As a reminder: The Page Cell generated following `@nodes` hash out of the example `response`:
+As you can see in this example, the `div` Component is called with a block including the `plain` Component call. Under the hood, the Page Cell generates following `@nodes` hash out of the example's `response`:
 
 ```ruby
 {
@@ -309,14 +305,14 @@ As you can see in this example, the `div` Component is called with a block inclu
         "component_name"=>"plain",
         "config"=>{},
         "included_config"=>nil,
-        "argument"=>"Hello World"
+        "argument"=>"Page 1"
       }
     }
   }
 }
 ```
 
-The Page Cell then iterates through all top-level nodes and calls the `to_cell` process for each node and injects the corresponding value hash, which means that `div` got instatiated with the value hash
+The Page Cell then iterates through all top-level nodes and calls the `to_cell` process for each node and injects the corresponding value hash, which means that our `div` gets instatiated with the value hash:
 
 ```ruby
 {
@@ -332,11 +328,12 @@ The Page Cell then iterates through all top-level nodes and calls the `to_cell` 
       "component_name"=>"plain",
       "config"=>{},
       "included_config"=>nil,
-      "argument"=>"Hello World"
+      "argument"=>"Page 1"
     }
   }
 }
 ```
+
 including the `components` key with the value hash
 
 ```ruby
@@ -345,28 +342,29 @@ including the `components` key with the value hash
      "component_name"=>"plain",
      "config"=>{},
      "included_config"=>nil,
-     "argument"=>"Hello World"
+     "argument"=>"Page 1"
     }
 }
 ```
-For each top-level node of this hash, the Component Cell calls the same `to_cell` process, as the Page Cell did for all of its top-level nodes. The resulting Cell instances are stored in `@children_cells` of the created Component Cell instance. (in this case only the `plain` Cell instance)
+
+For each top-level node of this hash, the Component Cell calls the same `to_cell` process, as the Page Cell did for all of its top-level nodes. The resulting Cell instances are stored in `@children_cells` of the created Component Cell instance. (In this case, it's only the `plain` Cell instance)
 
 A Component Cell instance may end up with two sets of Cells:
 
 - `@cells` if the Component used a `response` method in order to define its UI
 - `@children_cells` if the Component was called with a block from the parent level (Page Cell in this example)
 
-As described in following section, the two sets of Cells are rendered differently.
+As described in following section, those two sets of Cells are rendered differently.
 
 ### Component Rendering
 
 #### Render Mode
 
-A Components UI may be defined by a response method OR just a template file. It is important to realize that all basic core Components (div, span, ul, li etc...) don't use a response method in order to define their UI. They just use a template file. We recommend to use response methods in all custom Components. Only very basic Components should use a template file.
+A Components UI may be defined in a response method OR just in a template file. It is important to realize that all basic core Components (div, span, ul, li etc...) don't use a response method to define their UI. Each of them just uses a simple template file. We recommend to use response methods in all custom Components, as only very basic Components should use a template file.
 
 **a) response method**
 
-If a `response` method is used, the Component will iterate `@cells` actually using a basic component template file depending if the Component is `static` or `dynamic`:
+If a `response` method is used, the Component will iterate `@cells` using a basic component template file. Depending on whether the Component is `static` or `dynamic`, the corresponding template looks differently:
 
 **i) static**
 
@@ -382,6 +380,7 @@ If a `response` method is used, the Component will iterate `@cells` actually usi
   - @cells.each do |key, cell|
     = cell.call(:show)
 ```
+
 The Cells get wrapped by a `component` tag. `dynamic_tag_attributes` returns a hash, defining the attributes of that tag:
 
 ```ruby
@@ -394,18 +393,18 @@ The Cells get wrapped by a `component` tag. `dynamic_tag_attributes` returns a h
 }
 ```
 
-- `"is": @component_class` is used to reference the corresponding vue.js components
-  - example: the dynamic core Component `transition` has a corresponding vue.js componet named "transition-cell" which is also the value of `@component_class` in this case
+- `"is": @component_class` is used to reference the corresponding Vue.js components
+  - example: the dynamic core Component `transition` has a corresponding Vue.js component named "transition-cell", which is also the value of `@component_class` in this case
 - `"ref": component_id` may be used to identify the specific instance of this Component on one Page
-- `:params":  @url_params.to_json` is used to pass request params to the vue.js Component instance
-- `":component-config": @component_config.to_json` is used to pass configuration to the vue.js Component instance
-  - this is very useful if a vue.js component relies on meta data in order to perfom desired behaviour during runtime
-  - example: the dynamic core Component `transition` gets a `path` config when used in a `response` method. As the value is just a symbol referencing a rails route, the Component needs to translate the symbol to a string on the server-side. This string then is added to the `@component_config` and parsed by the `transition` vue.js component instance during browser runtime
-- `"inline-template": true` needs to be set in order to tell vue.js that this component uses the server-side rendered markup as template.
+- `:params":  @url_params.to_json` is used to pass request params to the Vue.js Component instance
+- `":component-config": @component_config.to_json` is used to pass configuration to the Vue.js Component instance
+  - this is very useful if a Vue.js component relies on meta data to perfom its desired behaviour during runtime
+  - example: the dynamic core Component `transition` gets a `path` config when used in a `response` method. As the value is just a symbol referencing a rails route, the Component needs to translate the symbol to a string on the server-side. This string is then added to the `@component_config` and parsed by the `transition` Vue.js component instance during browser runtime
+- `"inline-template": true` needs to be set in order to tell Vue.js that this component uses the server-side rendered markup as template.
 
 **b) template file**
 
-Instead of a `response` method, a Components UI may be defined by a template file. The `div` Component for example is defined by:
+Instead of a `response` method, a Components' UI may be defined by a template file. The `div` Component for example is defined by:
 
 ```HAML
 %div{@tag_attributes}
@@ -413,7 +412,7 @@ Instead of a `response` method, a Components UI may be defined by a template fil
     = yield
 ```
 
-This template may be wrapped by a core template, depending if the Component is `static` or `dynamic`:
+This template may be wrapped by a core template, depending on whether the Component is `static` or `dynamic`:
 
 **i) static**
 
@@ -430,17 +429,17 @@ If the Component is static, it doesn't get wrapped and just renders the componen
   = cell.call(:show)
 ```
 
-This `@children_cells` rendering may than be used in the component specific template file in order to yield `@children_cells` on the desired position:
+This `@children_cells` rendering may then be used in the component specific template file in order to yield `@children_cells` on the desired position:
 
 ```HAML
 %div{@tag_attributes}
   - if block_given?
-    = yield <-- @children_cells get yielded here
+    = yield # @children_cells gets yielded here
 ```
 
 **ii) dynamic**
 
-If the Component is dynamic, the same principles as above apply, except for an additional wrapping of the Component markup:
+If the Component is dynamic, the same principles as above apply, except for an additional wrapping of the Component markup in the first step:
 
 ```HAML
 %component{dynamic_tag_attributes}
@@ -451,17 +450,17 @@ If the Component is dynamic, the same principles as above apply, except for an a
 
 ### App Instantiation
 
-The constructor of an App Cell triggers following processes. In contrast to Page or Component, the App relies on a special parameter when instatiated: A Page Instance injects its own `@nodes` into the constructor of the App Cell class:
+The constructor of an App Cell triggers following processes. In contrast to Page or Component, the App relies on a special parameter when instantiated: A Page Instance injects its own `@nodes` into the constructor of the App Cell class:
 
 - --> [Page Rendering](#page-rendering) --> a)
 
 #### Prepare
 
-If a prepare method is defined, the method gets executed. It might be used in order to set some instance variables, which can be used later on.
+If a prepare method is defined, the method gets executed. It might be used to set some instance variables, which can be used later on.
 
 #### Response
 
-An App Cell class always has a response method which gets called from the constructor. This methods defines the UI of the App orchestrating components.
+An App Cell class always has a response method which gets called from the constructor. This method defines the UI of the App orchestrating components.
 
 ##### Nodes
 
@@ -479,7 +478,7 @@ Each **top level** key of `@nodes` needs to be translated to a Component Cell in
 
 **a) lookup**
 
-In order to find the corresponding Cell class `Shared::Utils::ToCell` is used:
+In order to find the corresponding Cell class, `Shared::Utils::ToCell` is used:
 
 - --> [Component Lookup](#component-lookup)
 
@@ -489,7 +488,7 @@ If a Cell class is found, a new instance of this class is created:
 
 - --> [Component Instantiation](#component-instantiation)
 
-All top-level nodes of an App gets translated to a corresponding Component Cell instance and stored in `@cells`
+All top-level nodes of an App get translated to a corresponding Component Cell instance and stored in `@cells`
 
 ### App Rendering
 
@@ -501,11 +500,12 @@ The Apps response is rendered using the app template:
     - @cells.each do |key, cell|
       = cell.call(:show)
 ```
-The template adds the App Vue.js Component reference and a single wrapping div and then iterates through all `@cells` and renders their response.
+
+The template adds the App's Vue.js Component reference and a single wrapping div and then iterates through all `@cells` and renders their response.
 
 #### Page Content Component
 
-As described, all `@page_nodes` gets inserted into the `@nodes` of an App when `page_content` is called within the `response` method of an App. Under the hood, the App uses the dynamic core Component `page_content` in order to render these `@page_nodes`
+As described, all `@page_nodes` gets inserted into the `@nodes` of an App when `page_content` is called within the `response` method of an App. Under the hood, the App uses the dynamic core Component `page_content` in order to render these `@page_nodes`.
 
 #### Page Content Vue Component
 
@@ -529,7 +529,7 @@ end
 #...
 ```
 
-Output is a ruby hash:
+The output is a ruby hash:
 
 ```ruby
 {
@@ -552,7 +552,8 @@ Output is a ruby hash:
   }
 }
 ```
-As you can see, our component block is translated to a nested Ruby hash. Every component is represented with its own hash referenced with a key consisting of the component name followed by a number 1..n (starting from 1 on each nesting level). Inside this component hash, you find various meta information.
+
+As you can see, our component block is translated to a nested Ruby hash. Every component is represented by its own hash and referenced with a key, consisting of the component name followed by a number 1..n (starting from 1 on each nesting level). Inside this component hash, you find various meta information.
 
 Every time you use a Ruby block, a new nested "components" hash is added to the parent component hash (div_1 -> components -> plain_1)
 
