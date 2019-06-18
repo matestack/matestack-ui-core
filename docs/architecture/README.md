@@ -184,7 +184,7 @@ The Page then iterates through all Component Cell instances stored in `@cells`, 
 
 This `render_mode` applies if the following condition is met:
 
-- Implicit `only_component` request
+- Explicit request for **exactly one** component:
   - the page is requested with the query param: `component_key=xyz`
 
 If the Page is asked to only render one of its Components, the given `component_key` is used to find the corresponding node within the Pages `@nodes`. If found, the corresponding Component Cell is instantiated and ONLY this Cell is rendered:
