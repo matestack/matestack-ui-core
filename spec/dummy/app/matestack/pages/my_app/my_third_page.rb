@@ -3,6 +3,8 @@ class Pages::MyApp::MyThirdPage < Page::Cell::Page
   def response
     components {
       div do
+        heading size: 2, text: "This is Page 3"
+
         action my_action_config do
           button text: "Click me!"
         end

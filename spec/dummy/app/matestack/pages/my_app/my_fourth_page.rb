@@ -6,7 +6,10 @@ class Pages::MyApp::MyFourthPage < Page::Cell::Page
 
   def response
     components {
-      heading size: 2, text: "Dummy Model Form:"
+      heading size: 2, text: "This is Page 4"
+
+      heading size: 3, text: "Dummy Model Form:"
+      
       form my_form_config, :include do
         form_input key: :title, type: :text, placeholder: "title"
         br
@@ -25,7 +28,7 @@ class Pages::MyApp::MyFourthPage < Page::Cell::Page
       br
 
       async rerender_on: "form_succeeded" do
-        heading size: 2, text: "Dummy Models:"
+        heading size: 3, text: "Dummy Models:"
         ul do
           DummyModel.all.each do |dummy_model|
             li do

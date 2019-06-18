@@ -6,6 +6,8 @@ class Pages::MyApp::MySecondPage < Page::Cell::Page
 
   def response
     components{
+      heading size: 2, text: "This is Page 2"
+
       div id: "technologies" do
         ul do
           @technologies.each do |technology|
