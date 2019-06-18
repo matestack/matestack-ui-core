@@ -4,6 +4,8 @@ Show [specs](../../spec/usage/components/async_spec.rb)
 
 As the name suggests, the async component allows us to let our components behave asynchronously!
 
+Please be aware that, if not configured otherwise, the async core component does get loaded and displayed on initial pageload!
+
 ## Parameters
 
 The async core component accepts the following parameters:
@@ -19,6 +21,36 @@ async rerender_on: 'my_event' do
   end
 end
 ```
+
+**Attention:** The `rerender_on` option lets you rerender parts of your UI asynchronously, which is cool. It does come with an implications that could lead to unintended behaviour, though. Take a look at the code below:
+
+```ruby
+class Pages::ExamplePage < Page::Cell::Page
+
+  def prepare
+    user = User.last
+  end
+
+  # ...
+
+  def response
+    components {
+      async rerender_on: 'my_event' do
+        div id: 'my-div' do
+          plain user.name
+        end
+      end
+    }
+  end
+
+end
+```
+
+Firstly, the async component gets displayed on initial pageload, showing the most recently added user's name. On every occurance of `my_event`, the `prepare` method gets called, again fetching the most recently added user from the DB. This could lead to 1) unwanted information on the UI adn 2) a lot of unnecessary DB queries. We recommend to keep a close eye on the async component and, for this example, calling a partial with the DB query within the `div id: 'my-div'`.
+
+If you want _lazy loading_, e.g. not fetching the latest user from the DB on pageload but fetching them asynchronously later on, the async core component is currently being enhanced with a `defer: true` configuration, visible [here](https://github.com/basemate/matestack-ui-core/issues/58).
+
+If you want to load the user name on pageload, initially hide it and display it later on, read below as this option (`show_on`) is already implemented!
 
 ### Show_on
 
