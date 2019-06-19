@@ -6,5 +6,4 @@ module Plain::Cell
     end
 
   end
-
 end
