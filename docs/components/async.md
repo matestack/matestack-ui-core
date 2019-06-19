@@ -22,35 +22,11 @@ async rerender_on: 'my_event' do
 end
 ```
 
-**Attention:** The `rerender_on` option lets you rerender parts of your UI asynchronously, which is cool. It does come with an implications that could lead to unintended behaviour, though. Take a look at the code below:
+**Note:** The `rerender_on` option lets you rerender parts of your UI asynchronously, which is cool. But please consider that, if not configured differently, it a) is **not** _lazily loaded_ and b) does get displayed on initial pageload.
 
-```ruby
-class Pages::ExamplePage < Page::Cell::Page
+Lazy (or defered) loading is a feature we're working on right now, for details see [here](https://github.com/basemate/matestack-ui-core/issues/58).
 
-  def prepare
-    user = User.last
-  end
-
-  # ...
-
-  def response
-    components {
-      async rerender_on: 'my_event' do
-        div id: 'my-div' do
-          plain user.name
-        end
-      end
-    }
-  end
-
-end
-```
-
-Firstly, the async component gets displayed on initial pageload, showing the most recently added user's name. On every occurance of `my_event`, the `prepare` method gets called, again fetching the most recently added user from the DB. This could lead to 1) unwanted information on the UI adn 2) a lot of unnecessary DB queries. We recommend to keep a close eye on the async component and, for this example, calling a partial with the DB query within the `div id: 'my-div'`.
-
-If you want _lazy loading_, e.g. not fetching the latest user from the DB on pageload but fetching them asynchronously later on, the async core component is currently being enhanced with a `defer: true` configuration, visible [here](https://github.com/basemate/matestack-ui-core/issues/58).
-
-If you want to load the user name on pageload, initially hide it and display it later on, read below as this option (`show_on`) is already implemented!
+If you want to hide the async component on initial pageload and display it later on, read below as this option (`show_on`) is already implemented (and can be combined with `rerender_on`)!
 
 ### Show_on
 
