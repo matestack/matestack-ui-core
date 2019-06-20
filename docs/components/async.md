@@ -4,6 +4,8 @@ Show [specs](../../spec/usage/components/async_spec.rb)
 
 As the name suggests, the async component allows us to let our components behave asynchronously!
 
+Please be aware that, if not configured otherwise, the async core component does get loaded and displayed on initial pageload!
+
 ## Parameters
 
 The async core component accepts the following parameters:
@@ -19,6 +21,12 @@ async rerender_on: 'my_event' do
   end
 end
 ```
+
+**Note:** The `rerender_on` option lets you rerender parts of your UI asynchronously, which is cool. But please consider that, if not configured differently, it a) is **not** _lazily loaded_ and b) does get displayed on initial pageload.
+
+Lazy (or defered) loading is a feature we're working on right now, for details see [here](https://github.com/basemate/matestack-ui-core/issues/58).
+
+If you want to hide the async component on initial pageload and display it later on, read below as this option (`show_on`) is already implemented (and can be combined with `rerender_on`)!
 
 ### Show_on
 
