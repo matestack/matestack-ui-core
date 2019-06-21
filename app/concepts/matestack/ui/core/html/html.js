@@ -5,6 +5,6 @@ const componentDef = {
   mixins: [componentMixin]
 }
 
-let component = Vue.component('matestack-ui-core-html-cell', componentDef)
+let component = Vue.component('matestack-ui-core-html', componentDef)
 
 export default component

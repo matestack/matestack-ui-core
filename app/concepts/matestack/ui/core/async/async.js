@@ -52,6 +52,6 @@ const componentDef = {
   },
 }
 
-let component = Vue.component('matestack-ui-core-async-cell', componentDef)
+let component = Vue.component('matestack-ui-core-async', componentDef)
 
 export default componentDef

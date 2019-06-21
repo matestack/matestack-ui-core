@@ -16,6 +16,6 @@ const componentDef = {
   }
 }
 
-let component = Vue.component('matestack-ui-core-onclick-cell', componentDef)
+let component = Vue.component('matestack-ui-core-onclick', componentDef)
 
 export default componentDef

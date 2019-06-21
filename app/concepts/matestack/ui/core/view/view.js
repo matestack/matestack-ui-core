@@ -37,6 +37,6 @@ const componentDef = {
   },
 }
 
-let component = Vue.component('matestack-ui-core-view-cell', componentDef)
+let component = Vue.component('matestack-ui-core-view', componentDef)
 
 export default componentDef

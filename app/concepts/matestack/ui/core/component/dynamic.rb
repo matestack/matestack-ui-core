@@ -210,7 +210,7 @@ module Matestack::Ui::Core::Component
         name_parts = self.class.name.split("::")
         module_name = name_parts[0]
         if module_name == "Components"
-          name_parts.shift
+          name_parts[0] = "Custom"
         end
         if name_parts.count > 1
           if name_parts.include?("Cell")
@@ -224,16 +224,16 @@ module Matestack::Ui::Core::Component
             end
           else
             if name_parts[-2] == name_parts[-1]
-              @component_class = name_parts[0..-2].join("-").downcase + "-cell"
+              @component_class = name_parts[0..-2].join("-").downcase
             else
-              @component_class = name_parts.join("-").downcase + "-cell"
+              @component_class = name_parts.join("-").downcase
             end
           end
         else
-          name = name_parts[0] + "-cell"
+          name = name_parts[0]
           @component_class = name.underscore.gsub("_", "-")
         end
-        @component_name = @component_class.gsub("-cell", "")
+        @component_name = @component_class
       end
 
       def set_tag_attributes

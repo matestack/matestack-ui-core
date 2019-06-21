@@ -12,6 +12,6 @@ const componentDef = {
   })
 }
 
-let component = Vue.component('matestack-ui-core-page-content-cell', componentDef)
+let component = Vue.component('matestack-ui-core-page-content', componentDef)
 
 export default componentDef

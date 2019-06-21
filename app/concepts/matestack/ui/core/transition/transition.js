@@ -21,6 +21,6 @@ const componentDef = {
   }
 }
 
-let component = Vue.component('matestack-ui-core-transition-cell', componentDef)
+let component = Vue.component('matestack-ui-core-transition', componentDef)
 
 export default componentDef

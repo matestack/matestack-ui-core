@@ -1,4 +1,4 @@
-MatestackUiCore.Vue.component('demo-component-cell', {
+MatestackUiCore.Vue.component('custom-demo-component', {
   mixins: [MatestackUiCore.componentMixin],
   data() {
     return {

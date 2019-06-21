@@ -131,6 +131,6 @@ const componentDef = {
   }
 }
 
-let component = Vue.component('matestack-ui-core-form-cell', componentDef)
+let component = Vue.component('matestack-ui-core-form', componentDef)
 
 export default componentDef

@@ -44,6 +44,6 @@ const componentDef = {
   }
 }
 
-let component = Vue.component('matestack-ui-core-action-cell', componentDef)
+let component = Vue.component('matestack-ui-core-action', componentDef)
 
 export default componentDef

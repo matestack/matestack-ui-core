@@ -6,7 +6,7 @@ module Matestack::Ui::Core::Component
       if options[:dynamic]
         @static = false
         @rerender = true
-        @component_class = "anonym-dynamic-component-cell"
+        @component_class = "anonym-dynamic-component"
       else
         @static = true
       end

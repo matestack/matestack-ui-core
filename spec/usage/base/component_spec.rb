@@ -367,7 +367,7 @@ describe "Component", type: :feature, js: true do
 
       component_definition = <<~javascript
 
-        MatestackUiCore.Vue.component('matestack-ui-core-somedynamiccomponent-cell', {
+        MatestackUiCore.Vue.component('matestack-ui-core-somedynamiccomponent', {
           mixins: [MatestackUiCore.componentMixin],
           data: function data() {
             return {
