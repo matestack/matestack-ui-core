@@ -4,13 +4,20 @@ include Utils
 describe "Component", type: :feature, js: true do
 
   before :all do
+
+    module Components end
+
+    module Pages end
+
+    module Matestack::Ui::Core end
+
     class ComponentTestController < ActionController::Base
       layout "application"
 
       include Matestack::Ui::Core::ApplicationHelper
 
       def my_action
-        responder_for(ExamplePage)
+        responder_for(Pages::ExamplePage)
       end
 
     end
@@ -20,30 +27,21 @@ describe "Component", type: :feature, js: true do
     end
     Rails.application.reload_routes!
 
-    module Static end
-
-    module Static::Cell end
-
-    module Dynamic end
-
-    module Dynamic::Cell end
-
   end
 
-  describe "component naming and namespaces" do
+  describe "CORE component naming and namespaces" do
 
-    it "components have to be prefixed with two modules, (reflecting two folders on a filesystem); the second has to be 'cell'" do
+    it "single CORE components are defined in a folder (namespace) called like the component class itself" do
 
-      module Component1 end
+      #creating the namespace which is represented by "ENGINE_ROOT/app/concepts/matestack/ui/core/component1"
+      module Matestack::Ui::Core::Component1 end
 
-      module Component1::Cell end
-
-      #defined in component1/cell/component1.rb
-      class Component1::Cell::Component1 < Component::Cell::Static
+      #defined in ENGINE_ROOT/app/concepts/matestack/ui/core/component1/component1.rb
+      class Matestack::Ui::Core::Component1::Component1 < Matestack::Ui::StaticComponent
 
         def response
           components {
-            div id: "my-component" do
+            div id: "core-component-1" do
               plain "I'm a static component!"
             end
           }
@@ -51,13 +49,13 @@ describe "Component", type: :feature, js: true do
 
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
               component1
-              #if first module name ("Component1") and class name ("Component1") is the same
+              #if the last module name and class name are the same
               #the component is referenced by simply lowercased class name ("component1")
             end
           }
@@ -67,49 +65,54 @@ describe "Component", type: :feature, js: true do
 
       visit "/component_test"
 
-      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a static component!")]')
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="core-component-1" and contains(.,"I\'m a static component!")]')
 
     end
 
-    it "multiple components may live in one namespace" do
+    it "a CORE component may have sub-components structured in subfolders" do
 
-      module Namespace1 end
+      #creating the namespace which is represented by "ENGINE_ROOT/app/concepts/matestack/ui/core/component1"
+      module Matestack::Ui::Core::Component1 end
+      #creating the namespace which is represented by "ENGINE_ROOT/app/concepts/matestack/ui/core/component1/subcomponent1"
+      module Matestack::Ui::Core::Component1::Subcomponent1 end
 
-      module Namespace1::Cell end
+      #defined in ENGINE_ROOT/app/concepts/matestack/ui/core/component1/component1.rb
+      module Matestack::Ui::Core::Component1
+        class Component1 < Matestack::Ui::StaticComponent
 
-      #defined in namespace1/cell/component1.rb
-      class Namespace1::Cell::Component1 < Component::Cell::Static
+          def response
+            components {
+              div id: "core-component-1" do
+                plain "I'm a static component!"
+              end
+            }
+          end
 
-        def response
-          components {
-            div id: "my-component" do
-              plain "I'm a static component!"
-            end
-          }
         end
-
       end
 
-      #defined in namespace1/cell/component2.rb
-      class Namespace1::Cell::Component2 < Component::Cell::Static
+      #defined in ENGINE_ROOT/app/concepts/matestack/ui/core/component1/subcomponent1/subcomponent1.rb
+      module Matestack::Ui::Core::Component1::Subcomponent1
+        class Subcomponent1 < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component-2" do
-              plain "I'm a static component!"
-            end
-          }
+          def response
+            components {
+              div id: "core-component-1-subcomponent-1" do
+                plain "I'm a static component!"
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              namespace1_component1
-              namespace1_component2
+              component1
+              component1_subcomponent1
             end
           }
         end
@@ -118,23 +121,24 @@ describe "Component", type: :feature, js: true do
 
       visit "/component_test"
 
-      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a static component!")]')
-      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-2" and contains(.,"I\'m a static component!")]')
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="core-component-1" and contains(.,"I\'m a static component!")]')
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="core-component-1-subcomponent-1" and contains(.,"I\'m a static component!")]')
+
+      #Note: This approach used for form and form_input for example
 
     end
 
     it "camelcased module or class names are referenced with their downcased counterpart" do
 
-      module MyComponent end
+      #creating the namespace which is represented by "ENGINE_ROOT/app/concepts/matestack/ui/core/some_component"
+      module Matestack::Ui::Core::SomeComponent end
 
-      module MyComponent::Cell end
-
-      #defined in my_component/cell/my_component.rb
-      class MyComponent::Cell::MyComponent < Component::Cell::Static
+      #defined in ENGINE_ROOT/app/concepts/matestack/ui/core/some_component/some_component.rb
+      class Matestack::Ui::Core::SomeComponent::SomeComponent < Matestack::Ui::StaticComponent
 
         def response
           components {
-            div id: "my-component" do
+            div id: "some-core-component" do
               plain "I'm a static component!"
             end
           }
@@ -142,12 +146,12 @@ describe "Component", type: :feature, js: true do
 
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              myComponent #not my_component ! (as this would mean My::Cell::Component)
+              someComponent #not some_component!
             end
           }
         end
@@ -156,24 +160,62 @@ describe "Component", type: :feature, js: true do
 
       visit "/component_test"
 
-      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a static component!")]')
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="some-core-component" and contains(.,"I\'m a static component!")]')
 
     end
 
-    it "custom components defined in the matestack/components folder have to be prefixed with 'custom_' when referenced" do
+  end
 
+  describe "CUSTOM component naming and namespaces" do
+
+    it "single CUSTOM components are defined in the projects matestack/components folder without any further folder/namespacing required and have to be prefixed with 'custom_' when reference" do
+
+      #creating the namespace which is represented by "PROJECT_ROOT/app/matestack/components"
       module Components end
 
-      module Components::MyComponent end
-
-      module Components::MyComponent::Cell end
-
-      #defined in app/matestack/components/my_component/cell/my_component.rb
-      class Components::MyComponent::Cell::MyComponent < Component::Cell::Static
+      #defined in "PROJECT_ROOT/app/matestack/components/component1.rb
+      class Components::Component1 < Matestack::Ui::StaticComponent
 
         def response
           components {
-            div id: "my-component" do
+            div id: "my-component-1" do
+              plain "I'm a static component!"
+            end
+          }
+        end
+
+      end
+
+      class Pages::ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              custom_component1
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-1" and contains(.,"I\'m a static component!")]')
+
+
+    end
+
+    it "CUSTOM components can be structured by folders" do
+
+      #creating the namespace which is represented by "PROJECT_ROOT/app/matestack/components"
+      module Components end
+
+      #defined in "PROJECT_ROOT/app/matestack/components/component1.rb
+      class Components::Component1 < Matestack::Ui::StaticComponent
+
+        def response
+          components {
+            div id: "my-component-1" do
               plain "I'm a custom static component!"
             end
           }
@@ -181,26 +223,29 @@ describe "Component", type: :feature, js: true do
 
       end
 
-      #defined in app/matestack/components/my_component/cell/my_second_component.rb
-      class Components::MyComponent::Cell::MySecondComponent < Component::Cell::Static
+      #creating the namespace which is represented by "PROJECT_ROOT/app/matestack/components/namespace1"
+      module Components::Namespace1 end
+
+      #defined in "PROJECT_ROOT/app/matestack/components/namespace1/component1.rb
+      class Components::Namespace1::Component1 < Matestack::Ui::StaticComponent
 
         def response
           components {
-            div id: "my-component" do
-              plain "I'm a second custom static component!"
+            div id: "my-namespaced-component-1" do
+              plain "I'm a namespaced custom static component!"
             end
           }
         end
 
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              custom_myComponent
-              custom_myComponent_mySecondComponent
+              custom_component1
+              custom_namespace1_component1
             end
           }
         end
@@ -209,8 +254,8 @@ describe "Component", type: :feature, js: true do
 
       visit "/component_test"
 
-      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a custom static component!")]')
-      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"I\'m a second custom static component!")]')
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-1" and contains(.,"I\'m a custom static component!")]')
+      expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-namespaced-component-1" and contains(.,"I\'m a namespaced custom static component!")]')
 
     end
 
@@ -218,26 +263,28 @@ describe "Component", type: :feature, js: true do
 
   describe "static vs dynamic components" do
 
-    it "can render static content without any javascript involved if inherit from 'Component::Cell::Static'" do
+    it "can render static content without any javascript involved if inherit from 'Matestack::Ui::StaticComponent'" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              plain "I'm a static component!"
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain "I'm a static component!"
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component
+              someStaticComponent
             end
           }
         end
@@ -254,26 +301,28 @@ describe "Component", type: :feature, js: true do
 
     it "pages can use async component to wrap static components and add basic dynamic behaviour" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              plain "I'm a static component!"
-              plain DateTime.now.strftime('%Q')
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain "I'm a static component!"
+                plain DateTime.now.strftime('%Q')
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
               async rerender_on: "my_event" do
-                static_component
+                someStaticComponent
               end
             end
           }
@@ -299,24 +348,26 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "components can render dynamic content with vue.js involved if inherit from 'Component::Cell::Dynamic'" do
+    it "components can render dynamic content with vue.js involved if inherit from 'Matestack::Ui::DynamicComponent'" do
 
-      class Dynamic::Cell::Component < Component::Cell::Dynamic
+      module Matestack::Ui::Core::SomeDynamicComponent
+        class SomeDynamicComponent < Matestack::Ui::DynamicComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              plain "I'm a fancy dynamic component!"
-              plain "{{dynamic_value}}"
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain "I'm a fancy dynamic component!"
+                plain "{{dynamic_value}}"
+              end
+            }
+          end
+
         end
-
       end
 
       component_definition = <<~javascript
 
-        MatestackUiCore.Vue.component('dynamic-component-cell', {
+        MatestackUiCore.Vue.component('matestack-ui-core-somedynamiccomponent-cell', {
           mixins: [MatestackUiCore.componentMixin],
           data: function data() {
             return {
@@ -333,7 +384,7 @@ describe "Component", type: :feature, js: true do
 
       javascript
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -348,7 +399,7 @@ describe "Component", type: :feature, js: true do
         def relevant_part
           partial {
             div id: "div-on-page" do
-              dynamic_component
+              someDynamicComponent
             end
           }
         end
@@ -376,19 +427,21 @@ describe "Component", type: :feature, js: true do
 
     it "components can take a options hash" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def prepare
           @hello = "hello!"
@@ -397,7 +450,7 @@ describe "Component", type: :feature, js: true do
         def response
           components {
             div id: "div-on-page" do
-              static_component some_option: @hello, some_other: { option: "world!" }
+              someStaticComponent some_option: @hello, some_other: { option: "world!" }
             end
           }
         end
@@ -412,26 +465,28 @@ describe "Component", type: :feature, js: true do
 
     it "components can auto validate if options is given and raise error if not" do
 
-      class Static::Cell::SpecialComponent < Component::Cell::Static
+      module Matestack::Ui::Core::SpecialComponent
+        class SpecialComponent < Matestack::Ui::StaticComponent
 
-        REQUIRED_KEYS = [:some_option]
+          REQUIRED_KEYS = [:some_option]
 
-        def response
-          components {
-            div id: "my-component" do
-              plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_specialComponent some_other: { option: "world!" }
+              specialComponent some_other: { option: "world!" }
             end
           }
         end
@@ -440,7 +495,7 @@ describe "Component", type: :feature, js: true do
 
       visit "/component_test"
 
-      expect(page).to have_content("div > static_specialComponent > required key 'some_option' is missing")
+      expect(page).to have_content("div > specialComponent > required key 'some_option' is missing")
 
     end
 
@@ -452,24 +507,26 @@ describe "Component", type: :feature, js: true do
 
     it "a page can fill slots of components with access to page instance scope" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def prepare
-          @foo = "foo from component"
+          def prepare
+            @foo = "foo from component"
+          end
+
+          def response
+            components {
+              div id: "my-component" do
+                slot @options[:my_first_slot]
+                slot @options[:my_second_slot]
+              end
+            }
+          end
+
         end
-
-        def response
-          components {
-            div id: "my-component" do
-              slot @options[:my_first_slot]
-              slot @options[:my_second_slot]
-            end
-          }
-        end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def prepare
           @foo = "foo from page"
@@ -478,7 +535,7 @@ describe "Component", type: :feature, js: true do
         def response
           components {
             div do
-              static_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
+              someStaticComponent my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
             end
           }
         end
@@ -526,52 +583,56 @@ describe "Component", type: :feature, js: true do
 
     it "a component can fill slots of components with access to component instance scope" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def prepare
-          @foo = "foo from component"
+          def prepare
+            @foo = "foo from component"
+          end
+
+          def response
+            components {
+              div id: "my-component" do
+                otherComponent slots: {
+                  my_slot_from_component: my_slot_from_component,
+                  my_slot_from_page: @options[:my_slot_from_page]
+                }
+              end
+            }
+          end
+
+          def my_slot_from_component
+            slot {
+              span id: "my-slot-from-component" do
+                plain @foo
+              end
+            }
+          end
+
         end
-
-        def response
-          components {
-            div id: "my-component" do
-              static_otherComponent slots: {
-                my_slot_from_component: my_slot_from_component,
-                my_slot_from_page: @options[:my_slot_from_page]
-              }
-            end
-          }
-        end
-
-        def my_slot_from_component
-          slot {
-            span id: "my-slot-from-component" do
-              plain @foo
-            end
-          }
-        end
-
       end
 
-      class Static::Cell::OtherComponent < Component::Cell::Static
+      module Matestack::Ui::Core::OtherComponent
+        class OtherComponent < Matestack::Ui::StaticComponent
 
-        def prepare
-          @foo = "foo from other component"
+          def prepare
+            @foo = "foo from other component"
+          end
+
+          def response
+            components {
+              div id: "my-other-component" do
+                slot @options[:slots][:my_slot_from_component]
+                slot @options[:slots][:my_slot_from_page]
+                plain @foo
+              end
+            }
+          end
+
         end
-
-        def response
-          components {
-            div id: "my-other-component" do
-              slot @options[:slots][:my_slot_from_component]
-              slot @options[:slots][:my_slot_from_page]
-              plain @foo
-            end
-          }
-        end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def prepare
           @foo = "foo from page"
@@ -580,7 +641,7 @@ describe "Component", type: :feature, js: true do
         def response
           components {
             div id: "page-div" do
-              static_component my_slot_from_page: my_slot_from_page
+              someStaticComponent my_slot_from_page: my_slot_from_page
             end
           }
         end
@@ -625,19 +686,21 @@ describe "Component", type: :feature, js: true do
 
     it "components can yield a block with access to scope, where block is defined" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              yield_components
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                yield_components
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def prepare
           @foo = "foo from page"
@@ -646,7 +709,7 @@ describe "Component", type: :feature, js: true do
         def response
           components {
             div id: "div-on-page" do
-              static_component do
+              someStaticComponent do
                 plain @foo
               end
             end
@@ -667,30 +730,32 @@ describe "Component", type: :feature, js: true do
 
     it "components can use local partials to structure their response" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              partial :my_partial, "foo from component"
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                partial :my_partial, "foo from component"
+              end
+            }
+          end
+
+          def my_partial text
+            partial {
+              plain text
+            }
+          end
+
         end
-
-        def my_partial text
-          partial {
-            plain text
-          }
-        end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component
+              someStaticComponent
             end
           }
         end
@@ -715,26 +780,28 @@ describe "Component", type: :feature, js: true do
 
       end
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        include MySharedPartials
+          include MySharedPartials
 
-        def response
-          components {
-            div id: "my-component" do
-              partial :my_partial, "foo from component"
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                partial :my_partial, "foo from component"
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component
+              someStaticComponent
             end
           }
         end
@@ -753,24 +820,26 @@ describe "Component", type: :feature, js: true do
 
     it "a component can access a simple argument, if no hash was given" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              plain @argument
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain @argument
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component "foo from page"
+              someStaticComponent "foo from page"
             end
           }
         end
@@ -789,28 +858,30 @@ describe "Component", type: :feature, js: true do
 
     it "a component can resolve data before rendering in a prepare method" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def prepare
-          @some_data = "some data"
+          def prepare
+            @some_data = "some data"
+          end
+
+          def response
+            components {
+              div id: "my-component" do
+                plain @some_data
+              end
+            }
+          end
+
         end
-
-        def response
-          components {
-            div id: "my-component" do
-              plain @some_data
-            end
-          }
-        end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component "foo from page"
+              someStaticComponent "foo from page"
             end
           }
         end
@@ -829,24 +900,26 @@ describe "Component", type: :feature, js: true do
 
     it "a component can access request informations" do
 
-      class Static::Cell::Component < Component::Cell::Static
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
 
-        def response
-          components {
-            div id: "my-component" do
-              plain @url_params[:foo]
-            end
-          }
+          def response
+            components {
+              div id: "my-component" do
+                plain @url_params[:foo]
+              end
+            }
+          end
+
         end
-
       end
 
-      class ExamplePage < Page::Cell::Page
+      class Pages::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
             div id: "div-on-page" do
-              static_component
+              someStaticComponent
             end
           }
         end

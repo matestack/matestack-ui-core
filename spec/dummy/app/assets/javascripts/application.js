@@ -15,7 +15,7 @@
 //= require matestack-ui-core
 //= require_tree .
 
-//= require demo/js/component
+//= require demo/component
 
 App.cable.subscriptions.create("MatestackUiCoreChannel", {
   received(data) {

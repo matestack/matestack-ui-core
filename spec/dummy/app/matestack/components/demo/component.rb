@@ -1,4 +1,4 @@
-class Components::Demo::Cell::Component < Component::Cell::Dynamic
+class Components::Demo::Component < Matestack::Ui::DynamicComponent
 
   def response
     components {

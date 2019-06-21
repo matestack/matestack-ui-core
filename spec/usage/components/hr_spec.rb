@@ -4,7 +4,7 @@ include Utils
 describe 'Horizontal Rule Component', type: :feature, js: true do
   it 'Renders an hr tag on the page' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
       def response
         components {
           # simple horizontal rule

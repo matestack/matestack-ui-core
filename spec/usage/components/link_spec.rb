@@ -5,7 +5,7 @@ describe 'Link Component', type: :feature, js: true do
   # does not work at all. Maybe a problem with the dummy application?
   # it 'Example 1' do
   #
-  #   class ExamplePage < Page::Cell::Page
+  #   class ExamplePage < Matestack::Ui::Page
   #
   #     def response
   #       components {
