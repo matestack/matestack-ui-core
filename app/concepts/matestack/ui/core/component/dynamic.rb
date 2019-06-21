@@ -59,7 +59,6 @@ module Matestack::Ui::Core::Component
 
     def initialize(model=nil, options={})
       super
-      @prefixes = self.class.prefixes[0].gsub("/#{self.class.name.split("::")[-1].downcase}", "")
       @component_config = options.except(:context, :children, :url_params, :included_config)
       @url_params = options[:url_params].except(:action, :controller, :component_key)
       @component_key = options[:component_key]
