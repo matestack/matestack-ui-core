@@ -1,0 +1,22 @@
+Description:
+    This generator scaffolds matestack pages for Rails application!
+    Mandatory input: NAME and APP_NAME
+    Optional input to specify routing: controller_action
+
+Example 1:
+    rails generate matestack_page example_page example_app
+
+    This will create:
+        app/matestack/pages/example_app/example_page.rb
+
+    This will add to routes:
+        get 'example_app/example_page', to: 'example_app#example_page'
+
+Example 2:
+    rails generate matestack_page example_page example_app --controller_action=static#second
+
+    This will create:
+        app/matestack/pages/example_app/example_page.rb
+
+    This will add to routes:
+        get 'example_app/example_page', to: 'static#second'
