@@ -1,0 +1,28 @@
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
+import axios from 'axios'
+
+import matestackEventHub from 'core/js/event-hub'
+
+import componentMixin from 'component/js/component'
+
+const componentDef = {
+  mixins: [componentMixin],
+  data: function(){
+    return {
+      data: {},
+      errors: {}
+    }
+  },
+  methods: {},
+  created: function () {},
+  beforeDestroy: function() {},
+  mounted: function(){
+    console.log('Custom Dynamic Component <%= class_name %> mounted!')
+  }
+}
+
+// 'form-cell' needs to be renamed according to scaffolded component
+let component = Vue.component('<%= file_name %>-cell', componentDef)
+
+export default componentDef

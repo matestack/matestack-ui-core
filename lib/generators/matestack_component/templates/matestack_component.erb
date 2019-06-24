@@ -1,0 +1,29 @@
+class Components::<%= class_name %>::Cell::<%= class_name %> < Matestack::<% if @dyamic == true %>DynamicComponent<% else %>StaticComponent<% end %>
+
+  REQUIRED_KEYS = [] # [:symbols]
+
+  # use the setup method if dealing with a dynamic component and/or to use custom HAML files
+  def setup
+    # access the Vue.JS component_config
+    # @component_config[:attribute] = attribute
+    # set up tag_attributes to use in the HAML view
+    # @tag_attributes.merge!({ "attribute": options[:attribute],
+    #   "href": link_path,
+    #   "@click.prevent": navigate_to(link_path),
+    #   "v-bind:class": "{ active: isActive }",
+    #   "target": options[:target] ||= nil
+    # })
+  end
+
+  def prepare
+    # DB queries and API calls go here
+  end
+
+  # use the response method if you only need to orchestrate existing matestack components
+  def response
+    components {
+      # other matestack components go here
+    }
+  end
+
+end

@@ -1,5 +1,5 @@
 Description:
-    This generator scaffolds matestack pages for Rails application!
+    This generator scaffolds a matestack page for your Rails application!
     Mandatory input: NAME and APP_NAME
     Optional input to specify routing: controller_action
 
