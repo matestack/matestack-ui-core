@@ -1,0 +1,26 @@
+class Apps::<%= class_name %> < Matestack::App
+
+# OPTIONAL: Prepare data that gets used on every page of this app
+# def prepare
+#   API calls and db queries go here
+# end
+
+# MANDATORY: This is where the matestack magic happens
+def response
+  components {
+    page_content
+  }
+end
+
+# OPTIONAL: Partials (e.g. layout stuff) come after the response
+# def partial_one
+#   components {
+#     # your components go here
+#   }
+# end
+
+# OPTIONAL: Slots come after partials
+# def slots
+# end
+
+end
