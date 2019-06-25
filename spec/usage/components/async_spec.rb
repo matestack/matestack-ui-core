@@ -5,7 +5,7 @@ describe "Async Component", type: :feature, js: true do
 
   it "Example 1 - Rerender on event" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -34,7 +34,7 @@ describe "Async Component", type: :feature, js: true do
 
   it "Example 1.1 - Rerender on event if wrapped in app" do
 
-    class Apps::ExampleApp < App::Cell::App
+    class Apps::ExampleApp < Matestack::Ui::App
 
       def response
         components {
@@ -52,7 +52,7 @@ describe "Async Component", type: :feature, js: true do
     end
 
 
-    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -95,7 +95,7 @@ describe "Async Component", type: :feature, js: true do
 
   it "Example 2 - Show on event" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -120,7 +120,7 @@ describe "Async Component", type: :feature, js: true do
 
   it "Example 3 - Hide on event" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -145,7 +145,7 @@ describe "Async Component", type: :feature, js: true do
 
   it "Example 3 - hide after show on event" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -171,7 +171,7 @@ describe "Async Component", type: :feature, js: true do
 
   it "Example 4: show on event with event payload" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {

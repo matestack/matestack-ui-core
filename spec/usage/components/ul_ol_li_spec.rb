@@ -5,7 +5,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
 
   it 'Unordered lists' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -54,7 +54,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
 
   it 'Ordered list' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -103,7 +103,7 @@ describe 'List Components ul, ol, li', type: :feature, js: true do
 
   it 'Nested lists' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {

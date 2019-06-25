@@ -132,7 +132,7 @@ post '/action_test', to: 'action_test#test', as: 'action_test'
 After that, you can specify an action on our example page. Notice how we wrap a button to have something visible to click and trigger the action!
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -170,7 +170,7 @@ post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param
 And on the example page, we specify our action component's behavior:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -229,7 +229,7 @@ Below, we define an action component and an async component. The async component
 for now it is just important that it waits for our `action_config` success message and will get re-rendered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -266,7 +266,7 @@ Now, if we click the button and everything goes well (which should be the case i
 In this example, we will show a message that gets triggered once the controller returns a status code of `200`:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -301,7 +301,7 @@ This time, after clicking our action component we should see the `good job!` mes
 In the examples before, we always assumed (and made sure) that things went well. Now, it's the first time to use the `failure_action_test_path` to see how we can notify the user if things go wrong!
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -355,7 +355,7 @@ end
 Our example app layout, already including placeholders for success/failure notifications:
 
 ```ruby
-class Apps::ExampleApp < App::Cell::App
+class Apps::ExampleApp < Matestack::Ui::App
 
   def response
     components {
@@ -395,7 +395,7 @@ end
 The first page, including an action component that performs a page transition to page 2 on success!
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -426,7 +426,7 @@ end
 The second page, including an action that shows us the failure message we defined in the controller and then transfers us back to page 1.
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
   def response
     components {
