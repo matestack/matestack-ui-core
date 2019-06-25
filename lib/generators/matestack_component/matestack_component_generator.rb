@@ -13,7 +13,7 @@ class MatestackComponentGenerator < Rails::Generators::NamedBase
 
     matestack_component_dir_path = "app/matestack/components/"
     matestack_component_dir_path << "#{@namespace}/" unless @namespace.nil?
-    matestack_component_dir_path << "#{file_name}"
+#    matestack_component_dir_path << "#{file_name}"
 
     to_be_created_files.each do |file|
       generator_path = matestack_component_dir_path + "/#{file_name}#{file}"
