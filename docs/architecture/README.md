@@ -13,7 +13,7 @@ In order to better understand the core architecture, we will often refer to the 
 Our App: `app/matestack/apps/my_app.rb`
 
 ```ruby
-class Apps::MyApp < App::Cell::App
+class Apps::MyApp < Matestack::Ui::App
 
   def response
     components{
@@ -43,7 +43,7 @@ end
 Our first Page: `app/matestack/pages/my_app/my_first_page.rb`
 
 ```ruby
-class Pages::MyApp::MyFirstPage < Page::Cell::Page
+class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
 
   def response
     components{
@@ -59,7 +59,7 @@ end
 Our second Page: `app/matestack/pages/my_app/my_second_page.rb`
 
 ```ruby
-class Pages::MyApp::MySecondPage < Page::Cell::Page
+class Pages::MyApp::MySecondPage < Matestack::Ui::Page
 
   def response
     components{
@@ -114,7 +114,7 @@ Each **top level** key of `@nodes` needs to be translated to a Component Cell in
 
 **a) lookup**
 
-In order to find the corresponding Cell class, `Shared::Utils::ToCell` is used:
+In order to find the corresponding Cell class `ToCell` is used:
 
 - --> [Component Lookup](#component-lookup)
 
@@ -135,7 +135,8 @@ It is important to understand where and when Cell instantiation is happening:
 3. all now instantiated top-level cells from page, instantiate their top-level nodes if present (in this case, `div` instantiates `plain` as its single top-level node)
 4. and so on (in our example we're done, but it could go on like this)
 
-As we can see, a Page doesn't instantiate all components defined in its response method itself. It only takes care of its top-level nodes. That's why, in our example, the instance variable `@cells` of `Pages::MyPage` only contains a reference to the instance of `Div::Cell::Div`, and `@cells` of the instance `Div::Cell::Div` only contains a reference to the instance of `Plain::Cell::Plain`.
+As we can see, a Page doesn't instantiate all components defined in its response method itself. It only takes care of its top-level nodes. That's why in our example the instance variable `@cells` of `Pages::MyPage` only contains a reference to the instance of `Div::Div` and `@cells` of the instance `Div::Div` only contains a reference to the instance of `Plain::Plain`
+
 
 ### Page Rendering
 
@@ -197,32 +198,32 @@ If the Page is asked to only render one of its Components, the given `component_
 
 ### Component Lookup
 
-Whenever `Shared::Utils::ToCell` is used to transform a node into a Cell, the corresponding Cell class is looked up in following order:
+Whenever `ToCell` is used to transform a node into a Cell, the corresponding Cell class is looked up in following order:
 
-1. custom components inside the projects `app/matestack/components` folder (if component name is prefixed with "custom_")
-2. core components inside Matestack UI Core's own `app/concepts` folder
-3. add-on components defined in other engines (if no core component is found)
+1. custom components inside the projects `app/matestack/components` folder if component name is prefixed with "custom_"
+2. core components inside matestacks own `app/concepts/matestack/ui/core` folder
+3. add-on components defined in other engines if no core component is found
 
-While looking for the Cell classes, `Shared::Utils::ToCell` translates the string based component names (e.g. "form") to a class name following these rules:
+While looking for the Cell classes, `ToCell` translates the string based component names (e.g. "form") to a class name following these rules:
 
-Using no namespace (underscore):
-- `form` gets translated to `Form::Cell::Form`
-- `someComponent` gets translated to `SomeComponent::Cell::SomeComponent`
+no namespace (underscore) used:
+- `form` gets translated to `Matestack::Ui::Core::Form::Form`
+- `someComponent` gets translated to `Matestack::Ui::Core::SomeComponent::SomeComponent`
 
 (Parent module and Cell class name are expected to be the same)
 
-Using a namespace (underscore):
-- `form_input` gets translated to `Form::Cell::Input`
-- `someNamespace_someComponent` gets translated to `SomeNamespace::Cell::SomeComponent`
+namespace (underscore) used:
+- `form_input` gets translated to `Matestack::Ui::Core::Form::Input::Input`
+- `someNamespace_someComponent` gets translated to `Matestack::Ui::Core::SomeNamespace::SomeComponent::SomeComponent`
 
 (Parent module and Cell class names are not expected to be the same)
 
-Using a prefixed `_custom`:
-- `custom_component` gets translated to `Components::Component::Cell::Component`
-- `custom_namespaced_component` gets translated to `Components::Namespaced::Cell::Component`
-- `custom_namespaced_someComponent` gets translated to `Components::Namespaced::Cell::SomeComponent`
+custom prefixed used;
+- `custom_component` gets translated to `Components::Component`
+- `custom_namespaced_component` gets translated to `Components::Namespaced::Component`
+- `custom_namespaced_someComponent` gets translated to `Components::Namespaced::SomeComponent`
 
-(Parent module is `Components`, as custom components live inside the `components` folder. All the other rules still apply)
+(parent module is `Components` as custom components live inside the `components` folder)
 
 ### Component Instantiation
 
@@ -256,7 +257,7 @@ Each **top level** key of `@nodes` needs to be translated to a Component Cell in
 
 **a) lookup**
 
-To find the corresponding Cell class, `Shared::Utils::ToCell` is used:
+In order to find the corresponding Cell class `ToCell` is used:
 
 - --> [Component Lookup](#component-lookup)
 
@@ -273,7 +274,7 @@ All top-level nodes of a Component get translated to a corresponding Component C
 In contrast to a Page or an App, a Component may be called with a block:
 
 ```ruby
-class Pages::MyApp::MyFirstPage < Page::Cell::Page
+class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
 
   def response
     components{
@@ -478,7 +479,7 @@ Each **top level** key of `@nodes` needs to be translated to a Component Cell in
 
 **a) lookup**
 
-In order to find the corresponding Cell class, `Shared::Utils::ToCell` is used:
+In order to find the corresponding Cell class `ToCell` is used:
 
 - --> [Component Lookup](#component-lookup)
 
