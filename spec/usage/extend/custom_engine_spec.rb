@@ -11,7 +11,7 @@ describe "Engine Components", type: :feature, js: true do
 
     module Matestack::Ui::Core end
 
-    class ComponentTestController < ActionController::Base
+    class EngineComponentTestController < ActionController::Base
       layout "application"
 
       include Matestack::Ui::Core::ApplicationHelper
@@ -23,7 +23,7 @@ describe "Engine Components", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      get '/component_test', to: 'component_test#my_action', as: 'component_test_action'
+      get '/engine_component_test', to: 'engine_component_test#my_action', as: 'engine_component_test_action'
     end
     Rails.application.reload_routes!
 
@@ -65,7 +65,7 @@ describe "Engine Components", type: :feature, js: true do
 
       end
 
-      visit "/component_test"
+      visit "/engine_component_test"
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="core-component-1" and contains(.,"I\'m a static addon component!")]')
 
@@ -121,7 +121,7 @@ describe "Engine Components", type: :feature, js: true do
 
       end
 
-      visit "/component_test"
+      visit "/engine_component_test"
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="core-component-1" and contains(.,"I\'m a static addon component!")]')
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="core-component-1-subcomponent-1" and contains(.,"I\'m a static addon sub component!")]')
@@ -160,7 +160,7 @@ describe "Engine Components", type: :feature, js: true do
 
       end
 
-      visit "/component_test"
+      visit "/engine_component_test"
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="some-core-component" and contains(.,"I\'m a static component!")]')
 
