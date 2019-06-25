@@ -14,13 +14,12 @@
 * added `hr` component, pull #49, (@michaelrevans)
 * allow actions to accept id and class attributes, issue #44, pull #50 (@michaelrevans)
 
-
 ### Breaking changes for core developers
 
-* namespaced core components using `Matestack::Ui::Core` module/folder
+* namespaced core components using `Matestack::Ui::Core` module/folder, pull #64 (@jonasjabari)
 * simplified core components folder structure, (aligned with issue #39), pull #64 (@jonasjabari)
-* changed vue.js component naming
-* add-on engine components now need `Matestack::Ui` namespacing
+* changed vue.js component naming, (aligned with issue #41), pull #64 (@jonasjabari)
+* add-on engine components now need `Matestack::Ui` namespacing, pull #64 (@jonasjabari)
 
 ### Improvements for core developers
 
@@ -197,13 +196,13 @@ class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 end
 ```
 
-The reasons why decide to resolve core components a bit different than custom components are simple:
+The reasons why we decided to resolve core components a bit different than custom components are simple:
 * we want to make it as easy as possible to create custom components
   * we therefore removed the obligatory `Cell` module
   * we do not want to force the user to create a subfolder (and therefore module/namespace) in their `components` folder resulting in a class like:
   `Components::Card::Card`. It should be as simple as `Components::Card` which is good and intuitive!
 * if we would use that simple approach for all our core components, it would lead to a messy code base, as all component cells, views and javascripts live in one big folder.
-  * we therefore enforce more structure inside the core, using a subfolder for each components within `app/concepts/matestack/ui/core` resulting in class name for component like: `Matestack::Ui::Core::Div::Div` (double DIV at the end --> subfolder(module name) :: class)
+  * we therefore enforce more structure inside the core, using a subfolder for each component within `app/concepts/matestack/ui/core` resulting in a class name for a component like: `Matestack::Ui::Core::Div::Div` (double DIV at the end --> subfolder(module name) :: class)
 
 #### Changed vue.js component naming
 
