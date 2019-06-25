@@ -5,6 +5,8 @@ class MatestackPageGenerator < Rails::Generators::NamedBase
 
   class_option :controller_action, type: :string
 
+  # todo: swap app and page input order
+
   def create_matestack_page
     @app_name = app_name
 
@@ -23,6 +25,13 @@ class MatestackPageGenerator < Rails::Generators::NamedBase
     route %{get '#{@app_name}/#{file_name}', to: '#{@controller_action}'}
 
     puts "Make sure to add responder_for(Pages::#{@app_name.camelize}::#{file_name.camelize}) to #{@controller_action}"
+
+    # todo
+    # - scaffold failing rspec test cases per default via options[:rspec]
+    # - check if spec/ folder exists in host system => if not, puts 'rspec test suite not found'
+    # talk to jonas: do pages always belong to apps?
+    # - if yes: generate corresponding app if it does not exist
+    # - if yes: invoce `generate matestack_app` with ARGS => should create controller_action and view aswell
 
   end
 end

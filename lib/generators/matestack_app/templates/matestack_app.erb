@@ -5,14 +5,14 @@ class Apps::<%= class_name %> < Matestack::App
 #   API calls and db queries go here
 # end
 
-# MANDATORY: This is where the matestack magic happens
+# MANDATORY: This is where your matestack pages get yielded
 def response
   components {
     page_content
   }
 end
 
-# OPTIONAL: Partials (e.g. layout stuff) come after the response
+# OPTIONAL: Use partials to render stuff like layout components
 # def partial_one
 #   components {
 #     # your components go here
