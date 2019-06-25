@@ -73,7 +73,7 @@ See some common use cases below:
 On our example page, we wrap a simple timestamp in an async component and tell it to rerender when the event `my_event` gets triggered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -95,7 +95,7 @@ Not surprisingly, the timestamp gets updated after our event was fired!
 On our example page, we wrap a simple timestamp in an async component and tell it to show up when the event `my_event` gets triggered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -117,7 +117,7 @@ _After_ our event was fired, the timestamp only is visible on our page!
 On our example page, we wrap a simple timestamp in an async component and tell it to hide it when the event `my_event` gets triggered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -139,7 +139,7 @@ As expected, the timestamp is only visible _before_ our event was fired and is h
 On our example page, we wrap a simple timestamp in an async component and tell it to show up when the event `my_event` gets triggered and be hidden after 1000ms.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -161,7 +161,7 @@ In this case, the timestamp only is visible _after_ our event was fired, but onl
 On our example page, we wrap our async event around a placeholder for the event message.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {

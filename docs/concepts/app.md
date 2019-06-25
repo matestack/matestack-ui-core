@@ -7,7 +7,7 @@ Show [specs](../../spec/usage/base/app_spec.rb)
 `app/matestack/apps/example_app.rb`
 
 ```ruby
-class Apps::ExampleApp < App::Cell::App
+class Apps::ExampleApp < Matestack::Ui::App
 
   def response
     components {
@@ -26,7 +26,7 @@ end
 `app/matestack/pages/example_app/example_page.rb`
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -42,7 +42,7 @@ end
 `app/matestack/pages/example_app/second_example_page.rb`
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -60,7 +60,7 @@ end
 `app/matestack/apps/example_app.rb`
 
 ```ruby
-class Apps::ExampleApp < App::Cell::App
+class Apps::ExampleApp < Matestack::Ui::App
 
   def response
     components {

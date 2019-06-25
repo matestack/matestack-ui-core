@@ -1,4 +1,4 @@
-class Apps::MyApp < App::Cell::App
+class Apps::MyApp < Matestack::Ui::App
 
   def response
     components {

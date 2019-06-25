@@ -12,7 +12,7 @@ describe "Page", type: :feature, js: true do
 
   it "orchestrates components and can be used as a controller action response" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -44,7 +44,7 @@ describe "Page", type: :feature, js: true do
 
   it "can access controller instance variables" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -83,7 +83,7 @@ describe "Page", type: :feature, js: true do
 
   it "can access request informations" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -116,7 +116,7 @@ describe "Page", type: :feature, js: true do
 
   it "can structure the response using local partials" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -210,7 +210,7 @@ describe "Page", type: :feature, js: true do
 
     end
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       include MySharedPartials
 
@@ -287,31 +287,27 @@ describe "Page", type: :feature, js: true do
 
   it "can fill slots of components with access to page instance scope" do
 
-    module Example
-    end
+    module Matestack::Ui::Core::Example end
+      
+    module Matestack::Ui::Core::Example::Component
+      class Component < Matestack::Ui::StaticComponent
 
-    module Example::Cell
-    end
+        def prepare
+          @foo = "foo from component"
+        end
 
-    class Example::Cell::Component < Component::Cell::Static
-
-      def prepare
-        @foo = "foo from component"
+        def response
+          components {
+            div id: "my-component" do
+              slot options[:my_first_slot]
+              slot options[:my_second_slot]
+            end
+          }
+        end
       end
-
-      def response
-        components {
-          div id: "my-component" do
-            slot options[:my_first_slot]
-            slot options[:my_second_slot]
-          end
-        }
-      end
-
-
     end
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def prepare
         @foo = "foo from page"

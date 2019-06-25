@@ -27,7 +27,7 @@ Click here to see how you can add Matestack UI to your existing Rails applicatio
 
 #### Define your UI in a Ruby Class
 ```ruby
-class Pages::MyPage < Page::Cell::Page
+class Pages::MyPage < Matestack::Ui::Page
 
   def prepare
     @technologies = ["Rails", "Vue.js", "Trailblazer", "Rspec", "Capybara"]
@@ -48,7 +48,7 @@ end
 #### Create a Single Page Application without JavaScript
 
 ```ruby
-class Apps::MyApp < App::Cell::App
+class Apps::MyApp < Matestack::Ui::App
 
   def response
     components{
@@ -76,7 +76,7 @@ end
 ```
 
 ```ruby
-class Pages::MyApp::MyFirstPage < Page::Cell::Page
+class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
 
   def response
     components{
@@ -89,7 +89,7 @@ class Pages::MyApp::MyFirstPage < Page::Cell::Page
 end
 ```
 ```ruby
-class Pages::MyApp::MySecondPage < Page::Cell::Page
+class Pages::MyApp::MySecondPage < Matestack::Ui::Page
 
   def response
     components{
@@ -103,7 +103,7 @@ end
 ```
 #### Handle User Interaction dynamically without JavaScript
 ```ruby
-class Pages::MyPage < Page::Cell::Page
+class Pages::MyPage < Matestack::Ui::Page
 
   def response
     components {
@@ -133,7 +133,7 @@ end
 ```
 #### Handle User Input dynamically without JavaScript
 ```ruby
-class Pages::MyApp::MyFirstPage < Page::Cell::Page
+class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
 
   def prepare
     @my_model = MyModel.new
@@ -173,7 +173,7 @@ end
 ```
 #### Websocket Integration without JavaScript
 ```ruby
-class Pages::MyPage < Page::Cell::Page
+class Pages::MyPage < Matestack::Ui::Page
 
   def prepare
     @comments = Comment.last(5)

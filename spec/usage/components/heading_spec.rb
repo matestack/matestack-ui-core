@@ -5,7 +5,7 @@ describe "Heading Component", type: :feature, js: true do
 
   it "Example 1" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -50,7 +50,7 @@ describe "Heading Component", type: :feature, js: true do
 
   it "Example 2" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -75,7 +75,7 @@ describe "Heading Component", type: :feature, js: true do
 
   it "Example 3" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {

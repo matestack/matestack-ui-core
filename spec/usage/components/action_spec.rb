@@ -38,7 +38,7 @@ describe "Action Component", type: :feature, js: true do
     Rails.application.reload_routes!
 
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -77,7 +77,7 @@ describe "Action Component", type: :feature, js: true do
     Rails.application.reload_routes!
 
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -132,7 +132,7 @@ describe "Action Component", type: :feature, js: true do
 
     it "Example 3 - Async request with success event emit used for rerendering" do
 
-      class ExamplePage < Page::Cell::Page
+      class ExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -177,7 +177,7 @@ describe "Action Component", type: :feature, js: true do
 
     it "Example 4 - Async request with success event emit used for notification" do
 
-      class ExamplePage < Page::Cell::Page
+      class ExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -216,7 +216,7 @@ describe "Action Component", type: :feature, js: true do
 
     it "Example 5 - Async request with failure event emit used for notification" do
 
-      class ExamplePage < Page::Cell::Page
+      class ExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -263,7 +263,7 @@ describe "Action Component", type: :feature, js: true do
     end
 
     it "Example 6 - Async request with success event emit used for transition" do
-      class Apps::ExampleApp < App::Cell::App
+      class Apps::ExampleApp < Matestack::Ui::App
 
         def response
           components {
@@ -286,7 +286,7 @@ describe "Action Component", type: :feature, js: true do
 
       end
 
-      class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+      class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -313,7 +313,7 @@ describe "Action Component", type: :feature, js: true do
 
       end
 
-      class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+      class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -388,7 +388,7 @@ describe "Action Component", type: :feature, js: true do
 
   it 'accepts class and id attributes and returns them as the corresponding HTML attributes' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -420,7 +420,7 @@ describe "Action Component", type: :feature, js: true do
     end
     Rails.application.reload_routes!
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -456,7 +456,7 @@ describe "Action Component", type: :feature, js: true do
   #   end
   #   Rails.application.reload_routes!
   #
-  #   class ExamplePage < Page::Cell::Page
+  #   class ExamplePage < Matestack::Ui::Page
   #
   #     def response
   #       components {
@@ -514,7 +514,7 @@ describe "Action Component", type: :feature, js: true do
 
     end
 
-    class Apps::ExampleApp < App::Cell::App
+    class Apps::ExampleApp < Matestack::Ui::App
 
       def response
         components {
@@ -530,7 +530,7 @@ describe "Action Component", type: :feature, js: true do
     module Pages::ExampleApp
     end
 
-    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -556,7 +556,7 @@ describe "Action Component", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -591,7 +591,7 @@ describe "Action Component", type: :feature, js: true do
   #   end
   #   Rails.application.reload_routes!
   #
-  #   class ExamplePage < Page::Cell::Page
+  #   class ExamplePage < Matestack::Ui::Page
   #
   #     def response
   #       components {

@@ -81,7 +81,7 @@ end
 On our example page, we define a form that accepts text input and has a submit button.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -117,7 +117,7 @@ Furthermore, our *bar* input disappears from the input field and we get displaye
 This time, we break the form input on purpose to test our failure message! Again, we define our example page. Notice that we explicitly aim for our `failure_form_test_path`.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
 def response
   components {
@@ -160,7 +160,7 @@ In this example, things get a bit more complex. We now want to transition to ano
 First, we define our application layout with messages, using the *async core component*:
 
 ```ruby
-class Apps::ExampleApp < App::Cell::App
+class Apps::ExampleApp < Matestack::Ui::App
 
   def response
     components {
@@ -184,7 +184,7 @@ end
 On our first example page, we define our form to transfer us to the second page (`form_test_page_2_path`) on successful input:
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -224,7 +224,7 @@ end
 On the second example page, we aim for our failure path (`failure_form_test_path`) on purpose and define our form to transfer us to the first page (`form_test_page_1_path`) on failed input:
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -297,7 +297,7 @@ Of course, our input core component accepts not only 'text', but very different 
 On our example page, we define the input fields, together with a `type: X` configuration:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -335,7 +335,7 @@ Now, we can visit `localhost:3000/example` and fill in the input fields with var
 Our form_input field doesn't need to be empty when we load the page. We can `init` it with all kinds of values:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -369,7 +369,7 @@ Now, when we visit `localhost:3000/example`, we see our input field already welc
 Instead of a predefined value, we can also just show a placeholder in our form_input component:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -403,7 +403,7 @@ Now, when we visit `localhost:3000/example`, the input field is technically empt
 Another useful feature is that we can also give a *label* to our form_input!
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -437,7 +437,7 @@ Now, when we visit `localhost:3000/example`, the input field carries a *some lab
 Here, we aim for the `failure_form_test_path` on purpose to check how error messages are handled!
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -481,7 +481,7 @@ end
 Now, on our example page, we _prepare_ a new instance of our `TestModel` that we then want to save through the form component:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
@@ -530,7 +530,7 @@ For the dropdown select component, there are also some different possibilities:
 On our example page, inside our form component we define two `form_select` fields, both with `type: dropdown`. One takes an array, the other takes a hash as `optins` to select from.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -565,7 +565,7 @@ Now, we can visit our example page on `localhost:3000/example` and choose one va
 In addition to the example above, we now `init` our form_select dropdown fields with specific values from our `options`. Notice that this works with both arrays and hashes!
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -611,7 +611,7 @@ end
 When defining our example page, we again _prepare_ a new instance of the `TestModel` and this time set a `status` there. This `status` is then used in the `form_select` field, using the `type: dropdown` configuration:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
@@ -659,7 +659,7 @@ end
 When defining our example page, we again _prepare_ a new instance of the `TestModel` and this time set a `status` there. This `status` is then used in the `form_select` field, using the `type: dropdown` configuration:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
@@ -708,7 +708,7 @@ end
 On our example page, we _prepare_ our `TestModel` instance, but leave the status blank on purpose:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
@@ -747,7 +747,7 @@ Similar to the dropdown, we can also use checkboxes for our `form_select` compon
 On our example page, we define two `form_select` fields, both with the `type: :checkbox` definition. One takes an array as `options` parameter, the other receives a hash.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -782,7 +782,7 @@ Now, on our `localhost:3000/example` page, we can check a random number of check
 Just as with the dropdown `form_select` field, we can `init` our component to have one (or many) options preselected:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -838,7 +838,7 @@ end
 Now, we _prepare_ an instance of our `TestModel` and configure the `options` in our `form_select` component to work on our model methods.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
@@ -882,7 +882,7 @@ Whilst working similiar to the checkbox, the radio button is designed to only al
 We define our example page to have two `form_select` fields of `type: :radio`. One of them receives an array as `options` parameter, the other a hash:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -917,7 +917,7 @@ Visiting our example page, we can now choose one option from each `form select` 
 In this example, our example page looks just like before. The only difference is that we now `init` both form_select components with one of their `options`:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -962,7 +962,7 @@ end
 On our example page definition, we create an instance of our `TestModel` and preselect a status for it:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
@@ -1009,7 +1009,7 @@ end
 The `TestModel` instance gets _prepared_ just as in the example before this one:
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def prepare
     @test_model = TestModel.new
