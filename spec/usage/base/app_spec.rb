@@ -15,7 +15,7 @@ describe "App", type: :feature, js: true do
 
   it "can wrap pages with a layout" do
 
-    class Apps::ExampleApp < App::Cell::App
+    class Apps::ExampleApp < Matestack::Ui::App
 
       def response
         components {
@@ -32,7 +32,7 @@ describe "App", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -44,7 +44,7 @@ describe "App", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -83,7 +83,7 @@ describe "App", type: :feature, js: true do
 
   it "enables transitions between pages without page reload" do
 
-    class Apps::ExampleApp < App::Cell::App
+    class Apps::ExampleApp < Matestack::Ui::App
 
       def response
         components {
@@ -108,7 +108,7 @@ describe "App", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -120,7 +120,7 @@ describe "App", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
       def response
         components {

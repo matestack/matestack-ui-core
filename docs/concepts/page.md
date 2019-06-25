@@ -7,7 +7,7 @@ Show [specs](../../spec/usage/base/page_spec.rb)
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -44,7 +44,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -78,7 +78,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -96,7 +96,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def prepare
     @some_data = "data!"
@@ -117,7 +117,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def prepare
     @some_data = [1,2,3,4,5]
@@ -145,7 +145,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def prepare
     @some_data = [1,2,3,4,5]
@@ -177,7 +177,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -266,7 +266,7 @@ end
 `app/matestack/pages/example_page.rb`
 
 ```ruby
-class Pages::ExamplePage < Page::Cell::Page
+class Pages::ExamplePage < Matestack::Ui::Page
 
   include Pages::MySharedPartials
 

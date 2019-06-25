@@ -61,7 +61,7 @@ end
 Then, we define our example app layout with a navigation that consists of two transition components!
 
 ```ruby
-class Apps::ExampleApp < App::Cell::App
+class Apps::ExampleApp < Matestack::Ui::App
 
   def response
     components {
@@ -86,7 +86,7 @@ end
 Lastly, we define two example pages for our example application:
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -103,7 +103,7 @@ end
 and
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
   def response
     components {
