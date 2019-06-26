@@ -55,7 +55,15 @@ module Matestack::Ui::Core
           end
 
           if block_given?
-            @hash[current_node]["components"] = PageNode.build(@page_instance, included, &block)
+            if args.first.is_a?(Hash) && args.first[:defer].present?
+              if args.first[:url_params].present? && args.first[:url_params][:component_key].present?
+                @hash[current_node]["components"] = PageNode.build(@page_instance, included, &block)
+              else
+                return
+              end
+            else
+              @hash[current_node]["components"] = PageNode.build(@page_instance, included, &block)
+            end
           end
         end
       end

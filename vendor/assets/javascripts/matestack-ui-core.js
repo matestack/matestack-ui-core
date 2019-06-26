@@ -14539,6 +14539,13 @@ const componentDef = {
     if (this.componentConfig["hide_on"] != undefined) {
       this.showing = true;
     }
+    if (this.componentConfig["defer"] != undefined) {
+      if (!isNaN(this.componentConfig["defer"])) {
+        setTimeout(function () {
+          self.rerender();
+        }, parseInt(this.componentConfig["defer"]));
+      }
+    }
   },
   beforeDestroy: function () {
     const self = this;
