@@ -1,0 +1,8 @@
+- if options[:text].nil?
+  %caption{@tag_attributes}
+    - if block_given?
+      = yield
+
+- else
+  %caption{@tag_attributes}
+    = options[:text]
