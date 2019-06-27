@@ -1,8 +1,11 @@
 Description:
-    Explain the generator
+    Generates matestack components to app/matestack/components
 
 Example:
-    rails generate matestack_component Thing
+    rails generate matestack_component NAME --(no-)dynamic --(no-)haml --(no-)scss
 
     This will create:
-        what/will/it/create
+        app/matestack/components/NAME.rb
+        (app/matestack/components/NAME.js if --dynamic)
+        (app/matestack/components/NAME.haml if --haml)
+        (app/matestack/components/NAME.scss if --scss)

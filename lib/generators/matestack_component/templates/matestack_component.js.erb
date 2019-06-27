@@ -1,30 +1,12 @@
-// this component is way overblown. Make sure to delete everything you don't need, mate!
-
-import Vue from 'vue/dist/vue.esm'
-import Vuex from 'vuex'
-import axios from 'axios'
-
-import matestackEventHub from 'core/js/event-hub'
-
-import componentMixin from 'component/js/component'
-
-const componentDef = {
-  mixins: [componentMixin],
-  data: function(){
+MatestackUiCore.Vue.component('custom<% unless @namespace.nil? %>-<%= @namespace %><% end %>-<%= file_name %>', {
+  mixins: [MatestackUiCore.componentMixin],
+  data() {
     return {
-      data: {},
-      errors: {}
-    }
+      data: []
+    };
   },
   methods: {},
-  created: function () {},
-  beforeDestroy: function() {},
   mounted: function(){
     console.log('Custom Dynamic Component <%= class_name %> mounted!')
   }
-}
-
-MatestackUiCore.Vue.component('custom-<%= file_name %>', { ... }); //no -cell postfix
-let component = Vue.component('<%= file_name %>-cell', componentDef)
-
-export default componentDef
+});
