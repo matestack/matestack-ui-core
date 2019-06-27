@@ -28,6 +28,7 @@ class MatestackPageGenerator < Rails::Generators::NamedBase
     # swap app and page input order
     # - scaffold failing rspec test cases per default via options[:rspec]
     # - check if spec/ folder exists in host system => if not, puts 'rspec test suite not found'
+    # - how-to https://relishapp.com/rspec/rspec-rails/docs/generators
     # talk to jonas: do pages always belong to apps?
     # - if yes: generate corresponding app if it does not exist
     # - if yes: invoce `generate matestack_app` with ARGS => should create controller_action and view aswell
