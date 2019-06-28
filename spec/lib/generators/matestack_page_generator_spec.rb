@@ -17,10 +17,12 @@ describe MatestackPageGenerator, type: :generator do
 
   destination Rails.root
 
-  it "creates a test page" do
-    run_generator %w(my_example_page my_app)
+  it "creates example page" do
+    run_generator %w(my_example_page --app_name my_app)
 
-    assert_file "app/matestack/pages/my_app/my_example_page.rb", /class Pages::MyApp::MyExamplePage < Matestack::Page\b/
+    assert_file "app/matestack/pages/my_app/my_example_page.rb", /class Pages::MyApp::MyExamplePage < Matestack::Ui::Page\b/
+    assert_file "config/routes.rb", /my_example_page\b/
+
   end
 
 end
