@@ -1,11 +1,21 @@
 Description:
-    This generator scaffolds a matestack app for your Rails application!
-    Mandatory input: NAME
-    Optional input to add an app controller: controller
+    Stubs out a new matestack app. Pass the app name under_scored.
 
-Examples:
-    rails generate matestack_app example_app (--controller)
+    If you want so, pass the option '--all_inclusive' to also create
+    a corresponding matestack example_page, a controller, its action
+    and the route in 'config/routes.rb'.
+
+Example 1:
+    `rails generate matestack_app example_app`
 
     This will create:
         app/matestack/apps/example_app.rb
-        (app/controllers/example_app_controller.rb)
+
+Example 2:
+`rails generate matestack_app example_app --all_inclusive`
+
+    This will create:
+        app/matestack/apps/example_app.rb
+        app/matestack/pages/example_app/example_page.rb
+        app/controllers/example_app_controller.rb
+        route  get 'example_app/example_page', to: 'example_app#example_page'

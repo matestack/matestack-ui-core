@@ -1,8 +1,6 @@
 class <%= class_name %>Controller < ApplicationController
 
-  # This is what the controller action for an ExamplePage for
-  # your <%= class_name %> matestack app looks like
-  def show
+  def example_page
     responder_for(Pages::<%= class_name %>::ExamplePage)
   end
 

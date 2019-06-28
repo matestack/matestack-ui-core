@@ -1,4 +1,4 @@
-class Pages::<% if @app_name.present? %><%= @app_name.camelize %>::<% end %><%= class_name %> < Matestack::Ui::Page
+class Pages::<% unless @namespace.nil? %><%= @namespace.camelize %>::<% end %><% unless @app_name.nil? %><%= @app_name.camelize %>::<% end %><%= class_name %> < Matestack::Ui::Page
 
 # OPTIONAL: Prepare data for the response method
 # def prepare
@@ -14,7 +14,7 @@ end
 
 # OPTIONAL: Partials come after the response
 # def partial_one
-#   components {
+#   partial {
 #     # your components go here
 #   }
 # end
