@@ -42,7 +42,7 @@ returns
 Rendering a content block between the `<caption>` tags
 
 ```ruby
-table do
+table id: 'foo', class: 'bar' do
   caption do
     plain "table caption"
   end
@@ -52,9 +52,9 @@ end
 returns
 
 ```html
-<div id="foo" class="bar">
+<table id="foo" class="bar">
   <caption>table caption</caption>
-</div>
+</table>
 ```
 
 ## Example 3
