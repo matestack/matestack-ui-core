@@ -3,7 +3,7 @@ include Utils
 
 describe 'Details Element with summary', type: :feature, js: true do
   it 'Example 1' do
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
       def response
         components {
           # basic
@@ -12,6 +12,11 @@ describe 'Details Element with summary', type: :feature, js: true do
             pg text: 'World!'
           end
 
+          # without summary
+
+          details id: 'foo' do
+            plain "Hello World!"
+          end
           # enhanced
           details id: 'detail_id', class: 'detail_class' do
             summary id: 'summary_id', class: 'summary_class', text: 'Hello'
@@ -25,10 +30,20 @@ describe 'Details Element with summary', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-      <details class="detail_class" id="detail_id">
-        <summary id="summary_id" class="summary_class">Hello</summary>
-        <p>World!</p>
-      </details>
+
+    <details>
+      <summary>Hello</summary>
+      <p>World!</p>
+    </details>
+
+    <details id="foo">
+      Hello World!
+    </details>
+
+    <details id="detail_id" class="detail_class">
+      <summary id="summary_id" class="summary_class">Hello</summary>
+      <p>World!</p>
+    </details>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
