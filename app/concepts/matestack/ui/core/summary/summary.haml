@@ -1,0 +1,6 @@
+%summary{@tag_attributes}
+  - if options[:text].blank?
+    - if block_given?
+      = yield
+  - else
+    = options[:text]
