@@ -31,10 +31,10 @@ end
 ```
 
 ```html
-  <details id="foo" class="bar">
-    <summary>Greetings</summary>
-    Hello World!
-  </details>
+<details id="foo" class="bar">
+  <summary>Greetings</summary>
+  Hello World!
+</details>
 ```
 
 ## Example 2
@@ -42,27 +42,27 @@ end
 ```ruby
 details id: 'foo', class: 'bar' do
   summary id: 'baz', text: 'Greetings'
-  pg text: 'Hello World!'
+  paragraph text: 'Hello World!'
 end
 ```
 
 ```html
-  <details id="foo" class="bar">
-      <summary id="baz">Greetings</summary>
-      <p>Hello World!</p>
-    </details>
+<details id="foo" class="bar">
+  <summary id="baz">Greetings</summary>
+  <p>Hello World!</p>
+</details>
 ```
 
 ## Example 3 (Without Summary)
 
 ```ruby
-  details id: 'foo' do
-    plan "Hello World!"
-  end
+details id: 'foo' do
+  plain "Hello World!"
+end
 ```
 
 ```html
-  <details id="foo">
-    Hello World!
-  </details>
+<details id="foo">
+  Hello World!
+</details>
 ```
