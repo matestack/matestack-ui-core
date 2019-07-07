@@ -9,18 +9,18 @@ describe 'Details Element with summary', type: :feature, js: true do
           # basic
           details do
             summary text: 'Hello'
-            pg text: 'World!'
+            paragraph text: 'World!'
           end
 
           # without summary
-
           details id: 'foo' do
             plain "Hello World!"
           end
+ 
           # enhanced
           details id: 'detail_id', class: 'detail_class' do
             summary id: 'summary_id', class: 'summary_class', text: 'Hello'
-            pg text: 'World!'
+            paragraph text: 'World!'
           end
         }
       end
