@@ -3,4 +3,7 @@
     - if block_given?
       = yield
 - else
-  = link_to options[:text], link_path, @tag_attributes
+  - if @tag_attributes[:anchor].to_s != ""
+    = link_to options[:text], link_path(anchor: @tag_attributes[:anchor]), @tag_attributes.tap{|tag_attributes| tag_attributes.delete(:a)}
+  - else
+    = link_to options[:text], link_path, @tag_attributes
