@@ -1,4 +1,4 @@
-module Matestack::Ui::Core::Collection::Order::Toggel::Indicator
+module Matestack::Ui::Core::Collection::Order::Toggle::Indicator
   class Indicator < Matestack::Ui::Core::Component::Static
 
     def response

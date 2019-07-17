@@ -15217,17 +15217,18 @@ const componentDef = {
   methods: {
     submitFilter: function () {
       var url;
+      var filter = this.filter;
       for (var key in this.filter) {
-        url = this.updateQueryParams(this.componentConfig["id"] + "-filter-" + key, this.filter[key]);
-        url = this.updateQueryParams(this.componentConfig["id"] + "-offset", 0, url);
+        url = this.updateQueryParams(this.componentConfig["id"] + "-filter-" + key, this.filter[key], url);
       }
+      url = this.updateQueryParams(this.componentConfig["id"] + "-offset", 0, url);
       window.history.pushState({ matestackApp: true, url: url }, null, url);
       __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
     },
     resetFilter: function () {
       var url;
       for (var key in this.filter) {
-        url = this.updateQueryParams(this.componentConfig["id"] + "-filter-" + key, null);
+        url = this.updateQueryParams(this.componentConfig["id"] + "-filter-" + key, null, url);
         this.filter[key] = null;
         this.$forceUpdate();
       }
@@ -15318,7 +15319,7 @@ const componentDef = {
     };
   },
   methods: {
-    toggelOrder: function (key) {
+    toggleOrder: function (key) {
       if (this.ordering[key] == undefined) {
         this.ordering[key] = "asc";
       } else if (this.ordering[key] == "asc") {

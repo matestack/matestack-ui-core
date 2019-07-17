@@ -37,6 +37,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
       collection_filter @my_collection.config do
 
         collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+        collection_filter_input id: "my-description-filter-input", key: :description, type: :text, placeholder: "Filter by description"
         collection_filter_submit do
           button text: "filter"
         end
@@ -52,9 +53,9 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
     partial {
       collection_order @my_collection.config do
         plain "sort by: "
-        collection_order_toggel key: :title do
+        collection_order_toggle key: :title do
           button do
-            collection_order_toggel_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
+            collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
             plain "title"
           end
         end

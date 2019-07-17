@@ -12,7 +12,7 @@ const componentDef = {
     }
   },
   methods: {
-    toggelOrder: function(key){
+    toggleOrder: function(key){
       if (this.ordering[key] == undefined) {
         this.ordering[key] = "asc"
       } else if (this.ordering[key] == "asc") {
