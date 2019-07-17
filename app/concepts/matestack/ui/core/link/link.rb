@@ -1,6 +1,8 @@
 module Matestack::Ui::Core::Link
   class Link < Matestack::Ui::Core::Component::Static
 
+    REQUIRED_KEYS = [:path]
+
     def setup
       @tag_attributes.merge!({
         "class": options[:class],
