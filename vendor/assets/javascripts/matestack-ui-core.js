@@ -11077,11 +11077,11 @@ const componentMixin = {
       self.params["component_key"] = self.componentConfig["component_key"];
       __WEBPACK_IMPORTED_MODULE_1_axios___default()({
         method: "get",
-        url: location.pathname + location.search,
+        url: self.componentConfig["origin_url"],
         headers: {
           'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
         },
-        params: { "component_key": self.componentConfig["component_key"] }
+        params: self.params
       }).then(function (response) {
         self.asyncTemplate = response["data"];
       });
