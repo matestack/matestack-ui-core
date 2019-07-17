@@ -2,9 +2,21 @@ class Apps::MyApp < Matestack::Ui::App
 
   def response
     components {
-      header do
-        heading size: 1, text: "My App"
-      end
+      partial :header_section
+      partial :navigation_section
+      partial :content_section
+    }
+  end
+
+  def header_section
+    partial {
+      heading size: 1, text: "My App"
+    }
+
+  end
+
+  def navigation_section
+    partial {
       nav do
         transition path: :my_first_page_path do
           button text: "Page 1"
@@ -24,11 +36,20 @@ class Apps::MyApp < Matestack::Ui::App
         transition path: :my_sixth_page_path do
           button text: "Page 6"
         end
+        transition path: :collection_path do
+          button text: "Collection"
+        end
       end
-      main do
+    }
+  end
+
+  def content_section
+    partial {
+      div do
         page_content
       end
     }
   end
+
 
 end
