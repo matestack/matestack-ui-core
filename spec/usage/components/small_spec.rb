@@ -41,11 +41,11 @@ describe 'Small Component', type: :feature, js: true do
 
       def response
         components {
-          # simple span
-          span text: 'I am simple'
+          # simple small
+          small text: 'I am simple'
 
-          # enhanced span
-          span id: 'my-id', class: 'my-class',text: 'I am enhanced'
+          # enhanced small
+          small id: 'my-id', class: 'my-class', text: 'I am enhanced'
         }
       end
 
@@ -56,8 +56,8 @@ describe 'Small Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <span>I am simple</span>
-    <span id="my-id" class="my-class">I am enhanced</span>
+    <small>I am simple</small>
+    <small id="my-id" class="my-class">I am enhanced</small>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
