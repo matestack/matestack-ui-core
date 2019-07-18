@@ -69,13 +69,14 @@ module Matestack::Ui::Core::Component
       @nodes = {}
       @cells = {}
       @included_config = options[:included_config]
+      @cached_params = options[:cached_params]
       @rerender = false
       @options = options
+      set_tag_attributes
+      setup
       generate_component_name
       generate_children_cells
-      set_tag_attributes
       validate_options
-      setup
     end
 
     def validate_options
@@ -160,7 +161,7 @@ module Matestack::Ui::Core::Component
       @nodes = Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
 
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
       end
     end
 
@@ -201,7 +202,7 @@ module Matestack::Ui::Core::Component
           #needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
           #quickfix: except them from iteration
           options[:children].except(:component_key, :children, :origin_url, :url_params, :included_config).each do |key, node|
-            @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+            @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
           end
         end
       end

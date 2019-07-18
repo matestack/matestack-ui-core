@@ -42,6 +42,19 @@ module Matestack::Ui::Core
           end
         end
 
+        if meth == :isolate
+          if args.second.present?
+            isolated_block = @page_instance.send(args.first, args.second[:cached_params])
+          else
+            isolated_block = @page_instance.send(args.first)
+          end
+          @hash[current_node]["components"] = PageNode.build(
+            @page_instance, nil, &isolated_block
+          )
+          @hash[current_node]["argument"] = args.first
+          @hash[current_node]["cached_params"] = args.second[:cached_params] if args.second.present?
+        end
+
         if meth == :partial
           partial_block = @page_instance.send(args.first, *args.drop(1))
           @hash[current_node]["components"] = PageNode.build(
