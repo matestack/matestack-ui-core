@@ -11,7 +11,7 @@ describe 'Small Component', type: :feature, js: true do
         components {
           # simple small tag
           small do
-            plain 'I am simple'
+            plain 'I am a simple small tag'
           end
 
           # enhanced small tag
@@ -28,8 +28,8 @@ describe 'Small Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <small>I am simple</small>
-    <small id="my-id" class="my-class">I am enhanced small tag</small>
+    <small>I am a simple small tag</small>
+    <small id="my-id" class="my-class">I am a enhanced small tag</small>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
@@ -42,10 +42,10 @@ describe 'Small Component', type: :feature, js: true do
       def response
         components {
           # simple small
-          small text: 'I am simple'
+          small text: 'I am a simple small tag'
 
           # enhanced small
-          small id: 'my-id', class: 'my-class', text: 'I am enhanced'
+          small id: 'my-id', class: 'my-class', text: 'I am enhanced small tag'
         }
       end
 
@@ -56,8 +56,8 @@ describe 'Small Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <small>I am simple</small>
-    <small id="my-id" class="my-class">I am enhanced</small>
+    <small>I am a simple small tag</small>
+    <small id="my-id" class="my-class">I am enhanced small tag</small>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
