@@ -14,7 +14,7 @@ Expects a string with all ids the span should have.
 #### # class (optional)
 Expects a string with all classes the span should have.
 
-#### # site (optional)
+#### # cite (optional)
 Expects a string referencing a cite for the blockquote.
 
 ## Example 1: Yield a given block
@@ -36,12 +36,13 @@ returns
 ## Example 2: Render options[:text] param
 
 ```ruby
-span id: "foo", class: "bar", cite: "this is a cite", text: 'Hello World'
+blockquote id: "foo", class: "bar", cite: "this is a cite", text: 'Hello World'
 ```
 
 returns
 
 ```html
-<span cite="this is a cite" id="foo" class="bar">
+<blockquote cite="this is a cite" id="foo" class="bar">
   Hello World
-</span>
+</blockquote>
+```
