@@ -9,12 +9,12 @@ describe 'Strong Component', type: :feature, js: true do
 
       def response
         components {
-          # simple span
+          # simple strong
           strong do
             plain 'I am simple'
           end
 
-          # enhanced span
+          # enhanced strong
           strong id: 'my-id', class: 'my-class' do
             plain 'I am enhanced'
           end
@@ -41,10 +41,10 @@ describe 'Strong Component', type: :feature, js: true do
 
       def response
         components {
-          # simple span
+          # simple strong
           strong text: 'I am simple'
 
-          # enhanced span
+          # enhanced strong
           strong id: 'my-id', class: 'my-class', text: 'I am enhanced'
         }
       end
