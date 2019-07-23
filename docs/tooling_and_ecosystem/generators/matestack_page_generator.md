@@ -6,11 +6,11 @@ Generates matestack pages to `app/matestack/pages`.
 
 ## Parameters
 
-**NAME** - Mandatory. Creates an empty matestack component in `app/matestack/components/NAME.rb`.
+**NAME** - Mandatory. Creates an empty matestack page in `app/matestack/pages/NAME.rb`.
 
 **--app_name** - Mandatory. Adds a `/app_name` folder to `app/matestack/pages` to indicate to which matestack app the pages belongs. Pages _do not necessarily need to belong to an app_, but for now the page scaffolder can only provide this functionality.
 
-**--namespace** - Optional. Adds a `/namespace` folder within the `/app_name` and a namespace to the `page.rb`.
+**--namespace** - Optional. Adds a `/namespace` folder within the `/app_name` and a namespace to the `page.rb`. You can also scope the namespace using additional `/`'s like so: `namespace_1/namespace_2`
 
 **--controller_action** - Optional. Takes a `controller#action` to use in the created route for the page. If not provided, a `controller#action` is created from **NAME** and **--app_name**.
 
