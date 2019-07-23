@@ -1,7 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
 import axios from 'axios'
 import VRuntimeTemplate from "v-runtime-template"
-
 import matestackEventHub from 'js/event-hub'
 
 const componentMixin = {
