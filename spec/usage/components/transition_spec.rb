@@ -5,7 +5,7 @@ describe "Transition Component", type: :feature, js: true do
 
   it "Example 1 - Perform transition from one page to another without page reload if related to app" do
 
-    class Apps::ExampleApp < App::Cell::App
+    class Apps::ExampleApp < Matestack::Ui::App
 
       def response
         components {
@@ -30,7 +30,7 @@ describe "Transition Component", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -43,7 +43,7 @@ describe "Transition Component", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -116,7 +116,7 @@ describe "Transition Component", type: :feature, js: true do
   # supposed to work, but doesn't. Suspect Vue is the culprint here
   # it "Example 2 - Perform transition from one page to another by providing route as string (not recommended)" do
   #
-  #   class Apps::ExampleApp < App::Cell::App
+  #   class Apps::ExampleApp < Matestack::Ui::App
   #
   #     def response
   #       components {
@@ -141,7 +141,7 @@ describe "Transition Component", type: :feature, js: true do
   #
   #   end
   #
-  #   class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+  #   class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
   #
   #     def response
   #       components {
@@ -154,7 +154,7 @@ describe "Transition Component", type: :feature, js: true do
   #
   #   end
   #
-  #   class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+  #   class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
   #
   #     def response
   #       components {

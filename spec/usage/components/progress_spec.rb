@@ -5,7 +5,7 @@ describe 'Progress Component', type: :feature, js: true do
 
   it 'Example 1: Test positive behavior' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -35,7 +35,7 @@ describe 'Progress Component', type: :feature, js: true do
 
   it 'Example 2: Test REQUIRED_KEYS' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {

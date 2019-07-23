@@ -5,7 +5,7 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
 
   it 'Example 1' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -62,7 +62,7 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
 
   it 'Example 2' do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def prepare
         @users = ['Jonas', 'Pascal', 'Chris']

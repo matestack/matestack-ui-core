@@ -1,4 +1,4 @@
-class Pages::MyApp::MyFourthPage < Page::Cell::Page
+class Pages::MyApp::MyFourthPage < Matestack::Ui::Page
 
   def prepare
     @dummy_model = DummyModel.new
@@ -9,7 +9,7 @@ class Pages::MyApp::MyFourthPage < Page::Cell::Page
       heading size: 2, text: "This is Page 4"
 
       heading size: 3, text: "Dummy Model Form:"
-      
+
       form my_form_config, :include do
         form_input key: :title, type: :text, placeholder: "title"
         br

@@ -1,0 +1,4 @@
+%component{"is": "matestack-ui-core-app", "inline-template": true}
+  %div{"class": "matestack_app"}
+    - @cells.each do |key, cell|
+      = cell.call(:show)

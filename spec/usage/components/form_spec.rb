@@ -76,7 +76,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "Example 1 - Async submit request with clientside payload" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -114,7 +114,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "Example 2 - Async submit request and clears inputs on success" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -154,7 +154,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "Example 2 - Async submit request with success event" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -197,7 +197,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "Example 3 - Async submit request with failure event" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -241,7 +241,7 @@ describe "Form Component", type: :feature, js: true do
   end
 
   it "Example 4 - Async submit request with success transition" do
-    class Apps::ExampleApp < App::Cell::App
+    class Apps::ExampleApp < Matestack::Ui::App
 
       def response
         components {
@@ -265,7 +265,7 @@ describe "Form Component", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::ExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -301,7 +301,7 @@ describe "Form Component", type: :feature, js: true do
 
     end
 
-    class Pages::ExampleApp::SecondExamplePage < Page::Cell::Page
+    class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -380,7 +380,7 @@ describe "Form Component", type: :feature, js: true do
 
     it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea' type" do
 
-      class ExamplePage < Page::Cell::Page
+      class ExamplePage < Matestack::Ui::Page
 
         def response
           components {
@@ -436,7 +436,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "can be initialized with value" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -470,7 +470,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "can be prefilled with a placeholder" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -505,7 +505,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "can get a label" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -539,7 +539,7 @@ describe "Form Component", type: :feature, js: true do
 
   it "can display server errors async" do
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         components {
@@ -582,7 +582,7 @@ describe "Form Component", type: :feature, js: true do
 
     end
 
-    class ExamplePage < Page::Cell::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def prepare
         @test_model = TestModel.new
@@ -636,7 +636,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "takes an array of options or hash and submits selected item" do
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def response
             components {
@@ -676,7 +676,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "can be initialized with value" do
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def response
             components {
@@ -727,7 +727,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -782,7 +782,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -839,7 +839,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -885,7 +885,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "takes an array of options or hash and submits (multiple) selected item(s)" do
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def response
             components {
@@ -927,7 +927,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "can be initialized by (multiple) item(s)" do
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def response
             components {
@@ -984,7 +984,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -1053,7 +1053,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "takes an array of options or hash and submits one selected item" do
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def response
             components {
@@ -1094,7 +1094,7 @@ describe "Form Component", type: :feature, js: true do
 
       it "can be initialized by (multiple) item(s)" do
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def response
             components {
@@ -1145,7 +1145,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -1200,7 +1200,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -1255,7 +1255,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -1310,7 +1310,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new
@@ -1365,7 +1365,7 @@ describe "Form Component", type: :feature, js: true do
 
         end
 
-        class ExamplePage < Page::Cell::Page
+        class ExamplePage < Matestack::Ui::Page
 
           def prepare
             @test_model = TestModel.new

@@ -4,6 +4,10 @@ Show [specs](../../spec/usage/components/async_spec.rb)
 
 As the name suggests, the async component allows us to let our components behave asynchronously!
 
+Please be aware that, if not configured otherwise, the async core component does get loaded and displayed on initial pageload!
+
+**the async component currently only works on page-level --> we're working on it in order support the usage of async within a component [#75](https://github.com/basemate/matestack-ui-core/issues/75)**
+
 ## Parameters
 
 The async core component accepts the following parameters:
@@ -19,6 +23,12 @@ async rerender_on: 'my_event' do
   end
 end
 ```
+
+**Note:** The `rerender_on` option lets you rerender parts of your UI asynchronously, which is cool. But please consider that, if not configured differently, it a) is **not** _lazily loaded_ and b) does get displayed on initial pageload.
+
+Lazy (or defered) loading is a feature we're working on right now, for details see [here](https://github.com/basemate/matestack-ui-core/issues/58).
+
+If you want to hide the async component on initial pageload and display it later on, read below as this option (`show_on`) is already implemented (and can be combined with `rerender_on`)!
 
 ### Show_on
 
@@ -65,7 +75,7 @@ See some common use cases below:
 On our example page, we wrap a simple timestamp in an async component and tell it to rerender when the event `my_event` gets triggered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -87,7 +97,7 @@ Not surprisingly, the timestamp gets updated after our event was fired!
 On our example page, we wrap a simple timestamp in an async component and tell it to show up when the event `my_event` gets triggered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -109,7 +119,7 @@ _After_ our event was fired, the timestamp only is visible on our page!
 On our example page, we wrap a simple timestamp in an async component and tell it to hide it when the event `my_event` gets triggered.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -131,7 +141,7 @@ As expected, the timestamp is only visible _before_ our event was fired and is h
 On our example page, we wrap a simple timestamp in an async component and tell it to show up when the event `my_event` gets triggered and be hidden after 1000ms.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -153,7 +163,7 @@ In this case, the timestamp only is visible _after_ our event was fired, but onl
 On our example page, we wrap our async event around a placeholder for the event message.
 
 ```ruby
-class ExamplePage < Page::Cell::Page
+class ExamplePage < Matestack::Ui::Page
 
   def response
     components {
