@@ -67,7 +67,6 @@ module Matestack::Ui::Core::Page
       Matestack::Ui::Core::PageNode.build(self, nil, &block)
     end
 
-
     def show(component_key=nil, only_page=false)
       prepare
       response
@@ -108,7 +107,6 @@ module Matestack::Ui::Core::Page
       end
     end
 
-
     def page_id
       @custom_page_id ||= @page_id
     end
@@ -147,7 +145,5 @@ module Matestack::Ui::Core::Page
         end
       end
 
-
   end
-
 end
