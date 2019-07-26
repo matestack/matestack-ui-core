@@ -213,15 +213,7 @@ Changelog can be found [here](./CHANGELOG.md)
 
 ### Roadmap
 
-Scheduled for 0.7.0:
-- Better naming conventions
-- Webpacker/Yarn Integration
-- Advanced Websockets Integration
-- 1:n Relations in Form components
-- More Form Components (Multi Select Components)
-- Component Based Caching
-- Rails View Integration
-- Dockerized Core Development
+We're currently finalizing the roadmap towards to a stable 1.0 release, supposed to happen towards the end of the year! For details make sure to check the [release management project](https://github.com/basemate/matestack-ui-core/projects/2) and get in touch via our [chat](https://gitter.im/basemate/community) for feedback!
 
 ### Community
 
