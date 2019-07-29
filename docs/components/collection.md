@@ -127,7 +127,6 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
 
       async rerender_on: "my-first-collection-update" do
         partial :content
-        partial :paginator #has to be placed within the `async` component!
       end
     }
   end
@@ -161,6 +160,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
           end
         end
 
+        partial :paginator #has to be placed within the `collection_content` component!
       end
     }
   end
@@ -231,7 +231,6 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
 
       async rerender_on: "my-first-collection-update" do
         partial :content
-        partial :paginator #has to be placed within the `async` component!
       end
     }
   end
@@ -282,6 +281,8 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
             end
           end
         end
+
+        partial :paginator #has to be placed within the `collection_content` component!
 
       end
     }
