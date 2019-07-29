@@ -9,7 +9,7 @@ module Matestack::Ui::Core::Collection::Content
 
     def response
       components {
-        div attributes: {"v-if": "showing"} do
+        div do
           yield_components
         end
       }

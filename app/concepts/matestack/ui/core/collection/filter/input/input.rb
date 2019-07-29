@@ -9,9 +9,5 @@ module Matestack::Ui::Core::Collection::Filter::Input
       return options[:key].to_s
     end
 
-    def init_value
-
-    end
-
   end
 end
