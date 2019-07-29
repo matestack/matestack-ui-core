@@ -14486,8 +14486,8 @@ module.exports = function spread(callback) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_view_view__ = __webpack_require__(/*! view/view */ 46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_onclick_onclick__ = __webpack_require__(/*! onclick/onclick */ 47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_collection_content_content__ = __webpack_require__(/*! collection/content/content */ 48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_collection_filter_filter__ = __webpack_require__(/*! collection/filter/filter */ 49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_collection_order_order__ = __webpack_require__(/*! collection/order/order */ 50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_collection_filter_filter__ = __webpack_require__(/*! collection/filter/filter */ 50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_collection_order_order__ = __webpack_require__(/*! collection/order/order */ 51);
 
 
 
@@ -15068,8 +15068,10 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_component_component__ = __webpack_require__(/*! component/component */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_async_async__ = __webpack_require__(/*! async/async */ 15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_component__ = __webpack_require__(/*! component/component */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_async_async__ = __webpack_require__(/*! async/async */ 15);
+
 
 
 
@@ -15078,19 +15080,20 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 
 const componentDef = {
-  mixins: [__WEBPACK_IMPORTED_MODULE_2_component_component__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3_async_async__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3_component_component__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4_async_async__["a" /* default */]],
   data: function () {
     return {
       currentLimit: null,
       currentOffset: null,
-      currentFilteredCount: null
+      currentFilteredCount: null,
+      currentBaseCount: null
     };
   },
   methods: {
     next: function () {
-      if (this.currentTo() < this.currentFilteredCount) {
+      if (this.currentTo() < this.currentCount()) {
         this.currentOffset += this.currentLimit;
-        var url = this.updateQueryParams(this.componentConfig["id"] + "-offset", this.currentOffset);
+        var url = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].updateQueryParams(this.componentConfig["id"] + "-offset", this.currentOffset);
         window.history.pushState({ matestackApp: true, url: url }, null, url);
         __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
       }
@@ -15102,65 +15105,36 @@ const componentDef = {
         } else {
           this.currentOffset -= this.currentLimit;
         }
-        var url = this.updateQueryParams(this.componentConfig["id"] + "-offset", this.currentOffset);
+        var url = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].updateQueryParams(this.componentConfig["id"] + "-offset", this.currentOffset);
         window.history.pushState({ matestackApp: true, url: url }, null, url);
         __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
       }
     },
     currentTo: function () {
       var to = parseInt(this.currentOffset) + parseInt(this.currentLimit);
-      if (to > parseInt(this.currentFilteredCount)) {
-        return this.currentFilteredCount;
+      if (to > parseInt(this.currentCount())) {
+        return this.currentCount();
       } else {
         return to;
       }
     },
-    goToPage: function (page) {
-      this.currentOffset = parseInt(this.currentLimit) * (parseInt(page) - 1);
-      var url = this.updateQueryParams(this.componentConfig["id"] + "-offset", this.currentOffset);
-      window.history.pushState({ matestackApp: true, url: url }, null, url);
-      __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
-    },
-    updateQueryParams: function (key, value, url) {
-      if (!url) url = window.location.href;
-      var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
-          hash;
-
-      if (re.test(url)) {
-        if (typeof value !== 'undefined' && value !== null) return url.replace(re, '$1' + key + "=" + value + '$2$3');else {
-          hash = url.split('#');
-          url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-          if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += '#' + hash[1];
-          return url;
-        }
+    currentCount: function () {
+      if (this.currentFilteredCount != null || this.currentFilteredCount != undefined) {
+        return this.currentFilteredCount;
       } else {
-        if (typeof value !== 'undefined' && value !== null) {
-          var separator = url.indexOf('?') !== -1 ? '&' : '?';
-          hash = url.split('#');
-          url = hash[0] + separator + key + '=' + value;
-          if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += '#' + hash[1];
-          return url;
-        } else return url;
+        return this.currentBaseCount;
       }
     },
-    getQueryParam: function (name, url) {
-      if (!url) url = window.location.href;
-      name = name.replace(/[\[\]]/g, '\\$&');
-      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-          results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-  },
-  beforeCreate: function () {
-    if (this.$options.propsData.componentConfig["rerender_on"] == undefined) {
-      this.$options.propsData.componentConfig["rerender_on"] = this.$options.propsData.componentConfig["id"] + "-update";
+    goToPage: function (page) {
+      this.currentOffset = parseInt(this.currentLimit) * (parseInt(page) - 1);
+      var url = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].updateQueryParams(this.componentConfig["id"] + "-offset", this.currentOffset);
+      window.history.pushState({ matestackApp: true, url: url }, null, url);
+      __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
     }
   },
   mounted: function () {
-    if (this.getQueryParam(this.componentConfig["id"] + "-offset") != null) {
-      this.currentOffset = parseInt(this.getQueryParam(this.componentConfig["id"] + "-offset"));
+    if (__WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].getQueryParam(this.componentConfig["id"] + "-offset") != null) {
+      this.currentOffset = parseInt(__WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].getQueryParam(this.componentConfig["id"] + "-offset"));
     } else {
       if (this.componentConfig["init_offset"] != undefined) {
         this.currentOffset = this.componentConfig["init_offset"];
@@ -15169,8 +15143,8 @@ const componentDef = {
       }
     }
 
-    if (this.getQueryParam(this.componentConfig["id"] + "-limit") != null) {
-      this.currentOffset = parseInt(this.getQueryParam(this.componentConfig["id"] + "-limit"));
+    if (__WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].getQueryParam(this.componentConfig["id"] + "-limit") != null) {
+      this.currentOffset = parseInt(__WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].getQueryParam(this.componentConfig["id"] + "-limit"));
     } else {
       if (this.componentConfig["init_limit"] != undefined) {
         this.currentLimit = this.componentConfig["init_limit"];
@@ -15181,6 +15155,15 @@ const componentDef = {
 
     if (this.componentConfig["filtered_count"] != undefined) {
       this.currentFilteredCount = this.componentConfig["filtered_count"];
+      if (this.currentOffset >= this.currentFilteredCount) {
+        this.previous();
+      }
+    }
+    if (this.componentConfig["base_count"] != undefined) {
+      this.currentBaseCount = this.componentConfig["base_count"];
+      if (this.currentOffset >= this.currentBaseCount) {
+        this.previous();
+      }
     }
   }
 };
@@ -15191,6 +15174,67 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 /***/ }),
 /* 49 */
+/*!***************************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/js/helpers/query-params-helper.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const updateQueryParams = (key, value, url) => {
+    if (!url) url = window.location.href;
+    let re = new RegExp(`([?&])${key}=.*?(&|#|$)(.*)`, "gi"),
+        hash;
+
+    if (re.test(url)) {
+        if (typeof value !== 'undefined' && value !== null) return url.replace(re, `$1${key}=${value}$2$3`);else {
+            hash = url.split('#');
+            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += `#${hash[1]}`;
+            return url;
+        }
+    } else {
+        if (typeof value !== 'undefined' && value !== null) {
+            const separator = url.indexOf('?') !== -1 ? '&' : '?';
+            hash = url.split('#');
+            url = `${hash[0]}${separator}${key}=${value}`;
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += `#${hash[1]}`;
+            return url;
+        } else return url;
+    }
+};
+
+const getQueryParam = (name, url) => {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
+          results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+const queryParamsToObject = () => {
+    const search = window.location.search.substring(1);
+    if (search.length === 0) {
+        return {};
+    } else {
+        const result = JSON.parse(`{"${search.replace(/&/g, '","').replace(/=/g, '":"')}"}`, (key, value) => {
+            return key === "" ? value : decodeURIComponent(value);
+        });
+        return result;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    updateQueryParams: updateQueryParams,
+    getQueryParam: getQueryParam,
+    queryParamsToObject: queryParamsToObject
+});
+
+/***/ }),
+/* 50 */
 /*!*********************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/collection/filter/filter.js ***!
   \*********************************************************************/
@@ -15200,7 +15244,9 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_component_component__ = __webpack_require__(/*! component/component */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_component__ = __webpack_require__(/*! component/component */ 1);
+
 
 
 
@@ -15208,7 +15254,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 
 
 const componentDef = {
-  mixins: [__WEBPACK_IMPORTED_MODULE_2_component_component__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3_component_component__["a" /* default */]],
   data: function () {
     return {
       filter: {}
@@ -15219,68 +15265,26 @@ const componentDef = {
       var url;
       var filter = this.filter;
       for (var key in this.filter) {
-        url = this.updateQueryParams(this.componentConfig["id"] + "-filter-" + key, this.filter[key], url);
+        url = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].updateQueryParams(this.componentConfig["id"] + "-filter-" + key, this.filter[key], url);
       }
-      url = this.updateQueryParams(this.componentConfig["id"] + "-offset", 0, url);
+      url = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].updateQueryParams(this.componentConfig["id"] + "-offset", 0, url);
       window.history.pushState({ matestackApp: true, url: url }, null, url);
       __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
     },
     resetFilter: function () {
       var url;
       for (var key in this.filter) {
-        url = this.updateQueryParams(this.componentConfig["id"] + "-filter-" + key, null, url);
+        url = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].updateQueryParams(this.componentConfig["id"] + "-filter-" + key, null, url);
         this.filter[key] = null;
         this.$forceUpdate();
       }
       window.history.pushState({ matestackApp: true, url: url }, null, url);
       __WEBPACK_IMPORTED_MODULE_1_js_event_hub__["a" /* default */].$emit(this.componentConfig["id"] + "-update");
-    },
-    updateQueryParams: function (key, value, url) {
-      if (!url) url = window.location.href;
-      var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
-          hash;
-
-      if (re.test(url)) {
-        if (typeof value !== 'undefined' && value !== null) return url.replace(re, '$1' + key + "=" + value + '$2$3');else {
-          hash = url.split('#');
-          url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-          if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += '#' + hash[1];
-          return url;
-        }
-      } else {
-        if (typeof value !== 'undefined' && value !== null) {
-          var separator = url.indexOf('?') !== -1 ? '&' : '?';
-          hash = url.split('#');
-          url = hash[0] + separator + key + '=' + value;
-          if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += '#' + hash[1];
-          return url;
-        } else return url;
-      }
-    },
-    getQueryParam: function (name, url) {
-      if (!url) url = window.location.href;
-      name = name.replace(/[\[\]]/g, '\\$&');
-      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-          results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    },
-    queryParamsToObject: function () {
-      var search = window.location.search.substring(1);
-      if (search.length === 0) {
-        return {};
-      } else {
-        var result = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) {
-          return key === "" ? value : decodeURIComponent(value);
-        });
-        return result;
-      }
     }
   },
   created: function () {
     var self = this;
-    var queryParamsObject = this.queryParamsToObject();
+    var queryParamsObject = __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__["a" /* default */].queryParamsToObject();
     Object.keys(queryParamsObject).forEach(function (key) {
       if (key.startsWith(self.componentConfig["id"] + "-filter-")) {
         self.filter[key.replace(self.componentConfig["id"] + "-filter-", "")] = queryParamsObject[key];
@@ -15294,7 +15298,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 50 */
+/* 51 */
 /*!*******************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/collection/order/order.js ***!
   \*******************************************************************/

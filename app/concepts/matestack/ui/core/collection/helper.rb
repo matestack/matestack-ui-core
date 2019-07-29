@@ -1,11 +1,13 @@
 module Matestack::Ui::Core::Collection
 
-  CollectionConfig = Struct.new(:id, :init_offset, :init_limit, :filtered_count, :base_count, :data, :filter, :context) do
+  CollectionConfig = Struct.new(:id, :init_offset, :init_limit, :filtered_count, :base_count, :data, :context) do
 
     def paginated_data
-      data
-        .offset(get_collection_offset)
-        .limit(get_collection_limit)
+      resulting_data = data
+      resulting_data = resulting_data.offset(get_collection_offset) unless get_collection_offset == 0
+      resulting_data = resulting_data.limit(get_collection_limit) unless get_collection_limit == 0
+
+      return resulting_data
     end
 
     def get_collection_offset
@@ -19,22 +21,35 @@ module Matestack::Ui::Core::Collection
     def pages
       offset = get_collection_offset
       limit = get_collection_limit
-      count = filtered_count
+      if filtered_count.present?
+        count = filtered_count
+      else
+        count = base_count
+      end
       page_count = count/limit
       page_count += 1 if count%limit > 0
       return (1..page_count).to_a
     end
 
     def from
-      get_collection_offset + 1
+      return get_collection_offset + 1 if to > 0
+      return 0 if to == 0
     end
 
     def to
       current_to = get_collection_offset + get_collection_limit
-      if current_to > filtered_count
-        return filtered_count
+      if filtered_count.present?
+        if current_to > filtered_count
+          return filtered_count
+        else
+          return current_to
+        end
       else
-        return current_to
+        if current_to > base_count
+          return base_count
+        else
+          return current_to
+        end
       end
     end
 
@@ -77,7 +92,7 @@ module Matestack::Ui::Core::Collection
       end
     end
 
-    def set_collection id: nil, init_offset: 0, init_limit: 10, base_count: nil, filtered_count: nil, data: nil
+    def set_collection id: nil, init_offset: 0, init_limit: nil, base_count: nil, filtered_count: nil, data: nil
       @collections = {} if @collections.nil?
 
       collection_config = CollectionConfig.new(
@@ -87,7 +102,6 @@ module Matestack::Ui::Core::Collection
         filtered_count,
         base_count,
         data,
-        get_collection_filter(id),
         context
       )
 
