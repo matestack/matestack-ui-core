@@ -9,11 +9,11 @@ The `collection` component is designed:
 - paginate the displayed instances without full page reload
 - order the displayed instances without full page reload
 
-The `collection` component should be as flexible as possible while still reducing the complexity of implementing all classic collection features by hand
+The `collection` component should be as flexible as possible while still reducing the complexity of implementing all classic collection features by hand.
 
 ## Prerequisites
 
-We use a ActiveRecord Model in the following examples. This Model has two columns: `id` and `title`.
+We use an ActiveRecord Model in the following examples. This Model has two columns: `id` and `title`.
 
 ## Examples
 
@@ -47,7 +47,12 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
       heading size: 2, text: "My Collection"
 
       partial :filter
-      partial :content
+
+      # the content has to be wrapped in an `async` component
+      # the event has to be "your_custom_collection_id" + "-update"
+      async rerender_on: "my-first-collection-update" do
+        partial :content
+      end
     }
   end
 
@@ -68,8 +73,9 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   end
 
   def content
-    partial {
+    partial {    
       collection_content @my_collection.config do
+
         ul do
           @my_collection.data.each do |dummy|
             li do
@@ -77,6 +83,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
             end
           end
         end
+
       end
     }
   end
@@ -117,7 +124,11 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
       heading size: 2, text: "My Collection"
 
       partial :filter
-      partial :content
+
+      async rerender_on: "my-first-collection-update" do
+        partial :content
+        partial :paginator #has to be placed within the `async` component!
+      end
     }
   end
 
@@ -140,6 +151,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   def content
     partial {
       collection_content @my_collection.config do
+
         ul do
           # now we use paginated_data!
           @my_collection.paginated_data.each do |dummy|
@@ -148,7 +160,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
             end
           end
         end
-        partial :paginator #has to be placed within `collection_content`!
+
       end
     }
   end
@@ -216,7 +228,11 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
 
       partial :filter
       partial :ordering
-      partial :content
+
+      async rerender_on: "my-first-collection-update" do
+        partial :content
+        partial :paginator #has to be placed within the `async` component!
+      end
     }
   end
 
@@ -258,6 +274,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   def content
     partial {
       collection_content @my_collection.config do
+
         ul do
           @my_collection.paginated_data.each do |dummy|
             li do
@@ -265,7 +282,7 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
             end
           end
         end
-        partial :paginator
+
       end
     }
   end
@@ -298,3 +315,89 @@ end
 ```
 
 ### Action enriched collection
+
+In this example, we want to display ALL instances of `DummyModel` and filter the collection by title using a text input. Additionally we want to delete an item of the list using the `action` component.
+
+```ruby
+class Pages::MyApp::Collection < Matestack::Ui::Page
+
+  include Matestack::Ui::Core::Collection::Helper
+
+  def prepare
+    my_collection_id = "my-first-collection"
+
+    current_filter = get_collection_filter(my_collection_id)
+
+    my_base_query = DummyModel.all
+
+    my_filtered_query = my_base_query
+      .where("title LIKE ?", "%#{current_filter[:title]}%")
+
+    @my_collection = set_collection({
+      id: my_collection_id,
+      data: my_filtered_query
+    })
+  end
+
+  def response
+    components {
+      heading size: 2, text: "My Collection"
+
+      partial :filter
+
+      async rerender_on: "my-first-collection-update" do
+        partial :content
+      end
+    }
+  end
+
+  def filter
+    partial {
+      collection_filter @my_collection.config do
+
+        collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+        collection_filter_submit do
+          button text: "filter"
+        end
+        collection_filter_reset do
+          button text: "reset"
+        end
+
+      end
+    }
+  end
+
+  def content
+    partial {    
+      collection_content @my_collection.config do
+
+        ul do
+          @my_collection.data.each do |dummy|
+            li do
+              plain dummy.title
+              action my_action_config(dummy.id) do
+                button text: "delete"
+              end
+            end
+          end
+        end
+
+      end
+    }
+  end
+
+  def my_action_config id
+    {
+      method: :delete,
+      path: :my_delete_path,
+      params:{
+        id: id
+      },
+      success: {
+        emit: "my-first-collection-update"
+      }
+    }
+  end
+
+end
+```
