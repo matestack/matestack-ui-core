@@ -28,7 +28,10 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
 
       partial :filter
       partial :ordering
-      partial :content
+      
+      async rerender_on: "my-first-collection-update" do
+        partial :content
+      end
     }
   end
 
