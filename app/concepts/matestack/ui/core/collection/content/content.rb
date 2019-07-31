@@ -6,7 +6,6 @@ module Matestack::Ui::Core::Collection::Content
       @component_config = @component_config.except(:data, :paginated_data)
     end
 
-
     def response
       components {
         div do
@@ -14,7 +13,6 @@ module Matestack::Ui::Core::Collection::Content
         end
       }
     end
-
 
   end
 end
