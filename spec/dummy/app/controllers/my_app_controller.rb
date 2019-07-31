@@ -55,7 +55,7 @@ class MyAppController < ApplicationController
     else
       render json: {
         errors: @dummy_model.errors,
-        message: "Test Model could not be saved!"
+        message: "Test Model could not be deleted!"
         }, status: :unproccessable_entity
     end
 
