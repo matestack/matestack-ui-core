@@ -2,9 +2,9 @@
 
 Show [specs](../../spec/usage/components/collection_spec.rb)
 
-The `collection` component is designed:
+The `collection` component is designed to
 
-- to display instances from a model (Active Record or similar)
+- display instances from a model (Active Record or similar)
 - filter the displayed instances without full page reload
 - paginate the displayed instances without full page reload
 - order the displayed instances without full page reload
@@ -258,8 +258,8 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
         plain "sort by:"
         collection_order_toggle key: :title do
           button do
-            # we want to use an "arrow up (unicode: &#8593;)"
-            # and and an "arrow down (unicode: &#8595;)" in order to
+            # we use an "arrow up (unicode: &#8593;)"
+            # and and an "arrow down (unicode: &#8595;)" to
             # visualize the current order state
             collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
             plain "title"
@@ -317,7 +317,7 @@ end
 
 ### Action enriched collection
 
-In this example, we want to display ALL instances of `DummyModel` and filter the collection by title using a text input. Additionally we want to delete an item of the list using the `action` component.
+In this example, we want to display ALL instances of `DummyModel` and filter the collection by title using a text input. Additionally we want to be able to delete an item of the list using the `action` component.
 
 ```ruby
 class Pages::MyApp::Collection < Matestack::Ui::Page
