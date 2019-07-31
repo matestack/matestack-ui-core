@@ -1,8 +1,4 @@
 class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
-  #
-  # def prepare
-  #   @count = DummyModel.all.count
-  # end
 
   def response
     components {
@@ -14,7 +10,7 @@ class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
       onclick emit: "test" do
         button text: "rerender"
       end
-      async defer: true, url_params: context[:params] do
+      async defer: 3000 do
         partial :my_deferred_scope
       end
     }

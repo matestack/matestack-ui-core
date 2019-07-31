@@ -18,8 +18,16 @@ const componentDef = {
   methods: {
     show: function(event_data){
       const self = this
+      if (this.showing === true){
+        return
+      }
       this.showing = true
       this.event.data = event_data
+      if(this.componentConfig["defer"] != undefined){
+        if(!isNaN(this.componentConfig["defer"])){
+          this.startDefer()
+        }
+      }
       if(this.componentConfig["hide_after"] != undefined){
         self.hide_after_timeout = setTimeout(function () {
           self.hide()
@@ -29,6 +37,12 @@ const componentDef = {
     hide: function(){
       this.showing = false
       this.event.data = {}
+    },
+    startDefer: function(){
+      const self = this
+      setTimeout(function () {
+        self.rerender()
+      }, parseInt(this.componentConfig["defer"]));
     }
   },
   created: function () {
@@ -39,14 +53,11 @@ const componentDef = {
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
     }
-    if(this.componentConfig["hide_on"] != undefined){
-      this.showing = true
-    }
     if(this.componentConfig["defer"] != undefined){
       if(!isNaN(this.componentConfig["defer"])){
-        setTimeout(function () {
-          self.rerender()
-        }, parseInt(this.componentConfig["defer"]));
+        if (this.componentConfig["show_on"] == undefined){
+          this.startDefer()
+        }
       }
     }
   },

@@ -48,7 +48,7 @@ module Matestack::Ui::Core::Page
     end
 
     def components(&block)
-      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, &block)
+      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
     end
 
     def nodes_to_cell
@@ -59,12 +59,10 @@ module Matestack::Ui::Core::Page
 
     def partial(&block)
       return block
-      # Matestack::Ui::Core::PageNode.build(self, included, &block)
     end
 
     def slot(&block)
-      # return block
-      Matestack::Ui::Core::PageNode.build(self, nil, &block)
+      Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
     end
 
 
