@@ -4,7 +4,7 @@
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/3?closed=1)
 
-## Improvements
+### Improvements
 
 - Introduce scaffolder #72 by PasWen
 - Make buttons disableable  enhancement by PasWen
@@ -19,7 +19,7 @@
 - Added summary details components #76 by bdlb77
 - Add caption with doc and specs  enhancement #68 by michaelrevans
 
-## Bugfixes
+### Bugfixes
 
 - Fixed Link Component #84 by jonasjabari
 
