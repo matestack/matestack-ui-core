@@ -1,0 +1,20 @@
+Description:
+    Stubs out a new matestack component. Pass the component name, under_scored.
+
+    To create a dynamic component, specify it using the --dynamic option.
+
+    To place this component within a namespace, specify the namespace name under_scored and it
+    will get generated into 'app/matestack/components/namespace/*'.
+
+Example 1:
+    `rails generate matestack_component NAME`
+
+    This will create:
+        app/matestack/components/NAME.rb
+
+Example 2:
+    `rails generate matestack_component NAME --dynamic --namespace sample_namespace`
+
+    This will create:
+        app/matestack/components/sample_namespace/NAME.rb
+        app/matestack/components/sample_namespace/NAME.js

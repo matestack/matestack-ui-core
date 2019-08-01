@@ -34,12 +34,9 @@ Tests follow quite the same rules as the documentation: Make sure to either add 
 
 ## Release
 
-Webpacker is used for managing all JS assets. In order to deploy a packed JS, we
-use a "builder" app found in repo_root/builder
-This builder app uses a symlink in order to reference the actual core found in
-builder/vendor.
+Webpacker is used for managing all JS assets. In order to deploy a packed JS, we use a "builder" app found in `repo_root/builder`. This builder app uses a symlink in order to reference the actual core found in `builder/vendor`.
 
-You can run webpacker inside this builder app in order to pack JS assets:
+You can run webpacker inside this builder app to pack JS assets:
 
 ```shell
 cd builder

@@ -48,7 +48,7 @@ module Matestack::Ui::Core::Page
     end
 
     def components(&block)
-      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, &block)
+      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
     end
 
     def nodes_to_cell
@@ -59,12 +59,10 @@ module Matestack::Ui::Core::Page
 
     def partial(&block)
       return block
-      # Matestack::Ui::Core::PageNode.build(self, included, &block)
     end
 
     def slot(&block)
-      # return block
-      Matestack::Ui::Core::PageNode.build(self, nil, &block)
+      Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
     end
 
 
@@ -82,25 +80,28 @@ module Matestack::Ui::Core::Page
 
       when :only_page
         nodes_to_cell
-        # keys_array = ["div_2","components", "partial_1", "components", "form_1"]
-        # puts @nodes.dig(*keys_array)
         render :page
       when :render_page_with_app
         concept(@app_class).call(:show, @page_id, @nodes)
       when :render_component
-        if component_key.include?("__")
-          keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
-          page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
-          if page_content_keys.any?
-            keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
+        begin
+          if component_key.include?("__")
+            keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
+            page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
+            if page_content_keys.any?
+              keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
+            end
+            node = @nodes.dig(*keys_array)
+            cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+            return cell.render_content
+          else
+            node = @nodes[component_key]
+            cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+            return cell.render_content
           end
-          node = @nodes.dig(*keys_array)
-          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
-          return cell.render_content
-        else
-          node = @nodes[component_key]
-          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
-          return cell.render_content
+        rescue
+          raise "Component '#{component_key}' could not be resolved. Notice: Rerendering currently works only on page-level. \
+          You are therefore currently not able to use 'async' within a component for example!"
         end
       end
     end

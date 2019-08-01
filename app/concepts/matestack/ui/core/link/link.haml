@@ -1,6 +1,5 @@
-- if options[:text].nil?
-  = link_to link_path, @tag_attributes do
-    - if block_given?
-      = yield
-- else
-  = link_to options[:text], link_path, @tag_attributes
+%a{@tag_attributes}
+  - if options[:text].nil? && block_given?
+    = yield
+  - else
+    = options[:text]
