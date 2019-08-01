@@ -6,6 +6,8 @@ As the name suggests, the async component allows us to let our components behave
 
 Please be aware that, if not configured otherwise, the async core component does get loaded and displayed on initial pageload!
 
+**the async component currently only works on page-level --> we're working on it in order support the usage of async within a component [#75](https://github.com/basemate/matestack-ui-core/issues/75)**
+
 ## Parameters
 
 The async core component accepts the following parameters:
@@ -63,6 +65,73 @@ async hide_after: 1000 do
   end
 end
 ```
+
+### Defer
+
+The `defer` option may be used in two ways:
+
+#### simple defer
+`defer: true` implies that the content of the `async` component gets requested within a separate GET request right after initial page load is done.
+```ruby
+async defer: true do
+  div id: 'my-div' do
+    plain 'I will be requested within a separate GET request right after initial page load is done'
+  end
+end
+```
+
+#### delayed defer
+`defer: 2000` means that the content of the `async` component gets requested within a separate GET request `2000ms` after initial page load is done.
+```ruby
+async defer: 2000 do
+  div id: 'my-div' do
+    plain 'I will be requested within a separate GET request 2000ms after initial page load is done'
+  end
+end
+```
+
+The content of an `async` component with activated `defer` behavior is not resolved within the first page load!
+
+```ruby
+#...
+async defer: 1000 do
+  some_database_data = SomeModel.some_heavy_query
+  div id: 'my-div' do
+    some_database_data.each do |some_instance|
+      plain some_instance.id
+    end
+  end
+end
+async defer: 2000 do
+  some_other_database_data = SomeModel.some_other_heavy_query
+  div id: 'my-div' do
+    some_other_database_data.each do |some_instance|
+      plain some_instance.id
+    end
+  end
+end
+#...
+```
+
+The `SomeModel.some_query` does not get executed within the first page load and only will be called within the deferred GET request. This helps us to render a complex UI with loads of heavy method calls step by step without slowing down the initial page load and rendering of simple content.
+
+#### defer used with show_on and hide_on
+You can trigger the deferred GET request base on a client-side event fired by an `onclick` component for example.
+
+```ruby
+onclick emit: "my_event" do
+  button text: "show"
+end
+onclick emit: "my_other_event" do
+  button text: "hide"
+end
+async defer: true, show_on: "my_event", hide_on: "my_other_event" do
+  div id: 'my-div' do
+    plain 'I will be requested within a separate GET request right after "my_event" is fired'
+  end
+end
+```
+Everytime the `async` section gets shown, the content of the `async` component gets freshly fetched from the server!
 
 ## Examples
 
@@ -183,3 +252,22 @@ page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event", { messa
 ```
 
 As a result, the event message gets shown _after_ our event was fired!
+
+### Example 6: Deferred loading
+
+On our example page, we wrap our async event around a placeholder for the event message.
+
+```ruby
+class ExamplePage < Matestack::Ui::Page
+
+  def response
+    components {
+      async defer: true do
+        div id: 'my-div' do
+          plain 'I will be requested within a separate GET request right after initial page load is done'
+        end
+      end
+    }
+  end
+
+end

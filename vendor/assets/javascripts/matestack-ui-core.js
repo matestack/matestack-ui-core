@@ -61,7 +61,7 @@ var MatestackUiCore =
 /******/ 	__webpack_require__.p = "/../../vendor/assets/javascripts/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11031,7 +11031,7 @@ Vue.compile = compileToFunctions;
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(/*! ./../../../builder/node_modules/webpack/buildin/global.js */ 6), __webpack_require__(/*! ./../../../builder/node_modules/timers-browserify/main.js */ 17).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(/*! ./../../../builder/node_modules/webpack/buildin/global.js */ 6), __webpack_require__(/*! ./../../../builder/node_modules/timers-browserify/main.js */ 18).setImmediate))
 
 /***/ }),
 /* 1 */
@@ -11046,7 +11046,7 @@ Vue.compile = compileToFunctions;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
 
 
@@ -11120,8 +11120,8 @@ const componentMixin = {
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ 9);
-var isBuffer = __webpack_require__(/*! is-buffer */ 20);
+var bind = __webpack_require__(/*! ./helpers/bind */ 10);
+var isBuffer = __webpack_require__(/*! is-buffer */ 21);
 
 /*global toString:true*/
 
@@ -12399,7 +12399,7 @@ var index_esm = {
 /*! exports used: default */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./lib/axios */ 19);
+module.exports = __webpack_require__(/*! ./lib/axios */ 20);
 
 /***/ }),
 /* 6 */
@@ -12446,7 +12446,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(/*! ./utils */ 2);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 22);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 23);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -12462,10 +12462,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ 10);
+    adapter = __webpack_require__(/*! ./adapters/xhr */ 11);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ 10);
+    adapter = __webpack_require__(/*! ./adapters/http */ 11);
   }
   return adapter;
 }
@@ -12540,10 +12540,71 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../builder/node_modules/process/browser.js */ 8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../builder/node_modules/process/browser.js */ 9)))
 
 /***/ }),
 /* 8 */
+/*!***************************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/js/helpers/query-params-helper.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const updateQueryParams = (key, value, url) => {
+    if (!url) url = window.location.href;
+    let re = new RegExp(`([?&])${key}=.*?(&|#|$)(.*)`, "gi"),
+        hash;
+
+    if (re.test(url)) {
+        if (typeof value !== 'undefined' && value !== null) return url.replace(re, `$1${key}=${value}$2$3`);else {
+            hash = url.split('#');
+            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += `#${hash[1]}`;
+            return url;
+        }
+    } else {
+        if (typeof value !== 'undefined' && value !== null) {
+            const separator = url.indexOf('?') !== -1 ? '&' : '?';
+            hash = url.split('#');
+            url = `${hash[0]}${separator}${key}=${value}`;
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += `#${hash[1]}`;
+            return url;
+        } else return url;
+    }
+};
+
+const getQueryParam = (name, url) => {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
+          results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+const queryParamsToObject = () => {
+    const search = window.location.search.substring(1);
+    if (search.length === 0) {
+        return {};
+    } else {
+        const result = JSON.parse(`{"${search.replace(/&/g, '","').replace(/=/g, '":"')}"}`, (key, value) => {
+            return key === "" ? value : decodeURIComponent(value);
+        });
+        return result;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    updateQueryParams: updateQueryParams,
+    getQueryParam: getQueryParam,
+    queryParamsToObject: queryParamsToObject
+});
+
+/***/ }),
+/* 9 */
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
   \*****************************************/
@@ -12738,7 +12799,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /*!*************************************************!*\
   !*** ../node_modules/axios/lib/helpers/bind.js ***!
   \*************************************************/
@@ -12761,7 +12822,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /*!*************************************************!*\
   !*** ../node_modules/axios/lib/adapters/xhr.js ***!
   \*************************************************/
@@ -12773,12 +12834,12 @@ module.exports = function bind(fn, thisArg) {
 
 
 var utils = __webpack_require__(/*! ./../utils */ 2);
-var settle = __webpack_require__(/*! ./../core/settle */ 23);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 25);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 26);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 27);
-var createError = __webpack_require__(/*! ../core/createError */ 11);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 28);
+var settle = __webpack_require__(/*! ./../core/settle */ 24);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 26);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 27);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 28);
+var createError = __webpack_require__(/*! ../core/createError */ 12);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 29);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -12875,7 +12936,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 29);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 30);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -12953,7 +13014,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /*!*****************************************************!*\
   !*** ../node_modules/axios/lib/core/createError.js ***!
   \*****************************************************/
@@ -12964,7 +13025,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 24);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 25);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -12983,7 +13044,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /*!****************************************************!*\
   !*** ../node_modules/axios/lib/cancel/isCancel.js ***!
   \****************************************************/
@@ -13000,7 +13061,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /*!**************************************************!*\
   !*** ../node_modules/axios/lib/cancel/Cancel.js ***!
   \**************************************************/
@@ -13031,7 +13092,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /*!************************************************************************!*\
   !*** ../node_modules/v-runtime-template/dist/v-runtime-template.es.js ***!
   \************************************************************************/
@@ -13106,7 +13167,7 @@ var index = {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /*!********************************************************!*\
   !*** ../app/concepts/matestack/ui/core/async/async.js ***!
   \********************************************************/
@@ -13138,8 +13199,16 @@ const componentDef = {
   methods: {
     show: function (event_data) {
       const self = this;
+      if (this.showing === true) {
+        return;
+      }
       this.showing = true;
       this.event.data = event_data;
+      if (this.componentConfig["defer"] != undefined) {
+        if (!isNaN(this.componentConfig["defer"])) {
+          this.startDefer();
+        }
+      }
       if (this.componentConfig["hide_after"] != undefined) {
         self.hide_after_timeout = setTimeout(function () {
           self.hide();
@@ -13149,6 +13218,12 @@ const componentDef = {
     hide: function () {
       this.showing = false;
       this.event.data = {};
+    },
+    startDefer: function () {
+      const self = this;
+      setTimeout(function () {
+        self.rerender();
+      }, parseInt(this.componentConfig["defer"]));
     }
   },
   created: function () {
@@ -13159,8 +13234,12 @@ const componentDef = {
     if (this.componentConfig["show_on"] != undefined) {
       this.showing = false;
     }
-    if (this.componentConfig["hide_on"] != undefined) {
-      this.showing = true;
+    if (this.componentConfig["defer"] != undefined) {
+      if (!isNaN(this.componentConfig["defer"])) {
+        if (this.componentConfig["show_on"] == undefined) {
+          this.startDefer();
+        }
+      }
     }
   },
   beforeDestroy: function () {
@@ -13177,7 +13256,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* harmony default export */ __webpack_exports__["a"] = (componentDef);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /*!*********************************************!*\
   !*** ./app/javascript/packs/application.js ***!
   \*********************************************/
@@ -13193,7 +13272,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_component__ = __webpack_require__(/*! component/component */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_js_core__ = __webpack_require__(/*! js/core */ 37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_js_core__ = __webpack_require__(/*! js/core */ 38);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vuex", function() { return __WEBPACK_IMPORTED_MODULE_1_vuex__["a"]; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return __WEBPACK_IMPORTED_MODULE_2_axios___default.a; });
@@ -13219,7 +13298,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /*!************************************************!*\
   !*** ./node_modules/timers-browserify/main.js ***!
   \************************************************/
@@ -13280,7 +13359,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(/*! setimmediate */ 18);
+__webpack_require__(/*! setimmediate */ 19);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -13294,7 +13373,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 6)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
   \***************************************************/
@@ -13489,10 +13568,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 6), __webpack_require__(/*! ./../process/browser.js */ 8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ 6), __webpack_require__(/*! ./../process/browser.js */ 9)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /*!******************************************!*\
   !*** ../node_modules/axios/lib/axios.js ***!
   \******************************************/
@@ -13504,8 +13583,8 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 
 var utils = __webpack_require__(/*! ./utils */ 2);
-var bind = __webpack_require__(/*! ./helpers/bind */ 9);
-var Axios = __webpack_require__(/*! ./core/Axios */ 21);
+var bind = __webpack_require__(/*! ./helpers/bind */ 10);
+var Axios = __webpack_require__(/*! ./core/Axios */ 22);
 var defaults = __webpack_require__(/*! ./defaults */ 7);
 
 /**
@@ -13539,15 +13618,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 13);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 35);
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 12);
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 14);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 36);
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 13);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 36);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 37);
 
 module.exports = axios;
 
@@ -13556,7 +13635,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /*!******************************************!*\
   !*** ../node_modules/is-buffer/index.js ***!
   \******************************************/
@@ -13588,7 +13667,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /*!***********************************************!*\
   !*** ../node_modules/axios/lib/core/Axios.js ***!
   \***********************************************/
@@ -13601,8 +13680,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(/*! ./../defaults */ 7);
 var utils = __webpack_require__(/*! ./../utils */ 2);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 30);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 31);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 31);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 32);
 
 /**
  * Create a new instance of Axios
@@ -13679,7 +13758,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /*!****************************************************************!*\
   !*** ../node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \****************************************************************/
@@ -13703,7 +13782,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /*!************************************************!*\
   !*** ../node_modules/axios/lib/core/settle.js ***!
   \************************************************/
@@ -13714,7 +13793,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ 11);
+var createError = __webpack_require__(/*! ./createError */ 12);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -13741,7 +13820,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /*!******************************************************!*\
   !*** ../node_modules/axios/lib/core/enhanceError.js ***!
   \******************************************************/
@@ -13774,7 +13853,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /*!*****************************************************!*\
   !*** ../node_modules/axios/lib/helpers/buildURL.js ***!
   \*****************************************************/
@@ -13852,7 +13931,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /*!*********************************************************!*\
   !*** ../node_modules/axios/lib/helpers/parseHeaders.js ***!
   \*********************************************************/
@@ -13917,7 +13996,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /*!************************************************************!*\
   !*** ../node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \************************************************************/
@@ -13997,7 +14076,7 @@ module.exports = (
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /*!*************************************************!*\
   !*** ../node_modules/axios/lib/helpers/btoa.js ***!
   \*************************************************/
@@ -14045,7 +14124,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /*!****************************************************!*\
   !*** ../node_modules/axios/lib/helpers/cookies.js ***!
   \****************************************************/
@@ -14110,7 +14189,7 @@ module.exports = (
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /*!************************************************************!*\
   !*** ../node_modules/axios/lib/core/InterceptorManager.js ***!
   \************************************************************/
@@ -14174,7 +14253,7 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /*!*********************************************************!*\
   !*** ../node_modules/axios/lib/core/dispatchRequest.js ***!
   \*********************************************************/
@@ -14186,11 +14265,11 @@ module.exports = InterceptorManager;
 
 
 var utils = __webpack_require__(/*! ./../utils */ 2);
-var transformData = __webpack_require__(/*! ./transformData */ 32);
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 12);
+var transformData = __webpack_require__(/*! ./transformData */ 33);
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 13);
 var defaults = __webpack_require__(/*! ../defaults */ 7);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 33);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 34);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 34);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 35);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -14272,7 +14351,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /*!*******************************************************!*\
   !*** ../node_modules/axios/lib/core/transformData.js ***!
   \*******************************************************/
@@ -14304,7 +14383,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /*!**********************************************************!*\
   !*** ../node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \**********************************************************/
@@ -14330,7 +14409,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /*!********************************************************!*\
   !*** ../node_modules/axios/lib/helpers/combineURLs.js ***!
   \********************************************************/
@@ -14356,7 +14435,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /*!*******************************************************!*\
   !*** ../node_modules/axios/lib/cancel/CancelToken.js ***!
   \*******************************************************/
@@ -14367,7 +14446,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(/*! ./Cancel */ 13);
+var Cancel = __webpack_require__(/*! ./Cancel */ 14);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -14425,7 +14504,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /*!***************************************************!*\
   !*** ../node_modules/axios/lib/helpers/spread.js ***!
   \***************************************************/
@@ -14464,7 +14543,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /*!****************************************************!*\
   !*** ../app/concepts/matestack/ui/core/js/core.js ***!
   \****************************************************/
@@ -14473,19 +14552,19 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_app__ = __webpack_require__(/*! app/app */ 38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_async_async__ = __webpack_require__(/*! async/async */ 15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_page_content__ = __webpack_require__(/*! page/content */ 39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_store__ = __webpack_require__(/*! app/store */ 40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_app__ = __webpack_require__(/*! app/app */ 39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_async_async__ = __webpack_require__(/*! async/async */ 16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_page_content__ = __webpack_require__(/*! page/content */ 40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_store__ = __webpack_require__(/*! app/store */ 41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_component_component__ = __webpack_require__(/*! component/component */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_component_anonym_dynamic_component__ = __webpack_require__(/*! component/anonym-dynamic-component */ 41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_html_html__ = __webpack_require__(/*! html/html */ 42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_transition_transition__ = __webpack_require__(/*! transition/transition */ 43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_action_action__ = __webpack_require__(/*! action/action */ 44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_form_form__ = __webpack_require__(/*! form/form */ 45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_view_view__ = __webpack_require__(/*! view/view */ 46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_onclick_onclick__ = __webpack_require__(/*! onclick/onclick */ 47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_collection_content_content__ = __webpack_require__(/*! collection/content/content */ 48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_component_anonym_dynamic_component__ = __webpack_require__(/*! component/anonym-dynamic-component */ 42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_html_html__ = __webpack_require__(/*! html/html */ 43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_transition_transition__ = __webpack_require__(/*! transition/transition */ 44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_action_action__ = __webpack_require__(/*! action/action */ 45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_form_form__ = __webpack_require__(/*! form/form */ 46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_view_view__ = __webpack_require__(/*! view/view */ 47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_onclick_onclick__ = __webpack_require__(/*! onclick/onclick */ 48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_collection_content_content__ = __webpack_require__(/*! collection/content/content */ 49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_collection_filter_filter__ = __webpack_require__(/*! collection/filter/filter */ 50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_collection_order_order__ = __webpack_require__(/*! collection/order/order */ 51);
 
@@ -14519,7 +14598,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]);
 
 /***/ }),
-/* 38 */
+/* 39 */
 /*!****************************************************!*\
   !*** ../app/concepts/matestack/ui/core/app/app.js ***!
   \****************************************************/
@@ -14530,7 +14609,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(/*! vuex */ 4);
 
 
@@ -14561,7 +14640,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 39 */
+/* 40 */
 /*!*********************************************************!*\
   !*** ../app/concepts/matestack/ui/core/page/content.js ***!
   \*********************************************************/
@@ -14591,7 +14670,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 40 */
+/* 41 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/app/store.js ***!
   \******************************************************/
@@ -14676,7 +14755,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 /* harmony default export */ __webpack_exports__["a"] = (store);
 
 /***/ }),
-/* 41 */
+/* 42 */
 /*!*******************************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js ***!
   \*******************************************************************************/
@@ -14698,7 +14777,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 42 */
+/* 43 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/html/html.js ***!
   \******************************************************/
@@ -14720,7 +14799,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (component);
 
 /***/ }),
-/* 43 */
+/* 44 */
 /*!******************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/transition/transition.js ***!
   \******************************************************************/
@@ -14759,7 +14838,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 44 */
+/* 45 */
 /*!**********************************************************!*\
   !*** ../app/concepts/matestack/ui/core/action/action.js ***!
   \**********************************************************/
@@ -14822,7 +14901,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 45 */
+/* 46 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/form/form.js ***!
   \******************************************************/
@@ -14969,7 +15048,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 46 */
+/* 47 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/view/view.js ***!
   \******************************************************/
@@ -15024,7 +15103,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 47 */
+/* 48 */
 /*!************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/onclick/onclick.js ***!
   \************************************************************/
@@ -15058,7 +15137,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 48 */
+/* 49 */
 /*!***********************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/collection/content/content.js ***!
   \***********************************************************************/
@@ -15068,9 +15147,9 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_component__ = __webpack_require__(/*! component/component */ 1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_async_async__ = __webpack_require__(/*! async/async */ 15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_async_async__ = __webpack_require__(/*! async/async */ 16);
 
 
 
@@ -15173,67 +15252,6 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 49 */
-/*!***************************************************************************!*\
-  !*** ../app/concepts/matestack/ui/core/js/helpers/query-params-helper.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/*! exports used: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const updateQueryParams = (key, value, url) => {
-    if (!url) url = window.location.href;
-    let re = new RegExp(`([?&])${key}=.*?(&|#|$)(.*)`, "gi"),
-        hash;
-
-    if (re.test(url)) {
-        if (typeof value !== 'undefined' && value !== null) return url.replace(re, `$1${key}=${value}$2$3`);else {
-            hash = url.split('#');
-            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-            if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += `#${hash[1]}`;
-            return url;
-        }
-    } else {
-        if (typeof value !== 'undefined' && value !== null) {
-            const separator = url.indexOf('?') !== -1 ? '&' : '?';
-            hash = url.split('#');
-            url = `${hash[0]}${separator}${key}=${value}`;
-            if (typeof hash[1] !== 'undefined' && hash[1] !== null) url += `#${hash[1]}`;
-            return url;
-        } else return url;
-    }
-};
-
-const getQueryParam = (name, url) => {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
-          results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-};
-
-const queryParamsToObject = () => {
-    const search = window.location.search.substring(1);
-    if (search.length === 0) {
-        return {};
-    } else {
-        const result = JSON.parse(`{"${search.replace(/&/g, '","').replace(/=/g, '":"')}"}`, (key, value) => {
-            return key === "" ? value : decodeURIComponent(value);
-        });
-        return result;
-    }
-};
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    updateQueryParams: updateQueryParams,
-    getQueryParam: getQueryParam,
-    queryParamsToObject: queryParamsToObject
-});
-
-/***/ }),
 /* 50 */
 /*!*********************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/collection/filter/filter.js ***!
@@ -15244,7 +15262,7 @@ const queryParamsToObject = () => {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_component__ = __webpack_require__(/*! component/component */ 1);
 
 
@@ -15308,7 +15326,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_helpers_query_params_helper__ = __webpack_require__(/*! js/helpers/query-params-helper */ 8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_component_component__ = __webpack_require__(/*! component/component */ 1);
 
 

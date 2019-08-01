@@ -1,7 +1,7 @@
 require_relative "../../support/utils"
 include Utils
 
-describe 'Span Component', type: :feature, js: true do
+describe 'Small Component', type: :feature, js: true do
 
   it 'Example 1 - yield, no options[:text]' do
 
@@ -9,14 +9,14 @@ describe 'Span Component', type: :feature, js: true do
 
       def response
         components {
-          # simple span
-          span do
-            plain 'I am simple'
+          # simple small tag
+          small do
+            plain 'I am a simple small tag'
           end
 
-          # enhanced span
-          span id: 'my-id', class: 'my-class' do
-            plain 'I am enhanced'
+          # enhanced small tag
+          small id: 'my-id', class: 'my-class' do
+            plain 'I am a enhanced small tag'
           end
         }
       end
@@ -28,8 +28,8 @@ describe 'Span Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <span>I am simple</span>
-    <span id="my-id" class="my-class">I am enhanced</span>
+    <small>I am a simple small tag</small>
+    <small id="my-id" class="my-class">I am a enhanced small tag</small>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
@@ -41,11 +41,11 @@ describe 'Span Component', type: :feature, js: true do
 
       def response
         components {
-          # simple span
-          span text: 'I am simple'
+          # simple small
+          small text: 'I am a simple small tag'
 
-          # enhanced span
-          span id: 'my-id', class: 'my-class',text: 'I am enhanced'
+          # enhanced small
+          small id: 'my-id', class: 'my-class', text: 'I am enhanced small tag'
         }
       end
 
@@ -56,8 +56,8 @@ describe 'Span Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <span>I am simple</span>
-    <span id="my-id" class="my-class">I am enhanced</span>
+    <small>I am a simple small tag</small>
+    <small id="my-id" class="my-class">I am enhanced small tag</small>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
