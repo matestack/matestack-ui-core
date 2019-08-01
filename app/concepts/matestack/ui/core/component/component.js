@@ -27,11 +27,11 @@ const componentMixin = {
       self.params["component_key"] = self.componentConfig["component_key"]
       axios({
         method: "get",
-        url: self.componentConfig["origin_url"],
+        url: location.pathname + location.search,
         headers: {
           'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
         },
-        params: self.params
+        params: {"component_key": self.componentConfig["component_key"]}
       })
       .then(function(response){
         self.asyncTemplate = response["data"];
