@@ -23,20 +23,31 @@ Implementing a simple, hard coded table.
 
 ```ruby
 table class: "foo" do
-  tr class: "bar" do
-    th text: "First"
-    th text: "Matestack"
-    th text: "Table"
+  thead do
+    tr class: "bar" do
+      th text: "First"
+      th text: "Matestack"
+      th text: "Table"
+    end
   end
-  tr do
-    td text: "One"
-    td text: "Two"
-    td text: "Three"
+  tbody do
+    tr do
+      td text: "One"
+      td text: "Two"
+      td text: "Three"
+    end
+    tr do
+      td text: "Uno"
+      td text: "Dos"
+      td text: "Tres"
+    end
   end
-  tr do
-    td text: "Uno"
-    td text: "Dos"
-    td text: "Tres"
+  tfoot do
+    tr do
+      td text: "Eins"
+      td text: "Zwei"
+      td text: "Drei"
+    end
   end
 end
 ```
