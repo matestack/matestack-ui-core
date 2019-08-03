@@ -1,7 +1,7 @@
 require_relative '../../support/utils'
 include Utils
 
-describe 'Table Components table, th, tr, td', type: :feature, js: true do
+describe 'Table Components table, th, tr, td, thead, tbody, tfoot', type: :feature, js: true do
 
   it 'Example 1' do
 
@@ -10,20 +10,31 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
       def response
         components {
           table class: 'foo' do
-            tr class: 'bar' do
-              th text: 'First'
-              th text: 'Matestack'
-              th text: 'Table'
+            thead class: 'head' do
+              tr class: 'bar' do
+                th text: 'First'
+                th text: 'Matestack'
+                th text: 'Table'
+              end
             end
-            tr do
-              td text: 'One'
-              td text: 'Two'
-              td text: 'Three'
+            tbody class: 'body' do
+              tr do
+                td text: 'One'
+                td text: 'Two'
+                td text: 'Three'
+              end
+              tr do
+                td text: 'Uno'
+                td text: 'Dos'
+                td text: 'Tres'
+              end
             end
-            tr do
-              td text: 'Uno'
-              td text: 'Dos'
-              td text: 'Tres'
+            tfoot class: 'foot' do
+              tr do
+                td text: 'Eins'
+                td text: 'Zwei'
+                td text: 'Drei'
+              end
             end
           end
         }
@@ -37,12 +48,14 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
 
     expected_static_output = <<~HTML
     <table class="foo">
-      <tbody>
+      <thead class="head">
         <tr class="bar">
           <th>First</th>
           <th>Matestack</th>
           <th>Table</th>
         </tr>
+      </thead>
+      <tbody class="body">
         <tr>
           <td>One</td>
           <td>Two</td>
@@ -54,13 +67,20 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
           <td>Tres</td>
         </tr>
       </tbody>
+      <tfoot class="foot">
+        <tr>
+          <td>Eins</td>
+          <td>Zwei</td>
+          <td>Drei</td>
+        </tr>
+      </tfoot>
     </table>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
 
-  it 'Example 2' do
+  it 'Example 2, when thead, tbody, tfoot are omitted, then tbody is implied' do
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -129,6 +149,57 @@ describe 'Table Components table, th, tr, td', type: :feature, js: true do
           <td>Do</td>
           <td>Custom</td>
           <td>Stuff</td>
+        </tr>
+      </tbody>
+    </table>
+    HTML
+
+    expect(stripped(static_output)).to include(stripped(expected_static_output))
+  end
+
+  it 'Example 2, with only thead, then tbody is implied for other rows' do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          table do
+            thead do
+              tr do
+                th text: 'First'
+                th text: 'Matestack'
+                th text: 'Table'
+              end
+            end
+            tr do
+              td text: 'One'
+              td text: 'Two'
+              td text: 'Three'
+            end
+          end
+        }
+      end
+
+    end
+
+    visit '/example'
+
+    static_output = page.html
+
+    expected_static_output = <<~HTML
+    <table>
+      <thead>
+        <tr>
+          <th>First</th>
+          <th>Matestack</th>
+          <th>Table</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>One</td>
+          <td>Two</td>
+          <td>Three</td>
         </tr>
       </tbody>
     </table>
