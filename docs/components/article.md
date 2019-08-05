@@ -14,6 +14,9 @@ Expects a string with all ids the span should have.
 #### # class (optional)
 Expects a string with all classes the span should have.
 
+#### # text - optional
+Expects a string which will be displayed as the content inside the `article`. If this is not passed, a block must be passed instead.
+
 ## Example 1: Yield a given block
 
 ```ruby
