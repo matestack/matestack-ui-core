@@ -7,5 +7,6 @@ module Matestack::Ui::Core::Abbr
         "title": options[:title]
       })
     end
+
   end
 end

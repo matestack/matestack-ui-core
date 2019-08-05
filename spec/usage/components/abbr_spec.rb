@@ -33,9 +33,7 @@ describe 'Abbr Component', type: :feature, js: true do
       def response
         components {
           abbr title: 'Cascading Style Sheets' do
-            span do
-              plain 'CSS'
-            end
+            span text: 'CSS'
           end
         }
       end

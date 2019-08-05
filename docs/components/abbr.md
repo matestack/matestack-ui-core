@@ -8,7 +8,7 @@ The HTML `abbr` tag implemented in ruby.
 
 This component expects 1 required param, 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-#### # title
+#### # title - required
 Expects a string with the meaning of the abbreviation contained within the tag.
 
 #### # id - optional
@@ -17,6 +17,8 @@ Expects a string with all ids the `abbr` should have.
 #### # class - optional
 Expects a string with all classes the `abbr` should have.
 
+#### # text - optional
+Expects a string which will be displayed as the content inside the `abbr`. If this is not passed, a block must be passed instead.
 
 ## Example 1 - render options[:text] param
 
@@ -35,9 +37,7 @@ returns
 
 ```ruby
 abbr title: 'Cascading Style Sheets' do
-  span do
-    plain 'CSS'
-  end
+  span text: 'CSS'
 end
 ```
 
