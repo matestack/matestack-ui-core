@@ -14,6 +14,9 @@ Expects a string with all ids the sub should have.
 #### # class (optional)
 Expects a string with all classes the sub should have.
 
+#### # text (optional)
+Expects a string with the text that should go into the `<sub>` tag.
+
 ## Example 1: Yield a given block
 
 ```ruby
