@@ -1,28 +1,20 @@
-# matestack core component: Action
+# matestack core component: Onclick
 
 Show [specs](../../spec/usage/components/onclick_spec.rb)
 
-The `onclick` component renders a div that runs a function on click. This is a nice component for use cases where you would like to wrap multiple components into one click function. The function called by the onclick component requires two fields. These two fields are `emit` and `data`. These two fields are then emitted as a event in javascript when the component is clicked
+The `onclick` component renders a div that runs a function when the user clicks on it. This is a simple component that can be used to wrap components with a onclick function that will emit a event. The event that must be emitted onclick can defined by passing a hash into the `onclick` component that has the key `emit`. See example below for more details.
 
 ```ruby
 class Pages::MyPage::Home < Matestack::Ui::Page
   def response
     components{
-      onclick run_this_function do
+      onclick(emit: "abc") do
         plain "Hello world"
       end
     }
-  end
-
-  def run_this_function
-    return {
-      emit: "abc",
-      data: {
-        id: 1,
-        name: "John",
-        detail: "Clicked the button"
-      }
-    }
+    async rerender_on: "abc" do
+      plain "Render this text when the 'abc' event is emitted"
+    end
   end
 end
 ```

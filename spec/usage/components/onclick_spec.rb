@@ -1,7 +1,7 @@
 require_relative "../../support/utils"
 include Utils
 
-describe "Nav Component", type: :feature, js: true do
+describe "Onclick Component", type: :feature, js: true do
 
   it "Example 1" do
     class ExamplePage < Matestack::Ui::Page
@@ -22,10 +22,7 @@ describe "Nav Component", type: :feature, js: true do
 
       def click_function
         return {
-          emit: 'show_message',
-          data: {
-            message: "This is a cool message"
-          }
+          emit: 'show_message'
         }
       end
     end
@@ -46,5 +43,4 @@ describe "Nav Component", type: :feature, js: true do
     <div>Click me!</div>
     HTML
   end
-
 end
