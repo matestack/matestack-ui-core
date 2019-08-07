@@ -1,7 +1,5 @@
-- if options[:text].nil?
-  %button{@tag_attributes}
-    - if block_given?
-      = yield
-- else
-  %button{@tag_attributes}
+%button{@tag_attributes}
+  - if options[:text].nil? && block_given?
+    = yield
+  - else
     = options[:text]
