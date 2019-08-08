@@ -11,7 +11,7 @@ we will start by adding a file called `my_app.rb`!
 Put the following code inside it:
 
 ```ruby
-class Apps::MyApp < App::Cell::App
+class Apps::MyApp < Matestack::Ui::App
 
   def response
     components {
@@ -37,7 +37,7 @@ In `app/matestack/pages/my_app/`, create a file called `my_example_page.rb` for 
 Notice how we describe our User Interface with elements that resemble `HTML tags` - but we can also write Ruby just the way we want to!
 
 ```ruby
-class Pages::MyApp::MyExamplePage < Page::Cell::Page
+class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
 
   def response
     components {
@@ -63,9 +63,9 @@ This is straightforward and just works *the Rails way*.
 Inside `config/routes.rb`, add a route for the example page:
 
 ```ruby
-  scope :my_app do
-    get 'my_example_page', to: 'my_app#my_example_page'
-  end
+scope :my_app do
+  get 'my_example_page', to: 'my_app#my_example_page'
+end
 ```
 
 In `app/controllers/`, create a file called `my_app_controller.rb` and define our *action*:
