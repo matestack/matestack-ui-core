@@ -84,4 +84,4 @@ Rails.application.config.assets.paths << Rails.root.join('app/matestack/componen
 
 ## Websocket Integration
 
-If you want to use websockets, please read [this guide](docs/integrations/websockets.md)
+If you want to use websockets, please read [this guide](/docs/integrations/websockets.md)
