@@ -5,7 +5,7 @@ You can build your [own components](../extend/custom_components.md) as well, eit
 
 ## Static Core Components
 
-- [div](./div.md)
+- [div](/docs/components/div.md)
 - [header](./header.md)
 - [footer](./footer.md)
 - [main](./main.md)
