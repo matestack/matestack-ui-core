@@ -1,6 +1,6 @@
 # App Concept
 
-Show [specs](../../spec/usage/base/app_spec.rb)
+Show [specs](/spec/usage/base/app_spec.rb)
 
 ## An App can wrap pages with a layout
 
@@ -82,4 +82,4 @@ class Apps::ExampleApp < Matestack::Ui::App
 end
 ```
 
-For more informations on transitions, visit [transitions](../components/transition.md)
+For more informations on transitions, visit [transitions](/docs/components/transition.md)

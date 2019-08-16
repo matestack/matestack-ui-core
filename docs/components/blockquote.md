@@ -1,6 +1,6 @@
 # matestack core component: Blockquote
 
-Show [specs](../../spec/usage/components/blockquote_spec.rb)
+Show [specs](/spec/usage/components/blockquote_spec.rb)
 
 The HTML blockquote tag implemented in ruby.
 

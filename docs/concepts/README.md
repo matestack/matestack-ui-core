@@ -17,7 +17,7 @@ You can build your own components as well, either static or dynamic.
 
 Learn more about [components](component.md)
 
-Show all core [components](../components/README.md)
+Show all core [components](/docs/components/README.md)
 
 ## Page
 

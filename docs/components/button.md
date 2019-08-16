@@ -1,6 +1,6 @@
 # matestack core component: Button
 
-Show [specs](../../spec/usage/components/button_spec.rb)
+Show [specs](/spec/usage/components/button_spec.rb)
 
 The HTML `<button>` tag implemented in Ruby.
 

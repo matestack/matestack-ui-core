@@ -8,7 +8,7 @@ Create matestack apps, pages and components (and some corresponding parts, like 
 
 Each generator takes mandatory arguments and optional flags. Check their detailed description to see default parameters and the full list of options.
 
-Tests can be found [here](../../spec/lib/generators).
+Tests can be found [here](/spec/lib/generators).
 
 **Note:** We recommend commiting or stashing your current changes so you see created/modified files within your application!
 
