@@ -2,7 +2,7 @@
 
 ## Getting from zero to one, quickly
 
-*Prerequisite:* We assume you have read and followed the [installation guide](../docs/install), either in a new or existing Rails application.
+*Prerequisite:* We assume you have read and followed the [installation guide](/docs/install), either in a new or existing Rails application.
 
 ### Creating your first Matestack app
 
