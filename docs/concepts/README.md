@@ -15,7 +15,7 @@ A component is the smallest UI-Element and can consist of other components. mate
 provides a wide set of core components, which enables you to easily build your UI.
 You can build your own components as well, either static or dynamic.
 
-Learn more about [components](component.md)
+Learn more about [components](/docs/concepts/component.md)
 
 Show all core [components](/docs/components/README.md)
 
@@ -27,7 +27,7 @@ be aligned to each other.
 
 A page composes multiple components in order to display the main content.
 
-Learn more about [pages](page.md)
+Learn more about [pages](/docs/concepts/page.md)
 
 ## App
 
@@ -40,4 +40,4 @@ an Backoffice-App managing all kind of data and processes.
 
 A matestack app manages multiple pages in order to fullfill one specific purpose of your organization.
 
-Learn more about [apps](app.md)
+Learn more about [apps](/docs/concepts/app.md)
