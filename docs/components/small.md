@@ -1,6 +1,6 @@
 # matestack core component: Small
 
-Show [specs](../../spec/usage/components/small_spec.rb)
+Show [specs](/spec/usage/components/small_spec.rb)
 
 The HTML small tag implemented in ruby.
 

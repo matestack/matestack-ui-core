@@ -1,6 +1,6 @@
 # matestack core component: Transition
 
-Show [specs](../../spec/usage/components/transition_spec.rb)
+Show [specs](/spec/usage/components/transition_spec.rb)
 
 ## Parameters
 
@@ -8,7 +8,7 @@ Except for `id` and `class`, the transition component can handle additional para
 
 ### Path
 
-As the name suggests, the `options[:path]` expects a path within our application. If you want to rout to a link outside our application, use the [link component](../link.md)
+As the name suggests, the `options[:path]` expects a path within our application. If you want to rout to a link outside our application, use the [link component](/docs/components/link.md)
 
 ```ruby
 transition path: :page1_path do

@@ -1,6 +1,6 @@
 # matestack core component: Details
 
-Show [specs](../../spec/usage/components/details_summary_spec.rb)
+Show [specs](/spec/usage/components/details_summary_spec.rb)
 
 Use details to implement `<details>` and `<summary>` tags.
 

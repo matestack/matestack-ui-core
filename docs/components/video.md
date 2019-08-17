@@ -1,6 +1,6 @@
 # matestack core component: Video
 
-Show [specs](../../spec/usage/components/video_spec.rb)
+Show [specs](/spec/usage/components/video_spec.rb)
 
 The HTML video tag implemented in ruby.
 

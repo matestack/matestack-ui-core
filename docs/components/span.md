@@ -1,6 +1,6 @@
 # matestack core component: Span
 
-Show [specs](../../spec/usage/components/span_spec.rb)
+Show [specs](/spec/usage/components/span_spec.rb)
 
 The HTML span tag implemented in ruby.
 

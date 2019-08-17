@@ -1,6 +1,6 @@
 # matestack core component: Strong
 
-Show [specs](../../spec/usage/components/strong_spec.rb)
+Show [specs](/spec/usage/components/strong_spec.rb)
 
 The HTML `<strong>` tag implemented in ruby.
 
