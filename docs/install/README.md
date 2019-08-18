@@ -24,7 +24,10 @@ Require 'matestack-ui-core' in your `assets/javascript/application.js`
 ```javascript
 //= require matestack-ui-core
 ```
-(Webpacker Integration is coming in 0.7.0)
+Note:
+
+- **Remove turbolinks! Currently, matestack can't be used with turbolinks. This will be fixed soon**
+- Additional Webpacker integration is coming soon
 
 ## Matestack Folder
 
