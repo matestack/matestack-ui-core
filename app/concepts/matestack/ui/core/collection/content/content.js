@@ -1,8 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
-
 import matestackEventHub from 'js/event-hub'
 import queryParamsHelper from 'js/helpers/query-params-helper'
-
 import componentMixin from 'component/component'
 import asyncMixin from 'async/async'
 

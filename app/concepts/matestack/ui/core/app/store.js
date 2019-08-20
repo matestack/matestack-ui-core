@@ -1,7 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import axios from 'axios'
-
 import matestackEventHub from 'js/event-hub'
 
 Vue.use(Vuex)
