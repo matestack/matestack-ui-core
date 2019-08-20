@@ -27,14 +27,14 @@ class MatestackPageGenerator < Rails::Generators::NamedBase
     unless options[:called_by_app_generator]
       route %{get '#{@app_name}/#{@namespace}/#{file_name}', to: '#{@controller_action}'} unless @namespace.nil?
       route %{get '#{@app_name}/#{file_name}', to: '#{@controller_action}'} if @namespace.nil?
-      puts "Page created! Make sure to modify"
+      puts "Page created! Make sure to add "
       puts ""
-      puts "def controller_action"
+      puts "def #{file_name}"
       puts "  responder_for(Pages::#{@app_name.camelize}::#{@namespace.camelize}::#{file_name.camelize})" unless @namespace.nil?
       puts "  responder_for(Pages::#{@app_name.camelize}::#{file_name.camelize})" if @namespace.nil?
       puts "end"
       puts ""
-      puts "and add it to the desired controller!"
+      puts "to the desired controller!"
     end
 
   end
