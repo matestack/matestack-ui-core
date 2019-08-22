@@ -78,8 +78,8 @@ class MyAppController < ApplicationController
   # uncommenting the line below
   # include Matestack::Ui::Core::ApplicationHelper
 
-  def my_first_page
-    responder_for(Pages::MyApp::MyFirstPage)
+  def my_example_page
+    responder_for(Pages::MyApp::MyExamplePage)
   end
 end
 ```
