@@ -1,6 +1,6 @@
 # matestack core component: Caption
 
-Show [specs](../../spec/usage/components/caption_spec.rb)
+Show [specs](/spec/usage/components/caption_spec.rb)
 
 The HTML `<caption>` tag implemented in ruby. According to the [W3C specification](https://www.w3schools.com/tags/tag_caption.asp), it defines a table caption, it must be inserted directly after the `<table>` tag, and there should only be one caption per table.
 

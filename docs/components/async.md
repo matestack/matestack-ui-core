@@ -1,6 +1,6 @@
 # matestack core component: Async
 
-Show [specs](../../spec/usage/components/async_spec.rb)
+Show [specs](/spec/usage/components/async_spec.rb)
 
 As the name suggests, the async component allows us to let our components behave asynchronously!
 

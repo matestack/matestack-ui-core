@@ -1,6 +1,6 @@
 # matestack core component: Hr
 
-Show [specs](../../spec/usage/components/hr_spec.rb)
+Show [specs](/spec/usage/components/hr_spec.rb)
 
 The HTML `<hr>` tag implemented in ruby.
 

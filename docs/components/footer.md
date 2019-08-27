@@ -1,6 +1,6 @@
 # matestack core component: Footer
 
-Show [specs](../../spec/usage/components/footer_spec.rb)
+Show [specs](/spec/usage/components/footer_spec.rb)
 
 The HTML footer tag implemented in ruby.
 

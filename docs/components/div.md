@@ -1,6 +1,6 @@
 # matestack core component: Div
 
-Show [specs](../../spec/usage/components/div_spec.rb)
+Show [specs](/spec/usage/components/div_spec.rb)
 
 The HTML div tag implemented in ruby.
 
