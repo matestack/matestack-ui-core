@@ -1,7 +1,6 @@
 module Matestack::Ui::Core::Component
   class Dynamic < Trailblazer::Cell
 
-
     include ActionView::Helpers::ActiveModelHelper
     include ActionView::Helpers::ActiveModelInstanceTag
     include ActionView::Helpers::AssetTagHelper
@@ -26,8 +25,6 @@ module Matestack::Ui::Core::Component
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::TranslationHelper
     include ActionView::Helpers::UrlHelper
-    # include ActionView::Helpers::UrlHelper
-    # include ActionView::Helpers::TranslationHelper
     include ::Cell::Haml
     include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::ToCell
@@ -192,7 +189,6 @@ module Matestack::Ui::Core::Component
       end
       result.join(" ")
     end
-
 
     private
 

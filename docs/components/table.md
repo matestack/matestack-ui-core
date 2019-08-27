@@ -2,12 +2,12 @@
 
 Show [specs](/spec/usage/components/table_spec.rb)
 
-Use tables to implement `<table>`, `<tr>`, `<th>` and `<td>`-tags.
+Use tables to implement `<table>`, `<tr>`, `<th>`, `<td>`, `<thead>`, `<tbody>` and `<tfoot>` tags.
 
 ## Parameters
 
-`<table>`, `<tr>`, can take 2 optional configuration params.
-`<th>` and `<td>`-tags can also take a third param, text input.
+`<table>`, `<tr>`, `<thead>`, `<tbody>` and `<tfoot>` can take 2 optional configuration params.
+`<th>` and `<td>` tags can also take a third param, text input.
 
 #### # id (optional)
 Expects a string with all ids the element should have.
@@ -23,20 +23,31 @@ Implementing a simple, hard coded table.
 
 ```ruby
 table class: "foo" do
-  tr class: "bar" do
-    th text: "First"
-    th text: "Matestack"
-    th text: "Table"
+  thead do
+    tr class: "bar" do
+      th text: "First"
+      th text: "Matestack"
+      th text: "Table"
+    end
   end
-  tr do
-    td text: "One"
-    td text: "Two"
-    td text: "Three"
+  tbody do
+    tr do
+      td text: "One"
+      td text: "Two"
+      td text: "Three"
+    end
+    tr do
+      td text: "Uno"
+      td text: "Dos"
+      td text: "Tres"
+    end
   end
-  tr do
-    td text: "Uno"
-    td text: "Dos"
-    td text: "Tres"
+  tfoot do
+    tr do
+      td text: "Eins"
+      td text: "Zwei"
+      td text: "Drei"
+    end
   end
 end
 ```
@@ -126,5 +137,74 @@ returns
     <td>Custom</td>
     <td>Stuff</td>
   </tr>
+</table>
+```
+
+## Example 3
+
+`thead`, `tbody` and `tfoot` are optional containers for any number of `tr`s. If none are specified, `tbody` will be used to contain all `tr` components. `thead` is typically used for the head of the table, and `tfoot` for any table footer, where applicable, such as a sum or count.
+
+```ruby
+table do
+  thead do
+    tr do
+      th text: "Product"
+      th text: "Price"
+    end
+  end
+  # tbody is unnecessary, since it has no class or id and will be added automatically
+  # tbody do
+    tr do
+      td text: "Apples"
+      td text: "3.50"
+    end
+    tr do
+      td text: "Oranges"
+      td text: "2.75"
+    end
+    tr do
+      td text: "Bananas"
+      td text: "4.99"
+    end
+  # end
+  tfoot do
+    tr do
+      td text: "Total:"
+      td text: "11.24"
+    end
+  end
+end
+```
+
+returns
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apples</td>
+      <td>3.50</td>
+    </tr>
+    <tr>
+      <td>Oranges</td>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <td>Bananas</td>
+      <td>4.99</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Total:</td>
+      <td>11.24</td>
+    </tr>
+  </tfoot>
 </table>
 ```
