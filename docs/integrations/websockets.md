@@ -1,9 +1,9 @@
 # Websockets
 
-Websockets can easily be integrated into matestack. matestack uses Rails ActionCable
+Websockets can easily be integrated into matestack. Matestack uses Rails ActionCable
 for this feature.
 
-## Creata a Channel on the serverside
+## Create a Channel on the serverside
 
 `app/channels/matestack_ui_core_channel.rb`
 
@@ -17,7 +17,7 @@ class MatestackUiCoreChannel < ApplicationCable::Channel
 end
 ```
 
-## Add a Subscription on the clientside and link to matestack event hub
+## Add a Subscription on the client side and link to matestack event hub
 
 `app/assets/javascripts/application.js`
 
