@@ -53,7 +53,6 @@ module Matestack::Ui::Core::App
       return ""
     end
 
-
     def initialize(model=nil, options={})
       super
       @nodes = {}

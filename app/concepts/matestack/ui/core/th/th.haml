@@ -1,8 +1,5 @@
-- if options[:text].nil?
-  %th{@tag_attributes}
-    - if block_given?
-      = yield
-
-- else
-  %th{@tag_attributes}
+%th{@tag_attributes}
+  - if options[:text].nil? && block_given?
+    = yield
+  - else
     = options[:text]
