@@ -4,10 +4,9 @@
 
 - if options[:type] == :dropdown
 
-  %select{"#{model_binding}" => input_key,
-    id: component_id,
+  %select{@tag_attributes,
+    "#{model_binding}" => input_key,
     ref: "select.#{attr_key}",
-    class: options[:class],
     "@change": "inputChanged(\"#{attr_key}\")",
     "init-value": init_value,
     "value-type": options_type}
@@ -27,7 +26,8 @@
   %div{id: component_id, ref: "select.multiple.#{attr_key}", "init-value": init_value}
     - if options[:options].is_a?(Hash)
       - options[:options].each do |key, value|
-        %input{type: :checkbox,
+        %input{@tag_attributes,
+        type: :checkbox,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
@@ -36,7 +36,8 @@
         %label=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |value|
-        %input{type: :checkbox,
+        %input{@tag_attributes,
+        type: :checkbox,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
@@ -52,7 +53,8 @@
   %div{id: component_id, ref: "select.#{attr_key}", "init-value": init_value}
     - if options[:options].is_a?(Hash)
       - options[:options].each do |key, value|
-        %input{type: :radio,
+        %input{@tag_attributes,
+        type: :radio,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
@@ -61,7 +63,8 @@
         %label=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |value|
-        %input{type: :radio,
+        %input{@tag_attributes,
+        type: :radio,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,

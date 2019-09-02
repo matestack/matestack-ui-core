@@ -3,6 +3,9 @@ module Matestack::Ui::Core::Async
 
     def setup
       @rerender = true
+      @tag_attributes.merge!({
+        "v-if": "showing"
+      })
     end
 
   end
