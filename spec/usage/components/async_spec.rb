@@ -143,7 +143,66 @@ describe "Async Component", type: :feature, js: true do
     expect(page).not_to have_selector "#my-div"
   end
 
-  it "Example 3 - hide after show on event" do
+  it "Example 3.1 - Show on / Hide on combination init not shown by default" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          async show_on: "my_show_event", hide_on: "my_hide_event" do
+            div id: "my-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          end
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).not_to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_show_event")')
+
+    expect(page).to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_hide_event")')
+
+    expect(page).not_to have_selector "#my-div"
+  end
+
+  it "Example 3.2 - Show on / Hide on combination init shown if configured" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          async show_on: "my_show_event", hide_on: "my_hide_event", init_show: true do
+            div id: "my-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          end
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_hide_event")')
+
+    expect(page).not_to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_show_event")')
+
+    expect(page).to have_selector "#my-div"
+  end
+
+
+  it "Example 3.3 - hide after show on event" do
 
     class ExamplePage < Matestack::Ui::Page
 
