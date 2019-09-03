@@ -1,5 +1,9 @@
 class Pages::MyApp::MyFirstPage < Matestack::Ui::Page
 
+  def prepare
+    @my_model = DummyModel.last
+  end
+
   def response
     components {
       heading size: 2, text: "This is Page 1"
