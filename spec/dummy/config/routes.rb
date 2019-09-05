@@ -26,9 +26,12 @@ Rails.application.routes.draw do
     get 'my_fourth_page', to: 'my_app#my_fourth_page'
     get 'my_fifth_page', to: 'my_app#my_fifth_page'
     get 'my_sixth_page', to: 'my_app#my_sixth_page'
+    get 'collection', to: 'my_app#collection'
 
     post 'some_action', to: 'my_app#some_action'
     post 'form_action', to: 'my_app#form_action'
+
+    delete 'delete_dummy_model', to: 'my_app#delete_dummy_model'
   end
 
   scope :api do

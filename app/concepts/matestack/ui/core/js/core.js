@@ -12,6 +12,9 @@ import action from 'action/action'
 import form from 'form/form'
 import view from 'view/view'
 import onclick from 'onclick/onclick'
+import collectionContent from 'collection/content/content'
+import collectionFilter from 'collection/filter/filter'
+import collectionOrder from 'collection/order/order'
 
 let matestackUiApp = undefined
 

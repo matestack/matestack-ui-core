@@ -1,6 +1,6 @@
 # Component Concept
 
-Show [specs](../../spec/usage/base/component_spec.rb)
+Show [specs](/spec/usage/base/component_spec.rb)
 
 A component is used to define reusable UI elements. This documentation enables anyone to write custom components that live within a Rails application. All custom components need a *prefixed 'custom_'* to be referenced within the `app/matestack/` folder in a Rails application.
 

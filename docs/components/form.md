@@ -1,6 +1,6 @@
 # matestack core component: Form
 
-Show [specs](../../spec/usage/components/form_spec.rb)
+Show [specs](/spec/usage/components/form_spec.rb)
 
 ## Parameters
 
@@ -8,7 +8,7 @@ Show [specs](../../spec/usage/components/form_spec.rb)
 
 These examples show generic use cases and can be used as a guideline of what is possible with the form core component.
 
-Beforehand, we define open routes for the form input in our `config/routes.rb`:
+Beforehand, we define some example routes for the form input in our `config/routes.rb`:
 
 ```ruby
 post '/success_form_test/:id', to: 'form_test#success_submit', as: 'success_form_test'
@@ -16,25 +16,10 @@ post '/failure_form_test/:id', to: 'form_test#failure_submit', as: 'failure_form
 post '/model_form_test', to: 'model_form_test#model_submit', as: 'model_form_test'
 ```
 
-We also configure our controllers to accept form input and react in a predictable and verbose way:
+We also configure our example controllers to accept form input and react in a predictable and verbose way:
 
 ```ruby
-class TestController < ActionController::Base
-
-  before_action :check_params
-
-  def check_params
-    expect_params(params.permit!.to_h)
-  end
-
-  def expect_params(params)
-  end
-
-end
-```
-
-```ruby
-class FormTestController < TestController
+class FormTestController < ApplicationController
 
   def success_submit
     render json: { message: 'server says: form submitted successfully' }, status: 200
@@ -51,7 +36,7 @@ end
 ```
 
 ```ruby
-class ModelFormTestController < TestController
+class ModelFormTestController < ApplicationController
 
   def model_submit
     @test_model = TestModel.create(model_params)
@@ -110,7 +95,7 @@ end
 
 When we visit `localhost:3000/example`, fill in the input field with *bar* and click the submit button, our `FormTestController` receives the input.
 
-Furthermore, our *bar* input disappears from the input field and we get displayed our nice little succes message of `server says: form submitted successfully` - Easy!
+Furthermore, our *bar* input disappears from the input field - Easy!
 
 ### Example 2: Async submit request with failure event
 
@@ -157,7 +142,7 @@ Now, when we visit our example page on `localhost:3000/example` and fill in the 
 
 In this example, things get a bit more complex. We now want to transition to another page of our application after successfully submitting a form!
 
-First, we define our application layout with messages, using the *async core component*:
+In order to additionally show a success/failure message, we define our matestack app layout with messages, using the *async core component*:
 
 ```ruby
 class Apps::ExampleApp < Matestack::Ui::App

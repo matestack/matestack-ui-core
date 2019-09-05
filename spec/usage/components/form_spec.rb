@@ -879,6 +879,37 @@ describe "Form Component", type: :feature, js: true do
 
       it "can have a placeholder"
 
+      it "can have a class" do
+        class ExamplePage < Matestack::Ui::Page
+          def response
+            components {
+              form form_config, :include do
+                form_select id: "my-array-test-dropdown", key: :array_input, type: :dropdown, options: ["Array Option 1","Array Option 2"], class: "form-control"
+                form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "1": "Hash Option 1", "2": "Hash Option 2" }, class: "form-control"
+                form_submit do
+                  button text: "Submit me!"
+                end
+              end
+            }
+          end
+
+          def form_config
+            return {
+              for: :my_object,
+              method: :post,
+              path: :success_form_test_path,
+              params: {
+                id: 42
+              }
+            }
+          end
+        end
+
+        visit "/example"
+
+        expect(page).to have_css("#my-array-test-dropdown.form-control")
+        expect(page).to have_css("#my-hash-test-dropdown.form-control")
+      end
     end
 
     describe "Checkbox" do

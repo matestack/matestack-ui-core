@@ -32,3 +32,7 @@ group :development, :test do
   gem 'byebug'
   gem 'webmock'
 end
+
+group :test do
+  gem "generator_spec"
+end

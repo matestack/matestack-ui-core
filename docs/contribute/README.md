@@ -9,6 +9,11 @@ If you want to contribute and are unsure what to work on, take a look at the [op
 
 Other case: You plan to built something that you think should be part of the Matestack UI Core (or you have already built it)? Great, then open a pull request and we will take a look!
 
+## How to contribute
+
+Please create a pull request to the `develop` branch with your tested and documented code. Bonus points for using our PR template!
+
+
 ## Documentation
 
 Documentation can be found in the `/docs` folder. Please make sure to cover basic use cases of your concepts & components for other users!
@@ -29,12 +34,9 @@ Tests follow quite the same rules as the documentation: Make sure to either add 
 
 ## Release
 
-Webpacker is used for managing all JS assets. In order to deploy a packed JS, we
-use a "builder" app found in repo_root/builder
-This builder app uses a symlink in order to reference the actual core found in
-builder/vendor.
+Webpacker is used for managing all JS assets. In order to deploy a packed JS, we use a "builder" app found in `repo_root/builder`. This builder app uses a symlink in order to reference the actual core found in `builder/vendor`.
 
-You can run webpacker inside this builder app in order to pack JS assets:
+You can run webpacker inside this builder app to pack JS assets:
 
 ```shell
 cd builder
