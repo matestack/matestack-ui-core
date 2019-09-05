@@ -39,6 +39,9 @@ class Apps::MyApp < Matestack::Ui::App
         transition path: :collection_path do
           button text: "Collection"
         end
+        transition path: :inline_edit_path do
+          button text: "Inline Edit"
+        end
       end
     }
   end
