@@ -86,7 +86,7 @@ module Matestack::Ui::Core::App
       @nodes = Matestack::Ui::Core::AppNode.build(self, &block)
 
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], nil)
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], nil, node["cached_params"])
       end
     end
 

@@ -1,6 +1,7 @@
 module Matestack::Ui::Core::ToCell
 
-  def to_cell(key, component_name, config, argument, children, included_config)
+  def to_cell(key, component_name, config, argument, children, included_config, cached_params=nil)
+    # p cached_params
     request_uri = context[:request].env["REQUEST_URI"]
     query_string = context[:request].env["QUERY_STRING"]
 
@@ -9,6 +10,7 @@ module Matestack::Ui::Core::ToCell
     config.merge!(origin_url: request_uri.gsub("?" + query_string, ""))
     config.merge!(url_params: context[:params])
     config.merge!(included_config: included_config)
+    config.merge!(cached_params: cached_params)
 
     if component_name.start_with?("custom")
       return resolve_custom_component(component_name, argument, config)

@@ -43,6 +43,27 @@ module Matestack::Ui::Core
           end
         end
 
+        if meth == :isolate
+          if args.second.present?
+            if args.second.is_a? Hash
+              if args.second[:cached_params].nil?
+                raise "isolate > you need to pass params within a hash called 'cached_params'"
+              else
+                isolated_block = @page_instance.send(args.first, args.second[:cached_params])
+              end
+            else
+              raise "isolate > you need to pass params within a hash called 'cached_params'"
+            end
+          else
+            isolated_block = @page_instance.send(args.first)
+          end
+          @hash[current_node]["components"] = PageNode.build(
+            @page_instance, nil, @url_params, &isolated_block
+          )
+          @hash[current_node]["argument"] = args.first
+          @hash[current_node]["cached_params"] = args.second[:cached_params] if args.second.present?
+        end
+
         if meth == :partial
           partial_block = @page_instance.send(args.first, *args.drop(1))
           @hash[current_node]["components"] = PageNode.build(
