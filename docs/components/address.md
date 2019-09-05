@@ -14,6 +14,9 @@ Expects a string with all ids the address should have.
 #### # class (optional)
 Expects a string with all classes the address should have.
 
+#### # text (optional)
+Expects a ruby string with the text the address tag should show.
+
 ## Example 1 - yield a given block
 
 ```ruby
