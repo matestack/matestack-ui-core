@@ -27,9 +27,11 @@ Rails.application.routes.draw do
     get 'my_fifth_page', to: 'my_app#my_fifth_page'
     get 'my_sixth_page', to: 'my_app#my_sixth_page'
     get 'collection', to: 'my_app#collection'
+    get 'inline_edit', to: 'my_app#inline_edit'
 
     post 'some_action', to: 'my_app#some_action'
     post 'form_action', to: 'my_app#form_action'
+    post 'inline_form_action/:id', to: 'my_app#inline_form_action', as: "inline_form_action"
 
     delete 'delete_dummy_model', to: 'my_app#delete_dummy_model'
   end

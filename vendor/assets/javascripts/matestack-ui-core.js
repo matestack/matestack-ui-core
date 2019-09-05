@@ -13220,6 +13220,9 @@ const componentDef = {
         }
       }
     }
+    if (this.componentConfig["init_show"] == true) {
+      this.showing = true;
+    }
   },
   beforeDestroy: function () {
     const self = this;
