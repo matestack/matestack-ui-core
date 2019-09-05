@@ -8,7 +8,7 @@ module Matestack::Ui::Core::Collection::Content
 
     def response
       components {
-        div do
+        div @tag_attributes do
           yield_components
         end
       }

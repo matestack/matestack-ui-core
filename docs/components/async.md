@@ -26,13 +26,13 @@ end
 
 **Note:** The `rerender_on` option lets you rerender parts of your UI asynchronously, which is cool. But please consider that, if not configured differently, it a) is **not** _lazily loaded_ and b) does get displayed on initial pageload.
 
-Lazy (or defered) loading is a feature we're working on right now, for details see [here](https://github.com/basemate/matestack-ui-core/issues/58).
+Lazy (or defered) loading can be configured like shown  [here](#defer).
 
-If you want to hide the async component on initial pageload and display it later on, read below as this option (`show_on`) is already implemented (and can be combined with `rerender_on`)!
+If you want to simply hide the async component on initial pageload and display it later on, read below how to use `show_on`, which can be combined with `rerender_on`.
 
 ### Show_on
 
-The `show_on` option lets us define an event on which the component gets shown.
+The `show_on` option lets us define an event on which the component gets shown. The content is still rendered on init pageload, but simply hidden in the browser until the event is emitted. If you want to have proper deferred loading, please refer to [defer](#defer)
 
 ```ruby
 async show_on: 'my_event' do
@@ -62,6 +62,30 @@ The `hide_after` option lets us define a timespan after which the component gets
 async hide_after: 1000 do
   div id: 'my-div' do
     plain 'I will be hidden after 1000ms'
+  end
+end
+```
+
+### Shown_on/Hide_on Combination
+
+If you combine `shown_on` and `hide_on`, you can toggel the view state of the `async` component explicitly.
+
+By default, the content is initially hidden until the show event is emitted when `shown_on` is applied.
+
+```ruby
+async shown_on: "my_show_event", hide_on: 'my_hide_event' do
+  div id: 'my-div' do
+    plain 'You will not see me after the event'
+  end
+end
+```
+
+ If you want to display the content initially, simply add `init_show: true`
+
+```ruby
+async shown_on: "my_show_event", hide_on: 'my_hide_event', init_show: true do
+  div id: 'my-div' do
+    plain 'You will not see me after the event'
   end
 end
 ```
@@ -202,6 +226,69 @@ end
 ```
 
 As expected, the timestamp is only visible _before_ our event was fired and is hidden/invisible _after_ the event!
+
+### Example 3.1: Rerender/Show/Hide Combination for inline editing
+
+Imagine, you want to create an inline edit form. Using a combination of `show_on`, `hide_on`, `init_show:true` and `rerender_on` allows you to implement this easily like shown below:
+
+
+```ruby
+class ExamplePage < Matestack::Ui::Page
+
+  def prepare
+    @my_model = MyModel.find(42)
+  end
+
+  def response
+    components {
+      partial :show_value
+      partial :show_form
+    }
+  end
+
+  def show_value
+    partial {
+      async rerender_on: "item_updated", show_on: "item_updated", hide_on: "update_item", init_show: true do
+        onclick emit: "update_item" do
+          plain @my_model.title
+        end
+      end
+    }
+  end
+
+  def show_form
+    partial {
+      async rerender_on: "item_updated", show_on: "update_item", hide_on: "item_updated" do
+        form some_form_config, :include do
+          form_input key: :title, type: :text
+          form_submit do
+            button text: "save"
+          end
+        end
+        onclick emit: "item_updated" do
+          button text: "abort"
+        end
+      end
+    }
+  end
+
+  def some_form_config
+    {
+      for: @my_model,
+      method: :post,
+      path: :inline_form_action_path, #or any other rails route
+      params: {
+        id: @my_model.id
+      },
+      success:{
+        emit: "item_updated"
+      }
+    }
+  end
+
+end
+```
+ If you click on the attribute value, the form gets shown. After successful form submission, the form gets hidden again and only the simple value is shown.
 
 ### Example 4: Hide after show on event
 

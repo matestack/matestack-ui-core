@@ -30,12 +30,30 @@ class MyAppController < ApplicationController
     responder_for(Pages::MyApp::Collection)
   end
 
+  def inline_edit
+    responder_for(Pages::MyApp::InlineEdit)
+  end
+
   def some_action
     render json: {}, status: :ok
   end
 
   def form_action
     @dummy_model = DummyModel.create(dummy_model_params)
+    if @dummy_model.errors.any?
+      render json: {
+        errors: @dummy_model.errors,
+        message: "Test Model could not be saved!"
+      }, status: :unproccessable_entity
+    else
+      broadcast "test_model_created"
+      render json: @dummy_model, status: :created
+    end
+  end
+
+  def inline_form_action
+    @dummy_model = DummyModel.find(params[:id])
+    @dummy_model.update(dummy_model_params)
     if @dummy_model.errors.any?
       render json: {
         errors: @dummy_model.errors,

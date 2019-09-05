@@ -3,7 +3,9 @@ module Matestack::Ui::Core::Collection::Order::Toggle::Indicator
 
     def response
       components {
-        plain "{{orderIndicator( '#{@component_config[:key]}', {asc: '#{@component_config[:asc]}', desc: '#{@component_config[:desc]}'} ) }}"
+        span @tag_attributes do
+          plain "{{orderIndicator( '#{@component_config[:key]}', {asc: '#{@component_config[:asc]}', desc: '#{@component_config[:desc]}'} ) }}"
+        end
       }
     end
 

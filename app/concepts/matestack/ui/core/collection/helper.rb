@@ -59,7 +59,6 @@ module Matestack::Ui::Core::Collection
 
   end
 
-
   module Helper
 
     def get_collection_filter collection_id, key=nil

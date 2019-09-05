@@ -4,8 +4,7 @@
 
 1. [ActionCable](/docs/integrations/websockets.md)
 
-## Auth
+## Authentication and Authorization
 
-2. Devise (coming soon)
-3. Pundit (coming soon)
-4. CanCanCan (coming soon)
+2. [Devise](/docs/integrations/devise.md)
+3. [Pundit or CanCanCan](/docs/integrations/pundit_or_cancancan.md)
