@@ -67,7 +67,7 @@ module Matestack::Ui::Core::Page
       Matestack::Ui::Core::PageNode.build(self, nil, &block)
     end
 
-    def isolated(&block)
+    def isolate(&block)
       return block
     end
 

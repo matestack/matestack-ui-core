@@ -44,7 +44,15 @@ module Matestack::Ui::Core
 
         if meth == :isolate
           if args.second.present?
-            isolated_block = @page_instance.send(args.first, args.second[:cached_params])
+            if args.second.is_a? Hash
+              if args.second[:cached_params].nil?
+                raise "isolate > you need to pass params within a hash called 'cached_params'"
+              else
+                isolated_block = @page_instance.send(args.first, args.second[:cached_params])
+              end
+            else
+              raise "isolate > you need to pass params within a hash called 'cached_params'"
+            end
           else
             isolated_block = @page_instance.send(args.first)
           end

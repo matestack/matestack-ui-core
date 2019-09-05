@@ -12778,7 +12778,6 @@ var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 24);
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 25);
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 26);
 var createError = __webpack_require__(/*! ../core/createError */ 11);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 27);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -12790,22 +12789,6 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -12820,8 +12803,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
         return;
       }
 
@@ -12838,9 +12821,8 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        status: request.status,
+        statusText: request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
@@ -12875,7 +12857,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 28);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 27);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -13122,7 +13104,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_js_event_hub__ = __webpack_require__(/*! js/event-hub */ 3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_component_component__ = __webpack_require__(/*! component/component */ 2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_js_core__ = __webpack_require__(/*! js/core */ 36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_js_core__ = __webpack_require__(/*! js/core */ 35);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Vuex", function() { return __WEBPACK_IMPORTED_MODULE_1_vuex__["a"]; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return __WEBPACK_IMPORTED_MODULE_2_axios___default.a; });
@@ -13469,14 +13451,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 13);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 34);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 33);
 axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 12);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 35);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 34);
 
 module.exports = axios;
 
@@ -13500,19 +13482,9 @@ module.exports.default = axios;
  * @license  MIT
  */
 
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -13530,8 +13502,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(/*! ./../defaults */ 7);
 var utils = __webpack_require__(/*! ./../utils */ 1);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 29);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 30);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 28);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 29);
 
 /**
  * Create a new instance of Axios
@@ -13927,54 +13899,6 @@ module.exports = (
 
 /***/ }),
 /* 27 */
-/*!*************************************************!*\
-  !*** ../node_modules/axios/lib/helpers/btoa.js ***!
-  \*************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-/* 28 */
 /*!****************************************************!*\
   !*** ../node_modules/axios/lib/helpers/cookies.js ***!
   \****************************************************/
@@ -14039,7 +13963,7 @@ module.exports = (
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /*!************************************************************!*\
   !*** ../node_modules/axios/lib/core/InterceptorManager.js ***!
   \************************************************************/
@@ -14103,7 +14027,7 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /*!*********************************************************!*\
   !*** ../node_modules/axios/lib/core/dispatchRequest.js ***!
   \*********************************************************/
@@ -14115,11 +14039,11 @@ module.exports = InterceptorManager;
 
 
 var utils = __webpack_require__(/*! ./../utils */ 1);
-var transformData = __webpack_require__(/*! ./transformData */ 31);
+var transformData = __webpack_require__(/*! ./transformData */ 30);
 var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 12);
 var defaults = __webpack_require__(/*! ../defaults */ 7);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 32);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 33);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 31);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 32);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -14201,7 +14125,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /*!*******************************************************!*\
   !*** ../node_modules/axios/lib/core/transformData.js ***!
   \*******************************************************/
@@ -14233,7 +14157,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /*!**********************************************************!*\
   !*** ../node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \**********************************************************/
@@ -14259,7 +14183,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /*!********************************************************!*\
   !*** ../node_modules/axios/lib/helpers/combineURLs.js ***!
   \********************************************************/
@@ -14285,7 +14209,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /*!*******************************************************!*\
   !*** ../node_modules/axios/lib/cancel/CancelToken.js ***!
   \*******************************************************/
@@ -14354,7 +14278,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /*!***************************************************!*\
   !*** ../node_modules/axios/lib/helpers/spread.js ***!
   \***************************************************/
@@ -14393,7 +14317,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /*!****************************************************!*\
   !*** ../app/concepts/matestack/ui/core/js/core.js ***!
   \****************************************************/
@@ -14402,18 +14326,18 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_app__ = __webpack_require__(/*! app/app */ 37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_async_async__ = __webpack_require__(/*! async/async */ 38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_page_content__ = __webpack_require__(/*! page/content */ 39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_store__ = __webpack_require__(/*! app/store */ 40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_app__ = __webpack_require__(/*! app/app */ 36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_async_async__ = __webpack_require__(/*! async/async */ 37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_page_content__ = __webpack_require__(/*! page/content */ 38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_store__ = __webpack_require__(/*! app/store */ 39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_component_component__ = __webpack_require__(/*! component/component */ 2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_component_anonym_dynamic_component__ = __webpack_require__(/*! component/anonym-dynamic-component */ 41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_html_html__ = __webpack_require__(/*! html/html */ 42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_transition_transition__ = __webpack_require__(/*! transition/transition */ 43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_action_action__ = __webpack_require__(/*! action/action */ 44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_form_form__ = __webpack_require__(/*! form/form */ 45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_view_view__ = __webpack_require__(/*! view/view */ 46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_onclick_onclick__ = __webpack_require__(/*! onclick/onclick */ 47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_component_anonym_dynamic_component__ = __webpack_require__(/*! component/anonym-dynamic-component */ 40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_html_html__ = __webpack_require__(/*! html/html */ 41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_transition_transition__ = __webpack_require__(/*! transition/transition */ 42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_action_action__ = __webpack_require__(/*! action/action */ 43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_form_form__ = __webpack_require__(/*! form/form */ 44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_view_view__ = __webpack_require__(/*! view/view */ 45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_onclick_onclick__ = __webpack_require__(/*! onclick/onclick */ 46);
 
 
 
@@ -14442,7 +14366,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */]);
 
 /***/ }),
-/* 37 */
+/* 36 */
 /*!****************************************************!*\
   !*** ../app/concepts/matestack/ui/core/app/app.js ***!
   \****************************************************/
@@ -14484,7 +14408,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 38 */
+/* 37 */
 /*!********************************************************!*\
   !*** ../app/concepts/matestack/ui/core/async/async.js ***!
   \********************************************************/
@@ -14554,7 +14478,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 39 */
+/* 38 */
 /*!*********************************************************!*\
   !*** ../app/concepts/matestack/ui/core/page/content.js ***!
   \*********************************************************/
@@ -14584,7 +14508,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 40 */
+/* 39 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/app/store.js ***!
   \******************************************************/
@@ -14669,7 +14593,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 /* harmony default export */ __webpack_exports__["a"] = (store);
 
 /***/ }),
-/* 41 */
+/* 40 */
 /*!*******************************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js ***!
   \*******************************************************************************/
@@ -14691,7 +14615,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 42 */
+/* 41 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/html/html.js ***!
   \******************************************************/
@@ -14713,7 +14637,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (component);
 
 /***/ }),
-/* 43 */
+/* 42 */
 /*!******************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/transition/transition.js ***!
   \******************************************************************/
@@ -14752,7 +14676,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 44 */
+/* 43 */
 /*!**********************************************************!*\
   !*** ../app/concepts/matestack/ui/core/action/action.js ***!
   \**********************************************************/
@@ -14815,7 +14739,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 45 */
+/* 44 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/form/form.js ***!
   \******************************************************/
@@ -14962,7 +14886,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 46 */
+/* 45 */
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/view/view.js ***!
   \******************************************************/
@@ -15017,7 +14941,7 @@ let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
 
 /***/ }),
-/* 47 */
+/* 46 */
 /*!************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/onclick/onclick.js ***!
   \************************************************************/
