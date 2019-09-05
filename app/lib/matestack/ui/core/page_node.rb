@@ -58,7 +58,7 @@ module Matestack::Ui::Core
             isolated_block = @page_instance.send(args.first)
           end
           @hash[current_node]["components"] = PageNode.build(
-            @page_instance, nil, &isolated_block
+            @page_instance, nil, @url_params, &isolated_block
           )
           @hash[current_node]["argument"] = args.first
           @hash[current_node]["cached_params"] = args.second[:cached_params] if args.second.present?

@@ -74,7 +74,6 @@ module Matestack::Ui::Core::Page
       prepare
       return resolve_isolated_component(component_key) if !component_key.nil? && component_key.include?("isolate")
 
-
       response
 
       render_mode = nil
@@ -133,7 +132,7 @@ module Matestack::Ui::Core::Page
           isolated_block = self.send(isolated_scope_method)
         end
         nodes = Matestack::Ui::Core::PageNode.build(
-          self, nil, &isolated_block
+          self, nil, context[:params], &isolated_block
         )
         node = nodes.dig(*keys_array.drop(2))
         cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
