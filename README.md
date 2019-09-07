@@ -205,7 +205,7 @@ ActionCable.server.broadcast("matestack_ui_core", {
 
 ### Documentation
 
-Documentation can be found [here](./docs)
+Documentation can be found [here](https://www.matestack.org/docs/install)
 
 ### Changelog
 
