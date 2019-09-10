@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.7.3
+## v0.7.2.1
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/5?closed=1)
 
