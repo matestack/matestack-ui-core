@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.7.2.1
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/5?closed=1)
+
+### Security Fixes
+
+- Dependency version bump (nokogiri) by dependabot
+
+### Bugfixes
+
+- Fixed image component 157 #158 by jonasjabari
+
 ## v0.7.2
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/4?closed=1)
