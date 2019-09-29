@@ -155,6 +155,25 @@ module Support
               websocket_event: true
             }
           }
+        },
+        q: {
+          type: :static,
+          tag: "q",
+          options: {
+            optional: {
+              id: :string,
+              class: :string,
+              attributes: :hash,
+            },
+            required: {}
+          },
+          block: true,
+          optional_dynamics: {
+            rerender_on: {
+              client_side_event: true,
+              websocket_event: true
+            }
+          }
         }
       }
     end
