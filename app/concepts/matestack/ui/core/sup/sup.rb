@@ -1,4 +1,4 @@
-module Matestack::Ui::Core::Sub
+module Matestack::Ui::Core::Sup
   class Sup < Matestack::Ui::Core::Component::Static
 
   end
