@@ -9,14 +9,12 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
 //= require rails-ujs
 //= require activestorage
-//= require matestack-ui-core
+  //= require matestack-ui-core-development
 //= require_tree .
 
 //= require demo/component
-
 App.cable.subscriptions.create("MatestackUiCoreChannel", {
   received(data) {
     MatestackUiCore.matestackEventHub.$emit('MatestackUiCoreChannel', data)

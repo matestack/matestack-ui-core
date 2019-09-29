@@ -12,7 +12,7 @@ const environment = require('./environment')
 
 const customConfig = {
     output: {
-        filename: 'matestack-ui-core.js',
+        filename: 'matestack-ui-core-development.js',
         libraryTarget: 'var',
         library: 'MatestackUiCore'
     }
