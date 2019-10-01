@@ -1,4 +1,4 @@
-# matestack core component: Paragraph
+# matestack core component: Code
 
 Show [specs](/spec/usage/components/code_spec.rb)
 
@@ -9,10 +9,10 @@ The HTML `<code>` tag implemented in Ruby.
 This component can take 3 optional configuration params and optional content.
 
 #### # id (optional)
-Expects a string with all ids the p should have.
+Expects a string with all ids the `<code>` tag should have.
 
 #### # class (optional)
-Expects a string with all classes the p should have.
+Expects a string with all classes the `<code>` tag should have.
 
 #### # text (optional)
 Expects a string with the text that should go into the `<code>` tag.
