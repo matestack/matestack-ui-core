@@ -1,7 +1,7 @@
 require_relative '../../support/utils'
 include Utils
 
-describe 'Paragraph Component', type: :feature, js: true do
+describe 'Code Component', type: :feature, js: true do
 
   it 'Example 1' do
 
