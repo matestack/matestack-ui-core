@@ -15,7 +15,7 @@ Expects a string with all ids the p should have.
 Expects a string with all classes the p should have.
 
 #### # text (optional)
-Expects a string with the text that should go into the `<p>` tag.
+Expects a string with the text that should go into the `<code>` tag.
 
 ## Example 1
 Rendering content into the `code` component
