@@ -9,10 +9,10 @@ The HTML blockquote tag implemented in ruby.
 This component can take 3 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
 #### # id (optional)
-Expects a string with all ids the span should have.
+Expects a string with all ids the blockquote should have.
 
 #### # class (optional)
-Expects a string with all classes the span should have.
+Expects a string with all classes the blockquote should have.
 
 #### # cite (optional)
 Expects a string referencing a cite for the blockquote.
