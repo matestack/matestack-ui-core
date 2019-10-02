@@ -17,6 +17,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [plain](/docs/components/plain.md)
 - [pg](/docs/components/pg.md)
 - [span](/docs/components/span.md)
+- [b](/docs/components/b.md)
 - [icon](/docs/components/icon.md)
 - [list](/docs/components/list.md)
   - ul
