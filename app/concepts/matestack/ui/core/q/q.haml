@@ -1,0 +1,5 @@
+%q{@tag_attributes}
+  - if block_given?
+    = yield
+  - else
+    = options[:text]
