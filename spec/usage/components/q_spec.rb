@@ -27,9 +27,6 @@ describe "Q Component", type: :feature, js: true do
 
     expected_static_output = <<~HTML
     <q>A simple quote</q>
-
-    <q id="my-id" class="my-class"></q>
-
     <q cite="www.matestack.org/example" id="my-id" class="my-class">This is a enhanced q with text</q>
     HTML
 
