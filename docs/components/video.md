@@ -8,19 +8,19 @@ The HTML video tag implemented in ruby.
 The video tag takes a mandatory path argument and can take a number of optional configuration params.
 
 #### # path
-Expects a string with the source to the image. It looks for the image in the `assets/videos` folder and uses the standard Rails asset pipeline.
+Expects a string with the source to the video. It looks for the video in the `assets/videos` folder and uses the standard Rails asset pipeline.
 
 #### # id, class
 Like most of the core components, you can give a video an id and a class.
 
 #### # height (optional)
-Expects an integer with the height of the image in px.
+Expects an integer with the height of the video in px.
 
 #### # width (optional)
-Expects an integer with the width of the image in px.
+Expects an integer with the width of the video in px.
 
 #### # alt (optional)
-Expects a string with the alt text the image should have.
+Expects a string with the alt text the video should have.
 
 #### # preload
 Expects a string (`auto`, `metadata` or `none`) and specifies whether the whole video/only metadata/nothing should be loaded on pageload. Default (if not specified) depends on the client's browser.
