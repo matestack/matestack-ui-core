@@ -1,4 +1,4 @@
-# matestack core component: Small
+# matestack core component: Em
 
 Show [specs](/spec/usage/components/em_spec.rb)
 
