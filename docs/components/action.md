@@ -1,6 +1,6 @@
 # matestack core component: Action
 
-Show [specs](../../spec/usage/components/action_spec.rb)
+Show [specs](/spec/usage/components/action_spec.rb)
 
 The action component allows us to trigger HTTP requests!
 
@@ -225,7 +225,7 @@ end
 
 ### Example 3.1: Async request with success event emit used for rerendering
 
-Below, we define an action component and an async component. The async component is documented [here](./async.md),
+Below, we define an action component and an async component. The async component is documented [here](/docs/components/async.md),
 for now it is just important that it waits for our `action_config` success message and will get re-rendered.
 
 ```ruby

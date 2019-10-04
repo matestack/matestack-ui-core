@@ -1,6 +1,6 @@
 # matestack core component: Paragraph
 
-Show [specs](../../spec/usage/components/paragraph_spec.rb)
+Show [specs](/spec/usage/components/paragraph_spec.rb)
 
 The HTML `<p>` tag implemented in ruby. This is a workaround because the single `p` is a reserved keyword in Ruby (directly writes `obj.inspect` followed by a newline to the program’s standard output, e.g. `p foo` equals `puts foo.inspect`).
 

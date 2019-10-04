@@ -21,7 +21,7 @@ dynamic Web-App.
 
 ### Installation:
 
-Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](./docs/install)
+Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](https://www.matestack.org/docs/install)
 
 ### Features:
 
@@ -208,7 +208,7 @@ During development if you would like to run VueJs in development mode you can ex
 
 ### Documentation
 
-Documentation can be found [here](./docs)
+Documentation can be found [here](https://www.matestack.org/docs/install)
 
 ### Changelog
 
@@ -216,15 +216,7 @@ Changelog can be found [here](./CHANGELOG.md)
 
 ### Roadmap
 
-Scheduled for 0.7.0:
-- Better naming conventions
-- Webpacker/Yarn Integration
-- Advanced Websockets Integration
-- 1:n Relations in Form components
-- More Form Components (Multi Select Components)
-- Component Based Caching
-- Rails View Integration
-- Dockerized Core Development
+We're currently finalizing the roadmap towards to a stable 1.0 release, supposed to happen towards the end of the year! For details make sure to check the [release management project](https://github.com/basemate/matestack-ui-core/projects/2) and get in touch via our [chat](https://gitter.im/basemate/community) for feedback!
 
 ### Community
 

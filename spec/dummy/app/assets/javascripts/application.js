@@ -11,7 +11,7 @@
 // about supported directives.
 //= require rails-ujs
 //= require activestorage
-  //= require matestack-ui-core-development
+//= require matestack-ui-core-development
 //= require_tree .
 
 //= require demo/component

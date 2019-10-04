@@ -1,6 +1,6 @@
 # matestack core component: Main
 
-Show [specs](../../spec/usage/components/main_spec.rb)
+Show [specs](/spec/usage/components/main_spec.rb)
 
 The HTML main tag implemented in ruby.
 

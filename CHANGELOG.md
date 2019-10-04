@@ -1,5 +1,72 @@
 # Changelog
 
+## v0.7.2.1
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/5?closed=1)
+
+### Security Fixes
+
+- Dependency version bump (nokogiri) by dependabot
+
+### Bugfixes
+
+- Fixed image component 157 #158 by jonasjabari
+
+## v0.7.2
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/4?closed=1)
+
+### Security Fixes
+
+- Various dependency version bumps by dependabot
+
+### Improvements
+
+- Add Isolation Component #154 by jonasjabari
+- Update integration docs #149 by pascalwengerter
+- Add youtube component #144 by pascalwengerter
+- Support new Doc App #143 by jonasjabari
+- Add class option to dropdown form selects  enhancement#135 by 3wille
+- Refactor core components v2  enhancement#134 by pascalwengerter
+- add sub tag  enhancement#132 by pascalwengerter
+- Add article component with docs and specs #127 by michaelrevans
+- Add address tag, specs and documentation #126 by michaelrevans
+- Extra table components #125 by michaelrevans
+- Add abbr component with specs and documentation #124 by michaelrevans
+- Add article component with docs and specs #122 by michaelrevans
+- Add address tag, specs and documentation #121 by michaelrevans
+- Add abbr component #120 by michaelrevans
+- Add thead, tbody and tfoot components
+
+### Bugfixes
+
+- Add init_show state to async component 140 #152 by jonasjabari
+- added missing @tag_attributes #151 by jonasjabari
+- update yarn and fix controller action name #141 by pascalwengerter
+
+## v0.7.1
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/3?closed=1)
+
+### Improvements
+
+- Introduce scaffolder #72 by PasWen
+- Make buttons disableable  enhancement by PasWen
+- Collection Component #98 by jonasjabari
+- Added Async Defer Feature #100 by jonasjabari
+- Added blockquote tag to main component #88 by cameronnorman
+- Added small tags #87 by cameronnorman
+- Added strong tag #93 by cameronnorman
+- Added Infos that async component can currently only be used on page leve #85 by jonasjabari was merged 10
+- Update span component in 0.7.0 #74 by PasWen
+- Add documented, untested video component #70 by PasWen
+- Added summary details components #76 by bdlb77
+- Add caption with doc and specs  enhancement #68 by michaelrevans
+
+### Bugfixes
+
+- Fixed Link Component #84 by jonasjabari
+
 ## v0.7.0
 
 ### Breaking changes for users

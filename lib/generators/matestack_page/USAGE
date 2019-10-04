@@ -1,0 +1,28 @@
+Description:
+    Stubs out a new matestack page and its route. Pass the page name and --app-name, both under_scored.
+
+    To place the page within a namespace, specify the namespace name under_scored and it
+    will get generated into 'app/matestack/pages/namespace/*'.
+
+    To create a custom controller#action to use in the created route, specify it as
+    under_scored_controller#under_scored_action
+
+    This generates a matestack page class in app/matestack/pages/ and adds a route to config/routes.rb
+
+Example 1:
+    `rails generate matestack_page example_page --app_name example_app`
+
+    This will create:
+        app/matestack/pages/example_app/example_page.rb
+
+    This will add to routes:
+        get 'example_app/example_page', to: 'example_app#example_page'
+
+Example 2:
+    `rails generate matestack_page example_page --app_name example_app --controller_action=static#second`
+
+    This will create:
+        app/matestack/pages/example_app/example_page.rb
+
+    This will add to routes:
+        get 'example_app/example_page', to: 'static#second'

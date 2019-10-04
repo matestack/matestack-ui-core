@@ -32,6 +32,10 @@ module Matestack::Ui::Core
         @hash[current_node]["argument"] = nil
         @hash[current_node]["included_config"] = @included_config
 
+        if meth == :isolate
+          raise("isolate > only works on page level currently. component support is comming soon!")
+        end
+
         if meth == :partial
           @hash[current_node]["components"] = @component_instance.send(args.first, *args.drop(1))
         elsif meth == :yield_components
@@ -39,7 +43,7 @@ module Matestack::Ui::Core
           @hash[current_node]["components"] = @component_instance.send(:get_children)
         else
           if args.first.is_a?(Hash)
-            @hash[current_node]["config"] = args.first
+            @hash[current_node]["config"] = args.first unless meth == :slot
           else
             @hash[current_node]["argument"] = args.first
           end

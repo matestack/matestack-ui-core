@@ -143,7 +143,66 @@ describe "Async Component", type: :feature, js: true do
     expect(page).not_to have_selector "#my-div"
   end
 
-  it "Example 3 - hide after show on event" do
+  it "Example 3.1 - Show on / Hide on combination init not shown by default" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          async show_on: "my_show_event", hide_on: "my_hide_event" do
+            div id: "my-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          end
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).not_to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_show_event")')
+
+    expect(page).to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_hide_event")')
+
+    expect(page).not_to have_selector "#my-div"
+  end
+
+  it "Example 3.2 - Show on / Hide on combination init shown if configured" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          async show_on: "my_show_event", hide_on: "my_hide_event", init_show: true do
+            div id: "my-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          end
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_hide_event")')
+
+    expect(page).not_to have_selector "#my-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_show_event")')
+
+    expect(page).to have_selector "#my-div"
+  end
+
+
+  it "Example 3.3 - hide after show on event" do
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -190,6 +249,199 @@ describe "Async Component", type: :feature, js: true do
     expect(page).not_to have_content "test!"
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event", { message: "test!" })')
     expect(page).to have_content "test!"
+
+  end
+
+  describe "defer" do
+
+    it "Example 5: deferred loading without any timeout, deferred request right after component mounting" do
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def prepare
+          @current_time = DateTime.now.strftime('%Q')
+        end
+
+        def response
+          components {
+            div id: "my-reference-div" do
+              plain "#{@current_time}"
+            end
+            async do
+              div id: "my-not-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+            async defer: true do
+              div id: "my-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      initial_timestamp = page.find("#my-reference-div").text #initial page load
+      non_deferred_timestamp = page.find("#my-not-deferred-div").text #initial page load
+
+      deferred_timestamp = page.find("#my-deferred-div").text #deferred loading
+
+      expect(non_deferred_timestamp).to eq initial_timestamp
+      expect(deferred_timestamp).to be > initial_timestamp
+
+      expect(deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(0, 2000).inclusive
+
+    end
+
+    it "Example 6: deferred loading with a specific timeout" do
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def prepare
+          @current_time = DateTime.now.strftime('%Q')
+        end
+
+        def response
+          components {
+            div id: "my-reference-div" do
+              plain "#{@current_time}"
+            end
+            async do
+              div id: "my-not-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+            async defer: 1000 do
+              div id: "my-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      initial_timestamp = page.find("#my-reference-div").text #initial page load
+      non_deferred_timestamp = page.find("#my-not-deferred-div").text #initial page load
+
+      deferred_timestamp = page.find("#my-deferred-div").text #deferred loading
+
+      expect(non_deferred_timestamp).to eq initial_timestamp
+      expect(deferred_timestamp).to be > initial_timestamp
+      expect(deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(1000, 3000).inclusive
+
+    end
+
+    it "Example 7: multiple deferred loadings with a specific timeout" do
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def prepare
+          @current_time = DateTime.now.strftime('%Q')
+        end
+
+        def response
+          components {
+            div id: "my-reference-div" do
+              plain "#{@current_time}"
+            end
+            async do
+              div id: "my-not-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+            async defer: 1000 do
+              div id: "my-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+            async defer: 2000 do
+              div id: "my-second-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      initial_timestamp = page.find("#my-reference-div").text #initial page load
+      non_deferred_timestamp = page.find("#my-not-deferred-div").text #initial page load
+
+      deferred_timestamp = page.find("#my-deferred-div").text #deferred loading
+      second_deferred_timestamp = page.find("#my-second-deferred-div").text #deferred loading
+
+      expect(non_deferred_timestamp).to eq initial_timestamp
+      expect(deferred_timestamp).to be > initial_timestamp
+      expect(second_deferred_timestamp).to be > initial_timestamp
+      expect(deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(1000, 3000).inclusive
+      expect(second_deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(2000, 4000).inclusive
+
+    end
+
+    it "Example 8: deferred loading without any timeout, triggered by on_show event" do
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def prepare
+          @current_time = DateTime.now.strftime('%Q')
+        end
+
+        def response
+          components {
+            div id: "my-reference-div" do
+              plain "#{@current_time}"
+            end
+            onclick emit: "my_event" do
+              button text: "show"
+            end
+            onclick emit: "my_other_event" do
+              button text: "hide"
+            end
+            async defer: true, show_on: "my_event", hide_on: "my_other_event" do
+              plain "waited for 'my_event'"
+              div id: "my-deferred-div" do
+                plain "#{@current_time}"
+              end
+            end
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      initial_timestamp = page.find("#my-reference-div").text #initial page load
+
+      expect(page).not_to have_content("waited for 'my_event'")
+
+      sleep 2
+
+      click_button "show"
+
+      expect(page).to have_content("waited for 'my_event'")
+
+      deferred_timestamp = page.find("#my-deferred-div").text #deferred loading after click
+
+      expect(deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(2000, 4000).inclusive
+
+      sleep 1
+
+      click_button "hide"
+      click_button "show"
+
+      new_deferred_timestamp = page.find("#my-deferred-div").text #deferred loading after another click
+
+      expect(new_deferred_timestamp.to_i - deferred_timestamp.to_i).to be_between(1000, 2000).inclusive
+
+    end
 
   end
 

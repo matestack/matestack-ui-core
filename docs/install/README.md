@@ -24,7 +24,10 @@ Require 'matestack-ui-core' in your `assets/javascript/application.js`
 ```javascript
 //= require matestack-ui-core
 ```
-(Webpacker Integration is coming in 0.7.0)
+Note:
+
+- **Remove turbolinks! Currently, matestack can't be used with turbolinks. This will be fixed soon**
+- Additional Webpacker integration is coming soon
 
 ## Matestack Folder
 
@@ -84,4 +87,4 @@ Rails.application.config.assets.paths << Rails.root.join('app/matestack/componen
 
 ## Websocket Integration
 
-If you want to use websockets, please read [this guide](../integrations/websockets.md)
+If you want to use websockets, please read [this guide](/docs/integrations/websockets.md)

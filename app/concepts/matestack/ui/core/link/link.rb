@@ -4,10 +4,12 @@ module Matestack::Ui::Core::Link
     REQUIRED_KEYS = [:path]
 
     def setup
-      @tag_attributes.merge!({ "class": options[:class],
+      @tag_attributes.merge!({
+        "class": options[:class],
         "id": component_id,
         "method": options[:method],
-        "target": options[:target] ||= nil
+        "target": options[:target] ||= nil,
+        "href": link_path
       })
     end
 

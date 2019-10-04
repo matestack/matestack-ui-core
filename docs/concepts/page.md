@@ -1,6 +1,6 @@
 # Page Concept
 
-Show [specs](../../spec/usage/base/page_spec.rb)
+Show [specs](/spec/usage/base/page_spec.rb)
 
 ## A Page orchestrates components
 

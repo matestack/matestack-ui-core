@@ -288,7 +288,7 @@ describe "Page", type: :feature, js: true do
   it "can fill slots of components with access to page instance scope" do
 
     module Matestack::Ui::Core::Example end
-      
+
     module Matestack::Ui::Core::Example::Component
       class Component < Matestack::Ui::StaticComponent
 
@@ -299,8 +299,8 @@ describe "Page", type: :feature, js: true do
         def response
           components {
             div id: "my-component" do
-              slot options[:my_first_slot]
-              slot options[:my_second_slot]
+              slot @options[:my_first_slot]
+              slot @options[:my_second_slot]
             end
           }
         end
