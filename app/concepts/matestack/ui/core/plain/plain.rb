@@ -6,5 +6,4 @@ module Matestack::Ui::Core::Plain
     end
 
   end
-
 end

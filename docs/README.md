@@ -1,14 +1,10 @@
-# Documentation
+# Table of Contents
 
-## Getting started
-
-1. [Install](./install)
-2. [Concepts](./concepts)
-3. [Core Components](./components)
-4. [Integrations](./integrations)
-
-## Diving deeper
-
-5. [Extend](./extend)
-6. [Architecture](./architecture)
-7. [Contribute](./contribute)
+1. [Install](/docs/install)
+2. [Concepts](/docs/concepts)
+3. [Core Components](/docs/components)
+4. [Integrations](/docs/integrations)
+5. [Tooling](/docs/tooling)
+6. [Extend](/docs/extend)
+7. [Architecture](/docs/architecture)
+8. [Contribute](/docs/contribute)

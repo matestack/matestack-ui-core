@@ -48,28 +48,32 @@ module Matestack::Ui::Core::Page
     end
 
     def components(&block)
-      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, &block)
+      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
     end
 
     def nodes_to_cell
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
+        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
       end
     end
 
     def partial(&block)
       return block
-      # Matestack::Ui::Core::PageNode.build(self, included, &block)
     end
 
     def slot(&block)
-      # return block
-      Matestack::Ui::Core::PageNode.build(self, nil, &block)
+      Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
+    end
+
+    def isolate(&block)
+      return block
     end
 
 
     def show(component_key=nil, only_page=false)
       prepare
+      return resolve_isolated_component(component_key) if !component_key.nil? && component_key.include?("isolate")
+
       response
 
       render_mode = nil
@@ -82,35 +86,58 @@ module Matestack::Ui::Core::Page
 
       when :only_page
         nodes_to_cell
-        # keys_array = ["div_2","components", "partial_1", "components", "form_1"]
-        # puts @nodes.dig(*keys_array)
         render :page
       when :render_page_with_app
         concept(@app_class).call(:show, @page_id, @nodes)
       when :render_component
-        if component_key.include?("__")
-          keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
-          page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
-          if page_content_keys.any?
-            keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
+        begin
+          if component_key.include?("__")
+            keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
+            page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
+            if page_content_keys.any?
+              keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
+            end
+            node = @nodes.dig(*keys_array)
+            cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+            return cell.render_content
+          else
+            node = @nodes[component_key]
+            cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+            return cell.render_content
           end
-          node = @nodes.dig(*keys_array)
-          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
-          return cell.render_content
-        else
-          node = @nodes[component_key]
-          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"])
-          return cell.render_content
+        rescue
+          raise "Component '#{component_key}' could not be resolved. Notice: Rerendering currently works only on page-level. \
+          You are therefore currently not able to use 'async' within a component for example!"
         end
       end
     end
-
 
     def page_id
       @custom_page_id ||= @page_id
     end
 
     private
+
+      def resolve_isolated_component component_key
+        keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
+        isolate_keys = keys_array.select{|key| key.match(/^isolate_/)}
+        keys_array = keys_array.drop(keys_array.find_index(isolate_keys[0])+2)
+        isolated_scope_method = keys_array[0]
+        if isolated_scope_method.include?("(")
+          isolated_scope_method_name = isolated_scope_method.split("(").first
+          isolated_scope_method_argument = isolated_scope_method.split("(").last.split(")").first
+          isolated_scope_method_argument = JSON.parse(isolated_scope_method_argument)
+          isolated_block = self.send(isolated_scope_method_name, isolated_scope_method_argument.with_indifferent_access)
+        else
+          isolated_block = self.send(isolated_scope_method)
+        end
+        nodes = Matestack::Ui::Core::PageNode.build(
+          self, nil, context[:params], &isolated_block
+        )
+        node = nodes.dig(*keys_array.drop(2))
+        cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+        return cell.render_content
+      end
 
       def generate_page_name
         name_parts = self.class.name.split("::").map { |name| name.underscore }
@@ -144,7 +171,5 @@ module Matestack::Ui::Core::Page
         end
       end
 
-
   end
-
 end

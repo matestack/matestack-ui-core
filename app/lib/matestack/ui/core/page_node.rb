@@ -1,18 +1,19 @@
 module Matestack::Ui::Core
   class PageNode
 
-    def self.build(page_instance, included_config, &block)
-      node = PageNode.new(page_instance, included_config)
+    def self.build(page_instance, included_config, url_params, &block)
+      node = PageNode.new(page_instance, included_config, url_params)
       node.instance_eval(&block)
       node.hash
     end
 
     attr_reader :hash
 
-    def initialize(page_instance, included_config)
+    def initialize(page_instance, included_config, url_params)
       @hash = {}
       @node_start_id = 0
       @included_config = included_config
+      @url_params = url_params
       @page_instance = page_instance
       page_instance.instance_variables.each do |page_instance_var_key|
         self.instance_variable_set(page_instance_var_key, page_instance.instance_variable_get(page_instance_var_key))
@@ -42,10 +43,31 @@ module Matestack::Ui::Core
           end
         end
 
+        if meth == :isolate
+          if args.second.present?
+            if args.second.is_a? Hash
+              if args.second[:cached_params].nil?
+                raise "isolate > you need to pass params within a hash called 'cached_params'"
+              else
+                isolated_block = @page_instance.send(args.first, args.second[:cached_params])
+              end
+            else
+              raise "isolate > you need to pass params within a hash called 'cached_params'"
+            end
+          else
+            isolated_block = @page_instance.send(args.first)
+          end
+          @hash[current_node]["components"] = PageNode.build(
+            @page_instance, nil, @url_params, &isolated_block
+          )
+          @hash[current_node]["argument"] = args.first
+          @hash[current_node]["cached_params"] = args.second[:cached_params] if args.second.present?
+        end
+
         if meth == :partial
           partial_block = @page_instance.send(args.first, *args.drop(1))
           @hash[current_node]["components"] = PageNode.build(
-            @page_instance, included, &partial_block
+            @page_instance, included, @url_params, &partial_block
           )
         else
           if args.first.is_a?(Hash)
@@ -55,7 +77,15 @@ module Matestack::Ui::Core
           end
 
           if block_given?
-            @hash[current_node]["components"] = PageNode.build(@page_instance, included, &block)
+            if args.first.is_a?(Hash) && args.first[:defer].present?
+              if @url_params.present? && @url_params[:component_key].present?
+                @hash[current_node]["components"] = PageNode.build(@page_instance, included, @url_params, &block)
+              else
+                return
+              end
+            else
+              @hash[current_node]["components"] = PageNode.build(@page_instance, included, @url_params, &block)
+            end
           end
         end
       end
