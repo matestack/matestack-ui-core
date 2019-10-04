@@ -202,6 +202,9 @@ ActionCable.server.broadcast("matestack_ui_core", {
   message: "comments_changed"
 })
 ```
+#### VueJs Development mode
+During development if you would like to run VueJs in development mode you can exchange the `matestack-ui-core.js` in app/assets/javascripts/application.js to `matestack-ui-core-development.js`. Once you restart your rails server the library should operate in development mode.
+
 
 ### Documentation
 
