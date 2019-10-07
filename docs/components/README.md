@@ -36,7 +36,6 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [ruby](/docs/components/ruby.md)
 - [rt](/docs/components/rb.md)
 - [rp](/docs/components/rt.md)
-- [legend](/docs/components/legend.md)
 
 ## Dynamic Core Components
 
