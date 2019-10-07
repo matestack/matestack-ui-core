@@ -32,6 +32,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [link](/docs/components/link.md)
 - [label](/docs/components/label.md)
 - [progress](/docs/components/progress.md)
+- [progress](/docs/components/legend.md)
 
 ## Dynamic Core Components
 
