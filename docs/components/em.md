@@ -25,7 +25,7 @@ end
 returns
 
 ```html
-<em id="foo" class="bar">Emphasized text</small>
+<em id="foo" class="bar">Emphasized text</em>
 ```
 
 ## Example 2: Render options[:text] param
@@ -37,4 +37,4 @@ em id: "foo", class: "bar", text: 'Emphasized text'
 returns
 
 ```html
-<em id="foo" class="bar">Emphasized text</small>
+<em id="foo" class="bar">Emphasized text</em>
