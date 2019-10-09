@@ -9,8 +9,12 @@ describe 'RT Component', type: :feature, js: true do
 
       def response
         components {
+          # simple rt
+          rt text: 'I am simple'
+
+          # enhanced rt
           rt id: 'my-id', class: 'my-class' do
-            plain 'Hello World' #optional content
+            plain 'I am enhanced'
           end
         }
       end
@@ -22,9 +26,8 @@ describe 'RT Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <rt id="my-id" class="my-class">
-      Hello World
-    </rt>
+      <rt>I am simple</rt>
+      <rt id="my-id" class="my-class">I am enhanced</rt>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))

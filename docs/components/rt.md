@@ -9,12 +9,12 @@ The HTML rt tag implemented in ruby.
 This component can take 2 optional configuration params and optional content.
 
 #### # id (optional)
-Expects a string with all ids the main should have.
+Expects a string with all ids the rt should have.
 
 #### # class (optional)
-Expects a string with all classes the main should have.
+Expects a string with all classes the rt should have.
 
-## Example
+## Example 1: Yield a given block
 
 ```ruby
 rt id: "foo", class: "bar" do
@@ -29,3 +29,16 @@ returns
   Hello World
 </rt>
 ```
+
+## Example 2: Render options[:text] param
+
+```ruby
+rt id: "foo", class: "bar", text: 'Hello World'
+```
+
+returns
+
+```html
+<rt id="foo" class="bar">
+  Hello World
+</rt>

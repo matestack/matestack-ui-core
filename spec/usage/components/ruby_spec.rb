@@ -9,8 +9,12 @@ describe 'Ruby Component', type: :feature, js: true do
 
       def response
         components {
+          # simple ruby
+          ruby text: 'I am simple'
+
+          # enhanced ruby
           ruby id: 'my-id', class: 'my-class' do
-            plain 'Hello World' #optional content
+            plain 'I am enhanced'
           end
         }
       end
@@ -22,9 +26,8 @@ describe 'Ruby Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <ruby id="my-id" class="my-class">
-      Hello World
-    </ruby>
+      <ruby>I am simple</ruby>
+      <ruby id="my-id" class="my-class">I am enhanced</ruby>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))

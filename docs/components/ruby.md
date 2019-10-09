@@ -9,12 +9,12 @@ The HTML ruby tag implemented in ruby.
 This component can take 2 optional configuration params and optional content.
 
 #### # id (optional)
-Expects a string with all ids the main should have.
+Expects a string with all ids the ruby should have.
 
 #### # class (optional)
-Expects a string with all classes the main should have.
+Expects a string with all classes the ruby should have.
 
-## Example
+## Example 1: : Yield a given block
 
 ```ruby
 ruby id: "foo", class: "bar" do
@@ -29,3 +29,16 @@ returns
   Hello World
 </ruby>
 ```
+
+## Example 2: Render options[:text] param
+
+```ruby
+ruby id: "foo", class: "bar", text: 'Hello World'
+```
+
+returns
+
+```html
+<ruby id="foo" class="bar">
+  Hello World
+</ruby>
