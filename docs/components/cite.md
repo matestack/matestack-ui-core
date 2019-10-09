@@ -2,17 +2,17 @@
 
 Show [specs](/spec/usage/components/cite_spec.rb)
 
-The HTML span tag implemented in ruby.
+The HTML cite tag implemented in ruby.
 
 ## Parameters
 
 This component can take 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
 #### # id (optional)
-Expects a string with all ids the span should have.
+Expects a string with all ids the cite tag should have.
 
 #### # class (optional)
-Expects a string with all classes the span should have.
+Expects a string with all classes the cite tag should have.
 
 ## Example 1: Yield a given block
 
