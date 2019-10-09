@@ -1,4 +1,4 @@
-%del{@tag_attributes}
+%del{@tag_attributes.merge({:cite => options[:cite], :datetime => options[:datetime]})}
   - if options[:text].nil? && block_given?
     = yield
   - else

@@ -28,7 +28,7 @@ describe 'Del Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <del>I am simple</del>
+    <del cite='' datetime=''>I am simple</del>
     <del id="my-id" class="my-class">I am enhanced</del>
     HTML
 
@@ -56,7 +56,7 @@ describe 'Del Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <del>I am simple</del>
+    <del cite='' datetime=''>I am simple</del>
     <del id="my-id" class="my-class">I am enhanced</del>
     HTML
 
