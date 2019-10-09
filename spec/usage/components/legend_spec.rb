@@ -9,8 +9,11 @@ describe 'Legend Component', type: :feature, js: true do
 
       def response
         components {
+          legend text: 'I am simple'
+
+          # enhanced legend
           legend id: 'my-id', class: 'my-class' do
-            plain 'Hello World' #optional content
+            plain 'I am enhanced'
           end
         }
       end
@@ -22,9 +25,8 @@ describe 'Legend Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <legend id="my-id" class="my-class">
-      Hello World
-    </legend>
+      <legend>I am simple</legend>
+      <legend id="my-id" class="my-class">I am enhanced</legend>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
