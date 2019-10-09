@@ -9,10 +9,10 @@ The HTML `<aside>` tag implemented in ruby.
 This component can take 2 optional configuration params and optional content.
 
 #### # id (optional)
-Expects a string with all ids the p should have.
+Expects a string with all ids the aside tag should have.
 
 #### # class (optional)
-Expects a string with all classes the p should have.
+Expects a string with all classes the aside tag should have.
 
 ## Example 1
 
