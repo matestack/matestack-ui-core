@@ -9,7 +9,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [header](/docs/components/header.md)
 - [footer](/docs/components/footer.md)
 - [main](/docs/components/main.md)
-- [nav](/docs/components/nav,md)
+- [nav](/docs/components/nav.md)
 - [section](/docs/components/section.md)
 - [br](/docs/components/br.md)
 - [hr](/docs/components/hr.md)
@@ -33,6 +33,9 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [link](/docs/components/link.md)
 - [label](/docs/components/label.md)
 - [progress](/docs/components/progress.md)
+- [ruby](/docs/components/ruby.md)
+- [rt](/docs/components/rb.md)
+- [rp](/docs/components/rt.md)
 - [legend](/docs/components/legend.md)
 - [noscript](/docs/components/noscript.md)
 
