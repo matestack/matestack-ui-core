@@ -21,7 +21,7 @@ dynamic Web-App.
 
 ### Installation:
 
-Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](./docs/install)
+Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](https://www.matestack.org/docs/install)
 
 ### Features:
 
