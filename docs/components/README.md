@@ -38,6 +38,8 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [rp](/docs/components/rt.md)
 - [legend](/docs/components/legend.md)
 - [noscript](/docs/components/noscript.md)
+- [sup](/docs/components/sup.md)
+- [sub](/docs/components/sub.md)
 
 ## Dynamic Core Components
 
