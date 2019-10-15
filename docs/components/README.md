@@ -40,6 +40,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [noscript](/docs/components/noscript.md)
 - [sup](/docs/components/sup.md)
 - [sub](/docs/components/sub.md)
+- [kbd](/docs/components/kbd.md)
 
 ## Dynamic Core Components
 
