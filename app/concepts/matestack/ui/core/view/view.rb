@@ -1,4 +1,4 @@
-module Matestack::Ui::Core::View::Cell
+module Matestack::Ui::Core::View
     class View < Matestack::Ui::Core::Component::Dynamic
 
   end
