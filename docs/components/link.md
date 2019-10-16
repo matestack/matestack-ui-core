@@ -107,3 +107,37 @@ returns
   </a>
 </div>
 ```
+
+## Example 5 - path from symbol
+This example renders a link with a get request to any within your Rails application. In case you want to switch between pages within one specific matestack app, using the `transition` component probably is a better idea though!
+
+```ruby
+div id: "foo", class: "bar" do
+  link path: :inline_edit_path, text: 'Click to edit'
+end
+```
+
+returns
+
+```html
+<div id="foo" class="bar">
+  <a href="/inline_edit">Click to edit</a>
+</div>
+```
+
+## Example 6 - path from symbol with params
+You can also dynamically create `paths` from symbols and params, as displayed below:
+
+```ruby
+div id: "foo", class: "bar" do
+  link path: :single_endpoint_path, params: {number: 1}, text: 'Call API endpoint 1'
+end
+```
+
+returns
+
+```html
+<div id="foo" class="bar">
+  <a href="/api/single_endpoint/1">Call API endpoint 1</a>
+</div>
+```
