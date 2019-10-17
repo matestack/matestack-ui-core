@@ -5,20 +5,21 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 
 ## Static Core Components
 
+- [b](/docs/components/b.md)
+- [br](/docs/components/br.md)
 - [div](/docs/components/div.md)
-- [header](/docs/components/header.md)
 - [footer](/docs/components/footer.md)
+- [header](/docs/components/header.md)
+- [heading](/docs/components/heading.md)
+- [kbd](/docs/components/kbd.md)
+- [hr](/docs/components/hr.md)
+- [icon](/docs/components/icon.md)
 - [main](/docs/components/main.md)
 - [nav](/docs/components/nav.md)
-- [section](/docs/components/section.md)
-- [br](/docs/components/br.md)
-- [hr](/docs/components/hr.md)
-- [heading](/docs/components/heading.md)
 - [plain](/docs/components/plain.md)
 - [pg](/docs/components/pg.md)
+- [section](/docs/components/section.md)
 - [span](/docs/components/span.md)
-- [b](/docs/components/b.md)
-- [icon](/docs/components/icon.md)
 - [list](/docs/components/list.md)
   - ul
   - ol
@@ -28,7 +29,6 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
   - tr
   - td
 - [img](/docs/components/img.md)
-- [video](/docs/components/video.md)
 - [button](/docs/components/button.md)
 - [link](/docs/components/link.md)
 - [label](/docs/components/label.md)
@@ -40,7 +40,8 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [noscript](/docs/components/noscript.md)
 - [sup](/docs/components/sup.md)
 - [sub](/docs/components/sub.md)
-- [kbd](/docs/components/kbd.md)
+- [var](/docs/components/var.md)
+- [video](/docs/components/video.md)
 
 ## Dynamic Core Components
 
