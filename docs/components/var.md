@@ -9,10 +9,10 @@ The HTML `<var>` tag implemented in Ruby.
 This component can take 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
 #### # id (optional)
-Expects a string with all ids the `<code>` tag should have.
+Expects a string with all ids the `<var>` tag should have.
 
 #### # class (optional)
-Expects a string with all classes the `<code>` tag should have.
+Expects a string with all classes the `<var>` tag should have.
 
 ## Example 1: Yield a given block
 
