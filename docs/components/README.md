@@ -41,6 +41,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [sup](/docs/components/sup.md)
 - [sub](/docs/components/sub.md)
 - [kbd](/docs/components/kbd.md)
+- [mark](/docs/components/mark.md)
 
 ## Dynamic Core Components
 
