@@ -1,5 +1,4 @@
 class Apps::<%= class_name %> < Matestack::Ui::App
-
   # OPTIONAL: Prepare data that gets used on every page of this app
   # def prepare
   #   API calls and db queries go here
@@ -26,5 +25,4 @@ class Apps::<%= class_name %> < Matestack::Ui::App
   #     # your components go here
   #   }
   # end
-
 end
