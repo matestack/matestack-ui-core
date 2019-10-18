@@ -1,9 +1,9 @@
 require "generator_spec"
-require 'generators/matestack_component/matestack_component_generator'
+require 'generators/matestack/component/component_generator'
 
-describe MatestackComponentGenerator, type: :generator do
-  let(:dummy) {File.expand_path(File.join(__FILE__, '..', '..', '..', 'dummy'))}
-  let(:dummy_copy) {File.expand_path(File.join(__FILE__, '..', '..', '..', 'dummy_copy'))}
+describe Matestack::Generators::ComponentGenerator, type: :generator do
+  let(:dummy) {File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', 'dummy'))}
+  let(:dummy_copy) {File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', 'dummy_copy'))}
 
   before :each do
     FileUtils.cp_r dummy, dummy_copy
