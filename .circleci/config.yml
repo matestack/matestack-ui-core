@@ -56,14 +56,14 @@ jobs:
       - run:
           name: run tests
           command: |
-            mkdir /tmp/test-results
+            mkdir -p tmp/test-results tmp/test-artifacts
             ./cc-test-reporter before-build
             TEST_FILES="$(circleci tests glob "spec/usage/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
             bundle exec rspec --format progress \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
-                            $TEST_FILES
+                            -- {$TEST_FILES}
 
       - run:
           name: Code Climate Test Coverage
@@ -78,8 +78,7 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+          path: /tmp/test-artifacts
 
   upload-coverage:
     docker:
@@ -97,13 +96,3 @@ jobs:
       - run:
           command: |
             ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
-
-workflows:
-  version: 2
-
-  commit:
-    jobs:
-      - build
-      - upload-coverage:
-          requires:
-             - build
