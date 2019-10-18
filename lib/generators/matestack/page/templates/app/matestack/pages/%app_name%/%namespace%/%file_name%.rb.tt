@@ -1,5 +1,4 @@
-class Pages::<% unless @namespace.nil? %><%= @namespace.camelize %>::<% end %><% unless @app_name.nil? %><%= @app_name.camelize %>::<% end %><%= class_name %> < Matestack::Ui::Page
-
+class Pages::<% unless namespace.nil? %><%= namespace.camelize %>::<% end %><% unless app_name.nil? %><%= app_name.camelize %>::<% end %><%= class_name %> < Matestack::Ui::Page
   # OPTIONAL: Prepare data for the response method
   # def prepare
   #   API calls and db queries go here
@@ -26,5 +25,4 @@ class Pages::<% unless @namespace.nil? %><%= @namespace.camelize %>::<% end %><%
   #     # your components go here
   #   }
   # end
-
 end
