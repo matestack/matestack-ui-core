@@ -31,6 +31,12 @@ jobs:
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
 
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
       - save_cache:
           paths:
             - ./vendor/bundle
@@ -51,6 +57,7 @@ jobs:
           name: run tests
           command: |
             mkdir /tmp/test-results
+            ./cc-test-reporter before-build
             TEST_FILES="$(circleci tests glob "spec/usage/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
             bundle exec rspec --format progress \
@@ -58,9 +65,45 @@ jobs:
                             --format progress \
                             $TEST_FILES
 
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json
+
       # collect reports
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.5.1-stretch-node
+    environment:
+      CC_TEST_REPORTER_ID: 57123bd0e8b6c96bd254bf1fe46a5582250cd5e726ff639f85bfcd310f870f4a
+    working_directory: ~/repo
+
+    steps:
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          command: |
+            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - upload-coverage:
+          requires:
+             - build
