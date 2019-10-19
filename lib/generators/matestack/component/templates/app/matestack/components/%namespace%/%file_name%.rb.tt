@@ -1,4 +1,4 @@
-class Components::<% unless @namespace.nil? %><%= @namespace.camelize %>::<% end %><%= class_name %> < Matestack::Ui::<% if @dynamic == true %>DynamicComponent<% else %>StaticComponent<% end %>
+class Components::<% unless namespace.nil? %><%= namespace.camelize %>::<% end %><%= class_name %> < Matestack::Ui::<% if dynamic == true %>DynamicComponent<% else %>StaticComponent<% end %>
   def prepare
     # DB queries and API calls go here
   end

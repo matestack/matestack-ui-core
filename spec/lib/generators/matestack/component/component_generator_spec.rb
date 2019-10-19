@@ -30,4 +30,27 @@ describe Matestack::Generators::ComponentGenerator, type: :generator do
     assert_file "app/matestack/components/example_component.js", /custom-example_component\b/
   end
 
+  it "creates a haml file with the haml option" do
+    run_generator %w(example_component --haml)
+
+    assert_file "app/matestack/components/example_component.haml", %r{.example_component{@tag_attributes}}
+    assert_file "app/matestack/components/example_component.haml", /This is your custom ExampleComponent component/
+  end
+
+  it "creates a scss file with the scss option" do
+    run_generator %w(example_component --scss)
+
+    assert_file "app/matestack/components/example_component.scss", %r{// your styles for the component ExampleComponent go here}
+  end
+
+  it "creates a custom component in the right namespace" do
+    run_generator %w(example_component --namespace example_namespace --dynamic --scss --haml)
+
+    assert_file "app/matestack/components/example_namespace/example_component.rb", /class Components::ExampleNamespace::ExampleComponent < Matestack::Ui::DynamicComponent/
+    assert_file "app/matestack/components/example_namespace/example_component.js", /custom-example_namespace-example_component/
+    assert_file "app/matestack/components/example_namespace/example_component.js", %r{require example_namespace/example_component}
+    assert_file "app/matestack/components/example_namespace/example_component.haml"
+    assert_file "app/matestack/components/example_namespace/example_component.scss"
+  end
+
 end

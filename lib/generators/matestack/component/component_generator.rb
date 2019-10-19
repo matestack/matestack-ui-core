@@ -12,9 +12,11 @@ module Matestack
         options[:namespace]
       end
 
-      def create_component
-        @dynamic = options[:dynamic]
+      def dynamic
+        options[:dynamic]
+      end
 
+      def create_component
         # Future: Check for matestack-compatible namespacing!
 
         template 'app/matestack/components/%namespace%/%file_name%.rb.tt'
