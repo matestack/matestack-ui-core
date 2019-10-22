@@ -23,7 +23,7 @@ gem "cells-haml"
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'capybara'
-  gem 'webpacker', '~> 3.5'
+  gem 'webpacker', '~> 4.0'
   gem 'sqlite3', '~> 1.3.13'
   gem 'selenium-webdriver'
   gem 'poltergeist'
