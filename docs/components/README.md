@@ -37,6 +37,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [rt](/docs/components/rb.md)
 - [rp](/docs/components/rt.md)
 - [legend](/docs/components/legend.md)
+- [mark](/docs/components/mark.md)
 - [noscript](/docs/components/noscript.md)
 - [sup](/docs/components/sup.md)
 - [sub](/docs/components/sub.md)
