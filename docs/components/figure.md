@@ -26,6 +26,6 @@ returns
 
 ```html
 <figure id="foo" class="bar">
-  <img src="your-asset-path/matestack-logo.png" width="500" height="300" alt="logo"
+  <img src="your-asset-path/matestack-logo.png" width="500" height="300" alt="logo"/>
 </figure>
 ```
