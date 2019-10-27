@@ -8,6 +8,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [b](/docs/components/b.md)
 - [br](/docs/components/br.md)
 - [div](/docs/components/div.md)
+- [figure](/docs/components/figure.md)
 - [footer](/docs/components/footer.md)
 - [header](/docs/components/header.md)
 - [heading](/docs/components/heading.md)
