@@ -14,6 +14,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [kbd](/docs/components/kbd.md)
 - [hr](/docs/components/hr.md)
 - [icon](/docs/components/icon.md)
+- [ins](/docs/components/ins.md)
 - [main](/docs/components/main.md)
 - [nav](/docs/components/nav.md)
 - [plain](/docs/components/plain.md)
