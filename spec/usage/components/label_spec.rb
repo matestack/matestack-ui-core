@@ -13,7 +13,7 @@ describe 'Label Component', type: :feature, js: true do
           label text: 'I am simple'
 
           # enhanced label
-          label id: 'my-id', class: 'my-class' do
+          label id: 'my-id', for: 'label for something', class: 'my-class' do
             plain 'I am enhanced'
           end
         }
@@ -27,7 +27,7 @@ describe 'Label Component', type: :feature, js: true do
 
     expected_static_output = <<~HTML
     <label>I am simple</label>
-    <label id="my-id" class="my-class">I am enhanced</label>
+    <label for="label for something" id="my-id" class="my-class">I am enhanced</label>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
