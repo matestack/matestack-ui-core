@@ -1,4 +1,4 @@
-# matestack core component: Main
+# matestack core component: Meter
 
 Show [specs](/spec/usage/components/meter_spec.rb)
 
@@ -10,10 +10,10 @@ Use the Meter component to implement `<meter>` tag.
 Expects a number thats is the current value of the gauge.
 
 #### # id (optional)
-Expects a string with all ids the main should have.
+Expects a string with all ids the meter should have.
 
 #### # class (optional)
-Expects a string with all classes the main should have.
+Expects a string with all classes the meter should have.
 
 #### # min (optional)
 Expects a number that defines the minimum value of the range.
