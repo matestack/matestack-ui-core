@@ -16,6 +16,9 @@ describe 'Label Component', type: :feature, js: true do
           label id: 'my-id', for: 'label for something', class: 'my-class' do
             plain 'I am enhanced'
           end
+
+          # with form attribute
+          label id: 'form_label', for: "form", form: 'form1', text: 'Label for Form1'
         }
       end
 
@@ -28,6 +31,8 @@ describe 'Label Component', type: :feature, js: true do
     expected_static_output = <<~HTML
     <label>I am simple</label>
     <label for="label for something" id="my-id" class="my-class">I am enhanced</label>
+
+    <label for="form" form="form1" id="form_label" >Label for Form 1</label>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
