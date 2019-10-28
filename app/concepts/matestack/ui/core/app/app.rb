@@ -17,7 +17,6 @@ module Matestack::Ui::Core::App
     include ActionView::Helpers::JavaScriptHelper
     include ActionView::Helpers::NumberHelper
     include ActionView::Helpers::OutputSafetyHelper
-    include ActionView::Helpers::RecordTagHelper
     # include ActionView::Helpers::RenderingHelper
     include ActionView::Helpers::SanitizeHelper
     include ActionView::Helpers::TagHelper
