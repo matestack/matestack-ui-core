@@ -34,6 +34,7 @@ You can build your [own components](/docs/extend/custom_components.md) as well, 
 - [button](/docs/components/button.md)
 - [link](/docs/components/link.md)
 - [label](/docs/components/label.md)
+- [param](/docs/components/param.md)
 - [progress](/docs/components/progress.md)
 - [ruby](/docs/components/ruby.md)
 - [rt](/docs/components/rb.md)
