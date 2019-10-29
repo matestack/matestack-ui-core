@@ -28,6 +28,9 @@ The HTTP request method the link should implement.
 #### # target (optional, default is nil)
 Specify where to open the linked document.
 
+#### # title (optional)
+Specify a title for the link (shown on mouseover).
+
 ## Example 1
 This example renders a simple link within a `<div`-tag
 
@@ -50,7 +53,7 @@ This example renders a link without a specific link-text, so it wraps the rest o
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://matestack.org" do
+  link path: "https://matestack.org", title: "The matestack website" do
     plain "Here"
   end
 end
@@ -59,7 +62,7 @@ end
 returns
 
 ```html
-<div id="foo" class="bar">
+<div id="foo" class="bar" title="The matestack website">
   <a href="https://matestack.org">Here</a>
 </div>
 ```

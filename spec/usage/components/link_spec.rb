@@ -37,7 +37,7 @@ describe 'Link Component', type: :feature, js: true do
       def response
         components {
           div id: "foo", class: "bar" do
-            link path: "https://matestack.org" do
+            link path: "https://matestack.org", title: "The matestack website" do
               plain 'here'
             end
           end
@@ -52,7 +52,7 @@ describe 'Link Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <div id="foo" class="bar">
+    <div id="foo" class="bar" title="The matestack website">
       <a href="https://matestack.org">here</a>
     </div>
     HTML
