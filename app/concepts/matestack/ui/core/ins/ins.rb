@@ -5,5 +5,6 @@ module Matestack::Ui::Core::Ins
         cite: options[:cite],
         datetime: options[:datetime]
       })
+    end
   end
 end
