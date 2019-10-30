@@ -22,6 +22,29 @@ Feel free to take a look at other examples and copy their structure!
 Note: We will not approve pull requests that introduce new concepts or components without documentation. Same goes for existing concepts & components.
 If you change the behavior of an existing part of this project, make sure to also update the corresponding part of the documentation!
 
+## Core Components
+
+Core Components are an essential part of the `matestack-ui-core` gem.
+If you are planning to contribute to Matestack you can start doing that by creating a core component. To help you getting started you can use the Core Component Generator.
+
+The generator will create a matestack core component to `app/concepts/matestack/ui/core`.
+
+Example:
+
+```bash
+rails generate matestack:core:component div
+```
+
+This will create a component for the HTML `<div>` tag and will generate the following files:
+
+```bash
+app/concepts/matestack/ui/core/div/div.haml
+app/concepts/matestack/ui/core/div/div.rb
+spec/usage/components/div_spec.rb
+docs/components/div.md
+```
+
+
 ## Tests
 
 To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
