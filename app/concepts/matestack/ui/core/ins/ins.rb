@@ -4,6 +4,7 @@ module Matestack::Ui::Core::Ins
       @tag_attributes.merge!({
         cite: options[:cite],
         datetime: options[:datetime]
-      })
+        })
+    end
   end
 end
