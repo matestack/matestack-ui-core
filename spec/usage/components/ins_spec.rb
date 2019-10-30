@@ -54,7 +54,7 @@ describe 'Ins Component', type: :feature, js: true do
           ins id: 'my-id', class: 'my-class', text: 'I am enhanced'
 
           # ins with cite and datetime
-          ins cite: 'example.html', datetime: '2008-05-25T17:25:00Z', text: 'I am enhanced'
+          ins cite: 'example.html', datetime: '2008-05-25T17:25:00Z', text: 'I have cite and datetime'
         }
       end
 
