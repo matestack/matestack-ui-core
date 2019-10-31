@@ -8055,7 +8055,9 @@ var directive = {
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
-        el.addEventListener('change', onCompositionEnd);
+        if (window.confirm("Do you really want to change?")) { 
+          el.addEventListener('change', onCompositionEnd);
+        }
         /* istanbul ignore if */
         if (isIE9) {
           el.vmodel = true;
