@@ -1,14 +1,13 @@
-class Pages::<% unless @namespace.nil? %><%= @namespace.camelize %>::<% end %><% unless @app_name.nil? %><%= @app_name.camelize %>::<% end %><%= class_name %> < Matestack::Ui::Page
-
-  # OPTIONAL: Prepare data for the response method
+class Apps::<%= class_name %> < Matestack::Ui::App
+  # OPTIONAL: Prepare data that gets used on every page of this app
   # def prepare
   #   API calls and db queries go here
   # end
 
-  # MANDATORY: This is where the matestack magic happens
+  # MANDATORY: This is where your matestack pages get yielded
   def response
     components {
-      heading text: 'Welcome to your <%= class_name %> page'
+      heading text: 'Welcome to your <%= class_name %> app'
       page_content
     }
   end
@@ -26,5 +25,4 @@ class Pages::<% unless @namespace.nil? %><%= @namespace.camelize %>::<% end %><%
   #     # your components go here
   #   }
   # end
-
 end
