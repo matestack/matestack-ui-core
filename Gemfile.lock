@@ -231,6 +231,10 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uber (0.1.0)
+    webdrivers (4.1.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -264,6 +268,7 @@ DEPENDENCIES
   trailblazer
   trailblazer-cells
   trailblazer-rails
+  webdrivers (~> 4.1)
   webmock
   webpacker (~> 3.5)
 

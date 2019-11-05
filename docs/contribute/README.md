@@ -55,6 +55,26 @@ bundle exec rspec
 
 Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
 
+### Note: Running tests on macOS
+
+Make sure you have installed `chromedriver` on your machine. You can install `chromedriver` via `brew` with
+
+```shell
+brew cask install chromedriver
+```
+
+You can then run your the testsuite with `bundle exec rspec`.
+
+If you get an error about a version mismatch similar to this one:
+
+`Chrome version must be between X and Y (Driver info: chromedriver=X.Y.Z)`
+
+Make sure you update your chromedriver by executing this command in the project root:
+
+```shell
+rails app:webdrivers:chromedriver:update
+```
+
 ## Release
 
 Webpacker is used for managing all JS assets. In order to deploy a packed JS, we use a "builder" app found in `repo_root/builder`. This builder app uses a symlink in order to reference the actual core found in `builder/vendor`.
