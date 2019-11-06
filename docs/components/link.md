@@ -28,6 +28,9 @@ The HTTP request method the link should implement.
 #### # target (optional, default is nil)
 Specify where to open the linked document.
 
+#### # title (optional)
+Specify a title for the link (shown on mouseover).
+
 ## Example 1
 This example renders a simple link within a `<div`-tag
 
@@ -50,7 +53,7 @@ This example renders a link without a specific link-text, so it wraps the rest o
 
 ```ruby
 div id: "foo", class: "bar" do
-  link path: "https://matestack.org" do
+  link path: "https://matestack.org", title: "The matestack website" do
     plain "Here"
   end
 end
@@ -59,7 +62,7 @@ end
 returns
 
 ```html
-<div id="foo" class="bar">
+<div id="foo" class="bar" title="The matestack website">
   <a href="https://matestack.org">Here</a>
 </div>
 ```
@@ -105,5 +108,39 @@ returns
   <a href="/">
     Here
   </a>
+</div>
+```
+
+## Example 5 - path from symbol
+This example renders a link with a get request to any within your Rails application. In case you want to switch between pages within one specific matestack app, using the `transition` component probably is a better idea though!
+
+```ruby
+div id: "foo", class: "bar" do
+  link path: :inline_edit_path, text: 'Click to edit'
+end
+```
+
+returns
+
+```html
+<div id="foo" class="bar">
+  <a href="/inline_edit">Click to edit</a>
+</div>
+```
+
+## Example 6 - path from symbol with params
+You can also dynamically create `paths` from symbols and params, as displayed below:
+
+```ruby
+div id: "foo", class: "bar" do
+  link path: :single_endpoint_path, params: {number: 1}, text: 'Call API endpoint 1'
+end
+```
+
+returns
+
+```html
+<div id="foo" class="bar">
+  <a href="/api/single_endpoint/1">Call API endpoint 1</a>
 </div>
 ```
