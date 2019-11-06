@@ -6,6 +6,7 @@ module Matestack::Ui::Core::Img
         src: ActionController::Base.helpers.asset_path(options[:path]),
         height: options[:height],
         width: options[:width],
+        usemap: options[:usemap],
         alt: options[:alt]
       })
     end
