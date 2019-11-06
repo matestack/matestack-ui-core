@@ -24,8 +24,8 @@ describe 'Object Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <object width="400" height="400" data="helloworld.swf"></object>
-    <object id="my-id" class="my-class" width="400" height="400" data="helloworld.swf"></object>
+    <object data="helloworld.swf" height="400" width="400"></object>
+    <object data="helloworld.swf" height="400" id="my-id" width="400" class="my-class"></object>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
