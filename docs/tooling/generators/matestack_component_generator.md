@@ -17,12 +17,12 @@ Generates matestack components to `app/matestack/components`.
 ## Example
 
 ```bash
-rails generate matestack_component simple_component
+rails generate matestack:component simple_component
 ```
 
 Creates a SimpleComponent in `app/matestack/components/simple_component.rb`.
 
 To see all options, run
 ```bash
-rails generate matestack_component -h
+rails generate matestack:component -h
 ```

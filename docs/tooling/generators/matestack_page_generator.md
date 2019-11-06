@@ -17,7 +17,7 @@ Generates matestack pages to `app/matestack/pages`.
 ## Example 1
 
 ```bash
-rails generate matestack_page simple_page --app_name example_app
+rails generate matestack:page simple_page --app_name example_app
 ```
 
 Creates a SimplePage in `app/matestack/pages/example_app/simple_page.rb`.
@@ -33,7 +33,7 @@ in the terminal to use in your controller.
 ## Example 2
 
 ```bash
-rails generate matestack_page second_page --app_name example_app --namespace sample_namespace
+rails generate matestack:page second_page --app_name example_app --namespace sample_namespace
 ```
 
 Creates a SimplePage in `app/matestack/pages/example_app/sample_namespace/second_page.rb`.
@@ -48,5 +48,5 @@ in the terminal to use in your, e.g., `example_app_controller.rb`.
 
 To see all options, run
 ```bash
-rails generate matestack_page -h
+rails generate matestack:page -h
 ```
