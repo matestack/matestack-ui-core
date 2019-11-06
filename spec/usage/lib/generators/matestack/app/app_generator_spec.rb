@@ -26,6 +26,8 @@ describe Matestack::Generators::AppGenerator, type: :generator do
   it "creates an example app with --all_inclusive flag" do
     run_generator %w(my_example_app --all_inclusive)
 
+    sleep 2
+
     assert_file "app/matestack/apps/my_example_app.rb", /class Apps::MyExampleApp < Matestack::Ui::App\b/
     assert_file "app/controllers/my_example_app_controller.rb", /class MyExampleAppController < ApplicationController\b/
     assert_file "config/routes.rb", /my_example_app\b/
