@@ -2,10 +2,10 @@
 
 Show [specs](/spec/usage/components/video_spec.rb)
 
-The HTML video tag implemented in Ruby. Right now, only the MP4 format is supported.
+The HTML video tag implemented in Ruby.
 
 ## Parameters
-The video component takes a mandatory path argument and can take a number of optional configuration params.
+The video component takes mandatory path and type arguments and can take a number of optional configuration params.
 
 #### # autoplay (optional)
 Expects a boolean and specifies whether the video should start playing as soon as it is ready.
@@ -28,6 +28,9 @@ Expects a boolean and specifies whether the audio output of the video should be 
 #### # path
 Expects a string with the source to the video. It looks for the video in the `assets/videos` folder and uses the standard Rails asset pipeline.
 
+#### # type
+Expects a string with the type to the video.
+
 #### # playsinline (optional)
 Expects a boolean and specifies whether the video should be played inline on iOS Safari.
 
@@ -41,7 +44,7 @@ Expects an integer with the width of the video in px.
 
 
 ```ruby
-video path: 'corgi.mp4', width: 500, height: 300
+video path: 'corgi.mp4', type: "mp4", width: 500, height: 300
 ```
 
 returns

@@ -7,7 +7,7 @@ describe 'Video Component', type: :feature, js: true do
      class ExamplePage < Matestack::Ui::Page
        def response
          components {
-           video path: 'corgi.mp4', width: 500, height: 300
+           video path: 'corgi.mp4', type: "mp4", width: 500, height: 300
          }
        end
      end
@@ -22,7 +22,7 @@ describe 'Video Component', type: :feature, js: true do
      class ExamplePage < Matestack::Ui::Page
        def response
          components {
-           video path: 'corgi.mp4', width: 500, height: 300,  autoplay: true, controls: true, loop: true, muted: true, playsinline: false, preload: 'auto'
+           video path: 'corgi.mp4', type: "mp4", width: 500, height: 300,  autoplay: true, controls: true, loop: true, muted: true, playsinline: false, preload: 'auto'
          }
        end
      end

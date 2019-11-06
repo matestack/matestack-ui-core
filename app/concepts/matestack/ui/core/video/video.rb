@@ -1,7 +1,7 @@
 module Matestack::Ui::Core::Video
   class Video < Matestack::Ui::Core::Component::Static
 
-    REQUIRED_KEYS = [:path]
+    REQUIRED_KEYS = [:path, :type]
 
     def setup
       @tag_attributes.merge!({
@@ -16,6 +16,7 @@ module Matestack::Ui::Core::Video
       })
 
       @source = ActionController::Base.helpers.asset_path(options[:path])
+      @type = "video/#{@options[:type]}"
     end
 
   end
