@@ -19,6 +19,6 @@ describe 'Img Component', type: :feature, js: true do
     visit '/example'
 
     expect(page).to have_xpath("//img[contains(@src,'matestack-logo') and @alt='logo' and @width='500' and @height='300']")
-    expect(page).to have_xpath("//img[contains(@src,'matestack-logo') and @alt='otherlogo' and @width='500' and @height='300'] and @usemap='\#newmap'")
+    expect(page).to have_xpath("//img[contains(@src,'matestack-logo') and @alt='otherlogo' and @width='500' and @height='300' and @usemap='\#newmap']")
   end
 end
