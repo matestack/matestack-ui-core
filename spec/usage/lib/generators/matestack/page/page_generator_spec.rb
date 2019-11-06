@@ -2,8 +2,8 @@ require 'generator_spec'
 require 'generators/matestack/page/page_generator'
 
 describe Matestack::Generators::PageGenerator, type: :generator do
-  let(:dummy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', 'dummy')) }
-  let(:dummy_copy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', 'dummy_copy')) }
+  let(:dummy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', '..', 'dummy')) }
+  let(:dummy_copy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', '..', 'dummy_copy')) }
 
   before :each do
     FileUtils.cp_r dummy, dummy_copy
