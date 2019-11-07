@@ -1554,6 +1554,61 @@ describe "Form Component", type: :feature, js: true do
       it "can have a label"
 
     end
+
+    describe "Usage on Component Level" do
+
+      it "Example 1 - Async submit request with clientside payload from component-level" do
+
+        module Components end
+
+        class Components::SomeComponent < Matestack::Ui::StaticComponent
+
+          def response
+            components {
+              form form_config, :include do
+                form_input id: "my-test-input", key: :foo, type: :text
+                form_submit do
+                  button text: "Submit me!"
+                end
+              end
+            }
+          end
+
+          def form_config
+            return {
+              for: :my_object,
+              method: :post,
+              path: :success_form_test_path,
+              params: {
+                id: 42
+              }
+            }
+          end
+        end
+
+        class ExamplePage < Matestack::Ui::Page
+
+          def response
+            components {
+              div do
+                custom_someComponent
+              end
+            }
+          end
+
+        end
+
+        visit "/example"
+
+        fill_in "my-test-input", with: "bar"
+        click_button "Submit me!"
+
+        expect_any_instance_of(FormTestController).to receive(:expect_params)
+          .with(hash_including(my_object: { foo: "bar" }))
+
+      end
+    end
+
   end
 
 end
