@@ -23,7 +23,7 @@ describe 'Creating custom components', type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      get '/component_test', to: 'component_test#my_action', as: 'component_test_action'
+      get '/custom_component_test', to: 'component_test#my_action', as: 'component_test_action'
     end
     Rails.application.reload_routes!
 
@@ -57,7 +57,7 @@ describe 'Creating custom components', type: :feature, js: true do
 
     end
 
-    visit '/component_test'
+    visit '/custom_component_test'
 
     expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-1" and contains(.,"I\'m a static component!")]')
 
@@ -96,7 +96,7 @@ describe 'Creating custom components', type: :feature, js: true do
 
     end
 
-    visit '/component_test'
+    visit '/custom_component_test'
 
     expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-1" and contains(.,"3 days")]')
 
@@ -156,7 +156,7 @@ describe 'Creating custom components', type: :feature, js: true do
 
     end
 
-    visit '/component_test'
+    visit '/custom_component_test'
 
     page.execute_script(component_definition)
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("refresh")')
