@@ -91,23 +91,9 @@ module Matestack::Ui::Core::Page
         concept(@app_class).call(:show, @page_id, @nodes)
       when :render_component
         begin
-          if component_key.include?("__")
-            keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
-            page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
-            if page_content_keys.any?
-              keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
-            end
-            node = @nodes.dig(*keys_array)
-            cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-            return cell.render_content
-          else
-            node = @nodes[component_key]
-            cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-            return cell.render_content
-          end
-        rescue
-          raise "Component '#{component_key}' could not be resolved. Notice: Rerendering currently works only on page-level. \
-          You are therefore currently not able to use 'async' within a component for example!"
+          render_child_component component_key
+        rescue => e
+          raise "Component '#{component_key}' could not be resolved."
         end
       end
     end
@@ -115,6 +101,34 @@ module Matestack::Ui::Core::Page
     def page_id
       @custom_page_id ||= @page_id
     end
+
+    def render_child_component component_key
+      if component_key.include?("__")
+        keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
+        page_content_keys = keys_array.select{|key| key.match(/^page_content_/)}
+        if page_content_keys.any?
+          keys_array = keys_array.drop(keys_array.find_index(page_content_keys[0])+2)
+        end
+        if @nodes.dig(*keys_array) == nil
+          rest = []
+          while @nodes.dig(*keys_array) == nil
+            rest << keys_array.pop
+          end
+          node = @nodes.dig(*keys_array)
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+          return cell.render_child_component component_key, rest.reverse[1..-1]
+        else
+          node = @nodes.dig(*keys_array)
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+          return cell.render_content
+        end
+      else
+        node = @nodes[component_key]
+        cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+        return cell.render_content
+      end
+    end
+
 
     private
 
