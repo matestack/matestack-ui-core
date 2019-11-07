@@ -275,6 +275,49 @@ We then get displayed our nice success message (`server says: form submitted suc
 
 If we fill in the the input field there and hit the submit button, we not only see the failure messages (`server says: form had errors` and `'foo': [ 'seems to be invalid' ]`), we also get transferred back to the first page, just the way we specified this behavior in the page definition above!
 
+### Example 3.1: Async submit request with success transition - dynamically determined by server
+
+In the example shown above, the `success` `transition` is statically defined. Sometimes the `transition` needs to be dynamically controlled within the server action.
+Imagine creating a new Active Record instance with a `form`. If you want to show the fresh instance on another page and therefore want to define a `transition` after successful form submission, you would need to know the ID of the fresh instance! That is not possible, as the ID is auto-generated and depends on the current environment/state. Therefore you can tell the `form` component to follow a transition, which the server action defines after creating the new instance (and now knowing the ID):
+
+On the `page`:
+```ruby
+#...
+
+def form_config
+  return {
+    for: :my_object,
+    method: :post,
+    path: :success_form_test_path,
+    success: {
+      emit: 'my_form_success',
+      transition: {
+        follow_response: true # follow the serverside transition
+      }
+    }
+  }
+end
+```
+On the `controller` `action`:
+
+```ruby
+#...
+def model_submit
+  @test_model = TestModel.create(model_params)
+  if @test_model.errors.any?
+    render json: {
+      message: 'server says: something went wrong!',
+      errors: @test_model.errors
+    }, status: :unproccessable_entity
+  else
+    render json: {
+      message: 'server says: form submitted successfully!',
+      transition_to: some_other_path(id: @test_model.id) #tell the form component where to transition to with the id, which was not available before
+    }, status: :ok
+  end
+end
+```
+
 ### Example 4: Multiple input fields of different types
 
 Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'textarea' types!

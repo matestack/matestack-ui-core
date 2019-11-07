@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
   scope :api do
     get 'data', to: 'api#data'
+    get 'data/:number', to: 'api#single_endpoint', as: "single_endpoint"
   end
 
 end

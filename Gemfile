@@ -13,6 +13,7 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+# gem 'pry-byebug', group: [:development, :test]
 
 gem "trailblazer"
 gem "trailblazer-rails"
@@ -31,6 +32,7 @@ group :development, :test do
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
   gem 'webmock'
+  gem 'webdrivers', '~> 4.1'
 end
 
 group :test do
