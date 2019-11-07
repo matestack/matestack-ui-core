@@ -23,7 +23,7 @@ describe 'Creating custom components', type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      get '/custom_component_test', to: 'component_test#my_action', as: 'component_test_action'
+      get '/custom_component_test', to: 'component_test#my_action'
     end
     Rails.application.reload_routes!
 
