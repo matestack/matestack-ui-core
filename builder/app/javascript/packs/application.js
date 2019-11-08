@@ -7,18 +7,13 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import Vue from 'vue/dist/vue.esm'
-import Vuex from 'vuex'
-import axios from 'axios'
-import matestackEventHub from 'js/event-hub'
-import componentMixin from 'component/component'
+import 'core-js';
+import Vue from "vue/dist/vue.esm";
+import Vuex from "vuex";
+import axios from "axios";
+import matestackEventHub from "js/event-hub";
+import componentMixin from "component/component";
 
-import matestackUiCore from 'js/core'
+import matestackUiCore from "js/core";
 
-export {
-  Vue,
-  Vuex,
-  axios,
-  matestackEventHub,
-  componentMixin
-}
+export { Vue, Vuex, axios, matestackEventHub, componentMixin };
