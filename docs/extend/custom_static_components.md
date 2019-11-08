@@ -113,7 +113,7 @@ The output looks like this:
 
 ## Camelcased module or class names
 
-Components named in camelcase  are referenced to with their downcased counterpart!
+Components named in camelcase  are referenced with their downcased counterpart!
 As an example, define the camelcased component in `app/matestack/components/my_component.rb`
 
 ```ruby

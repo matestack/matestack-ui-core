@@ -2,7 +2,7 @@
 
 Show [specs](/spec/usage/base/component_spec.rb).
 
-Components are used to define reusable UI elements. The `matestack-ui-core` contains a number of generic, so-called `core components`, but anyone can extend them and write `custom components` that live within a his or her application and cater a specific or unique need.
+Components are used to define reusable UI elements. The `matestack-ui-core` contains a number of generic, so-called `core components`, but anyone can extend them and write `custom components` that live within his or her application and cater a specific or unique need.
 
 This document aims to give a brief introducing to the different kinds of components (with links to further sources) and serves as a manual on [how to configure your components](#component-configuration).
 
@@ -18,7 +18,7 @@ To extend the available core components, just fork [the repo](https://github.com
 
 ## Custom Components
 
-By definition, `custom components` only live within your application. In Rails applications, they are put into the `app/matestack/components/` directory. To use them on your `apps` and `pages`, you need to add a *prefixed 'custom_'*. This clearly differentiates them from the vanilla `core components`.
+By definition, `custom components` only live within your application. In Rails applications, they are put into the `app/matestack/components/` directory. To use them on your `apps` and `pages`, you need to add a *prefixed 'custom_'*. This way, one can clearly differentiate between `custom components` and `core components`.
 
 ### Static Components
 

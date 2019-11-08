@@ -29,7 +29,7 @@ describe 'Creating custom components', type: :feature, js: true do
 
   end
 
-  it 'by orchestrating existing core components' do
+  it 'by orchestrating existing static core components' do
 
     module Components end
 
@@ -60,6 +60,75 @@ describe 'Creating custom components', type: :feature, js: true do
     visit '/custom_component_test'
 
     expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-1" and contains(.,"I\'m a static component!")]')
+
+  end
+
+  it 'by orchestrating existing dynamic core components' do
+
+    module Components end
+
+    class Components::Demo < Matestack::Ui::DynamicComponent
+
+      def response
+        components {
+          div id: 'my-component-1' do
+            plain "{{dynamic_value}}"
+          end
+        }
+      end
+
+    end
+
+    component_definition = <<~javascript
+
+      MatestackUiCore.Vue.component('custom-demo', {
+        mixins: [MatestackUiCore.componentMixin],
+        data: function data() {
+          return {
+            dynamic_value: "Show on pageview"
+          };
+        },
+        mounted(){
+          const self = this
+          setTimeout(function () {
+            self.dynamic_value = "Show after 300ms"
+          }, 300);
+        }
+      });
+
+    javascript
+
+    class Pages::ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          div id: 'div-on-page' do
+            # The async rerender is only used in this test
+            # because we add the Vue.js component definition
+            # during runtime and therefore need to
+            # re-initialize this DOM-part to trigger
+            # Vue.js to mount the component properly.
+            async rerender_on: "refresh" do
+              custom_demo
+            end
+          end
+        }
+      end
+
+    end
+
+    visit '/custom_component_test'
+
+    page.execute_script(component_definition)
+
+    # refresh script only needed in tests, see explanation on page definition above
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("refresh")')
+
+    expect(page).to have_content('Show on pageview')
+    sleep 0.5
+    expect(page).to have_content('Show after 300ms')
+
+
 
   end
 
@@ -107,7 +176,7 @@ describe 'Creating custom components', type: :feature, js: true do
     module Components end
 
     class Components::TimeClick < Matestack::Ui::DynamicActionviewComponent
-      # class Components::TimeClick < Matestack::Ui::Core::Actionview::Dynamic # without alias
+    # class Components::TimeClick < Matestack::Ui::Core::Actionview::Dynamic # without alias
 
       def prepare
         @start_time = Time.now
@@ -147,6 +216,11 @@ describe 'Creating custom components', type: :feature, js: true do
       def response
         components {
           div id: 'div-on-page' do
+            # The async rerender is only used in this test
+            # because we add the Vue.js component definition
+            # during runtime and therefore need to
+            # re-initialize this DOM-part to trigger
+            # Vue.js to mount the component properly.
             async rerender_on: "refresh" do
               custom_timeClick
             end
@@ -159,6 +233,8 @@ describe 'Creating custom components', type: :feature, js: true do
     visit '/custom_component_test'
 
     page.execute_script(component_definition)
+
+    # refresh script only needed in tests, see explanation on page definition above
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("refresh")')
 
     expect(page).to have_content('Now I show: less than 5 seconds')

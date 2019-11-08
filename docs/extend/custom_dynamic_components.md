@@ -1,13 +1,58 @@
 # Custom dynamic components
 
-To create dynamic behavior, you got to choose: Either you wrap a bunch of `core components` and/or `custom components` inside an `dynamic core component`, or you go the whole way and create a `custom dynamic component` with a corresponding Vue.js counterpart.
+To create dynamic behavior, you got either:
+
+- use a bunch of `dynamic core components` (like async, emit ...) inside a `custom static component` ([examp below](#dynamic-core-components-inside-a-custom-static_component))
+- wrap a `custom static component` in a `dynamic core component` ([example below](#async-wrapper-around-static-components))
+- create a custom dynamic component with a corresponding Vue.js counterpart ([example below](#dynamic-components-with-custom-))
+
+
+## Dynamic core components inside a custom static component
+
+Create a `custom static component` in `app/matestack/components/some/component.rb`
+
+```ruby
+class Components::Some::Component < Matestack::Ui::StaticComponent
+
+  def response
+    components {
+      div id: "my-component" do
+        async rerender_on: "my_event" do
+          plain DateTime.now.strftime('%Q')
+        end
+      end
+    }
+  end
+
+end
+```
+
+and add it to the Example Page.
+
+Since we've put a `dynamic core component` inside our `custom static component`, the timestamp inside our custom component gets updated whenever *\"my_event\"* happens - for example by an `onclick` component, as shown below:
+
+```ruby
+class Pages::ExamplePage < Matestack::Ui::Page
+
+  def response
+    components {
+      div id: "div-on-page" do
+        custom_some_component
+
+        onclick emit "my_event"
+      end
+    }
+  end
+
+end
+```
 
 ## Async wrapper around static components
 
-Create a `custom static component` in `app/matestack/components/static/component.rb`
+Create a `custom static component` in `app/matestack/components/some/component.rb`
 
 ```ruby
-class Components::Static::Component < Matestack::Ui::StaticComponent
+class Components::Some::Component < Matestack::Ui::StaticComponent
 
   def response
     components {
@@ -50,7 +95,7 @@ To create a custom dynamic component (we will call our example one *FancyCompone
 While `custom static components` inherit from `Matestack::Ui::StaticComponent`, `custom dynamic component` inherit from *a different class*, namely `Matestack::Ui::DynamicComponent`:
 
 ```ruby
-class Fancy::Component < Matestack::Ui::DynamicComponent
+class Components::Fancy::Component < Matestack::Ui::DynamicComponent
 
   def response
     components {
