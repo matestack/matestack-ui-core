@@ -15,7 +15,7 @@ describe 'Iframe Component', type: :feature, js: true do
           end
 
           # enhanced iframe tag
-          iframe id: 'my-id', class: 'my-class', src="https://www.demopage.com" do
+          iframe id: 'my-id', class: 'my-class', src="https://www.demopage.com", srcdoc="<p>Mate Stack UI!</p>" do
             plain 'The browser does not support iframe.'
           end
         }
@@ -28,7 +28,7 @@ describe 'Iframe Component', type: :feature, js: true do
 
     expected_static_output = <<~HTML
     <iframe src="https://www.demopage.com">The browser does not support iframe.</iframe>
-    <iframe id="my-id" class="my-class" src="https://www.demopage.com">The browser does not support iframe.</iframe>
+    <iframe id="my-id" class="my-class" src="https://www.demopage.com" srcdoc="<p>Mate Stack UI!</p>">The browser does not support iframe.</iframe>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
@@ -43,7 +43,8 @@ describe 'Iframe Component', type: :feature, js: true do
           iframe src="https://www.demopage.com", text: 'The browser does not support iframe.'
 
           # enhanced iframe tag
-          iframe id: 'my-id', class: 'my-class', src="https://www.demopage.com", text: 'The browser does not support iframe.'
+          iframe id: 'my-id', class: 'my-class', src="https://www.demopage.com",
+            srcdoc="<p>Mate Stack UI!</p>", text: 'The browser does not support iframe.'
         }
       end
 
@@ -55,7 +56,7 @@ describe 'Iframe Component', type: :feature, js: true do
 
     expected_static_output = <<~HTML
     <iframe src="https://www.demopage.com">The browser does not support iframe.</iframe>
-    <iframe id="my-id" class="my-class" src="https://www.demopage.com">The browser does not support iframe.</iframe>
+    <iframe id="my-id" class="my-class" src="https://www.demopage.com" srcdoc="<p>Mate Stack UI!</p>">The browser does not support iframe.</iframe>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))

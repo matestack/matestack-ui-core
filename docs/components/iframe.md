@@ -14,9 +14,17 @@ Expects a string with all ids the `iframe` should have.
 #### # class (optional)
 Expects a string with all classes the `iframe` should have for styling purpose.
 
+#### # height (optional)
+Specifies the height of an `iframe`.
+
+#### # width (optional)
+Specifies the width of an `iframe`.
 
 #### # src
 Specifies the address of the document to embed in the `iframe` tag.
+
+#### # srcdoc
+Specifies the HTML content of the page to show in the inline frame.
 
 ## Example 1: Yield a given block
 
