@@ -1,5 +1,59 @@
 # Changelog
 
+## v0.7.3
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.3)
+
+[Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.3)
+
+### Security Fixes
+
+### Improvements
+
+* Move ActionView dependencies to separate, custom-core-component by pascalwengerter
+* Add documentation for testing on macOS by marcoroth
+* Add HTML <ruby> tag to core components by pascalwengerter
+* Add HTML <rt> tag to core components
+* Add HTML <rp> tag to core components
+* Add HTML <q> tag to core components by GrantBarry
+* Add HTML <pre> tag to core components
+* Add HTML <param> tag to core components by marcoroth
+* Add HTML <output> tag to core components by marcoroth
+* Add HTML <object> tag to core components by pascalwengerter
+* Add HTML <noscript> tag to core components
+* Add HTML <meter> tag to core components by bdlb77
+* Add HTML <mark> tag to core components by marcoroth
+* Add HTML <map> tag to core components by pascalwengerter
+* Add HTML <legend> tag to core components
+* Add HTML <kbd> tag to core components
+* Add HTML <ins> tag to core components
+* Add HTML <figure> tag to core components
+* Add HTML <em> tag to core components
+* Add HTML <dt> tag to core components
+* Add HTML <dl> tag to core components
+* Add HTML <dd> tag to core components by mayanktap
+* Add HTML <code> tag to core components by pascalwengerter
+* Add HTML <cite> tag to core components by cameronnorman
+* Add HTML <var> tag to core components by pascalwengerter
+* Add HTML <s> tag to core components by Manukam
+* Add HTML bold tag to core components by GrantBarry
+* Add HTML area tag to core components by pascalwengerter
+* Add tests for video component by MarcoBomfim
+* Usage of RecordTagHelper by pascalwengerter
+* Add HTML aside tag to core components by borref
+* Add HTML address tag to core components by michaelrevans
+* Add HTML sup tag to core components by borref
+* Add params options to link component documentation by pascalwengerter
+
+### Bugfixes
+
+* Unexpected behaviour when creating a record in progress by jonasjabari
+* couldn't find file 'matestack_ui_core_manifest.js' on dummy app by jonasjabari
+* Add For Attribute to Stand Alone Label Component by bdlb77
+* Form component doesn't work on component-level by jonasjabari
+* Async component doesn't work on component-level by jonasjabari
+
+
 ## v0.7.2.1
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/5?closed=1)
