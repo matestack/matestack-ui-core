@@ -9,7 +9,8 @@ module Matestack::Ui::Core::Link
         "id": component_id,
         "method": options[:method],
         "target": options[:target] ||= nil,
-        "href": link_path
+        "href": link_path,
+        "title": options[:title]
       })
     end
 

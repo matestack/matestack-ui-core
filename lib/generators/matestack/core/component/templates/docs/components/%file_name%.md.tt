@@ -1,0 +1,44 @@
+# matestack core component: <%= file_name.camelcase %>
+
+Show [specs](/spec/usage/components/<%= file_name.underscore %>_spec.rb)
+
+The HTML `<<%= file_name.underscore %>>` tag implemented in ruby.
+
+## Parameters
+
+This component can take 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
+
+#### # id (optional)
+Expects a string with all ids the `<<%= file_name.underscore %>>` should have.
+
+#### # class (optional)
+Expects a string with all classes the `<<%= file_name.underscore %>>` should have.
+
+## Example 1: Yield a given block
+
+```ruby
+<%= file_name.underscore %> id: 'foo', class: 'bar' do
+  plain '<%= file_name.camelcase %> example 1' # optional content
+end
+```
+
+returns
+
+```html
+<<%= file_name.underscore %> id="foo" class="bar">
+  <%= file_name.camelcase %> example 1
+</<%= file_name.underscore %>>
+```
+
+## Example 2: Render `options[:text]` param
+
+```ruby
+<%= file_name.underscore %> id: 'foo', class: 'bar', text: '<%= file_name.camelcase %> example 2'
+```
+
+returns
+
+```html
+<<%= file_name.underscore %> id="foo" class="bar">
+  <%= file_name.camelcase %> example 2
+</<%= file_name.underscore %>>

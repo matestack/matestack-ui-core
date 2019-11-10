@@ -2,40 +2,56 @@
 
 Show [specs](/spec/usage/components/video_spec.rb)
 
-The HTML video tag implemented in ruby.
+The HTML video tag implemented in Ruby.
 
 ## Parameters
-The video tag takes a mandatory path argument and can take a number of optional configuration params.
+The video component takes mandatory path and type arguments and can take a number of optional configuration params.
 
-#### # path
-Expects a string with the source to the image. It looks for the image in the `assets/videos` folder and uses the standard Rails asset pipeline.
-
-#### # id, class
-Like most of the core components, you can give a video an id and a class.
-
-#### # height (optional)
-Expects an integer with the height of the image in px.
-
-#### # width (optional)
-Expects an integer with the width of the image in px.
-
-#### # alt (optional)
-Expects a string with the alt text the image should have.
-
-#### # preload
-Expects a string (`auto`, `metadata` or `none`) and specifies whether the whole video/only metadata/nothing should be loaded on pageload. Default (if not specified) depends on the client's browser.
-
-#### # autoplay
+#### # autoplay (optional)
 Expects a boolean and specifies whether the video should start playing as soon as it is ready.
 
-#### # muted
-Expects a boolean and specifies whether the audio output of the video should be muted.
+#### # controls (optional)
+Expects a boolean and specifies whether the video controls (play/pause button etc) should be displayed.
 
-#### # playsinline
-Expects a boolean and specifies whether the video should be played inline on iOS Safari.
+#### # height (optional)
+Expects an integer with the height of the video in px.
 
-#### # loop
+#### # id, class (optional)
+Like most of the core components, you can give a video an id and a class.
+
+#### # loop (optional)
 Expects a boolean and specifies whether the video will start over again every time it is finished.
 
-#### # controls
-Expects a boolean and specifies whether the video controls (play/pause button etc) should be displayed.
+#### # muted (optional)
+Expects a boolean and specifies whether the audio output of the video should be muted.
+
+#### # path
+Expects a string with the source to the video. It looks for the video in the `assets/videos` folder and uses the standard Rails asset pipeline.
+
+#### # type
+Expects a string with the type to the video.
+
+#### # playsinline (optional)
+Expects a boolean and specifies whether the video should be played inline on iOS Safari.
+
+#### # preload (optional)
+Expects a string (`auto`, `metadata` or `none`) and specifies whether the whole video/only metadata/nothing should be loaded on pageload. Default (if not specified) depends on the client's browser.
+
+#### # width (optional)
+Expects an integer with the width of the video in px.
+
+## Example
+
+
+```ruby
+video path: 'corgi.mp4', type: "mp4", width: 500, height: 300
+```
+
+returns
+
+```HTML
+<video height='300' width='500'>
+  <source src='/assets/corgi-[...].mp4' type='video/mp4'>
+  Your browser does not support the video tag.
+</video>
+```

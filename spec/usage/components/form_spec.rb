@@ -24,6 +24,13 @@ describe "Form Component", type: :feature, js: true do
         render json: { message: "server says: form submitted successfully" }, status: 200
       end
 
+      def success_submit_with_transition
+        render json: {
+          message: "server says: form submitted successfully",
+          transition_to: form_test_page_4_path(id: 42)
+        }, status: 200
+      end
+
       def failure_submit
         render json: {
           message: "server says: form had errors",
@@ -35,6 +42,7 @@ describe "Form Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       post '/success_form_test/:id', to: 'form_test#success_submit', as: 'success_form_test'
+      post '/success_form_test_with_transition/:id', to: 'form_test#success_submit_with_transition', as: 'success_form_test_with_transition'
       post '/failure_form_test/:id', to: 'form_test#failure_submit', as: 'failure_form_test'
     end
     Rails.application.reload_routes!
@@ -373,6 +381,108 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_content("\"foo\": [ \"seems to be invalid\" ]")
 
     expect(page).to have_content("This is Page 1")
+
+  end
+
+  it "Example 5 - Async submit request with success transition determined by server response" do
+    class Apps::ExampleApp < Matestack::Ui::App
+
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+          async show_on: "my_form_success", hide_after: 300 do
+            plain "{{event.data.message}}"
+          end
+          async show_on: "my_form_failure", hide_after: 300 do
+            plain "{{event.data.message}}"
+            plain "{{event.data.errors}}"
+          end
+        }
+      end
+
+    end
+
+    module Pages::ExampleApp
+
+    end
+
+    class Pages::ExampleApp::ExamplePage3 < Matestack::Ui::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 3"
+          form form_config, :include do
+            form_input id: "my-test-input-on-page-3", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :success_form_test_with_transition_path,
+          params: {
+            id: 42
+          },
+          success: {
+            emit: "my_form_success",
+            transition: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::ExampleApp::ExamplePage4 < Matestack::Ui::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 4"
+        }
+      end
+
+    end
+
+    class ExampleAppPagesController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def page3
+        responder_for(Pages::ExampleApp::ExamplePage3)
+      end
+
+      def page4
+        responder_for(Pages::ExampleApp::ExamplePage4)
+      end
+
+    end
+
+    Rails.application.routes.append do
+      scope :form_test do
+        get 'page3', to: 'example_app_pages#page3', as: 'form_test_page_3'
+        get 'page4/:id', to: 'example_app_pages#page4', as: 'form_test_page_4'
+      end
+    end
+    Rails.application.reload_routes!
+
+    visit "form_test/page3"
+
+    expect(page).to have_content("This is Page 3")
+
+    fill_in "my-test-input-on-page-3", with: "bar"
+    click_button "Submit me!"
+
+    expect(page).to have_content("server says: form submitted successfully")
+
+    expect(page).to have_content("This is Page 4")
 
   end
 
@@ -1444,6 +1554,61 @@ describe "Form Component", type: :feature, js: true do
       it "can have a label"
 
     end
+
+    describe "Usage on Component Level" do
+
+      it "Example 1 - Async submit request with clientside payload from component-level" do
+
+        module Components end
+
+        class Components::SomeComponent < Matestack::Ui::StaticComponent
+
+          def response
+            components {
+              form form_config, :include do
+                form_input id: "my-test-input", key: :foo, type: :text
+                form_submit do
+                  button text: "Submit me!"
+                end
+              end
+            }
+          end
+
+          def form_config
+            return {
+              for: :my_object,
+              method: :post,
+              path: :success_form_test_path,
+              params: {
+                id: 42
+              }
+            }
+          end
+        end
+
+        class ExamplePage < Matestack::Ui::Page
+
+          def response
+            components {
+              div do
+                custom_someComponent
+              end
+            }
+          end
+
+        end
+
+        visit "/example"
+
+        fill_in "my-test-input", with: "bar"
+        click_button "Submit me!"
+
+        expect_any_instance_of(FormTestController).to receive(:expect_params)
+          .with(hash_including(my_object: { foo: "bar" }))
+
+      end
+    end
+
   end
 
 end

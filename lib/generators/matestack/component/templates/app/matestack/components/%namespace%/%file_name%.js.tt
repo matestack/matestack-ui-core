@@ -1,0 +1,17 @@
+// Require your custom component in your application.js before usage
+// Place it below "//= require matestack-ui-core" using the following line:
+//= require <% unless namespace.nil? %><%= namespace %>/<% end %><%= file_name %>
+
+MatestackUiCore.Vue.component('custom<% unless namespace.nil? %>-<%= namespace %><% end %>-<%= file_name %>', {
+  mixins: [MatestackUiCore.componentMixin],
+  data: function() {
+    return {
+      foo: 'bar'
+    };
+  },
+  methods: {},
+  mounted: function(){
+    // this is your completeness check and should be deleted before deployment
+    console.log('Custom Dynamic Component <%= class_name %> mounted!')
+  }
+});
