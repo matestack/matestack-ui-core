@@ -6,31 +6,37 @@
 
 [Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.3)
 
+### Potential Breaking Change - Migration Note
+
+Until `0.7.2.1`, we included all `ActionView` modules in `Matestack::Ui::StaticComponent` and `Matestack::Ui::DynamicComponent`. As we didn't use these modules in all of our core components, we decided to move the `ActionView` modules to the new `Matestack::Ui::StaticActionviewComponent` and `Matestack::Ui::DynamicActionviewComponent` class. If you use `ActionView` modules in your components, you have to change the class you inherit from. This might be a potential breaking change for some users - we are not bumping to 0.8.0 as we don't break explicit specified behavior. If you have any problems, reach out via gitter!
+
 ### Security Fixes
+
+none
 
 ### Improvements
 
 * Move ActionView dependencies to separate, custom-core-component by pascalwengerter
 * Add documentation for testing on macOS by marcoroth
-* Add HTML <ruby> tag to core components by pascalwengerter
-* Add HTML <rt> tag to core components
-* Add HTML <rp> tag to core components
+* Add HTML <ruby> tag to core components by stiwwelll
+* Add HTML <rt> tag to core components by stiwwelll
+* Add HTML <rp> tag to core components by stiwwelll
 * Add HTML <q> tag to core components by GrantBarry
-* Add HTML <pre> tag to core components
+* Add HTML <pre> tag to core components by tae8838
 * Add HTML <param> tag to core components by marcoroth
 * Add HTML <output> tag to core components by marcoroth
 * Add HTML <object> tag to core components by pascalwengerter
-* Add HTML <noscript> tag to core components
+* Add HTML <noscript> tag to core components by stiwwelll
 * Add HTML <meter> tag to core components by bdlb77
 * Add HTML <mark> tag to core components by marcoroth
 * Add HTML <map> tag to core components by pascalwengerter
-* Add HTML <legend> tag to core components
-* Add HTML <kbd> tag to core components
-* Add HTML <ins> tag to core components
-* Add HTML <figure> tag to core components
-* Add HTML <em> tag to core components
-* Add HTML <dt> tag to core components
-* Add HTML <dl> tag to core components
+* Add HTML <legend> tag to core components by stiwwelll
+* Add HTML <kbd> tag to core components by marcoroth
+* Add HTML <ins> tag to core components by lumisce
+* Add HTML <figure> tag to core components by lumisce
+* Add HTML <em> tag to core components by citizen428
+* Add HTML <dt> tag to core components by mayanktap
+* Add HTML <dl> tag to core components by mayanktap
 * Add HTML <dd> tag to core components by mayanktap
 * Add HTML <code> tag to core components by pascalwengerter
 * Add HTML <cite> tag to core components by cameronnorman
