@@ -59,6 +59,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [rt](/docs/components/rb.md)
 - [ruby](/docs/components/ruby.md)
 - [s](/docs/components/s.md)
+- [samp](/docs/components/samp.md)
 - [section](/docs/components/section.md)
 - [small](/docs/components/small.md)
 - [span](/docs/components/span.md)
