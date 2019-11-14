@@ -8,8 +8,12 @@ class Pages::MyApp::InlineEdit < Matestack::Ui::Page
     components {
       heading size: 2, text: "Inline Edit"
 
-      partial :show_value
-      partial :show_form
+      if @my_model.nil?
+        plain "please create a model on Page 4"
+      else
+        partial :show_value
+        partial :show_form
+      end
     }
   end
 
