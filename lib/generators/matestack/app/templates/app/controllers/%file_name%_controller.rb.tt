@@ -1,0 +1,5 @@
+class <%= class_name %>Controller < ApplicationController
+  def example_page
+    responder_for(Pages::<%= class_name %>::ExamplePage)
+  end
+end

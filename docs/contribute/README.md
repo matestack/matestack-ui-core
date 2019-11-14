@@ -59,6 +59,27 @@ The builder app located in `builder/` uses webpacker in order build matestacks J
 docker-compose up webpack-watcher
 ```
 
+## Core Components
+
+Core Components are an essential part of the `matestack-ui-core` gem.
+If you are planning to contribute to Matestack you can start doing that by creating a core component. To help you getting started you can use the Core Component Generator.
+
+The generator will create a matestack core component to `app/concepts/matestack/ui/core`.
+
+Example:
+
+```bash
+rails generate matestack:core:component div
+```
+
+This will create a component for the HTML `<div>` tag and will generate the following files:
+
+```bash
+app/concepts/matestack/ui/core/div/div.haml
+app/concepts/matestack/ui/core/div/div.rb
+spec/usage/components/div_spec.rb
+docs/components/div.md
+```
 
 ## Tests
 
@@ -69,6 +90,26 @@ bundle exec rspec
 ```
 
 Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
+
+### Note: Running tests on macOS
+
+Make sure you have installed `chromedriver` on your machine. You can install `chromedriver` via `brew` with
+
+```shell
+brew cask install chromedriver
+```
+
+You can then run your the testsuite with `bundle exec rspec`.
+
+If you get an error about a version mismatch similar to this one:
+
+`Chrome version must be between X and Y (Driver info: chromedriver=X.Y.Z)`
+
+Make sure you update your chromedriver by executing this command in the project root:
+
+```shell
+rails app:webdrivers:chromedriver:update
+```
 
 ## Release
 

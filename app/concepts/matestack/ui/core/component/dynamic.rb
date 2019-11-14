@@ -1,30 +1,6 @@
 module Matestack::Ui::Core::Component
   class Dynamic < Trailblazer::Cell
 
-    include ActionView::Helpers::ActiveModelHelper
-    include ActionView::Helpers::ActiveModelInstanceTag
-    include ActionView::Helpers::AssetTagHelper
-    include ActionView::Helpers::AssetUrlHelper
-    include ActionView::Helpers::AtomFeedHelper
-    include ActionView::Helpers::CacheHelper
-    include ActionView::Helpers::CaptureHelper
-    include ActionView::Helpers::CspHelper
-    include ActionView::Helpers::CsrfHelper
-    include ActionView::Helpers::DateHelper
-    include ActionView::Helpers::DebugHelper
-    include ActionView::Helpers::FormHelper
-    include ActionView::Helpers::FormOptionsHelper
-    include ActionView::Helpers::FormTagHelper
-    include ActionView::Helpers::JavaScriptHelper
-    include ActionView::Helpers::NumberHelper
-    include ActionView::Helpers::OutputSafetyHelper
-    include ActionView::Helpers::RecordTagHelper
-    # include ActionView::Helpers::RenderingHelper
-    include ActionView::Helpers::SanitizeHelper
-    include ActionView::Helpers::TagHelper
-    include ActionView::Helpers::TextHelper
-    include ActionView::Helpers::TranslationHelper
-    include ActionView::Helpers::UrlHelper
     include ::Cell::Haml
     include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::ToCell
@@ -158,7 +134,7 @@ module Matestack::Ui::Core::Component
       @nodes = Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
 
       @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+        @cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
       end
     end
 
@@ -189,6 +165,38 @@ module Matestack::Ui::Core::Component
         end
       end
       result.join(" ")
+    end
+
+    def render_child_component component_key, current_search_keys_array
+      if respond_to? :prepare
+        prepare
+      end
+
+      response
+
+      if current_search_keys_array.count > 1
+        if @nodes.dig(*current_search_keys_array) == nil
+          rest = []
+          while @nodes.dig(*current_search_keys_array) == nil
+            rest << current_search_keys_array.pop
+          end
+          node = @nodes.dig(*current_search_keys_array)
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+          begin
+            return cell.render_child_component component_key, rest.reverse[1..-1]
+          rescue
+            return cell.render_content
+          end
+        else
+          node = @nodes.dig(*current_search_keys_array)
+          cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+          return cell.render_content
+        end
+      else
+        node = @nodes[current_search_keys_array[0]]
+        cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+        return cell.render_content
+      end
     end
 
     private

@@ -1,330 +1,40 @@
 # Component Concept
 
-Show [specs](/spec/usage/base/component_spec.rb)
+Show [specs](/spec/usage/base/component_spec.rb).
 
-A component is used to define reusable UI elements. This documentation enables anyone to write custom components that live within a Rails application. All custom components need a *prefixed 'custom_'* to be referenced within the `app/matestack/` folder in a Rails application.
+Components are used to define reusable UI elements. The `matestack-ui-core` contains a number of generic, so-called `core components`, but anyone can extend them and write `custom components` that live within his or her application and cater a specific or unique need.
 
-To extend the available core components, feel free to fork this repo and create them within the `app/concepts` folder, analogous to the existing core components.
+This document aims to give a brief introducing to the different kinds of components (with links to further sources) and serves as a manual on [how to configure your components](#component-configuration).
 
-In the beginning, static components are introduced. Later, dynamic components follow by integrating Vue.js. After that, all the configuration options for Matestack components get explained!  
+## Core Components
 
-## Static components
+See [here](/docs/components/README.md) for a list of available `core components`. In general, they are separated into HTML-only **static** components and **dynamic** components that come with Javascript-powered, dynamic behaviour.
 
-All static components inherit from the `Matestack::Ui::StaticComponent` class and get rendered without any javascript involved.
+If you miss a component that you think we're missing in the `core components` right now, [create an issue](https://github.com/basemate/matestack-ui-core/issues/new) in our GitHub!
 
-### A simple static component
+If you have created your own component and feel like it would be a great addition to the `core components`, please [create a pull request](https://github.com/basemate/matestack-ui-core/compare) including tests and documentation.
 
-Define the component in `app/matestack/components/component1.rb` like so
+To extend the available core components, just fork [the repo](https://github.com/basemate/matestack-ui-core) and create them within the `app/concepts` folder, analogous to the existing core components - and you're always invited to reach out to [our community](https://gitter.im/basemate/community) if you face any problems!
 
-```ruby
-class Components::Component1 < Matestack::Ui::StaticComponent
+## Custom Components
 
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a static component!"
-      end
-    }
-  end
+By definition, `custom components` only live within your application. In Rails applications, they are put into the `app/matestack/components/` directory. To use them on your `apps` and `pages`, you need to add a *prefixed 'custom_'*. This way, one can clearly differentiate between `custom components` and `core components`.
 
-end
-```
+### Static Components
 
-and add it to the response part of an Example Page that lives somewhere in `app/matestack/pages/example_app/example_page.rb`
+See [here](/docs/extend/custom_static_components.md) for an extensive guide on creating your own `custom static components`. Orchestrate existing `core components` to avoid repetition, or get creative and add your own `HAML` templates!
 
-```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
+### Dynamic Components
 
-  def response
-    components {
-      div id: "div-on-page" do
-        # below is the reference to the custom component
-        custom_component1
-      end
-    }
-  end
+See [here](/docs/extend/custom_dynamic_components.md) for an extensive guide on creating your own `custom dynamic components`. Those allow you to extend and create rich user exeriences by writing custom Vue.Js!
 
-end
-```
+### Actionview Components
 
-This will get rendered into
-
-```html
-<div id="div-on-page">
-  <div id="my-component">
-    I'm a static component!
-  </div>
-</div>
-```
-
-### Multiple components may live in one namespace
-
-Define the first component in `app/matestack/components/namespace1/component1.rb`
-
-```ruby
-class Components::Namespace1::Component1 < Matestack::Ui::StaticComponent
-
-  def response
-    components {
-      div class: "my-component" do
-        plain "I'm a static component!"
-      end
-    }
-  end
-
-end
-```
-
-and define a second component in the same namespace: `app/matestack/components/namespace1/component2.rb`
-
-```ruby
-class Components::Namespace1::Component2 < Matestack::Ui::StaticComponent
-
-  def response
-    components {
-      div class: "my-component-2" do
-        plain "I'm a second custom static component!"
-      end
-    }
-  end
-
-end
-```
-
-then add both components to the response part of the Example Page in `app/matestack/pages/example_page.rb`
-
-```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
-
-   def response
-     components {
-       div id: "div-on-page" do
-         custom_namespace1_component1
-         custom_namespace1_component2
-       end
-     }
-   end
-
-end
-```  
-
-The output looks like this:
-
-```html
-<div id="div-on-page">
-  <div class="my-component-1">
-    I'm a static component!
-  </div>
-  <div class="my-component-2">
-    I'm a second custom static component!
-  </div>
-</div>
-```
-
-### Camelcased module or class names
-
-Components named in camelcase  are referenced to with their downcased counterpart!
-As an example, define the camelcased component in `app/matestack/components/my_component.rb`
-
-```ruby
-class Components::MyComponent < Matestack::Ui::StaticComponent
-
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a static component!"
-      end
-    }
-  end
-
-end
-```
-
-and add it to the response part of the Example Page (`app/matestack/pages/example_page.rb`, remember?) via *downcased reference*
-
-```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      div id: "div-on-page" do
-        # if my_component was called, this would refer to Components::My::Component
-        # and woulnd't deliver the desired outcome
-        custom_myComponent
-      end
-    }
-  end
-
-end
-```
-
-As expected, it will get rendered into
-
-```html
-<div id="div-on-page">
-  <div id="my-component-1">
-    I'm a static component!
-  </div>
-</div>
-```
-
-## Dynamic components
-
-So far, all custom components were static ones. Reminder: All components that inherit from `Matestack::Ui::StaticComponent` get rendered without any javascript involved. But static components can also be wrapped inside dynamic components to create, well, dynamic behavior!
-
-### Async wrapper to add basic dynamic behavior
-
-Create a custom *static* component in `app/matestack/components/static/component.rb`
-
-```ruby
-class Components::Static::Component < Matestack::Ui::StaticComponent
-
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a static component!"
-        plain DateTime.now.strftime('%Q')
-      end
-    }
-  end
-
-end
-```
-
-and add it to the Example Page, wrapping it into an *async component* to make it *dynamic*! The *async component* is a core component and therefore does not need a *custom_* prefix.
-
-```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      div id: "div-on-page" do
-        async rerender_on: "my_event" do
-          custom_some_component
-        end
-      end
-    }
-  end
-
-end
-```
-
-Now, the page will respond with static content, but our component rerenders (visible by looking at the timestamp) whenever *"my_event"* happens. This event may be triggered by all kinds of other components, for example a `onclick` component:
-
-```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      div id: "div-on-page" do
-        onclick emit "my_event"
-
-        async rerender_on: "my_event" do
-          custom_some_component
-        end
-      end
-    }
-  end
-
-end
-```
-
-### Dynamic components with custom Vue.js
-
-To create a custom dynamic component, create an associated file such as `app/matestack/components/dynamic/component.rb`.
-
-
-In contrast to static components that inherit from `Matestack::Ui::StaticComponent`, a custom dynamic component inherits from *a different class*, `Matestack::Ui::DynamicComponent`:
-
-```ruby
-class Dynamic::Component < Matestack::Ui::DynamicComponent
-
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a fancy dynamic component! Call me {{dynamic_value}}!"
-      end
-    }
-  end
-
-end
-```
-
-The JavaScript part is defined in `app/matestack/components/dynamic/component.js` as a Vue.js component:
-
-```javascript
-MatestackUiCore.Vue.component('dynamic-component-cell', {
-  mixins: [MatestackUiCore.componentMixin],
-  data: function data() {
-    return {
-      dynamic_value: "foo"
-    };
-  },
-  mounted(){
-    const self = this
-    setTimeout(function () {
-      self.dynamic_value = "bar"
-    }, 300);
-  }
-});
-```
-
-**Important:** You need to add this `component.js` to your `application.js`:
-
-`app/assets/javascripts/application.js`
-
-```javascript
-//...
-
-//= require matestack-ui-core
-
-//...
-
-//= require dynamic/component
-
-//...
-
-```
-
-And if not already done:
-
-`config/initializers/assets.rb`
-
-```ruby
-Rails.application.config.assets.paths << Rails.root.join('app/matestack/components')
-```
-
-Add the dynamic component to an example page the same way it is done with static components:
-
-```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      div id: "div-on-page" do
-        custom_dynamic_component
-      end
-    }
-  end
-
-end
-```
-
-On initial pageload, this is the HTML received:
-
-```html
-<div id="div-on-page">
-  <div id="my-component">
-    I'm a fancy dynamic component! Call me foo!
-  </div>
-</div>
-```
-
-And after 300ms, *foo* changes into *bar* dynamically - magic!
+See [here](/docs/extend/custom_actionview_component.md) for a guide on creating custom `actionview components`, both `static` and `dynamic`. Those allow you to harness the power of various Rails `ActionView` helpers without including them in your `custom components`.
 
 ## Component configuration
 
-See below for an overview of the various possibilities Matestack provides for component configuration, both for custom and core components!
+See below for an overview of the various possibilities Matestack provides for component configuration, both for `custom components` and `core components`!
 
 ### Passing options to components
 

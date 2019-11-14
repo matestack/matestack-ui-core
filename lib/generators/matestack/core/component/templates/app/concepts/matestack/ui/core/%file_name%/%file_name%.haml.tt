@@ -1,0 +1,5 @@
+%<%= file_name.underscore %>{@tag_attributes}
+  - if options[:text].blank? && block_given?
+    = yield
+  - else
+    = options[:text]

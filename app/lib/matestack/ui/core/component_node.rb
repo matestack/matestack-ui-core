@@ -13,10 +13,10 @@ module Matestack::Ui::Core
       @hash = {}
       @node_start_id = 0
       @component_instance = component_instance
-      @included_config = included_config
       component_instance.instance_variables.each do |component_instance_var_key|
         self.instance_variable_set(component_instance_var_key, component_instance.instance_variable_get(component_instance_var_key))
       end
+      @included_config = included_config
     end
 
     def method_missing meth, *args, &block
