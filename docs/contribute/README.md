@@ -56,7 +56,7 @@ docker-compose up dummy
 The builder app located in `builder/` uses webpacker in order build matestacks Javascript based on the source code found in `app/`. During development it can be used to compile the javascript when any relevant source code is changed. Run it like seen below:
 
 ```shell
-docker-compose up webpack-watcher
+CURRENT_UID=$(id -u):$(id -g) docker-compose up webpack-watcher
 ```
 
 ## Core Components

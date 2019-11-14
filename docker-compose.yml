@@ -14,6 +14,7 @@ services:
       - gem-volume:/usr/local/bundle
       - node-volume:/app/node_modules
     command: "bundle exec rails server"
+    user: ${CURRENT_UID}
 
   webpack-watcher:
     build:
@@ -26,6 +27,7 @@ services:
       - gem-volume:/usr/local/bundle
       - node-volume:/app/node_modules
     command: "sh -c 'cd builder && ./bin/webpack --watch'"
+    user: ${CURRENT_UID}
 
   test:
     build:
@@ -38,6 +40,7 @@ services:
       - gem-volume:/usr/local/bundle
       - node-volume:/app/node_modules
     command: "bundle exec rspec spec/usage/components"
+    user: ${CURRENT_UID}
 
 volumes:
   data-volume:
