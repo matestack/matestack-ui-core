@@ -40,6 +40,7 @@ docker-compose run --rm dummy rake db:migrate
 docker-compose run --rm dummy yarn install
 docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
 ```
+If you already created sqlite files locally in `spec/dummy/db`, the command `docker-compose run --rm dummy rake db:migrate` will fail. Please remove the locally created sqlite files and rerun `docker-compose run --rm dummy rake db:migrate`
 
 You might need to redo these steps if new migrations or yarn packages are added/updated.
 
@@ -51,15 +52,45 @@ The dummy app provides a good playground for matestacks core development. The so
 docker-compose up dummy
 ```
 
+Visit `localhost:3000/sandbox/hello` in order to visit the sandbox page. It lives in `spec/dummy/app/matestack/pages/sandbox/hello.rb`. Feel free to modify it and play around with components and concepts. Just don't push your local changes to the remote repo.
+
+Visit `localhost:3000/my_app/my_first_page` in order to visit some example use cases. The pages live in `spec/dummy/app/matestack/pages/my_app`.
+
 ### Run the Webpack Watcher
 
 The builder app located in `builder/` uses webpacker in order build matestacks Javascript based on the source code found in `app/`. During development it can be used to compile the javascript when any relevant source code is changed. Run it like seen below:
 
 ```shell
-CURRENT_UID=$(id -u):$(id -g) docker-compose up webpack-watcher
+docker-compose up webpack-watcher
 ```
 
-## Core Components
+### Run bundle/yarn install in a Docker container
+
+In order to execute commands such as `bundle install`, `yarn install` you need to run:
+
+```shell
+docker-compose run --rm dummy bundle install
+docker-compose run --rm dummy yarn install
+docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
+```
+
+### Run commands as your user in a Docker container
+
+When running commands, which generates files, which then are mounted to your host filesystem, you need to tell the Docker container that it should run with your user ID.
+
+```shell
+CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bash
+
+#and then your desired command such as:
+
+rails generate matestack:core:component div
+```
+
+Otherwise the generated files will be owned by the `root` user and are only writeable when applying `sudo`.
+
+**Note:** `bundle install` and `yarn install` can't be executed inside the Docker container as the current user. `CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bundle install` will not work.
+
+## Core Components Generator
 
 Core Components are an essential part of the `matestack-ui-core` gem.
 If you are planning to contribute to Matestack you can start doing that by creating a core component. To help you getting started you can use the Core Component Generator.
@@ -69,6 +100,7 @@ The generator will create a matestack core component to `app/concepts/matestack/
 Example:
 
 ```bash
+CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bash
 rails generate matestack:core:component div
 ```
 
