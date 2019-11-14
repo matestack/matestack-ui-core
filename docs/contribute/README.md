@@ -22,6 +22,44 @@ Feel free to take a look at other examples and copy their structure!
 Note: We will not approve pull requests that introduce new concepts or components without documentation. Same goes for existing concepts & components.
 If you change the behavior of an existing part of this project, make sure to also update the corresponding part of the documentation!
 
+## Dockerized Core Dev
+
+We dockerized the core development in order to make it as convenient as possible to contribute to matestack-ui-core.
+
+You will need to install docker and docker-compose:
+
+* [Install Docker on Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-convenience-script)
+* [Install docker-compose](https://docs.docker.com/compose/install/)
+
+### Setup Database and Yarn Packages
+
+In order to migrate the database and install yarn packages, do:
+
+```shell
+docker-compose run --rm dummy rake db:migrate
+docker-compose run --rm dummy yarn install
+docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
+```
+
+You might need to redo these steps if new migrations or yarn packages are added/updated.
+
+### Run the Dummy App
+
+The dummy app provides a good playground for matestacks core development. The source code can be found and manipulated (be careful what you commit) at `spec/dummy`. Run it like seen below:
+
+```shell
+docker-compose up dummy
+```
+
+### Run the Webpack Watcher
+
+The builder app located in `builder/` uses webpacker in order build matestacks Javascript based on the source code found in `app/`. During development it can be used to compile the javascript when any relevant source code is changed. Run it like seen below:
+
+```shell
+docker-compose up webpack-watcher
+```
+
+
 ## Tests
 
 To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:

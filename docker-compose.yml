@@ -1,0 +1,45 @@
+version: '3'
+services:
+
+  dummy:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - ./:/app
+      - gem-volume:/usr/local/bundle
+      - node-volume:/app/node_modules
+    command: "bundle exec rails server"
+
+  webpack-watcher:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - ./:/app
+      - gem-volume:/usr/local/bundle
+      - node-volume:/app/node_modules
+    command: "sh -c 'cd builder && ./bin/webpack --watch'"
+
+  test:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+    environment:
+      RAILS_ENV: test
+    volumes:
+      - ./:/app
+      - gem-volume:/usr/local/bundle
+      - node-volume:/app/node_modules
+    command: "bundle exec rspec spec/usage/components"
+
+volumes:
+  data-volume:
+  gem-volume:
+  node-volume:
