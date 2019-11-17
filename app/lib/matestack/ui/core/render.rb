@@ -22,4 +22,37 @@ module Matestack::Ui::Core::Render
     end
   end
 
+  # Matestack allows implicit rendering. When an `index` or `show` action is requested, which is not
+  # defined, then the matestack page is inferred from the controller name. The index action will
+  # look for a `Page` with a plural name, the show action will look for a `Page` with a singular
+  # name.
+  #
+  #     class Clients::BookingsController < ApplicationController
+  #       def index
+  #         @bookings = Booking.all
+  #       end
+  #
+  #       def show
+  #         @booking = Booking.find params[:id]
+  #       end
+  #     end
+  #
+  # In this example, `clients/bookings#index` will render `Pages::Clients::Bookings`,
+  # `clients/bookings#show` will render `Pages::Clients::Booking`.
+  #
+  def default_render(*args)
+    matestack_class_name_parts = "pages/#{controller_path}".split("/").collect { |str| str.camelcase }
+    matestack_class_name_parts[-1] = matestack_class_name_parts[-1].singularize if action_name == "show"
+    matestack_class_name = matestack_class_name_parts.join("::")
+    begin
+      matestack_class = matestack_class_name.constantize
+    rescue NameError
+    end
+    if matestack_class
+      render matestack: matestack_class
+    else
+      super
+    end
+  end
+
 end
