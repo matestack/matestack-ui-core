@@ -6,7 +6,8 @@ module Matestack
         def render_page(page_class, only_page=false)
           page_class.new(nil, context: {
             params: params,
-            request: request
+            request: request,
+            view_context: view_context
           }, controller_instance: self).call(:show, nil, only_page)
         end
 
