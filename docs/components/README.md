@@ -74,6 +74,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [var](/docs/components/var.md)
 - [video](/docs/components/video.md)
 - [youtube](/docs/components/youtube.md)
+- [wbr](/docs/components/wbr.md)
 
 ## Dynamic Core Components
 
