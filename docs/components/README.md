@@ -19,6 +19,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [caption](/docs/components/caption.md)
 - [cite](/docs/components/cite.md)
 - [code](/docs/components/code.md)
+- [data](/docs/components/data.md)
 - [dl](/docs/components/dl.md)
   - dd
   - dt
