@@ -12,12 +12,14 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [article](/docs/components/article.md)
 - [aside](/docs/components/aside.md)
 - [b](/docs/components/b.md)
+- [bdi](/docs/components/bdi.md)
 - [blockquote](/docs/components/blockquote.md)
 - [br](/docs/components/br.md)
 - [button](/docs/components/button.md)
 - [caption](/docs/components/caption.md)
 - [cite](/docs/components/cite.md)
 - [code](/docs/components/code.md)
+- [data](/docs/components/data.md)
 - [dl](/docs/components/dl.md)
   - dd
   - dt
@@ -59,6 +61,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [rt](/docs/components/rb.md)
 - [ruby](/docs/components/ruby.md)
 - [s](/docs/components/s.md)
+- [samp](/docs/components/samp.md)
 - [section](/docs/components/section.md)
 - [small](/docs/components/small.md)
 - [span](/docs/components/span.md)
@@ -72,6 +75,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [var](/docs/components/var.md)
 - [video](/docs/components/video.md)
 - [youtube](/docs/components/youtube.md)
+- [wbr](/docs/components/wbr.md)
 
 ## Dynamic Core Components
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (0.7.2.1)
+    matestack-ui-core (0.7.3)
       cells-haml
       cells-rails
       haml
@@ -84,7 +84,7 @@ GEM
     concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.4)
+    crass (1.0.5)
     declarative (0.0.10)
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
@@ -111,7 +111,7 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
-    loofah (2.2.3)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -124,7 +124,7 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     pipetree (0.1.1)
     poltergeist (1.18.1)
@@ -191,7 +191,7 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubyzip (1.2.2)
+    rubyzip (1.3.0)
     safe_yaml (1.0.5)
     selenium-webdriver (3.14.1)
       childprocess (~> 0.5)
@@ -201,7 +201,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sprockets (3.7.2)
+    sprockets (4.0.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.1)
