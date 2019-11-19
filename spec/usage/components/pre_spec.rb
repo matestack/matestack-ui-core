@@ -20,7 +20,7 @@ describe 'Pre Component', type: :feature, js: true do
     expected_static_output = <<~HTML
       <pre>This is preformatted text</pre>
     HTML
-    p stripped(static_output)
+
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
 

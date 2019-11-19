@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (0.7.1)
+    matestack-ui-core (0.7.2.1)
       cells-haml
       cells-rails
       haml
@@ -123,7 +123,7 @@ GEM
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
-    nio4r (2.4.0)
+    nio4r (2.5.2)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     pipetree (0.1.1)
@@ -231,6 +231,10 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uber (0.1.0)
+    webdrivers (4.1.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -264,6 +268,7 @@ DEPENDENCIES
   trailblazer
   trailblazer-cells
   trailblazer-rails
+  webdrivers (~> 4.1)
   webmock
   webpacker (~> 3.5)
 

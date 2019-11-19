@@ -6,8 +6,6 @@ As the name suggests, the async component allows us to let our components behave
 
 Please be aware that, if not configured otherwise, the async core component does get loaded and displayed on initial pageload!
 
-**the async component currently only works on page-level --> we're working on it in order support the usage of async within a component [#75](https://github.com/basemate/matestack-ui-core/issues/75)**
-
 ## Parameters
 
 The async core component accepts the following parameters:

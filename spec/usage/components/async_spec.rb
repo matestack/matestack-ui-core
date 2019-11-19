@@ -3,7 +3,7 @@ include Utils
 
 describe "Async Component", type: :feature, js: true do
 
-  it "Example 1 - Rerender on event" do
+  it "Example 1 - Rerender on event on page-level" do
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -32,7 +32,88 @@ describe "Async Component", type: :feature, js: true do
     expect(before_content).not_to eq(after_content)
   end
 
-  it "Example 1.1 - Rerender on event if wrapped in app" do
+  it "Example 1.1 - Rerender on event on (nested) component-level" do
+
+    module Components end
+    module Components::Some end
+    module Components::Other end
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          div do
+            custom_some_component
+          end
+        }
+      end
+
+    end
+
+    class Components::Some::Component < Matestack::Ui::StaticComponent
+
+      def response
+        components {
+          div id: "static-content-on-component" do
+            plain "Component 1: #{DateTime.now.strftime('%Q')}"
+          end
+          async rerender_on: "my_event" do
+            div id: "dynamic-content-on-component" do
+              plain "Component 1: #{DateTime.now.strftime('%Q')}"
+            end
+          end
+          async rerender_on: "my_other_event" do
+            custom_other_component
+            div id: "other-dynamic-content-on-component" do
+              plain "Component 1: #{DateTime.now.strftime('%Q')}"
+            end
+          end
+        }
+      end
+
+    end
+
+    class Components::Other::Component < Matestack::Ui::StaticComponent
+
+      def response
+        components {
+          div id: "static-content-on-other-component" do
+            plain "Component 2: #{DateTime.now.strftime('%Q')}"
+          end
+          async rerender_on: "my_event" do
+            div id: "dynamic-content-on-other-component" do
+              plain "Component 2: #{DateTime.now.strftime('%Q')}"
+            end
+          end
+          async rerender_on: "my_other_event" do
+            div id: "other-dynamic-content-on-other-component" do
+              plain "Component 2: #{DateTime.now.strftime('%Q')}"
+            end
+          end
+        }
+      end
+
+    end
+
+
+    visit "/example"
+
+    static_content_before = page.find("#static-content-on-component").text
+    dynamic_content_before = page.find("#dynamic-content-on-component").text
+    other_dynamic_content_before = page.find("#other-dynamic-content-on-component").text
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    # sleep
+    static_content_after = page.find("#static-content-on-component").text
+    dynamic_content_after = page.find("#dynamic-content-on-component").text
+    other_dynamic_content_after = page.find("#other-dynamic-content-on-component").text
+
+    expect(static_content_before).to eq(static_content_after)
+    expect(dynamic_content_before).not_to eq(dynamic_content_after)
+    expect(other_dynamic_content_before).to eq(other_dynamic_content_after)
+  end
+
+  it "Example 1.2 - Rerender on event on page-level if wrapped in app" do
 
     class Apps::ExampleApp < Matestack::Ui::App
 

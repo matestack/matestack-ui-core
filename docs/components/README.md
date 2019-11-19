@@ -1,46 +1,88 @@
 # Core Components
 
-matestack provides a wide set of core components, which enables you to easily build your UI.
-You can build your [own components](/docs/extend/custom_components.md) as well, either static or dynamic.
+Matestack provides you with a wide set of core components that enable you to easily build your UI.
+You can build your [own components](/docs/extend/README.md) as well, both static or dynamic ones.
 
 ## Static Core Components
 
-- [div](/docs/components/div.md)
-- [header](/docs/components/header.md)
-- [footer](/docs/components/footer.md)
-- [main](/docs/components/main.md)
-- [nav](/docs/components/nav,md)
-- [section](/docs/components/section.md)
-- [br](/docs/components/br.md)
-- [hr](/docs/components/hr.md)
-- [heading](/docs/components/heading.md)
-- [plain](/docs/components/plain.md)
-- [pg](/docs/components/pg.md)
-- [span](/docs/components/span.md)
+- [abbr](/docs/components/abbr.md)
+- [actionview](/docs/components/actionview.md)
+- [address](/docs/components/address.md)
+- [area](/docs/components/area.md)
+- [article](/docs/components/article.md)
+- [aside](/docs/components/aside.md)
 - [b](/docs/components/b.md)
+- [blockquote](/docs/components/blockquote.md)
+- [br](/docs/components/br.md)
+- [button](/docs/components/button.md)
+- [caption](/docs/components/caption.md)
+- [cite](/docs/components/cite.md)
+- [code](/docs/components/code.md)
+- [dl](/docs/components/dl.md)
+  - dd
+  - dt
+- [div](/docs/components/div.md)
+- [em](/docs/components/em.md)
+- [fieldset](/docs/components/fieldset.md)
+- [figure](/docs/components/figure.md)
+- [footer](/docs/components/footer.md)
+- [header](/docs/components/header.md)
+- [heading](/docs/components/heading.md)
+- [hr](/docs/components/hr.md)
 - [icon](/docs/components/icon.md)
+- [img](/docs/components/img.md)
+- [ins](/docs/components/ins.md)
+- [kbd](/docs/components/kbd.md)
+- [label](/docs/components/label.md)
+- [legend](/docs/components/legend.md)
+- [link](/docs/components/link.md)
 - [list](/docs/components/list.md)
   - ul
   - ol
   - li
+- [main](/docs/components/main.md)
+- [map](/docs/components/map.md)
+- [mark](/docs/components/mark.md)
+- [meter](/docs/components/meter.md)
+- [nav](/docs/components/nav.md)
+- [noscript](/docs/components/noscript.md)
+- [object](/docs/components/object.md)
+- [output](/docs/components/output.md)
+- [paragraph](/docs/components/paragraph.md)
+- [param](/docs/components/param.md)
+- [pg](/docs/components/pg.md)
+- [plain](/docs/components/plain.md)
+- [pre](/docs/components/pre.md)
+- [progress](/docs/components/progress.md)
+- [q](/docs/components/q.md)
+- [rp](/docs/components/rt.md)
+- [rt](/docs/components/rb.md)
+- [ruby](/docs/components/ruby.md)
+- [s](/docs/components/s.md)
+- [section](/docs/components/section.md)
+- [small](/docs/components/small.md)
+- [span](/docs/components/span.md)
+- [strong](/docs/components/strong.md)
+- [sub](/docs/components/sub.md)
+- [sup](/docs/components/sup.md)
 - [table](/docs/components/table.md)
   - th
   - tr
   - td
-- [img](/docs/components/img.md)
+- [var](/docs/components/var.md)
 - [video](/docs/components/video.md)
-- [button](/docs/components/button.md)
-- [link](/docs/components/link.md)
-- [label](/docs/components/label.md)
-- [progress](/docs/components/progress.md)
-- [noscript](/docs/components/noscript.md)
+- [youtube](/docs/components/youtube.md)
 
 ## Dynamic Core Components
 
+- [action](/docs/components/action.md)
+- [actionview](/docs/components/actionview.md)
+- [async](/docs/components/async.md)
+- [collection](/docs/components/collection.md)
 - [form](/docs/components/form.md)
   - form_input
   - form_select
   - form_submit
-- [action](/docs/components/action.md)
-- [transition](/docs/components/transition.md)
+- [isolate](/docs/components/isolate.md)
 - [onclick](/docs/components/onclick.md)
+- [transition](/docs/components/transition.md)

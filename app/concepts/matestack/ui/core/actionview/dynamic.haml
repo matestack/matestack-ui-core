@@ -1,0 +1,6 @@
+%component{dynamic_tag_attributes}
+  %div
+    %div{"v-if": "asyncTemplate == null"}
+      = render_content
+    %div{"v-if": "asyncTemplate != null"}
+      %v-runtime-template{":template":"asyncTemplate"}
