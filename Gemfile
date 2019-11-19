@@ -11,9 +11,6 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-# To use a debugger
-# gem 'byebug', group: [:development, :test]
-
 gem "trailblazer"
 gem "trailblazer-rails"
 gem "trailblazer-cells"
@@ -30,7 +27,9 @@ group :development, :test do
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
+  # gem 'pry-byebug'
   gem 'webmock'
+  gem 'webdrivers', '~> 4.1'
 end
 
 group :test do

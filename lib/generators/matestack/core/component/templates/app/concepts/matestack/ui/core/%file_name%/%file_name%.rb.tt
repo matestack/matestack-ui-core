@@ -1,0 +1,4 @@
+module Matestack::Ui::Core::<%= file_name.camelcase %>
+  class <%= file_name.camelcase %> < Matestack::Ui::Core::Component::Static
+  end
+end

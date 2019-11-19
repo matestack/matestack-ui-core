@@ -13,7 +13,7 @@ Generates matestack apps to `app/matestack/apps`.
 ## Example 1
 
 ```bash
-rails generate matestack_app example_app
+rails generate matestack:app example_app
 ```
 
 Creates an ExampleApp in `app/matestack/apps/example_app.rb`.
@@ -21,7 +21,7 @@ Creates an ExampleApp in `app/matestack/apps/example_app.rb`.
 ## Example 2
 
 ```bash
-rails generate matestack_app simple_app --all_inclusive
+rails generate matestack:app simple_app --all_inclusive
 ```
 
 Creates:
@@ -32,5 +32,5 @@ Creates:
 
 To see all options, run
 ```bash
-rails generate matestack_app -h
+rails generate matestack:app -h
 ```
