@@ -48,3 +48,4 @@ returns
 <del id="foo" class="bar">
   Hello World
 </del>
+```
