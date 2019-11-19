@@ -1,6 +1,6 @@
 require_relative "../../support/utils"
 include Utils
-
+RSpec::Support::ObjectFormatter.default_instance.max_formatted_output_length = 10_000
 describe 'Del Component', type: :feature, js: true do
 
   it 'Example 1 - yield, no options[:text]' do
@@ -10,12 +10,12 @@ describe 'Del Component', type: :feature, js: true do
       def response
         components {
           # simple del
-          del do
+          del cite: 'http://citeurl.com', datetime: '2019-01-01T00:00:00Z' do
             plain 'I am simple'
           end
 
           # enhanced del
-          del id: 'my-id', class: 'my-class' do
+          del id: 'my-id', class: 'my-class', cite: 'http://citeurl.com', datetime: '2019-01-01T00:00:00Z' do
             plain 'I am enhanced'
           end
         }
@@ -28,8 +28,8 @@ describe 'Del Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <del cite='' datetime=''>I am simple</del>
-    <del id="my-id" class="my-class">I am enhanced</del>
+    <del cite=\"http://citeurl.com\" datetime=\"2019-01-01T00:00:00Z\">I am simple</del>
+    <del cite=\"http://citeurl.com\" datetime=\"2019-01-01T00:00:00Z\" id=\"my-id\" class=\"my-class\">I am enhanced</del>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
@@ -42,10 +42,10 @@ describe 'Del Component', type: :feature, js: true do
       def response
         components {
           # simple del
-          del text: 'I am simple'
+          del cite: 'http://citeurl.com', datetime: '2019-01-01T00:00:00Z', text: 'I am simple'
 
           # enhanced del
-          del id: 'my-id', class: 'my-class',text: 'I am enhanced'
+          del id: 'my-id', class: 'my-class', cite: 'http://citeurl.com', datetime: '2019-01-01T00:00:00Z', text: 'I am enhanced'
         }
       end
 
@@ -56,8 +56,8 @@ describe 'Del Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <del cite='' datetime=''>I am simple</del>
-    <del id="my-id" class="my-class">I am enhanced</del>
+    <del cite=\"http://citeurl.com\" datetime=\"2019-01-01T00:00:00Z\">I am simple</del>
+    <del cite=\"http://citeurl.com\" datetime=\"2019-01-01T00:00:00Z\" id=\"my-id\" class=\"my-class\">I am enhanced</del>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
