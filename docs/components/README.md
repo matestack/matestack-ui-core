@@ -13,6 +13,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [aside](/docs/components/aside.md)
 - [b](/docs/components/b.md)
 - [bdi](/docs/components/bdi.md)
+- [bdi](/docs/components/bdo.md)
 - [blockquote](/docs/components/blockquote.md)
 - [br](/docs/components/br.md)
 - [button](/docs/components/button.md)
