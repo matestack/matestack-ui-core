@@ -54,6 +54,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [paragraph](/docs/components/paragraph.md)
 - [param](/docs/components/param.md)
 - [pg](/docs/components/pg.md)
+- [picture](/docs/components/picture.md)
 - [plain](/docs/components/plain.md)
 - [pre](/docs/components/pre.md)
 - [progress](/docs/components/progress.md)
