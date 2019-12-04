@@ -50,6 +50,8 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [nav](/docs/components/nav.md)
 - [noscript](/docs/components/noscript.md)
 - [object](/docs/components/object.md)
+- [optgroup](/docs/components/optgroup.md)
+- [option](/docs/components/option.md)
 - [output](/docs/components/output.md)
 - [paragraph](/docs/components/paragraph.md)
 - [param](/docs/components/param.md)
