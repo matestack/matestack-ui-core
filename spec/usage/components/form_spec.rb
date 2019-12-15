@@ -486,6 +486,95 @@ describe "Form Component", type: :feature, js: true do
 
   end
 
+  describe "Example 6 - Async submit update request with success, which does not rest the input fields" do
+    # https://github.com/basemate/matestack-ui-core/issues/304
+
+    # This example uses the `TestModel` with attributes `title` and `description`
+    # defined in `spec/dummy/app/models/test_model.rb`.
+
+    before do
+      class Pages::TestModelPage < Matestack::Ui::Page
+        def response
+          components {
+            form form_config, :include do
+              form_input id: 'title', key: :title, type: :text
+              form_input id: 'description', key: :description, type: :text
+              form_submit { button text: "Save" }
+            end
+            async show_on: "form_has_errors", hide_after: 5000 do
+              plain "Form has errors"
+            end
+            async show_on: "update_successful", hide_after: 5000 do
+              plain "Update successful"
+            end
+          }
+        end
+
+        private
+
+        def form_config
+          {
+            for: @test_model,
+            method: :put,
+            path: "/test_models/#{@test_model.id}",
+            success: { emit: "update_successful" },
+            failure: { emit: "form_has_errors" }
+          }
+        end
+      end
+
+      class TestModelsController < ApplicationController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def show
+          @test_model = TestModel.find params[:id]
+          responder_for Pages::TestModelPage
+        end
+
+        def update
+          @test_model = TestModel.find params[:id]
+          @test_model.update test_model_params
+          if @test_model.errors.any?
+            render json: {
+              errors: user.errors
+            }, status: :unproccessable_entity
+          else
+            render json: {}, status: :ok
+          end
+        end
+
+        protected
+
+        def test_model_params
+          params.require(:test_model).permit(:title, :description)
+        end
+      end
+
+      Rails.application.routes.draw do
+        resources :test_models
+      end
+    end
+
+    after do
+      Rails.application.reload_routes!
+    end
+
+    specify do
+      test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
+
+      visit Rails.application.routes.url_helpers.test_model_path(test_model)
+      expect(find_field(:title).value).to eq "Foo"
+
+      fill_in :title, with: "Bar"
+      fill_in :description, with: "This is a equally nice bar!"
+      click_on "Save"
+
+      expect(page).to have_text "Update successful"
+      expect(find_field(:title).value).to eq "Bar"
+      expect(find_field(:description).value).to eq "This is a equally nice bar!"
+    end
+  end
+
   describe "Form Input Component" do
 
     it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea' type" do
