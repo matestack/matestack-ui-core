@@ -126,8 +126,11 @@ const componentDef = {
           self.$store.dispatch('navigateTo', {url: path, backwards: false})
           return;
         }
-        self.setProps(self.data, null);
-        self.initValues()
+        if (self.componentConfig["method"] == "post")
+        {
+          self.setProps(self.data, null);
+          self.initValues();
+        }
         self.showInlineForm = false;
       })
       .catch(function(error){
