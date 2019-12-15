@@ -33,6 +33,8 @@ group :development, :test do
   gem 'byebug'
   gem 'webmock'
   gem 'webdrivers', '~> 4.1'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :test do
