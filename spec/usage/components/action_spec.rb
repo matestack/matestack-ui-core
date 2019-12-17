@@ -384,7 +384,7 @@ describe "Action Component", type: :feature, js: true do
 
     end
 
-    specify "Example 7 - Async delete request with confirm option" do
+    specify "Async delete request with confirm option" do
 
       class ActionTestController < TestController
         def destroy
