@@ -38,6 +38,22 @@ data: {
 }
 ```
 
+### Confirm
+
+When specified, a [browser-native confirm dialog](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) is shown before the action is actually performed. The action only is performed after the user confirms. The action is not performed if the user declines to confirm dialog.
+
+```ruby
+confirm: {
+  text: "Do you really want to delete this item?"
+}
+```
+
+If no `text` is given, the default text "Are you sure?" will be used.
+
+```ruby
+confirm: true
+```
+
 ### Success
 
 The success part of the action component gets triggered once the action we wanted to perform returns a success code, usually the `200` HTTP status code.
