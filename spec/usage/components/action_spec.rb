@@ -457,7 +457,7 @@ describe "Action Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_test'
+      delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_default_text_test'
     end
     Rails.application.reload_routes!
 
@@ -477,7 +477,7 @@ describe "Action Component", type: :feature, js: true do
       def action_config
         return {
           method: :delete,
-          path: :action_destroy_test_path,
+          path: :action_destroy_default_text_test_path,
           data: {
             foo: "bar"
           },
