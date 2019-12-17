@@ -384,6 +384,125 @@ describe "Action Component", type: :feature, js: true do
 
     end
 
+    specify "Example 7 - Async delete request with confirm option" do
+
+      class ActionTestController < TestController
+        def destroy
+          render json: {}, status: 200
+        end
+      end
+
+      Rails.application.routes.append do
+        delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_test'
+      end
+      Rails.application.reload_routes!
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            action action_config do
+              button text: "Click me!"
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "Well done!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :delete,
+            path: :action_destroy_test_path,
+            data: {
+              foo: "bar"
+            },
+            confirm: {
+              text: "Are you sure?"
+            },
+            success: {
+              emit: "my_action_success"
+            }
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      # https://stackoverflow.com/a/34888404/2066546
+      # https://github.com/teamcapybara/capybara#modals
+      dismiss_confirm do
+        click_button "Click me!"
+      end
+
+      expect(page).to have_no_text "Well done!"
+
+      accept_confirm do
+        click_button "Click me!"
+      end
+
+      expect(page).to have_text "Well done!"
+    end
+
+  end
+
+  it 'does not require a confirm text option' do
+    # When no confirm text is given, the default "Are you sure?" will be used.
+
+    class ActionTestController < TestController
+      def destroy
+        render json: {}, status: 200
+      end
+    end
+
+    Rails.application.routes.append do
+      delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_test'
+    end
+    Rails.application.reload_routes!
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+          async show_on: "my_action_success", hide_after: 300 do
+            plain "Well done!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :delete,
+          path: :action_destroy_test_path,
+          data: {
+            foo: "bar"
+          },
+          confirm: true,
+          success: {
+            emit: "my_action_success"
+          }
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    dismiss_confirm do
+      click_button "Click me!"
+    end
+
+    expect(page).to have_no_text "Well done!"
+
+    accept_confirm do
+      click_button "Click me!"
+    end
+
+    expect(page).to have_text "Well done!"
   end
 
   it 'accepts class and id attributes and returns them as the corresponding HTML attributes' do
