@@ -15832,9 +15832,15 @@ const componentDef = {
         if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
           __WEBPACK_IMPORTED_MODULE_3_js_event_hub__["a" /* default */].$emit(self.componentConfig["success"]["emit"], response.data);
         }
-        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && self.$store != undefined) {
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && (self.componentConfig["success"]["transition"]["follow_response"] == undefined || self.componentConfig["success"]["transition"]["follow_response"] === false) && self.$store != undefined) {
           let path = self.componentConfig["success"]["transition"]["path"];
           self.$store.dispatch('navigateTo', { url: path, backwards: false });
+          return;
+        }
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && self.componentConfig["success"]["transition"]["follow_response"] === true && self.$store != undefined) {
+          let path = response.data["transition_to"];
+          self.$store.dispatch('navigateTo', { url: path, backwards: false });
+          return;
         }
       }).catch(function (error) {
         if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
