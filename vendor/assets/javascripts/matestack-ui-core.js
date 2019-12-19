@@ -15838,7 +15838,7 @@ const componentDef = {
           return;
         }
         if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["transition"] != undefined && self.componentConfig["success"]["transition"]["follow_response"] === true && self.$store != undefined) {
-          let path = response.data["transition_to"];
+          let path = response.data["transition_to"] || response.request.responseURL;
           self.$store.dispatch('navigateTo', { url: path, backwards: false });
           return;
         }
