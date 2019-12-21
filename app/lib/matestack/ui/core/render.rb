@@ -40,8 +40,20 @@ module Matestack::Ui::Core::Render
   # In this example, `clients/bookings#index` will render `Pages::Clients::Bookings`,
   # `clients/bookings#show` will render `Pages::Clients::Booking`.
   #
+  # Custom action names translate also into page names.
+  #
+  #     class Clients::BookingsController < ApplicationController
+  #       def step1
+  #       end
+  #     end
+  #
+  # In this example, the `clients/bookings#step1` action will render
+  # `Pages::Clients::Bookings::Step1`.
+  #
   def default_render(*args)
-    matestack_class_name_parts = "pages/#{controller_path}".split("/").collect { |str| str.camelcase }
+    matestack_page_path = "pages/#{controller_path}"
+    matestack_page_path = "#{matestack_page_path}/#{action_name}" unless action_name.in? %w(index show)
+    matestack_class_name_parts = matestack_page_path.split("/").collect { |str| str.camelcase }
     matestack_class_name_parts[-1] = matestack_class_name_parts[-1].singularize if action_name == "show"
     matestack_class_name = matestack_class_name_parts.join("::")
     begin
