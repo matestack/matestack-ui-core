@@ -77,6 +77,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
   - th
   - tr
   - td
+- [template](/docs/components/template.md)
 - [u](/docs/components/u.md)
 - [var](/docs/components/var.md)
 - [video](/docs/components/video.md)
