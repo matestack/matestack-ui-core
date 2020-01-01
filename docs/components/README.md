@@ -25,6 +25,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [dl](/docs/components/dl.md)
   - dd
   - dt
+- [dialog](/docs/components/dialog.md)
 - [div](/docs/components/div.md)
 - [em](/docs/components/em.md)
 - [fieldset](/docs/components/fieldset.md)
