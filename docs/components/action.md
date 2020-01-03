@@ -78,6 +78,33 @@ success: {
 }
 ```
 
+When the server redirects to a url, for example after creating a new record, the transition needs to be configured to follow this redirect of the server response.
+
+```ruby
+success: {
+  emit: 'my_action_success',
+  transition: {
+    follow_response: true
+  }
+}
+```
+
+A controller action that would create a record and then respond with the url the page should transition to, could look like this:
+
+```ruby
+class TestModelsController < ApplicationController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def create
+    @test_model = TestModel.create(test_model_params)
+
+    render json: {
+      transition_to: test_model_path(@test_model)
+    }, status: :ok
+  end
+end
+```
+
 ### Failure
 
 As counterpart to the success part of the action component, there is also the possibility to define the failure behavior. This is what gets triggered after the response to our action returns a failure code, usually in the range of `400` or `500` HTTP status codes.

@@ -42,7 +42,7 @@ Click here to see how you can add Matestack UI to your existing Rails applicatio
 class Pages::MyPage < Matestack::Ui::Page
 
   def prepare
-    @technologies = ["Rails", "Vue.js", "Trailblazer", "Rspec", "Capybara"]
+    @technologies = ["Rails", "Vue.js", "Trailblazer", "RSpec", "Capybara"]
   end
 
   def response
