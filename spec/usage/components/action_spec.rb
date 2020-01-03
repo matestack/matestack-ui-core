@@ -619,4 +619,174 @@ describe "Action Component", type: :feature, js: true do
   #
   # end
 
+  specify "follow_response option makes a transition follow controllers' transition_to" do
+
+    class TestModelsController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def index
+        responder_for Pages::FollowResponseExampleApp::ExamplePage
+      end
+
+      def create
+        @test_model = TestModel.create title: params[:title]
+        render json: {
+          transition_to: test_model_path(id: @test_model.id)
+        }, status: :ok
+      end
+
+      def show
+        @test_model = TestModel.find params[:id]
+        responder_for Pages::FollowResponseExampleApp::TestModelPage
+      end
+    end
+
+    Rails.application.routes.append do
+      resources :test_models
+    end
+    Rails.application.reload_routes!
+
+    class Apps::FollowResponseExampleApp < Matestack::Ui::App
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+        }
+      end
+    end
+
+    module Pages::FollowResponseExampleApp
+    end
+
+    class Pages::FollowResponseExampleApp::ExamplePage < Matestack::Ui::Page
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :test_models_path,
+          data: {
+            title: "A title for my new test object"
+          },
+          success: {
+            transition: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::FollowResponseExampleApp::TestModelPage < Matestack::Ui::Page
+      def response
+        components {
+          heading text: @test_model.title, size: 1
+          plain "This page has been loaded via redirect_to and follow_response."
+        }
+      end
+    end
+
+    visit "/test_models"
+
+    click_button "Click me!"
+
+    expect(page).to have_no_text "Click me"
+    expect(page).to have_text "A title for my new test object"
+    expect(page).to have_text "This page has been loaded via redirect_to and follow_response."
+
+  end
+
+  specify "follow_response option makes a transition follow controllers' redirect_to" do
+
+    class TestModelsController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def index
+        responder_for Pages::FollowResponseExampleApp::ExamplePage
+      end
+
+      def create
+        @test_model = TestModel.create title: params[:title]
+        redirect_to test_model_path(id: @test_model.id)
+      end
+
+      def show
+        @test_model = TestModel.find params[:id]
+        responder_for Pages::FollowResponseExampleApp::TestModelPage
+      end
+    end
+
+    Rails.application.routes.append do
+      resources :test_models
+    end
+    Rails.application.reload_routes!
+
+    class Apps::FollowResponseExampleApp < Matestack::Ui::App
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+        }
+      end
+    end
+
+    module Pages::FollowResponseExampleApp
+    end
+
+    class Pages::FollowResponseExampleApp::ExamplePage < Matestack::Ui::Page
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :test_models_path,
+          data: {
+            title: "A title for my new test object"
+          },
+          success: {
+            transition: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::FollowResponseExampleApp::TestModelPage < Matestack::Ui::Page
+      def response
+        components {
+          heading text: @test_model.title, size: 1
+          plain "This page has been loaded via redirect_to and follow_response."
+        }
+      end
+    end
+
+    visit "/test_models"
+
+    click_button "Click me!"
+
+    expect(page).to have_no_text "Click me"
+    expect(page).to have_text "A title for my new test object"
+    expect(page).to have_text "This page has been loaded via redirect_to and follow_response."
+
+  end
+
 end
