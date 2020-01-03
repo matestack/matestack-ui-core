@@ -38,6 +38,7 @@ In order to migrate the database and install yarn packages, do:
 ```shell
 docker-compose run --rm dummy rake db:migrate
 docker-compose run --rm dummy yarn install
+docker-compose run --rm dummy sh -c "cd builder && yarn install"
 docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
 ```
 If you already created sqlite files locally in `spec/dummy/db`, the command `docker-compose run --rm dummy rake db:migrate` will fail. Please remove the locally created sqlite files and rerun `docker-compose run --rm dummy rake db:migrate`
@@ -113,12 +114,14 @@ spec/usage/components/div_spec.rb
 docs/components/div.md
 ```
 
-## Tests
+## Dockerized Test Env
 
 To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
 
 ```shell
-bundle exec rspec
+docker-compose run --rm test bash
+rake db:setup #once initially
+bundle exec rspec spec/usage/components
 ```
 
 Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.

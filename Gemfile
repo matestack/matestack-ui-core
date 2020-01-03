@@ -32,7 +32,7 @@ group :development, :test do
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
   gem 'webmock'
-  gem 'webdrivers', '~> 4.1'
+  # gem 'webdrivers', '~> 4.1'
 end
 
 group :test do
