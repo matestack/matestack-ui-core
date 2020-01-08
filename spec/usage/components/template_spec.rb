@@ -33,7 +33,7 @@ describe 'Template component', type: :feature, js: true do
       <p>Template example 1</p>
       <p>I am part of a partial</p>
     HTML
-    # This is the original output, but capybara/rspec doesn't seem to <template>-tags
+    # Below is the original output, but capybara/rspec does not recognize <template>-tags
     # <template id="foo" class="bar">
     #   <p>Template example 1</p>
     # </template>
