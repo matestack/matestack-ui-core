@@ -14,7 +14,7 @@ Expects a string with all ids the `<template>` should have.
 #### # class (optional)
 Expects a string with all classes the `<template>` should have.
 
-## Example 1: Yield a given block
+## Example 1: Yield other components inside a template
 
 ```ruby
 template id: 'foo', class: 'bar' do
@@ -30,7 +30,7 @@ returns
 </template>
 ```
 
-## Example 2: Render `options[:text]` param
+## Example 2: Render a given block, e.g. a partial
 
 ```ruby
 template id: 'foo', class: 'bar' do
