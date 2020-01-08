@@ -42,3 +42,4 @@ returns
 <<%= file_name.underscore %> id="foo" class="bar">
   <%= file_name.camelcase %> example 2
 </<%= file_name.underscore %>>
+```
