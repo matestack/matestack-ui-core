@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/basemate/matestack-ui-core/tree/master.svg?style=shield)](https://circleci.com/gh/basemate/matestack-ui-core/tree/master)
+[![CircleCI](https://circleci.com/gh/matestack/matestack-ui-core.svg?style=svg)](https://circleci.com/gh/matestack/matestack-ui-core)
 [![Gitter](https://badges.gitter.im/basemate/community.svg)](https://gitter.im/basemate/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
 
