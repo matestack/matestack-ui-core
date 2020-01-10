@@ -21,7 +21,7 @@ dynamic Web-App.
 
 ### Current State: 
 
-We love to see more and more people using and contributing to matestack-ui-core. Our current version is 0.7.3 and it's not perfect yet. We recommend you to start using matestack-ui-core in a side project and report issues as this helps us to push matestack-ui-core towards a production ready 1.0.0. At basemate, we already use matestack-ui-core in production as we know how to handle current issues and bypass them with deep insights of the core implementation. We plan to invest time and money (yes, we're hiring) on following improvements:
+We love to see more and more people using and contributing to matestack-ui-core. Our current version is 0.7.3 and it's not perfect yet. We recommend you to start using matestack-ui-core in a side project and report issues as this helps us to push matestack-ui-core towards a production ready 1.0.0. At matestack, we already use matestack-ui-core in production as we know how to handle current issues and bypass them with deep insights of the core implementation. We plan to invest time and money (yes, we're hiring) on following improvements:
 
 * debugging and error handling
 * core refactoring, increased core maintainability and code quality
