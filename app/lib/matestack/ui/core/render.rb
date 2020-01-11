@@ -2,9 +2,9 @@ module Matestack::Ui::Core::Render
 
   # Matestack allows you to use `render` to render matestack pages.
   #
-  #     render Pages::Member::Bookings
-  #     render matestack: Pages::Member::Bookings
-  #     render matestack: 'member/bookings'
+  #     render Pages::Member::Bookings::Index
+  #     render matestack: Pages::Member::Bookings::Index
+  #     render matestack: 'member/bookings/index'
   #
   def render(*args)
     if (matestack_class = args.first).is_a?(Class) && (matestack_class < Matestack::Ui::Page)
@@ -37,8 +37,8 @@ module Matestack::Ui::Core::Render
   #       end
   #     end
   #
-  # In this example, `clients/bookings#index` will render `Pages::Clients::Bookings`,
-  # `clients/bookings#show` will render `Pages::Clients::Booking`.
+  # In this example, `clients/bookings#index` will render `Pages::Clients::Bookings::Index`,
+  # `clients/bookings#show` will render `Pages::Clients::Bookings::Show`.
   #
   # Custom action names translate also into page names.
   #
@@ -51,20 +51,38 @@ module Matestack::Ui::Core::Render
   # `Pages::Clients::Bookings::Step1`.
   #
   def default_render(*args)
-    matestack_page_path = "pages/#{controller_path}"
-    matestack_page_path = "#{matestack_page_path}/#{action_name}" unless action_name.in? %w(index show)
-    matestack_class_name_parts = matestack_page_path.split("/").collect { |str| str.camelcase }
-    matestack_class_name_parts[-1] = matestack_class_name_parts[-1].singularize if action_name == "show"
-    matestack_class_name = matestack_class_name_parts.join("::")
-    begin
-      matestack_class = matestack_class_name.constantize
-    rescue NameError
-    end
-    if matestack_class
-      render matestack: matestack_class
+    if matestack_page_class = default_render_matestack_page_class
+      render matestack: matestack_page_class
     else
       super
     end
+  end
+
+  def possible_default_render_matestack_page_paths
+    paths = []
+    paths << "pages/#{controller_path}/#{action_name}"
+    paths << "pages/#{controller_path}" if action_name == "index"
+    paths << "pages/#{controller_path.singularize}" if action_name == "show"
+    paths << "#{controller_path}/#{action_name}_page"
+    paths << "#{controller_path}_page" if action_name == "index"
+    paths << "#{controller_path.singularize}_page" if action_name == "show"
+    paths
+  end
+
+  def possible_default_render_matestack_page_class_names
+    possible_default_render_matestack_page_paths.collect { |page_path|
+      page_path.split("/").collect { |str| str.camelcase }.join("::")
+    }
+  end
+
+  def default_render_matestack_page_class
+    possible_default_render_matestack_page_class_names.each do |class_name|
+      begin
+        return matestack_class = class_name.constantize
+      rescue NameError
+      end
+    end
+    return nil
   end
 
 end
