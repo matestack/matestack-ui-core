@@ -22,18 +22,18 @@ module Matestack::Ui::Core::Render
     end
   end
 
-  # Matestack allows implicit rendering. When an `index` or `show` action is requested, which is not
-  # defined, then the matestack page is inferred from the controller name. The index action will
-  # look for a `Page` with a plural name, the show action will look for a `Page` with a singular
-  # name.
+  # Matestack allows implicit rendering. The matestack page class name is inferred from the
+  # controller path and action name.
   #
   #     class Clients::BookingsController < ApplicationController
   #       def index
   #         @bookings = Booking.all
+  #         # looks for Pages::Clients::Bookings::Index
   #       end
   #
   #       def show
   #         @booking = Booking.find params[:id]
+  #         # looks for Pages::Clients::Bookings::Show
   #       end
   #     end
   #
@@ -44,6 +44,7 @@ module Matestack::Ui::Core::Render
   #
   #     class Clients::BookingsController < ApplicationController
   #       def step1
+  #         # looks for Pages::Clients::Bookings::Step1
   #       end
   #     end
   #
