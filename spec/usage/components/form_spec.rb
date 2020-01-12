@@ -486,7 +486,7 @@ describe "Form Component", type: :feature, js: true do
 
   end
 
-  describe "Example 6 - Async submit update request with success, which does not rest the input fields" do
+  describe "Example 6 - Async submit update request with success, which does not reset the input fields" do
     # https://github.com/basemate/matestack-ui-core/issues/304
 
     # This example uses the `TestModel` with attributes `title` and `description`
@@ -572,6 +572,130 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_text "Update successful"
       expect(find_field(:title).value).to eq "Bar"
       expect(find_field(:description).value).to eq "This is a equally nice bar!"
+    end
+  end
+
+  describe "Example 6.1 - Async submit with success configured to reset the input fields" do
+    # https://github.com/matestack/matestack-ui-core/pull/314#discussion_r362826471
+
+    before do
+      class Pages::SearchPage < Matestack::Ui::Page
+        def response
+          components {
+            form form_config, :include do
+              form_input id: 'query', key: :query, type: :text
+              form_submit { button text: "Search" }
+            end
+            async show_on: "form_has_errors", hide_after: 5000 do
+              plain "Form has errors"
+            end
+            async show_on: "submission_successful", hide_after: 5000 do
+              plain "Submission successful"
+            end
+          }
+        end
+
+        private
+
+        def form_config
+          {
+            for: :search,
+            method: :get,
+            path: "#",
+            success: { emit: "submission_successful", reset: true },
+            failure: { emit: "form_has_errors" }
+          }
+        end
+      end
+
+      class SearchesController < ApplicationController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def index
+          responder_for Pages::SearchPage
+        end
+      end
+
+      Rails.application.routes.draw do
+        get 'search', to: 'searches#index'
+      end
+    end
+
+    after do
+      Rails.application.reload_routes!
+    end
+
+    specify do
+      visit "/search"
+      expect(find_field(:query).value).to eq ""
+
+      fill_in :query, with: "Bar"
+      click_on "Search"
+
+      expect(page).to have_text "Submission successful"
+      expect(find_field(:query).value).to eq ""
+    end
+  end
+
+  describe "Example 6.2 - Async submit with success configured not to reset the input fields" do
+    # https://github.com/matestack/matestack-ui-core/pull/314#discussion_r362826471
+
+    before do
+      class Pages::SearchPage < Matestack::Ui::Page
+        def response
+          components {
+            form form_config, :include do
+              form_input id: 'query', key: :query, type: :text
+              form_submit { button text: "Search" }
+            end
+            async show_on: "form_has_errors", hide_after: 5000 do
+              plain "Form has errors"
+            end
+            async show_on: "submission_successful", hide_after: 5000 do
+              plain "Submission successful"
+            end
+          }
+        end
+
+        private
+
+        def form_config
+          {
+            for: :search,
+            method: :get,
+            path: "#",
+            success: { emit: "submission_successful", reset: false },
+            failure: { emit: "form_has_errors" }
+          }
+        end
+      end
+
+      class SearchesController < ApplicationController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def index
+          responder_for Pages::SearchPage
+        end
+      end
+
+      Rails.application.routes.draw do
+        get 'search', to: 'searches#index'
+      end
+    end
+
+    after do
+      Rails.application.reload_routes!
+    end
+
+    specify do
+      visit "/search"
+      expect(find_field(:query).value).to eq ""
+
+      fill_in :query, with: "Bar"
+      click_on "Search"
+
+      expect(page).to have_text "Submission successful"
+      expect(find_field(:query).value).to eq "Bar"
     end
   end
 
