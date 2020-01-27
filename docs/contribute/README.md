@@ -55,7 +55,7 @@ bundle exec rspec
 
 Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
 
-### Note: Running tests on macOS
+### Note: Running tests on macOS
 
 Make sure you have installed `chromedriver` on your machine. You can install `chromedriver` via `brew` with
 
