@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (0.7.2.1)
+    matestack-ui-core (0.7.3)
       cells-haml
       cells-rails
       haml
@@ -273,4 +273,4 @@ DEPENDENCIES
   webpacker (~> 3.5)
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
