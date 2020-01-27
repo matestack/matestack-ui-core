@@ -23,7 +23,6 @@ group :development, :test do
   gem 'webpacker', '~> 3.5'
   gem 'sqlite3', '~> 1.3.13'
   gem 'selenium-webdriver'
-  gem 'poltergeist'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
