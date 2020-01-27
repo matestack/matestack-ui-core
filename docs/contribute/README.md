@@ -22,6 +22,38 @@ Feel free to take a look at other examples and copy their structure!
 Note: We will not approve pull requests that introduce new concepts or components without documentation. Same goes for existing concepts & components.
 If you change the behavior of an existing part of this project, make sure to also update the corresponding part of the documentation!
 
+## Setup
+
+Assuming you have ruby and bundler already installed.
+
+1. [Install yarn](https://legacy.yarnpkg.com/lang/en/docs/install/)
+2. Install [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/) (needed for running tests)
+  * on Mac it can be installed via `brew cask install chromedriver`, when you get an error about version mismatch like `Chrome version must be between X and Y (Driver info: chromedriver=X.Y.Z)` you should be able to update it via `rails app:webdrivers:chromedriver:update`
+  * on Linux you need to check the package name, on Ubuntu it's `sudo apt-get install chromium-chromedriver`
+3. Install [sqlite](https://www.sqlite.org/) (needed for test execution against a rails app)
+
+
+```bash
+bundle install
+yarn install
+cd spec/dummy
+yarn install # dependencies for the dummy app in testing
+cd ../..
+
+bundle exec rake db:create
+bundle exec rake db:schema:load
+```
+
+## Tests
+
+To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
+
+```shell
+be rspec spec/lib/ spec/usage/
+```
+
+Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
+
 ## Core Components
 
 Core Components are an essential part of the `matestack-ui-core` gem.
@@ -42,37 +74,6 @@ app/concepts/matestack/ui/core/div/div.haml
 app/concepts/matestack/ui/core/div/div.rb
 spec/usage/components/div_spec.rb
 docs/components/div.md
-```
-
-
-## Tests
-
-To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
-
-```shell
-bundle exec rspec
-```
-
-Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
-
-### Note: Running tests on macOS
-
-Make sure you have installed `chromedriver` on your machine. You can install `chromedriver` via `brew` with
-
-```shell
-brew cask install chromedriver
-```
-
-You can then run your the testsuite with `bundle exec rspec`.
-
-If you get an error about a version mismatch similar to this one:
-
-`Chrome version must be between X and Y (Driver info: chromedriver=X.Y.Z)`
-
-Make sure you update your chromedriver by executing this command in the project root:
-
-```shell
-rails app:webdrivers:chromedriver:update
 ```
 
 ## Release
