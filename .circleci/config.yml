@@ -39,8 +39,7 @@ jobs:
       # Yarn Update
 
       - run: yarn install
-      - run: cd spec/dummy
-      - run: yarn install
+      - run: cd spec/dummy && yarn install
 
       # Database setup
       - run: bundle exec rake db:create
