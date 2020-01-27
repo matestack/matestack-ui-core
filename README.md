@@ -1,6 +1,7 @@
 [![CircleCI](https://circleci.com/gh/matestack/matestack-ui-core.svg?style=shield)](https://circleci.com/gh/matestack/matestack-ui-core)
 [![Gitter](https://badges.gitter.im/basemate/community.svg)](https://gitter.im/basemate/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
+[![Docs](https://img.shields.io/badge/docs-matestack-blue.svg)](https://www.matestack.org/docs/install)
 
 ![matestack logo](./logo.png)
 
