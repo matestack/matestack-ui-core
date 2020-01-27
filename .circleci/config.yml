@@ -51,7 +51,7 @@ jobs:
           name: run tests
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/usage/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            TEST_FILES="$(circleci tests glob "spec/usage/**/*_spec.rb" "spec/lib/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
             bundle exec rspec --format progress \
                             --out /tmp/test-results/rspec.xml \
