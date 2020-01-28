@@ -14,8 +14,19 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'simplecov'
-SimpleCov.start 'rails' do
+SimpleCov.start do
   enable_coverage :branch
+
+  add_filter "/spec"
+  add_filter %r{^/config/}
+
+
+  add_group "Concepts", "/app/concepts"
+  add_group "Helpers", "/app/helpers"
+  add_group "App Lib", "/app/lib"
+  add_group "Lib", %r{^/lib/}
+
+  track_files "{app,lib}/**/*.rb"
 end
 
 require 'webmock/rspec'
