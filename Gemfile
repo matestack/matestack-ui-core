@@ -25,7 +25,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'puma'
-  gem 'simplecov', require: false, group: :test
+  gem 'simplecov', require: false, group: :test, github: "colszowka/simplecov"
   gem 'byebug'
   # gem 'pry-byebug'
   gem 'webmock'

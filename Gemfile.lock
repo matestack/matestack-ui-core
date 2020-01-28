@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/colszowka/simplecov.git
+  revision: 5f503964d13efdbd7f6f3bb773be0a11a896038e
+  specs:
+    simplecov (0.18.0.beta3)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11.0.beta2)
+
 PATH
   remote: .
   specs:
@@ -96,7 +104,7 @@ GEM
       declarative-option (< 0.2.0)
       representable (>= 2.4.0, <= 3.1.0)
       uber (< 0.2.0)
-    docile (1.3.1)
+    docile (1.3.2)
     erubi (1.8.0)
     ffi (1.9.25)
     generator_spec (0.9.4)
@@ -110,7 +118,6 @@ GEM
     hashdiff (0.3.8)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    json (2.1.0)
     loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -197,11 +204,7 @@ GEM
     selenium-webdriver (3.14.1)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
-    simplecov (0.16.1)
-      docile (~> 1.1)
-      json (>= 1.8, < 3)
-      simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.2)
+    simplecov-html (0.11.0.beta2)
     sprockets (4.0.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -264,7 +267,7 @@ DEPENDENCIES
   puma
   rspec-rails (~> 3.8)
   selenium-webdriver
-  simplecov
+  simplecov!
   sqlite3 (~> 1.3.13)
   trailblazer
   trailblazer-cells
