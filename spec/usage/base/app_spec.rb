@@ -3,16 +3,6 @@ include Utils
 
 describe "App", type: :feature, js: true do
 
-  before :all do
-
-    Rails.application.routes.append do
-      get 'app_specs/my_example_app/page1', to: 'example_app_pages#page1', as: 'app_specs_page1'
-      get 'app_specs/my_example_app/page2', to: 'example_app_pages#page2', as: 'app_specs_page2'
-    end
-    Rails.application.reload_routes!
-
-  end
-
   it "can wrap pages with a layout" do
 
     class Apps::ExampleApp < Matestack::Ui::App
@@ -56,7 +46,7 @@ describe "App", type: :feature, js: true do
 
     end
 
-    class ExampleAppPagesController < ExampleController
+    class ExampleAppPagesAController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
       def page1
@@ -67,6 +57,11 @@ describe "App", type: :feature, js: true do
         responder_for(Pages::ExampleApp::SecondExamplePage)
       end
 
+    end
+
+    Rails.application.routes.draw do
+      get 'app_specs/my_example_app/page1', to: 'example_app_pages_a#page1', as: 'app_specs_page1'
+      get 'app_specs/my_example_app/page2', to: 'example_app_pages_a#page2', as: 'app_specs_page2'
     end
 
     visit "app_specs/my_example_app/page1"
@@ -133,7 +128,7 @@ describe "App", type: :feature, js: true do
     end
 
 
-    class ExampleAppPagesController < ExampleController
+    class ExampleAppPagesBController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
       def page1
@@ -144,6 +139,11 @@ describe "App", type: :feature, js: true do
         responder_for(Pages::ExampleApp::SecondExamplePage)
       end
 
+    end
+
+    Rails.application.routes.draw do
+      get 'app_specs/my_example_app/page1', to: 'example_app_pages_b#page1', as: 'app_specs_page1'
+      get 'app_specs/my_example_app/page2', to: 'example_app_pages_b#page2', as: 'app_specs_page2'
     end
 
     visit "app_specs/my_example_app/page1"

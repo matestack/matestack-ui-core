@@ -339,7 +339,7 @@ describe "Action Component", type: :feature, js: true do
 
       end
 
-      class ExampleAppPagesController < ExampleController
+      class ExampleAppPagesCController < ExampleController
         include Matestack::Ui::Core::ApplicationHelper
 
         def page1
@@ -352,13 +352,12 @@ describe "Action Component", type: :feature, js: true do
 
       end
 
-      Rails.application.routes.append do
+      Rails.application.routes.draw do
         scope :action_test do
-          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
-          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
+          get 'page1', to: 'example_app_pages_c#page1', as: 'action_test_page1'
+          get 'page2/:id', to: 'example_app_pages_c#page2', as: 'action_test_page2'
         end
       end
-      Rails.application.reload_routes!
 
       visit "action_test/page1"
 
@@ -611,16 +610,15 @@ describe "Action Component", type: :feature, js: true do
       end
     end
 
-    Rails.application.routes.append do
+    Rails.application.routes.draw do
       post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test_string'
       scope :action_test do
-        get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1_string'
-        get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2_string'
+        get 'page1', to: 'example_app_pages_d#page1', as: 'action_test_page1_string'
+        get 'page2/:id', to: 'example_app_pages_d#page2', as: 'action_test_page2_string'
       end
     end
-    Rails.application.reload_routes!
 
-    class ExampleAppPagesController < ExampleController
+    class ExampleAppPagesDController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
       def page1

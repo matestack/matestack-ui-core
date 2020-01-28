@@ -342,7 +342,7 @@ describe "Form Component", type: :feature, js: true do
 
     end
 
-    class ExampleAppPagesController < ExampleController
+    class ExampleAppPagesEController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
       def page1
@@ -357,8 +357,8 @@ describe "Form Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope :form_test do
-        get 'page1', to: 'example_app_pages#page1', as: 'form_test_page_1'
-        get 'page2/:id', to: 'example_app_pages#page2', as: 'form_test_page_2'
+        get 'page1', to: 'example_app_pages_e#page1', as: 'form_test_page_1'
+        get 'page2/:id', to: 'example_app_pages_e#page2', as: 'form_test_page_2'
       end
     end
     Rails.application.reload_routes!
@@ -452,7 +452,7 @@ describe "Form Component", type: :feature, js: true do
 
     end
 
-    class ExampleAppPagesController < ExampleController
+    class ExampleAppPagesFController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
       def page3
@@ -467,8 +467,8 @@ describe "Form Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope :form_test do
-        get 'page3', to: 'example_app_pages#page3', as: 'form_test_page_3'
-        get 'page4/:id', to: 'example_app_pages#page4', as: 'form_test_page_4'
+        get 'page3', to: 'example_app_pages_f#page3', as: 'form_test_page_3'
+        get 'page4/:id', to: 'example_app_pages_f#page4', as: 'form_test_page_4'
       end
     end
     Rails.application.reload_routes!

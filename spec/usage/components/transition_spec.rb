@@ -59,7 +59,7 @@ describe "Transition Component", type: :feature, js: true do
 
     end
 
-    class ExampleAppPagesController < ExampleController
+    class ExampleAppPagesGController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
       def page1
@@ -72,11 +72,10 @@ describe "Transition Component", type: :feature, js: true do
 
     end
 
-    Rails.application.routes.append do
-      get 'my_example_app/page1', to: 'example_app_pages#page1', as: 'page1'
-      get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
+    Rails.application.routes.draw do
+      get 'my_example_app/page1', to: 'example_app_pages_g#page1', as: 'page1'
+      get 'my_example_app/page2', to: 'example_app_pages_g#page2', as: 'page2'
     end
-    Rails.application.reload_routes!
 
     visit "/my_example_app/page1"
 
