@@ -80,7 +80,6 @@ GEM
       cells (>= 4.1.6, < 5.0.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
-    cliver (0.3.2)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -127,10 +126,6 @@ GEM
     nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     pipetree (0.1.1)
-    poltergeist (1.18.1)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     public_suffix (3.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
@@ -260,7 +255,6 @@ DEPENDENCIES
   cells-rails
   generator_spec
   matestack-ui-core!
-  poltergeist
   puma
   rspec-rails (~> 3.8)
   selenium-webdriver
