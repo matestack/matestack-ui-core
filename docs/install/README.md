@@ -88,3 +88,7 @@ Rails.application.config.assets.paths << Rails.root.join('app/matestack/componen
 ## Websocket Integration
 
 If you want to use websockets, please read [this guide](/docs/integrations/websockets.md)
+
+## That's it!
+
+That's all you need to setup matestack! To check out the basics take a look at [concepts](/docs/concepts/README.md)!
