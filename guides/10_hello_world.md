@@ -97,7 +97,7 @@ All we got left to do is to start Rails by entering `rails server` in the consol
 
 We have successfully installed the `Matestack UI Core gem` to a Rails application and can now write our views in pure Ruby!
 
-Even though we have only seen static content in this hello world example, you may already see the potential in this approach - if not, go ahead and see how we can add client side dynamic with other Matestack components!
+Even though we have only seen static content in this hello world example, you may already see the potential in this approach - if not, go ahead and see how we can add client side dynamic with [other Matestack components](/docs/components#dynamic-core-components)!
 
 ## Next steps
 
