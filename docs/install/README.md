@@ -26,7 +26,7 @@ Require 'matestack-ui-core' in your `assets/javascript/application.js`
 ```
 Note:
 
-- **Remove turbolinks! Currently, matestack can't be used with turbolinks. This will be fixed soon**
+- **[Remove turbolinks](https://stackoverflow.com/a/38649595)! Currently, matestack can't be used with turbolinks. This will be fixed soon**
 - Additional Webpacker integration is coming soon
 
 ## Matestack Folder
