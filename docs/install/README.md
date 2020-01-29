@@ -91,4 +91,6 @@ If you want to use websockets, please read [this guide](/docs/integrations/webso
 
 ## That's it!
 
-That's all you need to setup matestack! To check out the basics take a look at [concepts](/docs/concepts/README.md)!
+That's all you need to setup matestack!
+
+For your next steps in learning matestack we recommend you check out the basics [concepts](/docs/concepts/README.md) and follow the [hello world guide](/guides/10_hello_world.md) which shows you how to create your first matestack app!
