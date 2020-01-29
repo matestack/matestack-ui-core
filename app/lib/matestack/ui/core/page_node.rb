@@ -22,7 +22,11 @@ module Matestack::Ui::Core
 
     def method_missing meth, *args, &block
       begin
-        @page_instance.send(meth, *args, &block)
+        if (result = @page_instance.send(meth, *args, &block)).kind_of? ActiveSupport::SafeBuffer
+          plain result
+        else
+          result
+        end
       rescue
         node_id = @node_start_id + 1
         @node_start_id = node_id
