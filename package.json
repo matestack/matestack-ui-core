@@ -11,6 +11,9 @@
     "vuex": "^3.0.1",
     "yarn": "^1.17.3"
   },
+  "exports": {
+    "./concepts/": "./app/concepts/matestack/ui/core/"
+  },  
   "scripts": {
     "postinstall": "link-module-alias"
   },
