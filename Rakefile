@@ -32,3 +32,29 @@ require 'rake/testtask'
 # end
 #
 # task default: :test
+
+task :webpack => 'webpack:build'
+
+namespace :webpack do
+  task :build => ['build:development', 'build:production']
+  
+  namespace :build do
+    task :development => 'yarn:install' do
+      sh "cd builder && bin/webpack"
+    end
+    task :production => 'yarn:install' do
+      sh "cd builder && rake webpacker:compile"
+    end
+  end
+  
+  task :watch => 'yarn:install' do
+    sh "cd builder && bin/webpack --watch"
+  end
+  
+  namespace :yarn do
+    task :install do
+      sh "yarn install && cd builder && yarn install"
+    end
+  end
+end 
+
