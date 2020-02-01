@@ -1,0 +1,14 @@
+{
+  "entrypoints": {
+    "matestack-ui-core": {
+      "js": [
+        "/vendor/assets/javascripts/dist/matestack-ui-core.min.js"
+      ],
+      "js.map": [
+        "/vendor/assets/javascripts/dist/matestack-ui-core.min.js.map"
+      ]
+    }
+  },
+  "matestack-ui-core.js": "/vendor/assets/javascripts/dist/matestack-ui-core.min.js",
+  "matestack-ui-core.js.map": "/vendor/assets/javascripts/dist/matestack-ui-core.min.js.map"
+}
