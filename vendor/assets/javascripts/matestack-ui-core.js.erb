@@ -1,2 +1,2 @@
-<% require_asset 'dist/matestack-ui-core' %>
+<% require_asset (Rails.env.production? ? 'dist/matestack-ui-core.min' : 'dist/matestack-ui-core') %>
 
