@@ -40,15 +40,21 @@ namespace :webpack do
   
   namespace :build do
     task :development => 'yarn:install' do
-      sh "cd builder && bin/webpack"
+      Bundler.with_clean_env do
+        sh "cd builder && bin/webpack"
+      end
     end
     task :production => 'yarn:install' do
-      sh "cd builder && rake webpacker:compile"
+      Bundler.with_clean_env do
+        sh "cd builder && bin/rake webpacker:compile"
+      end
     end
   end
   
   task :watch => 'yarn:install' do
-    sh "cd builder && bin/webpack --watch"
+    Bundler.with_clean_env do
+      sh "cd builder && bin/webpack --watch"
+    end
   end
   
   namespace :yarn do
