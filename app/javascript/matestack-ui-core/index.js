@@ -7,6 +7,8 @@ import matestackEventHub from '../../../app/concepts/matestack/ui/core/js/event-
 import componentMixin from '../../../app/concepts/matestack/ui/core/component/component'
 import matestackUiCore from '../../../app/concepts/matestack/ui/core/js/core'
 
+import styles from './styles/index.css'
+
 const MatestackUiCore = {
   Vue,
   Vuex,
