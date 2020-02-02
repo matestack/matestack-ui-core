@@ -1227,8 +1227,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
 /* harmony import */ var _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/component/component */ "../app/concepts/matestack/ui/core/component/component.js");
 /* harmony import */ var _app_concepts_matestack_ui_core_js_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/core */ "../app/concepts/matestack/ui/core/js/core.js");
-/* harmony import */ var _styles_index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index.css */ "../app/javascript/matestack-ui-core/styles/index.css");
-/* harmony import */ var _styles_index_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_index_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index.scss */ "../app/javascript/matestack-ui-core/styles/index.scss");
+/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_index_scss__WEBPACK_IMPORTED_MODULE_6__);
 
 
  // Import from app/concepts/matestack/ui/core:
@@ -1249,10 +1249,10 @@ window.MatestackUiCore = MatestackUiCore;
 
 /***/ }),
 
-/***/ "../app/javascript/matestack-ui-core/styles/index.css":
-/*!************************************************************!*\
-  !*** ../app/javascript/matestack-ui-core/styles/index.css ***!
-  \************************************************************/
+/***/ "../app/javascript/matestack-ui-core/styles/index.scss":
+/*!*************************************************************!*\
+  !*** ../app/javascript/matestack-ui-core/styles/index.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
