@@ -1,4 +1,3 @@
-var MatestackUiCore =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -78,7 +77,7 @@ var MatestackUiCore =
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/../../vendor/assets/javascripts/dist/";
+/******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -1228,6 +1227,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
 /* harmony import */ var _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/component/component */ "../app/concepts/matestack/ui/core/component/component.js");
 /* harmony import */ var _app_concepts_matestack_ui_core_js_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/core */ "../app/concepts/matestack/ui/core/js/core.js");
+/* harmony import */ var _styles_index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index.css */ "../app/javascript/matestack-ui-core/styles/index.css");
+/* harmony import */ var _styles_index_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_index_css__WEBPACK_IMPORTED_MODULE_6__);
 
 
  // Import from app/concepts/matestack/ui/core:
@@ -1235,15 +1236,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const MatestackUiCore = {
+
+var MatestackUiCore = {
   Vue: vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"],
   Vuex: vuex__WEBPACK_IMPORTED_MODULE_1__["default"],
-  axios: (axios__WEBPACK_IMPORTED_MODULE_2___default()),
+  axios: axios__WEBPACK_IMPORTED_MODULE_2___default.a,
   matestackEventHub: _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"],
   componentMixin: _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__["default"]
 };
 window.MatestackUiCore = MatestackUiCore;
 /* harmony default export */ __webpack_exports__["default"] = (MatestackUiCore);
+
+/***/ }),
+
+/***/ "../app/javascript/matestack-ui-core/styles/index.css":
+/*!************************************************************!*\
+  !*** ../app/javascript/matestack-ui-core/styles/index.css ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1256,7 +1269,7 @@ window.MatestackUiCore = MatestackUiCore;
 
 __webpack_require__(/*! ../matestack-ui-core/index */ "../app/javascript/matestack-ui-core/index.js");
 
-module.exports = MatestackUiCore;
+module.exports = MatestackUiCore; // try MatestackUiCore = require('../matestack-ui-core/index') TODO
 
 /***/ }),
 
@@ -2481,21 +2494,7 @@ module.exports = function spread(callback) {
 "use strict";
 
 
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "../node_modules/axios/lib/helpers/bind.js");
 
@@ -2959,21 +2958,8 @@ var t = function t(_t, o, e) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global, setImmediate) {function _typeof(obj) {
-  "@babel/helpers - typeof";
+/* WEBPACK VAR INJECTION */(function(global, setImmediate) {function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
 /*!
  * Vue.js v2.6.10
  * (c) 2014-2019 Evan You
@@ -2981,8 +2967,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 /*  */
-
-
 var emptyObject = Object.freeze({}); // These helpers produce better VM code in JS engines due to their
 // explicitness and function inlining.
 
@@ -14846,28 +14830,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
-function _typeof(obj) {
-  "@babel/helpers - typeof";
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
 /**
  * vuex v3.1.1
  * (c) 2019 Evan You
  * @license MIT
  */
-
-
 function applyMixin(Vue) {
   var version = Number(Vue.version.split('.')[0]);
 
@@ -16465,27 +16434,26 @@ exports.clearImmediate = typeof self !== "undefined" && self.clearImmediate || t
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var g;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
+var g; // This works in non-strict mode
+
+g = function () {
+  return this;
+}();
 
 try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
+  // This works if eval is allowed (see CSP)
+  g = g || new Function("return this")();
 } catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
+  // This works if the window reference is available
+  if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
+} // g can still be undefined, but nothing to do about it...
 // We return undefined, instead of nothing here, so it's
 // easier to handle this case. if(!global) { ...}
 
-module.exports = g;
 
+module.exports = g;
 
 /***/ })
 

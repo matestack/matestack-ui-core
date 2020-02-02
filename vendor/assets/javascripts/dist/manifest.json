@@ -1,14 +1,22 @@
 {
   "entrypoints": {
     "matestack-ui-core": {
+      "css": [
+        "/dist/matestack-ui-core.css"
+      ],
       "js": [
-        "/vendor/assets/javascripts/dist/matestack-ui-core.min.js"
+        "/dist/matestack-ui-core.js"
+      ],
+      "css.map": [
+        "/dist/matestack-ui-core.css.map"
       ],
       "js.map": [
-        "/vendor/assets/javascripts/dist/matestack-ui-core.min.js.map"
+        "/dist/matestack-ui-core.js.map"
       ]
     }
   },
-  "matestack-ui-core.js": "/vendor/assets/javascripts/dist/matestack-ui-core.min.js",
-  "matestack-ui-core.js.map": "/vendor/assets/javascripts/dist/matestack-ui-core.min.js.map"
+  "matestack-ui-core.css": "/dist/matestack-ui-core.css",
+  "matestack-ui-core.css.map": "/dist/matestack-ui-core.css.map",
+  "matestack-ui-core.js": "/dist/matestack-ui-core.js",
+  "matestack-ui-core.js.map": "/dist/matestack-ui-core.js.map"
 }
