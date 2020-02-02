@@ -1216,26 +1216,17 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 /*!****************************************************!*\
   !*** ../app/javascript/matestack-ui-core/index.js ***!
   \****************************************************/
-/*! exports provided: Vue, Vuex, axios, matestackEventHub, componentMixin */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "../node_modules/vuex/dist/vuex.esm.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vuex", function() { return vuex__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony reexport (default from non-harmony) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return axios__WEBPACK_IMPORTED_MODULE_2___default.a; });
 /* harmony import */ var _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "matestackEventHub", function() { return _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
 /* harmony import */ var _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/component/component */ "../app/concepts/matestack/ui/core/component/component.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "componentMixin", function() { return _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
 /* harmony import */ var _app_concepts_matestack_ui_core_js_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/core */ "../app/concepts/matestack/ui/core/js/core.js");
 
 
@@ -1244,7 +1235,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+const MatestackUiCore = {
+  Vue: vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"],
+  Vuex: vuex__WEBPACK_IMPORTED_MODULE_1__["default"],
+  axios: (axios__WEBPACK_IMPORTED_MODULE_2___default()),
+  matestackEventHub: _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"],
+  componentMixin: _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__["default"]
+};
+window.MatestackUiCore = MatestackUiCore;
+/* harmony default export */ __webpack_exports__["default"] = (MatestackUiCore);
 
 /***/ }),
 
@@ -1256,6 +1255,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! ../matestack-ui-core/index */ "../app/javascript/matestack-ui-core/index.js");
+
+module.exports = MatestackUiCore;
 
 /***/ }),
 

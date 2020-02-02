@@ -7,10 +7,14 @@ import matestackEventHub from '../../../app/concepts/matestack/ui/core/js/event-
 import componentMixin from '../../../app/concepts/matestack/ui/core/component/component'
 import matestackUiCore from '../../../app/concepts/matestack/ui/core/js/core'
 
-export {
+const MatestackUiCore = {
   Vue,
   Vuex,
   axios,
   matestackEventHub,
   componentMixin
 }
+
+window.MatestackUiCore = MatestackUiCore
+
+export default MatestackUiCore

@@ -7,8 +7,7 @@ const customConfig = {
   output: {
     filename: 'matestack-ui-core.min.js',
     libraryTarget: 'var',
-    library: 'MatestackUiCore',
-    umdNamedDefine: false
+    library: 'MatestackUiCore'
   }
 };
 
