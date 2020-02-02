@@ -1,10 +1,10 @@
 # Note: You must restart bin/webpack-dev-server for changes to take effect
 
 default: &default
-  source_path: app/javascript
+  source_path: ../app/javascript
   source_entry_path: packs
-  public_root_path: public
-  public_output_path: packs
+  public_root_path: ../vendor/assets/javascripts
+  public_output_path: dist
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
   webpack_compile_output: true
