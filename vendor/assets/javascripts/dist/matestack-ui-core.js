@@ -1269,7 +1269,7 @@ window.MatestackUiCore = MatestackUiCore;
 
 __webpack_require__(/*! ../matestack-ui-core/index */ "../app/javascript/matestack-ui-core/index.js");
 
-module.exports = MatestackUiCore; // try MatestackUiCore = require('../matestack-ui-core/index') TODO
+module.exports = MatestackUiCore;
 
 /***/ }),
 
