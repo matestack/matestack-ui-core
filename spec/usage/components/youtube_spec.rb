@@ -25,7 +25,7 @@ describe 'Youtube Component', type: :feature, js: true do
     static_output = page.html
 
     expect(page).to have_selector("iframe[src='https://www.youtube.com/embed/OY5AeGhgK7I'][class='iframe']")
-    expect(page).to have_selector("iframe[src='https://www.youtube.com/embed/OY5AeGhgK7I?controls=0&start=30']")
+    expect(page).to have_selector("iframe[src='https://www.youtube.com/embed/OY5AeGhgK7I?controls=0&amp;start=30']")
     expect(page).to have_selector("iframe[src='https://www.youtube-nocookie.com/embed/OY5AeGhgK7I?start=30']")
 
   end
