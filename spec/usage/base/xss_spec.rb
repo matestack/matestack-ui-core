@@ -34,12 +34,34 @@ describe "XSS behavior", type: :feature, js: true do
       # but since we accepted an alert to get here this test should be fine
     end
 
+    # note that `heading do "string" end` doesn't work and you
+    # should rather use `heading do plain "string" end`
+    # Why the hell is this tested then?
+    # Well if that behavior changed I'd like to have a reminder
+    # here to catch it. Call me overly cautious.
+    it "escaping won't be broken in block form (if it worked)" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          components {
+            heading do
+              XSS::EVIL_SCRIPT
+            end
+          }
+        end
+      end
+
+      visit "/example"
+
+      static_output = page.html
+      expect(static_output).not_to include("alert(")
+    end
+
     it "escapes the evil when injecting into attributes" do
       class ExamplePage < Matestack::Ui::Page
 
         def response
           components {
-            heading text: "Be Safe!", id: "something-\"#{XSS::EVIL_SCRIPT}"
+            heading text: "Be Safe!", id: "something-\">#{XSS::EVIL_SCRIPT}"
           }
         end
 
@@ -47,7 +69,7 @@ describe "XSS behavior", type: :feature, js: true do
 
       visit "/example"
 
-      expect(page.html).to include("id=\"something-&quot;<script>alert('hello');</script>")
+      expect(page.html).to include("id=\"something-&quot;><script>alert('hello');</script>")
     end
   end
 end
