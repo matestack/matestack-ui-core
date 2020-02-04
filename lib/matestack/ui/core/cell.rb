@@ -22,9 +22,9 @@ module Matestack
           }
         end
 
-        # def html_escape(string)
-
-        # end
+        def html_escape(string)
+          ERB::Util.html_escape(string)
+        end
       end
     end
   end

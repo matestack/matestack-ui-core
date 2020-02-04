@@ -345,7 +345,6 @@ describe "Component", type: :feature, js: true do
       after_content = element.text
 
       expect(before_content).not_to eq(after_content)
-
     end
 
     it "components can render dynamic content with vue.js involved if inherit from 'Matestack::Ui::DynamicComponent'" do
