@@ -1,7 +1,7 @@
 import Vue from 'vue/dist/vue.esm'
 import VRuntimeTemplate from "v-runtime-template"
 import Vuex from 'vuex'
-import isNavigatingToAnotherPage from "app/location"
+import isNavigatingToAnotherPage from "./location"
 
 const componentDef = {
   props: ['appConfig', 'params'],

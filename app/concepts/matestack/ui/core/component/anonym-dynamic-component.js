@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue.esm'
-import componentMixin from 'component/component'
+import componentMixin from './component'
 
 const componentDef = {
   mixins: [componentMixin]
