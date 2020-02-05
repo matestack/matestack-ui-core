@@ -80,6 +80,7 @@ GEM
       cells (>= 4.1.6, < 5.0.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -125,6 +126,12 @@ GEM
     nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     pipetree (0.1.1)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.8.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     public_suffix (3.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
@@ -253,6 +260,7 @@ DEPENDENCIES
   cells-rails
   generator_spec
   matestack-ui-core!
+  pry-byebug
   puma
   rspec-rails (~> 3.8)
   selenium-webdriver
