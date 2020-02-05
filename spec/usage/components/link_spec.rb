@@ -262,14 +262,10 @@ describe 'Link Component', type: :feature, js: true do
       element = page.find("#my-div")
       before_content = element.text
 
-      puts before_content
-
       # don't you rerender on me!
       expect(ExamplePage).not_to receive(:new)
 
       page.click_link("my-link")
-
-      # binding.pry
 
       # if the page reloaded we'd have different content here but as we don't want reloads
       # we want the sime

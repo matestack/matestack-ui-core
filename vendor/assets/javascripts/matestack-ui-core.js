@@ -15561,10 +15561,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__ = __webpack_require__(/*! vue/dist/vue.esm */ 0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(/*! axios */ 5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(/*! vuex */ 4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_v_runtime_template__ = __webpack_require__(/*! v-runtime-template */ 15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(/*! vuex */ 4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_location__ = __webpack_require__(/*! app/location */ 50);
 
 
 
@@ -15575,17 +15574,18 @@ const componentDef = {
   data: function () {
     return {};
   },
-  computed: __WEBPACK_IMPORTED_MODULE_3_vuex__["a" /* default */].mapState({
+  computed: __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].mapState({
     asyncTemplate: state => state.pageTemplate
   }),
   mounted: function () {
-    const self = this;
-    window.onpopstate = function (event) {
-      self.$store.dispatch("navigateTo", { url: document.location.pathname, backwards: true });
+    window.onpopstate = event => {
+      if (Object(__WEBPACK_IMPORTED_MODULE_3_app_location__["a" /* default */])(window.location, event)) {
+        this.$store.dispatch("navigateTo", { url: document.location.pathname, backwards: true });
+      };
     };
   },
   components: {
-    VRuntimeTemplate: __WEBPACK_IMPORTED_MODULE_2_v_runtime_template__["a" /* default */]
+    VRuntimeTemplate: __WEBPACK_IMPORTED_MODULE_1_v_runtime_template__["a" /* default */]
   }
 };
 
@@ -16292,6 +16292,25 @@ const componentDef = {
 let component = __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_esm__["a" /* default */].component('matestack-ui-core-collection-order', componentDef);
 
 /* unused harmony default export */ var _unused_webpack_default_export = (componentDef);
+
+/***/ }),
+/* 50 */
+/*!*********************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/app/location.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const isNavigatingToAnotherPage = function (currentLocation, popstateEvent) {
+  const targetLocation = popstateEvent.target.location;
+
+  // omits hash by design
+  return currentLocation.pathname !== targetLocation.pathname || currentLocation.origin !== targetLocation.origin || currentLocation.search !== targetLocation.search;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (isNavigatingToAnotherPage);
 
 /***/ })
 /******/ ]);
