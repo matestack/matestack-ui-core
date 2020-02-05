@@ -399,7 +399,7 @@ The Cells get wrapped by a `component` tag. `dynamic_tag_attributes` returns a h
 - `"ref": component_id` may be used to identify the specific instance of this Component on one Page
 - `:params":  @url_params.to_json` is used to pass request params to the Vue.js Component instance
 - `":component-config": @component_config.to_json` is used to pass configuration to the Vue.js Component instance
-  - this is very useful if a Vue.js component relies on meta data to perfom its desired behaviour during runtime
+  - this is very useful if a Vue.js component relies on meta data to perfom its desired behavior during runtime
   - example: the dynamic core Component `transition` gets a `path` config when used in a `response` method. As the value is just a symbol referencing a rails route, the Component needs to translate the symbol to a string on the server-side. This string is then added to the `@component_config` and parsed by the `transition` Vue.js component instance during browser runtime
 - `"inline-template": true` needs to be set in order to tell Vue.js that this component uses the server-side rendered markup as template.
 

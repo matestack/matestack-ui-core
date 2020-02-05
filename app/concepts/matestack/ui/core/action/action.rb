@@ -19,6 +19,9 @@ module Matestack::Ui::Core::Action
       if options[:notify].nil?
         @component_config[:notify] = true
       end
+      if @component_config[:confirm] = options[:confirm]
+        @component_config[:confirm_text] = options[:confirm].try(:[], :text) || "Are you sure?"
+      end
     end
 
     def action_path

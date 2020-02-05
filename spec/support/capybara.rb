@@ -1,12 +1,10 @@
 require 'capybara/rspec'
 require 'capybara/rails'
-# require 'capybara/poltergeist'
 require "selenium/webdriver"
 
 require "matestack/ui/core"
 
 
-# Capybara.javascript_driver = :poltergeist
 
 # Capybara.app = Matestack::Ui::Core::Engine
 Capybara.app = Dummy::Application

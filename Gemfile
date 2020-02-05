@@ -11,10 +11,6 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-# To use a debugger
-# gem 'byebug', group: [:development, :test]
-# gem 'pry-byebug', group: [:development, :test]
-
 gem "trailblazer"
 gem "trailblazer-rails"
 gem "trailblazer-cells"
@@ -27,10 +23,10 @@ group :development, :test do
   gem 'webpacker', '~> 3.5'
   gem 'sqlite3', '~> 1.3.13'
   gem 'selenium-webdriver'
-  gem 'poltergeist'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
+  # gem 'pry-byebug'
   gem 'webmock'
   # gem 'webdrivers', '~> 4.1'
 end

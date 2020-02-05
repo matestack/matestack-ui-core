@@ -297,9 +297,9 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "components can use async component to wrap static components and add basic dynamic behaviour" #not working right now
+    it "components can use async component to wrap static components and add basic dynamic behavior" #not working right now
 
-    it "pages can use async component to wrap static components and add basic dynamic behaviour" do
+    it "pages can use async component to wrap static components and add basic dynamic behavior" do
 
       module Matestack::Ui::Core::SomeStaticComponent
         class SomeStaticComponent < Matestack::Ui::StaticComponent
