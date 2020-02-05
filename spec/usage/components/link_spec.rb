@@ -197,6 +197,7 @@ describe 'Link Component', type: :feature, js: true do
         }
       end
     end
+
     visit "/example"
 
     element = page.find("#my-div")
@@ -208,7 +209,7 @@ describe 'Link Component', type: :feature, js: true do
     page.click_link("my-link")
 
     # if the page reloaded we'd have different content here but as we don't want reloads
-    # we want the sime
+    # we want the same
     expect(page).to have_css("#my-div", text: before_content)
     expect(page.current_url).to end_with("#someanchor")
   end
@@ -252,11 +253,12 @@ describe 'Link Component', type: :feature, js: true do
           }
         end
 
-        # u so hacky
+        # Hacky/instable but easy way to set my custom App for this page
         def set_app_class
           @app_class = Apps::MyTestApp
         end
       end
+
       visit "/example"
 
       element = page.find("#my-div")
@@ -268,9 +270,49 @@ describe 'Link Component', type: :feature, js: true do
       page.click_link("my-link")
 
       # if the page reloaded we'd have different content here but as we don't want reloads
-      # we want the sime
+      # we want the same
       expect(page).to have_css("#my-div", text: before_content)
       expect(page.current_url).to end_with("#someanchor")
+    end
+
+    it "just changing the search string will still reload the page" do
+      class Apps::MyTestApp < Matestack::Ui::App
+        def response
+          components {
+            page_content
+          }
+        end
+      end
+
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          components {
+            link path: "?a=true", text: "go to anchor", id: "my-link"
+
+            br times: 200
+
+            div id: "my-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          }
+        end
+
+        # Hacky/instable but easy way to set my custom App for this page
+        def set_app_class
+          @app_class = Apps::MyTestApp
+        end
+      end
+
+      visit "/example"
+
+      element = page.find("#my-div")
+      before_content = element.text
+
+      page.click_link("my-link")
+
+      expect(page).to have_css("#my-div")
+      expect(page).to have_no_css("#my-div", text: before_content)
+      expect(page.current_url).to end_with("?a=true")
     end
   end
 end

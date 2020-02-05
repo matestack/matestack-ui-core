@@ -13,7 +13,7 @@ const componentDef = {
   }),
   mounted: function(){
     window.onpopstate = (event) => {
-      if (isNavigatingToAnotherPage(window.location, event)) {
+      if (isNavigatingToAnotherPage(document.location, event)) {
         this.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
       };
     }
