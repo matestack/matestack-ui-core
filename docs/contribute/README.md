@@ -36,12 +36,12 @@ You will need to install docker and docker-compose:
 In order to migrate the database and install yarn packages, do:
 
 ```shell
-docker-compose run --rm dummy rake db:migrate
+docker-compose run --rm dummy bundle exec rake db:setup
 docker-compose run --rm dummy yarn install
 docker-compose run --rm dummy sh -c "cd builder && yarn install"
 docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
 ```
-If you already created sqlite files locally in `spec/dummy/db`, the command `docker-compose run --rm dummy rake db:migrate` will fail. Please remove the locally created sqlite files and rerun `docker-compose run --rm dummy rake db:migrate`
+If you already created sqlite files locally in `spec/dummy/db`, the command `docker-compose run --rm dummy bundle exec rake db:migrate` will fail. Please remove the locally created sqlite files and rerun `docker-compose run --rm dummy bundle exec rake db:migrate`
 
 You might need to redo these steps if new migrations or yarn packages are added/updated.
 
@@ -120,7 +120,7 @@ To assure this project is and remains in great condition, we heavily rely on aut
 
 ```shell
 docker-compose run --rm test bash
-rake db:setup #once initially
+bundle exec rake db:setup #once initially
 bundle exec rspec spec/usage/components
 ```
 
