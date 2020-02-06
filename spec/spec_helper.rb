@@ -36,6 +36,8 @@ require File.join File.dirname(__FILE__), 'dummy', 'config', 'environment.rb'
 
 Dir[File.join File.dirname(__FILE__), 'support', '**', '*.rb'].each { |f| require f }
 
+require 'pry'
+
 RSpec.configure do |config|
   # config.include Capybara::DSL
   # rspec-expectations config goes here. You can use an alternate
