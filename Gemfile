@@ -33,4 +33,5 @@ end
 
 group :test do
   gem "generator_spec"
+  gem "rspec-retry" # repeating flaky tests 
 end
