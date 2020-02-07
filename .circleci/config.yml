@@ -7,12 +7,11 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install dependencies
+          name: Install Docker Compose
           command: |
-            apk add --no-cache \
-              py-pip=10.0.1-r0
-            pip install \
-              docker-compose==1.25.3
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
           name: Run tests
           command: |
