@@ -44,7 +44,7 @@ class ModelFormTestController < ApplicationController
       render json: {
         message: 'server says: something went wrong!',
         errors: @test_model.errors
-      }, status: :unproccessable_entity
+      }, status: :unprocessable_entity
     else
       render json: {
         message: 'server says: form submitted successfully!'
@@ -308,7 +308,7 @@ def model_submit
     render json: {
       message: 'server says: something went wrong!',
       errors: @test_model.errors
-    }, status: :unproccessable_entity
+    }, status: :unprocessable_entity
   else
     render json: {
       message: 'server says: form submitted successfully!',
