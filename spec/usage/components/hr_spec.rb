@@ -18,7 +18,7 @@ describe 'Horizontal Rule Component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-    <hr id="my-id" class="my-class">
+    <hr id="my-id" class="my-class"/>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))

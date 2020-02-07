@@ -55,7 +55,7 @@ describe "Form Component", type: :feature, js: true do
           render json: {
             message: "server says: something went wrong!",
             errors: @test_model.errors
-          }, status: :unproccessable_entity
+          }, status: :unprocessable_entity
         else
           render json: {
             message: "server says: form submitted successfully!"
@@ -686,6 +686,9 @@ describe "Form Component", type: :feature, js: true do
 
   it "can be mapped to an Active Record Model" do
 
+    Object.send(:remove_const, :TestModel)
+
+
     class TestModel < ApplicationRecord
 
       validates :description, presence:true
@@ -726,6 +729,8 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_field("title", with: "Title")
     click_button "Submit me!"
     expect(page).to have_field("title", with: "Title")
+    #page.save_screenshot
+    #p page.driver.browser.manage.logs.get(:browser)
     expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
 
     value = "#{DateTime.now}"

@@ -535,7 +535,7 @@ describe "Action Component", type: :feature, js: true do
   it 'action_path: passing path as a string (not recommended)' do
 
     Rails.application.routes.append do
-      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param_and_string_route'
+      post '/action_test/:id', to: 'action_test#test'
     end
     Rails.application.reload_routes!
 
