@@ -10,7 +10,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --no-cache \
-              py-pip=9.0.0-r1
+              py-pip=10.0.1-r0
             pip install \
               docker-compose==1.25.3
       - run:
