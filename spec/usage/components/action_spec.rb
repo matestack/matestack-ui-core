@@ -61,10 +61,10 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/example"
 
-    click_button "Click me!"
-
     expect_any_instance_of(ActionTestController).to receive(:expect_params)
       .with(hash_including(:foo => "bar"))
+
+    click_button "Click me!"
 
   end
 
@@ -99,10 +99,10 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/example"
 
-    click_button "Click me!"
-
     expect_any_instance_of(ActionTestController).to receive(:expect_params)
       .with(hash_including(:id => "42"))
+
+    click_button "Click me!"
 
   end
 
@@ -560,11 +560,11 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/example"
 
-    click_button "Click me!"
 
     expect_any_instance_of(ActionTestController).to receive(:expect_params)
       .with(hash_including(:id => "42"))
 
+    click_button "Click me!"
   end
 
   # not working right now
