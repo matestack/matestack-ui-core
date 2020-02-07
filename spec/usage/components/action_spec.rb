@@ -33,10 +33,9 @@ describe "Action Component", type: :feature, js: true do
   it "Example 1 - Async request with payload" do
 
     Rails.application.routes.append do
-      post '/action_test', to: 'action_test#test', as: 'action_test'
+      post '/action_test', to: 'action_test#test', as: 'action_test' unless path_exists?(:action_test_path)
     end
     Rails.application.reload_routes!
-
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -72,10 +71,9 @@ describe "Action Component", type: :feature, js: true do
   it "Example 2 - Async request with URL param" do
 
     Rails.application.routes.append do
-      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param'
+      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param' unless path_exists?(:action_test_with_url_param_path)
     end
     Rails.application.reload_routes!
-
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -124,10 +122,11 @@ describe "Action Component", type: :feature, js: true do
       end
 
       Rails.application.routes.append do
-        post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test'
-        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test'
+        post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test' unless path_exists?(:success_action_test_path)
+        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test' unless path_exists?(:failure_action_test_path)
       end
       Rails.application.reload_routes!
+
     end
 
     it "Example 3 - Async request with success event emit used for rerendering" do
@@ -354,11 +353,12 @@ describe "Action Component", type: :feature, js: true do
 
       Rails.application.routes.append do
         scope :action_test do
-          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
-          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
+          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1' unless path_exists?(:action_test_page1_path)
+          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2' unless path_exists?(:action_test_page2_path)
         end
       end
       Rails.application.reload_routes!
+
 
       visit "action_test/page1"
 
@@ -393,7 +393,7 @@ describe "Action Component", type: :feature, js: true do
       end
 
       Rails.application.routes.append do
-        delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_test'
+        delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_test' unless path_exists?(:action_destroy_test_path)
       end
       Rails.application.reload_routes!
 
@@ -457,7 +457,7 @@ describe "Action Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_default_text_test'
+      delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_default_text_test' unless path_exists?(:action_destroy_default_text_test_path)
     end
     Rails.application.reload_routes!
 
@@ -612,10 +612,10 @@ describe "Action Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test_string'
+      post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test_string' unless path_exists?(:success_action_test_string_path)
       scope :action_test do
-        get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1_string'
-        get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2_string'
+        get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1_string' unless path_exists?(:action_test_page1_string_path)
+        get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2_string' unless path_exists?(:action_test_page2_string_path)
       end
     end
     Rails.application.reload_routes!
@@ -761,7 +761,7 @@ describe "Action Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      resources :test_models
+      resources :test_models unless path_exists?(:test_models_path)
     end
     Rails.application.reload_routes!
 
@@ -845,7 +845,7 @@ describe "Action Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      resources :test_models
+      resources :test_models unless path_exists?(:test_models_path)
     end
     Rails.application.reload_routes!
 
