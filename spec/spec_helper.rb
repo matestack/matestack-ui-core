@@ -39,6 +39,7 @@ Dir[File.join File.dirname(__FILE__), 'support', '**', '*.rb'].each { |f| requir
 require 'pry'
 
 require 'rspec/retry'
+require "rspec/wait"  
 
 
 RSpec.configure do |config|
@@ -50,7 +51,7 @@ RSpec.configure do |config|
 
   # run retry only on features
   config.around :each, :js do |ex|
-    ex.run_with_retry retry: 5
+    ex.run_with_retry retry: 10
   end
 
   # callback to be run between retries  

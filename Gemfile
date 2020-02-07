@@ -33,5 +33,6 @@ end
 
 group :test do
   gem "generator_spec"
-  gem "rspec-retry" # repeating flaky tests 
+  gem "rspec-retry" # repeating flaky tests
+  gem "rspec-wait", "~> 0.0.9"
 end
