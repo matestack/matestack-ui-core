@@ -69,7 +69,7 @@ describe "XSS behavior", type: :feature, js: true do
 
       visit "/example"
 
-      expect(page.html).to include("id=\"something-&quot;><script>alert('hello');</script>")
+      expect(page.html).to include("id=\"something-&quot;&gt;&lt;script&gt;alert('hello');&lt;/script&gt;")
     end
   end
 end

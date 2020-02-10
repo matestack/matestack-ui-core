@@ -1,11 +1,11 @@
-describe "Raw Html Component", type: :feature, js: true do
+describe "Unescaped Component", type: :feature, js: true do
 
   it "allows the insertion of pure HTML: Example 1" do
 
     class ExamplePage < Matestack::Ui::Page
       def response
         components {
-          rawhtml <<~HTML
+          unescaped <<~HTML
           <h1>Hello World</h1>
           <script>alert('Really Hello!')</script>
           HTML

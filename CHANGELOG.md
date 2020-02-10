@@ -6,37 +6,6 @@
 
 [Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.4)
 
-
-### Security Fixes
-
-XSS/Script Injection
-
---> until 0.7.3, matestack-ui-core is vulnerable to XSS/Script injection due to missing string escaping
---> this is especially dangerous, if you render a string which was submitted via a form through `plain` or any other string rendering such as `heading size: 1, text: "..."`
---> fixed in 0.7.4, please update immediately
-
-```ruby
-class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
-
-  class FakeUser < Struct.new(:name)
-  end
-
-  def prepare
-    @user = FakeUser.new("<script>alert('such hack many wow')</script>")
-  end
-
-  def response
-    components {
-      div do
-        heading size: 1, text: "Hello #{@user.name}" # is not escaped
-        plain "Hello #{@user.name}" # is not escaped
-      end
-    }
-  end
-end
-
-```
-
 ### Improvements
 
 * On form submit, matestack form values are reset to previous values by fiedl
