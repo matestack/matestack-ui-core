@@ -25,9 +25,9 @@ describe 'Map Component', type: :feature, js: true do
 
     expected_static_output = <<~HTML
     <map name="newmap">
-       <area alt="First" coords="0,0,100,100" href="first.htm" shape="rect">
-       <area alt="Second" coords="100,100,200,200" href="second.htm" shape="rect">
-       <area alt="Third" coords="200,200,300,300" href="third.htm" shape="rect">
+       <area alt="First" coords="0,0,100,100" href="first.htm" shape="rect"/>
+       <area alt="Second" coords="100,100,200,200" href="second.htm" shape="rect"/>
+       <area alt="Third" coords="200,200,300,300" href="third.htm" shape="rect"/>
     </map>
     HTML
 

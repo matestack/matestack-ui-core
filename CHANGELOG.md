@@ -53,7 +53,7 @@ none
 
 ### Bugfixes
 
-* Unexpected behaviour when creating a record in progress by jonasjabari
+* Unexpected behavior when creating a record in progress by jonasjabari
 * couldn't find file 'matestack_ui_core_manifest.js' on dummy app by jonasjabari
 * Add For Attribute to Stand Alone Label Component by bdlb77
 * Form component doesn't work on component-level by jonasjabari

@@ -1,0 +1,15 @@
+name: specs
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          docker-compose run --rm test bundle exec rake db:schema:load
+          docker-compose run --rm test bundle exec rspec spec/usage

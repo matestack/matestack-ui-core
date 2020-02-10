@@ -32,25 +32,7 @@ describe 'Br Component', type: :feature, js: true do
 
     static_output = page.html
 
-    expected_static_output_1 = <<~HTML
-    hello
-    <br>
-    world!
-
-    hello
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    world!
-
-    hello
-    <br id="my-br" class="fancy-br-class">
-    world!
-    HTML
-
-    expected_static_output_2 = <<~HTML
+    expected_static_output = <<~HTML
     hello
     <br/>
     world!
@@ -64,11 +46,11 @@ describe 'Br Component', type: :feature, js: true do
     world!
 
     hello
-    <br id="my-br" class="fancy-br-class">
+    <br id="my-br" class="fancy-br-class"/>
     world!
     HTML
 
-    expect(stripped(static_output)).to ( include(stripped(expected_static_output_1)) or include(stripped(expected_static_output_2)) )
+    expect(stripped(static_output)).to ( include(stripped(expected_static_output)) )
   end
 
 end

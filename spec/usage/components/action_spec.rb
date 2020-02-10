@@ -33,10 +33,9 @@ describe "Action Component", type: :feature, js: true do
   it "Example 1 - Async request with payload" do
 
     Rails.application.routes.append do
-      post '/action_test', to: 'action_test#test', as: 'action_test'
+      post '/action_test', to: 'action_test#test', as: 'action_test' unless path_exists?(:action_test_path)
     end
     Rails.application.reload_routes!
-
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -62,20 +61,19 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/example"
 
-    click_button "Click me!"
-
     expect_any_instance_of(ActionTestController).to receive(:expect_params)
       .with(hash_including(:foo => "bar"))
+
+    click_button "Click me!"
 
   end
 
   it "Example 2 - Async request with URL param" do
 
     Rails.application.routes.append do
-      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param'
+      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param' unless path_exists?(:action_test_with_url_param_path)
     end
     Rails.application.reload_routes!
-
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -101,10 +99,10 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/example"
 
-    click_button "Click me!"
-
     expect_any_instance_of(ActionTestController).to receive(:expect_params)
       .with(hash_including(:id => "42"))
+
+    click_button "Click me!"
 
   end
 
@@ -124,10 +122,11 @@ describe "Action Component", type: :feature, js: true do
       end
 
       Rails.application.routes.append do
-        post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test'
-        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test'
+        post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test' unless path_exists?(:success_action_test_path)
+        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test' unless path_exists?(:failure_action_test_path)
       end
       Rails.application.reload_routes!
+
     end
 
     it "Example 3 - Async request with success event emit used for rerendering" do
@@ -354,11 +353,12 @@ describe "Action Component", type: :feature, js: true do
 
       Rails.application.routes.append do
         scope :action_test do
-          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1'
-          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2'
+          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1' unless path_exists?(:action_test_page1_path)
+          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2' unless path_exists?(:action_test_page2_path)
         end
       end
       Rails.application.reload_routes!
+
 
       visit "action_test/page1"
 
@@ -384,6 +384,125 @@ describe "Action Component", type: :feature, js: true do
 
     end
 
+    specify "Async delete request with confirm option" do
+
+      class ActionTestController < TestController
+        def destroy
+          render json: {}, status: 200
+        end
+      end
+
+      Rails.application.routes.append do
+        delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_test' unless path_exists?(:action_destroy_test_path)
+      end
+      Rails.application.reload_routes!
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            action action_config do
+              button text: "Click me!"
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "Well done!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :delete,
+            path: :action_destroy_test_path,
+            data: {
+              foo: "bar"
+            },
+            confirm: {
+              text: "Are you sure?"
+            },
+            success: {
+              emit: "my_action_success"
+            }
+          }
+        end
+
+      end
+
+      visit "/example"
+
+      # https://stackoverflow.com/a/34888404/2066546
+      # https://github.com/teamcapybara/capybara#modals
+      dismiss_confirm do
+        click_button "Click me!"
+      end
+
+      expect(page).to have_no_text "Well done!"
+
+      accept_confirm do
+        click_button "Click me!"
+      end
+
+      expect(page).to have_text "Well done!"
+    end
+
+  end
+
+  it 'does not require a confirm text option' do
+    # When no confirm text is given, the default "Are you sure?" will be used.
+
+    class ActionTestController < TestController
+      def destroy
+        render json: {}, status: 200
+      end
+    end
+
+    Rails.application.routes.append do
+      delete '/action_test', to: 'action_test#destroy', as: 'action_destroy_default_text_test' unless path_exists?(:action_destroy_default_text_test_path)
+    end
+    Rails.application.reload_routes!
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+          async show_on: "my_action_success", hide_after: 300 do
+            plain "Well done!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :delete,
+          path: :action_destroy_default_text_test_path,
+          data: {
+            foo: "bar"
+          },
+          confirm: true,
+          success: {
+            emit: "my_action_success"
+          }
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    dismiss_confirm do
+      click_button "Click me!"
+    end
+
+    expect(page).to have_no_text "Well done!"
+
+    accept_confirm do
+      click_button "Click me!"
+    end
+
+    expect(page).to have_text "Well done!"
   end
 
   it 'accepts class and id attributes and returns them as the corresponding HTML attributes' do
@@ -416,7 +535,7 @@ describe "Action Component", type: :feature, js: true do
   it 'action_path: passing path as a string (not recommended)' do
 
     Rails.application.routes.append do
-      post '/action_test/:id', to: 'action_test#test', as: 'action_test_with_url_param_and_string_route'
+      post '/action_test/:id', to: 'action_test#test'
     end
     Rails.application.reload_routes!
 
@@ -441,11 +560,11 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/example"
 
-    click_button "Click me!"
 
     expect_any_instance_of(ActionTestController).to receive(:expect_params)
       .with(hash_including(:id => "42"))
 
+    click_button "Click me!"
   end
 
   # not working right now
@@ -493,10 +612,10 @@ describe "Action Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test_string'
+      post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test_string' unless path_exists?(:success_action_test_string_path)
       scope :action_test do
-        get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1_string'
-        get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2_string'
+        get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1_string' unless path_exists?(:action_test_page1_string_path)
+        get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2_string' unless path_exists?(:action_test_page2_string_path)
       end
     end
     Rails.application.reload_routes!
@@ -618,5 +737,175 @@ describe "Action Component", type: :feature, js: true do
   #   expect(page).to have_content("Action path not found")
   #
   # end
+
+  specify "follow_response option makes a transition follow controllers' transition_to" do
+
+    class TestModelsController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def index
+        responder_for Pages::FollowResponseExampleApp::ExamplePage
+      end
+
+      def create
+        @test_model = TestModel.create title: params[:title]
+        render json: {
+          transition_to: test_model_path(id: @test_model.id)
+        }, status: :ok
+      end
+
+      def show
+        @test_model = TestModel.find params[:id]
+        responder_for Pages::FollowResponseExampleApp::TestModelPage
+      end
+    end
+
+    Rails.application.routes.append do
+      resources :test_models unless path_exists?(:test_models_path)
+    end
+    Rails.application.reload_routes!
+
+    class Apps::FollowResponseExampleApp < Matestack::Ui::App
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+        }
+      end
+    end
+
+    module Pages::FollowResponseExampleApp
+    end
+
+    class Pages::FollowResponseExampleApp::ExamplePage < Matestack::Ui::Page
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :test_models_path,
+          data: {
+            title: "A title for my new test object"
+          },
+          success: {
+            transition: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::FollowResponseExampleApp::TestModelPage < Matestack::Ui::Page
+      def response
+        components {
+          heading text: @test_model.title, size: 1
+          plain "This page has been loaded via redirect_to and follow_response."
+        }
+      end
+    end
+
+    visit "/test_models"
+
+    click_button "Click me!"
+
+    expect(page).to have_no_text "Click me"
+    expect(page).to have_text "A title for my new test object"
+    expect(page).to have_text "This page has been loaded via redirect_to and follow_response."
+
+  end
+
+  specify "follow_response option makes a transition follow controllers' redirect_to" do
+
+    class TestModelsController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def index
+        responder_for Pages::FollowResponseExampleApp::ExamplePage
+      end
+
+      def create
+        @test_model = TestModel.create title: params[:title]
+        redirect_to test_model_path(id: @test_model.id)
+      end
+
+      def show
+        @test_model = TestModel.find params[:id]
+        responder_for Pages::FollowResponseExampleApp::TestModelPage
+      end
+    end
+
+    Rails.application.routes.append do
+      resources :test_models unless path_exists?(:test_models_path)
+    end
+    Rails.application.reload_routes!
+
+    class Apps::FollowResponseExampleApp < Matestack::Ui::App
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+        }
+      end
+    end
+
+    module Pages::FollowResponseExampleApp
+    end
+
+    class Pages::FollowResponseExampleApp::ExamplePage < Matestack::Ui::Page
+      def response
+        components {
+          action action_config do
+            button text: "Click me!"
+          end
+        }
+      end
+
+      def action_config
+        return {
+          method: :post,
+          path: :test_models_path,
+          data: {
+            title: "A title for my new test object"
+          },
+          success: {
+            transition: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::FollowResponseExampleApp::TestModelPage < Matestack::Ui::Page
+      def response
+        components {
+          heading text: @test_model.title, size: 1
+          plain "This page has been loaded via redirect_to and follow_response."
+        }
+      end
+    end
+
+    visit "/test_models"
+
+    click_button "Click me!"
+
+    expect(page).to have_no_text "Click me"
+    expect(page).to have_text "A title for my new test object"
+    expect(page).to have_text "This page has been loaded via redirect_to and follow_response."
+
+  end
 
 end

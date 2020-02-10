@@ -55,7 +55,7 @@ describe "Form Component", type: :feature, js: true do
           render json: {
             message: "server says: something went wrong!",
             errors: @test_model.errors
-          }, status: :unproccessable_entity
+          }, status: :unprocessable_entity
         else
           render json: {
             message: "server says: form submitted successfully!"
@@ -113,10 +113,11 @@ describe "Form Component", type: :feature, js: true do
     visit "/example"
 
     fill_in "my-test-input", with: "bar"
-    click_button "Submit me!"
 
     expect_any_instance_of(FormTestController).to receive(:expect_params)
       .with(hash_including(my_object: { foo: "bar" }))
+
+    click_button "Submit me!"
 
   end
 
@@ -740,7 +741,7 @@ describe "Form Component", type: :feature, js: true do
       fill_in "password-input", with: "secret"
       fill_in "number-input", with: 123
       fill_in "textarea-input", with: "Hello \n World!"
-      click_button "Submit me!"
+      
 
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(
@@ -752,6 +753,8 @@ describe "Form Component", type: :feature, js: true do
             textarea_input: "Hello \n World!"
           }
         ))
+
+      click_button "Submit me!"
 
     end
 
@@ -899,6 +902,9 @@ describe "Form Component", type: :feature, js: true do
 
   it "can be mapped to an Active Record Model" do
 
+    Object.send(:remove_const, :TestModel)
+
+
     class TestModel < ApplicationRecord
 
       validates :description, presence:true
@@ -939,6 +945,8 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_field("title", with: "Title")
     click_button "Submit me!"
     expect(page).to have_field("title", with: "Title")
+    #page.save_screenshot
+    #p page.driver.browser.manage.logs.get(:browser)
     expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
 
     value = "#{DateTime.now}"
@@ -990,11 +998,11 @@ describe "Form Component", type: :feature, js: true do
 
         select "Array Option 2", from: "my-array-test-dropdown"
         select "Hash Option 2", from: "my-hash-test-dropdown"
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "2" }))
 
+        click_button "Submit me!"
       end
 
       it "can be initialized with value" do
@@ -1033,11 +1041,11 @@ describe "Form Component", type: :feature, js: true do
 
         select "Array Option 2", from: "my-array-test-dropdown"
         select "Hash Option 2", from: "my-hash-test-dropdown"
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "2" }))
 
+        click_button "Submit me!"
       end
 
       it "can be mapped to an Active Record Model Array Enum" do
@@ -1272,10 +1280,11 @@ describe "Form Component", type: :feature, js: true do
         check "Hash Option 1"
         check "Hash Option 2"
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: ["Array Option 2"], hash_input: ["1", "2"] }))
+
+        click_button "Submit me!"
 
       end
 
@@ -1310,10 +1319,11 @@ describe "Form Component", type: :feature, js: true do
 
         visit "/example"
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: ["Array Option 1", "Array Option 2"], hash_input: ["2"] }))
+          
+        click_button "Submit me!"
 
       end
 
@@ -1439,11 +1449,11 @@ describe "Form Component", type: :feature, js: true do
         choose('Array Option 2')
         choose('Hash Option 1')
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "1" }))
 
+        click_button "Submit me!"
       end
 
       it "can be initialized by (multiple) item(s)" do
@@ -1482,11 +1492,11 @@ describe "Form Component", type: :feature, js: true do
         expect(page).to have_field('Hash Option 1', checked: false)
         expect(page).to have_field('Hash Option 2', checked: true)
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 1", hash_input: "2" }))
 
+        click_button "Submit me!"
       end
 
       it "can be mapped to an Active Record Model Array Enum" do
@@ -1814,11 +1824,11 @@ describe "Form Component", type: :feature, js: true do
         visit "/example"
 
         fill_in "my-test-input", with: "bar"
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { foo: "bar" }))
 
+        click_button "Submit me!"
       end
     end
 
