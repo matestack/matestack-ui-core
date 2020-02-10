@@ -54,7 +54,7 @@ end
 
 ### Hide_after
 
-The `hide_after` option lets us define a timespan after which the component gets hidden.
+The `hide_after` option lets us define a timespan in milliseconds after which the component gets hidden.
 
 ```ruby
 async hide_after: 1000 do
@@ -103,7 +103,7 @@ end
 ```
 
 #### delayed defer
-`defer: 2000` means that the content of the `async` component gets requested within a separate GET request `2000ms` after initial page load is done.
+`defer: 2000` means that the content of the `async` component gets requested within a separate GET request 2000 milliseconds after initial page load is done.
 ```ruby
 async defer: 2000 do
   div id: 'my-div' do
@@ -290,7 +290,7 @@ end
 
 ### Example 4: Hide after show on event
 
-On our example page, we wrap a simple timestamp in an async component and tell it to show up when the event `my_event` gets triggered and be hidden after 1000ms.
+On our example page, we wrap a simple timestamp in an async component and tell it to show up when the event `my_event` gets triggered and be hidden after 1000 milliseconds.
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page

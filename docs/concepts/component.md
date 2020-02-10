@@ -219,6 +219,30 @@ This gets rendered into HTML as shown below. Notice that the `@foo` from the com
 To use *component instance scope slots*, first define slots within a static component:
 
 ```ruby
+class Components::Other::Component < Matestack::Ui::StaticComponent
+
+  def prepare
+    @foo = "foo from other component"
+  end
+
+  def response
+    components {
+      div id: "my-other-component" do
+        slot @options[:slots][:my_slot_from_component]
+        br
+        slot @options[:slots][:my_slot_from_page]
+        br
+        plain @foo
+      end
+    }
+  end
+
+end
+```
+
+and also in some component:
+
+```ruby
 class Components::Some::Component < Matestack::Ui::StaticComponent
 
   def prepare
@@ -247,31 +271,7 @@ class Components::Some::Component < Matestack::Ui::StaticComponent
 end
 ```
 
-And another component:
-
-```ruby
-class Components::Other::Component < Matestack::Ui::StaticComponent
-
-  def prepare
-    @foo = "foo from other component"
-  end
-
-  def response
-    components {
-      div id: "my-other-component" do
-        slot @options[:slots][:my_slot_from_component]
-        br
-        slot @options[:slots][:my_slot_from_page]
-        br
-        plain @foo
-      end
-    }
-  end
-
-end
-```
-
-Then, put both components to use on the example page:
+Then, put both components (note that some component uses other component so that's how they're both in here) to use on the example page:
 
 ```ruby
 class Pages::ExamplePage < Matestack::Ui::Page
@@ -367,7 +367,7 @@ Not a fancy example, but this is the result:
 <div id="div-on-page">
   <div id="my-component">
     foo from page
-  </div>  
+  </div>
 </div>
 ```
 
