@@ -1,5 +1,95 @@
 # Changelog
 
+## v0.7.4
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.4)
+
+[Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.4)
+
+
+### Security Fixes
+
+XSS/Script Injection
+
+--> until 0.7.3, matestack-ui-core is vulnerable to XSS/Script injection due to missing string escaping
+--> this is especially dangerous, if you render a string which was submitted via a form through `plain` or any other string rendering such as `heading size: 1, text: "..."`
+--> fixed in 0.7.4, please update immediately
+
+```ruby
+class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
+
+  class FakeUser < Struct.new(:name)
+  end
+
+  def prepare
+    @user = FakeUser.new("<script>alert('such hack many wow')</script>")
+  end
+
+  def response
+    components {
+      div do
+        heading size: 1, text: "Hello #{@user.name}" # is not escaped
+        plain "Hello #{@user.name}" # is not escaped
+      end
+    }
+  end
+end
+
+```
+
+### Improvements
+
+* On form submit, matestack form values are reset to previous values by fiedl
+--> The form component now does not reset itself when using `put`
+--> The reset behavior can now be configured (described in `form` component docs)
+
+* Dockerized core dev and test environment by jonasjabari
+--> easy local dev and test setup, cross-platform default for dev and testing
+--> CI is configured to run tests via dockerized test suite; same as local testing and good base for matrix testing (upcoming)
+--> Usage described in contribution docs
+
+* Add `follow_response` option to action component by fiedl
+--> same behavior enhancement as added to the `form` component in 0.7.3
+--> server may now decide where the transition should navigate to
+--> described in `action` component docs
+
+* Add confirm option to action component by fiedl
+--> easily add confirmation before performing an action
+--> prevent unintended delete action for example
+--> described in `action` component docs
+
+* New webpacker features by fiedl
+  * make webpacker create es5 code instead of es6 code
+  * Switch to Vue Production Mode if RAILS_ENV=staging or production
+  * Establish webpack(er) and asset-pipeline workflows
+
+--> webpacker now builds assets for asset pipline usage AND webpacker usage (both usage approaches are described in the installation docs)
+--> webpacker now builds minified versions of matestack-ui-core.js (great improvement in file size!)
+--> webpacker now builds es5 code, which is compatible with IE11
+--> when used via asset pipeline, the minified version of matestack-ui-core together with the production build of vue.js is automatically required
+--> when used via webpacker, matestack-ui-core can be used within a modern javascript workflow, importing and extending single matestack module for example
+
+* New components
+  * Add HTML `<picture>` tag to core components by pascalwengerter
+  * Add HTML `<option>` tag to core components by pascalwengerter
+  * Add HTML `<optgroup>` tag to core components by pascalwengerter
+  * Add HTML `<iframe>` tag to core components by pascalwengerter 
+  * Add HTML `<dfn>` tag to core components by pascalwengerter 
+  * Add HTML `<del>` tag to core components by pascalwengerter
+  * Add HTML `<data>` tag to core components by pascalwengerter
+  * Add HTML `<bdo>` tag to core components by pascalwengerter
+  * Add HTML `<bdi>` tag to core components by pascalwengerter
+  * Add HTML `<wbr>` tag to core components by pascalwengerter
+  * Add HTML `<samp>` tag to core components by pascalwengerter
+  * Add HTML `<u>` tag to core components by pascalwengerter 
+  * Add HTML `<template>` tag to core components by pascalwengerter
+
+
+### Bugfixes
+
+* Anchor Link Click triggers full page transition by PragTob
+
+
 ## v0.7.3
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.3)
