@@ -27,13 +27,12 @@ We love to see more and more people using and contributing to matestack-ui-core.
 * core refactoring, increased core maintainability and code quality
 * better integration in existing rails apps
 * improved documentation
-* webpacker support and npm based js dependecy management
 * improved dynamic core components (especially form components)
 
 
 ### Installation:
 
-Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](https://www.matestack.org/docs/install)
+Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](./docs/install)
 
 ### Features:
 

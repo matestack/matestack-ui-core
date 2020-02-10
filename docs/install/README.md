@@ -1,7 +1,6 @@
 # Install
 
-If your're using the classic Rails assets pipeline, this guide shows you how to
-add matestack to your Rails app.
+This guide shows you how to add matestack-ui-core to an existing rails application.
 
 ## Gemfile
 
@@ -19,15 +18,56 @@ $ bundle install
 
 ## Javascript
 
-Require 'matestack-ui-core' in your `assets/javascript/application.js`
+Matestack uses javascripts and, in particular, [vuejs](http://vuejs.org). To include these into your existing rails app, matestack supports both, [webpack](https://webpack.js.org/)([er](https://github.com/rails/webpacker/)) and the [asset pipeline](https://guides.rubyonrails.org/asset_pipeline.html).
+
+Rails 6+ apps, by default, use webpacker, rails 5 apps, by default, use the asset pipeline.
+
+### Webpacker
+
+Add 'matestack-ui-core' to your `package.json` by running:
+
+```
+$ yarn add https://github.com/matestack/matestack-ui-core#v0.7.4
+$ yarn install
+```
+
+This adds the npm package that provides the javascript files corresponding to matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
+
+Next, import 'matestack-ui-core' in your `app/javascript/packs/application.js`
+
+```js
+import MatestackUiCore from 'matestack-ui-core'
+```
+
+and compile the javascript code with webpack:
+
+```
+$ bin/webpack
+```
+
+When, in the future, you update the matestack-ui-core gem, make also sure to update the npm package as well.
+
+### Asset Pipeline
+
+If you are not using webpacker but the asset pipeline, you don't need to install a separate npm package. All required javascript libraries including vuejs are provided by matestack-ui-core ready-to-use via the asset pipeline.
+
+Require 'matestack-ui-core' in your `app/assets/javascript/application.js`
 
 ```javascript
 //= require matestack-ui-core
 ```
-Note:
 
-- **Remove turbolinks! Currently, matestack can't be used with turbolinks. This will be fixed soon**
-- Additional Webpacker integration is coming soon
+Require 'matestack-ui-core' in your `app/assets/stylesheets/application.css`
+
+```css
+/*
+ *= require matestack-ui-core
+ */
+```
+
+### Turbolinks Coming Soon
+
+At the moment, matestack-ui-core is not compatible with [turbolinks](https://github.com/turbolinks/turbolinks). Please remove or deactive turbolinks for now. We are working on turbolinks support and will add it soon. ([Issue #232](https://github.com/matestack/matestack-ui-core/issues/232))
 
 ## Matestack Folder
 
@@ -54,7 +94,7 @@ You need to add the ID "matestack_ui" to some part of your application layout (o
 
 For Example, your `app/views/layouts/application.html.erb` should look like this:
 
-```html+erb
+```erb
 <!DOCTYPE html>
 <html>
   <head>
@@ -63,6 +103,11 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
+
+    <!-- if you are using webpacker: -->
+    <%= javascript_pack_tag 'application' %>
+
+    <!-- if you are using the asset pipeline: -->
     <%= javascript_include_tag 'application' %>
   </head>
 
@@ -75,13 +120,25 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
 ```
 Don't apply the matestack_ui ID to the body tag.
 
-## Extend Asset Paths
+## Adding Support for Custom Components
 
-In order to enable custom Vue.js components, add the matestack folder to the asset paths:
+If you intend to write custom dynamic matestack components for your app, you need to make those accessible to the matestack-ui-core javscript code.
 
-`config/initializers/assets.rb`
+### Webpack
+
+When using webpack, make sure to import your custom components in `app/javascript/packs/application.js`:
+
+```js
+import MatestackUiCore from 'matestack-ui-core'
+import '../../../app/matestack/components/my_custom_component'
+```
+
+### Asset Pipeline
+
+When using the asset pipeline, add the matestack folder to the asset paths:
 
 ```ruby
+# config/initializers/assets.rb
 Rails.application.config.assets.paths << Rails.root.join('app/matestack/components')
 ```
 
