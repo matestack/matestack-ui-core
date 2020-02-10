@@ -886,6 +886,22 @@ const componentDef = {
       }
       self.data = data;
     },
+    shouldResetFormOnSuccessfulSubmit() {
+      const self = this
+      if (self.componentConfig['success'] != undefined && self.componentConfig['success']['reset'] != undefined) {
+        return self.componentConfig['success']['reset']
+      } else {
+        return self.shouldResetFormOnSuccessfulSubmitByDefault()
+      }
+    },
+    shouldResetFormOnSuccessfulSubmitByDefault() {
+      const self = this
+      if (self.componentConfig["method"] == "put") {
+        return false
+      } else {
+        return true
+      }
+    },
     perform: function(){
       const self = this
       let payload = {}
@@ -924,8 +940,11 @@ const componentDef = {
           self.$store.dispatch('navigateTo', {url: path, backwards: false})
           return;
         }
-        self.setProps(self.data, null);
-        self.initValues()
+        if (self.shouldResetFormOnSuccessfulSubmit())
+        {
+          self.setProps(self.data, null);
+          self.initValues();
+        }
         self.showInlineForm = false;
       })
       .catch(function(error){
