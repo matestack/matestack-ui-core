@@ -15,14 +15,20 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(headless disable-gpu) }
+    chromeOptions: { args: %w(headless disable-gpu no-sandbox disable-dev-shm-usage --enable-features=NetworkService,NetworkServiceInProcess) },
+    loggingPrefs: {browser: 'ALL'}
   )
+
+  # caps = Selenium::WebDriver::Remote::Capabilities.chrome(loggingPrefs:{browser: 'ALL'})
+  # browser_options = ::Selenium::WebDriver::Chrome::Options.new()
+  # browser_options.args << '--some_option' # add whatever browser args and other options you need (--headless, etc)
+
   Capybara::Selenium::Driver.new app,
     browser: :chrome,
     desired_capabilities: capabilities
 end
 
-Capybara.javascript_driver = :chrome
+Capybara.javascript_driver = :headless_chrome
 
 # Capybara.server = :webrick
 #

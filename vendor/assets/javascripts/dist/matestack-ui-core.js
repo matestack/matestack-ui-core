@@ -214,6 +214,8 @@ const componentDef = {
   }
 }
 
+
+
 let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-app', componentDef)
 
 /* harmony default export */ __webpack_exports__["default"] = (componentDef);

@@ -22,15 +22,17 @@ group :development, :test do
   gem 'capybara'
   gem 'webpacker', '~> 4.0'
   gem 'sqlite3', '~> 1.3.13'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.7'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
   gem 'pry-byebug'
   gem 'webmock'
-  gem 'webdrivers', '~> 4.1'
+  # gem 'webdrivers', '~> 4.1'
 end
 
 group :test do
   gem "generator_spec"
+  gem "rspec-retry" # repeating flaky tests
+  gem "rspec-wait", "~> 0.0.9"
 end

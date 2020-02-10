@@ -1,0 +1,17 @@
+FROM ruby:2.6.5-alpine3.9
+
+RUN gem install bundler:2.1.4
+
+RUN apk update --no-cache && \
+    apk add build-base git nodejs yarn tzdata bash sqlite-dev && \
+    mkdir -p /app
+
+WORKDIR /app
+
+COPY ./lib/ /app/lib/
+COPY matestack-ui-core.gemspec /app/
+COPY Gemfile* /app/
+RUN bundle install
+
+COPY package.json yarn* /app/
+RUN yarn install

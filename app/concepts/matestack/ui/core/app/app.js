@@ -23,6 +23,8 @@ const componentDef = {
   }
 }
 
+
+
 let component = Vue.component('matestack-ui-core-app', componentDef)
 
 export default componentDef
