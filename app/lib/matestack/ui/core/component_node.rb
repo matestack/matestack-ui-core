@@ -36,6 +36,16 @@ module Matestack::Ui::Core
         @hash[current_node]["argument"] = nil
         @hash[current_node]["included_config"] = @included_config
 
+        if args.second == :include
+          included = args.first
+        else
+          unless @included_config.nil?
+            included = @included_config
+          else
+            included = nil
+          end
+        end
+
         if meth == :isolate
           raise("isolate > only works on page level currently. component support is comming soon!")
         end
@@ -52,15 +62,15 @@ module Matestack::Ui::Core
             @hash[current_node]["argument"] = args.first
           end
 
-          if args.second == :include
-            included = args.first
-          else
-            unless @included_config.nil?
-              included = @included_config
-            else
-              included = nil
-            end
-          end
+          # if args.second == :include
+          #   included = args.first
+          # else
+          #   unless @included_config.nil?
+          #     included = @included_config
+          #   else
+          #     included = nil
+          #   end
+          # end
 
           if block_given?
             @hash[current_node]["components"] = ComponentNode.build(@component_instance, included, &block)

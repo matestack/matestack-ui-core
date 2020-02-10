@@ -2,7 +2,265 @@
 
 Show [specs](/spec/usage/components/form_spec.rb)
 
+The `form` core component is a vue.js driven dynamic component. It enables you to implement dynamic forms without writing javascript. It relies on child components to collect and submit user input: `form_input`, `form_select` and `form_submit`. They are described within this documentation page.
+
 ## Parameters
+
+The core form component accepts the following parameters. Pass them in as a hash like so:
+
+```ruby
+class ExamplePage < Matestack::Ui::Page
+
+  def response
+    components {
+      form some_form_config, :include do
+        #...
+      end
+    }
+  end
+
+  def some_form_config
+    {
+      for: :my_object,
+      method: :post,
+      path: :success_form_test_path,
+      #...
+    }
+  end
+
+end
+```
+
+Don't forget to add the special keyword `:include`! This enables the form_* child components to access the configuration of ther parent `form` component.
+
+### For
+
+The `form` component wraps the input in an object. The name of this object can be set in multiple ways:
+
+#### set as a symbol
+
+```ruby
+for: :my_object
+```
+
+```ruby
+form some_form_config, :include do
+  form_input key: :some_input_key, type: :text
+end
+```
+
+When submitting this form, the `form` component will perform a request with a payload like this:
+
+```ruby
+my_object: {
+  some_input_key: "foo"
+}
+```
+
+
+#### set by Active Record class name
+
+```ruby
+@my_model = MyActiveRecordModel.new
+#...
+for: @my_model
+```
+
+```ruby
+form some_form_config, :include do
+  form_input key: :some_model_attribute, type: :text
+end
+```
+
+When submitting this form, the `form` component will perform a request with a payload like this:
+
+```ruby
+my_active_record_model: {
+  some_model_attribute: "foo"
+}
+```
+
+Please be aware that if you use an Active Record model, the keys of the input components should match a model attribute/method. The form automatically tries to prefill the form inputs through calling the keys as methods on the model.
+
+### Method
+
+This specifies which kind of HTTP method should get triggered. It accepts a symbol like so:
+
+```ruby
+method: :post
+```
+
+### Path
+
+This parameter accepts a classic Rails path, usually in the form of a symbol like so:
+
+```ruby
+path: :action_test_path
+```
+
+### Params
+
+Using the standard Rails params, we can pass information to our route!
+
+```ruby
+params: { id: 42 }
+```
+
+
+### Success
+
+The success part of the `form` component gets triggered once the controller action we wanted to call returns a success code, usually the `2xx` HTTP status code.
+
+
+#### Emit event
+
+To trigger further behavior, we can configure the success part of a `form` to emit a message like so:
+
+```ruby
+success: {
+  emit: 'my_action_success'
+}
+```
+
+#### Perform transition
+
+We can also perform a transition that only gets triggered on success and also accepts further params:
+
+```ruby
+success: {
+  emit: 'my_action_success',
+  transition: {
+    path: :action_test_page2_path,
+    params: { id: 42 }
+  }
+}
+```
+
+When the server redirects to a url, for example after creating a new record, the transition needs to be configured to follow this redirect of the server response.
+
+```ruby
+success: {
+  emit: 'my_action_success',
+  transition: {
+    follow_response: true
+  }
+}
+```
+
+A controller action that would create a record and then respond with the url the page should transition to, could look like this:
+
+```ruby
+class TestModelsController < ApplicationController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def create
+    @test_model = TestModel.create(test_model_params)
+
+    render json: {
+      transition_to: test_model_path(@test_model)
+    }, status: :ok
+  end
+end
+```
+
+#### Reset form
+
+If submitted successfully, the `form` component resets its state by default when using the "post" method. When using the "put" method, the state is not resetted by default. You may control this behavior explictly by using the `reset` option:
+
+```ruby
+method: :post
+success: {
+  emit: 'my_action_success',
+  reset: false #default true when using the :post method when submitted successfully
+}
+```
+
+```ruby
+method: :put
+success: {
+  emit: 'my_action_success',
+  reset: true #default false when using the :put method when submitted successfully
+}
+```
+
+
+### Failure
+
+As counterpart to the success part of the `form` component, there is also the possibility to define the failure behavior. This is what gets triggered after the response to our `form` submit returns a failure code, usually in the range of `400` or `500` HTTP status codes.
+
+#### Emit event
+
+To trigger further behavior, we can configure the failure part of an action to emit a message like so:
+
+```ruby
+failure: {
+  emit: 'my_action_failure'
+}
+```
+
+
+#### Perform transition
+
+We can also perform a transition that only gets triggered on failure:
+
+```ruby
+failure: {
+  emit: 'my_action_failure',
+  transition: {
+    path: :root_path
+  }
+}
+```
+
+#### Reset form
+
+The `form` component does not reset its state by default when not submitted successfully. You may control this behavior explictly by using the `reset` option:
+
+```ruby
+method: :post
+failure: {
+  emit: 'my_action_failure',
+  reset: true #default false when using the :post method and not successful
+}
+```
+
+```ruby
+method: :put
+failure: {
+  emit: 'my_action_failure',
+  reset: true #default false when using the :put method and not successful
+}
+```
+
+
+### ID (optional)
+
+This parameter accepts a string of ids that the action component should have:
+
+```ruby
+id: 'my-action-id'
+```
+
+which renders as an HTML `id` attribute, like so:
+
+```html
+<a id="my-action-id">...</a>
+```
+
+### Class (optional)
+
+This parameter accepts a string of classes that the action component should have:
+
+```ruby
+class: 'my-action-class'
+```
+
+which renders as an HTML `class` attribute, like so:
+
+```html
+<a class="my-action-class">...</a>
+```
+
 
 ## Examples
 
@@ -44,7 +302,7 @@ class ModelFormTestController < ApplicationController
       render json: {
         message: 'server says: something went wrong!',
         errors: @test_model.errors
-      }, status: :unproccessable_entity
+      }, status: :unprocessable_entity
     else
       render json: {
         message: 'server says: form submitted successfully!'
@@ -308,7 +566,7 @@ def model_submit
     render json: {
       message: 'server says: something went wrong!',
       errors: @test_model.errors
-    }, status: :unproccessable_entity
+    }, status: :unprocessable_entity
   else
     render json: {
       message: 'server says: form submitted successfully!',

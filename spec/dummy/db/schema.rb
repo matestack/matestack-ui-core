@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201904271340012) do
+ActiveRecord::Schema.define(version: 2019_09_08_153924) do
+
+  create_table "dummy_child_models", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "status"
+    t.text "some_data"
+    t.text "more_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "dummy_model_id"
+    t.index ["dummy_model_id"], name: "index_dummy_child_models_on_dummy_model_id"
+  end
 
   create_table "dummy_models", force: :cascade do |t|
     t.string "title"

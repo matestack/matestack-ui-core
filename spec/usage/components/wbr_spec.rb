@@ -28,8 +28,8 @@ describe 'Wbr component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-      <p>First part of text<wbr>Second part of text</p>
-      <p>First part of second text<wbr id="special" class="nice-wbr">Second part of second text</p>
+      <p>First part of text<wbr/>Second part of text</p>
+      <p>First part of second text<wbr id="special" class="nice-wbr"/>Second part of second text</p>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))

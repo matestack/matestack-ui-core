@@ -23,9 +23,9 @@ describe 'Param component', type: :feature, js: true do
     static_output = page.html
 
     expected_static_output = <<~HTML
-      <param>
-      <param name="autoplay" value="true">
-      <param id="my-id" name="autoplay" value="true" class="my-class">
+      <param/>
+      <param name="autoplay" value="true"/>
+      <param id="my-id" name="autoplay" value="true" class="my-class"/>
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
