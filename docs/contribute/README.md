@@ -22,6 +22,7 @@ Feel free to take a look at other examples and copy their structure!
 Note: We will not approve pull requests that introduce new concepts or components without documentation. Same goes for existing concepts & components.
 If you change the behavior of an existing part of this project, make sure to also update the corresponding part of the documentation!
 
+
 ## Dockerized Core Dev
 
 We dockerized the core development in order to make it as convenient as possible to contribute to matestack-ui-core.
@@ -93,13 +94,6 @@ Otherwise the generated files will be owned by the `root` user and are only writ
 
 ## Core Components Generator
 
-Core Components are an essential part of the `matestack-ui-core` gem.
-If you are planning to contribute to Matestack you can start doing that by creating a core component. To help you getting started you can use the Core Component Generator.
-
-The generator will create a matestack core component to `app/concepts/matestack/ui/core`.
-
-Example:
-
 ```bash
 CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bash
 rails generate matestack:core:component div
@@ -116,34 +110,49 @@ docs/components/div.md
 
 ## Dockerized Test Env
 
+bundle install
+yarn install
+cd spec/dummy
+yarn install # dependencies for the dummy app in testing
+cd ../..
+
+bundle exec rake db:create
+bundle exec rake db:schema:load
+```
+
+## Tests
+
 To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
 
 ```shell
 docker-compose run --rm test bash
 bundle exec rake db:setup #once initially
 bundle exec rspec spec/usage/components
+
 ```
 
 Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
 
-### Note: Running tests on macOS
+## Core Components
 
-Make sure you have installed `chromedriver` on your machine. You can install `chromedriver` via `brew` with
+Core Components are an essential part of the `matestack-ui-core` gem.
+If you are planning to contribute to Matestack you can start doing that by creating a core component. To help you getting started you can use the Core Component Generator.
 
-```shell
-brew cask install chromedriver
+The generator will create a matestack core component to `app/concepts/matestack/ui/core`.
+
+Example:
+
+```bash
+rails generate matestack:core:component div
 ```
 
-You can then run your the testsuite with `bundle exec rspec`.
+This will create a component for the HTML `<div>` tag and will generate the following files:
 
-If you get an error about a version mismatch similar to this one:
-
-`Chrome version must be between X and Y (Driver info: chromedriver=X.Y.Z)`
-
-Make sure you update your chromedriver by executing this command in the project root:
-
-```shell
-rails app:webdrivers:chromedriver:update
+```bash
+app/concepts/matestack/ui/core/div/div.haml
+app/concepts/matestack/ui/core/div/div.rb
+spec/usage/components/div_spec.rb
+docs/components/div.md
 ```
 
 ## Release

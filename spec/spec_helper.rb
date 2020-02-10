@@ -41,7 +41,6 @@ require 'pry'
 require 'rspec/retry'
 require "rspec/wait"  
 
-
 RSpec.configure do |config|
   # repeat flaky tests
   # show retry status in spec process
