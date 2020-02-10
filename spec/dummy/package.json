@@ -2,7 +2,8 @@
   "name": "dummy",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "4.2.2"
+    "@rails/webpacker": "4.2.2",
+    "matestack-ui-core": "../../"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.2"
