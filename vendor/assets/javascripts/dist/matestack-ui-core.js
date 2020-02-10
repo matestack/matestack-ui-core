@@ -1308,12 +1308,19 @@ window.MatestackUiCore = MatestackUiCore;
 /*!****************************************************!*\
   !*** ../app/javascript/packs/matestack-ui-core.js ***!
   \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(/*! ../matestack-ui-core/index */ "../app/javascript/matestack-ui-core/index.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _matestack_ui_core_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../matestack-ui-core/index */ "../app/javascript/matestack-ui-core/index.js");
+// // Add polyfills for the asset pipeline
+// // https://github.com/matestack/matestack-ui-core/issues/238#issuecomment-583905838
+//
+// import 'core-js/stable'
+// import 'regenerator-runtime/runtime'
 
-module.exports = MatestackUiCore;
+/* harmony default export */ __webpack_exports__["default"] = (MatestackUiCore);
 
 /***/ }),
 
@@ -2542,7 +2549,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "../node_modules/axios/lib/helpers/bind.js");
 
-var isBuffer = __webpack_require__(/*! is-buffer */ "../node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
 /*global toString:true*/
 // utils is a library of generic helper functions non-specific to axios
 
@@ -2862,25 +2869,6 @@ module.exports = {
   merge: merge,
   extend: extend,
   trim: trim
-};
-
-/***/ }),
-
-/***/ "../node_modules/is-buffer/index.js":
-/*!******************************************!*\
-  !*** ../node_modules/is-buffer/index.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-module.exports = function isBuffer(obj) {
-  return obj != null && obj.constructor != null && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj);
 };
 
 /***/ }),
@@ -15969,6 +15957,36 @@ var index_esm = {
 /* harmony default export */ __webpack_exports__["default"] = (index_esm);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../builder/node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/is-buffer/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/is-buffer/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
+};
+
+function isBuffer(obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj);
+} // For Node v0.10 support. Remove this eventually.
+
+
+function isSlowBuffer(obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0));
+}
 
 /***/ }),
 
