@@ -517,14 +517,14 @@ describe "Form Component", type: :feature, js: true do
           {
             for: @test_model,
             method: :put,
-            path: "/test_models/#{@test_model.id}",
+            path: "/some_test_models/#{@test_model.id}",
             success: { emit: "update_successful" },
             failure: { emit: "form_has_errors" }
           }
         end
       end
 
-      class TestModelsController < ApplicationController
+      class SomeTestModelsController < ApplicationController
         include Matestack::Ui::Core::ApplicationHelper
 
         def show
@@ -552,7 +552,7 @@ describe "Form Component", type: :feature, js: true do
       end
 
       Rails.application.routes.draw do
-        resources :test_models
+        resources :some_test_models
       end
     end
 
@@ -563,7 +563,7 @@ describe "Form Component", type: :feature, js: true do
     specify do
       test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
 
-      visit Rails.application.routes.url_helpers.test_model_path(test_model)
+      visit Rails.application.routes.url_helpers.some_test_model_path(test_model)
       expect(find_field(:title).value).to eq "Foo"
 
       fill_in :title, with: "Bar"
