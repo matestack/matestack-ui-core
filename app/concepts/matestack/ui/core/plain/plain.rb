@@ -2,7 +2,7 @@ module Matestack::Ui::Core::Plain
   class Plain < Matestack::Ui::Core::Component::Static
 
     def show
-      @argument
+      html_escape @argument
     end
 
   end
