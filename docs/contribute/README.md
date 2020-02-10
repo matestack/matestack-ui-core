@@ -148,20 +148,14 @@ rails app:webdrivers:chromedriver:update
 
 ## Release
 
-Webpacker is used for managing all JS assets. In order to deploy a packed JS, we use a "builder" app found in `repo_root/builder`. This builder app uses a symlink in order to reference the actual core found in `builder/vendor`.
-
-You can run webpacker inside this builder app to pack JS assets:
+[Webpacker](https://github.com/rails/webpacker) is used for managing all JS assets. In order to create production-ready assets, run the [task](https://github.com/matestack/matestack-ui-core/blob/master/Rakefile)
 
 ```shell
-cd builder
-
-./bin/webpack
-
-#or
-
-./bin/webpack --watch
+bin/rails webpack
 ```
 
-All webpack configuration can be found within the builder folder.
+from the matestack-ui-core repository root folder. The assets will be exported to [`vendor/assets/javascripts/dist`](https://github.com/matestack/matestack-ui-core/tree/master/vendor/assets/javascripts/dist).
 
-For further webpacker documentation: [webpacker](https://github.com/rails/webpacker)
+Under the hood, we use a "builder" app in the [`builder`](https://github.com/matestack/matestack-ui-core/tree/master/builder) folder in order to run webpacker and create the assets. Its webpack(er) configuration can be found in [`builder/config`](https://github.com/matestack/matestack-ui-core/tree/master/builder/config).
+
+When creating a new matestack-ui-core release, make sure to also change the version number accordingly in [`package.json`](https://github.com/matestack/matestack-ui-core/blob/master/package.json) and to create a corresponding [version tag on github](https://github.com/matestack/matestack-ui-core/tags).
