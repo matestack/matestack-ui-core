@@ -22,18 +22,94 @@ Feel free to take a look at other examples and copy their structure!
 Note: We will not approve pull requests that introduce new concepts or components without documentation. Same goes for existing concepts & components.
 If you change the behavior of an existing part of this project, make sure to also update the corresponding part of the documentation!
 
-## Setup
 
-Assuming you have ruby and bundler already installed.
+## Dockerized Core Dev
 
-1. [Install yarn](https://legacy.yarnpkg.com/lang/en/docs/install/)
-2. Install [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/) (needed for running tests)
-  * on Mac it can be installed via `brew cask install chromedriver`, when you get an error about version mismatch like `Chrome version must be between X and Y (Driver info: chromedriver=X.Y.Z)` you should be able to update it via `rails app:webdrivers:chromedriver:update`
-  * on Linux you need to check the package name, on Ubuntu it's `sudo apt-get install chromium-chromedriver`
-3. Install [sqlite](https://www.sqlite.org/) (needed for test execution against a rails app)
+We dockerized the core development in order to make it as convenient as possible to contribute to matestack-ui-core.
 
+You will need to install docker and docker-compose:
+
+* [Install Docker on Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-convenience-script)
+* [Install docker-compose](https://docs.docker.com/compose/install/)
+
+### Setup Database and Yarn Packages
+
+In order to migrate the database and install yarn packages, do:
+
+```shell
+docker-compose run --rm dummy bundle exec rake db:setup
+docker-compose run --rm dummy yarn install
+docker-compose run --rm dummy sh -c "cd builder && yarn install"
+docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
+```
+If you already created sqlite files locally in `spec/dummy/db`, the command `docker-compose run --rm dummy bundle exec rake db:migrate` will fail. Please remove the locally created sqlite files and rerun `docker-compose run --rm dummy bundle exec rake db:migrate`
+
+You might need to redo these steps if new migrations or yarn packages are added/updated.
+
+### Run the Dummy App
+
+The dummy app provides a good playground for matestacks core development. The source code can be found and manipulated (be careful what you commit) at `spec/dummy`. Run it like seen below:
+
+```shell
+docker-compose up dummy
+```
+
+Visit `localhost:3000/sandbox/hello` in order to visit the sandbox page. It lives in `spec/dummy/app/matestack/pages/sandbox/hello.rb`. Feel free to modify it and play around with components and concepts. Just don't push your local changes to the remote repo.
+
+Visit `localhost:3000/my_app/my_first_page` in order to visit some example use cases. The pages live in `spec/dummy/app/matestack/pages/my_app`.
+
+### Run the Webpack Watcher
+
+The builder app located in `builder/` uses webpacker in order build matestacks Javascript based on the source code found in `app/`. During development it can be used to compile the javascript when any relevant source code is changed. Run it like seen below:
+
+```shell
+docker-compose up webpack-watcher
+```
+
+### Run bundle/yarn install in a Docker container
+
+In order to execute commands such as `bundle install`, `yarn install` you need to run:
+
+```shell
+docker-compose run --rm dummy bundle install
+docker-compose run --rm dummy yarn install
+docker-compose run --rm dummy sh -c "cd spec/dummy && yarn install"
+```
+
+### Run commands as your user in a Docker container
+
+When running commands, which generates files, which then are mounted to your host filesystem, you need to tell the Docker container that it should run with your user ID.
+
+```shell
+CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bash
+
+#and then your desired command such as:
+
+rails generate matestack:core:component div
+```
+
+Otherwise the generated files will be owned by the `root` user and are only writeable when applying `sudo`.
+
+**Note:** `bundle install` and `yarn install` can't be executed inside the Docker container as the current user. `CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bundle install` will not work.
+
+## Core Components Generator
 
 ```bash
+CURRENT_UID=$(id -u):$(id -g) docker-compose run --rm dummy bash
+rails generate matestack:core:component div
+```
+
+This will create a component for the HTML `<div>` tag and will generate the following files:
+
+```bash
+app/concepts/matestack/ui/core/div/div.haml
+app/concepts/matestack/ui/core/div/div.rb
+spec/usage/components/div_spec.rb
+docs/components/div.md
+```
+
+## Dockerized Test Env
+
 bundle install
 yarn install
 cd spec/dummy
@@ -49,7 +125,10 @@ bundle exec rake db:schema:load
 To assure this project is and remains in great condition, we heavily rely on automated tests. Tests are defined in `/spec` folder and can be executed by running:
 
 ```shell
-be rspec spec/lib/ spec/usage/
+docker-compose run --rm test bash
+bundle exec rake db:setup #once initially
+bundle exec rspec spec/usage/components
+
 ```
 
 Tests follow quite the same rules as the documentation: Make sure to either add relevant tests (when introducing new concepts or components) or change existing ones to fit your changes (updating existing concepts and components). Pull requests that add/change concepts & components and do not come with corresponding tests will not be approved.
@@ -78,20 +157,14 @@ docs/components/div.md
 
 ## Release
 
-Webpacker is used for managing all JS assets. In order to deploy a packed JS, we use a "builder" app found in `repo_root/builder`. This builder app uses a symlink in order to reference the actual core found in `builder/vendor`.
-
-You can run webpacker inside this builder app to pack JS assets:
+[Webpacker](https://github.com/rails/webpacker) is used for managing all JS assets. In order to create production-ready assets, run the [task](https://github.com/matestack/matestack-ui-core/blob/master/Rakefile)
 
 ```shell
-cd builder
-
-./bin/webpack
-
-#or
-
-./bin/webpack --watch
+bin/rails webpack
 ```
 
-All webpack configuration can be found within the builder folder.
+from the matestack-ui-core repository root folder. The assets will be exported to [`vendor/assets/javascripts/dist`](https://github.com/matestack/matestack-ui-core/tree/master/vendor/assets/javascripts/dist).
 
-For further webpacker documentation: [webpacker](https://github.com/rails/webpacker)
+Under the hood, we use a "builder" app in the [`builder`](https://github.com/matestack/matestack-ui-core/tree/master/builder) folder in order to run webpacker and create the assets. Its webpack(er) configuration can be found in [`builder/config`](https://github.com/matestack/matestack-ui-core/tree/master/builder/config).
+
+When creating a new matestack-ui-core release, make sure to also change the version number accordingly in [`package.json`](https://github.com/matestack/matestack-ui-core/blob/master/package.json) and to create a corresponding [version tag on github](https://github.com/matestack/matestack-ui-core/tags).

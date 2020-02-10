@@ -1,9 +1,9 @@
 module Matestack::Ui::Core::Component
   class Dynamic < Trailblazer::Cell
-
-    include ::Cell::Haml
+    include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::ToCell
+    include Matestack::Ui::Core::HasViewContext
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
     view_paths << "#{::Rails.root}/app/matestack"

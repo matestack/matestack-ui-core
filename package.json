@@ -1,12 +1,23 @@
 {
   "name": "matestack-ui-core",
-  "version": "0.7.3",
+  "version": "0.7.4",
+  "main": "app/javascript/matestack-ui-core",
   "private": true,
   "dependencies": {
     "axios": "^0.18.1",
+    "link-module-alias": "^1.2.0",
     "v-runtime-template": "^1.5.2",
     "vue": "^2.5.17",
     "vuex": "^3.0.1",
     "yarn": "^1.17.3"
+  },
+  "exports": {
+    "./concepts/": "./app/concepts/matestack/ui/core/"
+  },  
+  "scripts": {
+    "postinstall": "link-module-alias"
+  },
+  "_moduleAliases": {
+    "+matestack-ui-core-concepts": "app/concepts/matestack/ui/core"
   }
 }

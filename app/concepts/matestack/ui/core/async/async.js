@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
-import matestackEventHub from 'js/event-hub'
-import componentMixin from 'component/component'
+import matestackEventHub from '../js/event-hub'
+import componentMixin from '../component/component'
 
 const componentDef = {
   mixins: [componentMixin],

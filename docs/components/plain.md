@@ -2,7 +2,7 @@
 
 Show [specs](/spec/usage/components/plain_spec.rb)
 
-This element simply renders the value of a variable (or simple a string) wherever you want it.
+This element simply renders the value of a variable (or simple a string) wherever you want it **escaping HTML tags** (`<` becomes `&lt;` etc.).
 
 ## Parameters
 

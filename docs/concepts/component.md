@@ -8,7 +8,7 @@ This document aims to give a brief introducing to the different kinds of compone
 
 ## Core Components
 
-See [here](/docs/components/README.md) for a list of available `core components`. In general, they are separated into HTML-only **static** components and **dynamic** components that come with Javascript-powered, dynamic behaviour.
+See [here](/docs/components/README.md) for a list of available `core components`. In general, they are separated into HTML-only **static** components and **dynamic** components that come with Javascript-powered, dynamic behavior.
 
 If you miss a component that you think we're missing in the `core components` right now, [create an issue](https://github.com/basemate/matestack-ui-core/issues/new) in our GitHub!
 

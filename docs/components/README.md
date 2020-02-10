@@ -12,15 +12,20 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [article](/docs/components/article.md)
 - [aside](/docs/components/aside.md)
 - [b](/docs/components/b.md)
+- [bdi](/docs/components/bdi.md)
+- [bdi](/docs/components/bdo.md)
 - [blockquote](/docs/components/blockquote.md)
 - [br](/docs/components/br.md)
 - [button](/docs/components/button.md)
 - [caption](/docs/components/caption.md)
 - [cite](/docs/components/cite.md)
 - [code](/docs/components/code.md)
+- [data](/docs/components/data.md)
+- [dfn](/docs/components/dfn.md)
 - [dl](/docs/components/dl.md)
   - dd
   - dt
+- [dialog](/docs/components/dialog.md)
 - [div](/docs/components/div.md)
 - [em](/docs/components/em.md)
 - [fieldset](/docs/components/fieldset.md)
@@ -47,10 +52,13 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [nav](/docs/components/nav.md)
 - [noscript](/docs/components/noscript.md)
 - [object](/docs/components/object.md)
+- [optgroup](/docs/components/optgroup.md)
+- [option](/docs/components/option.md)
 - [output](/docs/components/output.md)
 - [paragraph](/docs/components/paragraph.md)
 - [param](/docs/components/param.md)
 - [pg](/docs/components/pg.md)
+- [picture](/docs/components/picture.md)
 - [plain](/docs/components/plain.md)
 - [pre](/docs/components/pre.md)
 - [progress](/docs/components/progress.md)
@@ -59,6 +67,7 @@ You can build your [own components](/docs/extend/README.md) as well, both static
 - [rt](/docs/components/rt.md)
 - [ruby](/docs/components/ruby.md)
 - [s](/docs/components/s.md)
+- [samp](/docs/components/samp.md)
 - [section](/docs/components/section.md)
 - [small](/docs/components/small.md)
 - [span](/docs/components/span.md)
@@ -69,9 +78,12 @@ You can build your [own components](/docs/extend/README.md) as well, both static
   - th
   - tr
   - td
+- [template](/docs/components/template.md)
+- [u](/docs/components/u.md)
 - [var](/docs/components/var.md)
 - [video](/docs/components/video.md)
 - [youtube](/docs/components/youtube.md)
+- [wbr](/docs/components/wbr.md)
 
 ## Dynamic Core Components
 

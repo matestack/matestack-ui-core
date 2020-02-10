@@ -26,7 +26,7 @@ include Utils
      static_output = page.html
 
      expected_static_output = <<~HTML
-    <address>Codey McCodeface<br>1 Developer Avenue<br>Techville</address>
+    <address>Codey McCodeface<br/>1 Developer Avenue<br/>Techville</address>
     HTML
 
      expect(stripped(static_output)).to include(stripped(expected_static_output))

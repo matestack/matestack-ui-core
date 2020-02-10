@@ -28,4 +28,26 @@ describe 'Absolute Component', type: :feature, js: true do
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
 
+  describe "XSSing" do
+    it "escaping" do
+      class ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            absolute top: 50, left: '50px;">' + XSS::EVIL_SCRIPT, right: 50, bottom: 100, z: 3 do
+              plain 'I am absolute content'
+            end
+          }
+        end
+
+      end
+
+      visit '/example'
+
+      static_output = page.html
+
+      expect(static_output).not_to include("alert")
+    end
+  end
+
 end

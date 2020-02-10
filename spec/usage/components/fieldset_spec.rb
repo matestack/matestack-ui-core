@@ -33,17 +33,17 @@ describe 'Fieldset Component', type: :feature, js: true do
     expected_html_output = <<~HTML
       <fieldset>
         <legend>input legend</legend>
-        <input>
+        <input/>
       </fieldset>
       
       <fieldset id="world" class="foo">
       <legend id="bar" class="hello">input legend</legend>
-      <input>
+      <input/>
       </fieldset>
       
       <fieldset disabled="disabled">
         <legend>input legend</legend>
-        <input>
+        <input/>
       </fieldset>
 
     HTML

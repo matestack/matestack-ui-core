@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/matestack/matestack-ui-core.svg?style=shield)](https://circleci.com/gh/matestack/matestack-ui-core)
+![](https://github.com/matestack/matestack-ui-core/workflows/specs/badge.svg)
 [![Gitter](https://badges.gitter.im/basemate/community.svg)](https://gitter.im/basemate/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
 [![Docs](https://img.shields.io/badge/docs-matestack-blue.svg)](https://www.matestack.org/docs/install)
@@ -22,19 +22,18 @@ dynamic Web-App.
 
 ### Current State: 
 
-We love to see more and more people using and contributing to matestack-ui-core. Our current version is 0.7.3 and it's not perfect yet. We recommend you to start using matestack-ui-core in a side project and report issues as this helps us to push matestack-ui-core towards a production ready 1.0.0. At matestack, we already use matestack-ui-core in production as we know how to handle current issues and bypass them with deep insights of the core implementation. We plan to invest time and money (yes, we're hiring) on following improvements:
+We love to see more and more people using and contributing to matestack-ui-core. Our current version is 0.7.4 and it's not perfect yet. We recommend you to start using matestack-ui-core in a side project and report issues as this helps us to push matestack-ui-core towards a production ready 1.0.0. At matestack, we already use matestack-ui-core in production as we know how to handle current issues and bypass them with deep insights of the core implementation. We plan to invest time and money (yes, we're hiring) on following improvements:
 
 * debugging and error handling
 * core refactoring, increased core maintainability and code quality
 * better integration in existing rails apps
 * improved documentation
-* webpacker support and npm based js dependecy management
 * improved dynamic core components (especially form components)
 
 
 ### Installation:
 
-Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](https://www.matestack.org/docs/install)
+Click here to see how you can add Matestack UI to your existing Rails application: [Installation Guide](./docs/install)
 
 ### Features:
 
@@ -43,7 +42,7 @@ Click here to see how you can add Matestack UI to your existing Rails applicatio
 class Pages::MyPage < Matestack::Ui::Page
 
   def prepare
-    @technologies = ["Rails", "Vue.js", "Trailblazer", "Rspec", "Capybara"]
+    @technologies = ["Rails", "Vue.js", "Trailblazer", "RSpec", "Capybara"]
   end
 
   def response

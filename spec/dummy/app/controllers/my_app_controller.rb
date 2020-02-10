@@ -44,7 +44,7 @@ class MyAppController < ApplicationController
       render json: {
         errors: @dummy_model.errors,
         message: "Test Model could not be saved!"
-      }, status: :unproccessable_entity
+      }, status: :unprocessable_entity
     else
       broadcast "test_model_created"
       render json: @dummy_model, status: :created
@@ -58,7 +58,7 @@ class MyAppController < ApplicationController
       render json: {
         errors: @dummy_model.errors,
         message: "Test Model could not be saved!"
-      }, status: :unproccessable_entity
+      }, status: :unprocessable_entity
     else
       broadcast "test_model_created"
       render json: @dummy_model, status: :created
@@ -74,7 +74,7 @@ class MyAppController < ApplicationController
       render json: {
         errors: @dummy_model.errors,
         message: "Test Model could not be deleted!"
-        }, status: :unproccessable_entity
+        }, status: :unprocessable_entity
     end
 
   end

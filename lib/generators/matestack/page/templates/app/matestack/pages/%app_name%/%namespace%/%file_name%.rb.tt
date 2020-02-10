@@ -8,7 +8,8 @@ class Pages::<% unless namespace.nil? %><%= namespace.camelize %>::<% end %><% u
   def response
     components {
       heading text: 'Welcome to your <%= class_name %> page'
-      page_content
+      # your page content goes here, e.g.
+      # partial :partial_example
     }
   end
 

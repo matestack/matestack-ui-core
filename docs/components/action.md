@@ -38,6 +38,22 @@ data: {
 }
 ```
 
+### Confirm
+
+When specified, a [browser-native confirm dialog](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) is shown before the action is actually performed. The action only is performed after the user confirms. The action is not performed if the user declines to confirm dialog.
+
+```ruby
+confirm: {
+  text: "Do you really want to delete this item?"
+}
+```
+
+If no `text` is given, the default text "Are you sure?" will be used.
+
+```ruby
+confirm: true
+```
+
 ### Success
 
 The success part of the action component gets triggered once the action we wanted to perform returns a success code, usually the `200` HTTP status code.
@@ -60,6 +76,33 @@ success: {
     params: { id: 42 }
   }
 }
+```
+
+When the server redirects to a url, for example after creating a new record, the transition needs to be configured to follow this redirect of the server response.
+
+```ruby
+success: {
+  emit: 'my_action_success',
+  transition: {
+    follow_response: true
+  }
+}
+```
+
+A controller action that would create a record and then respond with the url the page should transition to, could look like this:
+
+```ruby
+class TestModelsController < ApplicationController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def create
+    @test_model = TestModel.create(test_model_params)
+
+    render json: {
+      transition_to: test_model_path(@test_model)
+    }, status: :ok
+  end
+end
 ```
 
 ### Failure

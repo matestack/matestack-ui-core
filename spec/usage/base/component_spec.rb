@@ -297,9 +297,9 @@ describe "Component", type: :feature, js: true do
 
     end
 
-    it "components can use async component to wrap static components and add basic dynamic behaviour" #not working right now
+    it "components can use async component to wrap static components and add basic dynamic behavior" #not working right now
 
-    it "pages can use async component to wrap static components and add basic dynamic behaviour" do
+    it "pages can use async component to wrap static components and add basic dynamic behavior" do
 
       module Matestack::Ui::Core::SomeStaticComponent
         class SomeStaticComponent < Matestack::Ui::StaticComponent
@@ -345,7 +345,6 @@ describe "Component", type: :feature, js: true do
       after_content = element.text
 
       expect(before_content).not_to eq(after_content)
-
     end
 
     it "components can render dynamic content with vue.js involved if inherit from 'Matestack::Ui::DynamicComponent'" do

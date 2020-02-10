@@ -55,7 +55,7 @@ describe "Form Component", type: :feature, js: true do
           render json: {
             message: "server says: something went wrong!",
             errors: @test_model.errors
-          }, status: :unproccessable_entity
+          }, status: :unprocessable_entity
         else
           render json: {
             message: "server says: form submitted successfully!"
@@ -113,10 +113,11 @@ describe "Form Component", type: :feature, js: true do
     visit "/example"
 
     fill_in "my-test-input", with: "bar"
-    click_button "Submit me!"
 
     expect_any_instance_of(FormTestController).to receive(:expect_params)
       .with(hash_including(my_object: { foo: "bar" }))
+
+    click_button "Submit me!"
 
   end
 
@@ -486,6 +487,219 @@ describe "Form Component", type: :feature, js: true do
 
   end
 
+  describe "Example 6 - Async submit update request with success, which does not reset the input fields" do
+    # https://github.com/basemate/matestack-ui-core/issues/304
+
+    # This example uses the `TestModel` with attributes `title` and `description`
+    # defined in `spec/dummy/app/models/test_model.rb`.
+
+    before do
+      class Pages::TestModelPage < Matestack::Ui::Page
+        def response
+          components {
+            form form_config, :include do
+              form_input id: 'title', key: :title, type: :text
+              form_input id: 'description', key: :description, type: :text
+              form_submit { button text: "Save" }
+            end
+            async show_on: "form_has_errors", hide_after: 5000 do
+              plain "Form has errors"
+            end
+            async show_on: "update_successful", hide_after: 5000 do
+              plain "Update successful"
+            end
+          }
+        end
+
+        private
+
+        def form_config
+          {
+            for: @test_model,
+            method: :put,
+            path: "/some_test_models/#{@test_model.id}",
+            success: { emit: "update_successful" },
+            failure: { emit: "form_has_errors" }
+          }
+        end
+      end
+
+      class SomeTestModelsController < ApplicationController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def show
+          @test_model = TestModel.find params[:id]
+          responder_for Pages::TestModelPage
+        end
+
+        def update
+          @test_model = TestModel.find params[:id]
+          @test_model.update test_model_params
+          if @test_model.errors.any?
+            render json: {
+              errors: user.errors
+            }, status: :unproccessable_entity
+          else
+            render json: {}, status: :ok
+          end
+        end
+
+        protected
+
+        def test_model_params
+          params.require(:test_model).permit(:title, :description)
+        end
+      end
+
+      Rails.application.routes.draw do
+        resources :some_test_models
+      end
+    end
+
+    after do
+      Rails.application.reload_routes!
+    end
+
+    specify do
+      test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
+
+      visit Rails.application.routes.url_helpers.some_test_model_path(test_model)
+      expect(find_field(:title).value).to eq "Foo"
+
+      fill_in :title, with: "Bar"
+      fill_in :description, with: "This is a equally nice bar!"
+      click_on "Save"
+
+      expect(page).to have_text "Update successful"
+      expect(find_field(:title).value).to eq "Bar"
+      expect(find_field(:description).value).to eq "This is a equally nice bar!"
+    end
+  end
+
+  describe "Example 6.1 - Async submit with success configured to reset the input fields" do
+    # https://github.com/matestack/matestack-ui-core/pull/314#discussion_r362826471
+
+    before do
+      class Pages::SearchPage < Matestack::Ui::Page
+        def response
+          components {
+            form form_config, :include do
+              form_input id: 'query', key: :query, type: :text
+              form_submit { button text: "Search" }
+            end
+            async show_on: "form_has_errors", hide_after: 5000 do
+              plain "Form has errors"
+            end
+            async show_on: "submission_successful", hide_after: 5000 do
+              plain "Submission successful"
+            end
+          }
+        end
+
+        private
+
+        def form_config
+          {
+            for: :search,
+            method: :get,
+            path: "#",
+            success: { emit: "submission_successful", reset: true },
+            failure: { emit: "form_has_errors" }
+          }
+        end
+      end
+
+      class SearchesController < ApplicationController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def index
+          responder_for Pages::SearchPage
+        end
+      end
+
+      Rails.application.routes.draw do
+        get 'search', to: 'searches#index'
+      end
+    end
+
+    after do
+      Rails.application.reload_routes!
+    end
+
+    specify do
+      visit "/search"
+      expect(find_field(:query).value).to eq ""
+
+      fill_in :query, with: "Bar"
+      click_on "Search"
+
+      expect(page).to have_text "Submission successful"
+      expect(find_field(:query).value).to eq ""
+    end
+  end
+
+  describe "Example 6.2 - Async submit with success configured not to reset the input fields" do
+    # https://github.com/matestack/matestack-ui-core/pull/314#discussion_r362826471
+
+    before do
+      class Pages::SearchPage < Matestack::Ui::Page
+        def response
+          components {
+            form form_config, :include do
+              form_input id: 'query', key: :query, type: :text
+              form_submit { button text: "Search" }
+            end
+            async show_on: "form_has_errors", hide_after: 5000 do
+              plain "Form has errors"
+            end
+            async show_on: "submission_successful", hide_after: 5000 do
+              plain "Submission successful"
+            end
+          }
+        end
+
+        private
+
+        def form_config
+          {
+            for: :search,
+            method: :get,
+            path: "#",
+            success: { emit: "submission_successful", reset: false },
+            failure: { emit: "form_has_errors" }
+          }
+        end
+      end
+
+      class SearchesController < ApplicationController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def index
+          responder_for Pages::SearchPage
+        end
+      end
+
+      Rails.application.routes.draw do
+        get 'search', to: 'searches#index'
+      end
+    end
+
+    after do
+      Rails.application.reload_routes!
+    end
+
+    specify do
+      visit "/search"
+      expect(find_field(:query).value).to eq ""
+
+      fill_in :query, with: "Bar"
+      click_on "Search"
+
+      expect(page).to have_text "Submission successful"
+      expect(find_field(:query).value).to eq "Bar"
+    end
+  end
+
   describe "Form Input Component" do
 
     it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea' type" do
@@ -527,7 +741,7 @@ describe "Form Component", type: :feature, js: true do
       fill_in "password-input", with: "secret"
       fill_in "number-input", with: 123
       fill_in "textarea-input", with: "Hello \n World!"
-      click_button "Submit me!"
+      
 
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(
@@ -539,6 +753,8 @@ describe "Form Component", type: :feature, js: true do
             textarea_input: "Hello \n World!"
           }
         ))
+
+      click_button "Submit me!"
 
     end
 
@@ -686,6 +902,9 @@ describe "Form Component", type: :feature, js: true do
 
   it "can be mapped to an Active Record Model" do
 
+    Object.send(:remove_const, :TestModel)
+
+
     class TestModel < ApplicationRecord
 
       validates :description, presence:true
@@ -726,6 +945,8 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_field("title", with: "Title")
     click_button "Submit me!"
     expect(page).to have_field("title", with: "Title")
+    #page.save_screenshot
+    #p page.driver.browser.manage.logs.get(:browser)
     expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
 
     value = "#{DateTime.now}"
@@ -777,11 +998,11 @@ describe "Form Component", type: :feature, js: true do
 
         select "Array Option 2", from: "my-array-test-dropdown"
         select "Hash Option 2", from: "my-hash-test-dropdown"
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "2" }))
 
+        click_button "Submit me!"
       end
 
       it "can be initialized with value" do
@@ -820,11 +1041,11 @@ describe "Form Component", type: :feature, js: true do
 
         select "Array Option 2", from: "my-array-test-dropdown"
         select "Hash Option 2", from: "my-hash-test-dropdown"
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "2" }))
 
+        click_button "Submit me!"
       end
 
       it "can be mapped to an Active Record Model Array Enum" do
@@ -1059,10 +1280,11 @@ describe "Form Component", type: :feature, js: true do
         check "Hash Option 1"
         check "Hash Option 2"
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: ["Array Option 2"], hash_input: ["1", "2"] }))
+
+        click_button "Submit me!"
 
       end
 
@@ -1097,10 +1319,11 @@ describe "Form Component", type: :feature, js: true do
 
         visit "/example"
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: ["Array Option 1", "Array Option 2"], hash_input: ["2"] }))
+          
+        click_button "Submit me!"
 
       end
 
@@ -1226,11 +1449,11 @@ describe "Form Component", type: :feature, js: true do
         choose('Array Option 2')
         choose('Hash Option 1')
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "1" }))
 
+        click_button "Submit me!"
       end
 
       it "can be initialized by (multiple) item(s)" do
@@ -1269,11 +1492,11 @@ describe "Form Component", type: :feature, js: true do
         expect(page).to have_field('Hash Option 1', checked: false)
         expect(page).to have_field('Hash Option 2', checked: true)
 
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: "Array Option 1", hash_input: "2" }))
 
+        click_button "Submit me!"
       end
 
       it "can be mapped to an Active Record Model Array Enum" do
@@ -1601,11 +1824,11 @@ describe "Form Component", type: :feature, js: true do
         visit "/example"
 
         fill_in "my-test-input", with: "bar"
-        click_button "Submit me!"
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { foo: "bar" }))
 
+        click_button "Submit me!"
       end
     end
 

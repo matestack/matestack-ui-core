@@ -1,5 +1,64 @@
 # Changelog
 
+## v0.7.4
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.4)
+
+[Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.4)
+
+### Improvements
+
+* On form submit, matestack form values are reset to previous values by fiedl
+--> The form component now does not reset itself when using `put`
+--> The reset behavior can now be configured (described in `form` component docs)
+
+* Dockerized core dev and test environment by jonasjabari
+--> easy local dev and test setup, cross-platform default for dev and testing
+--> CI is configured to run tests via dockerized test suite; same as local testing and good base for matrix testing (upcoming)
+--> Usage described in contribution docs
+
+* Add `follow_response` option to action component by fiedl
+--> same behavior enhancement as added to the `form` component in 0.7.3
+--> server may now decide where the transition should navigate to
+--> described in `action` component docs
+
+* Add confirm option to action component by fiedl
+--> easily add confirmation before performing an action
+--> prevent unintended delete action for example
+--> described in `action` component docs
+
+* New webpacker features by fiedl
+  * make webpacker create es5 code instead of es6 code
+  * Switch to Vue Production Mode if RAILS_ENV=staging or production
+  * Establish webpack(er) and asset-pipeline workflows
+
+--> webpacker now builds assets for asset pipline usage AND webpacker usage (both usage approaches are described in the installation docs)
+--> webpacker now builds minified versions of matestack-ui-core.js (great improvement in file size!)
+--> webpacker now builds es5 code, which is compatible with IE11
+--> when used via asset pipeline, the minified version of matestack-ui-core together with the production build of vue.js is automatically required
+--> when used via webpacker, matestack-ui-core can be used within a modern javascript workflow, importing and extending single matestack module for example
+
+* New components
+  * Add HTML `<picture>` tag to core components by pascalwengerter
+  * Add HTML `<option>` tag to core components by pascalwengerter
+  * Add HTML `<optgroup>` tag to core components by pascalwengerter
+  * Add HTML `<iframe>` tag to core components by pascalwengerter 
+  * Add HTML `<dfn>` tag to core components by pascalwengerter 
+  * Add HTML `<del>` tag to core components by pascalwengerter
+  * Add HTML `<data>` tag to core components by pascalwengerter
+  * Add HTML `<bdo>` tag to core components by pascalwengerter
+  * Add HTML `<bdi>` tag to core components by pascalwengerter
+  * Add HTML `<wbr>` tag to core components by pascalwengerter
+  * Add HTML `<samp>` tag to core components by pascalwengerter
+  * Add HTML `<u>` tag to core components by pascalwengerter 
+  * Add HTML `<template>` tag to core components by pascalwengerter
+
+
+### Bugfixes
+
+* Anchor Link Click triggers full page transition by PragTob
+
+
 ## v0.7.3
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.3)
@@ -53,7 +112,7 @@ none
 
 ### Bugfixes
 
-* Unexpected behaviour when creating a record in progress by jonasjabari
+* Unexpected behavior when creating a record in progress by jonasjabari
 * couldn't find file 'matestack_ui_core_manifest.js' on dummy app by jonasjabari
 * Add For Attribute to Stand Alone Label Component by bdlb77
 * Form component doesn't work on component-level by jonasjabari

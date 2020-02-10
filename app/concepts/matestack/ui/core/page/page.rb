@@ -2,9 +2,10 @@ module Matestack::Ui::Core::Page
   class Page < Trailblazer::Cell
 
     include ActionView::Helpers::TranslationHelper
-    include ::Cell::Haml
+    include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::ToCell
+    include Matestack::Ui::Core::HasViewContext
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
 
@@ -93,7 +94,7 @@ module Matestack::Ui::Core::Page
         begin
           render_child_component component_key
         rescue => e
-          raise "Component '#{component_key}' could not be resolved."
+          raise "Component '#{component_key}' could not be resolved, because of #{e},\n#{e.backtrace.join("\n")}"
         end
       end
     end
