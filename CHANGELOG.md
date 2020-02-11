@@ -29,8 +29,9 @@ class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
   def response
     components {
       div do
-        heading size: 1, text: "Hello #{@user.name}" # is not escaped
-        plain "Hello #{@user.name}" # is not escaped
+        heading size: 1, text: "Hello #{@user.name}" # was not escaped , from 0.7.4 on it's escaped
+        plain "Hello #{@user.name}" # was not escaped, from 0.7.4 on it's escaped
+        unescaped "Hello #{@user.name}" # is not escaped, as intended
       end
     }
   end
