@@ -8,11 +8,13 @@
 
 ### Security Fixes
 
-XSS/Script injection
+XSS/Script injection vulnerablilty fixed in 0.7.4
 
-* matestack-ui-core is vulnerable to XSS/Script injection 
-* matestack-ui-core does not excape strings by default and does not cover this in the docs
-* matestack-ui-core should escape strings by default in order to prevent XSS/Script injection vulnerability
+* matestack-ui-core was vulnerable to XSS/Script injection 
+* matestack-ui-core did not excape strings by default and did not cover this in the docs
+* matestack-ui-core should have escaped strings by default in order to prevent XSS/Script injection vulnerability
+* 0.7.4 fixes that by performing string escaping by default now
+* a new component `unescaped` (like `plain` before) allows to render unsecaped strings, but forces the developer to explicitly make a concious decision about that
 
 ```ruby
 class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
