@@ -18,13 +18,23 @@ import collectionOrder from '../collection/order/order'
 
 let matestackUiApp = undefined
 
-document.addEventListener('DOMContentLoaded', () => {
+let turbolinksLoaded = false
 
+document.addEventListener('turbolinks:load', () => {
+    turbolinksLoaded = true
     matestackUiApp = new Vue({
-      el: "#matestack_ui",
-      store: store
+        el: "#matestack_ui",
+        store: store
     })
+})
 
+document.addEventListener('DOMContentLoaded', () => {
+    if(turbolinksLoaded === false){
+        matestackUiApp = new Vue({
+            el: "#matestack_ui",
+            store: store
+        })
+    }
 })
 
 export default Vue
