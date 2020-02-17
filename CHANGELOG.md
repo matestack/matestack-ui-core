@@ -6,37 +6,103 @@
 
 [Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.4)
 
+### Security Fixes
+
+XSS/Script injection vulnerablilty fixed in 0.7.4
+
+* matestack-ui-core was vulnerable to XSS/Script injection 
+* matestack-ui-core did not excape strings by default and did not cover this in the docs
+* matestack-ui-core should have escaped strings by default in order to prevent XSS/Script injection vulnerability
+* 0.7.4 fixes that by performing string escaping by default now
+* a new component `unescaped` (like `plain` before) allows to render unsecaped strings, but forces the developer to explicitly make a concious decision about that
+
+```ruby
+class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
+
+  class FakeUser < Struct.new(:name)
+  end
+
+  def prepare
+    @user = FakeUser.new("<script>alert('such hack many wow')</script>")
+  end
+
+  def response
+    components {
+      div do
+        heading size: 1, text: "Hello #{@user.name}" # was not escaped , from 0.7.4 on it's escaped
+        plain "Hello #{@user.name}" # was not escaped, from 0.7.4 on it's escaped
+        unescaped "Hello #{@user.name}" # is not escaped, as intended
+      end
+    }
+  end
+end
+
+```
+
+Affected Versions
+
+<= 0.7.3
+
+Patched Versions
+
+>= 0.7.4 --> please update!
+
+Workarounds
+
+escape string explicitly/manually
+
+reported by @PragTob
+
 ### Improvements
 
 * On form submit, matestack form values are reset to previous values by fiedl
+
 --> The form component now does not reset itself when using `put`
+
 --> The reset behavior can now be configured (described in `form` component docs)
 
 * Dockerized core dev and test environment by jonasjabari
+
 --> easy local dev and test setup, cross-platform default for dev and testing
+
 --> CI is configured to run tests via dockerized test suite; same as local testing and good base for matrix testing (upcoming)
+
 --> Usage described in contribution docs
 
 * Add `follow_response` option to action component by fiedl
+
 --> same behavior enhancement as added to the `form` component in 0.7.3
+
 --> server may now decide where the transition should navigate to
+
 --> described in `action` component docs
 
 * Add confirm option to action component by fiedl
+
 --> easily add confirmation before performing an action
+
 --> prevent unintended delete action for example
+
 --> described in `action` component docs
 
 * New webpacker features by fiedl
+
   * make webpacker create es5 code instead of es6 code
+  
   * Switch to Vue Production Mode if RAILS_ENV=staging or production
+  
   * Establish webpack(er) and asset-pipeline workflows
 
 --> webpacker now builds assets for asset pipline usage AND webpacker usage (both usage approaches are described in the installation docs)
+
 --> webpacker now builds minified versions of matestack-ui-core.js (great improvement in file size!)
+
 --> webpacker now builds es5 code, which is compatible with IE11
+
 --> when used via asset pipeline, the minified version of matestack-ui-core together with the production build of vue.js is automatically required
---> when used via webpacker, matestack-ui-core can be used within a modern javascript workflow, importing and extending single matestack module for example
+
+--> when used via webpacker, matestack-ui-core can be used within a modern javascript workflow, importing and extending 
+single matestack module for example
 
 * New components
   * Add HTML `<picture>` tag to core components by pascalwengerter
