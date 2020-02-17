@@ -1,6 +1,7 @@
 module Matestack::Ui::Core::HasViewContext
   def initialize(model = nil, options = {})
-    @view_context = options[:context][:view_context]
+    # TODO: check if it's ok to have this semi optional
+    @view_context = options.dig(:context, :view_context)
     super
   end
 

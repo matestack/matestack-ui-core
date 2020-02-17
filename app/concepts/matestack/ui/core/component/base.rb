@@ -10,6 +10,42 @@ module Matestack::Ui::Core::Component
 
     extend ViewName::Flat
 
+    # TODO: isolate available functions to bare minimum as everything is a
+    # potential conflict with a user defined method?!
+    # Not in this ticket, but open an issue once we get there?
+    # That especially includes all those modules, accidentally overriding one
+    # method might break the whole thing.
+
+    attr_reader :children
+
+    def initialize(model=nil, options={})
+      super
+      @component_config = options.except(:context, :children, :url_params, :included_config)
+      # TODO does this always need to be here?
+      @url_params = options[:url_params]&.except(:action, :controller, :component_key)
+      @component_key = options[:component_key]
+      @children_cells = {}
+      # #context is defined in `Cell::ViewModel`
+      # TODO do we always need this?
+      @controller_context = context&.fetch(:controller_context, nil)
+      # @model also exists with the same content? Is there any reason we wouldn't
+      # wanna use it instead of @argument? There's even a `model` accessor for it
+      # TODO
+      @argument = model
+      @nodes = {}
+      @cells = {}
+      @included_config = options[:included_config]
+      @cached_params = options[:cached_params]
+      @rerender = false
+      @options = options
+      @children = []
+      set_tag_attributes
+      setup
+      generate_component_name
+      generate_children_cells
+      validate_options
+    end
+
     def self.prefixes
       _prefixes = super
       modified_prefixes = _prefixes.map do |prefix|
@@ -30,27 +66,9 @@ module Matestack::Ui::Core::Component
       return ""
     end
 
-    def initialize(model=nil, options={})
-      super
-      @component_config = options.except(:context, :children, :url_params, :included_config)
-      @url_params = options[:url_params].except(:action, :controller, :component_key)
-      @component_key = options[:component_key]
-      @children_cells = {}
-      @controller_context = context[:controller_context]
-      @argument = model
-      @nodes = {}
-      @cells = {}
-      @included_config = options[:included_config]
-      @cached_params = options[:cached_params]
-      @rerender = false
-      @options = options
-      set_tag_attributes
-      setup
-      generate_component_name
-      generate_children_cells
-      validate_options
+    def add_child(child_class, *args)
+      children << child_class.new(*args)
     end
-
 
     # Special validation logic
     def validate_options
