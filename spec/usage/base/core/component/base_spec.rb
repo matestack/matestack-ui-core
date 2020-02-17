@@ -71,7 +71,7 @@ describe Matestack::Ui::Core::Component::Base do
 
       let(:custom_component) { custom_component_class.new }
 
-      it "calls the custom function without fail" do
+      it "calls the block without fail" do
         custom_component.body
 
         expect(custom_component.children.size).to eq 1
@@ -82,6 +82,39 @@ describe Matestack::Ui::Core::Component::Base do
         expect(button.children.size).to eq 1
         plain = button.children.first
         expect(plain.model).to eq "Click me"
+      end
+    end
+
+    context "mixing blocks and custom methods" do
+      let(:custom_component_class) do
+        Class.new(described_class) do
+          def body
+            button do
+              warning_text
+            end
+          end
+
+          def warning_text
+            puts "I execute"
+            plain "WARNING! WARNING!"
+          end
+        end
+      end
+
+      let(:custom_component) { custom_component_class.new }
+
+      it "calls the block without fail" do
+        custom_component.body
+
+        p custom_component.children
+        p custom_component.children.map(&:children)
+
+        expect(custom_component.children.size).to eq 1
+        button = custom_component.children.first
+
+        expect(button.children.size).to eq 1
+        plain = button.children.first
+        expect(plain.model).to eq "WARNING! WARNING!"
       end
     end
   end

@@ -69,17 +69,20 @@ module Matestack::Ui::Core::Component
     end
 
     # NEW DSL RELATED METHODS
-    def add_child(child_class, *args)
+    def add_child(child_class, *args, &block)
       # can't do a splat first followed by a default argument in Ruby,
       # as semantics are unclear. Could put the block as a second argument but
       # that'd make the DSL weird if used this way:
       # add_child Class, proc { ... }, text: "lol"
       #  vs
       # add_child Class, {text: "lol"}, proc { ... }
-      block = args.pop if args.last.is_a?(Proc) || args.last.nil?
+      p block
+      # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
       child = child_class.new(*args)
       children << child
-      child.instance_exec(&block) if block
+      p self.class
+      p child.class
+      Docile.dsl_eval(child, &block) if block
       child
     end
 
