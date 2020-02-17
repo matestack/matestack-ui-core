@@ -74,9 +74,10 @@ module Matestack::Ui::Core::Component
 
     ## ------------------ Rendering ----------------
     # Invoked by Cell::ViewModel from Rendering#call
+    #
+    # TODO: Mental node get the different renderings into their own
+    # distinct renderers like StaticRenderer, DynamicRenderer etc.
     def show(&block)
-      puts caller[0..10]
-      puts "--------------------------------"
       if respond_to? :prepare
         prepare
       end
