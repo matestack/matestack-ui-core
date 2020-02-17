@@ -51,6 +51,8 @@ module Matestack::Ui::Core::Component
       validate_options
     end
 
+
+    # Special validation logic
     def validate_options
       if defined? self.class::REQUIRED_KEYS
         self.class::REQUIRED_KEYS.each do |key|
@@ -64,11 +66,17 @@ module Matestack::Ui::Core::Component
       true
     end
 
+    # custom component setup that doesn't seem to be documented
+    # but lots of components use it
     def setup
       true
     end
 
+    ## ------------------ Rendering ----------------
+    # Invoked by Cell::ViewModel from Rendering#call
     def show(&block)
+      puts caller[0..10]
+      puts "--------------------------------"
       if respond_to? :prepare
         prepare
       end
@@ -129,22 +137,6 @@ module Matestack::Ui::Core::Component
       js_action("navigateTo", [path])
     end
 
-    def components(&block)
-      @nodes = Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
-
-      @nodes.each do |key, node|
-        @cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-      end
-    end
-
-    def partial(&block)
-      return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
-    end
-
-    def slot(&block)
-      return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
-    end
-
     def get_children
       return options[:children]
     end
@@ -181,9 +173,27 @@ module Matestack::Ui::Core::Component
       end
     end
 
+    ## ---------------------- DSL ------------------------------
+    def components(&block)
+      @nodes = Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
+
+      @nodes.each do |key, node|
+        @cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
+      end
+    end
+
+    def partial(&block)
+      return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
+    end
+
+    def slot(&block)
+      return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
+    end
+
 
     private
 
+    ## ------------------------ Also Rendering ---------------------
     def generate_children_cells
       unless options[:children].nil?
         #needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
