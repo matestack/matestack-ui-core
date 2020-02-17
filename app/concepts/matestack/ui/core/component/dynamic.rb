@@ -1,5 +1,5 @@
 module Matestack::Ui::Core::Component
-  class Dynamic < Trailblazer::Cell
+  class Dynamic < Base
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::ToCell
