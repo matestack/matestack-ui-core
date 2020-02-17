@@ -25,4 +25,64 @@ describe Matestack::Ui::Core::Component::Base do
       expect(child.model).to be_a(Proc)
     end
   end
+
+  describe "DSLing" do
+    context "call self defined methods" do
+      let(:custom_component_class) do
+        Class.new(described_class) do
+          include Matestack::Ui::Core::DSL
+
+          def body
+            my_button
+          end
+
+          private
+
+          def my_button
+            button text: "My Button"
+          end
+        end
+      end
+
+      let(:custom_component) { custom_component_class.new }
+
+      it "calls the custom function without fail" do
+        custom_component.body
+
+        expect(custom_component.children.size).to eq 1
+        child = custom_component.children.first
+
+        expect(child.model).to eq text: "My Button"
+      end
+    end
+
+    context "DSLing with blocks" do
+      let(:custom_component_class) do
+        Class.new(described_class) do
+          include Matestack::Ui::Core::DSL
+
+          def body
+            button id: 'foo', class: 'bar' do
+              plain "Click me"
+            end
+          end
+        end
+      end
+
+      let(:custom_component) { custom_component_class.new }
+
+      it "calls the custom function without fail" do
+        custom_component.body
+
+        expect(custom_component.children.size).to eq 1
+        button = custom_component.children.first
+
+        expect(button.model).to eq id: "foo", class: "bar"
+
+        expect(button.children.size).to eq 1
+        plain = button.children.first
+        expect(plain.model).to eq "Click me"
+      end
+    end
+  end
 end

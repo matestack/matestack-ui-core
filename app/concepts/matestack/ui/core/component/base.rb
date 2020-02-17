@@ -5,6 +5,9 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::ToCell
     include Matestack::Ui::Core::HasViewContext
 
+    # probably eed to remove for other tests to be green again
+    include Matestack::Ui::Core::DSL
+
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
     view_paths << "#{::Rails.root}/app/matestack"
 
@@ -41,7 +44,6 @@ module Matestack::Ui::Core::Component
       @children = []
       set_tag_attributes
       setup
-      generate_component_name
       generate_children_cells
       validate_options
     end
@@ -66,8 +68,19 @@ module Matestack::Ui::Core::Component
       return ""
     end
 
+    # NEW DSL RELATED METHODS
     def add_child(child_class, *args)
-      children << child_class.new(*args)
+      # can't do a splat first followed by a default argument in Ruby,
+      # as semantics are unclear. Could put the block as a second argument but
+      # that'd make the DSL weird if used this way:
+      # add_child Class, proc { ... }, text: "lol"
+      #  vs
+      # add_child Class, {text: "lol"}, proc { ... }
+      block = args.pop if args.last.is_a?(Proc) || args.last.nil?
+      child = child_class.new(*args)
+      children << child
+      child.instance_exec(&block) if block
+      child
     end
 
     # Special validation logic
@@ -201,6 +214,7 @@ module Matestack::Ui::Core::Component
       end
     end
 
+    # BEGIN PROBABLY WITH DOCILE WE DON'T NEED THESE TWO ANYMORE WAT WAT
     def partial(&block)
       return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
     end
@@ -208,7 +222,7 @@ module Matestack::Ui::Core::Component
     def slot(&block)
       return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
     end
-
+    # END PROBABLY WITH DOCILE WE DON'T NEED THESE TWO ANYMORE WAT WAT
 
     private
 
@@ -221,36 +235,6 @@ module Matestack::Ui::Core::Component
           @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
         end
       end
-    end
-
-    def generate_component_name
-      name_parts = self.class.name.split("::")
-      module_name = name_parts[0]
-      if module_name == "Components"
-        name_parts[0] = "Custom"
-      end
-      if name_parts.count > 1
-        if name_parts.include?("Cell")
-          name = name_parts[0] + name_parts[1]
-          if name_parts[0] == name_parts[2]
-            name = name_parts[0] + name_parts[1]
-            @component_class =  name.underscore.gsub("_", "-")
-          else
-            name = name_parts[0] + name_parts[2] + name_parts[1]
-            @component_class = name.underscore.gsub("_", "-")
-          end
-        else
-          if name_parts[-2] == name_parts[-1]
-            @component_class = name_parts[0..-2].join("-").downcase
-          else
-            @component_class = name_parts.join("-").downcase
-          end
-        end
-      else
-        name = name_parts[0]
-        @component_class = name.underscore.gsub("_", "-")
-      end
-      @component_name = @component_class
     end
 
     def set_tag_attributes

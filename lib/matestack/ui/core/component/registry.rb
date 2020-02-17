@@ -37,8 +37,8 @@ module Matestack::Ui::Core::Component
       end
 
       def register_component(dsl_name, component_class)
-        target_module.define_method(dsl_name) do |*args|
-          add_child component_class, *args
+        target_module.define_method(dsl_name) do |*args, &block|
+          add_child component_class, *args, block
         end
         registered_components[dsl_name] = component_class
       end
