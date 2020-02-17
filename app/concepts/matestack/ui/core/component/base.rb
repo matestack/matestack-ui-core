@@ -149,23 +149,6 @@ module Matestack::Ui::Core::Component
       return options[:children]
     end
 
-    def to_css_class(symbol)
-      symbol.to_s.gsub("_", "-")
-    end
-
-    def modifiers
-      result = []
-      return unless defined? self.class::OPTIONS
-      self.class::OPTIONS.select{ |modifer_key, modifier_options|
-        modifier_options[:css_modifier] == true
-      }.each do |modifer_key, modifier_options|
-        if !options[modifer_key] == false || modifier_options[:default] == true
-          result << "#{to_css_class(self.class::CSSClASS)}--#{to_css_class(modifer_key)}"
-        end
-      end
-      result.join(" ")
-    end
-
     def render_child_component component_key, current_search_keys_array
       if respond_to? :prepare
         prepare
