@@ -113,5 +113,54 @@ describe Matestack::Ui::Core::Component::Base do
         expect(plain.model).to eq "WARNING! WARNING!"
       end
     end
+
+    context "variable access" do
+      let(:custom_component_class) do
+        Class.new(described_class) do
+          def body
+            @message = "1"
+            message = "2"
+
+            plain @message
+            plain message
+          end
+        end
+      end
+
+      let(:custom_component) { custom_component_class.new }
+
+      it "has access to both variables and creates elements accordingly" do
+        custom_component.body
+
+        expect(custom_component.children.map(&:model)).to eq ["1", "2"]
+      end
+    end
+
+    context "variable access mixed with blocks" do
+      let(:custom_component_class) do
+        Class.new(described_class) do
+          def body
+            @message = "1"
+            message = "2"
+
+            button do
+              plain @message
+              plain message
+            end
+          end
+        end
+      end
+
+      let(:custom_component) { custom_component_class.new }
+
+      it "has access to both variables and creates elements accordingly" do
+        custom_component.body
+
+        expect(custom_component.children.size).to eq 1
+        button = custom_component.children.first
+
+        expect(button.children.map(&:model)).to eq ["1", "2"]
+      end
+    end
   end
 end
