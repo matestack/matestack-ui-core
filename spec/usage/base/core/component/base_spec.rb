@@ -192,5 +192,48 @@ describe Matestack::Ui::Core::Component::Base do
 
       expect(stripped(button.to_html)).to eq "<button>PlainContent</button>"
     end
+
+    it "yo I heard you like buttons so I put buttons into your buttons" do
+      # yes that's nonsense but still worth testing
+
+      button = Matestack::Ui::Core::Button::Button.new
+      # TODO: take care of that nil view model child thingy?
+      button.add_child Matestack::Ui::Core::Button::Button, nil, text: "Yo!"
+
+      expect(stripped(button.to_html)).to eq "<button><button>Yo!</button></button>"
+    end
+
+    context "component only relying on other components" do
+      let(:component_class) do
+        Class.new(Matestack::Ui::Core::Component::Static) do
+          def response
+            button do
+              plain "Hello"
+            end
+          end
+
+          def self.name
+            # TODO: trailbalzer-cells crashes here in some unneeded controller
+            # path lookup that seems to be invoked on render...
+            # /home/tobi/.asdf/installs/ruby/2.6.5/lib/ruby/gems/2.6.0/gems/trailblazer-cells-0.0.3/lib/trailblazer/cell.rb:36:in `controller_path
+            "SomeName"
+          end
+        end
+      end
+
+      it "renders correctly" do
+        instance = component_class.new
+        instance.response
+
+        expect(stripped(instance.to_html)).to eq "<button>Hello</button>"
+      end
+
+      it "renders correctly inside a button" do
+        button = Matestack::Ui::Core::Button::Button.new
+        button.add_child component_class
+
+        expect(stripped(button.to_html)).to eq "<button><button>Hello</button></button>"
+      end
+    end
   end
 end

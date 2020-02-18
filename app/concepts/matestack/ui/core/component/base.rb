@@ -50,6 +50,11 @@ module Matestack::Ui::Core::Component
       validate_options
     end
 
+    # TODO: modifies/recreates view lookup paths on every invocation?!
+    # At least memoize it I guess...
+    # better even maybe/probably give a component an (automatic) way to know
+    # exactly where its template is probably based on its own file location.
+    # Then no lookup/search has to happen.
     def self.prefixes
       _prefixes = super
       modified_prefixes = _prefixes.map do |prefix|
@@ -64,6 +69,8 @@ module Matestack::Ui::Core::Component
       end
 
       return modified_prefixes + _prefixes
+    rescue StandardError => e
+      binding.pry
     end
 
     def self.views_dir
@@ -83,6 +90,9 @@ module Matestack::Ui::Core::Component
 
       # TODO nicer interface
       @current_parent_context.children << child
+      child.prepare
+
+      child.response if child.respond_to?(:response)
 
       if block
         begin
@@ -94,11 +104,6 @@ module Matestack::Ui::Core::Component
       end
 
       child
-    end
-
-    ## NEW TOBI HTML METHODS
-    def to_html
-      show
     end
 
     # Special validation logic
@@ -144,19 +149,21 @@ module Matestack::Ui::Core::Component
       raise "subclass responsibility"
     end
 
-    def render_children
-      render(view: :children)
+    def to_html
+      show
     end
 
     def render_content
-      prepare
-
+      # When/if we implement response then our display purely relies on that
+      # of our children
+      # TODO: this might be another sub class or module for the difference
+      # of I have my own template to render vs. I don't
       if respond_to? :response
-        response
-        render :response
+        render :children
       else
+        # We got a template render it around our children
         render do
-          render_children
+          render :children
         end
       end
     end
