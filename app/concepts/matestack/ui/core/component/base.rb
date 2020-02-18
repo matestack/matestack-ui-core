@@ -143,12 +143,11 @@ module Matestack::Ui::Core::Component
     #
     # TODO: Mental node get the different renderings into their own
     # distinct renderers like StaticRenderer, DynamicRenderer etc.
-    def show(&block)
-      # TODO: What's in the show block? Do we need it?
+    def show
       prepare
 
       if respond_to? :response
-        response &block
+        response
         if @static
           render :response
         else
@@ -160,12 +159,12 @@ module Matestack::Ui::Core::Component
         end
       else
         if @static
-          render(view: :static, &block)
+          render(view: :static)
         else
           if @rerender
-            render(view: :dynamic, &block)
+            render(view: :dynamic)
           else
-            render(view: :dynamic_without_rerender, &block)
+            render(view: :dynamic_without_rerender)
           end
         end
       end
@@ -175,15 +174,13 @@ module Matestack::Ui::Core::Component
       render(view: :children)
     end
 
-    def render_content(&block)
-      if respond_to? :prepare
-        prepare
-      end
+    def render_content
+      prepare
+
       if respond_to? :response
-        response &block
-          render :response
+        response
+        render :response
       else
-        # render(view: self.class.name.split("::")[-1].downcase.to_sym) do
         render do
           render_children
         end
@@ -209,9 +206,7 @@ module Matestack::Ui::Core::Component
     end
 
     def render_child_component component_key, current_search_keys_array
-      if respond_to? :prepare
-        prepare
-      end
+      prepare
 
       response
 
