@@ -95,7 +95,6 @@ describe Matestack::Ui::Core::Component::Base do
           end
 
           def warning_text
-            puts "I execute"
             plain "WARNING! WARNING!"
           end
         end
@@ -105,9 +104,6 @@ describe Matestack::Ui::Core::Component::Base do
 
       it "calls the block without fail" do
         custom_component.body
-
-        p custom_component.children
-        p custom_component.children.map(&:children)
 
         expect(custom_component.children.size).to eq 1
         button = custom_component.children.first

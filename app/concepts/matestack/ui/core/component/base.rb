@@ -41,7 +41,12 @@ module Matestack::Ui::Core::Component
       @cached_params = options[:cached_params]
       @rerender = false
       @options = options
+
+      # DSLish
       @children = []
+      @current_parent_context = self
+
+      # set me up
       set_tag_attributes
       setup
       generate_children_cells
@@ -76,13 +81,21 @@ module Matestack::Ui::Core::Component
       # add_child Class, proc { ... }, text: "lol"
       #  vs
       # add_child Class, {text: "lol"}, proc { ... }
-      p block
       # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
       child = child_class.new(*args)
-      children << child
-      p self.class
-      p child.class
-      Docile.dsl_eval(child, &block) if block
+
+      # TODO nicer interface
+      @current_parent_context.children << child
+
+      if block
+        begin
+          @current_parent_context = child
+          instance_eval(&block)
+        ensure
+          @current_parent_context = self
+        end
+      end
+
       child
     end
 

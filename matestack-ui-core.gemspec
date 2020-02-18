@@ -24,5 +24,4 @@ Gem::Specification.new do |s|
   s.add_dependency "trailblazer-cells"
   s.add_dependency "cells-rails"
   s.add_dependency "cells-haml"
-  s.add_dependency "docile", "~> 1.3"
 end
