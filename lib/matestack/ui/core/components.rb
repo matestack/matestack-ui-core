@@ -6,9 +6,7 @@
 # Not sustainable this is, hrrrm?
 require_relative "../../../../app/lib/matestack/ui/core/render"
 require_relative "../../../../app/helpers/matestack/ui/core/application_helper"
-require_relative "../../../../app/lib/matestack/ui/core/to_cell"
 require_relative "../../../../app/lib/matestack/ui/core/has_view_context"
-require_relative "../../../../app/lib/matestack/ui/core/to_cell"
 
 require_relative "../../../../app/concepts/matestack/ui/core/component/base"
 require_relative "../../../../app/concepts/matestack/ui/core/component/dynamic"
