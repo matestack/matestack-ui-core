@@ -3,19 +3,32 @@
 
 # TODO: app folder isn't in the LOAD_PATH 🤔
 
-# Not sustainable this is, hrrrm?
-require_relative "../../../../app/lib/matestack/ui/core/render"
-require_relative "../../../../app/helpers/matestack/ui/core/application_helper"
-require_relative "../../../../app/lib/matestack/ui/core/has_view_context"
+module Matestack::Ui::Core::Components
+  def self.require_app_path(path)
+    require_relative "../../../../app/#{path}"
+  end
 
-require_relative "../../../../app/concepts/matestack/ui/core/component/base"
-require_relative "../../../../app/concepts/matestack/ui/core/component/dynamic"
-require_relative "../../../../app/concepts/matestack/ui/core/component/static"
+  def self.require_core_component(name)
+    require_app_path "concepts/matestack/ui/core/#{name}/#{name}"
+  end
 
-require_relative "../../../../app/concepts/matestack/ui/core/button/button"
-require_relative "../../../../app/concepts/matestack/ui/core/plain/plain"
+  require_app_path "lib/matestack/ui/core/render"
+  require_app_path "helpers/matestack/ui/core/application_helper"
+  require_app_path "lib/matestack/ui/core/has_view_context"
+
+  require_app_path "concepts/matestack/ui/core/component/base"
+  require_app_path "concepts/matestack/ui/core/component/dynamic"
+  require_app_path "concepts/matestack/ui/core/component/static"
+
+  require_core_component "button"
+  require_core_component "plain"
+  require_core_component "div"
+end
+
+
 
 Matestack::Ui::Core::Component::Registry.register_components(
   button: Matestack::Ui::Core::Button::Button,
   plain: Matestack::Ui::Core::Plain::Plain,
+  div: Matestack::Ui::Core::Div::Div,
 )

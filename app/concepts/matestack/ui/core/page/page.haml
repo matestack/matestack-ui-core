@@ -1,9 +1,7 @@
 - if context[:params][:only_page] == "true"
   %div{class: "matestack_page_content"}
-    - @cells.each do |key, cell|
-      = cell.call(:show)
+    = render_content
 - else
   %div{class: "matestack_page"}
     %div{class: "matestack_page_content"}
-      - @cells.each do |key, cell|
-        = cell.call(:show)
+      = render_content

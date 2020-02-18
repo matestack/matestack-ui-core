@@ -31,6 +31,9 @@ module Matestack::Ui::Core::Component
       @children = []
       @current_parent_context = self
 
+      # TODO: everything beyond this point is probably not needed for the
+      # Page subclass
+
       # TODO: potentially only used in form like components
       @included_config = options[:included_config]
       # TODO: only relevant to isolate
@@ -72,8 +75,6 @@ module Matestack::Ui::Core::Component
       end
 
       return modified_prefixes + _prefixes
-    rescue StandardError => e
-      binding.pry
     end
 
     def self.views_dir
@@ -220,12 +221,9 @@ module Matestack::Ui::Core::Component
     end
 
     ## ---------------------- DSL ------------------------------
+    # compatibility layer to old-school (not needed anymore)
     def components(&block)
-      @nodes = Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
-
-      @nodes.each do |key, node|
-        @cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-      end
+      instance_eval &block
     end
 
     # BEGIN PROBABLY WITH DOCILE WE DON'T NEED THESE TWO ANYMORE WAT WAT

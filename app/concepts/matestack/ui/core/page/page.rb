@@ -1,76 +1,19 @@
 module Matestack::Ui::Core::Page
-  class Page < Trailblazer::Cell
+
+  # TODO: Most of the functionality is shared but some initialize stuff a page probably doesn't need
+  class Page < Matestack::Ui::Core::Component::Base
     include ActionView::Helpers::TranslationHelper
-    include Matestack::Ui::Core::Cell
-    include Matestack::Ui::Core::ApplicationHelper
-    include Matestack::Ui::Core::HasViewContext
-
-    view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
-
-    extend ViewName::Flat
-
-    def self.prefixes
-      _prefixes = super
-      modified_prefixes = _prefixes.map do |prefix|
-        prefix_parts = prefix.split("/")
-
-        if prefix_parts.last.include?(self.name.split("::")[-1].downcase)
-          prefix_parts[0..-2].join("/")
-        else
-          prefix
-        end
-
-      end
-
-      return modified_prefixes + _prefixes
-    end
-
-    def self.views_dir
-      return ""
-    end
 
     def initialize(model=nil, options={})
       super
       generate_page_name
       set_app_class
-      @nodes = {}
-      @cells = {}
-      options[:controller_instance].instance_variables.each do |controller_instance_var_key|
-        unless controller_instance_var_key.to_s.start_with?("@_")
-          self.instance_variable_set(controller_instance_var_key, options[:controller_instance].instance_variable_get(controller_instance_var_key))
-        end
-      end
+      copy_controller_instance_variables(options[:controller_instance])
     end
-
-    def prepare
-      true
-    end
-
-    def components(&block)
-      @nodes = Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
-    end
-
-    def nodes_to_cell
-      @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-      end
-    end
-
-    def partial(&block)
-      return block
-    end
-
-    def slot(&block)
-      Matestack::Ui::Core::PageNode.build(self, nil, context[:params], &block)
-    end
-
-    def isolate(&block)
-      return block
-    end
-
 
     def show(component_key=nil, only_page=false)
       prepare
+      # TODO this is likely broken if someone named a component Isolate or name space
       return resolve_isolated_component(component_key) if !component_key.nil? && component_key.include?("isolate")
 
       response
@@ -84,7 +27,6 @@ module Matestack::Ui::Core::Page
       case render_mode
 
       when :only_page
-        nodes_to_cell
         render :page
       when :render_page_with_app
         concept(@app_class).call(:show, @page_id, @nodes)
@@ -131,6 +73,14 @@ module Matestack::Ui::Core::Page
 
     private
 
+      def copy_controller_instance_variables(controller)
+        controller.instance_variables.each do |controller_instance_var_key|
+          unless controller_instance_var_key.to_s.start_with?("@_")
+            self.instance_variable_set(controller_instance_var_key, controller.instance_variable_get(controller_instance_var_key))
+          end
+        end
+      end
+
       def resolve_isolated_component component_key
         keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
         isolate_keys = keys_array.select{|key| key.match(/^isolate_/)}
@@ -152,11 +102,14 @@ module Matestack::Ui::Core::Page
         return cell.render_content
       end
 
+      # TODO: This page_id part won't work when pages aren't scoped by app
+      # anymore/needs to respect app
       def generate_page_name
         name_parts = self.class.name.split("::").map { |name| name.underscore }
         @page_id = name_parts.join("_")
       end
 
+      # See #382 for how this shall change in the future
       def set_app_class
         class_name = self.class.name
         name_parts = class_name.split("::")

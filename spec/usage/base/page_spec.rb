@@ -39,7 +39,6 @@ describe "Page", type: :feature, js: true do
     visit "/page_test"
 
     expect(page).to have_content("Hello World from Example Page!")
-
   end
 
   it "can access controller instance variables" do
