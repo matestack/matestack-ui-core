@@ -5,6 +5,17 @@ include Utils
 # Elsewhere anonymous classes are used to not interfere with the other parts of
 # the system too much.
 describe Matestack::Ui::Core::Component::Base do
+
+  describe "#initialize" do
+    # TODO: This seems to be the existing semantics
+    it "sets @options to the hash if passed after parent" do
+      instance = described_class.new nil, id: "something"
+
+      expect(instance.model).to eq id: "something"
+      expect(instance.instance_variable_get(:@options)).to eq id: "something"
+    end
+  end
+
   describe "#add_child" do
     let(:child_class) { described_class }
     let(:child) { subject.children.first }
@@ -32,6 +43,17 @@ describe Matestack::Ui::Core::Component::Base do
       grand_child = child.children.first
 
       expect(grand_child.model).to eq "Content"
+    end
+
+    it "child with block with 2 children" do
+      accessible_child_class = child_class
+      subject.add_child child_class do
+        add_child accessible_child_class, "1"
+        add_child accessible_child_class, "2"
+      end
+
+      expect(child.children.size).to eq 2
+      expect(child.children.map(&:model)).to eq ["1", "2"]
     end
   end
 
@@ -111,7 +133,7 @@ describe Matestack::Ui::Core::Component::Base do
 
       let(:custom_component) { custom_component_class.new }
 
-      it "calls the block without fail" do
+      it "creates the right structure" do
         custom_component.body
 
         expect(custom_component.children.size).to eq 1
@@ -171,11 +193,45 @@ describe Matestack::Ui::Core::Component::Base do
         expect(button.children.map(&:model)).to eq ["1", "2"]
       end
     end
+
+    context "nesting blocks within blocks!" do
+      let(:custom_component_class) do
+        Class.new(described_class) do
+          def response
+            div do
+              div do
+                button "hey"
+                button "you"
+              end
+              button "outer"
+            end
+          end
+        end
+      end
+
+      let(:custom_component) { custom_component_class.new }
+
+      it "creates the right structure" do
+        custom_component.response
+
+        expect(custom_component.children.size).to eq 1
+        div1 = custom_component.children.first
+
+        expect(div1.children.size).to eq 2
+        div2 = div1.children.first
+        expect(div2.children.size).to eq 2
+        expect(div2.children.map(&:model)).to eq ["hey", "you"]
+
+        outer_button = div1.children.last
+        expect(outer_button.model).to eq "outer"
+      end
+    end
+
   end
 
   describe "#to_html" do
     it "can get the HTML of a simple Plain" do
-      plain = Matestack::Ui::Core::Plain::Plain.new("42")
+      plain = Matestack::Ui::Core::Plain::Plain.new(nil, "42")
 
       expect(plain.to_html).to eq "42"
     end
@@ -234,6 +290,36 @@ describe Matestack::Ui::Core::Component::Base do
 
         expect(stripped(button.to_html)).to eq "<button><button>Hello</button></button>"
       end
+    end
+  end
+
+  describe "#partial" do
+    let(:partial_component) do
+      Class.new(Matestack::Ui::Core::Component::Static) do
+        def response
+          partial :my_partial, "SomeText"
+        end
+
+        def self.name
+          "SomeName"
+        end
+
+        private
+        def my_partial(arg)
+          partial do
+            div do
+              plain arg
+            end
+          end
+        end
+      end
+    end
+
+    it "can render the partial in the weird old way" do
+      instance = partial_component.new
+      instance.response
+
+      expect(stripped(instance.to_html)).to eq "<div>SomeText</div>"
     end
   end
 end

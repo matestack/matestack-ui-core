@@ -17,19 +17,24 @@ module Matestack::Ui::Core::Component
     # That especially includes all those modules, accidentally overriding one
     # method might break the whole thing.
 
-    attr_reader :children
+    attr_reader :children, :parent
 
-    def initialize(model=nil, options={})
-      super
+    def initialize(parent = nil, model = nil, options = {})
+      super(model, options)
       # @model also exists with the same content? Is there any reason we wouldn't
       # wanna use it instead of @argument? There's even a `model` accessor for it
       # TODO
       @argument = model
       @options = options
 
+      # TODO works around a semantic where if just a hash is passed apparently
+      # those are the options
+      @options = model.dup if @options.empty? && model.is_a?(Hash)
+
       # DSL-relevant
       @children = []
-      @current_parent_context = self
+      @parent = parent
+      @current_parent_context = @parent || self
 
       # TODO: everything beyond this point is probably not needed for the
       # Page subclass
@@ -90,10 +95,11 @@ module Matestack::Ui::Core::Component
       #  vs
       # add_child Class, {text: "lol"}, proc { ... }
       # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
-      child = child_class.new(*args)
 
       # TODO nicer interface
+      child = child_class.new(@current_parent_context, *args)
       @current_parent_context.children << child
+
       child.prepare
 
       child.response if child.respond_to?(:response)
@@ -103,7 +109,7 @@ module Matestack::Ui::Core::Component
           @current_parent_context = child
           instance_eval(&block)
         ensure
-          @current_parent_context = self
+          @current_parent_context = child.parent
         end
       end
 
@@ -226,15 +232,21 @@ module Matestack::Ui::Core::Component
       instance_eval &block
     end
 
-    # BEGIN PROBABLY WITH DOCILE WE DON'T NEED THESE TWO ANYMORE WAT WAT
-    def partial(&block)
-      return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
+    # TODO: partial is weird, I highly recommend removin it
+    # it exists in basically 2 forms, one that is basically `send`
+    # the other just executes the block it's given.
+    # Same thing can now be achieved through simple method calls
+    def partial(*args)
+      if block_given?
+        yield
+      else
+        send(*args)
+      end
     end
 
     def slot(&block)
       return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
     end
-    # END PROBABLY WITH DOCILE WE DON'T NEED THESE TWO ANYMORE WAT WAT
 
     private
 

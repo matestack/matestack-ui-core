@@ -192,7 +192,6 @@ describe "Page", type: :feature, js: true do
     HTML
 
     expect(stripped(static_output)).to include(stripped(expected_static_output))
-
   end
 
   it "can structure the response using partials from included modules" do

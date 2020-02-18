@@ -21,8 +21,9 @@ module Matestack::Ui::Core::Components
   require_app_path "concepts/matestack/ui/core/component/static"
 
   require_core_component "button"
-  require_core_component "plain"
   require_core_component "div"
+  require_core_component "plain"
+  require_core_component "span"
 end
 
 
@@ -31,4 +32,5 @@ Matestack::Ui::Core::Component::Registry.register_components(
   button: Matestack::Ui::Core::Button::Button,
   plain: Matestack::Ui::Core::Plain::Plain,
   div: Matestack::Ui::Core::Div::Div,
+  span: Matestack::Ui::Core::Span::Span,
 )
