@@ -1,7 +1,6 @@
 module Matestack::Ui::Core::Component
   class Base < Trailblazer::Cell
     include Matestack::Ui::Core::Cell
-    include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::HasViewContext
 
     # probably eed to remove for other tests to be green again
