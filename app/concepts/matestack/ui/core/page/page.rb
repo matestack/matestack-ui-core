@@ -1,6 +1,5 @@
 module Matestack::Ui::Core::Page
   class Page < Trailblazer::Cell
-
     include ActionView::Helpers::TranslationHelper
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper

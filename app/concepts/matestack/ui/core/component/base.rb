@@ -21,32 +21,35 @@ module Matestack::Ui::Core::Component
 
     def initialize(model=nil, options={})
       super
-      @component_config = options.except(:context, :children, :url_params, :included_config)
-      # TODO does this always need to be here?
-      @url_params = options[:url_params]&.except(:action, :controller, :component_key)
-      @component_key = options[:component_key]
-      @children_cells = {}
-      # #context is defined in `Cell::ViewModel`
-      # TODO do we always need this?
-      @controller_context = context&.fetch(:controller_context, nil)
       # @model also exists with the same content? Is there any reason we wouldn't
       # wanna use it instead of @argument? There's even a `model` accessor for it
       # TODO
       @argument = model
-      @nodes = {}
-      @cells = {}
-      @included_config = options[:included_config]
-      @cached_params = options[:cached_params]
       @options = options
 
-      # DSLish
+      # DSL-relevant
       @children = []
       @current_parent_context = self
 
-      # set me up
+      # TODO: potentially only used in form like components
+      @included_config = options[:included_config]
+      # TODO: only relevant to isolate
+      @cached_params = options[:cached_params]
+
+      # TODO seemingly never accessed? (at least by us)
+      # #context is defined in `Cell::ViewModel`
+      @controller_context = context&.fetch(:controller_context, nil)
+
+      # Options for seemingly advanced functionality
+      @component_config = options.except(:context, :children, :url_params, :included_config)
+      @url_params = options[:url_params]&.except(:action, :controller, :component_key)
+      @component_key = options[:component_key]
+
+      # TODO: do we realy have to call this every time on initialize or should
+      # it maybe be called more dynamically like its dynamic_tag_attributes
+      # equivalent in Dynamic?
       set_tag_attributes
       setup
-      generate_children_cells
       validate_options
     end
 
@@ -238,16 +241,6 @@ module Matestack::Ui::Core::Component
     private
 
     ## ------------------------ Also Rendering ---------------------
-    def generate_children_cells
-      unless options[:children].nil?
-        #needs refactoring --> in some cases, :component_key, :children, :origin_url, :url_params, :included_config get passed into options[:children] which causes errors
-        #quickfix: except them from iteration
-        options[:children].except(:component_key, :children, :origin_url, :url_params, :included_config).each do |key, node|
-          @children_cells[key] = to_cell("#{@component_key}__#{key}", node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-        end
-      end
-    end
-
     def set_tag_attributes
       default_attributes = {
         "id": component_id,
@@ -259,18 +252,5 @@ module Matestack::Ui::Core::Component
 
        @tag_attributes = default_attributes
     end
-
-    def dynamic_tag_attributes
-       attrs = {
-         "is": @component_class,
-         "ref": component_id,
-         ":params":  @url_params.to_json,
-         ":component-config": @component_config.to_json,
-         "inline-template": true,
-       }
-       attrs.merge!(options[:attributes]) unless options[:attributes].nil?
-       return attrs
-    end
-
   end
 end
