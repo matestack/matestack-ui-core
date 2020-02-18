@@ -16,13 +16,16 @@ describe Matestack::Ui::Core::Component::Base do
       expect(child.model).to eq(text: "Hello World")
     end
 
-    it "can even pass a block" do
-      pending "Okay the DSL layer has to take care of blocks/procs"
+    it "can even pass a block that's being evaluated" do
+      accessible_child_class = child_class
       subject.add_child child_class do
-        4 + 4
+        add_child accessible_child_class, "Content"
       end
 
-      expect(child.model).to be_a(Proc)
+      expect(child.children.size).to eq 1
+      grand_child = child.children.first
+
+      expect(grand_child.model).to eq "Content"
     end
   end
 
