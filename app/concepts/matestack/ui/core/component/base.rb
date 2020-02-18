@@ -17,7 +17,9 @@ module Matestack::Ui::Core::Component
     # That especially includes all those modules, accidentally overriding one
     # method might break the whole thing.
 
-    attr_reader :children, :parent
+    attr_reader :children
+    # sadly accessor needed for slot functionality
+    attr_accessor :parent
 
     def initialize(parent = nil, model = nil, options = {})
       super(model, options)
@@ -34,7 +36,7 @@ module Matestack::Ui::Core::Component
       # DSL-relevant
       @children = []
       @parent = parent
-      @current_parent_context = @parent || self
+      @current_parent_context = self
 
       # TODO: everything beyond this point is probably not needed for the
       # Page subclass
@@ -244,8 +246,25 @@ module Matestack::Ui::Core::Component
       end
     end
 
-    def slot(&block)
-      return Matestack::Ui::Core::ComponentNode.build(self, nil, &block)
+    # Another dual purpose method like partial above, just more complex
+    def slot(slot_content = [], &block)
+      if block_given?
+        execution_parent_proxy = Base.new()
+        previous_parent_context = @current_parent_context
+        @current_parent_context = execution_parent_proxy
+
+        begin
+          instance_eval(&block)
+        ensure
+          @current_parent_context = previous_parent_context
+        end
+
+        execution_parent_proxy.children
+      else
+        # at this point the children should be completely built
+        slot_content.each { |child| child.parent = @current_parent_context }
+        @current_parent_context.children.concat(slot_content)
+      end
     end
 
     private

@@ -322,4 +322,101 @@ describe Matestack::Ui::Core::Component::Base do
       expect(stripped(instance.to_html)).to eq "<div>SomeText</div>"
     end
   end
+
+  describe "#slot" do
+    context "simple slot" do
+      let(:slot_component) do
+        Class.new(described_class) do
+          def response
+            slot @options.fetch(:slot)
+          end
+        end
+      end
+
+      let(:slotting_component) do
+        component_class = slot_component
+
+        Class.new(described_class) do
+          ComponentClass = component_class
+          def response
+            add_child ComponentClass, slot: slot { plain "Hi!" }
+          end
+        end
+      end
+
+      it "can set things into the slot without problems" do
+        instance = slotting_component.new
+
+        instance.response
+
+        expect(instance.children.size).to eq 1
+        component = instance.children.first
+
+        expect(component).to be_a(slot_component)
+        expect(component.children.size).to eq 1
+
+        plain = component.children.first
+        expect(plain.model).to eq "Hi!"
+        expect(plain.children).to be_empty
+      end
+    end
+
+    context "slots with nesting" do
+      let(:slot_component) do
+        Class.new(Matestack::Ui::Core::Component::Static) do
+          def response
+            div do
+              slot @options.fetch(:slot)
+              plain "Woop"
+            end
+          end
+
+          def self.name
+            "SomeOtherName"
+          end
+        end
+      end
+
+      let(:slotting_component) do
+        component_class = slot_component
+
+        Class.new(Matestack::Ui::Core::Component::Static) do
+          ComponentClass2 = component_class
+          def response
+            plain "Wat?"
+            div do
+              plain "1"
+              add_child ComponentClass2, slot: slot { plain "Hi!" }
+              plain "2"
+            end
+          end
+
+          def self.name
+            "SomeName"
+          end
+        end
+      end
+
+      let(:div) { Matestack::Ui::Core::Div::Div }
+      let(:plain) { Matestack::Ui::Core::Plain::Plain }
+
+      it "creates the correct structure" do
+        instance = slotting_component.new
+
+        instance.response
+
+        expect(stripped(instance.to_html)).to eq stripped <<~HTML
+          Wat?
+          <div>
+            1
+            <div>
+              Hi!
+              Woop
+            </div>
+            2
+          </div>
+        HTML
+      end
+    end
+  end
 end

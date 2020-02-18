@@ -351,6 +351,8 @@ describe "Page", type: :feature, js: true do
 
     visit "/page_test/?foo=bar"
 
+    binding.pry
+
     static_output = page.html
 
     expected_static_output = <<~HTML
