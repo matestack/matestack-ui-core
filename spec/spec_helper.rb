@@ -39,7 +39,7 @@ Dir[File.join File.dirname(__FILE__), 'support', '**', '*.rb'].each { |f| requir
 require 'pry'
 
 require 'rspec/retry'
-require "rspec/wait"  
+require "rspec/wait"
 
 RSpec.configure do |config|
   # repeat flaky tests
@@ -53,11 +53,11 @@ RSpec.configure do |config|
     ex.run_with_retry retry: 10
   end
 
-  # callback to be run between retries  
+  # callback to be run between retries
   config.retry_callback = proc do |ex|
     # run some additional clean up task - can be filtered by example metadata
     if ex.metadata[:js]
-      Capybara.reset!     
+      Capybara.reset!
     end
   end
   # config.include Capybara::DSL

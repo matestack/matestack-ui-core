@@ -99,6 +99,11 @@ module Matestack::Ui::Core::Component
       child
     end
 
+    ## NEW TOBI HTML METHODS
+    def to_html
+      show
+    end
+
     # Special validation logic
     def validate_options
       if defined? self.class::REQUIRED_KEYS

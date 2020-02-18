@@ -1,3 +1,9 @@
+include Utils
+
+# In parts here Button and Plain are used as example for a working class,
+# especially around DSL registrations.
+# Elsewhere anonymous classes are used to not interfere with the other parts of
+# the system too much.
 describe Matestack::Ui::Core::Component::Base do
   describe "#add_child" do
     let(:child_class) { described_class }
@@ -164,6 +170,27 @@ describe Matestack::Ui::Core::Component::Base do
 
         expect(button.children.map(&:model)).to eq ["1", "2"]
       end
+    end
+  end
+
+  describe "#to_html" do
+    it "can get the HTML of a simple Plain" do
+      plain = Matestack::Ui::Core::Plain::Plain.new("42")
+
+      expect(plain.to_html).to eq "42"
+    end
+
+    it "can get the HTML of a simple button" do
+      button = Matestack::Ui::Core::Button::Button.new(nil, text: "Render!")
+
+      expect(stripped(button.to_html)).to eq "<button>Render!</button>"
+    end
+
+    it "can nest components" do
+      button = Matestack::Ui::Core::Button::Button.new
+      button.add_child Matestack::Ui::Core::Plain::Plain, "PlainContent"
+
+      expect(stripped(button.to_html)).to eq "<button>PlainContent</button>"
     end
   end
 end

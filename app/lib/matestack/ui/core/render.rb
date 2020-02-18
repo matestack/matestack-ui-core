@@ -18,6 +18,7 @@ module Matestack::Ui::Core::Render
       end
       responder_for matestack_class
     else
+      binding.pry
       super
     end
   end

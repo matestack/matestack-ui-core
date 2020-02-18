@@ -4,7 +4,7 @@ module Utils
     html_string
       .gsub(/>\s+</, "><")
       .gsub("\n", "")
-      .gsub(/\s+/, "")
+      .gsub(/\s+/, "") # TODO: this removes all white space even button text like "Render me!" becomes "Renderme!" which I don't is as designed
       .gsub("<br>", "<br/>") # TODO Tobi get your browser together
   end
 
