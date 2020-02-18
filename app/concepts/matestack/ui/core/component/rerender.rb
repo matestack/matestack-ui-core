@@ -1,14 +1,15 @@
 module Matestack::Ui::Core::Component
-  class Static < Base
+  # NAME PENDING
+  class Rerender < Dynamic
     def show
       # TODO duplication here removed/moved somewhere else
       prepare
 
       # likely won't need this anymore anyhow
       if respond_to? :response
-        render :response
+        render :response_dynamic
       else
-        render :static
+        render :dynamic
       end
     end
   end

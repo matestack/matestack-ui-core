@@ -39,7 +39,6 @@ module Matestack::Ui::Core::Component
       @cells = {}
       @included_config = options[:included_config]
       @cached_params = options[:cached_params]
-      @rerender = false
       @options = options
 
       # DSLish
@@ -144,30 +143,7 @@ module Matestack::Ui::Core::Component
     # TODO: Mental node get the different renderings into their own
     # distinct renderers like StaticRenderer, DynamicRenderer etc.
     def show
-      prepare
-
-      if respond_to? :response
-        response
-        if @static
-          render :response
-        else
-          if @rerender
-            render :response_dynamic
-          else
-            render :response_dynamic_without_rerender
-          end
-        end
-      else
-        if @static
-          render(view: :static)
-        else
-          if @rerender
-            render(view: :dynamic)
-          else
-            render(view: :dynamic_without_rerender)
-          end
-        end
-      end
+      raise "subclass responsibility"
     end
 
     def render_children
