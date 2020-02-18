@@ -124,15 +124,29 @@ module Matestack::Ui::Core::Component
       true
     end
 
+    # Setup meant to be overridden to setup data from DB or what not
+    # why not just call these functions at the beginning of whatever
+    # we'll call the method like:
+    #
+    # def respone
+    #   result = i_call_stuff
+    #   plain result
+    # end
+    #
+    # Seems like it might be more complicated? Not sure probably missing something.
+    def prepare
+      true
+    end
+
     ## ------------------ Rendering ----------------
     # Invoked by Cell::ViewModel from Rendering#call
     #
     # TODO: Mental node get the different renderings into their own
     # distinct renderers like StaticRenderer, DynamicRenderer etc.
     def show(&block)
-      if respond_to? :prepare
-        prepare
-      end
+      # TODO: What's in the show block? Do we need it?
+      prepare
+
       if respond_to? :response
         response &block
         if @static
