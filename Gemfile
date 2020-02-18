@@ -26,7 +26,6 @@ group :development, :test do
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
-  gem 'pry-byebug'
   gem 'webmock'
   gem 'pry-rails'
   gem 'pry-byebug'
