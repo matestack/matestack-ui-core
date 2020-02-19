@@ -305,6 +305,8 @@ describe "Page", type: :feature, js: true do
       end
     end
 
+    Matestack::Ui::Core::Component::Registry.register_component(:example_component, Matestack::Ui::Core::Example::Component::Component)
+
     class ExamplePage < Matestack::Ui::Page
 
       def prepare
@@ -350,8 +352,6 @@ describe "Page", type: :feature, js: true do
     end
 
     visit "/page_test/?foo=bar"
-
-    binding.pry
 
     static_output = page.html
 
