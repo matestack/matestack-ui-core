@@ -51,6 +51,7 @@ module Matestack::Ui::Core::Component
       @controller_context = context&.fetch(:controller_context, nil)
 
       # Options for seemingly advanced functionality
+      # This is the configuration for the VueJS component
       @component_config = options.except(:context, :children, :url_params, :included_config)
       @url_params = options[:url_params]&.except(:action, :controller, :component_key)
       @component_key = options[:component_key]
@@ -99,6 +100,8 @@ module Matestack::Ui::Core::Component
       # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
 
       # TODO nicer interface
+      # TODO might get rid off the parent attribute (which would be nice)
+      # if we just remembered the current parrent context
       child = child_class.new(@current_parent_context, *args)
       @current_parent_context.children << child
 
@@ -240,6 +243,7 @@ module Matestack::Ui::Core::Component
     private
 
     ## ------------------------ Also Rendering ---------------------
+    # common attribute handling for tags/components
     def set_tag_attributes
       default_attributes = {
         "id": component_id,
