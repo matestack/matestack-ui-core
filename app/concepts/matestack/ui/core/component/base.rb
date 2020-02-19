@@ -18,11 +18,9 @@ module Matestack::Ui::Core::Component
     # method might break the whole thing.
 
     attr_reader :children
-    # sadly accessor needed for slot functionality
-    attr_accessor :parent
 
-    def initialize(parent = nil, model = nil, options = {})
-      super(model, options)
+    def initialize(model = nil, options = {})
+      super
       # @model also exists with the same content? Is there any reason we wouldn't
       # wanna use it instead of @argument? There's even a `model` accessor for it
       # TODO
@@ -35,7 +33,6 @@ module Matestack::Ui::Core::Component
 
       # DSL-relevant
       @children = []
-      @parent = parent
       @current_parent_context = self
 
       # TODO: everything beyond this point is probably not needed for the
@@ -102,7 +99,7 @@ module Matestack::Ui::Core::Component
       # TODO nicer interface
       # TODO might get rid off the parent attribute (which would be nice)
       # if we just remembered the current parrent context
-      child = child_class.new(@current_parent_context, *args)
+      child = child_class.new(*args)
       @current_parent_context.children << child
 
       child.prepare
@@ -110,11 +107,12 @@ module Matestack::Ui::Core::Component
       child.response if child.respond_to?(:response)
 
       if block
+        previous_parent_context = @current_parent_context
         begin
           @current_parent_context = child
           instance_eval(&block)
         ensure
-          @current_parent_context = child.parent
+          @current_parent_context = previous_parent_context
         end
       end
 
@@ -235,7 +233,6 @@ module Matestack::Ui::Core::Component
         execution_parent_proxy.children
       else
         # at this point the children should be completely built
-        slot_content.each { |child| child.parent = @current_parent_context }
         @current_parent_context.children.concat(slot_content)
       end
     end

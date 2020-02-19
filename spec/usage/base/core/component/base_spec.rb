@@ -9,7 +9,7 @@ describe Matestack::Ui::Core::Component::Base do
   describe "#initialize" do
     # TODO: This seems to be the existing semantics
     it "sets @options to the hash if passed after parent" do
-      instance = described_class.new nil, id: "something"
+      instance = described_class.new id: "something"
 
       expect(instance.model).to eq id: "something"
       expect(instance.instance_variable_get(:@options)).to eq id: "something"
@@ -231,7 +231,7 @@ describe Matestack::Ui::Core::Component::Base do
 
   describe "#to_html" do
     it "can get the HTML of a simple Plain" do
-      plain = Matestack::Ui::Core::Plain::Plain.new(nil, "42")
+      plain = Matestack::Ui::Core::Plain::Plain.new("42")
 
       expect(plain.to_html).to eq "42"
     end

@@ -4,8 +4,8 @@ module Matestack::Ui::Core::Page
   class Page < Matestack::Ui::Core::Component::Base
     include ActionView::Helpers::TranslationHelper
 
-    def initialize(model=nil, options={})
-      super(nil, model, options)
+    def initialize(model = nil, options = {})
+      super
       generate_page_name
       set_app_class
       copy_controller_instance_variables(options[:controller_instance])
