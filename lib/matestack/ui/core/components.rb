@@ -23,8 +23,11 @@ module Matestack::Ui::Core::Components
   require_core_component "button"
   require_core_component "div"
   require_core_component "heading"
+  require_core_component "main"
+  require_core_component "nav"
   require_core_component "plain"
   require_core_component "span"
+  require_core_component "transition"
 end
 
 
@@ -33,6 +36,9 @@ Matestack::Ui::Core::Component::Registry.register_components(
   button: Matestack::Ui::Core::Button::Button,
   div: Matestack::Ui::Core::Div::Div,
   heading: Matestack::Ui::Core::Heading::Heading,
+  main: Matestack::Ui::Core::Main::Main,
+  nav: Matestack::Ui::Core::Nav::Nav,
   plain: Matestack::Ui::Core::Plain::Plain,
   span: Matestack::Ui::Core::Span::Span,
+  transition: Matestack::Ui::Core::Transition::Transition,
 )
