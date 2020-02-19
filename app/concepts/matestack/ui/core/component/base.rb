@@ -17,7 +17,7 @@ module Matestack::Ui::Core::Component
     # That especially includes all those modules, accidentally overriding one
     # method might break the whole thing.
 
-    attr_reader :children
+    attr_reader :children, :yield_components_to
 
     def initialize(model = nil, options = {})
       super
@@ -34,6 +34,8 @@ module Matestack::Ui::Core::Component
       # DSL-relevant
       @children = []
       @current_parent_context = self
+      # remember where we need to insert components on yield_components_for usage
+      @yield_components_to = nil
 
       # TODO: everything beyond this point is probably not needed for the
       # Page subclass
@@ -84,39 +86,6 @@ module Matestack::Ui::Core::Component
 
     def self.views_dir
       return ""
-    end
-
-    # NEW DSL RELATED METHODS
-    def add_child(child_class, *args, &block)
-      # can't do a splat first followed by a default argument in Ruby,
-      # as semantics are unclear. Could put the block as a second argument but
-      # that'd make the DSL weird if used this way:
-      # add_child Class, proc { ... }, text: "lol"
-      #  vs
-      # add_child Class, {text: "lol"}, proc { ... }
-      # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
-
-      # TODO nicer interface
-      # TODO might get rid off the parent attribute (which would be nice)
-      # if we just remembered the current parrent context
-      child = child_class.new(*args)
-      @current_parent_context.children << child
-
-      child.prepare
-
-      child.response if child.respond_to?(:response)
-
-      if block
-        previous_parent_context = @current_parent_context
-        begin
-          @current_parent_context = child
-          instance_eval(&block)
-        ensure
-          @current_parent_context = previous_parent_context
-        end
-      end
-
-      child
     end
 
     # Special validation logic
@@ -200,6 +169,38 @@ module Matestack::Ui::Core::Component
     end
 
     ## ---------------------- DSL ------------------------------
+    def add_child(child_class, *args, &block)
+      # can't do a splat first followed by a default argument in Ruby,
+      # as semantics are unclear. Could put the block as a second argument but
+      # that'd make the DSL weird if used this way:
+      # add_child Class, proc { ... }, text: "lol"
+      #  vs
+      # add_child Class, {text: "lol"}, proc { ... }
+      # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
+
+      # TODO nicer interface
+      # TODO might get rid off the parent attribute (which would be nice)
+      # if we just remembered the current parrent context
+      child = child_class.new(*args)
+      @current_parent_context.children << child
+
+      child.prepare
+
+      child.response if child.respond_to?(:response)
+
+      if block
+        previous_parent_context = @current_parent_context
+        begin
+          @current_parent_context = child.yield_components_to || child
+          instance_eval(&block)
+        ensure
+          @current_parent_context = previous_parent_context
+        end
+      end
+
+      child
+    end
+
     # compatibility layer to old-school (not needed anymore)
     def components(&block)
       instance_eval &block
@@ -235,6 +236,18 @@ module Matestack::Ui::Core::Component
         # at this point the children should be completely built
         @current_parent_context.children.concat(slot_content)
       end
+    end
+
+    # TODO the implementation is simple, but reasoning about is quite
+    # complex imo. The main reason is that `yield_components` has no
+    # access to the block. Of course that could be solved by making
+    # it an instance variable. Might be nicer if we could do
+    # `def response(&block)`
+    # Also:
+    # * right now only works with one yield_components, would break with
+    #  two that might be nice to raise/warn about
+    def yield_components
+      @yield_components_to = @current_parent_context
     end
 
     private

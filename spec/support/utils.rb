@@ -12,4 +12,15 @@ module Utils
   	Rails.application.routes.url_helpers.method_defined?(path_as_symbol)
   end
 
+  # Because of how this is handled in tests (include Utils) this actually
+  # ends up on Object so the method is available on a class level which
+  # for tests allows a relatively convenient access
+  def register_component(dsl_method, component_class)
+    Matestack::Ui::Core::Component::Registry.register_component(dsl_method, component_class)
+  end
+
+  # even more test convenience
+  def register_self_as(dsl_method)
+    register_component(dsl_method, self)
+  end
 end

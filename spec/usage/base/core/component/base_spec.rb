@@ -542,4 +542,55 @@ describe Matestack::Ui::Core::Component::Base do
       end
     end
   end
+
+  describe "#yield_components" do
+    context "simple yield" do
+      let(:yielding_component) do
+        Class.new(described_class) do
+          def response
+            div do
+              yield_components
+            end
+          end
+        end
+      end
+
+      let(:using_component) do
+        component_class = yielding_component
+
+        Class.new(described_class) do
+          YieldingClass = component_class
+          def response
+            div id: "outer" do
+              add_child YieldingClass do
+                plain "Inserted content"
+              end
+            end
+          end
+        end
+      end
+
+      it "can set things into the slot without problems" do
+        instance = using_component.new
+
+        instance.response
+
+        expect(instance.children.size).to eq 1
+        outer_div = instance.children.first
+
+        expect(outer_div.model).to eq id: "outer"
+        expect(outer_div.children.size).to eq 1
+
+        yielding_component = outer_div.children.first
+        expect(yielding_component.children.size).to eq 1
+
+        inner_div = yielding_component.children.first
+        expect(inner_div.children.size).to eq 1
+
+        plain = inner_div.children.first
+        expect(plain.model).to eq "Inserted content"
+        expect(plain.children).to be_empty
+      end
+    end
+  end
 end
