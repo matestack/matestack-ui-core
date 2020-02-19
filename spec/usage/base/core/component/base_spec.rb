@@ -570,7 +570,7 @@ describe Matestack::Ui::Core::Component::Base do
         end
       end
 
-      it "can set things into the slot without problems" do
+      it "can put the things in the assigned 'slot' without problems" do
         instance = using_component.new
 
         instance.response
@@ -590,6 +590,47 @@ describe Matestack::Ui::Core::Component::Base do
         plain = inner_div.children.first
         expect(plain.model).to eq "Inserted content"
         expect(plain.children).to be_empty
+      end
+    end
+
+    context "accessing methods only the using component as access to" do
+      let(:yielding_component) do
+        Class.new(described_class) do
+          def response
+            yield_components
+          end
+        end
+      end
+
+      let(:using_component) do
+        component_class = yielding_component
+
+        Class.new(described_class) do
+          YieldingClass2 = component_class
+          def response
+            add_child YieldingClass2 do
+              inserted_content
+            end
+          end
+
+          def inserted_content
+            plain "Inserted content"
+          end
+        end
+      end
+
+      it "can set things into the slot without problems" do
+        instance = using_component.new
+
+        instance.response
+
+        expect(instance.children.size).to eq 1
+
+        yielding_component = instance.children.first
+        expect(yielding_component.children.size).to eq 1
+
+        plain = yielding_component.children.first
+        expect(plain.model).to eq "Inserted content"
       end
     end
   end
