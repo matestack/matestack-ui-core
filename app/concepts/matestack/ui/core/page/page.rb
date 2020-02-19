@@ -59,27 +59,6 @@ module Matestack::Ui::Core::Page
         end
       end
 
-      def resolve_isolated_component component_key
-        keys_array = component_key.gsub("__", "__components__").split("__").map {|k| k.to_s}
-        isolate_keys = keys_array.select{|key| key.match(/^isolate_/)}
-        keys_array = keys_array.drop(keys_array.find_index(isolate_keys[0])+2)
-        isolated_scope_method = keys_array[0]
-        if isolated_scope_method.include?("(")
-          isolated_scope_method_name = isolated_scope_method.split("(").first
-          isolated_scope_method_argument = isolated_scope_method.split("(").last.split(")").first
-          isolated_scope_method_argument = JSON.parse(isolated_scope_method_argument)
-          isolated_block = self.send(isolated_scope_method_name, isolated_scope_method_argument.with_indifferent_access)
-        else
-          isolated_block = self.send(isolated_scope_method)
-        end
-        nodes = Matestack::Ui::Core::PageNode.build(
-          self, nil, context[:params], &isolated_block
-        )
-        node = nodes.dig(*keys_array.drop(2))
-        cell = to_cell(component_key, node["component_name"], node["config"], node["argument"], node["components"], node["included_config"], node["cached_params"])
-        return cell.render_content
-      end
-
       # TODO: This page_id part won't work when pages aren't scoped by app
       # anymore/needs to respect app
       def generate_page_name
