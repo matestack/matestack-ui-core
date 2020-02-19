@@ -11,6 +11,10 @@ module Matestack::Ui::Core::Page
       copy_controller_instance_variables(options[:controller_instance])
     end
 
+    # This is basically the middle component in charge of rendering here,
+    # I believe we need to reverse this so that we first go through the
+    # App, then to the page and then to the components.
+    # Perhaps through a renderer component.
     def show(component_key=nil, only_page=false)
       prepare
       # TODO this is likely broken if someone named a component Isolate or name space
