@@ -12,7 +12,6 @@ module Matestack::Ui::Core::Components
     require_app_path "concepts/matestack/ui/core/#{name}/#{name}"
   end
 
-  require_app_path "lib/matestack/ui/core/render"
   require_app_path "helpers/matestack/ui/core/application_helper"
   require_app_path "lib/matestack/ui/core/has_view_context"
 

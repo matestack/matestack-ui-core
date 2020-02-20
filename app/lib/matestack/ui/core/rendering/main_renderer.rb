@@ -2,7 +2,25 @@
 module Matestack::Ui::Core::Rendering::MainRenderer
   module_function
 
+  # Instead of rendering without an app class, we always have an "empty" app class
+  # to fall back to
+  DEFAULT_APP_CLASS = Matestack::Ui::Core::App::App
+
   def render(controller_instance, page_class, options, params)
+    app_class = get_app_class(page_class)
+
+    # controller related data
+    view_context = controller_instance.view_context
+    params = controller_instance.params
+    request = controller_instance.request
+
+    app_instance = app_class.new(page_class, context: {controller_instance: controller_instance})
+
+    # Render all things
+    controller_instance.render html: app_instance.show, layout: true
+  end
+
+  def other_render_stuff
     unless params[:component_key].blank?
       # TODO: why is this plain and not html?
       controller_instance.render plain: render_component(page_class, params[:component_key])
@@ -57,11 +75,11 @@ module Matestack::Ui::Core::Rendering::MainRenderer
 
   # See #382 for how this shall change in the future
   # TLDR; we should get it more or less explicitly from the controller
-  def get_matestack_app_class(page_class)
+  def get_app_class(page_class)
     class_name = page_class.name
     name_parts = class_name.split("::")
 
-    return nil if name_parts.count <= 2
+    return DEFAULT_APP_CLASS if name_parts.count <= 2
 
     app_name = "#{name_parts[1]}"
     begin
@@ -74,11 +92,11 @@ module Matestack::Ui::Core::Rendering::MainRenderer
         if app_class.is_a?(Class)
           app_class
         else
-          nil
+          DEFAULT_APP_CLASS
         end
       end
     rescue
-      nil
+      DEFAULT_APP_CLASS
     end
   end
 end

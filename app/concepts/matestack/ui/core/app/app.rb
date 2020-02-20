@@ -2,24 +2,30 @@ module Matestack::Ui::Core::App
 
   # TODO: Similar to page, App doesn't need everything base offers atm
   class App < Matestack::Ui::Core::Component::Base
-    def show(page_id, page_nodes, &block)
-      @page_id = page_id
-      @page_nodes = page_nodes
-      prepare
-      response
-      render(view: :app, &block)
+
+    def initialize(page_class, options)
+      # TODO: double check if those options are really useful as handed down here
+      super(nil, options)
+
+      @page_class = page_class
+      context = options.fetch(:context)
+      @controller_instance = context.fetch(:controller_instance)
     end
 
-    # #build to just build the "DOM" structure?
-    # #show to render?
-    # different renderers for the different rendering strategies?
-    # * whole thing
-    # * async
-    # * isolate
-    # * only-page (shouldn't exist anymore)
+    def show()
+      prepare
+      response
+      render :app
+    end
+
+    # Default "response" for just rendering the page without a more
+    # sophisticated app being supplied
+    def response
+      page_content
+    end
 
     def page_content
-      # TODO ;)
+      add_child @page_class, controller_instance: @controller_instance
     end
   end
 end
