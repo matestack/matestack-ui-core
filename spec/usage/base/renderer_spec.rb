@@ -1,4 +1,4 @@
-describe Matestack::Ui::Core::Render do
+describe "Implicit rendering Matestack::Ui::Core::ApplicationHelper" do
   describe "#default_render" do
 
     describe "implicit rendering for index actions", type: :feature, js: true do

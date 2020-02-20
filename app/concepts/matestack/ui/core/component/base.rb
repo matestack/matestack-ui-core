@@ -43,19 +43,20 @@ module Matestack::Ui::Core::Component
       # Page subclass
 
       # TODO: potentially only used in form like components
-      @included_config = options[:included_config]
+      @included_config = @options[:included_config]
       # TODO: only relevant to isolate
-      @cached_params = options[:cached_params]
+      @cached_params = @options[:cached_params]
 
       # TODO seemingly never accessed? (at least by us)
       # #context is defined in `Cell::ViewModel`
+      # and it just grabs @options[:context]
       @controller_context = context&.fetch(:controller_context, nil)
 
       # Options for seemingly advanced functionality
       # This is the configuration for the VueJS component
-      @component_config = options.except(:context, :children, :url_params, :included_config)
-      @url_params = options[:url_params]&.except(:action, :controller, :component_key)
-      @component_key = options[:component_key]
+      @component_config = @options.except(:context, :children, :url_params, :included_config)
+      @url_params = @options[:url_params]&.except(:action, :controller, :component_key)
+      @component_key = @options[:component_key]
 
       # TODO: do we realy have to call this every time on initialize or should
       # it maybe be called more dynamically like its dynamic_tag_attributes

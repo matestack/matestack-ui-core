@@ -13,7 +13,8 @@ module Matestack::Ui::Core::Component
         "inline-template": true,
       }
       attrs.merge!(options[:attributes]) unless options[:attributes].nil?
-      return attrs
+      p attrs
+      attrs
    end
   end
 end
