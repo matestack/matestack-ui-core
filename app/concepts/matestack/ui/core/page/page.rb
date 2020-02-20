@@ -4,9 +4,9 @@ module Matestack::Ui::Core::Page
   class Page < Matestack::Ui::Core::Component::Base
     include ActionView::Helpers::TranslationHelper
 
-    def initialize(model = nil, options = {})
-      super
-      copy_controller_instance_variables(options[:controller_instance])
+    def initialize(options = {})
+      super(nil, options)
+      copy_controller_instance_variables(options.fetch(:controller_instance))
       generate_page_name
     end
 
@@ -14,11 +14,8 @@ module Matestack::Ui::Core::Page
     # I believe we need to reverse this so that we first go through the
     # App, then to the page and then to the components.
     # Perhaps through a renderer component.
-    def show(component_key=nil, only_page=false)
-      prepare
-      response
-
-      # TODO:  Rendering was here, extracted to main renderer.
+    def show()
+      render :page
     end
 
     def page_id

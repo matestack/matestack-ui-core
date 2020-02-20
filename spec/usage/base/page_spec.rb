@@ -71,7 +71,6 @@ describe "Page", type: :feature, js: true do
     visit "/page_test"
 
     expect(page).to have_content("bar")
-
   end
 
   it "can resolve data in a prepare method, which runs before rendering"

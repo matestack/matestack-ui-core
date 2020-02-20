@@ -19,6 +19,8 @@ module Matestack::Ui::Core::Component
 
     attr_reader :children, :yield_components_to
 
+    # TODO: Seems the `context` method is defined in Cells, would be
+    # easy to move up - question really is how much of cells we're still using?
     def initialize(model = nil, options = {})
       super
       # @model also exists with the same content? Is there any reason we wouldn't

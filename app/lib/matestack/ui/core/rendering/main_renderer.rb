@@ -14,7 +14,7 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     params = controller_instance.params
     request = controller_instance.request
 
-    app_instance = app_class.new(page_class, context: {controller_instance: controller_instance})
+    app_instance = app_class.new(page_class, controller_instance)
 
     # Render all things
     controller_instance.render html: app_instance.show, layout: true
