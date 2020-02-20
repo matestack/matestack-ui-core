@@ -22,7 +22,6 @@ module Matestack::Ui::Core::Component
     # TODO: Seems the `context` method is defined in Cells, would be
     # easy to move up - question really is how much of cells we're still using?
     def initialize(model = nil, options = {})
-      super
       # @model also exists with the same content? Is there any reason we wouldn't
       # wanna use it instead of @argument? There's even a `model` accessor for it
       # TODO
@@ -33,6 +32,7 @@ module Matestack::Ui::Core::Component
       # those are the options
       @options = model.dup if @options.empty? && model.is_a?(Hash)
 
+      super(model, @options)
       # DSL-relevant
       @children = []
       @current_parent_context = self
@@ -55,7 +55,10 @@ module Matestack::Ui::Core::Component
       # Options for seemingly advanced functionality
       # This is the configuration for the VueJS component
       @component_config = @options.except(:context, :children, :url_params, :included_config)
-      @url_params = @options[:url_params]&.except(:action, :controller, :component_key)
+
+      # TODO: no idea why this is called `url_params` it contains
+      # much more than this
+      @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
       @component_key = @options[:component_key]
 
       # TODO: do we realy have to call this every time on initialize or should
@@ -181,10 +184,33 @@ module Matestack::Ui::Core::Component
       # add_child Class, {text: "lol"}, proc { ... }
       # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
 
+      # TODO: there must be a nicer/better/more uniform way to pass this
+      # on at some level
+      new_args =
+        if context
+          case args.size
+          when 0 then [{context: context}]
+          when 1 then
+            arg = args.first
+            if arg.is_a?(Hash)
+              arg[:context] = context
+              [arg]
+            else
+              [arg, {context: context}]
+            end
+          when 2 then
+            args[1][:context] = context
+            [args.first, args[1]]
+          else
+            raise "too many child arguments what are you doing?"
+          end
+        else
+          args
+        end
+
+
       # TODO nicer interface
-      # TODO might get rid off the parent attribute (which would be nice)
-      # if we just remembered the current parrent context
-      child = child_class.new(*args)
+      child = child_class.new(*new_args)
       @current_parent_context.children << child
 
       child.prepare

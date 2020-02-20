@@ -14,7 +14,7 @@ module Matestack::Ui::Core::Page
     # I believe we need to reverse this so that we first go through the
     # App, then to the page and then to the components.
     # Perhaps through a renderer component.
-    def show()
+    def show
       render :page
     end
 

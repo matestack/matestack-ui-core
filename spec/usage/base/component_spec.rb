@@ -930,6 +930,8 @@ describe "Component", type: :feature, js: true do
           def response
             components {
               div id: "my-component" do
+                # TODO: rather than accessing plain instance variables
+                # I'd recommend a method based interface (easier to adjust, test, maintain if state is moved elsewhere etc.)
                 plain @url_params[:foo]
               end
             }
@@ -954,7 +956,6 @@ describe "Component", type: :feature, js: true do
       visit "/component_test?foo=bar"
 
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component" and contains(.,"bar")]')
-
     end
 
   end
