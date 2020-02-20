@@ -29,9 +29,12 @@ module Matestack::Ui::Core::App
     end
 
     def page_content
-      add_child @page_class,
-                controller_instance: @controller_instance,
-                context: context
+      # TODO: Content probably needs/would benefit from a better name - like "DynamicWrapper" ?
+      add_child Matestack::Ui::Core::Page::Content do
+        add_child @page_class,
+                  controller_instance: @controller_instance,
+                  context: context
+      end
     end
   end
 end

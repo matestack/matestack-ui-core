@@ -44,7 +44,7 @@ const store = new Vuex.Store({
             window.history.pushState({matestackApp: true, url: url}, null, url);
           }
           setTimeout(function () {
-            resolve(response["data"])
+            resolve(response["data"]);
             commit('setPageTemplate', response["data"])
             commit('setCurrentPath', url)
             matestackEventHub.$emit("page_loaded", url);

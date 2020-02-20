@@ -9,7 +9,7 @@ const componentDef = {
     return {}
   },
   computed: Vuex.mapState({
-    asyncTemplate: state => state.pageTemplate,
+    asyncTemplate: state => state.pageTemplate
   }),
   mounted: function(){
     window.onpopstate = (event) => {

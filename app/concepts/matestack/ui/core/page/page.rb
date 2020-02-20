@@ -1,21 +1,13 @@
 module Matestack::Ui::Core::Page
 
   # TODO: Most of the functionality is shared but some initialize stuff a page probably doesn't need
-  class Page < Matestack::Ui::Core::Component::Base
+  class Page < Matestack::Ui::Core::Component::Static
     include ActionView::Helpers::TranslationHelper
 
     def initialize(options = {})
       super(nil, options)
       copy_controller_instance_variables(options.fetch(:controller_instance))
       generate_page_name
-    end
-
-    # This is basically the middle component in charge of rendering here,
-    # I believe we need to reverse this so that we first go through the
-    # App, then to the page and then to the components.
-    # Perhaps through a renderer component.
-    def show
-      render :page
     end
 
     def page_id

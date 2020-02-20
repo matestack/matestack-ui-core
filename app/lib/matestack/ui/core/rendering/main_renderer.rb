@@ -14,10 +14,15 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     params = controller_instance.params
     request = controller_instance.request
 
-    app_instance = app_class.new(page_class, controller_instance)
-
-    # Render all things
-    controller_instance.render html: app_instance.show, layout: true
+    if params[:only_page]
+      page_instance = page_class.new(controller_instance: controller_instance)
+      page_instance.prepare
+      page_instance.response
+      controller_instance.render html: page_instance.show
+    else
+      app_instance = app_class.new(page_class, controller_instance)
+      controller_instance.render html: app_instance.show, layout: true
+    end
   end
 
   def other_render_stuff

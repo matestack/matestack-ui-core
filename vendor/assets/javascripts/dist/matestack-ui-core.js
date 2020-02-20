@@ -200,7 +200,7 @@ const componentDef = {
     return {}
   },
   computed: vuex__WEBPACK_IMPORTED_MODULE_2__["default"].mapState({
-    asyncTemplate: state => state.pageTemplate,
+    asyncTemplate: state => state.pageTemplate
   }),
   mounted: function(){
     window.onpopstate = (event) => {
@@ -306,7 +306,7 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
             window.history.pushState({matestackApp: true, url: url}, null, url);
           }
           setTimeout(function () {
-            resolve(response["data"])
+            resolve(response["data"]);
             commit('setPageTemplate', response["data"])
             commit('setCurrentPath', url)
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
