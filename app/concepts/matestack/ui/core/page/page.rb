@@ -6,9 +6,8 @@ module Matestack::Ui::Core::Page
 
     def initialize(model = nil, options = {})
       super
-      generate_page_name
-      set_app_class
       copy_controller_instance_variables(options[:controller_instance])
+      generate_page_name
     end
 
     # This is basically the middle component in charge of rendering here,
@@ -17,31 +16,9 @@ module Matestack::Ui::Core::Page
     # Perhaps through a renderer component.
     def show(component_key=nil, only_page=false)
       prepare
-      # TODO this is likely broken if someone named a component Isolate or name space
-      return resolve_isolated_component(component_key) if !component_key.nil? && component_key.include?("isolate")
-
       response
 
-      render_mode = nil
-      render_mode = :only_page if only_page == true
-      render_mode = :render_page_with_app if !@app_class.nil? && only_page == false
-      render_mode = :only_page if @app_class.nil? && only_page == false
-      render_mode = :render_component if !component_key.nil?
-
-      case render_mode
-
-      when :only_page
-        render :page
-      when :render_page_with_app
-        concept(@app_class).call(:show, @page_id, @nodes)
-      when :render_component
-        begin
-          # TODO when is this called and make it good again
-          render_child_component component_key
-        rescue => e
-          raise "Component '#{component_key}' could not be resolved, because of #{e},\n#{e.backtrace.join("\n")}"
-        end
-      end
+      # TODO:  Rendering was here, extracted to main renderer.
     end
 
     def page_id
@@ -54,6 +31,10 @@ module Matestack::Ui::Core::Page
       def copy_controller_instance_variables(controller)
         controller.instance_variables.each do |controller_instance_var_key|
           unless controller_instance_var_key.to_s.start_with?("@_")
+            # TODO BUG: We might override our own instance variables here.
+            # Solution 1: Check against own instance variables and don't do
+            # Solution 2: Create own context object and don't pollute instance variables
+            # Solution 3: Prefix own instance varibale @_mate or so to circumvent conflicts
             self.instance_variable_set(controller_instance_var_key, controller.instance_variable_get(controller_instance_var_key))
           end
         end
@@ -65,34 +46,5 @@ module Matestack::Ui::Core::Page
         name_parts = self.class.name.split("::").map { |name| name.underscore }
         @page_id = name_parts.join("_")
       end
-
-      # See #382 for how this shall change in the future
-      def set_app_class
-        class_name = self.class.name
-        name_parts = class_name.split("::")
-        if name_parts.count <= 2
-          @app_class = nil
-          return
-        end
-
-        app_name = "#{name_parts[1]}"
-        begin
-          app_class = Apps.const_get(app_name)
-          if app_class.is_a?(Class)
-            @app_class = app_class
-          else
-            require_dependency "apps/#{app_name.underscore}"
-            app_class = Apps.const_get(app_name)
-            if app_class.is_a?(Class)
-              @app_class = app_class
-            else
-              @app_class = nil
-            end
-          end
-        rescue
-          @app_class = nil
-        end
-      end
-
   end
 end
