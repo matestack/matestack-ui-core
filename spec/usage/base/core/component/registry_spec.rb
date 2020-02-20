@@ -34,8 +34,8 @@ describe Matestack::Ui::Core::Component::Registry do
       dsl_instance.magic
       dsl_instance.magic 2, 3
 
-      expect(dsl_instance).to have_received(:add_child).with(component_class, nil)
-      expect(dsl_instance).to have_received(:add_child).with(component_class, 2, 3, nil)
+      expect(dsl_instance).to have_received(:add_child).with(component_class)
+      expect(dsl_instance).to have_received(:add_child).with(component_class, 2, 3)
     end
 
     it "can give you an overview of the registered components" do
@@ -57,9 +57,9 @@ describe Matestack::Ui::Core::Component::Registry do
       dsl_instance.other_foo 2
       dsl_instance.bar
 
-      expect(dsl_instance).to have_received(:add_child).with(component_class, :foo, nil)
-      expect(dsl_instance).to have_received(:add_child).with(component_class, 2, nil)
-      expect(dsl_instance).to have_received(:add_child).with(component_class2, nil)
+      expect(dsl_instance).to have_received(:add_child).with(component_class, :foo)
+      expect(dsl_instance).to have_received(:add_child).with(component_class, 2)
+      expect(dsl_instance).to have_received(:add_child).with(component_class2)
     end
 
     it "handles simple blocks appropriately" do
@@ -67,7 +67,11 @@ describe Matestack::Ui::Core::Component::Registry do
 
       dsl_instance.block_me { 2 + 2 }
 
-      expect(dsl_instance).to have_received(:add_child).with(component_class, Proc)
+
+      expect(dsl_instance).to have_received(:add_child).with(component_class) do |*args, &block|
+        expect(block).not_to be_nil
+        expect(block.call).to eq 4
+      end
     end
 
     it "handles arguments + block appropriately" do
@@ -75,7 +79,10 @@ describe Matestack::Ui::Core::Component::Registry do
 
       dsl_instance.block_me2 arg: "great" do 42 end
 
-      expect(dsl_instance).to have_received(:add_child).with(component_class, {arg: "great"}, Proc)
+      expect(dsl_instance).to have_received(:add_child).with(component_class, {arg: "great"}) do |*args, &block|
+        expect(block).not_to be_nil
+        expect(block.call).to eq 42
+      end
     end
 
     describe "warnings & errors when trying to redefine" do
