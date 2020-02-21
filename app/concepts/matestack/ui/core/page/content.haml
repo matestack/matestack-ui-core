@@ -1,6 +1,5 @@
-%div{class: "matestack_page"}
-  %div{class: "matestack_page_content"}
-    %div{"v-if": "asyncPageTemplate == null"}
-      = yield
-    %div{"v-if": "asyncPageTemplate != null"}
-      %v-runtime-template{":template":"asyncPageTemplate"}
+%div{class: "matestack_page_content"}
+  %div{"v-if": "asyncPageTemplate == null"}
+    = yield
+  %div{"v-if": "asyncPageTemplate != null"}
+    %v-runtime-template{":template":"asyncPageTemplate"}

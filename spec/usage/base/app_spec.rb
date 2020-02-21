@@ -74,17 +74,12 @@ describe "App", type: :feature, js: true do
     expect(page).to have_xpath('//div[@class="matestack_app"]/h1[contains(.,"My Example App Layout")]')
 
 
-    # TODO: there use to be an extra div in the xpath
-    # Like: //div[@class="matestack_app"]/main/div[@class="matestack_page"]/div/div[@class="matestack_page_content"]/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]
-    # it seemed useless in an already big div brigade, I can't see anything
-    # purposefully rendering it so I removed it :shrug:
-    # Comment goes for the other bigger xpaths as well (systemic fault)
-    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page"]/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
 
     visit "app_specs/my_example_app/page2"
 
     expect(page).to have_xpath('//div[@class="matestack_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page"]/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
+    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
   end
 
   it "enables transitions between pages without page reload" do
@@ -155,12 +150,12 @@ describe "App", type: :feature, js: true do
     visit "app_specs/my_example_app/page1"
 
     expect(page).to have_xpath('//div[@class="matestack_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page"]/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
 
     click_button "Page 2"
 
     expect(page).to have_xpath('//div[@class="matestack_app"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page"]/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
+    expect(page).to have_xpath('//div[@class="matestack_app"]/main/div[@class="matestack_page_content"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
 
   end
 
