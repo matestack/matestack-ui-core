@@ -50,6 +50,7 @@ describe "Engine Components", type: :feature, js: true do
             }
           end
 
+          register_self_as(:some_addon_component)
         end
       end
 
@@ -58,7 +59,7 @@ describe "Engine Components", type: :feature, js: true do
         def response
           components {
             div id: "div-on-page" do
-              someAddon_component1
+              some_addon_component
             end
           }
         end
@@ -90,6 +91,7 @@ describe "Engine Components", type: :feature, js: true do
             }
           end
 
+          register_self_as(:some_addon_component)
         end
       end
 
@@ -105,6 +107,8 @@ describe "Engine Components", type: :feature, js: true do
             }
           end
 
+          register_self_as(:some_addon_sub_component)
+
         end
       end
 
@@ -113,8 +117,8 @@ describe "Engine Components", type: :feature, js: true do
         def response
           components {
             div id: "div-on-page" do
-              someAddon_component1
-              someAddon_component1_subcomponent1
+              some_addon_component
+              some_addon_sub_component
             end
           }
         end
@@ -129,6 +133,8 @@ describe "Engine Components", type: :feature, js: true do
     end
 
     it "camelcased module or class names are referenced with their downcased counterpart" do
+
+      pending "TODO: naming is now rather irrelevant so I think we can get rid off this"
 
       #creating the namespace which is represented by "ADDON_ENGINE_ROOT/app/concepts/matestack/ui/some_addon/some_component"
       module Matestack::Ui::SomeAddon::SomeComponent end
