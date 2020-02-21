@@ -285,8 +285,8 @@ module Matestack::Ui::Core::Component
     # common attribute handling for tags/components
     def set_tag_attributes
       default_attributes = {
-        "id": component_id,
-        "class": options[:class]
+        id: component_id,
+        class: options[:class]
        }
        unless options[:attributes].nil?
          default_attributes.merge!(options[:attributes])

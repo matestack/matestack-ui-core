@@ -5,12 +5,12 @@ module Matestack::Ui::Core::Link
 
     def setup
       @tag_attributes.merge!({
-        "class": options[:class],
-        "id": component_id,
-        "method": options[:method],
-        "target": options[:target] ||= nil,
-        "href": link_path,
-        "title": options[:title]
+        class: options[:class],
+        id: component_id,
+        method: options[:method],
+        target: options[:target] ||= nil,
+        href: link_path,
+        title: options[:title]
       })
     end
 
