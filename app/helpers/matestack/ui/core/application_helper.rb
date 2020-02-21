@@ -14,12 +14,12 @@ module Matestack
         def render(*args)
           if (matestack_class = args.first).is_a?(Class) && (matestack_class < Matestack::Ui::Page)
             options_hash = args[1].is_a?(Hash) ? args[1] : {}
-            Rendering::MainRenderer.render(self, matestack_class, options_hash, params)
+            Rendering::MainRenderer.render(self, matestack_class, options_hash)
           elsif (options = args.first).is_a?(Hash) &&
                   (matestack_arg = options[:matestack]) &&
                   matestack_arg.is_a?(Class) &&
                   (matestack_arg < Matestack::Ui::Page)
-            Rendering::MainRenderer.render(self, matestack_arg, options, params)
+            Rendering::MainRenderer.render(self, matestack_arg, options)
           else
             super
           end

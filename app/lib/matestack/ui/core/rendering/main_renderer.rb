@@ -2,81 +2,34 @@
 module Matestack::Ui::Core::Rendering::MainRenderer
   module_function
 
-  # Instead of rendering without an app class, we always have an "empty" app class
-  # to fall back to
-  DEFAULT_APP_CLASS = Matestack::Ui::Core::App::App
-
-  def render(controller_instance, page_class, options, params)
+  def render(controller_instance, page_class, options)
     app_class = get_app_class(page_class)
 
-    # controller related data
-    view_context = controller_instance.view_context
     params = controller_instance.params
-    request = controller_instance.request
 
+    # My initial  thinking was to have different renderer classes for these, but with rendering this easy
+    # they're probably not needed
     if params[:only_page]
       page_instance = page_class.new(controller_instance: controller_instance)
       page_instance.prepare
       page_instance.response
       controller_instance.render html: page_instance.show
+    # TODO: elsif looking for new component/async/isolate or what not calls goes here
+    # and then has to look for the component class based on the given names
+    # CAREFUL/SECURITY: Make sure not just every object can be instantiated ("common" attack vector)
+    # specifically we might have to think about the scenario again where maybe a page includes
+    # admin only content - a normal user shouldn't be able to just send it the AdminOnlyComponent with
+    # some data and get a result back --> we probably need to give isolated components access to controller
+    # instance variables or controller context as well (so that the component can check current_user or similar of the controller/request)
     else
       app_instance = app_class.new(page_class, controller_instance)
       controller_instance.render html: app_instance.show, layout: true
     end
   end
 
-  def other_render_stuff
-    unless params[:component_key].blank?
-      # TODO: why is this plain and not html?
-      controller_instance.render plain: render_component(page_class, params[:component_key])
-      return
-    end
-    if params[:only_page]
-      controller_instance.render html: render_page(controller_instance, page_class, true)
-    else
-      controller_instance.render html: render_page(controller_instance, page_class), layout: true
-    end
-
-    # render mode dispatch extracted from Page, actual dispatch should happen here now
-
-    # TODO this is likely broken if someone named a component Isolate or name space
-    return resolve_isolated_component(component_key) if !component_key.nil? && component_key.include?("isolate")
-    render_mode = nil
-    render_mode = :only_page if only_page == true
-    render_mode = :render_page_with_app if !@app_class.nil? && only_page == false
-    render_mode = :only_page if @app_class.nil? && only_page == false
-    render_mode = :render_component if !component_key.nil?
-
-    case render_mode
-
-    when :only_page
-      render :page
-    when :render_page_with_app
-      concept(@app_class).call(:show, @page_id, @nodes)
-    when :render_component
-      begin
-        # TODO when is this called and make it good again
-        render_child_component component_key
-      rescue => e
-        raise "Component '#{component_key}' could not be resolved, because of #{e},\n#{e.backtrace.join("\n")}"
-      end
-    end
-  end
-
-  def render_page(controller_instance, page_class, only_page=false)
-    page_class.new(nil, context: {
-      params: params,
-      request: request,
-      view_context: view_context
-    }, controller_instance: controller_instance).call(:show, nil, only_page)
-  end
-
-  def render_component(controller_instance, page_class, component_key)
-    page_class.new(nil, context: {
-      params: params,
-      request: request
-    }, controller_instance: controller_instance).call(:show, component_key)
-  end
+  # Instead of rendering without an app class, we always have an "empty" app class
+  # to fall back to
+  DEFAULT_APP_CLASS = Matestack::Ui::Core::App::App
 
   # See #382 for how this shall change in the future
   # TLDR; we should get it more or less explicitly from the controller
