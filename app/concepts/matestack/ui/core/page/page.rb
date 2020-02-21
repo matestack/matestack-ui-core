@@ -7,13 +7,7 @@ module Matestack::Ui::Core::Page
     def initialize(options = {})
       super(nil, options)
       copy_controller_instance_variables(options.fetch(:controller_instance))
-      generate_page_name
     end
-
-    def page_id
-      @custom_page_id ||= @page_id
-    end
-
 
     private
 
@@ -27,13 +21,6 @@ module Matestack::Ui::Core::Page
             self.instance_variable_set(controller_instance_var_key, controller.instance_variable_get(controller_instance_var_key))
           end
         end
-      end
-
-      # TODO: This page_id part won't work when pages aren't scoped by app
-      # anymore/needs to respect app
-      def generate_page_name
-        name_parts = self.class.name.split("::").map { |name| name.underscore }
-        @page_id = name_parts.join("_")
       end
   end
 end
