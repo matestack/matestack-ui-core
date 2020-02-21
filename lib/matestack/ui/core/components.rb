@@ -19,9 +19,11 @@ module Matestack::Ui::Core::Components
   require_app_path "concepts/matestack/ui/core/component/dynamic"
   require_app_path "concepts/matestack/ui/core/component/static"
 
+  require_core_component "br"
   require_core_component "button"
   require_core_component "div"
   require_core_component "heading"
+  require_core_component "link"
   require_core_component "main"
   require_core_component "nav"
   require_core_component "plain"
@@ -33,8 +35,10 @@ end
 
 Matestack::Ui::Core::Component::Registry.register_components(
   button: Matestack::Ui::Core::Button::Button,
+  br: Matestack::Ui::Core::Br::Br,
   div: Matestack::Ui::Core::Div::Div,
   heading: Matestack::Ui::Core::Heading::Heading,
+  link: Matestack::Ui::Core::Link::Link,
   main: Matestack::Ui::Core::Main::Main,
   nav: Matestack::Ui::Core::Nav::Nav,
   plain: Matestack::Ui::Core::Plain::Plain,
