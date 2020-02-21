@@ -43,6 +43,7 @@ describe 'Creating custom components', type: :feature, js: true do
         }
       end
 
+      register_self_as(:crazy_component)
     end
 
     class Pages::ExamplePage < Matestack::Ui::Page
@@ -50,7 +51,7 @@ describe 'Creating custom components', type: :feature, js: true do
       def response
         components {
           div id: 'div-on-page' do
-            custom_crazyComponent
+            crazy_component
           end
         }
       end
@@ -151,6 +152,7 @@ describe 'Creating custom components', type: :feature, js: true do
         }
       end
 
+      register_self_as(:time_ago)
     end
 
     class Pages::ExamplePage < Matestack::Ui::Page
@@ -158,7 +160,7 @@ describe 'Creating custom components', type: :feature, js: true do
       def response
         components {
           div id: 'div-on-page' do
-            custom_timeAgo
+            time_ago
           end
         }
       end
@@ -190,6 +192,7 @@ describe 'Creating custom components', type: :feature, js: true do
         }
       end
 
+      register_self_as(:time_click)
     end
 
     component_definition = <<~javascript
@@ -222,7 +225,7 @@ describe 'Creating custom components', type: :feature, js: true do
             # re-initialize this DOM-part to trigger
             # Vue.js to mount the component properly.
             async rerender_on: "refresh" do
-              custom_timeClick
+              time_click
             end
           end
         }
