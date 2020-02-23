@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   end
 
   get '/example', to: 'example#page'
-  get '/example_turbolinks', to: 'example#turbolinks'
 
   scope :my_app do
     get 'my_first_page', to: 'my_app#my_first_page'
