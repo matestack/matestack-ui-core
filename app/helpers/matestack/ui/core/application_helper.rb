@@ -26,6 +26,8 @@ module Matestack
           end
           if params[:only_page]
             render html: render_page(page_class, true)
+          elsif params[:layout]
+            render html: render_page(page_class), layout: params[:layout]
           else
             render html: render_page(page_class), layout: true
           end

@@ -5,4 +5,8 @@ class ExampleController < ApplicationController
     responder_for(ExamplePage)
   end
 
+  def turbolinks
+    responder_for(ExamplePage, {options: 'turbolinks'})
+  end
+
 end
