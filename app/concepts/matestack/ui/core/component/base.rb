@@ -171,43 +171,15 @@ module Matestack::Ui::Core::Component
 
     ## ---------------------- DSL ------------------------------
     def add_child(child_class, *args, &block)
-      # TODO: there must be a nicer/better/more uniform way to pass this
-      # on at some level
-      new_args =
-        case args.size
-        when 0 then [{context: context}]
-        when 1 then
-          arg = args.first
-          if arg.is_a?(Hash)
-            arg[:context] = context
-            [arg]
-          else
-            [arg, {context: context}]
-          end
-        when 2 then
-          args[1][:context] = context
-          [args.first, args[1]]
-        else
-          raise "too many child arguments what are you doing?"
-        end
+      args_with_context = add_context_to_options(args)
 
-      # TODO nicer interface
-      child = child_class.new(*new_args)
+      child = child_class.new(*args_with_context)
       @current_parent_context.children << child
 
       child.prepare
-
       child.response if child.respond_to?(:response)
 
-      if block
-        previous_parent_context = @current_parent_context
-        begin
-          @current_parent_context = child.yield_components_to || child
-          instance_eval(&block)
-        ensure
-          @current_parent_context = previous_parent_context
-        end
-      end
+      execute_child_block(child, block) if block
 
       child
     end
@@ -262,6 +234,35 @@ module Matestack::Ui::Core::Component
     end
 
     private
+
+    def add_context_to_options(args)
+      case args.size
+      when 0 then [{context: context}]
+      when 1 then
+        arg = args.first
+        if arg.is_a?(Hash)
+          arg[:context] = context
+          [arg]
+        else
+          [arg, {context: context}]
+        end
+      when 2 then
+        args[1][:context] = context
+        [args.first, args[1]]
+      else
+        raise "too many child arguments what are you doing?"
+      end
+    end
+
+    def execute_child_block(child, block)
+      previous_parent_context = @current_parent_context
+      begin
+        @current_parent_context = child.yield_components_to || child
+        instance_eval(&block)
+      ensure
+        @current_parent_context = previous_parent_context
+      end
+    end
 
     ## ------------------------ Also Rendering ---------------------
     # common attribute handling for tags/components
