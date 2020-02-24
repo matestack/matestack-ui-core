@@ -30,7 +30,7 @@ describe Matestack::Ui::Core::Component::Base do
       subject.add_child child_class, text: "Hello World"
 
       expect(child).to be_a child_class
-      expect(child.model).to eq(text: "Hello World")
+      expect(child.model).to include(text: "Hello World")
     end
 
     it "can even pass a block that's being evaluated" do
@@ -83,7 +83,7 @@ describe Matestack::Ui::Core::Component::Base do
         expect(custom_component.children.size).to eq 1
         child = custom_component.children.first
 
-        expect(child.model).to eq text: "My Button"
+        expect(child.model).to include text: "My Button"
       end
     end
 
@@ -108,7 +108,7 @@ describe Matestack::Ui::Core::Component::Base do
         expect(custom_component.children.size).to eq 1
         button = custom_component.children.first
 
-        expect(button.model).to eq id: "foo", class: "bar"
+        expect(button.model).to include id: "foo", class: "bar"
 
         expect(button.children.size).to eq 1
         plain = button.children.first
@@ -578,7 +578,7 @@ describe Matestack::Ui::Core::Component::Base do
         expect(instance.children.size).to eq 1
         outer_div = instance.children.first
 
-        expect(outer_div.model).to eq id: "outer"
+        expect(outer_div.model).to include id: "outer"
         expect(outer_div.children.size).to eq 1
 
         yielding_component = outer_div.children.first

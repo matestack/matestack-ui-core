@@ -140,7 +140,7 @@ module Matestack::Ui::Core::Component
       # When/if we implement response then our display purely relies on that
       # of our children
       # TODO: this might be another sub class or module for the difference
-      # of I have my own template to render vs. I don't
+      # Like Native Component vs. composed component? Unsure. Might also not be worth it.
       if respond_to? :response
         render :children
       else
@@ -171,38 +171,25 @@ module Matestack::Ui::Core::Component
 
     ## ---------------------- DSL ------------------------------
     def add_child(child_class, *args, &block)
-      # can't do a splat first followed by a default argument in Ruby,
-      # as semantics are unclear. Could put the block as a second argument but
-      # that'd make the DSL weird if used this way:
-      # add_child Class, proc { ... }, text: "lol"
-      #  vs
-      # add_child Class, {text: "lol"}, proc { ... }
-      # block = args.pop if args.last.is_a?(Proc) || args.last.nil?
-
       # TODO: there must be a nicer/better/more uniform way to pass this
       # on at some level
       new_args =
-        if context
-          case args.size
-          when 0 then [{context: context}]
-          when 1 then
-            arg = args.first
-            if arg.is_a?(Hash)
-              arg[:context] = context
-              [arg]
-            else
-              [arg, {context: context}]
-            end
-          when 2 then
-            args[1][:context] = context
-            [args.first, args[1]]
+        case args.size
+        when 0 then [{context: context}]
+        when 1 then
+          arg = args.first
+          if arg.is_a?(Hash)
+            arg[:context] = context
+            [arg]
           else
-            raise "too many child arguments what are you doing?"
+            [arg, {context: context}]
           end
+        when 2 then
+          args[1][:context] = context
+          [args.first, args[1]]
         else
-          args
+          raise "too many child arguments what are you doing?"
         end
-
 
       # TODO nicer interface
       child = child_class.new(*new_args)
