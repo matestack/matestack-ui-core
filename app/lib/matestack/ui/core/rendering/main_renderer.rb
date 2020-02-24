@@ -10,21 +10,44 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     # My initial  thinking was to have different renderer classes for these, but with rendering this easy
     # they're probably not needed
     if params[:only_page]
+      # TODO: Looks like pages without an app might be missing the context
+      # as of now
       page_instance = page_class.new(controller_instance: controller_instance)
       page_instance.prepare
       page_instance.response
       controller_instance.render html: page_instance.show
-    # TODO: elsif looking for new component/async/isolate or what not calls goes here
-    # and then has to look for the component class based on the given names
-    # CAREFUL/SECURITY: Make sure not just every object can be instantiated ("common" attack vector)
-    # specifically we might have to think about the scenario again where maybe a page includes
-    # admin only content - a normal user shouldn't be able to just send it the AdminOnlyComponent with
-    # some data and get a result back --> we probably need to give isolated components access to controller
-    # instance variables or controller context as well (so that the component can check current_user or similar of the controller/request)
+    elsif (component_name = params[:isolated_component])
+      render_isolated_component(component_name, params[:component_args])
     else
       app_instance = app_class.new(page_class, controller_instance)
       controller_instance.render html: app_instance.show, layout: true
     end
+  end
+
+  def render_isolated_component(component_name, jsoned_args)
+    component_class = resolve_isolated_component(component_name)
+    args = JSON.parse(jsoned_args)
+    # TODO: add context/controller_instance etc.
+    component_instance = component_class.new(args)
+    if component_instance.authorized?
+      component_instance.prepare
+      component_instance.response
+      controller_instance.render html: component_instance.show
+    else
+      # some 4xx? 404?
+    end
+  end
+
+  def resolve_isolated_component(name)
+    constant = const_get(name)
+    # change to specific AsyncComponent parent class
+    if constant.is_a?(Matestack::Ui::Core::Component::Base)
+      constant
+    else
+      nil
+    end
+  rescue NameError
+    nil
   end
 
   # Instead of rendering without an app class, we always have an "empty" app class
