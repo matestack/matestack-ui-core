@@ -2,6 +2,8 @@
 # TODO: Better file name?
 
 # TODO: app folder isn't in the LOAD_PATH 🤔
+# --> because of rails autoload when running as an engine, maybe add
+# app to loadpath? But we might move away from app in favor of lib anyhow.
 
 module Matestack::Ui::Core::Components
   def self.require_app_path(path)

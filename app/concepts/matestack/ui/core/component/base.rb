@@ -11,12 +11,6 @@ module Matestack::Ui::Core::Component
 
     extend ViewName::Flat
 
-    # TODO: isolate available functions to bare minimum as everything is a
-    # potential conflict with a user defined method?!
-    # Not in this ticket, but open an issue once we get there?
-    # That especially includes all those modules, accidentally overriding one
-    # method might break the whole thing.
-
     attr_reader :children, :yield_components_to
 
     # TODO: Seems the `context` method is defined in Cells, would be
@@ -43,11 +37,14 @@ module Matestack::Ui::Core::Component
       # Page subclass
 
       # TODO: potentially only used in form like components
+      # Suggestion: Introduce a new super class to remove this complexity
+      # from the base class.
       @included_config = @options[:included_config]
       # TODO: only relevant to isolate
       @cached_params = @options[:cached_params]
 
       # TODO seemingly never accessed? (at least by us)
+      # but probably good to expose to have access to current_user & friends
       # #context is defined in `Cell::ViewModel`
       # and it just grabs @options[:context]
       @controller_context = context&.fetch(:controller_context, nil)
@@ -57,7 +54,7 @@ module Matestack::Ui::Core::Component
       @component_config = @options.except(:context, :children, :url_params, :included_config)
 
       # TODO: no idea why this is called `url_params` it contains
-      # much more than this
+      # much more than this e.g. almost all params so maybe rename it?
       @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
       @component_key = @options[:component_key]
 
@@ -131,8 +128,6 @@ module Matestack::Ui::Core::Component
     ## ------------------ Rendering ----------------
     # Invoked by Cell::ViewModel from Rendering#call
     #
-    # TODO: Mental node get the different renderings into their own
-    # distinct renderers like StaticRenderer, DynamicRenderer etc.
     def show
       raise "subclass responsibility"
     end
@@ -235,7 +230,7 @@ module Matestack::Ui::Core::Component
       instance_eval &block
     end
 
-    # TODO: partial is weird, I highly recommend removin it
+    # TODO: partial is weird, I highly recommend removing it
     # it exists in basically 2 forms, one that is basically `send`
     # the other just executes the block it's given.
     # Same thing can now be achieved through simple method calls

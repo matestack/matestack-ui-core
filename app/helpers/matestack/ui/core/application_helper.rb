@@ -8,8 +8,6 @@ module Matestack
         #
         #     render Pages::Member::Bookings::Index
         #     render matestack: Pages::Member::Bookings::Index
-        #     TODO: Removed:
-        #     render matestack: 'member/bookings/index'
         #
         def render(*args)
           if (matestack_class = args.first).is_a?(Class) && (matestack_class < Matestack::Ui::Page)
@@ -65,10 +63,7 @@ module Matestack
           end
         end
 
-        # TODO: I highly recommend deprecating this, as the name reminds
-        # of responders (https://github.com/heartcombo/responders) but it seemingly
-        # has nothing to do with it?
-        # Kept around for compatibility.
+        # Kept around for compatibility. Probably worth removing.
         def responder_for(*args)
           render(*args)
         end
