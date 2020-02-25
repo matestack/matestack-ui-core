@@ -30,6 +30,8 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     # TODO: add context/controller_instance etc.
     component_instance = component_class.new(args)
     if component_instance.authorized?
+      # TODO: calling prepare & response right after another is common enough
+      # to potentially deserve it's own little method as you mostly wanna do them together
       component_instance.prepare
       component_instance.response
       controller_instance.render html: component_instance.show
@@ -41,7 +43,7 @@ module Matestack::Ui::Core::Rendering::MainRenderer
   def resolve_isolated_component(name)
     constant = const_get(name)
     # change to specific AsyncComponent parent class
-    if constant.is_a?(Matestack::Ui::Core::Component::Base)
+    if constant.is_a?(Matestack::Ui::Core::Async::Async)
       constant
     else
       nil
