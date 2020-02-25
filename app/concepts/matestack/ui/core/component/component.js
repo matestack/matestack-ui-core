@@ -11,11 +11,6 @@ const componentMixin = {
     }
   },
   methods: {
-    onRerender: function(event){
-      if (this.$el.id === event+"__wrapper"){
-        this.rerender()
-      }
-    },
     onMatestackUiCoreChannel: function(event){
       if (this.componentConfig["rerender_on"] == event.message){
         this.rerender()
@@ -43,12 +38,10 @@ const componentMixin = {
   },
   created: function () {
     const self = this
-    matestackEventHub.$on('rerender', self.onRerender)
     matestackEventHub.$on('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   beforeDestroy: function() {
     const self = this
-    matestackEventHub.$off('rerender', self.onRerender);
     matestackEventHub.$off('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   components: {
