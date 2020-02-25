@@ -40,23 +40,12 @@ module Matestack::Ui::Core::Component
       # Suggestion: Introduce a new super class to remove this complexity
       # from the base class.
       @included_config = @options[:included_config]
-      # TODO: only relevant to isolate
-      @cached_params = @options[:cached_params]
 
       # TODO seemingly never accessed? (at least by us)
       # but probably good to expose to have access to current_user & friends
       # #context is defined in `Cell::ViewModel`
       # and it just grabs @options[:context]
       @controller_context = context&.fetch(:controller_context, nil)
-
-      # Options for seemingly advanced functionality
-      # This is the configuration for the VueJS component
-      @component_config = @options.except(:context, :children, :url_params, :included_config)
-
-      # TODO: no idea why this is called `url_params` it contains
-      # much more than this e.g. almost all params so maybe rename it?
-      @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
-      @component_key = @options[:component_key]
 
       # TODO: do we realy have to call this every time on initialize or should
       # it maybe be called more dynamically like its dynamic_tag_attributes

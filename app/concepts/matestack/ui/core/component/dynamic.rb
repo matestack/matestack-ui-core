@@ -3,6 +3,18 @@ module Matestack::Ui::Core::Component
 
     def initialize(*_args)
       super
+
+      # TODO: no idea why this is called `url_params` it contains
+      # much more than this e.g. almost all params so maybe rename it?
+      # used only in dynamic it seems?
+      @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
+      # only relevant to isolate?!
+      @component_key = @options[:component_key]
+
+      # Options for seemingly advanced functionality
+      # This is the configuration for the VueJS component
+      @component_config = @options.except(:context, :children, :url_params, :included_config)
+
       generate_component_name
     end
 
