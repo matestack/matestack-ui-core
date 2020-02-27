@@ -47,6 +47,18 @@ module Matestack::Ui::Core::Component
       # and it just grabs @options[:context]
       @controller_context = context&.fetch(:controller_context, nil)
 
+      # TODO: technically only relevant for Dynamic, however it relies on
+      # @options being set but must be set before `setup` is called.
+      # As both happen in this controller it isn't possible to squeeze
+      # it inbetween the super calls in the Dynamic super class.
+      #
+      # This is the configuration for the VueJS component
+      @component_config = @options.except(:context, :children, :url_params, :included_config)
+
+      # TODO: no idea why this is called `url_params` it contains
+      # much more than this e.g. almost all params so maybe rename it?
+      @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
+
       # TODO: do we realy have to call this every time on initialize or should
       # it maybe be called more dynamically like its dynamic_tag_attributes
       # equivalent in Dynamic?
