@@ -30,8 +30,6 @@ describe Matestack::Ui::Core::Async::Async, type: :feature, js: true do
 
     visit "/example"
 
-    # binding.pry
-
     element = page.find("#my-div")
     before_content = element.text
 

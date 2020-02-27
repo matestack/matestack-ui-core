@@ -10,9 +10,7 @@ module Matestack::Ui::Core::App
       @controller_instance = controller_instance
     end
 
-    def show()
-      prepare
-      response
+    def show
       render :app
     end
 

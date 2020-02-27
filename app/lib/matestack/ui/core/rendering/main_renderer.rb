@@ -15,14 +15,16 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     # they're probably not needed
     if params[:only_page]
       page_instance = page_class.new(controller_instance: controller_instance, context: context)
-      page_instance.prepare
-      page_instance.response
-      controller_instance.render html: page_instance.show
+      render_matestack_object(controller_instance, page_instance)
+    # TODO: right now this still goes through the URL of the page, hijacks it without caring
+    # about the page or app at all. If the component is truly isolated then I'd recommend
+    # maybe mounting a URL from the engine side where these requests go for rendering
+    # isolated components.
     elsif (component_name = params[:component_key])
       render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance, context)
     else
       app_instance = app_class.new(page_class, controller_instance, context)
-      controller_instance.render html: app_instance.show, layout: true
+      render_matestack_object(controller_instance, app_instance, layout: true)
     end
   end
 
@@ -32,6 +34,13 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       params: controller_instance.params,
       request: controller_instance.request
     }
+  end
+
+  def render_matestack_object(controller_instance, object, opts = {})
+    object.prepare
+    object.response
+    rendering_options = {html: object.show}.merge!(opts)
+    controller_instance.render rendering_options
   end
 
   # TODO: too many arguments maybe get some of them together?
@@ -44,16 +53,14 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       # TODO: add context/controller_instance etc.
       component_instance = component_class.new(args)
       if component_instance.authorized?
-        # TODO: calling prepare & response right after another is common enough
-        # to potentially deserve it's own little method as you mostly wanna do them together
-        component_instance.prepare
-        component_instance.response
-        controller_instance.render html: component_instance.show
+        render_matestack_object(controller_instance, component_instance)
       else
         # some 4xx? 404?
+        raise "not authorized"
       end
     else
       # some 404 probably
+      raise "component not found"
     end
   end
 
