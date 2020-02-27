@@ -6,23 +6,12 @@ module Matestack::Ui::Core::Async
       @component_config[:component_key] = self.class.to_s
     end
 
-    def setup
-      @tag_attributes.merge!({
-        "v-if": "showing"
-      })
-    end
-
     def authorized?
       true
     end
 
-    def prepare
-      # magic business logic
-    end
-
-
     def response
-      # ...
+      raise "implement me"
     end
 
     private

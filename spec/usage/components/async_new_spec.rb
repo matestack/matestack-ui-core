@@ -13,10 +13,6 @@ describe Matestack::Ui::Core::Async::Async, type: :feature, js: true do
         end
       end
 
-      def self.name
-        "Foo"
-      end
-
       register_self_as(:my_async_component)
     end
 
