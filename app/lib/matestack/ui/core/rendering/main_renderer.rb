@@ -9,28 +9,38 @@ module Matestack::Ui::Core::Rendering::MainRenderer
 
     params = controller_instance.params
 
+    context = create_context_hash(controller_instance)
+
     # My initial  thinking was to have different renderer classes for these, but with rendering this easy
     # they're probably not needed
     if params[:only_page]
-      # TODO: Looks like pages without an app might be missing the context
-      # as of now
-      page_instance = page_class.new(controller_instance: controller_instance)
+      page_instance = page_class.new(controller_instance: controller_instance, context: context)
       page_instance.prepare
       page_instance.response
       controller_instance.render html: page_instance.show
     elsif (component_name = params[:component_key])
-      render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance)
+      render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance, context)
     else
-      app_instance = app_class.new(page_class, controller_instance)
+      app_instance = app_class.new(page_class, controller_instance, context)
       controller_instance.render html: app_instance.show, layout: true
     end
   end
 
-  def render_isolated_component(component_name, jsoned_args, controller_instance)
+  def create_context_hash(controller_instance)
+    {
+      view_context: controller_instance.view_context,
+      params: controller_instance.params,
+      request: controller_instance.request
+    }
+  end
+
+  # TODO: too many arguments maybe get some of them together?
+  def render_isolated_component(component_name, jsoned_args, controller_instance, context)
     component_class = resolve_isolated_component(component_name)
 
     if component_class
       args = JSON.parse(jsoned_args)
+      args[:context] = context
       # TODO: add context/controller_instance etc.
       component_instance = component_class.new(args)
       if component_instance.authorized?

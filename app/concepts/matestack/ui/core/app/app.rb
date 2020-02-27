@@ -3,13 +3,7 @@ module Matestack::Ui::Core::App
   # TODO: Similar to page, App doesn't need everything base offers atm
   class App < Matestack::Ui::Core::Component::Base
 
-    def initialize(page_class, controller_instance)
-      context = {
-        view_context: controller_instance.view_context,
-        params: controller_instance.params,
-        request: controller_instance.request
-      }
-
+    def initialize(page_class, controller_instance, context)
       super(nil, context: context)
 
       @page_class = page_class
