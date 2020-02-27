@@ -2,6 +2,8 @@
 module Matestack::Ui::Core::Rendering::MainRenderer
   module_function
 
+  EMPTY_JSON = "{}"
+
   def render(controller_instance, page_class, options)
     app_class = get_app_class(page_class)
 
@@ -16,34 +18,39 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       page_instance.prepare
       page_instance.response
       controller_instance.render html: page_instance.show
-    elsif (component_name = params[:isolated_component])
-      render_isolated_component(component_name, params[:component_args])
+    elsif (component_name = params[:component_key])
+      render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance)
     else
       app_instance = app_class.new(page_class, controller_instance)
       controller_instance.render html: app_instance.show, layout: true
     end
   end
 
-  def render_isolated_component(component_name, jsoned_args)
+  def render_isolated_component(component_name, jsoned_args, controller_instance)
     component_class = resolve_isolated_component(component_name)
-    args = JSON.parse(jsoned_args)
-    # TODO: add context/controller_instance etc.
-    component_instance = component_class.new(args)
-    if component_instance.authorized?
-      # TODO: calling prepare & response right after another is common enough
-      # to potentially deserve it's own little method as you mostly wanna do them together
-      component_instance.prepare
-      component_instance.response
-      controller_instance.render html: component_instance.show
+
+    if component_class
+      args = JSON.parse(jsoned_args)
+      # TODO: add context/controller_instance etc.
+      component_instance = component_class.new(args)
+      if component_instance.authorized?
+        # TODO: calling prepare & response right after another is common enough
+        # to potentially deserve it's own little method as you mostly wanna do them together
+        component_instance.prepare
+        component_instance.response
+        controller_instance.render html: component_instance.show
+      else
+        # some 4xx? 404?
+      end
     else
-      # some 4xx? 404?
+      # some 404 probably
     end
   end
 
   def resolve_isolated_component(name)
     constant = const_get(name)
     # change to specific AsyncComponent parent class
-    if constant.is_a?(Matestack::Ui::Core::Async::Async)
+    if constant < Matestack::Ui::Core::Async::Async
       constant
     else
       nil

@@ -732,11 +732,6 @@ const componentMixin = {
     }
   },
   methods: {
-    onRerender: function(event){
-      if (this.$el.id === event+"__wrapper"){
-        this.rerender()
-      }
-    },
     onMatestackUiCoreChannel: function(event){
       if (this.componentConfig["rerender_on"] == event.message){
         this.rerender()
@@ -764,12 +759,10 @@ const componentMixin = {
   },
   created: function () {
     const self = this
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on('rerender', self.onRerender)
     _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   beforeDestroy: function() {
     const self = this
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off('rerender', self.onRerender);
     _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   components: {

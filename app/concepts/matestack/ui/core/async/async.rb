@@ -1,6 +1,11 @@
 module Matestack::Ui::Core::Async
   class Async < Matestack::Ui::Core::Component::Rerender
 
+    def initialize(*args)
+      super
+      @component_config[:component_key] = self.class.to_s
+    end
+
     def setup
       @tag_attributes.merge!({
         "v-if": "showing"
