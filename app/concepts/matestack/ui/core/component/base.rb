@@ -171,6 +171,16 @@ module Matestack::Ui::Core::Component
     end
 
     ## ---------------------- DSL ------------------------------
+    # Add a new child when building the component tree.
+    #
+    # Invoked in 2 ways
+    # * directly ass add_child class, args, block
+    # * as defined by the DSL methods in `Matestack::Ui::Core::Component::Registry`
+    #   which does the same but allows the nicer DSL methods on top of it
+    #
+    # add_child only builds up the whole ruby component structure. Rendering is done
+    # in a later step by calling `#show` on the component where you want to start
+    # rendering.
     def add_child(child_class, *args, &block)
       args_with_context = add_context_to_options(args)
 
@@ -202,22 +212,20 @@ module Matestack::Ui::Core::Component
       end
     end
 
-    # Another dual purpose method like partial above, just more complex
+    # slot allows generating content in one component and passing it to another
+    #
+    # It's a 2 purpose method (might be redone):
+    # * with a block creates the children to be inserted
+    # * without a block it inserts the children at the current point
+    #
+    #
     def slot(slot_content = [], &block)
       if block_given?
-        execution_parent_proxy = Base.new()
-        previous_parent_context = @current_parent_context
-        @current_parent_context = execution_parent_proxy
-
-        begin
-          instance_eval(&block)
-        ensure
-          @current_parent_context = previous_parent_context
-        end
-
-        execution_parent_proxy.children
+        create_slot_children_to_be_inserted(block)
       else
-        # at this point the children should be completely built
+        # at this point the children are completely built, we just need
+        # to insert them into the tree at the right spot (which is marked
+        # by where we are currently called hence @current_parent_context)
         @current_parent_context.children.concat(slot_content)
       end
     end
@@ -230,12 +238,21 @@ module Matestack::Ui::Core::Component
     # Also:
     # * right now only works with one yield_components, would break with
     #  two that might be nice to raise/warn about
+    #
+    # The biggest trick this pulls is in execte_child_block where the
+    # parent context is shifted to whatever this points to, so that it's
+    # inserted at the right point.
     def yield_components
       @yield_components_to = @current_parent_context
     end
 
     private
 
+    # This should be simpler, all it does is try to figure out where the hash/option
+    # argument goes and put context in it
+    # Partially caused by the behavior that we have 2 initialize args and it's unclear
+    # which one should be an options hash as both `plain "hello"` and `div id: "lala"`
+    # should work currently
     def add_context_to_options(args)
       case args.size
       when 0 then [{context: context}]
@@ -263,6 +280,28 @@ module Matestack::Ui::Core::Component
       ensure
         @current_parent_context = previous_parent_context
       end
+    end
+
+    def create_slot_children_to_be_inserted(block)
+      # Basically works through:
+      # 1. create a fake parent (execution_parent_proxy)
+      # 2. set it as the current parrent
+      # 3. evaluate the block in the context in which it was defined
+      #    to have access to methods/instance variables
+      # 4. make sure parent context is the previous one again
+      # 5. return the children we added to our "fake parent" so
+      #    that they can be inserted wherever again
+      execution_parent_proxy = Base.new()
+      previous_parent_context = @current_parent_context
+      @current_parent_context = execution_parent_proxy
+
+      begin
+        instance_eval(&block)
+      ensure
+        @current_parent_context = previous_parent_context
+      end
+
+      execution_parent_proxy.children
     end
 
     ## ------------------------ Also Rendering ---------------------
