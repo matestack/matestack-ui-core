@@ -9,12 +9,18 @@ const componentDef = {
   },
   computed: Vuex.mapState({
     asyncTemplate: state => state.pageTemplate,
-    currentPath: state => state.currentPath
+    currentPathName: state => state.currentPathName,
+    currentSearch: state => state.currentSearch,
+    currentOrigin: state => state.currentOrigin,
   }),
   mounted: function(){
     const self = this;
     window.onpopstate = (event) => {
-      if (self.currentPath != document.location.pathname){
+      let needToNavigate = self.currentPathName !== document.location.pathname ||
+        self.currentOrigin !== document.location.origin ||
+        self.currentSearch !== document.location.search
+
+      if (needToNavigate){
         self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
       }
     }
