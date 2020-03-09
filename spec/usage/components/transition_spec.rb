@@ -141,7 +141,8 @@ describe "Transition Component", type: :feature, js: true do
     expect(page).to have_content("This is Page 2")
     expect(page).to have_selector("body.not-reloaded")
 
-    page.evaluate_script('window.history.back()')
+    # page.evaluate_script('window.history.back()')
+    page.go_back
 
     element = page.find("#my-div-on-page-1")
     refreshed_content_on_page_1 = element.text
