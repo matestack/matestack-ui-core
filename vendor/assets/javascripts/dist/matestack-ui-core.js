@@ -289,6 +289,9 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       state.currentPathName = current.path
       state.currentSearch = current.search
       state.currentOrigin = current.origin
+    },
+    resetPageTemplate (state) {
+      state.pageTemplate = null;
     }
   },
   actions: {
@@ -1019,20 +1022,22 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _app_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app/app */ "../app/concepts/matestack/ui/core/app/app.js");
-/* harmony import */ var _async_async__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../async/async */ "../app/concepts/matestack/ui/core/async/async.js");
-/* harmony import */ var _page_content__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../page/content */ "../app/concepts/matestack/ui/core/page/content.js");
-/* harmony import */ var _app_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../app/store */ "../app/concepts/matestack/ui/core/app/store.js");
-/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
-/* harmony import */ var _component_anonym_dynamic_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../component/anonym-dynamic-component */ "../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js");
-/* harmony import */ var _html_html__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../html/html */ "../app/concepts/matestack/ui/core/html/html.js");
-/* harmony import */ var _transition_transition__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../transition/transition */ "../app/concepts/matestack/ui/core/transition/transition.js");
-/* harmony import */ var _action_action__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../action/action */ "../app/concepts/matestack/ui/core/action/action.js");
-/* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../form/form */ "../app/concepts/matestack/ui/core/form/form.js");
-/* harmony import */ var _onclick_onclick__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../onclick/onclick */ "../app/concepts/matestack/ui/core/onclick/onclick.js");
-/* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
-/* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
-/* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
+/* harmony import */ var vue_turbolinks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-turbolinks */ "../node_modules/vue-turbolinks/index.js");
+/* harmony import */ var _app_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app/app */ "../app/concepts/matestack/ui/core/app/app.js");
+/* harmony import */ var _async_async__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../async/async */ "../app/concepts/matestack/ui/core/async/async.js");
+/* harmony import */ var _page_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../page/content */ "../app/concepts/matestack/ui/core/page/content.js");
+/* harmony import */ var _app_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app/store */ "../app/concepts/matestack/ui/core/app/store.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var _component_anonym_dynamic_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../component/anonym-dynamic-component */ "../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js");
+/* harmony import */ var _html_html__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../html/html */ "../app/concepts/matestack/ui/core/html/html.js");
+/* harmony import */ var _transition_transition__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../transition/transition */ "../app/concepts/matestack/ui/core/transition/transition.js");
+/* harmony import */ var _action_action__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../action/action */ "../app/concepts/matestack/ui/core/action/action.js");
+/* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../form/form */ "../app/concepts/matestack/ui/core/form/form.js");
+/* harmony import */ var _onclick_onclick__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../onclick/onclick */ "../app/concepts/matestack/ui/core/onclick/onclick.js");
+/* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
+/* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
+/* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
+
 
 
 // Import from app/concepts/matestack/ui/core:
@@ -1053,13 +1058,35 @@ __webpack_require__.r(__webpack_exports__);
 
 let matestackUiApp = undefined
 
+// this event fires first and always
 document.addEventListener('DOMContentLoaded', () => {
-
-    matestackUiApp = new vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  // somehow we need to inject the turbolinks mixin even
+  // if the turbolinks:load event will recreate the vue instance
+  // skipping the injection here caused errors when submitting forms or action
+  // if they were present on the first page, which was loaded and activated turbolinks
+  // the mixin does not impact the app when turbolinks is disabled
+  matestackUiApp = new vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]({
       el: "#matestack_ui",
-      store: _app_store__WEBPACK_IMPORTED_MODULE_4__["default"]
-    })
+      mixins: [vue_turbolinks__WEBPACK_IMPORTED_MODULE_1__["turbolinksAdapterMixin"]],
+      store: _app_store__WEBPACK_IMPORTED_MODULE_5__["default"]
+  })
+})
 
+// this event fires after DOMContentLoaded and only if turbolinks are enabled
+document.addEventListener('turbolinks:load', () => {
+  // we need to empty the currently stored pageTemplate state variable
+  // otherwise the matestack page will jump back to the latest pageTemplate
+  // fetched during the last matestack transition as the turbolinks powered
+  // page transition does not write the matestack store pageTemplate state variable
+  _app_store__WEBPACK_IMPORTED_MODULE_5__["default"].commit('resetPageTemplate')
+  // we need to destroy the vue app instance
+  matestackUiApp.$destroy();
+  // and recreate it right afterwards in order to work when used with turbolinks
+  matestackUiApp = new vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]({
+      el: "#matestack_ui",
+      mixins: [vue_turbolinks__WEBPACK_IMPORTED_MODULE_1__["turbolinksAdapterMixin"]],
+      store: _app_store__WEBPACK_IMPORTED_MODULE_5__["default"]
+  })
 })
 
 /* harmony default export */ __webpack_exports__["default"] = (vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -2989,6 +3016,50 @@ var t = function t(_t, o, e) {
     var E, P;
   }
 });
+
+/***/ }),
+
+/***/ "../node_modules/vue-turbolinks/index.js":
+/*!***********************************************!*\
+  !*** ../node_modules/vue-turbolinks/index.js ***!
+  \***********************************************/
+/*! exports provided: turbolinksAdapterMixin, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "turbolinksAdapterMixin", function() { return turbolinksAdapterMixin; });
+function handleVueDestruction(vue) {
+  var turbolinksEvent = vue.$options.turbolinksDestroyEvent || 'turbolinks:visit';
+  document.addEventListener(turbolinksEvent, function teardown() {
+    vue.$destroy();
+    document.removeEventListener(turbolinksEvent, teardown);
+  });
+}
+
+var turbolinksAdapterMixin = {
+  beforeMount: function beforeMount() {
+    // If this is the root component, we want to cache the original element contents to replace later
+    // We don't care about sub-components, just the root
+    if (this === this.$root && this.$el) {
+      handleVueDestruction(this); // cache original element
+
+      this.$turbolinksCachedHTML = this.$el.outerHTML; // register root hook to restore original element on destroy
+
+      this.$once('hook:destroyed', function () {
+        this.$el.outerHTML = this.$turbolinksCachedHTML;
+      });
+    }
+  }
+};
+
+function plugin(Vue, options) {
+  // Install a global mixin
+  Vue.mixin(turbolinksAdapterMixin);
+}
+
+
+/* harmony default export */ __webpack_exports__["default"] = (plugin);
 
 /***/ }),
 

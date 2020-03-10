@@ -8,12 +8,13 @@
     "link-module-alias": "^1.2.0",
     "v-runtime-template": "^1.5.2",
     "vue": "^2.5.17",
+    "vue-turbolinks": "^2.1.0",
     "vuex": "^3.0.1",
     "yarn": "^1.22.0"
   },
   "exports": {
     "./concepts/": "./app/concepts/matestack/ui/core/"
-  },  
+  },
   "scripts": {
     "postinstall": "link-module-alias"
   },
