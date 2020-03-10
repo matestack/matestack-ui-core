@@ -237,6 +237,9 @@ GEM
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (~> 2.0.0)
       trailblazer-loader (>= 0.1.0)
+    turbolinks (5.2.1)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
     uber (0.1.0)
@@ -276,6 +279,7 @@ DEPENDENCIES
   trailblazer
   trailblazer-cells
   trailblazer-rails
+  turbolinks
   webmock
   webpacker (~> 4.0)
 
