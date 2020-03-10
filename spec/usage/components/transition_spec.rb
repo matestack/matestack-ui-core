@@ -141,18 +141,13 @@ describe "Transition Component", type: :feature, js: true do
     expect(page).to have_content("This is Page 2")
     expect(page).to have_selector("body.not-reloaded")
 
-    # page.evaluate_script('window.history.back()')
     page.go_back
-
-    element = page.find("#my-div-on-page-1")
-    refreshed_content_on_page_1 = element.text
 
     expect(page).to have_content("My Example App Layout")
     expect(page).to have_content("This is Page 1")
     expect(page).not_to have_content("This is Page 2")
     expect(page).to have_selector("body.not-reloaded")
-
-    expect(first_content_on_page_1).not_to eq(refreshed_content_on_page_1)
+    expect(page).to have_no_content(first_content_on_page_1)
   end
 
   # supposed to work, but doesn't. Suspect Vue is the culprint here

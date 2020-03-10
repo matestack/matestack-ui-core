@@ -188,6 +188,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "../node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _location__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./location */ "../app/concepts/matestack/ui/core/app/location.js");
+
 
 
 
@@ -206,11 +208,11 @@ const componentDef = {
   mounted: function(){
     const self = this;
     window.onpopstate = (event) => {
-      let needToNavigate = self.currentPathName !== document.location.pathname ||
-        self.currentOrigin !== document.location.origin ||
-        self.currentSearch !== document.location.search
-
-      if (needToNavigate){
+      if (Object(_location__WEBPACK_IMPORTED_MODULE_3__["default"])({
+          origin: self.currentOrigin,
+          pathName: self.currentPathName,
+          search: self.currentSearch
+        }, document.location)){
         self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
       }
     }
@@ -225,6 +227,28 @@ const componentDef = {
 let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-app', componentDef)
 
 /* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/app/location.js":
+/*!*********************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/app/location.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const isNavigatingToAnotherPage = function(currentLocation, targetLocation) {
+
+  // omits hash by design
+  return currentLocation.pathName !== targetLocation.pathname ||
+    currentLocation.origin !== targetLocation.origin ||
+    currentLocation.search !== targetLocation.search
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (isNavigatingToAnotherPage);
 
 
 /***/ }),

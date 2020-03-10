@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.esm'
 import VRuntimeTemplate from "v-runtime-template"
 import Vuex from 'vuex'
+import isNavigatingToAnotherPage from "./location"
 
 const componentDef = {
   props: ['appConfig', 'params'],
@@ -16,11 +17,11 @@ const componentDef = {
   mounted: function(){
     const self = this;
     window.onpopstate = (event) => {
-      let needToNavigate = self.currentPathName !== document.location.pathname ||
-        self.currentOrigin !== document.location.origin ||
-        self.currentSearch !== document.location.search
-
-      if (needToNavigate){
+      if (isNavigatingToAnotherPage({
+          origin: self.currentOrigin,
+          pathName: self.currentPathName,
+          search: self.currentSearch
+        }, document.location)){
         self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
       }
     }
