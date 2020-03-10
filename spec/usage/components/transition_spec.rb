@@ -3,7 +3,7 @@ include Utils
 
 describe "Transition Component", type: :feature, js: true do
 
-  it "Example 1 - Perform transition from one page to another without page reload if related to app" do
+  before :all do
 
     class Apps::ExampleApp < Matestack::Ui::App
 
@@ -78,6 +78,10 @@ describe "Transition Component", type: :feature, js: true do
     end
     Rails.application.reload_routes!
 
+  end
+
+  it "Example 1 - Perform transition from one page to another without page reload if related to app" do
+
     visit "/my_example_app/page1"
 
     expect(page).to have_content("My Example App Layout")
@@ -111,6 +115,46 @@ describe "Transition Component", type: :feature, js: true do
     expect(page).to have_selector("body.not-reloaded")
 
     expect(first_content_on_page_1).not_to eq(refreshed_content_on_page_1)
+  end
+
+  it "Example 2 - Perform transition from one page to another without page reload when using page history buttons" do
+
+    visit "/my_example_app/page1"
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_button("Page 1")
+    expect(page).to have_button("Page 2")
+
+    expect(page).to have_content("This is Page 1")
+    expect(page).not_to have_content("This is Page 2")
+
+    element = page.find("#my-div-on-page-1")
+    first_content_on_page_1 = element.text
+
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    expect(page).to have_selector("body.not-reloaded")
+
+    click_button("Page 2")
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).not_to have_content("This is Page 1")
+    expect(page).to have_content("This is Page 2")
+    expect(page).to have_selector("body.not-reloaded")
+
+    page.go_back
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_content("This is Page 1")
+    expect(page).not_to have_content("This is Page 2")
+    expect(page).to have_selector("body.not-reloaded")
+    expect(page).to have_no_content(first_content_on_page_1)
+
+    page.go_forward
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).not_to have_content("This is Page 1")
+    expect(page).to have_content("This is Page 2")
+    expect(page).to have_selector("body.not-reloaded")
   end
 
   # supposed to work, but doesn't. Suspect Vue is the culprint here

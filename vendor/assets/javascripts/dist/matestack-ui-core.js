@@ -201,12 +201,20 @@ const componentDef = {
   },
   computed: vuex__WEBPACK_IMPORTED_MODULE_2__["default"].mapState({
     asyncTemplate: state => state.pageTemplate,
+    currentPathName: state => state.currentPathName,
+    currentSearch: state => state.currentSearch,
+    currentOrigin: state => state.currentOrigin,
   }),
   mounted: function(){
+    const self = this;
     window.onpopstate = (event) => {
-      if (Object(_location__WEBPACK_IMPORTED_MODULE_3__["default"])(document.location, event)) {
-        this.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
-      };
+      if (Object(_location__WEBPACK_IMPORTED_MODULE_3__["default"])({
+          origin: self.currentOrigin,
+          pathName: self.currentPathName,
+          search: self.currentSearch
+        }, document.location)){
+        self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
+      }
     }
   },
   components: {
@@ -232,11 +240,10 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-const isNavigatingToAnotherPage = function(currentLocation, popstateEvent) {
-  const targetLocation = popstateEvent.target.location;
+const isNavigatingToAnotherPage = function(currentLocation, targetLocation) {
 
   // omits hash by design
-  return currentLocation.pathname !== targetLocation.pathname ||
+  return currentLocation.pathName !== targetLocation.pathname ||
     currentLocation.origin !== targetLocation.origin ||
     currentLocation.search !== targetLocation.search
 }
@@ -270,14 +277,18 @@ vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPOR
 const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     pageTemplate: null,
-    currentPath: document.location.pathname
+    currentPathName: document.location.pathname,
+    currentSearch: document.location.search,
+    currentOrigin: document.location.origin
   },
   mutations: {
     setPageTemplate (state, serverResponse){
       state.pageTemplate = serverResponse
     },
-    setCurrentPath (state, path){
-      state.currentPath = path
+    setCurrentLocation (state, current){
+      state.currentPathName = current.path
+      state.currentSearch = current.search
+      state.currentOrigin = current.origin
     }
   },
   actions: {
@@ -308,7 +319,7 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
           setTimeout(function () {
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
-            commit('setCurrentPath', url)
+            commit('setCurrentLocation', { path: url, search: document.location.search, origin: document.location.origin })
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
