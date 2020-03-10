@@ -188,6 +188,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "../node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _location__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./location */ "../app/concepts/matestack/ui/core/app/location.js");
+
 
 
 
@@ -199,12 +201,18 @@ const componentDef = {
   },
   computed: vuex__WEBPACK_IMPORTED_MODULE_2__["default"].mapState({
     asyncTemplate: state => state.pageTemplate,
-    currentPath: state => state.currentPath
+    currentPathName: state => state.currentPathName,
+    currentSearch: state => state.currentSearch,
+    currentOrigin: state => state.currentOrigin,
   }),
   mounted: function(){
     const self = this;
     window.onpopstate = (event) => {
-      if (self.currentPath != document.location.pathname){
+      if (Object(_location__WEBPACK_IMPORTED_MODULE_3__["default"])({
+          origin: self.currentOrigin,
+          pathName: self.currentPathName,
+          search: self.currentSearch
+        }, document.location)){
         self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
       }
     }
@@ -219,6 +227,28 @@ const componentDef = {
 let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-app', componentDef)
 
 /* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/app/location.js":
+/*!*********************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/app/location.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const isNavigatingToAnotherPage = function(currentLocation, targetLocation) {
+
+  // omits hash by design
+  return currentLocation.pathName !== targetLocation.pathname ||
+    currentLocation.origin !== targetLocation.origin ||
+    currentLocation.search !== targetLocation.search
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (isNavigatingToAnotherPage);
 
 
 /***/ }),
@@ -247,14 +277,18 @@ vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPOR
 const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     pageTemplate: null,
-    currentPath: document.location.pathname
+    currentPathName: document.location.pathname,
+    currentSearch: document.location.search,
+    currentOrigin: document.location.origin
   },
   mutations: {
     setPageTemplate (state, serverResponse){
       state.pageTemplate = serverResponse
     },
-    setCurrentPath (state, path){
-      state.currentPath = path
+    setCurrentLocation (state, current){
+      state.currentPathName = current.path
+      state.currentSearch = current.search
+      state.currentOrigin = current.origin
     }
   },
   actions: {
@@ -285,7 +319,7 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
           setTimeout(function () {
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
-            commit('setCurrentPath', url)
+            commit('setCurrentLocation', { path: url, search: document.location.search, origin: document.location.origin })
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
