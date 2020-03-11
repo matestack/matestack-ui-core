@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.7.5
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.5)
+
+[Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.5)
+
+### Security Fixes
+
+* Various dependency version bumps by dependabot
+
+### Improvements
+
+* Added `datalist` component
+* Added `range` type for `form_input`
+* Integrated generator specs in CI spec run
+* Added `turbolinks` support
+
+### Bugfixes
+
+* Fixed broken history button behavior introduced in `0.7.4` #386
+
 ## v0.7.4
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.4)
@@ -10,7 +31,7 @@
 
 XSS/Script injection vulnerablilty fixed in 0.7.4
 
-* matestack-ui-core was vulnerable to XSS/Script injection 
+* matestack-ui-core was vulnerable to XSS/Script injection
 * matestack-ui-core did not excape strings by default and did not cover this in the docs
 * matestack-ui-core should have escaped strings by default in order to prevent XSS/Script injection vulnerability
 * 0.7.4 fixes that by performing string escaping by default now
@@ -88,9 +109,9 @@ reported by @PragTob
 * New webpacker features by fiedl
 
   * make webpacker create es5 code instead of es6 code
-  
+
   * Switch to Vue Production Mode if RAILS_ENV=staging or production
-  
+
   * Establish webpack(er) and asset-pipeline workflows
 
 --> webpacker now builds assets for asset pipline usage AND webpacker usage (both usage approaches are described in the installation docs)
@@ -101,22 +122,22 @@ reported by @PragTob
 
 --> when used via asset pipeline, the minified version of matestack-ui-core together with the production build of vue.js is automatically required
 
---> when used via webpacker, matestack-ui-core can be used within a modern javascript workflow, importing and extending 
+--> when used via webpacker, matestack-ui-core can be used within a modern javascript workflow, importing and extending
 single matestack module for example
 
 * New components
   * Add HTML `<picture>` tag to core components by pascalwengerter
   * Add HTML `<option>` tag to core components by pascalwengerter
   * Add HTML `<optgroup>` tag to core components by pascalwengerter
-  * Add HTML `<iframe>` tag to core components by pascalwengerter 
-  * Add HTML `<dfn>` tag to core components by pascalwengerter 
+  * Add HTML `<iframe>` tag to core components by pascalwengerter
+  * Add HTML `<dfn>` tag to core components by pascalwengerter
   * Add HTML `<del>` tag to core components by pascalwengerter
   * Add HTML `<data>` tag to core components by pascalwengerter
   * Add HTML `<bdo>` tag to core components by pascalwengerter
   * Add HTML `<bdi>` tag to core components by pascalwengerter
   * Add HTML `<wbr>` tag to core components by pascalwengerter
   * Add HTML `<samp>` tag to core components by pascalwengerter
-  * Add HTML `<u>` tag to core components by pascalwengerter 
+  * Add HTML `<u>` tag to core components by pascalwengerter
   * Add HTML `<template>` tag to core components by pascalwengerter
 
 
