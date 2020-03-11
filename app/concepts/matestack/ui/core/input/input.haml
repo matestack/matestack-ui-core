@@ -1,3 +1,2 @@
-%input{@tag_attributes}
-  - if block_given?
-    = yield
+%input{ @tag_attributes,
+  type: type }
