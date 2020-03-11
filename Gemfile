@@ -29,6 +29,7 @@ group :development, :test do
   gem 'webmock'
   gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'turbolinks'
 end
 
 group :test do

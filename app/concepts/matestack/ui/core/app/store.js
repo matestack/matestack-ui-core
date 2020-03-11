@@ -20,6 +20,9 @@ const store = new Vuex.Store({
       state.currentPathName = current.path
       state.currentSearch = current.search
       state.currentOrigin = current.origin
+    },
+    resetPageTemplate (state) {
+      state.pageTemplate = null;
     }
   },
   actions: {
