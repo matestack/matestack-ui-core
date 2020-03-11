@@ -16,6 +16,8 @@
 * Added `range` type for `form_input`
 * Integrated generator specs in CI spec run
 * Added `turbolinks` support
+* Form component: Add support for `redirect_to` in the controller
+* HasViewContext: Check in advance whether the view context would respond to a missing method.
 
 ### Bugfixes
 
