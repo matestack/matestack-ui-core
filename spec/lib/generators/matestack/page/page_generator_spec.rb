@@ -2,20 +2,19 @@ require 'generator_spec'
 require 'generators/matestack/page/page_generator'
 
 describe Matestack::Generators::PageGenerator, type: :generator do
-  let(:dummy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', 'dummy')) }
-  let(:dummy_copy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', 'dummy_copy')) }
+  let(:dummy_routes) { 'spec/dummy/config/routes.rb' }
+  let(:dummy_routes_copy) { 'spec/dummy/tmp/config/routes.rb' }
 
   before :each do
-    FileUtils.cp_r dummy, dummy_copy
+    FileUtils.mkdir 'spec/dummy/tmp/config' if !File.exists?('spec/dummy/tmp/config')
+    FileUtils.cp dummy_routes, dummy_routes_copy
   end
 
   after :each do
-    FileUtils.rm_rf dummy
-    FileUtils.cp_r dummy_copy, dummy
-    FileUtils.rm_rf dummy_copy
+    FileUtils.rm_rf('spec/dummy/tmp/app') if File.exists?('spec/dummy/tmp/app')
   end
 
-  destination Rails.root
+  destination "#{Rails.root}/tmp"
 
   it "creates example page" do
     run_generator %w(my_example_page --app_name my_app)

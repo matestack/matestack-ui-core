@@ -4,20 +4,14 @@ require 'generator_spec'
 require 'generators/matestack/core/component/component_generator'
 
 describe Matestack::Core::Generators::ComponentGenerator, type: :generator do
-  let(:dummy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', '..', 'dummy')) }
-  let(:dummy_copy) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..', '..', '..', 'dummy_copy')) }
-
-  before :each do
-    FileUtils.cp_r dummy, dummy_copy
-  end
 
   after :each do
-    FileUtils.rm_rf dummy
-    FileUtils.cp_r dummy_copy, dummy
-    FileUtils.rm_rf dummy_copy
+    FileUtils.rm_rf('spec/dummy/tmp/app') if File.exists?('spec/dummy/tmp/app')
+    FileUtils.rm_rf('spec/dummy/tmp/docs') if File.exists?('spec/dummy/tmp/docs')
+    FileUtils.rm_rf('spec/dummy/tmp/spec') if File.exists?('spec/dummy/tmp/spec')
   end
 
-  destination Rails.root
+  destination "#{Rails.root}/tmp"
 
   it 'creates a core component' do
     run_generator %w(div)
@@ -41,7 +35,5 @@ describe Matestack::Core::Generators::ComponentGenerator, type: :generator do
     assert_file 'docs/components/div.md', /div id: 'foo', class: 'bar' do/
     assert_file 'docs/components/div.md', /div id: 'foo', class: 'bar', text: 'Div example 2'/
     assert_file 'docs/components/div.md', /<div id="foo" class="bar">/
-
-    # assert_file 'docs/components/README.md', %r{- \[div\]\(/docs/components/div.md\)}
   end
 end
