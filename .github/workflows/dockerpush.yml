@@ -13,3 +13,4 @@ jobs:
         run: |
           docker-compose run --rm test bundle exec rake db:schema:load
           docker-compose run --rm test bundle exec rspec spec/usage
+          docker-compose run --rm test bundle exec rspec spec/lib
