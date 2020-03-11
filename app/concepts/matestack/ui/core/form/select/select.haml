@@ -58,7 +58,7 @@
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
-        name: value,
+        name: "#{attr_key}_#{value}",
         value: key}/
         %label=value
     - if options[:options].is_a?(Array)
@@ -68,7 +68,7 @@
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
-        name: value,
+        name: "#{attr_key}_#{value}",
         value: value}/
         %label=value
   %span{class: "errors", "v-if": error_key }
