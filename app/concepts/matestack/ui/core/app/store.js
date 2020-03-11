@@ -8,14 +8,21 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     pageTemplate: null,
-    currentPath: document.location.pathname
+    currentPathName: document.location.pathname,
+    currentSearch: document.location.search,
+    currentOrigin: document.location.origin
   },
   mutations: {
     setPageTemplate (state, serverResponse){
       state.pageTemplate = serverResponse
     },
-    setCurrentPath (state, path){
-      state.currentPath = path
+    setCurrentLocation (state, current){
+      state.currentPathName = current.path
+      state.currentSearch = current.search
+      state.currentOrigin = current.origin
+    },
+    resetPageTemplate (state) {
+      state.pageTemplate = null;
     }
   },
   actions: {
@@ -46,7 +53,7 @@ const store = new Vuex.Store({
           setTimeout(function () {
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
-            commit('setCurrentPath', url)
+            commit('setCurrentLocation', { path: url, search: document.location.search, origin: document.location.origin })
             matestackEventHub.$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);

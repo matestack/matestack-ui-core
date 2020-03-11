@@ -1,8 +1,7 @@
-const isNavigatingToAnotherPage = function(currentLocation, popstateEvent) {
-  const targetLocation = popstateEvent.target.location;
+const isNavigatingToAnotherPage = function(currentLocation, targetLocation) {
 
   // omits hash by design
-  return currentLocation.pathname !== targetLocation.pathname ||
+  return currentLocation.pathName !== targetLocation.pathname ||
     currentLocation.origin !== targetLocation.origin ||
     currentLocation.search !== targetLocation.search
 }

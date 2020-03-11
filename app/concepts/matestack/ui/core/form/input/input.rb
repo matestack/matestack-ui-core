@@ -7,21 +7,35 @@ module Matestack::Ui::Core::Form::Input
       raise "included form config is missing, please add ':include' to parent form component" if @included_config.nil?
     end
 
+    def key
+      options[:key]
+    end
+
+    def label
+      options[:label]
+    end
+
+    def type
+      options[:type]
+    end
+
+    def placeholder
+      options[:placeholder]
+    end
+
     def input_key
-      'data["' + options[:key].to_s + '"]'
+      "data['#{key.to_s}']"
     end
 
     def error_key
-      'errors["' + options[:key].to_s + '"]'
+      "errors['#{key.to_s}']"
     end
 
     def input_wrapper
       case options[:for]
       when nil
         return nil
-      when Symbol
-        return options[:for]
-      when String
+      when Symbol, String
         return options[:for]
       end
       if options[:for].respond_to?(:model_name)
@@ -31,42 +45,35 @@ module Matestack::Ui::Core::Form::Input
 
     def attr_key
       if input_wrapper.nil?
-        return options[:key].to_s
+        return key.to_s
       else
-        return "#{input_wrapper}.#{options[:key].to_s}"
+        return "#{input_wrapper}.#{key.to_s}"
       end
     end
 
     def init_value
-      unless options[:init].nil?
-        return options[:init]
-      end
+      return options[:init] unless options[:init].nil?
 
       unless options[:for].nil?
-        value = options[:for].send(options[:key])
-        if [true, false].include? value
-          value ? 1 : 0
-        else
-          return value
-        end
+        value = parse_value(options[:for].send key)
       else
         unless @included_config.nil? && @included_config[:for].nil?
-          if @included_config[:for].respond_to?(options[:key])
-            value = @included_config[:for].send(options[:key])
-            if [true, false].include? value
-              value ? 1 : 0
-            else
-              return value
-            end
+          if @included_config[:for].respond_to?(key)
+            value = parse_value(@included_config[:for].send key)
           else
-            if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
-              return nil
-            end
-            if @included_config[:for].is_a?(Hash)
-              return @included_config[:for][options[:key]]
-            end
+            @included_config[:for][key] if @included_config[:for].is_a?(Hash)
           end
         end
+      end
+    end
+
+    private
+
+    def parse_value(value)
+      if [true, false].include? value
+        value ? 1 : 0
+      else
+        return value
       end
     end
 

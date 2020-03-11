@@ -702,7 +702,7 @@ describe "Form Component", type: :feature, js: true do
 
   describe "Form Input Component" do
 
-    it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea' type" do
+    it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea', 'range' type" do
 
       class ExamplePage < Matestack::Ui::Page
 
@@ -714,6 +714,7 @@ describe "Form Component", type: :feature, js: true do
               form_input id: "password-input",  key: :password_input, type: :password
               form_input id: "number-input",    key: :number_input, type: :number
               form_input id: "textarea-input",  key: :textarea_input, type: :textarea
+              form_input id: "range-input",     key: :range_input, type: :range
               form_submit do
                 button text: "Submit me!"
               end
@@ -741,7 +742,7 @@ describe "Form Component", type: :feature, js: true do
       fill_in "password-input", with: "secret"
       fill_in "number-input", with: 123
       fill_in "textarea-input", with: "Hello \n World!"
-      
+      fill_in "range-input", with: 10
 
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(
@@ -750,7 +751,8 @@ describe "Form Component", type: :feature, js: true do
             email_input: "name@example.com",
             password_input: "secret",
             number_input: 123,
-            textarea_input: "Hello \n World!"
+            textarea_input: "Hello \n World!",
+            range_input: "10"
           }
         ))
 
@@ -1322,7 +1324,7 @@ describe "Form Component", type: :feature, js: true do
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: ["Array Option 1", "Array Option 2"], hash_input: ["2"] }))
-          
+
         click_button "Submit me!"
 
       end
@@ -1831,6 +1833,43 @@ describe "Form Component", type: :feature, js: true do
         click_button "Submit me!"
       end
     end
+
+  end
+
+  it "range input can be initialized with min, max, step and value" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          form form_config, :include do
+            form_input id: "range-input",
+              key: :range_input, type: :range,
+              init: 3, min: 0, max: 10, step: 1, list: "my_list"
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :success_form_test_path,
+          params: {
+            id: 42
+          }
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).to have_field("range-input", with: "3")
+    expect(page).to have_selector('#range-input[min="0"][max="10"][step="1"][list="my_list"]')
 
   end
 

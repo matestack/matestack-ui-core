@@ -578,7 +578,7 @@ end
 
 ### Example 4: Multiple input fields of different types
 
-Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'textarea' types!
+Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'range', 'textarea' types!
 
 On our example page, we define the input fields, together with a `type: X` configuration:
 
@@ -592,6 +592,7 @@ class ExamplePage < Matestack::Ui::Page
         form_input id: 'email-input',     key: :email_input, type: :email
         form_input id: 'password-input',  key: :password_input, type: :password
         form_input id: 'number-input',    key: :number_input, type: :number
+        form_input id: 'range-input',     key: :range_input, type: :range
         form_input id: 'textarea-input',  key: :textarea_input, type: :textarea
         form_submit do
           button text: 'Submit me!'
@@ -1326,3 +1327,25 @@ end
 ```
 
 Again, we can visit our example page on `localhost:3000/example` and are welcome by the preselected status of our `TestModel` instance. Changing the value of the status by toggling the radio button and filling in a description plus submitting it works just as before!
+
+#### Example 10.4: The Range Input
+
+Whilst working similiar to the 'text' input, the range input accepts a few more parameters. It accepts also 'min', 'max', 'step', 'list' as optional parameters.
+
+##### Example 10.4.1: Range input with max, min, step set
+
+```ruby
+form_input id: 'range-input', type: :range, min: 0, max: 100, step: 1
+```
+
+#### Example 10.4.2: Range input with corresponding datalist
+
+To use a datalist for the range input specify the 'list' parameter with the id of the provided datalist
+
+```ruby
+form_input id: 'range-input', type: :range, list: 'datalist-id'
+datalist id: 'datalist-id' do
+  option value: 10
+  option value: 20
+end
+```
