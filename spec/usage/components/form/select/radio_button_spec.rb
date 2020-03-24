@@ -38,9 +38,9 @@ describe "Form Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      post '/success_form_test/:id', to: 'form_test#success_submit', as: 'success_form_test'
-      post '/success_form_test_with_transition/:id', to: 'form_test#success_submit_with_transition', as: 'success_form_test_with_transition'
-      post '/failure_form_test/:id', to: 'form_test#failure_submit', as: 'failure_form_test'
+      post '/success_form_test/:id', to: 'form_test#success_submit', as: 'form_select_radio_spec_success_form_test'
+      post '/success_form_test_with_transition/:id', to: 'form_test#success_submit_with_transition', as: 'form_select_radio_spec_success_form_test_with_transition'
+      post '/failure_form_test/:id', to: 'form_test#failure_submit', as: 'form_select_radio_spec_failure_form_test'
     end
     Rails.application.reload_routes!
 
@@ -67,7 +67,7 @@ describe "Form Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      post '/model_form_test', to: 'model_form_test#model_submit', as: 'model_form_test'
+      post '/model_form_test', to: 'model_form_test#model_submit', as: 'form_select_radio_spec_model_form_test'
     end
     Rails.application.reload_routes!
   end
@@ -99,7 +99,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :success_form_test_path,
+            path: :form_select_radio_spec_success_form_test_path,
             params: {
               id: 42
             }
