@@ -207,7 +207,7 @@ const componentDef = {
   }),
   mounted: function(){
     const self = this;
-    window.onpopstate = (event) => {
+    window.addEventListener("popstate", (event) => {
       if (Object(_location__WEBPACK_IMPORTED_MODULE_3__["default"])({
           origin: self.currentOrigin,
           pathName: self.currentPathName,
@@ -215,7 +215,7 @@ const componentDef = {
         }, document.location)){
         self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
       }
-    }
+    })
   },
   components: {
     VRuntimeTemplate: v_runtime_template__WEBPACK_IMPORTED_MODULE_1__["default"]
