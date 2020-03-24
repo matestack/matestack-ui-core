@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.7.6
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.6)
+
+[Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.6)
+
+### Security Fixes
+
+* Various dependency version bumps by dependabot
+
+### Bugfixes
+
+* Added missing minified production assets (from 0.7.5)
+* Radio Button Groups with same values on single page #399
+
 ## v0.7.5
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.5)
