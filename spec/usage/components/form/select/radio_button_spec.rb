@@ -110,11 +110,11 @@ describe "Form Component", type: :feature, js: true do
 
       visit '/example'
 
-      expect(page).to have_selector('#group-one-radio[name="array_input_one_foo"]')
-      expect(page).to have_selector('#group-one-radio[name="array_input_one_bar"]')
+      expect(page).to have_selector('#group-one-radio_foo[name="array_input_one_foo"]')
+      expect(page).to have_selector('#group-one-radio_bar[name="array_input_one_bar"]')
 
-      expect(page).to have_selector('#group-two-radio[name="array_input_two_foo"]')
-      expect(page).to have_selector('#group-two-radio[name="array_input_two_bar"]')
+      expect(page).to have_selector('#group-two-radio_foo[name="array_input_two_foo"]')
+      expect(page).to have_selector('#group-two-radio_bar[name="array_input_two_bar"]')
     end
 
   end

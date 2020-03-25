@@ -75,7 +75,7 @@ module Matestack::Ui::Core::Form::Select
     end
 
     def id_for_option value
-      return "#{attr_key}_#{value}"
+      return "#{@tag_attributes[:id]}_#{value}"
     end
 
 
