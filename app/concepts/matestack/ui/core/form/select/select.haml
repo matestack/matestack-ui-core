@@ -26,24 +26,26 @@
   %div{id: component_id, ref: "select.multiple.#{attr_key}", "init-value": init_value}
     - if options[:options].is_a?(Hash)
       - options[:options].each do |key, value|
-        %input{@tag_attributes,
+        %input{@tag_attributes.except(:id),
+        id: id_for_option(value),
         type: :checkbox,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
         name: value,
         value: key}/
-        %label=value
+        %label{for: id_for_option(value)}=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |value|
-        %input{@tag_attributes,
+        %input{@tag_attributes.except(:id),
+        id: id_for_option(value),
         type: :checkbox,
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
         name: value,
         value: value}/
-        %label=value
+        %label{for: id_for_option(value)}=value
   %span{class: "errors", "v-if": error_key }
     %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}
@@ -53,24 +55,26 @@
   %div{id: component_id, ref: "select.#{attr_key}", "init-value": init_value}
     - if options[:options].is_a?(Hash)
       - options[:options].each do |key, value|
-        %input{@tag_attributes,
+        %input{@tag_attributes.except(:id),
         type: :radio,
+        id: id_for_option(value),
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
-        name: value,
+        name: "#{attr_key}_#{key}",
         value: key}/
-        %label=value
+        %label{for: id_for_option(value)}=value
     - if options[:options].is_a?(Array)
       - options[:options].each do |value|
-        %input{@tag_attributes,
+        %input{@tag_attributes.except(:id),
         type: :radio,
+        id: id_for_option(value),
         "#{model_binding}": input_key,
         "@change": "inputChanged(\"#{attr_key}\")",
         "value-type": options_type,
-        name: value,
+        name: "#{attr_key}_#{value}",
         value: value}/
-        %label=value
+        %label{for: id_for_option(value)}=value
   %span{class: "errors", "v-if": error_key }
     %span{class: "error", "v-for": "error in  #{error_key}"}
       {{ error }}
