@@ -15,7 +15,8 @@ module Matestack
         def render_component(page_class, component_key)
           page_class.new(nil, context: {
             params: params,
-            request: request
+            request: request,
+            view_context: view_context
           }, controller_instance: self).call(:show, component_key)
         end
 
