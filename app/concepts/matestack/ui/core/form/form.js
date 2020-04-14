@@ -119,6 +119,7 @@ const componentDef = {
         if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
           matestackEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
         }
+        // transition handling
         if (self.componentConfig["success"] != undefined
           && self.componentConfig["success"]["transition"] != undefined
           && (
@@ -141,6 +142,30 @@ const componentDef = {
           self.$store.dispatch('navigateTo', {url: path, backwards: false})
           return;
         }
+        // redirect handling
+        if (self.componentConfig["success"] != undefined
+          && self.componentConfig["success"]["redirect"] != undefined
+          && (
+            self.componentConfig["success"]["redirect"]["follow_response"] == undefined
+            ||
+            self.componentConfig["success"]["redirect"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
+          let path = self.componentConfig["success"]["redirect"]["path"]
+          window.location.href = path
+          return;
+        }
+        if (self.componentConfig["success"] != undefined
+          && self.componentConfig["success"]["redirect"] != undefined
+          && self.componentConfig["success"]["redirect"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = response.data["redirect_to"] || response.request.responseURL
+          window.location.href = path
+          return;
+        }
+
         if (self.shouldResetFormOnSuccessfulSubmit())
         {
           self.setProps(self.data, null);
@@ -155,9 +180,60 @@ const componentDef = {
         if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
           matestackEventHub.$emit(self.componentConfig["failure"]["emit"], error.response.data);
         }
-        if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
+        // if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
+        //   let path = self.componentConfig["failure"]["transition"]["path"]
+        //   self.$store.dispatch('navigateTo', {url: path, backwards: false})
+        // }
+        // if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["redirect"] != undefined && self.$store != undefined) {
+        //   let path = self.componentConfig["failure"]["redirect"]["path"]
+        //   window.location.href = path
+        // }
+
+        // transition handling
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["transition"] != undefined
+          && (
+            self.componentConfig["failure"]["transition"]["follow_response"] == undefined
+            ||
+            self.componentConfig["failure"]["transition"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
           let path = self.componentConfig["failure"]["transition"]["path"]
           self.$store.dispatch('navigateTo', {url: path, backwards: false})
+          return;
+        }
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["transition"] != undefined
+          && self.componentConfig["failure"]["transition"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = error.response.data["transition_to"] || response.request.responseURL
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
+          return;
+        }
+        // redirect handling
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["redirect"] != undefined
+          && (
+            self.componentConfig["failure"]["redirect"]["follow_response"] == undefined
+            ||
+            self.componentConfig["failure"]["redirect"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
+          let path = self.componentConfig["failure"]["redirect"]["path"]
+          window.location.href = path
+          return;
+        }
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["redirect"] != undefined
+          && self.componentConfig["failure"]["redirect"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = error.response.data["redirect_to"] || response.request.responseURL
+          window.location.href = path
+          return;
         }
       })
     }
