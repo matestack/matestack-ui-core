@@ -213,7 +213,7 @@ const componentDef = {
           pathName: self.currentPathName,
           search: self.currentSearch
         }, document.location)){
-        self.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
+        self.$store.dispatch("navigateTo", {url: document.location.pathname + document.location.search, backwards: true} );
       }
     })
   },
