@@ -14,7 +14,7 @@ describe "Transition Component", type: :feature, js: true do
             transition path: :page1_path do
               button text: "Page 1"
             end
-            transition path: :page2_path do
+            transition path: :page2_path, params: { some_other_param: "bar" } do
               button text: "Page 2"
             end
           end
@@ -37,6 +37,7 @@ describe "Transition Component", type: :feature, js: true do
           div id: "my-div-on-page-1" do
             heading size: 2, text: "This is Page 1"
             plain "#{DateTime.now.strftime('%Q')}"
+            plain "#{context[:params][:some_param]}"
           end
         }
       end
@@ -53,6 +54,7 @@ describe "Transition Component", type: :feature, js: true do
           end
           transition path: :page1_path do
             button text: "Back to Page 1"
+            plain "#{context[:params][:some_other_param]}"
           end
         }
       end
@@ -154,6 +156,53 @@ describe "Transition Component", type: :feature, js: true do
     expect(page).to have_content("My Example App Layout")
     expect(page).not_to have_content("This is Page 1")
     expect(page).to have_content("This is Page 2")
+    expect(page).to have_selector("body.not-reloaded")
+  end
+
+  it "Example 3 - Perform transition from one page to another without page reload when using page history buttons" do
+
+    visit "/my_example_app/page1?some_param=foo"
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_button("Page 1")
+    expect(page).to have_button("Page 2")
+
+    expect(page).to have_content("This is Page 1")
+    expect(page).to have_content("foo")
+    expect(page).not_to have_content("This is Page 2")
+
+    element = page.find("#my-div-on-page-1")
+    first_content_on_page_1 = element.text
+
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    expect(page).to have_selector("body.not-reloaded")
+
+    click_button("Page 2")
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).not_to have_content("This is Page 1")
+    expect(page).not_to have_content("foo")
+    expect(page).to have_content("This is Page 2")
+    expect(page).to have_content("bar")
+    expect(page).to have_selector("body.not-reloaded")
+
+    page.go_back
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_content("This is Page 1")
+    expect(page).to have_content("foo")
+    expect(page).not_to have_content("This is Page 2")
+    expect(page).not_to have_content("bar")
+    expect(page).to have_selector("body.not-reloaded")
+    expect(page).to have_no_content(first_content_on_page_1)
+
+    page.go_forward
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).not_to have_content("This is Page 1")
+    expect(page).not_to have_content("foo")
+    expect(page).to have_content("This is Page 2")
+    expect(page).to have_content("bar")
     expect(page).to have_selector("body.not-reloaded")
   end
 
