@@ -132,7 +132,7 @@ const componentDef = {
           if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["success"]["emit"], response.data);
           }
-
+          
           // transition handling
           if (self.componentConfig["success"] != undefined
             && self.componentConfig["success"]["transition"] != undefined
