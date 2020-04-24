@@ -120,51 +120,132 @@ const componentDef = {
         (self.componentConfig["confirm"] == undefined) || confirm(self.componentConfig["confirm_text"])
       )
       {
-        axios__WEBPACK_IMPORTED_MODULE_2___default()({
+        if (self.componentConfig["emit"] != undefined) {
+          _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
+        }
+        if (self.componentConfig["min_defer"] != undefined) {
+          setTimeout(function () {
+            self.sendRequest()
+          }, parseInt(self.componentConfig["min_defer"]));
+        } else {
+          this.sendRequest()
+        }
+      }
+    },
+    sendRequest: function(){
+      const self = this
+      axios__WEBPACK_IMPORTED_MODULE_2___default()({
           method: self.componentConfig["method"],
           url: self.componentConfig["action_path"],
           data: self.componentConfig["data"],
           headers: {
             'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
           }
-        })
-        .then(function(response){
-          if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
-            _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["success"]["emit"], response.data);
-          }
-          if (self.componentConfig["success"] != undefined
-            && self.componentConfig["success"]["transition"] != undefined
-            && (
-              self.componentConfig["success"]["transition"]["follow_response"] == undefined
-              ||
-              self.componentConfig["success"]["transition"]["follow_response"] === false
-            )
-            && self.$store != undefined
-          ) {
-            let path = self.componentConfig["success"]["transition"]["path"]
-            self.$store.dispatch('navigateTo', {url: path, backwards: false})
-            return;
-          }
-          if (self.componentConfig["success"] != undefined
-            && self.componentConfig["success"]["transition"] != undefined
-            && self.componentConfig["success"]["transition"]["follow_response"] === true
-            && self.$store != undefined
-          ) {
-            let path = response.data["transition_to"] || response.request.responseURL;
-            self.$store.dispatch('navigateTo', {url: path, backwards: false});
-            return;
-          }
-        })
-        .catch(function(error){
-          if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
-            _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["failure"]["emit"], error.response.data);
-          }
-          if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
-            let path = self.componentConfig["failure"]["transition"]["path"]
-            self.$store.dispatch('navigateTo', {url: path, backwards: false})
-          }
-        })
-      }
+        }
+      )
+      .then(function(response){
+        if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
+          _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["success"]["emit"], response.data);
+        }
+
+        // transition handling
+        if (self.componentConfig["success"] != undefined
+          && self.componentConfig["success"]["transition"] != undefined
+          && (
+            self.componentConfig["success"]["transition"]["follow_response"] == undefined
+            ||
+            self.componentConfig["success"]["transition"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
+          let path = self.componentConfig["success"]["transition"]["path"]
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
+          return;
+        }
+        if (self.componentConfig["success"] != undefined
+          && self.componentConfig["success"]["transition"] != undefined
+          && self.componentConfig["success"]["transition"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = response.data["transition_to"] || response.request.responseURL
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
+          return;
+        }
+        // redirect handling
+        if (self.componentConfig["success"] != undefined
+          && self.componentConfig["success"]["redirect"] != undefined
+          && (
+            self.componentConfig["success"]["redirect"]["follow_response"] == undefined
+            ||
+            self.componentConfig["success"]["redirect"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
+          let path = self.componentConfig["success"]["redirect"]["path"]
+          window.location.href = path
+          return;
+        }
+        if (self.componentConfig["success"] != undefined
+          && self.componentConfig["success"]["redirect"] != undefined
+          && self.componentConfig["success"]["redirect"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = response.data["redirect_to"] || response.request.responseURL
+          window.location.href = path
+          return;
+        }
+      })
+      .catch(function(error){
+        if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
+          _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["failure"]["emit"], error.response.data);
+        }
+        // transition handling
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["transition"] != undefined
+          && (
+            self.componentConfig["failure"]["transition"]["follow_response"] == undefined
+            ||
+            self.componentConfig["failure"]["transition"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
+          let path = self.componentConfig["failure"]["transition"]["path"]
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
+          return;
+        }
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["transition"] != undefined
+          && self.componentConfig["failure"]["transition"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = error.response.data["transition_to"] || response.request.responseURL
+          self.$store.dispatch('navigateTo', {url: path, backwards: false})
+          return;
+        }
+        // redirect handling
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["redirect"] != undefined
+          && (
+            self.componentConfig["failure"]["redirect"]["follow_response"] == undefined
+            ||
+            self.componentConfig["failure"]["redirect"]["follow_response"] === false
+          )
+          && self.$store != undefined
+        ) {
+          let path = self.componentConfig["failure"]["redirect"]["path"]
+          window.location.href = path
+          return;
+        }
+        if (self.componentConfig["failure"] != undefined
+          && self.componentConfig["failure"]["redirect"] != undefined
+          && self.componentConfig["failure"]["redirect"]["follow_response"] === true
+          && self.$store != undefined
+        ) {
+          let path = error.response.data["redirect_to"] || response.request.responseURL
+          window.location.href = path
+          return;
+        }
+      })
     }
   }
 }
@@ -407,9 +488,19 @@ const componentDef = {
   },
   created: function () {
     const self = this
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(this.componentConfig["rerender_on"], self.rerender)
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(this.componentConfig["show_on"], self.show)
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(this.componentConfig["hide_on"], self.hide)
+    if(this.componentConfig["show_on"] != undefined){
+      this.showing = false
+      var show_events = this.componentConfig["show_on"].split(",")
+      show_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(show_event.trim(), self.show));
+    }
+    if(this.componentConfig["hide_on"] != undefined){
+      var hide_events = this.componentConfig["hide_on"].split(",")
+      hide_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(hide_event.trim(), self.hide));
+    }
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(rerender_event.trim(), self.rerender));
+    }
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
     }
@@ -430,6 +521,18 @@ const componentDef = {
     _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["rerender_on"], self.rerender);
     _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["show_on"], self.show);
     _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["hide_on"], self.hide);
+    if(this.componentConfig["show_on"] != undefined){
+      var shown_events = this.componentConfig["show_on"].split(",")
+      shown_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(show_event.trim(), self.show));
+    }
+    if(this.componentConfig["hide_on"] != undefined){
+      var hiden_events = this.componentConfig["hide_on"].split(",")
+      hiden_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(hide_event.trim(), self.hide));
+    }
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(rerender_event.trim(), self.rerender));
+    }
   },
 }
 
@@ -918,6 +1021,19 @@ const componentDef = {
     },
     perform: function(){
       const self = this
+      if (self.componentConfig["emit"] != undefined) {
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
+      }
+      if (self.componentConfig["min_defer"] != undefined) {
+        setTimeout(function () {
+          self.sendRequest()
+        }, parseInt(self.componentConfig["min_defer"]));
+      } else {
+        this.sendRequest()
+      }
+    },
+    sendRequest: function(){
+      const self = this
       let payload = {}
       payload[self.componentConfig["for"]] = self.data
       axios__WEBPACK_IMPORTED_MODULE_2___default()({
@@ -1263,6 +1379,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "../node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
+
 
 
 
@@ -1279,6 +1397,19 @@ const componentDef = {
   }),
   methods: {
     navigateTo: function(url){
+      const self = this
+      if (self.componentConfig["emit"] != undefined) {
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
+      }
+      if (self.componentConfig["min_defer"] != undefined) {
+        setTimeout(function () {
+          self.performNavigation(url)
+        }, parseInt(self.componentConfig["min_defer"]));
+      } else {
+        this.performNavigation(url)
+      }
+    },
+    performNavigation: function(url){
       this.$store.dispatch('navigateTo', {url: url, backwards: false}).then((response) => {
         // self.asyncTemplate = response;
       })
