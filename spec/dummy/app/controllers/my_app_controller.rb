@@ -47,7 +47,7 @@ class MyAppController < ApplicationController
       }, status: :unprocessable_entity
     else
       broadcast "test_model_created"
-      render json: @dummy_model, status: :created
+      render json: { transition_to: my_second_page_path }, status: :created
     end
   end
 

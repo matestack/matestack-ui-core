@@ -180,14 +180,6 @@ const componentDef = {
         if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["emit"] != undefined) {
           matestackEventHub.$emit(self.componentConfig["failure"]["emit"], error.response.data);
         }
-        // if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["transition"] != undefined && self.$store != undefined) {
-        //   let path = self.componentConfig["failure"]["transition"]["path"]
-        //   self.$store.dispatch('navigateTo', {url: path, backwards: false})
-        // }
-        // if (self.componentConfig["failure"] != undefined && self.componentConfig["failure"]["redirect"] != undefined && self.$store != undefined) {
-        //   let path = self.componentConfig["failure"]["redirect"]["path"]
-        //   window.location.href = path
-        // }
 
         // transition handling
         if (self.componentConfig["failure"] != undefined

@@ -261,7 +261,7 @@ describe "Action Component", type: :feature, js: true do
 
     end
 
-    it "Example 6 - Async request with success event emit used for transition" do
+    it "Example 6 - Async request with success/failure event used for transition" do
       class Apps::ExampleApp < Matestack::Ui::App
 
         def response
@@ -378,6 +378,286 @@ describe "Action Component", type: :feature, js: true do
 
       expect(page).to have_content("My Example App Layout")
       expect(page).to have_content("server says: something went wrong!")
+
+      expect(page).not_to have_content("This is Page 2")
+      expect(page).to have_content("This is Page 1")
+
+    end
+
+    it "Example 6.1 - Async request with success/failure event used for redirect" do
+      class Apps::ExampleApp < Matestack::Ui::App
+
+        def response
+          components {
+            heading size: 1, text: "My Example App Layout"
+            main do
+              page_content
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+            async show_on: "my_action_failure", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+          }
+        end
+
+      end
+
+      module Pages::ExampleApp
+
+      end
+
+      class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            heading size: 2, text: "This is Page 1"
+            action action_config do
+              button text: "Click me!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :success_action_test_path,
+            success: {
+              emit: "my_action_success",
+              redirect: {
+                path: :action_test_page2_path,
+                params: { id: 42 }
+              }
+            }
+          }
+        end
+
+      end
+
+      class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            heading size: 2, text: "This is Page 2"
+            action action_config do
+              button text: "Click me!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :failure_action_test_path,
+            failure: {
+              emit: "my_action_failure",
+              redirect: {
+                path: :action_test_page1_path
+              }
+            }
+          }
+        end
+
+      end
+
+      class ExampleAppPagesController < ExampleController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def page1
+          responder_for(Pages::ExampleApp::ExamplePage)
+        end
+
+        def page2
+          responder_for(Pages::ExampleApp::SecondExamplePage)
+        end
+
+      end
+
+      Rails.application.routes.append do
+        scope :action_test do
+          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1' unless path_exists?(:action_test_page1_path)
+          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2' unless path_exists?(:action_test_page2_path)
+        end
+      end
+      Rails.application.reload_routes!
+
+
+      visit "action_test/page1"
+
+      page.evaluate_script('document.body.classList.add("not-reloaded")')
+      expect(page).to have_selector("body.not-reloaded")
+
+      expect(page).to have_content("My Example App Layout")
+      expect(page).to have_content("This is Page 1")
+      expect(page).not_to have_content("This is Page 2")
+
+      click_button "Click me!"
+
+      expect(page).not_to have_selector("body.not-reloaded")
+      expect(page).to have_content("My Example App Layout")
+      expect(page).not_to have_content("server says: good job!")
+
+      expect(page).not_to have_content("This is Page 1")
+      expect(page).to have_content("This is Page 2")
+
+
+      page.evaluate_script('document.body.classList.add("not-reloaded")')
+
+      click_button "Click me!"
+
+      expect(page).not_to have_selector("body.not-reloaded")
+      expect(page).to have_content("My Example App Layout")
+      expect(page).not_to have_content("server says: something went wrong!")
+
+      expect(page).not_to have_content("This is Page 2")
+      expect(page).to have_content("This is Page 1")
+
+    end
+
+    it "Example 6.2 - Async request with success/failure event used for redirect determined by server" do
+      class ActionTestController < TestController
+
+        def success_test_with_redirect
+          render json: { redirect_to:  action_test_page2_path(id: 42) }, status: 200
+        end
+
+        def failure_test_with_redirect
+          render json: { redirect_to:  action_test_page1_path }, status: 400
+        end
+
+      end
+
+      Rails.application.routes.append do
+        post '/success_action_test_with_redirect', to: 'action_test#success_test_with_redirect', as: 'success_action_test_with_redirect' unless path_exists?(:success_action_test_with_redirect_path)
+        post '/failure_action_test_with_redirect', to: 'action_test#failure_test_with_redirect', as: 'failure_action_test_with_redirect' unless path_exists?(:failure_action_test_with_redirect_path)
+      end
+      Rails.application.reload_routes!
+
+      class Apps::ExampleApp < Matestack::Ui::App
+
+        def response
+          components {
+            heading size: 1, text: "My Example App Layout"
+            main do
+              page_content
+            end
+            async show_on: "my_action_success", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+            async show_on: "my_action_failure", hide_after: 300 do
+              plain "{{event.data.message}}"
+            end
+          }
+        end
+
+      end
+
+      module Pages::ExampleApp
+
+      end
+
+      class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            heading size: 2, text: "This is Page 1"
+            action action_config do
+              button text: "Click me!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :success_action_test_with_redirect_path,
+            success: {
+              emit: "my_action_success",
+              redirect: {
+                follow_response: true
+              }
+            }
+          }
+        end
+
+      end
+
+      class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            heading size: 2, text: "This is Page 2"
+            action action_config do
+              button text: "Click me!"
+            end
+          }
+        end
+
+        def action_config
+          return {
+            method: :post,
+            path: :failure_action_test_with_redirect_path,
+            emit: "my_action_started",
+            min_defer: 1000,
+            failure: {
+              emit: "my_action_failure",
+              redirect: {
+                follow_response: true
+              }
+            }
+          }
+        end
+
+      end
+
+      class ExampleAppPagesController < ExampleController
+        include Matestack::Ui::Core::ApplicationHelper
+
+        def page1
+          responder_for(Pages::ExampleApp::ExamplePage)
+        end
+
+        def page2
+          responder_for(Pages::ExampleApp::SecondExamplePage)
+        end
+
+      end
+
+      Rails.application.routes.append do
+        scope :action_test do
+          get 'page1', to: 'example_app_pages#page1', as: 'action_test_page1' unless path_exists?(:action_test_page1_path)
+          get 'page2/:id', to: 'example_app_pages#page2', as: 'action_test_page2' unless path_exists?(:action_test_page2_path)
+        end
+      end
+      Rails.application.reload_routes!
+
+      visit "action_test/page1"
+
+      page.evaluate_script('document.body.classList.add("not-reloaded")')
+      expect(page).to have_selector("body.not-reloaded")
+
+      expect(page).to have_content("My Example App Layout")
+      expect(page).to have_content("This is Page 1")
+      expect(page).not_to have_content("This is Page 2")
+
+      click_button "Click me!"
+
+      expect(page).not_to have_selector("body.not-reloaded")
+      expect(page).to have_content("My Example App Layout")
+      expect(page).not_to have_content("server says: good job!")
+
+      expect(page).not_to have_content("This is Page 1")
+      expect(page).to have_content("This is Page 2")
+
+
+      page.evaluate_script('document.body.classList.add("not-reloaded")')
+
+      click_button "Click me!"
+
+      expect(page).not_to have_selector("body.not-reloaded")
+      expect(page).to have_content("My Example App Layout")
+      expect(page).not_to have_content("server says: something went wrong!")
 
       expect(page).not_to have_content("This is Page 2")
       expect(page).to have_content("This is Page 1")
