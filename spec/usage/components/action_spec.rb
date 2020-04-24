@@ -598,8 +598,6 @@ describe "Action Component", type: :feature, js: true do
           return {
             method: :post,
             path: :failure_action_test_with_redirect_path,
-            emit: "my_action_started",
-            min_defer: 1000,
             failure: {
               emit: "my_action_failure",
               redirect: {
