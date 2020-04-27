@@ -5,6 +5,9 @@ require "selenium/webdriver"
 require "matestack/ui/core"
 
 
+Capybara.server_port = 33123
+Capybara.server_host = "0.0.0.0"
+
 
 # Capybara.app = Matestack::Ui::Core::Engine
 Capybara.app = Dummy::Application
