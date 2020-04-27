@@ -53,7 +53,7 @@ const store = new Vuex.Store({
           setTimeout(function () {
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
-            commit('setCurrentLocation', { path: url, search: document.location.search, origin: document.location.origin })
+            commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             matestackEventHub.$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);

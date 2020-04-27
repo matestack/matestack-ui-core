@@ -322,7 +322,7 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
           setTimeout(function () {
             resolve(response["data"])
             commit('setPageTemplate', response["data"])
-            commit('setCurrentLocation', { path: url, search: document.location.search, origin: document.location.origin })
+            commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
@@ -1274,7 +1274,10 @@ const componentDef = {
   },
   computed: vuex__WEBPACK_IMPORTED_MODULE_1__["default"].mapState({
     isActive (state) {
-      return this.componentConfig["link_path"] === state.currentPath
+      return (this.componentConfig["link_path"].split("?")[0]) === state.currentPathName
+    },
+    isChildActive (state) {
+      return ((this.componentConfig["link_path"].split("?")[0]) !== state.currentPathName) && (state.currentPathName.indexOf(this.componentConfig["link_path"].split("?")[0]) !== -1)
     }
   }),
   methods: {
