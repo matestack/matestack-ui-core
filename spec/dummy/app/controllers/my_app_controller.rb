@@ -39,6 +39,10 @@ class MyAppController < ApplicationController
   end
 
   def form_action
+    p 'Controller action'
+    p dummy_model_params[:file]
+    p dummy_model_params[:files]
+    dummy_model_params[:files]&.each { |file| p file }
     @dummy_model = DummyModel.create(dummy_model_params)
     if @dummy_model.errors.any?
       render json: {
@@ -84,7 +88,9 @@ class MyAppController < ApplicationController
   def dummy_model_params
     params.require(:dummy_model).permit(
       :title,
-      :description
+      :description,
+      :file,
+      files: []
     )
   end
 
