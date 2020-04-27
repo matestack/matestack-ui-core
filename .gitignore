@@ -7,6 +7,7 @@ spec/dummy/db/*.sqlite3-journal
 spec/dummy/log/*.log
 spec/dummy/node_modules/
 spec/dummy/public/packs/
+spec/dummy/public/packs-test/
 spec/dummy/yarn-error.log
 spec/dummy/storage/
 spec/dummy/tmp/
