@@ -75,6 +75,47 @@ describe "Page", type: :feature, js: true do
 
   end
 
+  it "can access ActionView Context" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          div do
+            plain @bar
+            if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+              plain "has access to ActionView Context"
+            end
+            plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here
+            plain time_ago_in_words(3.minutes.from_now) # calling an ActionView Date Helper here
+          end
+        }
+      end
+
+    end
+
+
+    class PageTestController < ActionController::Base
+      layout "application"
+
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def my_action
+        @bar = "bar"
+        responder_for(ExamplePage)
+      end
+
+    end
+
+    visit "/page_test"
+
+    expect(page).to have_content("bar")
+    expect(page).to have_content("has access to ActionView Context")
+    expect(page).to have_content("Test Link")
+    expect(page).to have_content("3 minutes")
+
+  end
+
   it "can resolve data in a prepare method, which runs before rendering"
 
   it "can use classic ruby within component orchestration"
