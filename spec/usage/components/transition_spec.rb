@@ -17,9 +17,15 @@ describe "Transition Component", type: :feature, js: true do
             transition path: :page2_path, params: {some_other_param: "bar" } do
               button text: "Page 2"
             end
+            transition path: :page3_path, delay: 1500 do
+              button text: "Page 3"
+            end
           end
           main do
             page_content
+          end
+          async show_on: "page_loading_triggered" do
+            plain "started a transition"
           end
         }
       end
@@ -81,6 +87,19 @@ describe "Transition Component", type: :feature, js: true do
 
     end
 
+    class Pages::ExampleApp::ThirdExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          div id: "my-div-on-page-3" do
+            heading size: 2, text: "This is Page 3"
+            plain "#{DateTime.now.strftime('%Q')}"
+          end
+        }
+      end
+
+    end
+
     class ExampleAppPagesController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
 
@@ -94,6 +113,9 @@ describe "Transition Component", type: :feature, js: true do
 
       def sub_page2
         responder_for(Pages::ExampleApp::SubSecondExamplePage)
+
+      def page3
+        responder_for(Pages::ExampleApp::ThirdExamplePage)
       end
 
     end
@@ -102,6 +124,8 @@ describe "Transition Component", type: :feature, js: true do
       get 'my_example_app/page1', to: 'example_app_pages#page1', as: 'page1'
       get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
       get 'my_example_app/page2/sub_page2', to: 'example_app_pages#sub_page2', as: 'sub_page2'
+      get 'my_example_app/page3', to: 'example_app_pages#page3', as: 'page3'
+
     end
     Rails.application.reload_routes!
 
@@ -263,6 +287,65 @@ describe "Transition Component", type: :feature, js: true do
 
     link = find('a.active-child')
     expect(link.text).to eq("Page 2")
+  end
+
+  it "Example 5 - Delay Transition" do
+
+    visit "/my_example_app/page1"
+
+    expect(page).to have_content("My Example App Layout")
+
+    expect(page).to have_content("This is Page 1")
+    expect(page).not_to have_content("This is Page 2")
+
+    element = page.find("main")
+    before_content = element.text
+
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+
+    click_button("Page 3")
+
+    element = page.find("main")
+    after_content = element.text
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_selector("body.not-reloaded")
+
+    expect(before_content).to eq(after_content) # still the same content as we delayed the transition
+
+    sleep 2
+
+    element = page.find("main")
+    after_content = element.text
+
+    expect(before_content).not_to eq(after_content)
+
+    expect(page).to have_content("This is Page 3")
+    expect(page).to have_selector("body.not-reloaded")
+
+  end
+
+  it "Example 6 - Emits event on transition triggering" do
+
+    visit "/my_example_app/page1"
+
+    expect(page).to have_content("My Example App Layout")
+
+    expect(page).to have_content("This is Page 1")
+    expect(page).not_to have_content("This is Page 2")
+
+    expect(page).not_to have_content("started a transition")
+
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    click_button("Page 2")
+
+    expect(page).to have_content("started a transition")
+
+    expect(page).to have_content("My Example App Layout")
+    expect(page).to have_selector("body.not-reloaded")
+
+    expect(page).not_to have_content("This is Page 1")
+    expect(page).to have_content("This is Page 2")
   end
 
   # supposed to work, but doesn't. Suspect Vue is the culprint here

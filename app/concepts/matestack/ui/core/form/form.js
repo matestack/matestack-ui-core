@@ -105,6 +105,19 @@ const componentDef = {
     },
     perform: function(){
       const self = this
+      if (self.componentConfig["emit"] != undefined) {
+        matestackEventHub.$emit(self.componentConfig["emit"]);
+      }
+      if (self.componentConfig["delay"] != undefined) {
+        setTimeout(function () {
+          self.sendRequest()
+        }, parseInt(self.componentConfig["delay"]));
+      } else {
+        this.sendRequest()
+      }
+    },
+    sendRequest: function(){
+      const self = this
       let payload = {}
       payload[self.componentConfig["for"]] = self.data
       axios({
