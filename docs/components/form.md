@@ -106,6 +106,21 @@ Using the standard Rails params, we can pass information to our route!
 params: { id: 42 }
 ```
 
+### Emit
+
+This event gets emitted right after form submit. In contrast to the `sucsess` or `failure` events, it will be emitted regardless of the server response.
+
+```ruby
+emit: "form_submitted"
+```
+
+### Delay
+
+You can use this attribute if you want to delay the actual form submit request. It will not delay the event specified with the `emit` attribute.
+
+```ruby
+delay: 1000 # means 1000 ms
+```
 
 ### Success
 

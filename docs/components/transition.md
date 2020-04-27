@@ -30,6 +30,27 @@ transition path: :page1_path, text: 'Click me for a transition'
 
 If no text is present, the transition component expects a block that it then *yields* the usual way.
 
+
+### Delay
+
+You can use this attribute if you want to delay the actual transition. It will not delay the `page_loading_triggered` event
+
+```ruby
+delay: 1000 # means 1000 ms
+```
+
+### Events
+
+The `transition` component automatically emits events on:
+
+* transition triggered by user action -> "page_loading_triggered"
+* *optional client side delay via `delay` attribute*
+* start to get new page from server -> "page_loading"
+* *server side/network delay*
+* successfully received new page from server -> "page_loaded"
+* failed to receive new page from server -> "page_loading_error"
+
+
 ## Examples
 
 The transition core component renders the HTML `<a>` tag and performs a page transition

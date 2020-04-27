@@ -28,6 +28,12 @@ Lazy (or defered) loading can be configured like shown  [here](#defer).
 
 If you want to simply hide the async component on initial pageload and display it later on, read below how to use `show_on`, which can be combined with `rerender_on`.
 
+You can pass in multiple, comma-separated events on which the component should rerender.
+
+```ruby
+async rerender_on: 'my_event, some_other_event'
+```
+
 ### Show_on
 
 The `show_on` option lets us define an event on which the component gets shown. The content is still rendered on init pageload, but simply hidden in the browser until the event is emitted. If you want to have proper deferred loading, please refer to [defer](#defer)
@@ -38,6 +44,12 @@ async show_on: 'my_event' do
     plain 'I was not here before the event'
   end
 end
+```
+
+You can pass in multiple, comma-separated events on which the component should be shown.
+
+```ruby
+async show_on: 'my_event, some_other_event'
 ```
 
 ### Hide_on
@@ -51,6 +63,13 @@ async hide_on: 'my_event' do
   end
 end
 ```
+
+You can pass in multiple, comma-separated events on which the component should be hidden.
+
+```ruby
+async hide_on: 'my_event, some_other_event'
+```
+
 
 ### Hide_after
 

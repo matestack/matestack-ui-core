@@ -3,7 +3,7 @@ include Utils
 
 describe "Async Component", type: :feature, js: true do
 
-  it "Example 1 - Rerender on event on page-level" do
+  it "Example 1 - Rerender on event(s) on page-level" do
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -11,7 +11,12 @@ describe "Async Component", type: :feature, js: true do
         components {
           async rerender_on: "my_event" do
             div id: "my-div" do
-              plain "#{DateTime.now.strftime('%Q')}"
+              plain "1: #{DateTime.now.strftime('%Q')}"
+            end
+          end
+          async rerender_on: "multi_event_1, multi_event_2" do
+            div id: "my-second-div" do
+              plain "2: #{DateTime.now.strftime('%Q')}"
             end
           end
         }
@@ -26,10 +31,21 @@ describe "Async Component", type: :feature, js: true do
 
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
-    element = page.find("#my-div")
-    after_content = element.text
+    expect(page).not_to have_content(before_content)
 
-    expect(before_content).not_to eq(after_content)
+    element = page.find("#my-second-div")
+    before_content = element.text
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_1")')
+
+    expect(page).not_to have_content(before_content)
+
+    element = page.find("#my-second-div")
+    before_content = element.text
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_2")')
+
+    expect(page).not_to have_content(before_content)
   end
 
   it "Example 1.1 - Rerender on event on (nested) component-level" do
@@ -55,18 +71,18 @@ describe "Async Component", type: :feature, js: true do
       def response
         components {
           div id: "static-content-on-component" do
-            plain "Component 1: #{DateTime.now.strftime('%Q')}"
+            plain "Component 1.1: #{DateTime.now.strftime('%Q')}"
           end
           async rerender_on: "my_event" do
             div id: "dynamic-content-on-component" do
-              plain "Component 1: #{DateTime.now.strftime('%Q')}"
+              plain "Component 1.2: #{DateTime.now.strftime('%Q')}"
             end
           end
-          async rerender_on: "my_other_event" do
-            custom_other_component
+          async rerender_on: "my_other_event, some_other_event" do
             div id: "other-dynamic-content-on-component" do
-              plain "Component 1: #{DateTime.now.strftime('%Q')}"
+              plain "Component 1.3: #{DateTime.now.strftime('%Q')}"
             end
+            custom_other_component
           end
         }
       end
@@ -78,16 +94,16 @@ describe "Async Component", type: :feature, js: true do
       def response
         components {
           div id: "static-content-on-other-component" do
-            plain "Component 2: #{DateTime.now.strftime('%Q')}"
+            plain "Component 2.1: #{DateTime.now.strftime('%Q')}"
           end
-          async rerender_on: "my_event" do
+          async rerender_on: "my_event, some_other_event" do
             div id: "dynamic-content-on-other-component" do
-              plain "Component 2: #{DateTime.now.strftime('%Q')}"
+              plain "Component 2.2: #{DateTime.now.strftime('%Q')}"
             end
           end
           async rerender_on: "my_other_event" do
             div id: "other-dynamic-content-on-other-component" do
-              plain "Component 2: #{DateTime.now.strftime('%Q')}"
+              plain "Component 2.3: #{DateTime.now.strftime('%Q')}"
             end
           end
         }
@@ -97,20 +113,43 @@ describe "Async Component", type: :feature, js: true do
 
 
     visit "/example"
+    # sleep
 
     static_content_before = page.find("#static-content-on-component").text
     dynamic_content_before = page.find("#dynamic-content-on-component").text
     other_dynamic_content_before = page.find("#other-dynamic-content-on-component").text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
-    # sleep
-    static_content_after = page.find("#static-content-on-component").text
-    dynamic_content_after = page.find("#dynamic-content-on-component").text
-    other_dynamic_content_after = page.find("#other-dynamic-content-on-component").text
+    static_content_before_on_other_component = page.find("#static-content-on-other-component").text
+    dynamic_content_before_on_other_component = page.find("#dynamic-content-on-other-component").text
+    other_dynamic_content_before_on_other_component = page.find("#other-dynamic-content-on-other-component").text
 
-    expect(static_content_before).to eq(static_content_after)
-    expect(dynamic_content_before).not_to eq(dynamic_content_after)
-    expect(other_dynamic_content_before).to eq(other_dynamic_content_after)
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+
+    expect(page).to have_content(static_content_before)
+    expect(page).not_to have_content(dynamic_content_before)
+    expect(page).to have_content(other_dynamic_content_before)
+
+    expect(page).to have_content(static_content_before_on_other_component)
+    expect(page).not_to have_content(dynamic_content_before_on_other_component)
+    expect(page).to have_content(other_dynamic_content_before_on_other_component)
+
+    static_content_before = page.find("#static-content-on-component").text
+    dynamic_content_before = page.find("#dynamic-content-on-component").text
+    other_dynamic_content_before = page.find("#other-dynamic-content-on-component").text
+
+    static_content_before_on_other_component = page.find("#static-content-on-other-component").text
+    dynamic_content_before_on_other_component = page.find("#dynamic-content-on-other-component").text
+    other_dynamic_content_before_on_other_component = page.find("#other-dynamic-content-on-other-component").text
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some_other_event")')
+
+    expect(page).to have_content(static_content_before)
+    expect(page).to have_content(dynamic_content_before)
+    expect(page).not_to have_content(other_dynamic_content_before)
+
+    expect(page).not_to have_content(static_content_before_on_other_component)
+    expect(page).not_to have_content(dynamic_content_before_on_other_component)
+    expect(page).not_to have_content(other_dynamic_content_before_on_other_component)
   end
 
   it "Example 1.2 - Rerender on event on page-level if wrapped in app" do
@@ -185,6 +224,11 @@ describe "Async Component", type: :feature, js: true do
               plain "#{DateTime.now.strftime('%Q')}"
             end
           end
+          async show_on: "multi_event_1, multi_event_2" do
+            div id: "my-second-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          end
         }
       end
 
@@ -193,10 +237,25 @@ describe "Async Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).not_to have_selector "#my-div"
+    expect(page).not_to have_selector "#my-second-div"
 
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
     expect(page).to have_selector "#my-div"
+    expect(page).not_to have_selector "#my-second-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_2")')
+
+    expect(page).to have_selector "#my-div"
+    expect(page).to have_selector "#my-second-div"
+
+    visit "/example"
+
+    expect(page).not_to have_selector "#my-second-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_1")')
+
+    expect(page).to have_selector "#my-second-div"
   end
 
   it "Example 3 - Hide on event" do
@@ -210,6 +269,11 @@ describe "Async Component", type: :feature, js: true do
               plain "#{DateTime.now.strftime('%Q')}"
             end
           end
+          async hide_on: "multi_event_1, multi_event_2" do
+            div id: "my-second-div" do
+              plain "#{DateTime.now.strftime('%Q')}"
+            end
+          end
         }
       end
 
@@ -218,10 +282,25 @@ describe "Async Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).to have_selector "#my-div"
+    expect(page).to have_selector "#my-second-div"
 
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
     expect(page).not_to have_selector "#my-div"
+    expect(page).to have_selector "#my-second-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_2")')
+
+    expect(page).not_to have_selector "#my-div"
+    expect(page).not_to have_selector "#my-second-div"
+
+    visit "/example"
+
+    expect(page).to have_selector "#my-second-div"
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_1")')
+
+    expect(page).not_to have_selector "#my-second-div"
   end
 
   it "Example 3.1 - Show on / Hide on combination init not shown by default" do

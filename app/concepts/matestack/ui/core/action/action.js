@@ -20,10 +20,10 @@ const componentDef = {
         if (self.componentConfig["emit"] != undefined) {
           matestackEventHub.$emit(self.componentConfig["emit"]);
         }
-        if (self.componentConfig["min_defer"] != undefined) {
+        if (self.componentConfig["delay"] != undefined) {
           setTimeout(function () {
             self.sendRequest()
-          }, parseInt(self.componentConfig["min_defer"]));
+          }, parseInt(self.componentConfig["delay"]));
         } else {
           this.sendRequest()
         }

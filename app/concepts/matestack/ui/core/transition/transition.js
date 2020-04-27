@@ -16,13 +16,11 @@ const componentDef = {
   methods: {
     navigateTo: function(url){
       const self = this
-      if (self.componentConfig["emit"] != undefined) {
-        matestackEventHub.$emit(self.componentConfig["emit"]);
-      }
-      if (self.componentConfig["min_defer"] != undefined) {
+      matestackEventHub.$emit("page_loading_triggered", url);
+      if (self.componentConfig["delay"] != undefined) {
         setTimeout(function () {
           self.performNavigation(url)
-        }, parseInt(self.componentConfig["min_defer"]));
+        }, parseInt(self.componentConfig["delay"]));
       } else {
         this.performNavigation(url)
       }
