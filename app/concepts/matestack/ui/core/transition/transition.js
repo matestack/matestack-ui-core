@@ -9,7 +9,10 @@ const componentDef = {
   },
   computed: Vuex.mapState({
     isActive (state) {
-      return this.componentConfig["link_path"] === state.currentPath
+      return (this.componentConfig["link_path"].split("?")[0]) === state.currentPathName
+    },
+    isChildActive (state) {
+      return ((this.componentConfig["link_path"].split("?")[0]) !== state.currentPathName) && (state.currentPathName.indexOf(this.componentConfig["link_path"].split("?")[0]) !== -1)
     }
   }),
   methods: {

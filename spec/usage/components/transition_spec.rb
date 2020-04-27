@@ -14,7 +14,7 @@ describe "Transition Component", type: :feature, js: true do
             transition path: :page1_path do
               button text: "Page 1"
             end
-            transition path: :page2_path, params: { some_other_param: "bar" } do
+            transition path: :page2_path, params: {some_other_param: "bar" } do
               button text: "Page 2"
             end
           end
@@ -56,6 +56,26 @@ describe "Transition Component", type: :feature, js: true do
             button text: "Back to Page 1"
             plain "#{context[:params][:some_other_param]}"
           end
+          transition path: :sub_page2_path do
+            button text: "Sub Page 2"
+          end
+        }
+      end
+
+    end
+
+    class Pages::ExampleApp::SubSecondExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          div id: "my-div-on-page-2" do
+            heading size: 2, text: "This is a Subpage of Page 2"
+            plain "#{DateTime.now.strftime('%Q')}"
+          end
+          transition path: :page1_path do
+            button text: "Back to Page 1"
+            plain "#{context[:params][:some_other_param]}"
+          end
         }
       end
 
@@ -72,11 +92,16 @@ describe "Transition Component", type: :feature, js: true do
         responder_for(Pages::ExampleApp::SecondExamplePage)
       end
 
+      def sub_page2
+        responder_for(Pages::ExampleApp::SubSecondExamplePage)
+      end
+
     end
 
     Rails.application.routes.append do
       get 'my_example_app/page1', to: 'example_app_pages#page1', as: 'page1'
       get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
+      get 'my_example_app/page2/sub_page2', to: 'example_app_pages#sub_page2', as: 'sub_page2'
     end
     Rails.application.reload_routes!
 
@@ -204,6 +229,40 @@ describe "Transition Component", type: :feature, js: true do
     expect(page).to have_content("This is Page 2")
     expect(page).to have_content("bar")
     expect(page).to have_selector("body.not-reloaded")
+  end
+
+  it "Example 4 - Sets active class on clientside when target path is current path " do
+
+    visit "/my_example_app/page1"
+    sleep 1
+
+    link = find('a.active')
+    expect(link.text).to eq("Page 1")
+
+    click_button("Page 2")
+    sleep 1
+
+    link = find('a.active')
+    expect(link.text).to eq("Page 2")
+
+    # query params should not disturb active class
+    visit "/my_example_app/page1?some_param=foo"
+
+    link = find('a.active')
+    expect(link.text).to eq("Page 1")
+
+    # active sub page sets special active class on parent
+    visit "/my_example_app/page2"
+    sleep 1
+
+    link = find('a.active')
+    expect(link.text).to eq("Page 2")
+
+    click_button("Sub Page 2")
+    sleep 1
+
+    link = find('a.active-child')
+    expect(link.text).to eq("Page 2")
   end
 
   # supposed to work, but doesn't. Suspect Vue is the culprint here

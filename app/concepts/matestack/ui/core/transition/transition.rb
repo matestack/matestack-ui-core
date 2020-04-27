@@ -6,7 +6,7 @@ module Matestack::Ui::Core::Transition
       @tag_attributes.merge!({
         "href": link_path,
         "@click.prevent": navigate_to(link_path),
-        "v-bind:class": "{ active: isActive }"
+        "v-bind:class": "{ active: isActive, 'active-child': isChildActive }"
       })
     end
 
