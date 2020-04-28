@@ -13,10 +13,6 @@ class Pages::MyApp::MyFourthPage < Matestack::Ui::Page
       form my_form_config, :include do
         form_input key: :title, type: :text, placeholder: "title"
         br
-        form_input key: :file, type: :file
-        br
-        form_input key: :files, type: :file, multiple: true
-        br
         form_submit do
           button text: "Submit me!"
         end
@@ -48,9 +44,6 @@ class Pages::MyApp::MyFourthPage < Matestack::Ui::Page
       for: @dummy_model,
       method: :post,
       path: :form_action_path,
-      attributes: {
-        enctype: 'multipart/form-data'
-      },
       success: {
         emit: "form_succeeded"
       },
