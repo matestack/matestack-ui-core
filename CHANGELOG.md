@@ -28,6 +28,7 @@
 * Added multi event listening to `async` component option #412 #147
 * Added Rails 6 support
 * Updated core dev and test environment to Rails 6
+* Added form/action `redirect_to` option #415
 
 ## v0.7.5
 
