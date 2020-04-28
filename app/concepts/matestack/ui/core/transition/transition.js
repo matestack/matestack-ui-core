@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import componentMixin from '../component/component'
+import matestackEventHub from '../js/event-hub'
 
 const componentDef = {
   mixins: [componentMixin],
@@ -9,11 +10,25 @@ const componentDef = {
   },
   computed: Vuex.mapState({
     isActive (state) {
-      return this.componentConfig["link_path"] === state.currentPath
+      return (this.componentConfig["link_path"].split("?")[0]) === state.currentPathName
+    },
+    isChildActive (state) {
+      return ((this.componentConfig["link_path"].split("?")[0]) !== state.currentPathName) && (state.currentPathName.indexOf(this.componentConfig["link_path"].split("?")[0]) !== -1)
     }
   }),
   methods: {
     navigateTo: function(url){
+      const self = this
+      matestackEventHub.$emit("page_loading_triggered", url);
+      if (self.componentConfig["delay"] != undefined) {
+        setTimeout(function () {
+          self.performNavigation(url)
+        }, parseInt(self.componentConfig["delay"]));
+      } else {
+        this.performNavigation(url)
+      }
+    },
+    performNavigation: function(url){
       this.$store.dispatch('navigateTo', {url: url, backwards: false}).then((response) => {
         // self.asyncTemplate = response;
       })

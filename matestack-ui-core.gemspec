@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", '~> 5.0'
+  s.add_dependency "rails", '>= 5.0'
   s.add_dependency "haml"
   s.add_dependency "trailblazer"
   s.add_dependency "trailblazer-rails", "1.0.9"

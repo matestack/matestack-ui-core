@@ -1,5 +1,35 @@
 # Changelog
 
+## v0.7.6
+
+[Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.6)
+
+[Solved Issues](https://github.com/basemate/matestack-ui-core/issues?q=is%3Aissue+is%3Aclosed+milestone%3A0.7.6)
+
+### Security Fixes
+
+* Various dependency version bumps by dependabot
+
+### Bugfixes
+
+* Radio button groups with same values on single page #399
+* Async rerendered components have access to ActionView context #405
+* Transition component `active` class fixed #408 #410
+* Query params were missing in async page load request when using browser history navigation #409
+
+### Improvements
+
+* Apps now have access to ActionView context #405
+* Transition component `active-child` class added #410
+* Added specs for ActionView context access #411
+* Added file upload feature to form (single and multiple) #413
+* Added form, transition, action `delay` option #412
+* Added form, action `emit` option #412
+* Added multi event listening to `async` component option #412 #147
+* Added Rails 6 support
+* Updated core dev and test environment to Rails 6
+* Added form/action `redirect_to` option #415
+
 ## v0.7.5
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.5)

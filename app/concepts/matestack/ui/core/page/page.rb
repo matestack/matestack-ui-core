@@ -89,7 +89,11 @@ module Matestack::Ui::Core::Page
         nodes_to_cell
         render :page
       when :render_page_with_app
-        concept(@app_class).call(:show, @page_id, @nodes)
+        @app_class.new(nil, context: {
+          params: options[:context][:params],
+          request: options[:context][:request],
+          view_context: options[:context][:view_context]
+        }, controller_instance: options[:controller_instance]).call(:show, @page_id, @nodes)
       when :render_component
         begin
           render_child_component component_key

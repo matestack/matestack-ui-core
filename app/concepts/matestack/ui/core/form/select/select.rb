@@ -3,6 +3,12 @@ module Matestack::Ui::Core::Form::Select
 
     REQUIRED_KEYS = [:options]
 
+    def setup
+      if @tag_attributes[:id].nil?
+        @tag_attributes[:id] = attr_key
+      end
+    end
+
     def input_key
       'data["' + options[:key].to_s + '"]'
     end
@@ -66,6 +72,10 @@ module Matestack::Ui::Core::Form::Select
           end
         end
       end
+    end
+
+    def id_for_option value
+      return "#{@tag_attributes[:id]}_#{value}"
     end
 
 

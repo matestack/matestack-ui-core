@@ -21,7 +21,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'capybara'
   gem 'webpacker', '~> 4.0'
-  gem 'sqlite3', '~> 1.3.13'
+  gem 'sqlite3', '~> 1.4'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.7'
   gem 'puma'
   gem 'simplecov', require: false, group: :test

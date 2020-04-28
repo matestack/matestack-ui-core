@@ -4,6 +4,7 @@ module Matestack::Ui::Core::App
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper
     include Matestack::Ui::Core::ToCell
+    include Matestack::Ui::Core::HasViewContext
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
 

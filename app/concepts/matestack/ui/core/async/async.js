@@ -45,9 +45,19 @@ const componentDef = {
   },
   created: function () {
     const self = this
-    matestackEventHub.$on(this.componentConfig["rerender_on"], self.rerender)
-    matestackEventHub.$on(this.componentConfig["show_on"], self.show)
-    matestackEventHub.$on(this.componentConfig["hide_on"], self.hide)
+    if(this.componentConfig["show_on"] != undefined){
+      this.showing = false
+      var show_events = this.componentConfig["show_on"].split(",")
+      show_events.forEach(show_event => matestackEventHub.$on(show_event.trim(), self.show));
+    }
+    if(this.componentConfig["hide_on"] != undefined){
+      var hide_events = this.componentConfig["hide_on"].split(",")
+      hide_events.forEach(hide_event => matestackEventHub.$on(hide_event.trim(), self.hide));
+    }
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => matestackEventHub.$on(rerender_event.trim(), self.rerender));
+    }
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
     }
@@ -68,6 +78,18 @@ const componentDef = {
     matestackEventHub.$off(this.componentConfig["rerender_on"], self.rerender);
     matestackEventHub.$off(this.componentConfig["show_on"], self.show);
     matestackEventHub.$off(this.componentConfig["hide_on"], self.hide);
+    if(this.componentConfig["show_on"] != undefined){
+      var shown_events = this.componentConfig["show_on"].split(",")
+      shown_events.forEach(show_event => matestackEventHub.$off(show_event.trim(), self.show));
+    }
+    if(this.componentConfig["hide_on"] != undefined){
+      var hiden_events = this.componentConfig["hide_on"].split(",")
+      hiden_events.forEach(hide_event => matestackEventHub.$off(hide_event.trim(), self.hide));
+    }
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => matestackEventHub.$off(rerender_event.trim(), self.rerender));
+    }
   },
 }
 

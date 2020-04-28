@@ -54,6 +54,22 @@ If no `text` is given, the default text "Are you sure?" will be used.
 confirm: true
 ```
 
+### Emit
+
+This event gets emitted right after triggering the action. In contrast to the `sucsess` or `failure` events, it will be emitted regardless of the server response.
+
+```ruby
+emit: "action_submitted"
+```
+
+### Delay
+
+You can use this attribute if you want to delay the actual action submit request. It will not delay the event specified with the `emit` attribute.
+
+```ruby
+delay: 1000 # means 1000 ms
+```
+
 ### Success
 
 The success part of the action component gets triggered once the action we wanted to perform returns a success code, usually the `200` HTTP status code.
@@ -65,6 +81,8 @@ success: {
   emit: 'my_action_success'
 }
 ```
+
+#### Perform transition
 
 We can also perform a transition that only gets triggered on success and also accepts further params:
 
@@ -104,6 +122,52 @@ class TestModelsController < ApplicationController
   end
 end
 ```
+
+#### Perform redirect
+
+We can also perform a redirect (full page load) that only gets triggered on success and also accepts further params:
+
+Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page (including the surrounding app) gets reloaded!
+
+```ruby
+success: {
+  emit: 'my_action_success', # doesn't have an effect when using redirect
+  redirect: {
+    path: :action_test_page2_path,
+    params: { id: 42 }
+  }
+}
+```
+
+When the server redirects to a url, for example after creating a new record, the redirect needs to be configured to follow this redirect of the server response.
+
+```ruby
+success: {
+  emit: 'my_action_success', # doesn't have an effect when using redirect
+  redirect: {
+    follow_response: true
+  }
+}
+```
+
+A controller action that would create a record and then respond with the url the page should redirect to, could look like this:
+
+```ruby
+class TestModelsController < ApplicationController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def create
+    @test_model = TestModel.create(test_model_params)
+
+    render json: {
+      redirect_to: test_model_path(@test_model)
+    }, status: :ok
+  end
+end
+```
+
+Same applies for the `failure` configuration.
+
 
 ### Failure
 
