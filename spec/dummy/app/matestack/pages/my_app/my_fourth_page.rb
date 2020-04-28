@@ -45,10 +45,16 @@ class Pages::MyApp::MyFourthPage < Matestack::Ui::Page
       method: :post,
       path: :form_action_path,
       success: {
-        emit: "form_succeeded"
+        # emit: "form_succeeded"
+        transition: {
+          follow_response: true
+        }
       },
       failure: {
-        emit: "form_has_errors"
+        emit: "form_has_errors",
+        transition: {
+          path: :my_second_page_path
+        }
       }
     }
   end

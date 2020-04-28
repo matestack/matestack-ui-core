@@ -82,6 +82,8 @@ success: {
 }
 ```
 
+#### Perform transition
+
 We can also perform a transition that only gets triggered on success and also accepts further params:
 
 ```ruby
@@ -120,6 +122,52 @@ class TestModelsController < ApplicationController
   end
 end
 ```
+
+#### Perform redirect
+
+We can also perform a redirect (full page load) that only gets triggered on success and also accepts further params:
+
+Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page (including the surrounding app) gets reloaded!
+
+```ruby
+success: {
+  emit: 'my_action_success', # doesn't have an effect when using redirect
+  redirect: {
+    path: :action_test_page2_path,
+    params: { id: 42 }
+  }
+}
+```
+
+When the server redirects to a url, for example after creating a new record, the redirect needs to be configured to follow this redirect of the server response.
+
+```ruby
+success: {
+  emit: 'my_action_success', # doesn't have an effect when using redirect
+  redirect: {
+    follow_response: true
+  }
+}
+```
+
+A controller action that would create a record and then respond with the url the page should redirect to, could look like this:
+
+```ruby
+class TestModelsController < ApplicationController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def create
+    @test_model = TestModel.create(test_model_params)
+
+    render json: {
+      redirect_to: test_model_path(@test_model)
+    }, status: :ok
+  end
+end
+```
+
+Same applies for the `failure` configuration.
+
 
 ### Failure
 
