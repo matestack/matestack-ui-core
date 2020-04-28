@@ -855,7 +855,13 @@ const componentDef = {
     },
     setProps: function (flat, newVal) {
       for (var i in flat) {
-        if (typeof flat[i] === "object" && !(flat[i] instanceof Array)) {
+        if (flat[i] instanceof File){
+          flat[i] = newVal;
+          this.$refs["input."+i].value = newVal
+        } else if (flat[i] instanceof Array) {
+          flat[i] = newVal
+          this.$refs["input."+i].value = newVal
+        } else if (typeof flat[i] === "object" && !(flat[i] instanceof Array)) {
           setProps(flat[i], newVal);
           return;
         } else {
@@ -870,7 +876,6 @@ const componentDef = {
         this.data[key] = [];
         for (let index in files) {
           if (files[index] instanceof File) {
-            console.log(files[index]);
             this.data[key].push(files[index]);
           }
         }
@@ -933,20 +938,19 @@ const componentDef = {
       const self = this;
       let payload = {};
       payload[self.componentConfig["for"]] = self.data;
-      console.log(this);
       let axios_config = {};
-      // TODO check file uploads
-      if (this.$vnode.data.attrs.enctype == "multipart/form-data") {
+      if (self.componentConfig["multipart"] == true ) {
         let form_data = new FormData();
         for (let key in self.data) {
           if (key.endsWith("[]")) {
             for (let i in self.data[key]) {
               let file = self.data[key][i];
-              console.log(file);
-              form_data.append(self.componentConfig["for"] + "[" + key.slice(0, -2) + "][" + i + "]", file, "test_" + i);
+              form_data.append(self.componentConfig["for"] + "[" + key.slice(0, -2) + "][]", file);
             }
           } else {
-            form_data.append(self.componentConfig["for"] + "[" + key + "]", self.data[key]);
+            if (self.data[key] != null){
+              form_data.append(self.componentConfig["for"] + "[" + key + "]", self.data[key]);
+            }
           }
         }
         axios_config = {
