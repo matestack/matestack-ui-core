@@ -292,6 +292,72 @@ describe "Form Component", type: :feature, js: true do
 
     end
 
+    it "gets properly resetted when form is successfully submitted" do
+
+      class ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            form form_config, :include do
+              form_input key: :title, type: :text, placeholder: "title", id: "title-input"
+              br
+              form_input key: :file_1, type: :file, id: "file-1-input"
+              br
+              form_input key: :files, type: :file, multiple: true, id: "files-input"
+              br
+              form_submit do
+                button text: 'Submit me!'
+              end
+            end
+            async show_on: "uploaded_successfully", hide_on: "form_submitted" do
+              plain "{{event.data.file_1.instance}}"
+              plain "{{event.data.file_1.name}}"
+              plain "{{event.data.files}}"
+            end
+          }
+        end
+
+        def form_config
+          return {
+            for: :my_form,
+            method: :post,
+            multipart: true,
+            path: :form_input_file_upload_success_form_test_path,
+            emit: "form_submitted",
+            success: {
+              emit: "uploaded_successfully"
+            }
+          }
+        end
+
+      end
+
+      visit '/example'
+
+      fill_in "title-input", with: "bar"
+      attach_file('file-1-input', "#{File.dirname(__FILE__)}/test_files/matestack-logo.png")
+      attach_file("files-input", ["#{File.dirname(__FILE__)}/test_files/matestack-logo.png", "#{File.dirname(__FILE__)}/test_files/corgi.mp4"])
+
+      click_button "Submit me!"
+
+      expect(page).to have_content("file_1 instance: #<ActionDispatch::Http::UploadedFile")
+      expect(page).to have_content("file_1 with name: matestack-logo.png")
+      expect(page).to have_content("files[0] instance: #<ActionDispatch::Http::UploadedFile")
+      expect(page).to have_content("files[1] instance: #<ActionDispatch::Http::UploadedFile")
+      expect(page).to have_content("files[0] with name: matestack-logo.png")
+      expect(page).to have_content("files[1] with name: corgi.mp4")
+
+      fill_in "title-input", with: "bar"
+      click_button "Submit me!"
+
+      expect(page).to have_content("file_1 instance: nil")
+      expect(page).to have_content("file_1 with name: nil")
+      expect(page).to have_content("files[0] instance: nil")
+      expect(page).to have_content("files[1] instance: nil")
+      expect(page).to have_content("files[0] with name: nil")
+      expect(page).to have_content("files[1] with name: nil")
+    end
+
   end
 
 end

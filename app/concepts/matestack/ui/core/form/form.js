@@ -42,15 +42,18 @@ const componentDef = {
     },
     setProps: function (flat, newVal) {
       for (var i in flat) {
-        if (flat[i] instanceof File){
+        if (flat[i] === null){
+          flat[i] = newVal;
+        } else if (flat[i] instanceof File){
           flat[i] = newVal;
           this.$refs["input."+i].value = newVal
         } else if (flat[i] instanceof Array) {
-          flat[i] = newVal
-          this.$refs["input."+i].value = newVal
+          if(flat[i][0] instanceof File){
+            flat[i] = newVal
+            this.$refs["input."+i].value = newVal
+          }
         } else if (typeof flat[i] === "object" && !(flat[i] instanceof Array)) {
           setProps(flat[i], newVal);
-          return;
         } else {
           flat[i] = newVal;
         }
@@ -200,6 +203,7 @@ const componentDef = {
             return;
           }
           if (self.shouldResetFormOnSuccessfulSubmit()) {
+            console.log("reset")
             self.setProps(self.data, null);
             self.initValues();
           }
