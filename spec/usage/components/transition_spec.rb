@@ -113,6 +113,7 @@ describe "Transition Component", type: :feature, js: true do
 
       def sub_page2
         responder_for(Pages::ExampleApp::SubSecondExamplePage)
+      end
 
       def page3
         responder_for(Pages::ExampleApp::ThirdExamplePage)
