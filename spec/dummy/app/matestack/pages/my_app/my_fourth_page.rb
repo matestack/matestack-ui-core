@@ -13,7 +13,6 @@ class Pages::MyApp::MyFourthPage < Matestack::Ui::Page
       form my_form_config, :include do
         form_input key: :title, type: :text, placeholder: "title"
         br
-        br
         form_submit do
           button text: "Submit me!"
         end

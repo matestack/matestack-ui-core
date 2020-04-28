@@ -57,7 +57,6 @@ my_object: {
 }
 ```
 
-
 #### set by Active Record class name
 
 ```ruby
@@ -120,6 +119,14 @@ You can use this attribute if you want to delay the actual form submit request. 
 
 ```ruby
 delay: 1000 # means 1000 ms
+```
+
+### Multipart
+
+If you want to perform file uploads within this form, you have to set `multipart` to true. It will send the form data with `"Content-Type": "multipart/form-data"`
+
+```ruby
+multipart: true # default is false which results in form submission via "Content-Type": "application/json"
 ```
 
 ### Success
@@ -1364,3 +1371,33 @@ datalist id: 'datalist-id' do
   option value: 20
 end
 ```
+
+#### Example 11: File Upload
+
+In order to perform a single file upload, add this `form_input` component
+
+```ruby
+form_input key: :some_file, type: :file
+```
+
+In order to perform multiple file uploads, add this `form_input` component
+
+```ruby
+form_input key: :some_files, type: :file, multiple: true
+```
+
+Don't forget to add the `multiple: true` attribute to your `form_config`!
+
+In order to accept multiple files, you should permit params on your controller like:
+
+`some_controller.rb`
+```ruby
+#...
+params.require(:my_form_wrapper_key).permit(
+  :some_file,
+  some_files: []
+)
+#...
+```
+
+Please be aware that the `form_input` components with a `type: :file` can not be initialized with a given file.

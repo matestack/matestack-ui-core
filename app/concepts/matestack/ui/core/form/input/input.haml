@@ -33,6 +33,14 @@
     step: options[:step],
     list: options[:list] }
 
+- if [:file].include?(type)
+  %input{ @tag_attributes,
+    type: type,
+    "@change": "inputChanged(\"#{attr_key}\"); filesAdded('#{attr_key}')",
+    ref: "input.#{attr_key}",
+    placeholder: placeholder,
+    multiple: options[:multiple] }
+
 %span{ class: "errors", "v-if": error_key }
   %span{ class: "error", "v-for": "error in #{error_key}" }
     {{ error }}

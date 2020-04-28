@@ -9,6 +9,7 @@ module Matestack::Ui::Core::Form
         @component_config[:submit_path] = submit_path
         @component_config[:method] = options[:method]
         @component_config[:success] = options[:success]
+        @component_config[:multipart] = options[:multipart] == true
         unless options[:success].nil?
           unless options[:success][:transition].nil?
             @component_config[:success][:transition][:path] = transition_path options[:success]

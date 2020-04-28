@@ -45,9 +45,9 @@ module Matestack::Ui::Core::Form::Input
 
     def attr_key
       if input_wrapper.nil?
-        return key.to_s
+        return "#{key.to_s}#{'[]' if options[:multiple]}"
       else
-        return "#{input_wrapper}.#{key.to_s}"
+        return "#{input_wrapper}.#{key.to_s}#{'[]' if options[:multiple]}"
       end
     end
 
