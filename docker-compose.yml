@@ -35,6 +35,8 @@ services:
       dockerfile: ./Dockerfile.test
     environment:
       RAILS_ENV: test
+    ports:
+      - "33123:33123"
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle

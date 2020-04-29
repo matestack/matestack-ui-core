@@ -1,27 +1,46 @@
-- if options[:label]
-  %label=options[:label]
+- if label
+  %label=label
 
-- if [:text, :number, :email, :date, :password].include?(options[:type])
-  %input{@tag_attributes,
-    "v-model#{'.number' if options[:type] == :number}": input_key,
-    type: options[:type],
+- if [:text, :number, :email, :date, :password].include?(type)
+  %input{ @tag_attributes,
+    "v-model#{'.number' if type == :number}": input_key,
+    type: type,
     "@change": "inputChanged(\"#{attr_key}\")",
     ref: "input.#{attr_key}",
-    placeholder: options[:placeholder],
-    "init-value": init_value}
-  %span{class: "errors", "v-if": error_key }
-    %span{class: "error", "v-for": "error in  #{error_key}"}
-      {{ error }}
+    placeholder: placeholder,
+    "init-value": init_value }
 
-- if options[:type] == :textarea
-  %textarea{@tag_attributes,
+- if type == :textarea
+  %textarea{ @tag_attributes,
     "v-model": input_key,
     "@change": "inputChanged(\"#{attr_key}\")",
     ref: "input.#{attr_key}",
-    placeholder: options[:placeholder],
+    placeholder: placeholder,
     "init-value": init_value,
     rows: options[:rows],
-    cols: options[:cols]}
-  %span{class: "errors", "v-if": error_key }
-    %span{class: "error", "v-for": "error in  #{error_key}"}
-      {{ error }}
+    cols: options[:cols] }
+
+- if type == :range
+  %input{ @tag_attributes,
+    "v-model": input_key,
+    type: :range,
+    "@change": "inputChanged(\"#{attr_key}\")",
+    ref: "input.#{attr_key}",
+    placeholder: placeholder,
+    "init-value": init_value,
+    min: options[:min],
+    max: options[:max],
+    step: options[:step],
+    list: options[:list] }
+
+- if [:file].include?(type)
+  %input{ @tag_attributes,
+    type: type,
+    "@change": "inputChanged(\"#{attr_key}\"); filesAdded('#{attr_key}')",
+    ref: "input.#{attr_key}",
+    placeholder: placeholder,
+    multiple: options[:multiple] }
+
+%span{ class: "errors", "v-if": error_key }
+  %span{ class: "error", "v-for": "error in #{error_key}" }
+    {{ error }}

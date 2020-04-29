@@ -13,7 +13,7 @@
 //= require rails-ujs
 //= require activestorage
 //= require matestack-ui-core
-//= require_tree .
+//= require cable
 
 //= require demo/component
 

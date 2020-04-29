@@ -25,10 +25,53 @@ describe "Form Component", type: :feature, js: true do
       end
 
       def success_submit_with_transition
+        if params[:to_page].present?
+          transition_path = send("form_test_page_#{params[:to_page]}_path", {id: 42})
+        else
+          transition_path = form_test_page_4_path(id: 42)
+        end
         render json: {
           message: "server says: form submitted successfully",
-          transition_to: form_test_page_4_path(id: 42)
+          transition_to: transition_path
         }, status: 200
+      end
+
+      def failure_submit_with_transition
+        if params[:to_page].present?
+          transition_path = send("form_test_page_#{params[:to_page]}_path", {id: 42})
+        else
+          transition_path = form_test_page_4_path(id: 42)
+        end
+        render json: {
+          message: "server says: form had errors",
+          errors: { foo: ["seems to be invalid"] },
+          transition_to: transition_path
+        }, status: 400
+      end
+
+      def success_submit_with_redirect
+        if params[:to_page].present?
+          redirect_path = send("form_test_page_#{params[:to_page]}_path", {id: 42})
+        else
+          redirect_path = form_test_page_4_path(id: 42)
+        end
+        render json: {
+          message: "server says: form submitted successfully",
+          redirect_to: redirect_path
+        }, status: 200
+      end
+
+      def failure_submit_with_redirect
+        if params[:to_page].present?
+          redirect_to_path = send("form_test_page_#{params[:to_page]}_path", {id: 42})
+        else
+          redirect_to_path = form_test_page_4_path(id: 42)
+        end
+        render json: {
+          message: "server says: form had errors",
+          errors: { foo: ["seems to be invalid"] },
+          redirect_to: redirect_to_path
+        }, status: 400
       end
 
       def failure_submit
@@ -43,6 +86,9 @@ describe "Form Component", type: :feature, js: true do
     Rails.application.routes.append do
       post '/success_form_test/:id', to: 'form_test#success_submit', as: 'success_form_test'
       post '/success_form_test_with_transition/:id', to: 'form_test#success_submit_with_transition', as: 'success_form_test_with_transition'
+      post '/failure_form_test_with_transition/:id', to: 'form_test#failure_submit_with_transition', as: 'failure_form_test_with_transition'
+      post '/success_form_test_with_redirect/:id', to: 'form_test#success_submit_with_redirect', as: 'success_form_test_with_redirect'
+      post '/failure_form_test_with_redirect/:id', to: 'form_test#failure_submit_with_redirect', as: 'failure_form_test_with_redirect'
       post '/failure_form_test/:id', to: 'form_test#failure_submit', as: 'failure_form_test'
     end
     Rails.application.reload_routes!
@@ -249,7 +295,7 @@ describe "Form Component", type: :feature, js: true do
 
   end
 
-  it "Example 4 - Async submit request with success transition" do
+  it "Example 4 - Async submit request with success/failure transition" do
     class Apps::ExampleApp < Matestack::Ui::App
 
       def response
@@ -365,6 +411,8 @@ describe "Form Component", type: :feature, js: true do
     Rails.application.reload_routes!
 
     visit "form_test/page1"
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    expect(page).to have_selector("body.not-reloaded")
 
     expect(page).to have_content("This is Page 1")
 
@@ -374,6 +422,7 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_content("server says: form submitted successfully")
 
     expect(page).to have_content("This is Page 2")
+    expect(page).to have_selector("body.not-reloaded")
 
     fill_in "my-test-input-on-page-2", with: "bar"
     click_button "Submit me!"
@@ -382,10 +431,11 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_content("\"foo\": [ \"seems to be invalid\" ]")
 
     expect(page).to have_content("This is Page 1")
+    expect(page).to have_selector("body.not-reloaded")
 
   end
 
-  it "Example 5 - Async submit request with success transition determined by server response" do
+  it "Example 5 - Async submit request with success/failure transition determined by server response" do
     class Apps::ExampleApp < Matestack::Ui::App
 
       def response
@@ -430,7 +480,8 @@ describe "Form Component", type: :feature, js: true do
           method: :post,
           path: :success_form_test_with_transition_path,
           params: {
-            id: 42
+            id: 42,
+            to_page: 4
           },
           success: {
             emit: "my_form_success",
@@ -448,6 +499,31 @@ describe "Form Component", type: :feature, js: true do
       def response
         components {
           heading size: 2, text: "This is Page 4"
+
+          form form_config, :include do
+            form_input id: "my-test-input-on-page-4", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :failure_form_test_with_transition_path,
+          params: {
+            id: 42,
+            to_page: 3
+          },
+          failure: {
+            emit: "my_form_failure",
+            transition: {
+              follow_response: true
+            }
+          }
         }
       end
 
@@ -475,6 +551,8 @@ describe "Form Component", type: :feature, js: true do
     Rails.application.reload_routes!
 
     visit "form_test/page3"
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    expect(page).to have_selector("body.not-reloaded")
 
     expect(page).to have_content("This is Page 3")
 
@@ -484,7 +562,291 @@ describe "Form Component", type: :feature, js: true do
     expect(page).to have_content("server says: form submitted successfully")
 
     expect(page).to have_content("This is Page 4")
+    expect(page).to have_selector("body.not-reloaded")
 
+    fill_in "my-test-input-on-page-4", with: "bar"
+    click_button "Submit me!"
+
+    expect(page).to have_content("server says: form had errors")
+
+    expect(page).to have_content("This is Page 3")
+    expect(page).to have_selector("body.not-reloaded")
+
+  end
+
+  it "Example 5.1 - Async submit request with success/failure redirect determined by server response" do
+    class Apps::ExampleApp < Matestack::Ui::App
+
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+          async show_on: "my_form_success", hide_after: 300 do
+            plain "{{event.data.message}}"
+          end
+          async show_on: "my_form_failure", hide_after: 300 do
+            plain "{{event.data.message}}"
+            plain "{{event.data.errors}}"
+          end
+        }
+      end
+
+    end
+
+    module Pages::ExampleApp
+
+    end
+
+    class Pages::ExampleApp::ExamplePage5 < Matestack::Ui::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 5"
+          form form_config, :include do
+            form_input id: "my-test-input-on-page-5", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :success_form_test_with_redirect_path,
+          params: {
+            id: 42,
+            to_page: 6
+          },
+          success: {
+            emit: "my_form_success",
+            redirect: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::ExampleApp::ExamplePage6 < Matestack::Ui::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 6"
+          form form_config, :include do
+            form_input id: "my-test-input-on-page-6", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :failure_form_test_with_redirect_path,
+          params: {
+            id: 42,
+            to_page: 5
+          },
+          failure: {
+            emit: "my_form_success",
+            redirect: {
+              follow_response: true
+            }
+          }
+        }
+      end
+
+    end
+
+    class ExampleAppPagesController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def page5
+        responder_for(Pages::ExampleApp::ExamplePage5)
+      end
+
+      def page6
+        responder_for(Pages::ExampleApp::ExamplePage6)
+      end
+
+    end
+
+    Rails.application.routes.append do
+      scope :form_test do
+        get 'page5', to: 'example_app_pages#page5', as: 'form_test_page_5'
+        get 'page6/:id', to: 'example_app_pages#page6', as: 'form_test_page_6'
+      end
+    end
+    Rails.application.reload_routes!
+
+    visit "form_test/page5"
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    expect(page).to have_selector("body.not-reloaded")
+
+    expect(page).to have_content("This is Page 5")
+
+    fill_in "my-test-input-on-page-5", with: "bar"
+    click_button "Submit me!"
+
+    # expect(page).to have_content("server says: form submitted successfully")
+
+    expect(page).to have_content("This is Page 6")
+    expect(page).not_to have_selector("body.not-reloaded")
+
+    fill_in "my-test-input-on-page-6", with: "bar"
+    click_button "Submit me!"
+
+    expect(page).to have_content("This is Page 5")
+    expect(page).not_to have_selector("body.not-reloaded")
+
+  end
+
+  it "Example 5.2 - Async submit request with success redirect" do
+    class Apps::ExampleApp < Matestack::Ui::App
+
+      def response
+        components {
+          heading size: 1, text: "My Example App Layout"
+          main do
+            page_content
+          end
+          async show_on: "my_form_success", hide_after: 300 do
+            plain "{{event.data.message}}"
+          end
+          async show_on: "my_form_failure", hide_after: 300 do
+            plain "{{event.data.message}}"
+            plain "{{event.data.errors}}"
+          end
+        }
+      end
+
+    end
+
+    module Pages::ExampleApp
+
+    end
+
+    class Pages::ExampleApp::Page7 < Matestack::Ui::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 7"
+          form form_config, :include do
+            form_input id: "my-test-input-on-page-7", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :success_form_test_path,
+          params: {
+            id: 42
+          },
+          success: {
+            emit: "my_form_success",
+            redirect: {
+              path: :form_test_page_8_path,
+              params: {
+                id: 42
+              }
+            }
+          }
+        }
+      end
+
+    end
+
+    class Pages::ExampleApp::Page8 < Matestack::Ui::Page
+
+      def response
+        components {
+          heading size: 2, text: "This is Page 8"
+          form form_config, :include do
+            form_input id: "my-test-input-on-page-8", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :failure_form_test_path,
+          params: {
+            id: 42
+          },
+          failure: {
+            emit: "my_form_failure",
+            redirect: {
+              path: :form_test_page_7_path
+            }
+          }
+        }
+      end
+
+    end
+
+    class ExampleAppPagesController < ExampleController
+      include Matestack::Ui::Core::ApplicationHelper
+
+      def page7
+        responder_for(Pages::ExampleApp::Page7)
+      end
+
+      def page8
+        responder_for(Pages::ExampleApp::Page8)
+      end
+
+    end
+
+    Rails.application.routes.append do
+      scope :form_test do
+        get 'page7', to: 'example_app_pages#page7', as: 'form_test_page_7'
+        get 'page8/:id', to: 'example_app_pages#page8', as: 'form_test_page_8'
+      end
+    end
+    Rails.application.reload_routes!
+
+    visit "form_test/page7"
+    page.evaluate_script('document.body.classList.add("not-reloaded")')
+    expect(page).to have_selector("body.not-reloaded")
+
+    expect(page).to have_content("This is Page 7")
+
+    fill_in "my-test-input-on-page-7", with: "bar"
+    click_button "Submit me!"
+
+    # expect(page).to have_content("server says: form submitted successfully")
+
+    expect(page).to have_content("This is Page 8")
+    expect(page).not_to have_selector("body.not-reloaded")
+
+    fill_in "my-test-input-on-page-8", with: "bar"
+    click_button "Submit me!"
+
+    # expect(page).to have_content("server says: form had errors")
+    # expect(page).to have_content("\"foo\": [ \"seems to be invalid\" ]")
+
+    expect(page).to have_content("This is Page 7")
+    expect(page).not_to have_selector("body.not-reloaded")
   end
 
   describe "Example 6 - Async submit update request with success, which does not reset the input fields" do
@@ -702,7 +1064,7 @@ describe "Form Component", type: :feature, js: true do
 
   describe "Form Input Component" do
 
-    it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea' type" do
+    it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea', 'range' type" do
 
       class ExamplePage < Matestack::Ui::Page
 
@@ -714,6 +1076,7 @@ describe "Form Component", type: :feature, js: true do
               form_input id: "password-input",  key: :password_input, type: :password
               form_input id: "number-input",    key: :number_input, type: :number
               form_input id: "textarea-input",  key: :textarea_input, type: :textarea
+              form_input id: "range-input",     key: :range_input, type: :range
               form_submit do
                 button text: "Submit me!"
               end
@@ -741,7 +1104,7 @@ describe "Form Component", type: :feature, js: true do
       fill_in "password-input", with: "secret"
       fill_in "number-input", with: 123
       fill_in "textarea-input", with: "Hello \n World!"
-      
+      fill_in "range-input", with: 10
 
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(
@@ -750,7 +1113,8 @@ describe "Form Component", type: :feature, js: true do
             email_input: "name@example.com",
             password_input: "secret",
             number_input: 123,
-            textarea_input: "Hello \n World!"
+            textarea_input: "Hello \n World!",
+            range_input: "10"
           }
         ))
 
@@ -1322,7 +1686,7 @@ describe "Form Component", type: :feature, js: true do
 
         expect_any_instance_of(FormTestController).to receive(:expect_params)
           .with(hash_including(my_object: { array_input: ["Array Option 1", "Array Option 2"], hash_input: ["2"] }))
-          
+
         click_button "Submit me!"
 
       end
@@ -1831,6 +2195,43 @@ describe "Form Component", type: :feature, js: true do
         click_button "Submit me!"
       end
     end
+
+  end
+
+  it "range input can be initialized with min, max, step and value" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        components {
+          form form_config, :include do
+            form_input id: "range-input",
+              key: :range_input, type: :range,
+              init: 3, min: 0, max: 10, step: 1, list: "my_list"
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        }
+      end
+
+      def form_config
+        return {
+          for: :my_object,
+          method: :post,
+          path: :success_form_test_path,
+          params: {
+            id: 42
+          }
+        }
+      end
+
+    end
+
+    visit "/example"
+
+    expect(page).to have_field("range-input", with: "3")
+    expect(page).to have_selector('#range-input[min="0"][max="10"][step="1"][list="my_list"]')
 
   end
 

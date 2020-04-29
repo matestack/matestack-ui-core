@@ -9,11 +9,17 @@ module Matestack::Ui::Core::Action
         unless options[:success][:transition].nil?
           @component_config[:success][:transition][:path] = transition_path options[:success]
         end
+        unless options[:success][:redirect].nil?
+          @component_config[:success][:redirect][:path] = redirect_path options[:success]
+        end
       end
       @component_config[:failure] = options[:failure]
       unless options[:failure].nil?
         unless options[:failure][:transition].nil?
           @component_config[:failure][:transition][:path] = transition_path options[:failure]
+        end
+        unless options[:failure][:redirect].nil?
+          @component_config[:failure][:redirect][:path] = redirect_path options[:failure]
         end
       end
       if options[:notify].nil?
@@ -48,6 +54,21 @@ module Matestack::Ui::Core::Action
         end
       rescue
         raise "Transition path not found"
+      end
+    end
+
+    def redirect_path callback_options
+      begin
+        if callback_options[:redirect][:path].is_a?(Symbol)
+          return ::Rails.application.routes.url_helpers.send(
+            callback_options[:redirect][:path],
+            callback_options[:redirect][:params]
+          )
+        else
+          return callback_options[:redirect][:path]
+        end
+      rescue
+        raise "Redirect path not found"
       end
     end
 

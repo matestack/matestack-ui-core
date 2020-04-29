@@ -57,7 +57,6 @@ my_object: {
 }
 ```
 
-
 #### set by Active Record class name
 
 ```ruby
@@ -106,6 +105,29 @@ Using the standard Rails params, we can pass information to our route!
 params: { id: 42 }
 ```
 
+### Emit
+
+This event gets emitted right after form submit. In contrast to the `sucsess` or `failure` events, it will be emitted regardless of the server response.
+
+```ruby
+emit: "form_submitted"
+```
+
+### Delay
+
+You can use this attribute if you want to delay the actual form submit request. It will not delay the event specified with the `emit` attribute.
+
+```ruby
+delay: 1000 # means 1000 ms
+```
+
+### Multipart
+
+If you want to perform file uploads within this form, you have to set `multipart` to true. It will send the form data with `"Content-Type": "multipart/form-data"`
+
+```ruby
+multipart: true # default is false which results in form submission via "Content-Type": "application/json"
+```
 
 ### Success
 
@@ -162,6 +184,53 @@ class TestModelsController < ApplicationController
   end
 end
 ```
+
+Same applies for the `failure` configuration.
+
+#### Perform redirect
+
+We can also perform a redirect (full page load) that only gets triggered on success and also accepts further params:
+
+Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page (including the surrounding app) gets reloaded!
+
+```ruby
+success: {
+  emit: 'my_action_success', # doesn't have an effect when using redirect
+  redirect: {
+    path: :action_test_page2_path,
+    params: { id: 42 }
+  }
+}
+```
+
+When the server redirects to a url, for example after creating a new record, the redirect needs to be configured to follow this redirect of the server response.
+
+```ruby
+success: {
+  emit: 'my_action_success', # doesn't have an effect when using redirect
+  redirect: {
+    follow_response: true
+  }
+}
+```
+
+A controller action that would create a record and then respond with the url the page should redirect to, could look like this:
+
+```ruby
+class TestModelsController < ApplicationController
+  include Matestack::Ui::Core::ApplicationHelper
+
+  def create
+    @test_model = TestModel.create(test_model_params)
+
+    render json: {
+      redirect_to: test_model_path(@test_model)
+    }, status: :ok
+  end
+end
+```
+
+Same applies for the `failure` configuration.
 
 #### Reset form
 
@@ -578,7 +647,7 @@ end
 
 ### Example 4: Multiple input fields of different types
 
-Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'textarea' types!
+Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'range', 'textarea' types!
 
 On our example page, we define the input fields, together with a `type: X` configuration:
 
@@ -592,6 +661,7 @@ class ExamplePage < Matestack::Ui::Page
         form_input id: 'email-input',     key: :email_input, type: :email
         form_input id: 'password-input',  key: :password_input, type: :password
         form_input id: 'number-input',    key: :number_input, type: :number
+        form_input id: 'range-input',     key: :range_input, type: :range
         form_input id: 'textarea-input',  key: :textarea_input, type: :textarea
         form_submit do
           button text: 'Submit me!'
@@ -1326,3 +1396,55 @@ end
 ```
 
 Again, we can visit our example page on `localhost:3000/example` and are welcome by the preselected status of our `TestModel` instance. Changing the value of the status by toggling the radio button and filling in a description plus submitting it works just as before!
+
+#### Example 10.4: The Range Input
+
+Whilst working similiar to the 'text' input, the range input accepts a few more parameters. It accepts also 'min', 'max', 'step', 'list' as optional parameters.
+
+##### Example 10.4.1: Range input with max, min, step set
+
+```ruby
+form_input id: 'range-input', type: :range, min: 0, max: 100, step: 1
+```
+
+#### Example 10.4.2: Range input with corresponding datalist
+
+To use a datalist for the range input specify the 'list' parameter with the id of the provided datalist
+
+```ruby
+form_input id: 'range-input', type: :range, list: 'datalist-id'
+datalist id: 'datalist-id' do
+  option value: 10
+  option value: 20
+end
+```
+
+#### Example 11: File Upload
+
+In order to perform a single file upload, add this `form_input` component
+
+```ruby
+form_input key: :some_file, type: :file
+```
+
+In order to perform multiple file uploads, add this `form_input` component
+
+```ruby
+form_input key: :some_files, type: :file, multiple: true
+```
+
+Don't forget to add the `multiple: true` attribute to your `form_config`!
+
+In order to accept multiple files, you should permit params on your controller like:
+
+`some_controller.rb`
+```ruby
+#...
+params.require(:my_form_wrapper_key).permit(
+  :some_file,
+  some_files: []
+)
+#...
+```
+
+Please be aware that the `form_input` components with a `type: :file` can not be initialized with a given file.

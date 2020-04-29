@@ -9,14 +9,22 @@ const componentDef = {
     return {}
   },
   computed: Vuex.mapState({
-    asyncTemplate: state => state.pageTemplate
+    asyncTemplate: state => state.pageTemplate,
+    currentPathName: state => state.currentPathName,
+    currentSearch: state => state.currentSearch,
+    currentOrigin: state => state.currentOrigin,
   }),
   mounted: function(){
-    window.onpopstate = (event) => {
-      if (isNavigatingToAnotherPage(document.location, event)) {
-        this.$store.dispatch("navigateTo", {url: document.location.pathname, backwards: true} );
-      };
-    }
+    const self = this;
+    window.addEventListener("popstate", (event) => {
+      if (isNavigatingToAnotherPage({
+          origin: self.currentOrigin,
+          pathName: self.currentPathName,
+          search: self.currentSearch
+        }, document.location)){
+        self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
+      }
+    })
   },
   components: {
     VRuntimeTemplate: VRuntimeTemplate

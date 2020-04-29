@@ -960,6 +960,102 @@ describe "Component", type: :feature, js: true do
 
   end
 
+  describe "View Context Access" do
+
+    it "a component can access view context scope" do
+
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
+
+          def response
+            components {
+              div id: "my-component" do
+                if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+                  plain "has access to ActionView Context"
+                end
+                plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here
+                plain time_ago_in_words(3.minutes.from_now) # calling an ActionView Date Helper here
+              end
+            }
+          end
+
+        end
+      end
+
+      class Pages::ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              someStaticComponent
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      expect(page).to have_content("has access to ActionView Context")
+      expect(page).to have_content("Test Link")
+      expect(page).to have_content("3 minutes")
+
+    end
+
+    it "a component can access view context scope when rerendered via async" do
+
+      module Matestack::Ui::Core::SomeStaticComponent
+        class SomeStaticComponent < Matestack::Ui::StaticComponent
+
+          def response
+            components {
+              div id: "my-component" do
+                div id: "timestamp" do
+                  plain "#{DateTime.now.strftime('%Q')}"
+                end
+                if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+                  plain "has access to ActionView Context"
+                end
+                plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here
+                plain time_ago_in_words(3.minutes.from_now) # calling an ActionView Date Helper here
+              end
+            }
+          end
+
+        end
+      end
+
+      class Pages::ExamplePage < Matestack::Ui::Page
+
+        def response
+          components {
+            div id: "div-on-page" do
+              async rerender_on: "some_event" do
+                someStaticComponent
+              end
+            end
+          }
+        end
+
+      end
+
+      visit "/component_test"
+
+      element = page.find("#timestamp")
+      before_content = element.text
+
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("some_event")')
+
+      expect(page).not_to have_content(before_content)# check if async reload has really worked!
+
+      expect(page).to have_content("has access to ActionView Context")
+      expect(page).to have_content("Test Link")
+      expect(page).to have_content("3 minutes")
+
+    end
+
+  end
+
   describe "Doesn't have Controller Action Scope Access"
 
   describe "Default Tag Attributes"

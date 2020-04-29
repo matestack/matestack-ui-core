@@ -65,9 +65,11 @@ Require 'matestack-ui-core' in your `app/assets/stylesheets/application.css`
  */
 ```
 
-### Turbolinks Coming Soon
+### Turbolinks
 
-At the moment, matestack-ui-core is not compatible with [turbolinks](https://github.com/turbolinks/turbolinks). Please remove or deactive turbolinks for now. We are working on turbolinks support and will add it soon. ([Issue #232](https://github.com/matestack/matestack-ui-core/issues/232))
+Since `0.7.5`, matestack-ui-core is compatible with activated [turbolinks](https://github.com/turbolinks/turbolinks).
+
+We recommend to (remove/deactivate)(https://stackoverflow.com/a/38649595) turbolinks, as there is no real reason to use it alongside matetack-ui-core UI dynamics and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
 
 ## Matestack Folder
 
