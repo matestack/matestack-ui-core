@@ -11,7 +11,7 @@ module Matestack::Ui::Core::Component
 
     extend ViewName::Flat
 
-    attr_reader :children, :yield_components_to
+    attr_reader :children, :yield_components_to, :argument, :options
 
     # TODO: Seems the `context` method is defined in Cells, would be
     # easy to move up - question really is how much of cells we're still using?
@@ -59,12 +59,26 @@ module Matestack::Ui::Core::Component
       # much more than this e.g. almost all params so maybe rename it?
       @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
 
+      # used when creating the child component tree
+      # if true, the block of an async component with a defer value will not be processed
+      # this saves serverside computation time on initial page requests where some components
+      # should only be resolved in a subsequent component rendering call
+      # whithin this subsequent component rendering call, the value is set to false via
+      # matestack_set_skip_defer(false)
+      @matestack_skip_defer = true
+
       # TODO: do we realy have to call this every time on initialize or should
       # it maybe be called more dynamically like its dynamic_tag_attributes
       # equivalent in Dynamic?
       set_tag_attributes
       setup
       validate_options
+    end
+
+    # whithin subsequent component rendering calls, the value is set to false in order to render
+    # the content of deferred components
+    def matestack_set_skip_defer bool
+      @matestack_skip_defer = bool
     end
 
     # TODO: modifies/recreates view lookup paths on every invocation?!
@@ -96,7 +110,7 @@ module Matestack::Ui::Core::Component
     def validate_options
       if defined? self.class::REQUIRED_KEYS
         self.class::REQUIRED_KEYS.each do |key|
-          raise "required key '#{key}' is missing" if options[key].nil?
+          raise "#{self.class.name}: required key '#{key}' is missing" if options[key].nil?
         end
       end
       custom_options_validation
@@ -182,15 +196,41 @@ module Matestack::Ui::Core::Component
     # in a later step by calling `#show` on the component where you want to start
     # rendering.
     def add_child(child_class, *args, &block)
+
+      # when the child is an async component like shown below, only render its wrapper
+      # and skip its content on normal page rendering call indicated by @matestack_skip_defer == true
+      # Example: async defer: 1000 { plain "I should be deferred" }
+      # the component will triger a subsequent component rendering call after 1000ms
+      # the main renderer will then set @matestack_skip_defer to false which allows processing
+      # the childs content in order to respond to the subsequent component rendering call with
+      # the childs content. In this case: "I should be deferred"
+      skip_deferred_child_response = false
+      if child_class == Matestack::Ui::Core::Async::Async
+        if args.any? { |arg| arg[:defer].present? } && @matestack_skip_defer == true
+          # if
+          skip_deferred_child_response = true
+        end
+      end
+
       args_with_context = add_context_to_options(args)
 
       child = child_class.new(*args_with_context)
+
+      # set the current @matestack_skip_defer state on the child instance
+      # otherwise nested deferred components would never be rendered as
+      # @matestack_skip_defer is true by default
+      child.matestack_set_skip_defer(@matestack_skip_defer)
+
       @current_parent_context.children << child
 
-      child.prepare
-      child.response if child.respond_to?(:response)
+      # skip childs body if it should be deferred
+      # only the wrapping structure is rendered in this case
+      unless skip_deferred_child_response
+        child.prepare
+        child.response if child.respond_to?(:response)
 
-      execute_child_block(child, block) if block
+        execute_child_block(child, block) if block
+      end
 
       child
     end

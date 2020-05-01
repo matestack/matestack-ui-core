@@ -11,7 +11,11 @@ module Matestack::Ui::Core::Components
   end
 
   def self.require_core_component(name)
-    require_app_path "concepts/matestack/ui/core/#{name}/#{name}"
+    if name.include?("/")
+      require_app_path "concepts/matestack/ui/core/#{name}/#{name.split("/").last}"
+    else
+      require_app_path "concepts/matestack/ui/core/#{name}/#{name}"
+    end
   end
 
   require_app_path "helpers/matestack/ui/core/application_helper"
@@ -19,6 +23,7 @@ module Matestack::Ui::Core::Components
 
   require_app_path "concepts/matestack/ui/core/component/base"
   require_app_path "concepts/matestack/ui/core/component/dynamic"
+  require_app_path "concepts/matestack/ui/core/component/rerender"
   require_app_path "concepts/matestack/ui/core/component/static"
 
   require_core_component "br"
@@ -31,6 +36,7 @@ module Matestack::Ui::Core::Components
   require_core_component "plain"
   require_core_component "span"
   require_core_component "transition"
+  require_core_component "async"
 end
 
 
@@ -46,4 +52,5 @@ Matestack::Ui::Core::Component::Registry.register_components(
   plain: Matestack::Ui::Core::Plain::Plain,
   span: Matestack::Ui::Core::Span::Span,
   transition: Matestack::Ui::Core::Transition::Transition,
+  async: Matestack::Ui::Core::Async::Async
 )

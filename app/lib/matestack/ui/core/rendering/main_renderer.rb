@@ -11,17 +11,18 @@ module Matestack::Ui::Core::Rendering::MainRenderer
 
     context = create_context_hash(controller_instance)
 
-    # My initial  thinking was to have different renderer classes for these, but with rendering this easy
-    # they're probably not needed
     if params[:only_page]
       page_instance = page_class.new(controller_instance: controller_instance, context: context)
       render_matestack_object(controller_instance, page_instance)
+    elsif (component_key = params[:component_key])
+      page_instance = page_class.new(controller_instance: controller_instance, context: context)
+      render_component(component_key, page_instance, controller_instance, context)
+    # elsif (component_name = params[:component_key])
+    #   render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance, context)
     # TODO: right now this still goes through the URL of the page, hijacks it without caring
     # about the page or app at all. If the component is truly isolated then I'd recommend
     # maybe mounting a URL from the engine side where these requests go for rendering
     # isolated components.
-    elsif (component_name = params[:component_key])
-      render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance, context)
     else
       app_instance = app_class.new(page_class, controller_instance, context)
       render_matestack_object(controller_instance, app_instance, layout: true)
@@ -36,11 +37,54 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     }
   end
 
-  def render_matestack_object(controller_instance, object, opts = {})
+  def render_matestack_object(controller_instance, object, opts = {}, render_method = :show)
     object.prepare
     object.response
-    rendering_options = {html: object.show}.merge!(opts)
+    rendering_options = {html: object.call(render_method)}.merge!(opts)
     controller_instance.render rendering_options
+  end
+
+  def render_component(component_key, page_instance, controller_instance, context)
+    matched_component = nil
+
+    page_instance.matestack_set_skip_defer(false)
+
+    page_instance.prepare
+    page_instance.response
+
+    matched_component = dig_for_component(component_key, page_instance)
+
+    unless matched_component.nil?
+      render_matestack_object(controller_instance, matched_component, {}, :render_content)
+    else
+      # some 404 probably
+      raise "component not found"
+    end
+  end
+
+  def dig_for_component component_key, component_instance
+    matched_component = nil
+
+    component_instance.children.each do |child|
+      if child.respond_to?(:get_component_key)
+        if child.get_component_key == component_key
+          matched_component = child
+        end
+      end
+    end
+
+    if matched_component.nil?
+      component_instance.children.each do |child|
+        if child.children.any?
+          matched_component = dig_for_component(component_key, child)
+          break if !matched_component.nil?
+        end
+      end
+      return matched_component
+    else
+      return matched_component
+    end
+
   end
 
   # TODO: too many arguments maybe get some of them together?
@@ -62,6 +106,18 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       # some 404 probably
       raise "component not found"
     end
+  end
+
+  def resolve_component(name)
+    constant = const_get(name)
+    # change to specific AsyncComponent parent class
+    if constant < Matestack::Ui::Core::Async::Async
+      constant
+    else
+      nil
+    end
+  rescue NameError
+    nil
   end
 
   def resolve_isolated_component(name)
