@@ -3,7 +3,7 @@ module Matestack::Ui::Core::App
   class App < Matestack::Ui::Core::Component::Base
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper
-    include Matestack::Ui::Core::ToCell
+    # include Matestack::Ui::Core::ToCell
     include Matestack::Ui::Core::HasViewContext
 
     def initialize(page_class, controller_instance, context)

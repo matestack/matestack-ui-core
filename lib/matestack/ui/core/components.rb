@@ -37,6 +37,10 @@ module Matestack::Ui::Core::Components
   require_core_component "span"
   require_core_component "transition"
   require_core_component "async"
+  require_core_component "form"
+  require_core_component "form/input"
+  require_core_component "form/select"
+  require_core_component "form/submit"
 end
 
 
@@ -52,5 +56,9 @@ Matestack::Ui::Core::Component::Registry.register_components(
   plain: Matestack::Ui::Core::Plain::Plain,
   span: Matestack::Ui::Core::Span::Span,
   transition: Matestack::Ui::Core::Transition::Transition,
-  async: Matestack::Ui::Core::Async::Async
+  async: Matestack::Ui::Core::Async::Async,
+  form: Matestack::Ui::Core::Form::Form,
+  form_input: Matestack::Ui::Core::Form::Input::Input,
+  form_select: Matestack::Ui::Core::Form::Select::Select,
+  form_submit: Matestack::Ui::Core::Form::Submit::Submit
 )

@@ -3,6 +3,10 @@ module Matestack::Ui::Core::Form
 
     REQUIRED_KEYS = [:for, :path, :method]
 
+    def vuejs_component_name
+      "matestack-ui-core-form"
+    end
+
     def setup
       begin
         @component_config[:for] = form_wrapper

@@ -40,6 +40,8 @@ module Matestack::Ui::Core::Component
       # Suggestion: Introduce a new super class to remove this complexity
       # from the base class.
       @included_config = @options[:included_config]
+      # p self.class.name
+      # p @included_config
 
       # TODO seemingly never accessed? (at least by us)
       # but probably good to expose to have access to current_user & friends
@@ -79,6 +81,14 @@ module Matestack::Ui::Core::Component
     # the content of deferred components
     def matestack_set_skip_defer bool
       @matestack_skip_defer = bool
+    end
+
+    def set_included_config config
+      @included_config = config
+    end
+
+    def get_included_config
+      @included_config
     end
 
     # TODO: modifies/recreates view lookup paths on every invocation?!
@@ -207,12 +217,11 @@ module Matestack::Ui::Core::Component
       skip_deferred_child_response = false
       if child_class == Matestack::Ui::Core::Async::Async
         if args.any? { |arg| arg[:defer].present? } && @matestack_skip_defer == true
-          # if
           skip_deferred_child_response = true
         end
       end
 
-      args_with_context = add_context_to_options(args)
+      args_with_context = add_context_to_options(args, @current_parent_context.get_included_config)
 
       child = child_class.new(*args_with_context)
 
@@ -229,7 +238,10 @@ module Matestack::Ui::Core::Component
         child.prepare
         child.response if child.respond_to?(:response)
 
-        execute_child_block(child, block) if block
+        if child_class == Matestack::Ui::Core::Form::Form
+          included_config = args.select { |arg| arg.is_a?(Hash) ? arg[:for] : nil  }[0]
+        end
+        execute_child_block(child, included_config, block) if block
       end
 
       child
@@ -293,29 +305,40 @@ module Matestack::Ui::Core::Component
     # Partially caused by the behavior that we have 2 initialize args and it's unclear
     # which one should be an options hash as both `plain "hello"` and `div id: "lala"`
     # should work currently
-    def add_context_to_options(args)
+    def add_context_to_options(args, included_config=nil)
       case args.size
-      when 0 then [{context: context}]
+      when 0 then [{context: context, included_config: included_config}]
       when 1 then
         arg = args.first
         if arg.is_a?(Hash)
           arg[:context] = context
+          arg[:included_config] = included_config
           [arg]
         else
-          [arg, {context: context}]
+          [arg, {context: context, included_config: included_config}]
         end
       when 2 then
-        args[1][:context] = context
-        [args.first, args[1]]
+        if args[1] == :include
+          if args.first.is_a?(Hash)
+            args.first[:context] = context
+            args.first[:included_config] = included_config
+            [args.first]
+          end
+        else
+          args[1][:context] = context
+          args[1][:included_config] = included_config
+          [args.first, args[1]]
+        end
       else
         raise "too many child arguments what are you doing?"
       end
     end
 
-    def execute_child_block(child, block)
+    def execute_child_block(child, included_config=nil, block)
       previous_parent_context = @current_parent_context
       begin
         @current_parent_context = child.yield_components_to || child
+        @current_parent_context.set_included_config(included_config) if included_config.present?
         instance_eval(&block)
       ensure
         @current_parent_context = previous_parent_context
