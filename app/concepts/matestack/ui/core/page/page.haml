@@ -1,1 +1,3 @@
-= render_content
+%div{class: "matestack_page"}
+  - @children.each do |child|
+    = child.show

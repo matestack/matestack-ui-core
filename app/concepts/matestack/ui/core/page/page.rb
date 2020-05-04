@@ -9,6 +9,10 @@ module Matestack::Ui::Core::Page
       copy_controller_instance_variables(options.fetch(:controller_instance))
     end
 
+    def show
+      render :page
+    end
+
     private
 
       def copy_controller_instance_variables(controller)
