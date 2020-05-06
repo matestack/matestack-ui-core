@@ -1,6 +1,6 @@
 {
   "name": "matestack-ui-core",
-  "version": "0.7.4",
+  "version": "0.7.6",
   "main": "app/javascript/matestack-ui-core",
   "private": true,
   "dependencies": {
