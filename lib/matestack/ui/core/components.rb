@@ -41,6 +41,7 @@ module Matestack::Ui::Core::Components
   require_core_component "form/input"
   require_core_component "form/select"
   require_core_component "form/submit"
+  require_core_component "onclick"
 end
 
 
@@ -60,5 +61,6 @@ Matestack::Ui::Core::Component::Registry.register_components(
   form: Matestack::Ui::Core::Form::Form,
   form_input: Matestack::Ui::Core::Form::Input::Input,
   form_select: Matestack::Ui::Core::Form::Select::Select,
-  form_submit: Matestack::Ui::Core::Form::Submit::Submit
+  form_submit: Matestack::Ui::Core::Form::Submit::Submit,
+  onclick: Matestack::Ui::Core::Onclick::Onclick 
 )
