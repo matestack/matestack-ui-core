@@ -4,8 +4,12 @@ module Matestack::Ui::Core::Rendering::MainRenderer
 
   EMPTY_JSON = "{}"
 
+  # Instead of rendering without an app class, we always have an "empty" app class
+  # to fall back to
+  DEFAULT_APP_CLASS = Matestack::Ui::Core::App::App
+
   def render(controller_instance, page_class, options)
-    app_class = get_app_class(page_class)
+    app_class = resolve_app_class(controller_instance, options)
 
     params = controller_instance.params
 
@@ -24,8 +28,13 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     # maybe mounting a URL from the engine side where these requests go for rendering
     # isolated components.
     else
-      app_instance = app_class.new(page_class, controller_instance, context)
-      render_matestack_object(controller_instance, app_instance, layout: true)
+      if app_class == false
+        page_instance = page_class.new(controller_instance: controller_instance, context: context)
+        render_matestack_object(controller_instance, page_instance, layout: true)
+      else
+        app_instance = app_class.new(page_class, controller_instance, context)
+        render_matestack_object(controller_instance, app_instance, layout: true)
+      end
     end
   end
 
@@ -88,25 +97,25 @@ module Matestack::Ui::Core::Rendering::MainRenderer
   end
 
   # TODO: too many arguments maybe get some of them together?
-  def render_isolated_component(component_name, jsoned_args, controller_instance, context)
-    component_class = resolve_isolated_component(component_name)
-
-    if component_class
-      args = JSON.parse(jsoned_args)
-      args[:context] = context
-      # TODO: add context/controller_instance etc.
-      component_instance = component_class.new(args)
-      if component_instance.authorized?
-        render_matestack_object(controller_instance, component_instance)
-      else
-        # some 4xx? 404?
-        raise "not authorized"
-      end
-    else
-      # some 404 probably
-      raise "component not found"
-    end
-  end
+  # def render_isolated_component(component_name, jsoned_args, controller_instance, context)
+  #   component_class = resolve_isolated_component(component_name)
+  #
+  #   if component_class
+  #     args = JSON.parse(jsoned_args)
+  #     args[:context] = context
+  #     # TODO: add context/controller_instance etc.
+  #     component_instance = component_class.new(args)
+  #     if component_instance.authorized?
+  #       render_matestack_object(controller_instance, component_instance)
+  #     else
+  #       # some 4xx? 404?
+  #       raise "not authorized"
+  #     end
+  #   else
+  #     # some 404 probably
+  #     raise "component not found"
+  #   end
+  # end
 
   def resolve_component(name)
     constant = const_get(name)
@@ -120,46 +129,50 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     nil
   end
 
-  def resolve_isolated_component(name)
-    constant = const_get(name)
-    # change to specific AsyncComponent parent class
-    if constant < Matestack::Ui::Core::Async::Async
-      constant
-    else
-      nil
-    end
-  rescue NameError
-    nil
-  end
+  # def resolve_isolated_component(name)
+  #   constant = const_get(name)
+  #   # change to specific AsyncComponent parent class
+  #   if constant < Matestack::Ui::Core::Async::Async
+  #     constant
+  #   else
+  #     nil
+  #   end
+  # rescue NameError
+  #   nil
+  # end
 
-  # Instead of rendering without an app class, we always have an "empty" app class
-  # to fall back to
-  DEFAULT_APP_CLASS = Matestack::Ui::Core::App::App
 
-  # See #382 for how this shall change in the future
-  # TLDR; we should get it more or less explicitly from the controller
-  def get_app_class(page_class)
-    class_name = page_class.name
-    name_parts = class_name.split("::")
+  def resolve_app_class(controller_instance, options)
+    app_class = DEFAULT_APP_CLASS
 
-    return DEFAULT_APP_CLASS if name_parts.count <= 2
+    controller_level_app_class = controller_instance.class.get_matestack_app_class
+    action_level_app_class = options[:matestack_app]
 
-    app_name = "#{name_parts[1]}"
-    begin
-      app_class = Apps.const_get(app_name)
-      if app_class.is_a?(Class)
-        app_class
+    if !controller_level_app_class.nil?
+      if controller_level_app_class == false
+        app_class = false
       else
-        require_dependency "apps/#{app_name.underscore}"
-        app_class = Apps.const_get(app_name)
-        if app_class.is_a?(Class)
-          app_class
+        if controller_level_app_class.is_a?(Class) && (controller_level_app_class < Matestack::Ui::App)
+          app_class = controller_level_app_class
         else
-          DEFAULT_APP_CLASS
+          raise "#{controller_level_app_class} is not a valid Matestack::Ui::App class"
         end
       end
-    rescue
-      DEFAULT_APP_CLASS
     end
+    if !action_level_app_class.nil?
+      if action_level_app_class == false
+        app_class = false
+      else
+        matestack_app_class = action_level_app_class
+        if action_level_app_class.is_a?(Class) && (action_level_app_class < Matestack::Ui::App)
+          app_class = action_level_app_class
+        else
+          raise "#{action_level_app_class} is not a valid Matestack::Ui::App class"
+        end
+      end
+    end
+
+    return app_class
   end
+
 end

@@ -4,6 +4,31 @@ module Matestack
       # We're called ApplicationHelper but all we do so far is rendering.
       module ApplicationHelper
 
+        # Allow the definition of a controller wide get_matestack_app_class
+        #
+        #     class SomeController < ActionController::Base
+        #       matestack_app MyAppClass
+        #       #...
+        #     end
+        #
+        def self.included(base)
+          base.extend(ClassMethods)
+        end
+        module ClassMethods
+          def matestack_app _class
+            @matestack_app_class = _class
+          end
+
+          def get_matestack_app_class
+            if defined?(@matestack_app_class)
+              @matestack_app_class
+            else
+              nil
+            end
+          end
+
+        end
+
         # Matestack allows you to use `render` to render matestack pages.
         #
         #     render Pages::Member::Bookings::Index
