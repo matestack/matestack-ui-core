@@ -1,6 +1,10 @@
 module Matestack::Ui::Core::Transition
   class Transition < Matestack::Ui::Core::Component::Dynamic
 
+    def vuejs_component_name
+      "matestack-ui-core-transition"
+    end
+
     def setup
       @component_config[:link_path] = link_path
       @tag_attributes.merge!({
