@@ -1,13 +1,13 @@
-# Setup Guide
+# Essential Guide 1: Setup
 
-Welcome to the first part of our 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
+Welcome to the first part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
 
 ## Introduction
 In this guide, we will
 - create a new Rails application
 - change it to use `postgresql` and `matestack-ui-core`
 - add a simple matestack app and two pages
-- deploy our application to Heroku
+- deploy the application to Heroku
 
 ## Prerequisites
 To follow along, make sure you have successfully installed
@@ -112,8 +112,8 @@ Background: You now can use `matestack` helpers in your controller actions, and 
 
 ## Add a demo page
 
-Within your `app` directory, we'll need a directory called `matestack` where our *apps* and *pages* will live.
-Create a file called `demo_app.rb` in the path `app/matestack/apps`, and add the following content:
+Within your `app` directory, create a directory called `matestack` where both *apps* and *pages* will live.
+Create a file called `demo_app.rb` in `app/matestack/apps`, and add the following content:
 
 ```ruby
 class Apps::DemoApp < Matestack::Ui::App
@@ -211,7 +211,6 @@ to do that.
 ## Deployment
 
 To set up a new project, run
-
 ```sh
 heroku create
 ```
