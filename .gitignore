@@ -20,5 +20,6 @@ builder/storage/
 builder/tmp/
 builder/public/packs
 .idea/
+.vscode
 
 /coverage

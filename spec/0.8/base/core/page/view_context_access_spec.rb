@@ -1,4 +1,4 @@
-require_relative "../../../../support/utils"
+require_relative "../../../../../support/utils"
 include Utils
 
 describe "Page", type: :feature, js: true do

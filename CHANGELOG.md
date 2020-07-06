@@ -139,7 +139,7 @@ end
 
 `app/controllers/website_controller.rb`
 ```ruby
-class AdminController < ApplicationController
+class WebsiteController < ApplicationController
   include Matestack::Ui::Core::ApplicationHelper
 
   matestack_app Website::App

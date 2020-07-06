@@ -1,5 +1,5 @@
-require_relative "../../../support/utils"
-require_relative "../../../support/test_controller"
+require_relative "../../../../support/utils"
+require_relative "../../../../support/test_controller"
 include Utils
 
 describe "Form Component", type: :feature, js: true do

@@ -26,17 +26,37 @@ module Matestack::Ui::Core::Components
   require_app_path "concepts/matestack/ui/core/component/rerender"
   require_app_path "concepts/matestack/ui/core/component/static"
 
+  require_core_component "abbr"
+  require_core_component "address"
+  require_core_component "area"
+  require_core_component "article"
+  require_core_component "aside"
+  require_core_component "async"
+  require_core_component "b"
+  require_core_component "bdi"
+  require_core_component "bdo"
+  require_core_component "blockquote"
   require_core_component "br"
   require_core_component "button"
+  require_core_component "caption"
+  require_core_component "cite"
+  require_core_component "code"
   require_core_component "div"
   require_core_component "heading"
   require_core_component "link"
   require_core_component "main"
   require_core_component "nav"
+  require_core_component "paragraph"
   require_core_component "plain"
   require_core_component "span"
+  require_core_component "table"
+  require_core_component "tbody"
+  require_core_component "td"
+  require_core_component "tfoot"
+  require_core_component "th"
+  require_core_component "thead"
+  require_core_component "tr"
   require_core_component "transition"
-  require_core_component "async"
   require_core_component "form"
   require_core_component "form/input"
   require_core_component "form/select"
@@ -44,23 +64,41 @@ module Matestack::Ui::Core::Components
   require_core_component "onclick"
 end
 
-
-
 Matestack::Ui::Core::Component::Registry.register_components(
-  button: Matestack::Ui::Core::Button::Button,
+  abbr: Matestack::Ui::Core::Abbr::Abbr,
+  address: Matestack::Ui::Core::Address::Address,
+  area: Matestack::Ui::Core::Area::Area,
+  article: Matestack::Ui::Core::Article::Article,
+  aside: Matestack::Ui::Core::Aside::Aside,
+  async: Matestack::Ui::Core::Async::Async,
+  b: Matestack::Ui::Core::B::B,
+  bdi: Matestack::Ui::Core::Bdi::Bdi,
+  bdo: Matestack::Ui::Core::Bdo::Bdo,
+  blockquote: Matestack::Ui::Core::Blockquote::Blockquote,
   br: Matestack::Ui::Core::Br::Br,
+  button: Matestack::Ui::Core::Button::Button,
+  caption: Matestack::Ui::Core::Caption::Caption,
+  cite: Matestack::Ui::Core::Cite::Cite,
+  code: Matestack::Ui::Core::Code::Code,
   div: Matestack::Ui::Core::Div::Div,
   heading: Matestack::Ui::Core::Heading::Heading,
   link: Matestack::Ui::Core::Link::Link,
   main: Matestack::Ui::Core::Main::Main,
   nav: Matestack::Ui::Core::Nav::Nav,
+  paragraph: Matestack::Ui::Core::Paragraph::Paragraph,
   plain: Matestack::Ui::Core::Plain::Plain,
   span: Matestack::Ui::Core::Span::Span,
   transition: Matestack::Ui::Core::Transition::Transition,
-  async: Matestack::Ui::Core::Async::Async,
+  table: Matestack::Ui::Core::Table::Table,
+  tbody: Matestack::Ui::Core::Tbody::Tbody,
+  td: Matestack::Ui::Core::Td::Td,
+  tfoot: Matestack::Ui::Core::Tfoot::Tfoot,
+  th: Matestack::Ui::Core::Th::Th,
+  thead: Matestack::Ui::Core::Thead::Thead,
+  tr: Matestack::Ui::Core::Tr::Tr,
   form: Matestack::Ui::Core::Form::Form,
   form_input: Matestack::Ui::Core::Form::Input::Input,
   form_select: Matestack::Ui::Core::Form::Select::Select,
   form_submit: Matestack::Ui::Core::Form::Submit::Submit,
-  onclick: Matestack::Ui::Core::Onclick::Onclick 
+  onclick: Matestack::Ui::Core::Onclick::Onclick,
 )
