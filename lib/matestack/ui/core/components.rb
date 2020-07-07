@@ -42,6 +42,18 @@ module Matestack::Ui::Core::Components
   require_core_component "caption"
   require_core_component "cite"
   require_core_component "code"
+  require_app_path "concepts/matestack/ui/core/collection/helper"
+  require_core_component "collection/content"
+  require_core_component "collection/content/next"
+  require_core_component "collection/content/page/link"
+  require_core_component "collection/content/previous"
+  require_core_component "collection/filter"
+  require_core_component "collection/filter/input"
+  require_core_component "collection/filter/reset"
+  require_core_component "collection/filter/submit"
+  require_core_component "collection/order"
+  require_core_component "collection/order/toggle"
+  require_core_component "collection/order/toggle/indicator"
   require_core_component "data"
   require_core_component "datalist"
   require_core_component "dd"
@@ -140,6 +152,17 @@ Matestack::Ui::Core::Component::Registry.register_components(
   caption: Matestack::Ui::Core::Caption::Caption,
   cite: Matestack::Ui::Core::Cite::Cite,
   code: Matestack::Ui::Core::Code::Code,
+  collection_content: Matestack::Ui::Core::Collection::Content::Content,
+  collection_content_next: Matestack::Ui::Core::Collection::Content::Next::Next,
+  collection_content_page_link: Matestack::Ui::Core::Collection::Content::Page::Link::Link,
+  collection_content_previous: Matestack::Ui::Core::Collection::Content::Previous::Previous,
+  collection_filter: Matestack::Ui::Core::Collection::Filter::Filter,
+  collection_filter_input: Matestack::Ui::Core::Collection::Filter::Input::Input,
+  collection_filter_reset: Matestack::Ui::Core::Collection::Filter::Reset::Reset,
+  collection_filter_submit: Matestack::Ui::Core::Collection::Filter::Submit::Submit,
+  collection_order: Matestack::Ui::Core::Collection::Order::Order,
+  collection_order_toggle: Matestack::Ui::Core::Collection::Order::Toggle::Toggle,
+  collection_order_toggle_indicator: Matestack::Ui::Core::Collection::Order::Toggle::Indicator::Indicator,
   data: Matestack::Ui::Core::Data::Data,
   datalist: Matestack::Ui::Core::Datalist::Datalist,
   dd: Matestack::Ui::Core::Dd::Dd,
