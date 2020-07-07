@@ -69,18 +69,43 @@ module Matestack::Ui::Core::Components
   require_core_component "li"
   require_core_component "link"
   require_core_component "main"
+  require_core_component "map"
+  require_core_component "mark"
+  require_core_component "meter"
   require_core_component "nav"
+  require_core_component "noscript"
+  require_core_component "object"
   require_core_component "ol"
+  require_core_component "optgroup"
+  require_core_component "option"
+  require_core_component "output"
   require_core_component "paragraph"
+  require_core_component "param"
+  require_core_component "picture"
   require_core_component "plain"
+  require_core_component "pre"
+  require_core_component "progress"
+  require_core_component "q"
+  require_core_component "rp"
+  require_core_component "rt"
+  require_core_component "ruby"
+  require_core_component "s"
+  require_core_component "samp"
+  require_core_component "section"
+  require_core_component "small"
   require_core_component "span"
+  require_core_component "strong"
+  require_core_component "sub"
   require_core_component "summary"
+  require_core_component "sup"
   require_core_component "table"
   require_core_component "tbody"
   require_core_component "td"
+  require_core_component "template"
   require_core_component "tfoot"
   require_core_component "th"
   require_core_component "thead"
+  require_core_component "time"
   require_core_component "tr"
   require_core_component "transition"
   require_core_component "ul"
@@ -136,20 +161,46 @@ Matestack::Ui::Core::Component::Registry.register_components(
   li: Matestack::Ui::Core::Li::Li,
   link: Matestack::Ui::Core::Link::Link,
   main: Matestack::Ui::Core::Main::Main,
+  map: Matestack::Ui::Core::Map::Map,
+  mark: Matestack::Ui::Core::Mark::Mark,
+  meter: Matestack::Ui::Core::Meter::Meter,
   nav: Matestack::Ui::Core::Nav::Nav,
+  noscript: Matestack::Ui::Core::Noscript::Noscript,
+  object: Matestack::Ui::Core::Object::Object,
   ol: Matestack::Ui::Core::Ol::Ol,
+  optgroup: Matestack::Ui::Core::Optgroup::Optgroup,
+  option: Matestack::Ui::Core::Option::Option,
+  output: Matestack::Ui::Core::Output::Output,
   paragraph: Matestack::Ui::Core::Paragraph::Paragraph,
+  pg: Matestack::Ui::Core::Paragraph::Paragraph, # alias paragraph as pg
+  param: Matestack::Ui::Core::Param::Param,
+  picture: Matestack::Ui::Core::Picture::Picture,
   plain: Matestack::Ui::Core::Plain::Plain,
+  pre: Matestack::Ui::Core::Pre::Pre,
+  progress: Matestack::Ui::Core::Progress::Progress,
+  q: Matestack::Ui::Core::Q::Q,
+  rp: Matestack::Ui::Core::Rp::Rp,
+  rt: Matestack::Ui::Core::Rt::Rt,
+  ruby: Matestack::Ui::Core::Ruby::Ruby,
+  s: Matestack::Ui::Core::S::S,
+  samp: Matestack::Ui::Core::Samp::Samp,
+  section: Matestack::Ui::Core::Section::Section,
+  small: Matestack::Ui::Core::Small::Small,
   span: Matestack::Ui::Core::Span::Span,
+  strong: Matestack::Ui::Core::Strong::Strong,
+  sub: Matestack::Ui::Core::Sub::Sub,
   summary: Matestack::Ui::Core::Summary::Summary,
-  transition: Matestack::Ui::Core::Transition::Transition,
+  sup: Matestack::Ui::Core::Sup::Sup,
   table: Matestack::Ui::Core::Table::Table,
   tbody: Matestack::Ui::Core::Tbody::Tbody,
   td: Matestack::Ui::Core::Td::Td,
+  template: Matestack::Ui::Core::Template::Template,
   tfoot: Matestack::Ui::Core::Tfoot::Tfoot,
   th: Matestack::Ui::Core::Th::Th,
   thead: Matestack::Ui::Core::Thead::Thead,
+  time: Matestack::Ui::Core::Time::Time,
   tr: Matestack::Ui::Core::Tr::Tr,
+  transition: Matestack::Ui::Core::Transition::Transition,
   ul: Matestack::Ui::Core::Ul::Ul,
   form: Matestack::Ui::Core::Form::Form,
   form_input: Matestack::Ui::Core::Form::Input::Input,

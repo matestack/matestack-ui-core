@@ -13,6 +13,8 @@ describe 'Paragraph Component', type: :feature, js: true do
         paragraph id: 'my-id', class: 'my-class' do
           plain 'I am enhanced'
         end
+        # alias pg
+        pg text: 'Alias paragraph'
       end
     end
 
@@ -21,6 +23,7 @@ describe 'Paragraph Component', type: :feature, js: true do
     expected_static_output = <<~HTML
       <p>I am simple</p>
       <p id="my-id" class="my-class">I am enhanced</p>
+      <p>Alias paragraph</p>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
