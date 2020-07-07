@@ -108,7 +108,13 @@ module Matestack::Ui::Core::Components
   require_core_component "time"
   require_core_component "tr"
   require_core_component "transition"
+  require_core_component "u"
   require_core_component "ul"
+  require_core_component "unescaped"
+  require_core_component "var"
+  require_core_component "video"
+  require_core_component "wbr"
+  require_core_component "youtube"
   require_core_component "form"
   require_core_component "form/input"
   require_core_component "form/select"
@@ -201,7 +207,13 @@ Matestack::Ui::Core::Component::Registry.register_components(
   time: Matestack::Ui::Core::Time::Time,
   tr: Matestack::Ui::Core::Tr::Tr,
   transition: Matestack::Ui::Core::Transition::Transition,
+  u: Matestack::Ui::Core::U::U,
   ul: Matestack::Ui::Core::Ul::Ul,
+  unescaped: Matestack::Ui::Core::Unescaped::Unescaped,
+  var: Matestack::Ui::Core::Var::Var,
+  video: Matestack::Ui::Core::Video::Video,
+  wbr: Matestack::Ui::Core::Wbr::Wbr,
+  youtube: Matestack::Ui::Core::Youtube::Youtube,
   form: Matestack::Ui::Core::Form::Form,
   form_input: Matestack::Ui::Core::Form::Input::Input,
   form_select: Matestack::Ui::Core::Form::Select::Select,
