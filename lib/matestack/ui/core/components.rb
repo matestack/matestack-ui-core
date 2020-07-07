@@ -27,6 +27,7 @@ module Matestack::Ui::Core::Components
   require_app_path "concepts/matestack/ui/core/component/static"
 
   require_core_component "abbr"
+  require_core_component "action"
   require_core_component "address"
   require_core_component "area"
   require_core_component "article"
@@ -124,6 +125,7 @@ end
 
 Matestack::Ui::Core::Component::Registry.register_components(
   abbr: Matestack::Ui::Core::Abbr::Abbr,
+  action: Matestack::Ui::Core::Action::Action,
   address: Matestack::Ui::Core::Address::Address,
   area: Matestack::Ui::Core::Area::Area,
   article: Matestack::Ui::Core::Article::Article,
