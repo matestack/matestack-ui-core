@@ -41,7 +41,16 @@ module Matestack::Ui::Core::Components
   require_core_component "caption"
   require_core_component "cite"
   require_core_component "code"
+  require_core_component "data"
+  require_core_component "datalist"
+  require_core_component "dd"
+  require_core_component "del"
+  require_core_component "details"
+  require_core_component "dfn"
+  require_core_component "dialog"
   require_core_component "div"
+  require_core_component "dl"
+  require_core_component "dt"
   require_core_component "heading"
   require_core_component "link"
   require_core_component "main"
@@ -49,6 +58,7 @@ module Matestack::Ui::Core::Components
   require_core_component "paragraph"
   require_core_component "plain"
   require_core_component "span"
+  require_core_component "summary"
   require_core_component "table"
   require_core_component "tbody"
   require_core_component "td"
@@ -80,7 +90,16 @@ Matestack::Ui::Core::Component::Registry.register_components(
   caption: Matestack::Ui::Core::Caption::Caption,
   cite: Matestack::Ui::Core::Cite::Cite,
   code: Matestack::Ui::Core::Code::Code,
+  data: Matestack::Ui::Core::Data::Data,
+  datalist: Matestack::Ui::Core::Datalist::Datalist,
+  dd: Matestack::Ui::Core::Dd::Dd,
+  del: Matestack::Ui::Core::Del::Del,
+  details: Matestack::Ui::Core::Details::Details,
+  dfn: Matestack::Ui::Core::Dfn::Dfn,
+  dialog: Matestack::Ui::Core::Dialog::Dialog,
   div: Matestack::Ui::Core::Div::Div,
+  dl: Matestack::Ui::Core::Dl::Dl,
+  dt: Matestack::Ui::Core::Dt::Dt,
   heading: Matestack::Ui::Core::Heading::Heading,
   link: Matestack::Ui::Core::Link::Link,
   main: Matestack::Ui::Core::Main::Main,
@@ -88,6 +107,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   paragraph: Matestack::Ui::Core::Paragraph::Paragraph,
   plain: Matestack::Ui::Core::Plain::Plain,
   span: Matestack::Ui::Core::Span::Span,
+  summary: Matestack::Ui::Core::Summary::Summary,
   transition: Matestack::Ui::Core::Transition::Transition,
   table: Matestack::Ui::Core::Table::Table,
   tbody: Matestack::Ui::Core::Tbody::Tbody,
