@@ -21,5 +21,6 @@ builder/tmp/
 builder/public/packs
 .idea/
 .vscode
+.byebug_history
 
 /coverage

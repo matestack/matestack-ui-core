@@ -51,10 +51,26 @@ module Matestack::Ui::Core::Components
   require_core_component "div"
   require_core_component "dl"
   require_core_component "dt"
+  require_core_component "em"
+  require_core_component "fieldset"
+  require_core_component "figure"
+  require_core_component "footer"
+  require_core_component "header"
   require_core_component "heading"
+  require_core_component "hr"
+  require_core_component "icon"
+  require_core_component "iframe"
+  require_core_component "img"
+  require_core_component "input"
+  require_core_component "ins"
+  require_core_component "kbd"
+  require_core_component "label"
+  require_core_component "legend"
+  require_core_component "li"
   require_core_component "link"
   require_core_component "main"
   require_core_component "nav"
+  require_core_component "ol"
   require_core_component "paragraph"
   require_core_component "plain"
   require_core_component "span"
@@ -67,6 +83,7 @@ module Matestack::Ui::Core::Components
   require_core_component "thead"
   require_core_component "tr"
   require_core_component "transition"
+  require_core_component "ul"
   require_core_component "form"
   require_core_component "form/input"
   require_core_component "form/select"
@@ -100,10 +117,27 @@ Matestack::Ui::Core::Component::Registry.register_components(
   div: Matestack::Ui::Core::Div::Div,
   dl: Matestack::Ui::Core::Dl::Dl,
   dt: Matestack::Ui::Core::Dt::Dt,
+  em: Matestack::Ui::Core::Em::Em,
+  fieldset: Matestack::Ui::Core::Fieldset::Fieldset,
+  figure: Matestack::Ui::Core::Figure::Figure,
+  footer: Matestack::Ui::Core::Footer::Footer,
+  header: Matestack::Ui::Core::Header::Header,
   heading: Matestack::Ui::Core::Heading::Heading,
+  hr: Matestack::Ui::Core::Hr::Hr,
+  icon: Matestack::Ui::Core::Icon::Icon,
+  italic: Matestack::Ui::Core::Icon::Icon, # alias icon as italic
+  iframe: Matestack::Ui::Core::Iframe::Iframe,
+  img: Matestack::Ui::Core::Img::Img,
+  input: Matestack::Ui::Core::Input::Input,
+  ins: Matestack::Ui::Core::Ins::Ins,
+  kbd: Matestack::Ui::Core::Kbd::Kbd,
+  label: Matestack::Ui::Core::Label::Label,
+  legend: Matestack::Ui::Core::Legend::Legend,
+  li: Matestack::Ui::Core::Li::Li,
   link: Matestack::Ui::Core::Link::Link,
   main: Matestack::Ui::Core::Main::Main,
   nav: Matestack::Ui::Core::Nav::Nav,
+  ol: Matestack::Ui::Core::Ol::Ol,
   paragraph: Matestack::Ui::Core::Paragraph::Paragraph,
   plain: Matestack::Ui::Core::Plain::Plain,
   span: Matestack::Ui::Core::Span::Span,
@@ -116,6 +150,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   th: Matestack::Ui::Core::Th::Th,
   thead: Matestack::Ui::Core::Thead::Thead,
   tr: Matestack::Ui::Core::Tr::Tr,
+  ul: Matestack::Ui::Core::Ul::Ul,
   form: Matestack::Ui::Core::Form::Form,
   form_input: Matestack::Ui::Core::Form::Input::Input,
   form_select: Matestack::Ui::Core::Form::Select::Select,
