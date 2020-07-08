@@ -26,23 +26,19 @@ describe "Form Component", type: :feature, js: true do
   describe "delay attribute" do
 
     it "if set, delays form submit" do
-
       class ExamplePage < Matestack::Ui::Page
-
         def response
-          components {
-            form form_config, :include do
-              form_input key: :foo, type: :text, id: "my-test-input"
-              form_submit do
-                button text: 'Submit me!'
-              end
+          form form_config, :include do
+            form_input key: :foo, type: :text, id: "my-test-input"
+            form_submit do
+              button text: 'Submit me!'
             end
-            div id: "timestamp" do
-              async show_on: "form_submitted_successfully" do
-                plain "{{event.data.received_at}}"
-              end
+          end
+          div id: "timestamp" do
+            async show_on: "form_submitted_successfully" do
+              paragraph id: 'received_timestamp', text: "{{event.data.received_at}}"
             end
-          }
+          end
         end
 
         def form_config
@@ -56,24 +52,17 @@ describe "Form Component", type: :feature, js: true do
             }
           }
         end
-
       end
 
       visit '/example'
-
       submit_timestamp = DateTime.now.strftime('%Q').to_i
       fill_in "my-test-input", with: submit_timestamp
       click_button "Submit me!"
-
-      sleep 1.5
-
-      element = page.find("#timestamp")
+      expect(page).to have_selector(:css, '#received_timestamp', wait: 2)
+      element = page.find("#received_timestamp")
       receive_timestamp = element.text.to_i
-
       expect(receive_timestamp - submit_timestamp).to be > 1000
-
     end
-
   end
 
 end

@@ -16,13 +16,10 @@ describe "Onclick Component", type: :feature, js: true do
     end
 
     visit "/example"
-
     expect(page).not_to have_content("some message")
 
     click_on 'click me'
-
     expect(page).to have_content("some message")
-
   end
 
   it "emits event with data" do
@@ -40,13 +37,10 @@ describe "Onclick Component", type: :feature, js: true do
     end
 
     visit "/example"
-
     expect(page).not_to have_content("some message")
 
     click_on 'click me'
-
     expect(page).to have_content("some message")
     expect(page).to have_content("some static data")
-
   end
 end

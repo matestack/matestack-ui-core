@@ -10,7 +10,6 @@ const componentDef = {
   data: function () {
     return {
       data: {},
-      showInlineForm: false,
       errors: {},
     };
   },
@@ -28,17 +27,6 @@ const componentDef = {
       if (this.errors[key]) {
         this.errors[key] = null;
       }
-    },
-    launchInlineForm: function (key, value) {
-      this.showInlineForm = true;
-      this.data[key] = value;
-      const self = this;
-      setTimeout(function () {
-        self.$refs.inlineinput.focus();
-      }, 300);
-    },
-    closeInlineForm: function () {
-      this.showInlineForm = false;
     },
     setProps: function (flat, newVal) {
       for (var i in flat) {
@@ -233,7 +221,6 @@ const componentDef = {
             self.setProps(self.data, null);
             self.initValues();
           }
-          self.showInlineForm = false;
         })
         .catch(function (error) {
           if (error.response && error.response.data && error.response.data.errors) {

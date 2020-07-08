@@ -2,7 +2,6 @@ require_relative "../../../../../support/utils"
 include Utils
 
 class TestController < ActionController::Base
-
   before_action :check_params
 
   def check_params
@@ -11,7 +10,6 @@ class TestController < ActionController::Base
 
   def expect_params(params)
   end
-
 end
 
 describe "Form Component", type: :feature, js: true do
@@ -76,23 +74,18 @@ describe "Form Component", type: :feature, js: true do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
   end
 
-
   describe "Radio Button" do
 
     it "generates unique names for each radio button group and value" do
-
       class ExamplePage < Matestack::Ui::Page
-
         def response
-          components {
-            form form_config, :include do
-              form_select id: 'group-one-radio', key: :array_input_one, type: :radio, options: ['foo','bar']
-              form_select id: 'group-two-radio', key: :array_input_two, type: :radio, options: ['foo', 'bar']
-              form_submit do
-                button text: 'Submit me!'
-              end
+          form form_config, :include do
+            form_select id: 'group-one-radio', key: :array_input_one, type: :radio, options: ['foo','bar']
+            form_select id: 'group-two-radio', key: :array_input_two, type: :radio, options: ['foo', 'bar']
+            form_submit do
+              button text: 'Submit me!'
             end
-          }
+          end
         end
 
         def form_config
@@ -105,18 +98,14 @@ describe "Form Component", type: :feature, js: true do
             }
           }
         end
-
       end
 
       visit '/example'
-
       expect(page).to have_selector('#group-one-radio_foo[name="array_input_one_foo"]')
       expect(page).to have_selector('#group-one-radio_bar[name="array_input_one_bar"]')
-
       expect(page).to have_selector('#group-two-radio_foo[name="array_input_two_foo"]')
       expect(page).to have_selector('#group-two-radio_bar[name="array_input_two_bar"]')
     end
-
   end
 
 end

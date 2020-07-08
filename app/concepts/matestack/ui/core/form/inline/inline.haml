@@ -1,6 +1,0 @@
-%div{"v-if": "!showInlineForm", "@click": "launchInlineForm(\"#{options[:key]}\", \"#{options[:value]}\")"}
-  = options[:value]
-%div{"v-if": "showInlineForm"}
-  %input{"ref": "inlineinput", "v-model": input_key, "@blur": "perform", "@keyup.esc": "closeInlineForm", class: options[:class], id: component_id}
-    - if block_given?
-      = yield

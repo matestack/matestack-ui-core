@@ -13,7 +13,7 @@ describe "Form Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope "form_text_input_spec" do
-        post '/success_form_test', to: 'form_test#success_submit', as: 'form_emit_success_submit'
+        post '/success_form_test', to: 'form_test#success_submit'
       end
     end
     Rails.application.reload_routes!
@@ -23,11 +23,9 @@ describe "Form Component", type: :feature, js: true do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
   end
 
-
   describe "text input" do
 
     it "can be submitted dynamically without page reload" do
-
       class SomeComponent < Matestack::Ui::StaticComponent
         def response
           form_input key: :bar, type: :text, id: "my-other-test-input"
@@ -37,7 +35,6 @@ describe "Form Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-
         def response
           form form_config do
             div do
@@ -65,23 +62,17 @@ describe "Form Component", type: :feature, js: true do
             emit: "form_submitted"
           }
         end
-
       end
 
       visit '/example'
-      sleep
-
+      sleep 1
       fill_in "my-test-input", with: "bar"
-
       expect_any_instance_of(FormTestController).to receive(:expect_params)
-        .with(hash_including(my_object: { foo: "bar" }))
+        .with(hash_including(my_object: { bar: nil, foo: "bar" }))
 
       click_button "Submit me!"
-
       expect(page).to have_content("form submitted!")
-
     end
-
   end
 
 end

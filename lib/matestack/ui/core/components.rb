@@ -89,6 +89,7 @@ module Matestack::Ui::Core::Components
   require_core_component "noscript"
   require_core_component "object"
   require_core_component "ol"
+  require_core_component "onclick"
   require_core_component "optgroup"
   require_core_component "option"
   require_core_component "output"
@@ -132,7 +133,6 @@ module Matestack::Ui::Core::Components
   require_core_component "form/input"
   require_core_component "form/select"
   require_core_component "form/submit"
-  require_core_component "onclick"
 end
 
 Matestack::Ui::Core::Component::Registry.register_components(
@@ -177,6 +177,10 @@ Matestack::Ui::Core::Component::Registry.register_components(
   fieldset: Matestack::Ui::Core::Fieldset::Fieldset,
   figure: Matestack::Ui::Core::Figure::Figure,
   footer: Matestack::Ui::Core::Footer::Footer,
+  form: Matestack::Ui::Core::Form::Form,
+  form_input: Matestack::Ui::Core::Form::Input::Input,
+  form_select: Matestack::Ui::Core::Form::Select::Select,
+  form_submit: Matestack::Ui::Core::Form::Submit::Submit,
   header: Matestack::Ui::Core::Header::Header,
   heading: Matestack::Ui::Core::Heading::Heading,
   hr: Matestack::Ui::Core::Hr::Hr,
@@ -199,6 +203,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   noscript: Matestack::Ui::Core::Noscript::Noscript,
   object: Matestack::Ui::Core::Object::Object,
   ol: Matestack::Ui::Core::Ol::Ol,
+  onclick: Matestack::Ui::Core::Onclick::Onclick,
   optgroup: Matestack::Ui::Core::Optgroup::Optgroup,
   option: Matestack::Ui::Core::Option::Option,
   output: Matestack::Ui::Core::Output::Output,
@@ -239,9 +244,4 @@ Matestack::Ui::Core::Component::Registry.register_components(
   video: Matestack::Ui::Core::Video::Video,
   wbr: Matestack::Ui::Core::Wbr::Wbr,
   youtube: Matestack::Ui::Core::Youtube::Youtube,
-  form: Matestack::Ui::Core::Form::Form,
-  form_input: Matestack::Ui::Core::Form::Input::Input,
-  form_select: Matestack::Ui::Core::Form::Select::Select,
-  form_submit: Matestack::Ui::Core::Form::Submit::Submit,
-  onclick: Matestack::Ui::Core::Onclick::Onclick,
 )

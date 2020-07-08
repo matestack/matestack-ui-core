@@ -21,15 +21,11 @@ describe "Form Component", type: :feature, js: true do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
   end
 
-
   describe "emit attribute" do
 
     it "if set, emits event directly when form is submitted (not waiting for success or failure)" do
-
       class ExamplePage < Matestack::Ui::Page
-
         def response
-          components {
             form form_config, :include do
               form_input key: :foo, type: :text, id: "my-test-input"
               form_submit do
@@ -39,7 +35,6 @@ describe "Form Component", type: :feature, js: true do
             async show_on: "form_submitted" do
               plain "form submitted!"
             end
-          }
         end
 
         def form_config
@@ -50,22 +45,16 @@ describe "Form Component", type: :feature, js: true do
             emit: "form_submitted"
           }
         end
-
       end
 
       visit '/example'
-
       fill_in "my-test-input", with: "bar"
-
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(my_object: { foo: "bar" }))
 
       click_button "Submit me!"
-
       expect(page).to have_content("form submitted!")
-
     end
-
   end
 
 end
