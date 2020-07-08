@@ -6,9 +6,9 @@ Welcome to the third part of the 10-step-guide of setting up a working Rails CRU
 In the [previous guide](guides/essential/02_active_record.md), we added an ActiveRecord model to our project, added some fake persons to our database and displayed them on our `matestack` app.
 
 In this guide, we will
-- add proper page to display all our users
-- a detail page for every user
-- dive into the concept of page transitions by switching back and forth between the list of all users and the detail page
+- add proper page to display all the persons in our database
+- a detail page for every person
+- dive into the concept of page transitions by switching back and forth between the list of all persons and the detail page
 
 ## Prerequisites
 We expect you to have successfully finished the [previous guide](guides/essential/02_active_record.md) and no uncommited changes in your project.
@@ -104,7 +104,7 @@ end
 
 This is our detail page, featuring not only the person's name, but also their status (whether they're active or not) and their role. To make things easy for page visitors, there's also a "back" link to get back to our index page!
 
-## Page transitions
+## Further introduction: Page transitions
 Now that we've used them a couple of times, let's focus on the `transition` component a bit longer:
 
 When you want to change between different pages within the same `matestack` app, using a `transition` component gives you a neat advantage: After clicking the link, instead of doing a full page reload, only the page content within your app gets replaced - this leads to a better performance (faster page load) and a more app-like feeling for your users or page visitors!
@@ -120,7 +120,7 @@ Run `rails s` and head over to [localhost:3000](http://localhost:3000/) to test 
 As usual, we want to commit the progress to Git. In the repo root, run
 
 ```sh
-git add . && git commit -m "Add index/show matestack page for person model (incl. controller, routes), update demo matestack app"
+git add . && git commit -m "Add index/show matestack pages for person model (incl. controller, routes), update demo matestack app"
 ```
 
 ## Deployment
