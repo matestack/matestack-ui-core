@@ -322,6 +322,6 @@ and celebrate your progress by creating some new persons, modifying existing one
 ## Recap & outlook
 By now, we have already implemented the complete **CRUD** (**C**reate-**R**ead-**U**pdate-**D**elete) functionality around the person model. Neat!
 
-But there's still six out of ten guides open - so what's left? In the upcoming chapters, we will dive deeper into some `matestack` concepts to further enhance both user experience and developer happiness!s
+But there's still six out of ten guides open - so what's left? In the upcoming chapters, we will dive deeper into some `matestack` concepts to further enhance both user experience and developer happiness!
 
 Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`async` and `collection` components](/guides/essential/04_form_create_update_delete.md).
