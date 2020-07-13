@@ -2,6 +2,7 @@ module Matestack::Ui::Core::Component
   class Base < Trailblazer::Cell
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::HasViewContext
+    include Matestack::Ui::Core::Properties
 
     # probably eed to remove for other tests to be green again
     include Matestack::Ui::Core::DSL
@@ -119,6 +120,7 @@ module Matestack::Ui::Core::Component
     # Special validation logic
     def validate_options
       if defined? self.class::REQUIRED_KEYS
+        ActiveSupport::Deprecation.warn("REQUIRED_KEYS is deprecated. Use `require :foo` instead.")
         self.class::REQUIRED_KEYS.each do |key|
           raise "#{self.class.name}: required key '#{key}' is missing" if options[key].nil?
         end

@@ -8,7 +8,7 @@ describe 'Abbr Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
 
       def response
-          abbr title: 'Hypertext Markup Language', text: 'HTML'
+        abbr title: 'Hypertext Markup Language', text: 'HTML'
       end
 
     end
@@ -26,9 +26,9 @@ describe 'Abbr Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
 
       def response
-          abbr title: 'Cascading Style Sheets' do
-            span text: 'CSS'
-          end
+        abbr title: 'Cascading Style Sheets' do
+          span text: 'CSS'
+        end
       end
 
     end
