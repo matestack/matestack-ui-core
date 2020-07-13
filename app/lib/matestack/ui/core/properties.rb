@@ -31,7 +31,13 @@ module Matestack::Ui::Core::Properties
   
     # define required properties for custom components with `requires :title, :foo, :bar`
     def requires(*properties)
-      properties.each { |property| requires_properties.push(property) }
+      properties.each do |property| 
+        if property.is_a? Hash 
+          property.each { |tmp_property| requires_properties.push(tmp_property) }
+        else
+          requires_properties.push(property) 
+        end
+      end
     end
   
     # array of properties created from the component
@@ -56,6 +62,11 @@ module Matestack::Ui::Core::Properties
 
   def required_hooks
     self.class.requires_properties.compact.each do |prop|
+      if prop.is_a? Array
+        hash = prop.flatten
+        options[hash.last[:as]] = options[hash.first]
+        prop = hash.last[:as]
+      end
       raise PropertyMissingException, "Required property #{prop} is missing for #{self.class}" if self.send(:options)[prop].nil?
       raise PropertyOverwritingExistingMethodException, "Required property #{prop} would overwrite already defined instance method for #{self.class}" if self.respond_to? prop
       send(:define_singleton_method, prop) do

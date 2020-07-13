@@ -1,22 +1,14 @@
 module Matestack::Ui::Core::Form::Input
   class Input < Matestack::Ui::Core::Component::Static
 
-    REQUIRED_KEYS = [:key, :type]
+    requires :key, :type
 
     def custom_options_validation
       raise "included form config is missing, please add ':include' to parent form component" if @included_config.nil?
     end
 
-    def key
-      options[:key]
-    end
-
     def label
       options[:label]
-    end
-
-    def type
-      options[:type]
     end
 
     def placeholder

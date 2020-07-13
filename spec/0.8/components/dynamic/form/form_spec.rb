@@ -942,7 +942,6 @@ describe "Form Component", type: :feature, js: true do
               custom_some_component
             end
           end
-
         end
 
         visit "/example"

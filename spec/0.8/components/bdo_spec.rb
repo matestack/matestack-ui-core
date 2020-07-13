@@ -32,11 +32,11 @@ describe 'Bdo component', type: :feature, js: true do
   it 'Fails if required dir tag is not set' do
     class ExamplePage < Matestack::Ui::Page
       def response
-          bdo text: 'Simple bdo ltr tag'
+        bdo text: 'Simple bdo ltr tag'
       end
     end
 
     visit '/example'
-    expect(page).to have_content("required key 'dir' is missing")
+    expect(page).to have_content("Matestack::Ui::Core::Properties::PropertyMissingException")
   end
 end

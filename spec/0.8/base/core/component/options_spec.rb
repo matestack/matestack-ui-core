@@ -60,7 +60,7 @@ describe "Component", type: :feature, js: true do
 
       class SpecialComponent < Matestack::Ui::StaticComponent
 
-        REQUIRED_KEYS = [:some_option]
+        requires :some_option
 
         def response
           div id: "my-component" do

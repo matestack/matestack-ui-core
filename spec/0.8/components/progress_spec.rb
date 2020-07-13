@@ -25,7 +25,7 @@ describe 'Progress Component', type: :feature, js: true do
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
 
-  it 'Example 2: Test REQUIRED_KEYS' do
+  it 'Example 2: Test requires' do
     class ExamplePage < Matestack::Ui::Page
       def response
         # miss max option
@@ -34,7 +34,7 @@ describe 'Progress Component', type: :feature, js: true do
     end
 
     visit '/example'
-    expect(page).to have_content("Matestack::Ui::Core::Progress::Progress: required key 'max' is missing")
+    expect(page).to have_content("Matestack::Ui::Core::Properties::PropertyMissingException")
   end
 
 end

@@ -1,7 +1,7 @@
 module Matestack::Ui::Core::Form::Select
   class Select < Matestack::Ui::Core::Component::Static
 
-    REQUIRED_KEYS = [:options]
+    requires options: { as: :select_options }
 
     def setup
       if @tag_attributes[:id].nil?

@@ -116,4 +116,26 @@ describe 'Properties Mechanism', type: :feature, js: true do
     expect(page).to have_content('Optional property response would overwrite already defined instance method for TempOptionalPropertyComponent')
   end
 
+  it 'should create instance method with given alias name' do
+    class AliasPropertyComponent < Matestack::Ui::StaticComponent
+      requires method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherAliasPropertyComponent < Matestack::Ui::StaticComponent
+      requires :bla, method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    component = AliasPropertyComponent.new(method: 'Its my method', response: 'Response')
+    another_component = AnotherAliasPropertyComponent.new(bla: 'hi', method: 'Its my method', response: 'Response')
+    expect(component.respond_to? :my_method).to be(true)
+    expect(component.my_method).to eq('Its my method')
+    expect(component.respond_to? :test).to be(true)
+    expect(component.test).to eq('Response')
+    expect(another_component.bla).to eq('hi')
+    expect(another_component.my_method).to eq('Its my method')
+    expect(another_component.test).to eq('Response')
+  end
+
 end

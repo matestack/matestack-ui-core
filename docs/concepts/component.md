@@ -95,7 +95,7 @@ This feature is pretty straightforward - just declare the options as a required 
 ```ruby
 class Components::SpecialComponent < Matestack::Ui::StaticComponent
 
-  REQUIRED_KEYS = [:some_option]
+  requires :some_option
 
   def response
     components {
