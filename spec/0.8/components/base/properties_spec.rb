@@ -160,6 +160,36 @@ describe 'Properties Mechanism', type: :feature, js: true do
     expect(another_component.test).to eq('Response')
   end
 
+  it 'should be accesible in setup' do
+    class SetupComponent < Matestack::Ui::StaticComponent
+      requires :title, :desc
+      def setup
+        @foo = title
+      end
+      def prepare
+        @bar = desc
+      end
+      def response
+        paragraph text: @foo
+        paragraph text: @bar
+      end
+      register_self_as :setup_component
+    end
+    class ExamplePage < Matestack::Ui::Page
+      def response
+        setup_component title: 'Foo', desc: 'Bar'
+      end
+    end
+
+    visit '/example'
+    static_output = page.html
+    expected_static_output = <<~HTML
+      <p>Foo</p>
+      <p>Bar</p>
+    HTML
+    expect(stripped(static_output)).to include(stripped(expected_static_output))
+  end
+
   it 'should work with slots' do
     class SlotComponent < Matestack::Ui::StaticComponent
       requires slot: { as: :some_slot }

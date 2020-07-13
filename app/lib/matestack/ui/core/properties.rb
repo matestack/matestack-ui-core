@@ -17,9 +17,10 @@ module Matestack::Ui::Core::Properties
   # initializer calls super and creates instance methods for defined required and optional properties afterwards
   module Initializer
     def initialize(model=nil, options={})
+      options = model.dup if options.empty? && model.is_a?(Hash)
+      required_hooks(options)
+      optional_hooks(options)
       super
-      required_hooks
-      optional_hooks
     end
   end
   
@@ -55,7 +56,7 @@ module Matestack::Ui::Core::Properties
     end
   end
 
-  def optional_hooks
+  def optional_hooks(options)
     self.class.optional_properties.compact.each do |prop|
       if prop.is_a? Array
         hash = prop.flatten
@@ -69,14 +70,14 @@ module Matestack::Ui::Core::Properties
     end
   end
 
-  def required_hooks
+  def required_hooks(options)
     self.class.requires_properties.compact.each do |prop|
       if prop.is_a? Array
         hash = prop.flatten
         options[hash.last[:as]] = options[hash.first]
         prop = hash.last[:as]
       end
-      raise PropertyMissingException, "Required property #{prop} is missing for #{self.class}" if self.send(:options)[prop].nil?
+      raise PropertyMissingException, "Required property #{prop} is missing for #{self.class}" if options[prop].nil?
       raise PropertyOverwritingExistingMethodException, "Required property #{prop} would overwrite already defined instance method for #{self.class}" if self.respond_to? prop
       send(:define_singleton_method, prop) do
         options[prop]

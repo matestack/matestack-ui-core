@@ -167,7 +167,13 @@ class SomeComponent < Matestack::Ui::StaticComponent
 end
 ```
 
-#### Options validation
+Some common names that could not be used as properties:
+```ruby
+:method,
+:params
+```
+
+#### Property validations
 
 Coming soon, stay tuned!
 
