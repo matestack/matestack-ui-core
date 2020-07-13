@@ -363,7 +363,15 @@ def my_simple_slot
 end
 ```
 
+### Removed Components
 
+#### Inline Component
+
+The Form Inline Component is removed and can no longer be used.
+
+#### Absolute Component
+
+The Absolute Component is removed and can no longer be used.
 
 
 ## v0.7.6

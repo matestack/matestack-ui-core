@@ -1,21 +1,13 @@
 require_relative "../../../../../support/utils"
+require_relative "../../../../../support/test_controller"
+require_relative "../support/form_test_controller"
+require_relative "../support/model_form_test_controller"
 include Utils
-
-class TestController < ActionController::Base
-  before_action :check_params
-
-  def check_params
-    expect_params(params.permit!.to_h)
-  end
-
-  def expect_params(params)
-  end
-end
 
 describe "Form Component", type: :feature, js: true do
 
   before :all do
-    class FormTestController < TestController
+    class UploadFormTestController < FormTestController
       def success_submit
         render json: {
           title: "server received title: #{form_params[:title].to_s}",
@@ -55,16 +47,15 @@ describe "Form Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      post '/success_form_test', to: 'form_test#success_submit', as: 'form_input_file_upload_success_form_test'
-      post '/failure_form_test', to: 'form_test#failure_submit', as: 'form_input_file_upload_failure_form_test'
+      post '/file_upload_success_form_test', to: 'upload_form_test#success_submit', as: 'form_input_file_upload_success_form_test'
+      post '/file_upload_failure_form_test', to: 'upload_form_test#failure_submit', as: 'form_input_file_upload_failure_form_test'
     end
     Rails.application.reload_routes!
   end
 
   before :each do
-    allow_any_instance_of(FormTestController).to receive(:expect_params)
+    allow_any_instance_of(UploadFormTestController).to receive(:expect_params)
   end
-
 
   describe "File Upload" do
 

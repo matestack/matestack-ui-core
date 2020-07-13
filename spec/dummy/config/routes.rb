@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   get '/example', to: 'example#page'
+  get '/base_example', to: 'example#base'
 
   scope :my_app do
     get 'my_first_page', to: 'my_app#my_first_page'

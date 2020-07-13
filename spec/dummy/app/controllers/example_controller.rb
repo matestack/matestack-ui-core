@@ -5,4 +5,8 @@ class ExampleController < ApplicationController
     responder_for(ExamplePage)
   end
 
+  def base
+    responder_for(BaseExamplePage)
+  end
+
 end

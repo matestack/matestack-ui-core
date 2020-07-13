@@ -1,11 +1,13 @@
 require_relative "../../../../support/utils"
 require_relative "../../../../support/test_controller"
+require_relative "support/form_test_controller"
+require_relative "support/model_form_test_controller"
 include Utils
 
 describe "Form Component", type: :feature, js: true do
 
   before :all do
-    class FormTestController < TestController
+    class DelayFormTestController < FormTestController
       def success_submit
         receive_timestamp = DateTime.now.strftime('%Q')
         render json: { received_at: receive_timestamp }, status: 200
@@ -13,13 +15,13 @@ describe "Form Component", type: :feature, js: true do
     end
 
     Rails.application.routes.append do
-      post '/success_form_test', to: 'form_test#success_submit', as: 'form_delay_success_submit'
+      post '/delay_success_form_test', to: 'delay_form_test#success_submit', as: 'form_delay_success_submit'
     end
     Rails.application.reload_routes!
   end
 
   before :each do
-    allow_any_instance_of(FormTestController).to receive(:expect_params)
+    allow_any_instance_of(DelayFormTestController).to receive(:expect_params)
   end
 
 

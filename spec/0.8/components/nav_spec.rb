@@ -8,11 +8,9 @@ describe "Nav Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
 
       def response
-        components {
-          nav id: "my-id", class: "my-class" do
-            plain "Hello World" #optional content
-          end
-        }
+        nav id: "my-id", class: "my-class" do
+          plain "Hello World" #optional content
+        end
       end
 
     end

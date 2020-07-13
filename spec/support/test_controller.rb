@@ -1,5 +1,4 @@
 class TestController < ActionController::Base
-
   before_action :check_params
 
   def check_params
@@ -8,5 +7,4 @@ class TestController < ActionController::Base
 
   def expect_params(params)
   end
-
 end
