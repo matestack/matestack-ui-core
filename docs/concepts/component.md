@@ -40,26 +40,85 @@ See below for an overview of the various possibilities Matestack provides for co
 
 By passing options to a component, they get very flexible and can take various input, e.g. *i18n* strings or *instance variables*!
 
-#### Passing options as a hash
+#### Define optional and required properties
 
-As before, create a component in it's respective file, in this case `app/matestack/components/some/component.rb`:
+Matestack Components give you the option to define required and optional properties for a component. It creates helpers for these properties automatically. 
+
+##### Required
+
+Required properties are required for your component to work, like the name suggests. If at least one required property is missing a `Matestack::Ui::Core::Properties::PropertyMissingException` is raised.
+Declare your required properties by calling `requires` as follows:
 
 ```ruby
-class Components::Some::Component < Matestack::Ui::StaticComponent
+class SomeComponent < Matestack::Ui::StaticComponent
+
+  requires :some_property, :some_other
+
+end
+```
+
+You then can use these properties simply by calling the provided helper method, which is generated for you. The helper method name corresponds to the passed property name.
+
+```ruby
+class SomeComponent < Matestack::Ui::StaticComponent
+
+  required :some_property, :some_other
 
   def response
-    components {
-      div id: "my-component" do
-        plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
-      end
-    }
+    # display some_property plain inside a div and some_other property inside a paragraph beneath it
+    div do
+      plain some_property
+    end
+    paragraph text: some_other
   end
 
 end
 ```
 
-On the example page, directly pass the options to the static component as shown below:
+##### Optional
 
+To define optional attributes you can use the same syntax as `requires`. Just use `optional` instead of `requires`. Optional attributes are optional and not validated for presence like required attributes. 
+
+```ruby
+class SomeComponent < Matestack::Ui::StaticComponent
+
+  optional :optional_property, :other_optional_property # optional properties could be empty
+
+  def response
+    # display optional_property plain inside a div and other_optional_property property inside a paragraph beneath it
+    div do
+      plain optional_property
+    end
+    paragraph text: other_optional_property
+  end
+
+end
+```
+
+##### Passing properties to components
+
+Pass the properties as a hash directly to the component when calling it. You can pass any object you like and use it in the component with the helper.
+
+A custom component
+```ruby
+class SomeComponent < Matestack::Ui::StaticComponent
+
+  required :some_option, 
+  optional :some_other # optional properties could be empty
+
+  def response
+    div do
+      plain some_option
+    end
+    if some_other.present?
+      paragraph text: some_other[:option]
+    end
+  end
+
+end
+```
+
+Use it in the example page and pass in the properties as a hash
 ```ruby
 class Pages::ExamplePage < Matestack::Ui::Page
 
@@ -82,52 +141,30 @@ The outcome is quite as expected:
 
 ```html
 <div id="div-on-page">
-  <div id="my-component">
-    I'm a static component and got some option: hello! and some other option: world!
+  <div>
+    hello!
   </div>
+  <p>world!</p>
 </div>
 ```
 
-#### Introducing required options
+##### Alias properties
 
-This feature is pretty straightforward - just declare the options as a required key in the component config!
-
-```ruby
-class Components::SpecialComponent < Matestack::Ui::StaticComponent
-
-  requires :some_option
-
-  def response
-    components {
-      div id: "my-component" do
-        plain "I'm a static component and got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
-      end
-    }
-  end
-
-end
-```
-
-Notice that this example *does not* pass the required option to the component on the example page, provoking an error message:
+Matestack tries to prevent overriding existing methods while creating helpers. If you pass a property with a name that matches any instance method of your component matestack will raise a `Matestack::Ui::Core::Properties::PropertyOverwritingExistingMethodException`.
+To use property names that would raise this exception, simply provide an alias name with the `as:` option. You can then use the alias accordingly.
 
 ```ruby
-class Pages::ExamplePage < Matestack::Ui::Page
+class SomeComponent < Matestack::Ui::StaticComponent
+  requires :foo, :bar, method: { as: :my_method }
+  optional response: { as: :my_response }
 
   def response
-    components {
-      div id: "div-on-page" do
-        custom_specialComponent some_other: { option: "world!" }
-      end
-    }
+    div do
+      plain "#{foo} - #{bar} - #{my_method}" # string concatenation of properties foo, bar, and method aliased as my_method
+    end
+    paragraph my_response if my_response.present? # response property aliased as my_response inside a paragraph if it is present
   end
-
 end
-```
-
-The error message looks like this:
-
-```html
-"div > custom_specialComponent > required key 'some_option' is missing"
 ```
 
 #### Options validation
@@ -145,18 +182,18 @@ Define the slots within the component file as shown below:
 ```ruby
 class Components::Some::Component < Matestack::Ui::StaticComponent
 
+  requires :my_first_slot, :my_second_slot
+
   def prepare
     @foo = "foo from component"
   end
 
   def response
-    components {
-      div id: "my-component" do
-        slot @options[:my_first_slot]
-        br
-        slot @options[:my_second_slot]
-      end
-    }
+    div id: "my-component" do
+      slot my_first_slot
+      br
+      slot my_second_slot
+    end
   end
 
 end
@@ -172,11 +209,9 @@ class Pages::ExamplePage < Matestack::Ui::Page
   end
 
   def response
-    components {
-      div do
-        custom_some_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
-      end
-    }
+    div do
+      custom_some_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
+    end
   end
 
   def my_simple_slot
@@ -221,20 +256,21 @@ To use *component instance scope slots*, first define slots within a static comp
 ```ruby
 class Components::Other::Component < Matestack::Ui::StaticComponent
 
+  requires :my_slot_from_component
+  requires :my_slot_from_page
+
   def prepare
     @foo = "foo from other component"
   end
 
   def response
-    components {
-      div id: "my-other-component" do
-        slot @options[:slots][:my_slot_from_component]
-        br
-        slot @options[:slots][:my_slot_from_page]
-        br
-        plain @foo
-      end
-    }
+    div id: "my-other-component" do
+      slot my_slot_from_component
+      br
+      slot my_slot_from_page
+      br
+      plain @foo
+    end
   end
 
 end
@@ -245,19 +281,16 @@ and also in some component:
 ```ruby
 class Components::Some::Component < Matestack::Ui::StaticComponent
 
+  requires :my_slot_from_page
+
   def prepare
     @foo = "foo from component"
   end
 
   def response
-    components {
-      div id: "my-component" do
-        custom_other_component slots: {
-          my_slot_from_component: my_slot_from_component,
-          my_slot_from_page: @options[:my_slot_from_page]
-        }
-      end
-    }
+    div id: "my-component" do
+      custom_other_component my_slot_from_component: my_slot_from_component, my_slot_from_page: my_slot_from_page
+    end
   end
 
   def my_slot_from_component
@@ -281,11 +314,9 @@ class Pages::ExamplePage < Matestack::Ui::Page
   end
 
   def response
-    components {
-      div id: "page-div" do
-        custom_some_component my_slot_from_page: my_slot_from_page
-      end
-    }
+    div id: "page-div" do
+      custom_some_component my_slot_from_page: my_slot_from_page
+    end
   end
 
   def my_slot_from_page
@@ -329,11 +360,9 @@ Components can yield a block with access to scope, where a block is defined. Thi
 class Components::Some::Component < Matestack::Ui::StaticComponent
 
   def response
-    components {
-      div id: "my-component" do
-        yield_components
-      end
-    }
+    div id: "my-component" do
+      yield_components
+    end
   end
 
 end

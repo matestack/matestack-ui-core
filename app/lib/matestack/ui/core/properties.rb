@@ -26,16 +26,20 @@ module Matestack::Ui::Core::Properties
   module ClassMethods
     # define optinoal properties for custom components with `optional :foo, :bar`
     def optional(*properties)
-      properties.each { |property| optional_properties.push(property) }
+      add_properties_to_list(optional_properties, properties)
     end
   
     # define required properties for custom components with `requires :title, :foo, :bar`
     def requires(*properties)
+      add_properties_to_list(requires_properties, properties)
+    end
+
+    def add_properties_to_list(list, properties)
       properties.each do |property| 
         if property.is_a? Hash 
-          property.each { |tmp_property| requires_properties.push(tmp_property) }
+          property.each { |tmp_property| list.push(tmp_property) }
         else
-          requires_properties.push(property) 
+          list.push(property) 
         end
       end
     end
@@ -53,6 +57,11 @@ module Matestack::Ui::Core::Properties
 
   def optional_hooks
     self.class.optional_properties.compact.each do |prop|
+      if prop.is_a? Array
+        hash = prop.flatten
+        options[hash.last[:as]] = options[hash.first]
+        prop = hash.last[:as]
+      end
       raise PropertyOverwritingExistingMethodException, "Optional property #{prop} would overwrite already defined instance method for #{self.class}" if self.respond_to? prop
       send(:define_singleton_method, prop) do 
         options[prop]

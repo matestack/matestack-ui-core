@@ -116,7 +116,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
     expect(page).to have_content('Optional property response would overwrite already defined instance method for TempOptionalPropertyComponent')
   end
 
-  it 'should create instance method with given alias name' do
+  it 'should create instance method with given alias name for required properties' do
     class AliasPropertyComponent < Matestack::Ui::StaticComponent
       requires method: { as: :my_method }, response: { as: :test }
       def response
@@ -136,6 +136,70 @@ describe 'Properties Mechanism', type: :feature, js: true do
     expect(another_component.bla).to eq('hi')
     expect(another_component.my_method).to eq('Its my method')
     expect(another_component.test).to eq('Response')
+  end
+
+  it 'should create instance method with given alias name for optional properties' do
+    class OptionalAliasPropertyComponent < Matestack::Ui::StaticComponent
+      optional method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherOptionalAliasPropertyComponent < Matestack::Ui::StaticComponent
+      optional :bla, method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    component = OptionalAliasPropertyComponent.new(method: 'Its my method', response: 'Response')
+    another_component = AnotherOptionalAliasPropertyComponent.new(bla: 'hi', method: 'Its my method', response: 'Response')
+    expect(component.respond_to? :my_method).to be(true)
+    expect(component.my_method).to eq('Its my method')
+    expect(component.respond_to? :test).to be(true)
+    expect(component.test).to eq('Response')
+    expect(another_component.bla).to eq('hi')
+    expect(another_component.my_method).to eq('Its my method')
+    expect(another_component.test).to eq('Response')
+  end
+
+  it 'should work with slots' do
+    class SlotComponent < Matestack::Ui::StaticComponent
+      requires slot: { as: :some_slot }
+      optional :other_slot
+      def response
+        div do
+          slot some_slot
+          slot other_slot
+        end
+      end
+      register_self_as :slot_component
+    end
+
+    class ExamplePage < Matestack::Ui::Page
+      def response
+        slot_component slot: some_slot, other_slot: other_slot
+      end
+
+      def some_slot
+        slot do
+          paragraph text: 'Foo'
+        end
+      end
+
+      def other_slot
+        slot do
+          paragraph text: 'bar'
+        end
+      end
+    end
+
+    visit '/example'
+    static_output = page.html
+    expected_static_output = <<~HTML
+      <div>
+        <p>Foo</p>
+        <p>bar</p>
+      </div>
+    HTML
+    expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
 
 end
