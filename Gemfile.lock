@@ -134,7 +134,7 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.14.1)
     nio4r (2.5.2)
-    nokogiri (1.10.9)
+    nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     pipetree (0.1.1)
     pry (0.12.2)
@@ -271,7 +271,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.3.0)
+    zeitwerk (2.3.1)
 
 PLATFORMS
   ruby
