@@ -16,6 +16,15 @@ To follow along, make sure you have successfully installed
 - Heroku CLI ([view installation details](https://devcenter.heroku.com/articles/getting-started-with-ruby#set-up))
 - Postgresql ([view installation details](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup))
 
+<details>
+<summary>Note for Linux/Ubuntu users</summary>
+You may need to install additional libraries by running <br/>
+<code>sudo apt-get -y install postgresql postgresql-contrib libpq-dev</code>
+instead of only running <br/>
+<code>sudo apt-get install postgresql</code>.
+</details>
+<br/>
+
 The contents of this article are heavily inspired by [Getting Started on Heroku with Rails 6.x](https://devcenter.heroku.com/articles/getting-started-with-rails6), but goes beyond it by introducing the `matestack-ui-core` gem and setting it up with some example content. Both beginners and experienced Ruby/Rails developers should be able to follow along.
 
 ## Getting started
