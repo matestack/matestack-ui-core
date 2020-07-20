@@ -1,4 +1,4 @@
-require_relative "../../../../../support/utils"
+require_relative "../../../../support/utils"
 include Utils
 
 describe "App", type: :feature, js: true do
@@ -7,8 +7,8 @@ describe "App", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope "app_action_view_context_spec" do
-        get 'page1', to: 'example_app_pages#page1', as: 'page1'
-        get 'page2', to: 'example_app_pages#page2', as: 'page2'
+        get 'app_page1', to: 'example_app_pages#page1', as: 'app_page1'
+        get 'app_page2', to: 'example_app_pages#page2', as: 'app_page2'
       end
     end
     Rails.application.reload_routes!
@@ -16,9 +16,10 @@ describe "App", type: :feature, js: true do
   end
 
   it "has access to view context" do
+    module ExampleApp
+    end
 
-    class Apps::ExampleApp < Matestack::Ui::App
-
+    class ExampleApp::App < Matestack::Ui::App
       def response
         heading size: 1, text: "My Example App Layout"
         if @view_context.view_renderer.instance_of?(ActionView::Renderer)
@@ -30,39 +31,30 @@ describe "App", type: :feature, js: true do
           page_content
         end
       end
-
     end
 
-    module Pages::ExampleApp
-
-    end
-
-    class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
-
+    class ExampleApp::ExamplePage < Matestack::Ui::Page
       def response
         div id: "my-div-on-page-1" do
           heading size: 2, text: "This is Page 1"
         end
       end
-
     end
 
 
     class ExampleAppPagesController < ExampleController
       include Matestack::Ui::Core::ApplicationHelper
+      matestack_app ExampleApp::App
 
       def page1
-        render Pages::ExampleApp::ExamplePage
+        render ExampleApp::ExamplePage
       end
-
     end
 
-    visit "app_action_view_context_spec/page1"
-
-    expect(page).to have_content("has access to ActionView Context")
+    visit "app_action_view_context_spec/app_page1"
     expect(page).to have_content("Test Link")
+    expect(page).to have_content("has access to ActionView Context")
     expect(page).to have_content("3 minutes")
-
   end
 
 end

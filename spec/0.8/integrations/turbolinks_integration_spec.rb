@@ -20,22 +20,20 @@ describe "Turbolinks integration", type: :feature, js: true do
 
     class Apps::TurbolinksTest < Matestack::Ui::App
       def response
-        components {
-          nav do
-            link path: :turbolinks1_path do
-              button text: "Link to Page 1"
-            end
-            transition path: :turbolinks2_path do
-              button text: "Transition to Page 2"
-            end
-            link path: :turbolinks3_path do
-              button text: "Link to Page 3"
-            end
+        nav do
+          link path: :turbolinks1_path do
+            button text: "Link to Page 1"
           end
-          main do
-            page_content
+          transition path: :turbolinks2_path do
+            button text: "Transition to Page 2"
           end
-        }
+          link path: :turbolinks3_path do
+            button text: "Link to Page 3"
+          end
+        end
+        main do
+          page_content
+        end
       end
     end
 
@@ -44,26 +42,20 @@ describe "Turbolinks integration", type: :feature, js: true do
 
     class Pages::TurbolinksTest::Page1 < Matestack::Ui::Page
       def response
-        components {
-          plain "Hello from matestack with turbolinks - Page 1"
-        }
+        plain "Hello from matestack with turbolinks - Page 1"
       end
     end
     class Pages::TurbolinksTest::Page2 < Matestack::Ui::Page
       def response
-        components {
-          plain "Hello from matestack with turbolinks - Page 2"
-        }
+        plain "Hello from matestack with turbolinks - Page 2"
       end
     end
     class Pages::TurbolinksTest::Page3 < Matestack::Ui::Page
       def response
-        components {
-          plain "Hello from matestack with turbolinks - Page 3"
-          action action_config do
-            button text: "click me"
-          end
-        }
+        plain "Hello from matestack with turbolinks - Page 3"
+        action action_config do
+          button text: "click me"
+        end
       end
 
       def action_config
@@ -91,13 +83,13 @@ describe "Turbolinks integration", type: :feature, js: true do
       include Matestack::Ui::Core::ApplicationHelper
 
       def page1
-        responder_for(Pages::TurbolinksTest::Page1)
+        render(Pages::TurbolinksTest::Page1)
       end
       def page2
-        responder_for(Pages::TurbolinksTest::Page2)
+        render(Pages::TurbolinksTest::Page2)
       end
       def page3
-        responder_for(Pages::TurbolinksTest::Page3)
+        render(Pages::TurbolinksTest::Page3)
       end
     end
 

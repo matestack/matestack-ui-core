@@ -4,9 +4,7 @@ describe "XSS behavior", type: :feature, js: true do
     it "escapes the evil script" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          components {
-            heading text: XSS::EVIL_SCRIPT
-          }
+          heading text: XSS::EVIL_SCRIPT
         end
       end
 
@@ -19,9 +17,7 @@ describe "XSS behavior", type: :feature, js: true do
     it "does not escape when we specifically say #html_safe" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          components {
-            heading text: XSS::EVIL_SCRIPT.html_safe
-          }
+          heading text: XSS::EVIL_SCRIPT.html_safe
         end
       end
 
@@ -42,33 +38,25 @@ describe "XSS behavior", type: :feature, js: true do
     it "escaping won't be broken in block form (if it worked)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          components {
-            heading do
-              XSS::EVIL_SCRIPT
-            end
-          }
+          heading do
+            XSS::EVIL_SCRIPT
+          end
         end
       end
 
       visit "/example"
-
       static_output = page.html
       expect(static_output).not_to include("alert(")
     end
 
     it "escapes the evil when injecting into attributes" do
       class ExamplePage < Matestack::Ui::Page
-
         def response
-          components {
-            heading text: "Be Safe!", id: "something-\">#{XSS::EVIL_SCRIPT}"
-          }
+          heading text: "Be Safe!", id: "something-\">#{XSS::EVIL_SCRIPT}"
         end
-
       end
 
       visit "/example"
-
       expect(page.html).to include("id=\"something-&quot;&gt;&lt;script&gt;alert('hello');&lt;/script&gt;")
     end
   end

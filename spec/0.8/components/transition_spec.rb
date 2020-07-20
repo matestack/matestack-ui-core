@@ -86,19 +86,19 @@ describe "Transition Component", type: :feature, js: true do
       matestack_app Example::App
 
       def page1
-        responder_for(Example::Pages::ExamplePage)
+        render(Example::Pages::ExamplePage)
       end
 
       def page2
-        responder_for(Example::Pages::SecondExamplePage)
+        render(Example::Pages::SecondExamplePage)
       end
 
       def sub_page2
-        responder_for(Example::Pages::SubSecondExamplePage)
+        render(Example::Pages::SubSecondExamplePage)
       end
 
       def page3
-        responder_for(Example::Pages::ThirdExamplePage)
+        render(Example::Pages::ThirdExamplePage)
       end
     end
 
@@ -339,11 +339,11 @@ describe "Transition Component", type: :feature, js: true do
   #     include Matestack::Ui::Core::ApplicationHelper
   #
   #     def page1
-  #       responder_for(Example::Pages::ExamplePage)
+  #       render(Example::Pages::ExamplePage)
   #     end
   #
   #     def page2
-  #       responder_for(Example::Pages::SecondExamplePage)
+  #       render(Example::Pages::SecondExamplePage)
   #     end
   #
   #   end

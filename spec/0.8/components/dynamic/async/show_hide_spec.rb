@@ -6,12 +6,12 @@ describe "Async Component", type: :feature, js: true do
   it "show on event" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async show_on: "my_event" do
+        async show_on: "my_event", id: 'async-div' do
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
         end
-        async show_on: "multi_event_1, multi_event_2" do
+        async show_on: "multi_event_1, multi_event_2", id: 'async-second-div' do
           div id: "my-second-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
@@ -41,12 +41,12 @@ describe "Async Component", type: :feature, js: true do
   it "hide on event" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async hide_on: "my_event" do
+        async hide_on: "my_event", id: 'async-div' do
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
         end
-        async hide_on: "multi_event_1, multi_event_2" do
+        async hide_on: "multi_event_1, multi_event_2", id: 'async-second-div' do
           div id: "my-second-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
@@ -76,7 +76,7 @@ describe "Async Component", type: :feature, js: true do
   it "show on / hide on combination init not shown by default" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async show_on: "my_show_event", hide_on: "my_hide_event" do
+        async show_on: "my_show_event", hide_on: "my_hide_event", id: 'async-div' do
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
@@ -97,7 +97,7 @@ describe "Async Component", type: :feature, js: true do
   it "show on / hide on combination init shown if configured" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async show_on: "my_show_event", hide_on: "my_hide_event", init_show: true do
+        async show_on: "my_show_event", hide_on: "my_hide_event", init_show: true, id: 'async-div' do
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
@@ -118,7 +118,7 @@ describe "Async Component", type: :feature, js: true do
   it "hide after show on event" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async show_on: "my_event", hide_after: 1000 do
+        async show_on: "my_event", hide_after: 1000, id: 'async-div' do
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
@@ -139,7 +139,7 @@ describe "Async Component", type: :feature, js: true do
   it "show on event with event payload" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async show_on: "my_event" do
+        async show_on: "my_event", id: 'async-div' do
           div id: "my-div" do
             plain "{{event.data.message}}"
           end

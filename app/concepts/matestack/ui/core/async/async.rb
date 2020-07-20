@@ -1,5 +1,6 @@
 module Matestack::Ui::Core::Async
   class Async < Matestack::Ui::Core::Component::Rerender
+    optional :id # will be required in 1.0.0
 
     def vuejs_component_name
       "matestack-ui-core-async"
@@ -7,10 +8,14 @@ module Matestack::Ui::Core::Async
 
     def initialize(*args)
       super
+      ActiveSupport::Deprecation.warn(
+        'Calling async components without id is deprecated. Instead provide a unique id for async components.'
+      ) if id.blank?
+      @component_config[:component_key] = id || "async_#{Digest::SHA256.hexdigest(caller[3])}"
       @tag_attributes.merge!({
-        "v-if": "showing"
+        "v-if": "showing",
+        id: @component_config[:component_key]
       })
-      @component_config[:component_key] = Digest::SHA256.hexdigest(caller[3])
     end
 
     def get_component_key

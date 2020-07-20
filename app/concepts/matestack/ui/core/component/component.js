@@ -18,7 +18,7 @@ const componentMixin = {
     },
     rerender: function(){
       var self = this;
-      self.params["component_key"] = self.componentConfig["component_key"]
+      //self.params["component_key"] = self.componentConfig["component_key"]
       axios({
         method: "get",
         url: location.pathname + location.search,
@@ -28,7 +28,14 @@ const componentMixin = {
         params: {"component_key": self.componentConfig["component_key"]}
       })
       .then(function(response){
-        self.asyncTemplate = response["data"];
+        var tmp_dom_element = document.createElement('div');
+        tmp_dom_element.innerHTML = response['data'];
+        var template = tmp_dom_element.querySelector('#' + self.componentConfig["component_key"]).outerHTML;
+        self.asyncTemplate = template;
+      })
+      .catch(function(error){
+        console.log(error)
+        matestackEventHub.$emit('async_rerender_error', { id: self.componentConfig["component_key"] })
       })
     },
     rerenderWith: function(newParams){

@@ -67,8 +67,11 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       render_matestack_object(controller_instance, matched_component, {}, :render_content)
     else
       # some 404 probably
-      raise "component not found"
+      raise Exception, "Async component with id #{component_key} could not be found while rerendering."
     end
+  rescue Exception => e
+     Rails.logger.warn e
+     render json: {}, status: :not_found
   end
 
   def dig_for_component component_key, component_instance

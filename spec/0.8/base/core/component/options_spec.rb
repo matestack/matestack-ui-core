@@ -1,4 +1,4 @@
-require_relative "../../../../../support/utils"
+require_relative "../../../../support/utils"
 include Utils
 
 describe "Component", type: :feature, js: true do
@@ -18,7 +18,7 @@ describe "Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope "component_options_spec" do
-        get '/component_test', to: 'component_test#my_action', as: 'component_test_action'
+        get '/component_test', to: 'component_test#my_action', as: 'options_component_test_action'
       end
     end
     Rails.application.reload_routes!
@@ -83,7 +83,7 @@ describe "Component", type: :feature, js: true do
 
       visit "component_options_spec/component_test"
 
-      expect(page).to have_content("SpecialComponent: required key 'some_option' is missing")
+      expect(page).to have_content("Required property some_option is missing for SpecialComponent")
     end
 
     it "components can manually validate if given options are correct and raise error if not"

@@ -6,7 +6,7 @@ describe "Async Component", type: :feature, js: true do
   it "rerender on event(s) on page-level" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        async rerender_on: "my_event" do
+        async rerender_on: "my_event", id: 'async-first' do
           div id: "my-div" do
             plain "1: #{DateTime.now.strftime('%Q')}"
           end
@@ -15,7 +15,7 @@ describe "Async Component", type: :feature, js: true do
       end
 
       def some_partial
-        async rerender_on: "multi_event_1, multi_event_2" do
+        async rerender_on: "multi_event_1, multi_event_2", id: 'async-second' do
           div id: "my-second-div" do
             plain "2: #{DateTime.now.strftime('%Q')}"
           end
@@ -46,7 +46,7 @@ describe "Async Component", type: :feature, js: true do
       def response
         div do
           some_component do
-            async rerender_on: "my_event" do
+            async rerender_on: "my_event", id: 'async-example-page' do
               div id: "yielded-async-1" do
                 plain "yielded timestamp 1: #{DateTime.now.strftime('%Q')}"
               end
@@ -62,7 +62,7 @@ describe "Async Component", type: :feature, js: true do
           yield_components
         end
         other_component do
-          async rerender_on: "my_other_event" do
+          async rerender_on: "my_other_event", id: 'async-some-component' do
             div id: "nested-yielded-async-2" do
               plain "yielded timestamp 2: #{DateTime.now.strftime('%Q')}"
             end
@@ -82,7 +82,6 @@ describe "Async Component", type: :feature, js: true do
 
       register_self_as(:other_component)
     end
-
 
     visit "/example"
     content_before = page.find("#yielded-async-1").text
@@ -115,7 +114,7 @@ describe "Async Component", type: :feature, js: true do
         div id: "static-content-on-component" do
           plain "Component 1.1: #{DateTime.now.strftime('%Q')}"
         end
-        async rerender_on: "my_event" do
+        async rerender_on: "my_event", id: 'async-some-component' do
           div id: "dynamic-content-on-component" do
             plain "Component 1.2: #{DateTime.now.strftime('%Q')}"
           end
@@ -124,7 +123,7 @@ describe "Async Component", type: :feature, js: true do
       end
 
       def some_partial
-        async rerender_on: "my_other_event, some_other_event" do
+        async rerender_on: "my_other_event, some_other_event", id: 'async-some-component-partial' do
           div id: "other-dynamic-content-on-component" do
             plain "Component 1.3: #{DateTime.now.strftime('%Q')}"
           end
@@ -140,12 +139,12 @@ describe "Async Component", type: :feature, js: true do
         div id: "static-content-on-other-component" do
           plain "Component 2.1: #{DateTime.now.strftime('%Q')}"
         end
-        async rerender_on: "my_event, some_other_event" do
+        async rerender_on: "my_event, some_other_event", id: 'async-other-component-1' do
           div id: "dynamic-content-on-other-component" do
             plain "Component 2.2: #{DateTime.now.strftime('%Q')}"
           end
         end
-        async rerender_on: "my_other_event" do
+        async rerender_on: "my_other_event", id: 'async-other-component-2' do
           div id: "other-dynamic-content-on-other-component" do
             plain "Component 2.3: #{DateTime.now.strftime('%Q')}"
           end
@@ -204,7 +203,7 @@ describe "Async Component", type: :feature, js: true do
 
     class Example::Pages::ExamplePage < Matestack::Ui::Page
       def response
-        async rerender_on: "my_event" do
+        async rerender_on: "my_event", id: 'async-example-page' do
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"
           end
@@ -237,5 +236,123 @@ describe "Async Component", type: :feature, js: true do
     expect(before_content).not_to eq(after_content)
   end
 
+  describe 'iterations' do
+
+    it "rerender async components seperatly" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          (0..5).each do |item|
+            async rerender_on: "my_event_#{item}, multi_event", id: "async-item-#{item}" do
+              div id: "my-div-#{item}" do
+                plain "#{item} - #{DateTime.now.strftime('%Q')}"
+              end
+            end
+          end
+        end
+      end
+  
+      visit "/example"
+      (0..5).each do |item| 
+        expect(page).to have_content("#{item} -", count: 1)
+      end
+      initial_content = (0..5).map { |item| page.find("#my-div-#{item}").text }
+      save_screenshot
+  
+      # rerender first list element asynchronously, others should not change
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event_0")')
+      expect(page).not_to have_content(initial_content[0])
+      save_screenshot
+      initial_content[0] = page.find("#my-div-0").text
+      (0..5).each do |item| 
+        expect(page).to have_content("#{item} -", count: 1)
+      end
+      (1..5).each do |item| 
+        expect(page).to have_content(initial_content[item])
+      end
+  
+      # rerender all elements asynchronously, all should change
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event")')
+      (0..5).each do |item| 
+        expect(page).to have_content("#{item} -", count: 1)
+      end
+      (0..5).each do |item| 
+        expect(page).not_to have_content(initial_content[item])
+      end
+    end
+
+    it "return 404 if async component not found and emit event" do
+      class ExamplePage < Matestack::Ui::Page
+        class_attribute :items
+        def response
+          items.each do |item|
+            async rerender_on: "my_event_#{item}, multi_event", id: "async-item-#{item}" do
+              div id: "my-div-#{item}" do
+                plain "#{item} - #{DateTime.now.strftime('%Q')}"
+              end
+            end
+          end
+          async show_on: 'async_rerender_error', id: 'async_error' do
+            plain 'Error - {{ event.data.id }}'
+          end
+        end
+      end
+  
+      ExamplePage.items = (0..5)
+      visit "/example"
+      (0..5).each do |item| 
+        expect(page).to have_content("#{item} -", count: 1)
+      end
+      initial_content = (0..5).map { |item| page.find("#my-div-#{item}").text }
+      expect(page).not_to have_content('Error - async-item-4')
+      
+      # rerender all elements asynchronously, item 4 should not be changed and
+      # a 404 and emit failure event with correct id should be generated
+      ExamplePage.items = (0..5).reject { |item| item == 4 }
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event")')
+      ExamplePage.items.each do |item| 
+        expect(page).to have_content("#{item} -", count: 1)
+      end
+      ExamplePage.items.each do |item| 
+        expect(page).not_to have_content(initial_content[item])
+      end
+      expect(page).to have_content(initial_content[4])
+      expect(page).to have_content('Error - async-item-4')
+    end
+
+  end
+
+  describe 'conditional structures' do
+
+    it "return 404 if async component not found and emit event" do
+      class ExamplePage < Matestack::Ui::Page
+        class_attribute :active
+        def response
+          if active
+            async rerender_on: "my_event", id: "async-item" do
+              div id: "my-div" do
+                plain "#{DateTime.now.strftime('%Q')}"
+              end
+            end
+          end
+          async show_on: 'async_rerender_error', id: 'async_error' do
+            plain 'Error - {{ event.data.id }}'
+          end
+        end
+      end
+  
+      ExamplePage.active = true
+      visit "/example"
+      initial_content = page.find("#my-div").text
+      expect(page).not_to have_content('Error - async-item')
+      
+      # rerender asynchronously, should return 404 and emit failure event with correct id, content of async should not be changed
+      ExamplePage.active = false
+      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+      expect(page).to have_selector('#my-div')
+      expect(page).to have_content(initial_content)
+      expect(page).to have_content('Error - async-item')
+    end
+
+  end
 
 end

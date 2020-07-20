@@ -1,12 +1,12 @@
-require_relative "../../../../../support/utils"
+require_relative "../../../../support/utils"
 include Utils
 
 describe "Page", type: :feature, js: true do
 
   before :all do
     Rails.application.routes.append do
-      scope "page_orchestrates_components_spec" do
-        get '/page_test', to: 'page_test#my_action', as: 'page_test_action'
+      scope "page_rendering_components_spec" do
+        get '/page_test', to: 'page_test#my_action', as: 'rendering_page_test_action'
       end
     end
     Rails.application.reload_routes!

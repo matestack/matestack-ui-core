@@ -1,4 +1,4 @@
-require_relative "../../../../../support/utils"
+require_relative "../../../../support/utils"
 include Utils
 
 describe "Component", type: :feature, js: true do
@@ -18,7 +18,7 @@ describe "Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope "component_dynamic_rendering_spec" do
-        get '/component_test', to: 'component_test#my_action', as: 'component_test_action'
+        get '/component_test', to: 'component_test#my_action', as: 'dynamic_component_test_action'
       end
     end
     Rails.application.reload_routes!

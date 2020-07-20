@@ -44,7 +44,13 @@ module Matestack
                   (matestack_arg < Matestack::Ui::Page)
             Rendering::MainRenderer.render(self, matestack_arg, options)
           else
-            super
+            # if called from a controller and params contains a component key render without layout
+            # else it was called from within an app/page and should render normally
+            # if self.is_a?(ActionController::Base) && params&.dig(:component_key)
+            #   super layout: false
+            # else
+              super
+            # end
           end
         end
 
@@ -91,6 +97,10 @@ module Matestack
         # Kept around for compatibility. Probably worth removing.
         def responder_for(*args)
           render(*args)
+        end
+
+        def matestack_component(component, *options, &block)
+          Matestack::Ui::Core::Component::Base.new.send(component, *options, &block)
         end
       end
     end

@@ -1,4 +1,4 @@
-require_relative "../../../../../support/utils"
+require_relative "../../../../support/utils"
 include Utils
 
 describe "Page", type: :feature, js: true do
@@ -17,7 +17,7 @@ describe "Page", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope "page_partials_spec" do
-        get '/page_test', to: 'page_test#my_action', as: 'page_test_action'
+        get '/page_test', to: 'page_test#my_action', as: 'partials_page_test_action'
       end
     end
     Rails.application.reload_routes!

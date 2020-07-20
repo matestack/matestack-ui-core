@@ -42,4 +42,19 @@ Rails.application.routes.draw do
     get 'data/:number', to: 'api#single_endpoint', as: "single_endpoint"
   end
 
+  namespace :legacy_views do
+    get 'action_inline', to: 'pages#action_inline'
+    get 'action_custom_component', to: 'pages#action_custom_component'
+    get 'async_inline', to: 'pages#async_inline'
+    get 'async_custom_component', to: 'pages#async_custom_component'
+    get 'collection_inline', to: 'pages#collection_inline'
+    get 'collection_custom_component', to: 'pages#collection_custom_component'
+    get 'form_inline', to: 'pages#form_inline'
+    get 'form_custom_component', to: 'pages#form_custom_component'
+    get 'onclick_custom_component', to: 'pages#onclick_custom_component'
+    post 'success', to: 'pages#success'
+    post 'failure', to: 'pages#failure'
+    post 'create', to: 'pages#create'
+  end
+
 end

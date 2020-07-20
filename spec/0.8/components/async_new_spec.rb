@@ -7,8 +7,9 @@ describe Matestack::Ui::Core::Async::Async, type: :feature, js: true do
 
   it "Example 1 - Rerender on event on page-level" do
     class CoolAsync < described_class
+      optional :id
       def response
-        div id: "my-div" do
+        div id: id do
           plain "#{DateTime.now.strftime('%Q')}"
         end
       end
@@ -18,18 +19,17 @@ describe Matestack::Ui::Core::Async::Async, type: :feature, js: true do
 
     class ExamplePage < Matestack::Ui::Page
       def response
-        my_async_component rerender_on: "my_event"
+        my_async_component rerender_on: "my_event", id: 'async-cool-async'
       end
     end
 
     visit "/example"
-    element = page.find("#my-div")
+    save_screenshot
+    element = page.find("#async-cool-async")
     before_content = element.text
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
-
-    # TODO: show Jonas re flakies
     expect(page).to have_no_content(before_content)
-    expect(page).to have_css("#my-div")
+    expect(page).to have_css("#async-cool-async")
   end
 
 end

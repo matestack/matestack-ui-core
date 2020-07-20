@@ -1,4 +1,4 @@
-require_relative "../../../../../support/utils"
+require_relative "../../../../support/utils"
 include Utils
 
 describe "Component", type: :feature, js: true do
@@ -24,7 +24,7 @@ describe "Component", type: :feature, js: true do
 
     Rails.application.routes.append do
       scope "component_custom_namespaces_spec" do
-        get '/component_test', to: 'component_test#my_action', as: 'component_test_action'
+        get '/component_test', to: 'component_test#my_action', as: 'custom_component_test_action'
       end
     end
     Rails.application.reload_routes!
@@ -107,16 +107,12 @@ describe "Component", type: :feature, js: true do
       end
 
       visit "component_custom_namespaces_spec/component_test"
-
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-component-1" and contains(.,"my first component")]')
       expect(page).to have_content('custom_component1 can not be resolved as there is no more magic class discovery')
-
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-namespaced-component-1" and contains(.,"namespaced custom static component")]')
       expect(page).to have_content('custom_namespace1_component1 can not be resolved as there is no more magic class discovery')
-
       expect(page).to have_xpath('//div[@id="div-on-page"]/div[@id="my-camelcased-class-name-component" and contains(.,"camelcased class name component")]')
       expect(page).to have_content('custom_myCamelcasedClassNameComponent can not be resolved as there is no more magic class discovery')
-
     end
 
   end

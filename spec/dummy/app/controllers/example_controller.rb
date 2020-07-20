@@ -2,11 +2,11 @@ class ExampleController < ApplicationController
   include Matestack::Ui::Core::ApplicationHelper
 
   def page
-    responder_for(ExamplePage)
+    render ExamplePage
   end
 
   def base
-    responder_for(BaseExamplePage)
+    render BaseExamplePage
   end
 
 end

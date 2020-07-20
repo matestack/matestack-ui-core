@@ -8,7 +8,7 @@ describe "Async Component", type: :feature, js: true do
     it "deferred loading without any timeout, deferred request right after component mounting" do
       class SomeComponent < Matestack::Ui::StaticComponent
         def response
-          async defer: true do
+          async defer: true, id: 'async-some-component' do
             div id: "my-deferred-div-on-component" do
               plain "#{@options[:current_time]}"
             end
@@ -28,12 +28,12 @@ describe "Async Component", type: :feature, js: true do
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
-          async do
+          async id: 'async-example-page' do
             div id: "my-not-deferred-div" do
               plain "#{@current_time}"
             end
           end
-          async defer: true do
+          async defer: true, id: 'async-example-page-defer' do
             div id: "my-deferred-div" do
               plain "#{@current_time}"
             end
@@ -65,12 +65,12 @@ describe "Async Component", type: :feature, js: true do
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
-          async do
+          async id: 'async-example-page' do
             div id: "my-not-deferred-div" do
               plain "#{@current_time}"
             end
           end
-          async defer: 1000 do
+          async defer: 1000, id: 'async-example-page-defer' do
             div id: "my-deferred-div" do
               plain "#{@current_time}"
             end
@@ -98,17 +98,17 @@ describe "Async Component", type: :feature, js: true do
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
-          async do
+          async id: 'async-example-page' do
             div id: "my-not-deferred-div" do
               plain "#{@current_time}"
             end
           end
-          async defer: 1000 do
+          async defer: 1000, id: 'async-example-page-defer' do
             div id: "my-deferred-div" do
               plain "#{@current_time}"
             end
           end
-          async defer: 2000 do
+          async defer: 2000, id: 'async-example-page-defer-slow' do
             div id: "my-second-deferred-div" do
               plain "#{@current_time}"
             end
@@ -138,7 +138,7 @@ describe "Async Component", type: :feature, js: true do
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
-          async defer: true, show_on: "my_event", hide_on: "my_other_event" do
+          async defer: true, show_on: "my_event", hide_on: "my_other_event", id: 'async-example-page-hide-show' do
             plain "waited for 'my_event'"
             div id: "my-deferred-div" do
               plain "#{@current_time}"

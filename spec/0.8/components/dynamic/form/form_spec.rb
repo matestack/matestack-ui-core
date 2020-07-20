@@ -68,7 +68,7 @@ describe "Form Component", type: :feature, js: true do
 
         def show
           @test_model = TestModel.find params[:id]
-          responder_for TestModelPage
+          render TestModelPage
         end
 
         def update
@@ -148,7 +148,7 @@ describe "Form Component", type: :feature, js: true do
         include Matestack::Ui::Core::ApplicationHelper
 
         def index
-          responder_for SearchPage
+          render SearchPage
         end
       end
 
@@ -207,7 +207,7 @@ describe "Form Component", type: :feature, js: true do
         include Matestack::Ui::Core::ApplicationHelper
 
         def index
-          responder_for SearchPage
+          render SearchPage
         end
       end
 

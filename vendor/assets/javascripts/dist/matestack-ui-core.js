@@ -856,7 +856,7 @@ const componentMixin = {
     },
     rerender: function(){
       var self = this;
-      self.params["component_key"] = self.componentConfig["component_key"]
+      //self.params["component_key"] = self.componentConfig["component_key"]
       axios__WEBPACK_IMPORTED_MODULE_1___default()({
         method: "get",
         url: location.pathname + location.search,
@@ -866,7 +866,14 @@ const componentMixin = {
         params: {"component_key": self.componentConfig["component_key"]}
       })
       .then(function(response){
-        self.asyncTemplate = response["data"];
+        var tmp_dom_element = document.createElement('div');
+        tmp_dom_element.innerHTML = response['data'];
+        var template = tmp_dom_element.querySelector('#' + self.componentConfig["component_key"]).outerHTML;
+        self.asyncTemplate = template;
+      })
+      .catch(function(error){
+        console.log(error)
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('async_rerender_error', { id: self.componentConfig["component_key"] })
       })
     },
     rerenderWith: function(newParams){
@@ -919,7 +926,6 @@ const componentDef = {
   data: function () {
     return {
       data: {},
-      showInlineForm: false,
       errors: {},
     };
   },
@@ -937,17 +943,6 @@ const componentDef = {
       if (this.errors[key]) {
         this.errors[key] = null;
       }
-    },
-    launchInlineForm: function (key, value) {
-      this.showInlineForm = true;
-      this.data[key] = value;
-      const self = this;
-      setTimeout(function () {
-        self.$refs.inlineinput.focus();
-      }, 300);
-    },
-    closeInlineForm: function () {
-      this.showInlineForm = false;
     },
     setProps: function (flat, newVal) {
       for (var i in flat) {
@@ -1142,7 +1137,6 @@ const componentDef = {
             self.setProps(self.data, null);
             self.initValues();
           }
-          self.showInlineForm = false;
         })
         .catch(function (error) {
           if (error.response && error.response.data && error.response.data.errors) {

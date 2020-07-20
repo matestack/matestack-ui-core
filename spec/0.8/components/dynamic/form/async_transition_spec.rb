@@ -242,35 +242,35 @@ describe "Form Component", type: :feature, js: true do
       matestack_app Example::App
     
       def page1
-        responder_for(Example::Pages::ExamplePage1)
+        render(Example::Pages::ExamplePage1)
       end
     
       def page2
-        responder_for(Example::Pages::ExamplePage2)
+        render(Example::Pages::ExamplePage2)
       end
     
       def page3
-        responder_for(Example::Pages::ExamplePage3)
+        render(Example::Pages::ExamplePage3)
       end
     
       def page4
-        responder_for(Example::Pages::ExamplePage4)
+        render(Example::Pages::ExamplePage4)
       end
 
       def page5
-        responder_for(Example::Pages::ExamplePage5)
+        render(Example::Pages::ExamplePage5)
       end
 
       def page6
-        responder_for(Example::Pages::ExamplePage6)
+        render(Example::Pages::ExamplePage6)
       end
 
       def page7
-        responder_for(Example::Pages::ExamplePage7)
+        render(Example::Pages::ExamplePage7)
       end
 
       def page8
-        responder_for(Example::Pages::ExamplePage8)
+        render(Example::Pages::ExamplePage8)
       end
     end
   end

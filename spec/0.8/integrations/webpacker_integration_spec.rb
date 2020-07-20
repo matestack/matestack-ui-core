@@ -25,9 +25,7 @@ describe "Webpacker integration", type: :feature, js: true do
 
     class Pages::WebpackTest::MyAction < Matestack::Ui::Page
       def response
-        components {
-          plain "Hello from matestack with webpacker"
-        }
+        plain "Hello from matestack with webpacker"
       end
     end
   end

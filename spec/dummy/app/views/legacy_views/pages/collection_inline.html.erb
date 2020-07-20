@@ -1,0 +1,31 @@
+<h1>Collection Custom Component</h1>
+<%= @my_collection %>
+<%= 
+  matestack_component(:div) do
+    plain options.inspect
+    plain @my_collection.inspect
+    heading size: 2, text: 'My Collection'
+
+    # # filter
+    # collection_filter options[:collection].config do 
+    #   collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+    #   collection_filter_submit do
+    #     button text: "filter"
+    #   end
+    #   collection_filter_reset do
+    #     button text: "reset"
+    #   end
+    # end
+
+    # async rerender_on: "#{options[:collection].id}-update", id: 'async-collection' do
+    #   # content
+    #   collection_content options[:collection].config do
+    #     ul do
+    #       options[:collection].data.each do |dummy|
+    #         li text: dummy.title
+    #       end
+    #     end
+    #   end
+    # end
+  end 
+%>
