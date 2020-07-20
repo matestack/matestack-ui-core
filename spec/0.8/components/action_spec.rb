@@ -1,16 +1,6 @@
 require_relative "../../support/utils"
+require_relative "../../support/test_controller"
 include Utils
-
-class TestController < ActionController::Base
-  before_action :check_params
-
-  def check_params
-    expect_params(params.permit!.to_h)
-  end
-
-  def expect_params(params)
-  end
-end
 
 describe "Action Component", type: :feature, js: true do
   before :each do

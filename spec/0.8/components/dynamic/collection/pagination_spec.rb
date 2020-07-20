@@ -155,6 +155,7 @@ describe "Collection Component", type: :feature, js: true do
       Rails.application.reload_routes!
   
       class ExamplePage < Matestack::Ui::Page
+        include Matestack::Ui::Core::HasViewContext
         include Matestack::Ui::Core::Collection::Helper
   
         def prepare

@@ -1,17 +1,6 @@
+require_relative "../../support/test_controller"
+
 describe "Turbolinks integration", type: :feature, js: true do
-
-  class TestController < ActionController::Base
-
-    before_action :check_params
-
-    def check_params
-      expect_params(params.permit!.to_h)
-    end
-
-    def expect_params(params)
-    end
-
-  end
 
   it "Matestack can be used with turbolinks" do
 
@@ -35,6 +24,9 @@ describe "Turbolinks integration", type: :feature, js: true do
           page_content
         end
       end
+    end
+
+    module Pages
     end
 
     module Pages::TurbolinksTest
@@ -77,10 +69,11 @@ describe "Turbolinks integration", type: :feature, js: true do
     end
     Rails.application.reload_routes!
 
-    class TurbolinksTestController < ActionController::Base
-      layout "application_with_turbolinks"
-
+    class TurbolinksTestController < ApplicationController
       include Matestack::Ui::Core::ApplicationHelper
+      layout "application_with_turbolinks"
+      matestack_app Apps::TurbolinksTest
+
 
       def page1
         render(Pages::TurbolinksTest::Page1)
@@ -106,7 +99,6 @@ describe "Turbolinks integration", type: :feature, js: true do
     visit "/turbolinks1"
 
     expect(page).to have_text "Hello from matestack with turbolinks - Page 1"
-
     click_button "Transition to Page 2"
 
     expect(page).to have_text "Hello from matestack with turbolinks - Page 2"

@@ -112,8 +112,8 @@ module Matestack::Ui::Core::Collection
     # try to get params from either controller params, when called in a rails legacy view or
     # from cells context when called in a matestack app/page/component
     def controller_params
-      return params.to_unsafe_h if defined? params
       return context[:params] if defined? context
+      return params.to_unsafe_h if defined? params
       raise 'collection component is missing access to params or context'
     end
 
