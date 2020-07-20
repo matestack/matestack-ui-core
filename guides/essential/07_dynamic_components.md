@@ -19,7 +19,7 @@ Since we only used the `app/matestack/components/person/disclaimer.haml` file as
 ```javascript
 MatestackUiCore.Vue.component('custom-person-disclaimer', {
   mixins: [MatestackUiCore.componentMixin],
-  data: function data() {
+  data() {
     return {
       show: true
     };
