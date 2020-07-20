@@ -49,7 +49,7 @@ All components inside the component's response are wrapped into a Vue.js conditi
 The last thing to do is adding the newly created dynamic component to `app/javascript/packs/application.js` so it gets correctly compiled by Webpack:
 
 ```javascript
-import '../../../app/matestack/components/person/disclaimer'
+import '../../matestack/components/person/disclaimer'
 ```
 
 Start your application and see if it works! You should be able to click the 'Hide'-button below the disclaimer text and it disappears/gets hidden.
@@ -136,7 +136,7 @@ end
 And, once more, we need to register the new dynamic component to `app/javascript/packs/application.js`:
 
 ```javascript
-import '../../../app/matestack/components/person/activity'
+import '../../matestack/components/person/activity'
 ```
 
 Spin up your app and head to the **Show** page to play around - fetching and deleting activities should work flawlessly! Hint: The way we have set it up for now, everything in this component happens on the client side and refreshing the page resets your activities to an empty array.
