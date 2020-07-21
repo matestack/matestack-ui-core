@@ -363,6 +363,39 @@ def my_simple_slot
 end
 ```
 
+### Components in Rails Legacy Views
+
+It is now possible to use core and custom components in your Rails legacy views. Matestack provides a `matestack_component` helper to use components in views and partials.
+
+Create a component
+```ruby
+class HeaderComponent < Matestack::Ui::StaticComponent
+  requires :title
+
+  def response
+    header id: 'my-page-header' do
+      plain title
+    end
+  end
+
+end
+```
+
+Register it in your registry
+```ruby
+module Components::Registry
+  Matestack::Ui::Core::Component::Registry.register_components(
+    header_component: HeaderComponent,
+  )
+end
+```
+
+And use it in your view as follows:
+```html
+<%= matestack_component(:header_component, title: 'A Title') %>
+```
+
+
 ### Removed Components
 
 #### Inline Component
