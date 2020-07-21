@@ -30,7 +30,6 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'turbolinks'
-  gem 'simple_form'
 end
 
 group :test do
