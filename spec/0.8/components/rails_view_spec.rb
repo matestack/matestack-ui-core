@@ -4,8 +4,11 @@ include Utils
 describe 'Rails View Component', type: :feature, js: true do
 
   after :all do
-    Object.send(:remove_const, :ExampleController)
-    load "#{Rails.root}/app/controllers/example_controller.rb"
+    class ExampleController < ApplicationController
+      def page
+        render ExamplePage
+      end
+    end
   end
 
   it 'renders given view on to page' do

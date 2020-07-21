@@ -1030,15 +1030,19 @@ const componentDef = {
     },
     perform: function(){
       const self = this
-      if (self.componentConfig["emit"] != undefined) {
-        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
-      }
-      if (self.componentConfig["delay"] != undefined) {
-        setTimeout(function () {
+      if(self.$el.querySelector('form').checkValidity()){
+        if (self.componentConfig["emit"] != undefined) {
+          _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
+        }
+        if (self.componentConfig["delay"] != undefined) {
+          setTimeout(function () {
+            self.sendRequest()
+          }, parseInt(self.componentConfig["delay"]));
+        } else {
           self.sendRequest()
-        }, parseInt(self.componentConfig["delay"]));
+        }
       } else {
-        this.sendRequest()
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('static_form_errors');
       }
     },
     sendRequest: function(){

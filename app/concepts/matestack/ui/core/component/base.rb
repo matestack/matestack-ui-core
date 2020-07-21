@@ -2,6 +2,7 @@ module Matestack::Ui::Core::Component
   class Base < Trailblazer::Cell
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::HasViewContext
+    include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
 
     # probably eed to remove for other tests to be green again
@@ -76,6 +77,7 @@ module Matestack::Ui::Core::Component
       # TODO: do we realy have to call this every time on initialize or should
       # it maybe be called more dynamically like its dynamic_tag_attributes
       # equivalent in Dynamic?
+      extract_html_attributes(options)
       set_tag_attributes
       setup
       validate_options

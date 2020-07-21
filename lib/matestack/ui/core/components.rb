@@ -20,6 +20,7 @@ module Matestack::Ui::Core::Components
 
   require_app_path "helpers/matestack/ui/core/application_helper"
   require_app_path "lib/matestack/ui/core/has_view_context"
+  require_app_path "lib/matestack/ui/core/html_attributes"
   require_app_path "lib/matestack/ui/core/properties"
 
   require_app_path "concepts/matestack/ui/core/component/base"

@@ -11,7 +11,8 @@ class Demo::Pages::MyFourthPage < Matestack::Ui::Page
       heading size: 3, text: "Dummy Model Form:"
 
       form my_form_config, :include do
-        form_input key: :title, type: :text, placeholder: "title"
+        form_input key: :title, type: :text, placeholder: "title", required: true
+        form_input key: :description, type: :text, placeholder: "Description", label: 'Description', attributes: { required: true }
         br
         form_submit do
           button text: "Submit me!"

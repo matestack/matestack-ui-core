@@ -114,15 +114,19 @@ const componentDef = {
     },
     perform: function(){
       const self = this
-      if (self.componentConfig["emit"] != undefined) {
-        matestackEventHub.$emit(self.componentConfig["emit"]);
-      }
-      if (self.componentConfig["delay"] != undefined) {
-        setTimeout(function () {
+      if(self.$el.querySelector('form').checkValidity()){
+        if (self.componentConfig["emit"] != undefined) {
+          matestackEventHub.$emit(self.componentConfig["emit"]);
+        }
+        if (self.componentConfig["delay"] != undefined) {
+          setTimeout(function () {
+            self.sendRequest()
+          }, parseInt(self.componentConfig["delay"]));
+        } else {
           self.sendRequest()
-        }, parseInt(self.componentConfig["delay"]));
+        }
       } else {
-        this.sendRequest()
+        matestackEventHub.$emit('static_form_errors');
       }
     },
     sendRequest: function(){
