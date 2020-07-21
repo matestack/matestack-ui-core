@@ -1206,31 +1206,6 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 /***/ }),
 
-/***/ "../app/concepts/matestack/ui/core/html/html.js":
-/*!******************************************************!*\
-  !*** ../app/concepts/matestack/ui/core/html/html.js ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
-
-
-
-const componentDef = {
-  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_1__["default"]]
-}
-
-let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-html', componentDef)
-
-/* harmony default export */ __webpack_exports__["default"] = (component);
-
-
-/***/ }),
-
 /***/ "../app/concepts/matestack/ui/core/js/core.js":
 /*!****************************************************!*\
   !*** ../app/concepts/matestack/ui/core/js/core.js ***!
@@ -1248,19 +1223,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app/store */ "../app/concepts/matestack/ui/core/app/store.js");
 /* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
 /* harmony import */ var _component_anonym_dynamic_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../component/anonym-dynamic-component */ "../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js");
-/* harmony import */ var _html_html__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../html/html */ "../app/concepts/matestack/ui/core/html/html.js");
-/* harmony import */ var _transition_transition__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../transition/transition */ "../app/concepts/matestack/ui/core/transition/transition.js");
-/* harmony import */ var _action_action__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../action/action */ "../app/concepts/matestack/ui/core/action/action.js");
-/* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../form/form */ "../app/concepts/matestack/ui/core/form/form.js");
-/* harmony import */ var _onclick_onclick__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../onclick/onclick */ "../app/concepts/matestack/ui/core/onclick/onclick.js");
-/* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
-/* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
-/* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
+/* harmony import */ var _transition_transition__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../transition/transition */ "../app/concepts/matestack/ui/core/transition/transition.js");
+/* harmony import */ var _action_action__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../action/action */ "../app/concepts/matestack/ui/core/action/action.js");
+/* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../form/form */ "../app/concepts/matestack/ui/core/form/form.js");
+/* harmony import */ var _onclick_onclick__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../onclick/onclick */ "../app/concepts/matestack/ui/core/onclick/onclick.js");
+/* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
+/* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
+/* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
 
 
 
 // Import from app/concepts/matestack/ui/core:
-
 
 
 

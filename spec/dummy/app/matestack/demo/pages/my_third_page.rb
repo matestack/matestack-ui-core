@@ -23,6 +23,10 @@ class Demo::Pages::MyThirdPage < Matestack::Ui::Page
         async show_on: "my_action_succeeded", hide_after: 2000 do
           plain "action succeeded!"
         end
+
+        @title = 'Test Title'
+        rails_view view: '/header'
+        rails_view partial: '/header'
       end
     }
   end

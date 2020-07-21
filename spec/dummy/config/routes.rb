@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     get 'collection', to: 'my_app#collection'
     get 'inline_edit', to: 'my_app#inline_edit'
 
+    get 'rails_view_and_partial', to: 'my_app#rails_view_and_partial'
+
     post 'some_action', to: 'my_app#some_action'
     post 'form_action', to: 'my_app#form_action'
     post 'inline_form_action/:id', to: 'my_app#inline_form_action', as: "inline_form_action"

@@ -50,17 +50,20 @@ module Matestack::Ui::Core::Component
       # and it just grabs @options[:context]
       @controller_context = context&.fetch(:controller_context, nil)
 
+      # Add matestack context, containing controller etc.
+      @matestack_context = options.dig(:matestack_context)
+
       # TODO: technically only relevant for Dynamic, however it relies on
       # @options being set but must be set before `setup` is called.
       # As both happen in this controller it isn't possible to squeeze
       # it inbetween the super calls in the Dynamic super class.
       #
       # This is the configuration for the VueJS component
-      @component_config = @options.except(:context, :children, :url_params, :included_config)
+      @component_config = @options.except(:context, :children, :url_params, :included_config, :matestack_context)
 
       # TODO: no idea why this is called `url_params` it contains
       # much more than this e.g. almost all params so maybe rename it?
-      @url_params = context&.[](:params)&.except(:action, :controller, :component_key)
+      @url_params = context&.[](:params)&.except(:action, :controller, :component_key, :matestack_context)
 
       # used when creating the child component tree
       # if true, the block of an async component with a defer value will not be processed
@@ -309,26 +312,34 @@ module Matestack::Ui::Core::Component
     # should work currently
     def add_context_to_options(args, included_config=nil)
       case args.size
-      when 0 then [{context: context, included_config: included_config}]
+      when 0 then [
+        {
+          context: context, 
+          included_config: included_config,
+        }
+        ]
       when 1 then
         arg = args.first
         if arg.is_a?(Hash)
           arg[:context] = context
           arg[:included_config] = included_config
+          arg[:matestack_context] = @matestack_context
           [arg]
         else
-          [arg, {context: context, included_config: included_config}]
+          [arg, {context: context, included_config: included_config, matestack_context: @matestack_context}]
         end
       when 2 then
         if args[1] == :include
           if args.first.is_a?(Hash)
             args.first[:context] = context
             args.first[:included_config] = included_config
+            args.first[:matestack_context] = @matestack_context
             [args.first]
           end
         else
           args[1][:context] = context
           args[1][:included_config] = included_config
+          args[1][:matestack_context] = @matestack_context
           [args.first, args[1]]
         end
       else

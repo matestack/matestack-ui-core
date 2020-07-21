@@ -39,6 +39,11 @@ class MyAppController < ApplicationController
     render Demo::Pages::InlineEdit
   end
 
+  def rails_view_and_partial
+    @title = 'Test Title'
+    render Demo::Pages::RailsViewAndPartial
+  end
+
   def some_action
     render json: {}, status: :ok
   end

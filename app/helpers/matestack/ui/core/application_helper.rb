@@ -99,8 +99,9 @@ module Matestack
           render(*args)
         end
 
-        def matestack_component(component, *options, &block)
-          Matestack::Ui::Core::Component::Base.new.send(component, *options, &block)
+        def matestack_component(component, options = {}, &block)
+          context = (options[:matestack_context] ||= {}).merge(controller: @_controller)
+          Matestack::Ui::Core::Component::Base.new(options.merge(matestack_context: context)).send(component, options.merge(matestack_context: context), &block)
         end
       end
     end

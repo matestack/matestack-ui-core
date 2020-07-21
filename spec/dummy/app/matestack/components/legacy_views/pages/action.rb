@@ -17,6 +17,8 @@ class Components::LegacyViews::Pages::Action < Matestack::Ui::StaticComponent
       async show_on: 'action_failed', id: 'async-action-failure' do
         plain "Action has failed {{ event.data.time }}"
       end
+      paragraph text: 'header called from inside custom component'
+      rails_view view: 'demo/header', foo: 'Bar'
     end
   end
 

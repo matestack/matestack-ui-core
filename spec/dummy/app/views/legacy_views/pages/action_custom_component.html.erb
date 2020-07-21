@@ -2,3 +2,6 @@
 <%=
   matestack_component(:legacy_views_pages_action, time: I18n.l(DateTime.now))
 %>
+
+<p>Header called from rails view<p>
+<%= matestack_component(:rails_view, partial: 'demo/header', foo: 'Bar') %>

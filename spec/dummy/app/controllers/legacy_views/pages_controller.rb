@@ -8,6 +8,7 @@ class LegacyViews::PagesController < ApplicationController
   end
   
   def action_custom_component
+    @title = 'Test Title'
   end
   
   def async_custom_component

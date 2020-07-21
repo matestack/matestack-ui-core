@@ -101,6 +101,7 @@ module Matestack::Ui::Core::Components
   require_core_component "pre"
   require_core_component "progress"
   require_core_component "q"
+  require_core_component "view"
   require_core_component "rp"
   require_core_component "rt"
   require_core_component "ruby"
@@ -216,6 +217,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   pre: Matestack::Ui::Core::Pre::Pre,
   progress: Matestack::Ui::Core::Progress::Progress,
   q: Matestack::Ui::Core::Q::Q,
+  rails_view: Matestack::Ui::Core::View::View,
   rp: Matestack::Ui::Core::Rp::Rp,
   rt: Matestack::Ui::Core::Rt::Rt,
   ruby: Matestack::Ui::Core::Ruby::Ruby,

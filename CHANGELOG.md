@@ -363,7 +363,7 @@ def my_simple_slot
 end
 ```
 
-### Components in Rails Legacy Views
+### Components in Rails Views
 
 It is now possible to use core and custom components in your Rails legacy views. Matestack provides a `matestack_component` helper to use components in views and partials.
 
@@ -393,6 +393,17 @@ end
 And use it in your view as follows:
 ```html
 <%= matestack_component(:header_component, title: 'A Title') %>
+```
+
+### Rails Views in Matestack Pages/Components
+
+To render existing rails views inside your components or pages use the new `rails_view` component. It replaces the old `html` component.
+You can render existing partials and views with this helper anywhere in your app. 
+Views/Partials that are rendered with a `rails_view` component can access instance variables of the corresponding controller 
+or you can pass data directly as a hash to it and access it in your view. See below for further details and examples.
+
+Rails View in a component:
+```
 ```
 
 
