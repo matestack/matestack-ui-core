@@ -398,14 +398,7 @@ And use it in your view as follows:
 ### Rails Views in Matestack Pages/Components
 
 To render existing rails views inside your components or pages use the new `rails_view` component. It replaces the old `html` component.
-You can render existing partials and views with this helper anywhere in your app. 
-Views/Partials that are rendered with a `rails_view` component can access instance variables of the corresponding controller 
-or you can pass data directly as a hash to it and access it in your view. See below for further details and examples.
-
-Rails View in a component:
-```
-```
-
+You can render existing partials and views with this helper anywhere in your app. For further information read the `rails_view` documentation.
 
 ### Removed Components
 
