@@ -37,10 +37,10 @@ describe "Form Component", type: :feature, js: true do
         main do
           page_content
         end
-        async show_on: "my_form_success", hide_after: 300 do
+        async show_on: "my_form_success", hide_after: 300, id: 'async-form-success' do
           plain "{{event.data.message}}"
         end
-        async show_on: "my_form_failure", hide_after: 300 do
+        async show_on: "my_form_failure", hide_after: 300, id: 'async-form-failure' do
           plain "{{event.data.message}}"
           plain "{{event.data.errors}}"
         end

@@ -42,10 +42,10 @@ describe "Form Component", type: :feature, js: true do
             form_input id: 'description', key: :description, type: :text
             form_submit { button text: "Save" }
           end
-          async show_on: "form_has_errors", hide_after: 5000 do
+          async show_on: "form_has_errors", hide_after: 5000, id: 'async-form-errors' do
             plain "Form has errors"
           end
-          async show_on: "update_successful", hide_after: 5000 do
+          async show_on: "update_successful", hide_after: 5000, id: 'async-form-successful' do
             plain "Update successful"
           end
         end
@@ -123,10 +123,10 @@ describe "Form Component", type: :feature, js: true do
             form_input id: 'query', key: :query, type: :text
             form_submit { button text: "Search" }
           end
-          async show_on: "form_has_errors", hide_after: 5000 do
+          async show_on: "form_has_errors", hide_after: 5000, id: 'async-form-errors' do
             plain "Form has errors"
           end
-          async show_on: "submission_successful", hide_after: 5000 do
+          async show_on: "submission_successful", hide_after: 5000, id: 'async-form-successful' do
             plain "Submission successful"
           end
         end
@@ -182,10 +182,10 @@ describe "Form Component", type: :feature, js: true do
             form_input id: 'query', key: :query, type: :text
             form_submit { button text: "Search" }
           end
-          async show_on: "form_has_errors", hide_after: 5000 do
+          async show_on: "form_has_errors", hide_after: 5000, id: 'async-form-errors' do
             plain "Form has errors"
           end
-          async show_on: "submission_successful", hide_after: 5000 do
+          async show_on: "submission_successful", hide_after: 5000, id: 'async-form-successful' do
             plain "Submission successful"
           end
         end

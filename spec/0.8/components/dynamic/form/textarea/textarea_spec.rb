@@ -6,13 +6,12 @@ include Utils
 
 describe "Form Component", type: :feature, js: true do
 
-  
   before :all do
     Rails.application.routes.append do
-      scope "form_text_input_spec" do
-        post '/input_success_form_test', to: 'form_test#success_submit', as: 'input_success_form_test'
-        post '/input_failure_form_test/:id', to: 'form_test#failure_submit', as: 'input_failure_form_test'
-        post '/input_model_form_test', to: 'model_form_test#model_submit', as: 'input_model_form_test'
+      scope "form_textarea_spec" do
+        post '/textarea_success_form_test', to: 'form_test#success_submit', as: 'textarea_success_form_test'
+        post '/textarea_failure_form_test/:id', to: 'form_test#failure_submit', as: 'textarea_failure_form_test'
+        post '/textarea_model_form_test', to: 'model_form_test#model_submit', as: 'textarea_model_form_test'
       end
     end
     Rails.application.reload_routes!
@@ -22,12 +21,12 @@ describe "Form Component", type: :feature, js: true do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
   end
 
-  describe "text input" do
+  describe "textarea" do
 
     it "can be submitted dynamically without page reload" do
       class SomeComponent < Matestack::Ui::StaticComponent
         def response
-          form_input key: :bar, type: :text, id: "my-other-test-input"
+          form_textarea key: :bar, id: "my-other-test-input"
         end
 
         register_self_as(:some_component)
@@ -50,14 +49,14 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def some_partial
-          form_input key: :foo, type: :text, id: "my-test-input"
+          form_textarea key: :foo, id: "my-test-input"
         end
 
         def form_config
-          return {
+          {
             for: :my_object,
             method: :post,
-            path: "form_text_input_spec/input_success_form_test",
+            path: "form_textarea_spec/textarea_success_form_test",
             emit: "form_submitted"
           }
         end
@@ -74,18 +73,13 @@ describe "Form Component", type: :feature, js: true do
 
   end
 
-  describe 'input' do
+  describe 'textarea component' do
 
     it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea', 'range' type" do
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
-            form_input id: "text-input",      key: :text_input, type: :text
-            form_input id: "email-input",     key: :email_input, type: :email
-            form_input id: "password-input",  key: :password_input, type: :password
-            form_input id: "number-input",    key: :number_input, type: :number
-            # form_input id: "textarea-input",  key: :textarea_input, type: :textarea # TODO textarea will be moved
-            form_input id: "range-input",     key: :range_input, type: :range
+            form_textarea id: "textarea-input", key: :textarea_input
             form_submit do
               button text: "Submit me!"
             end
@@ -96,7 +90,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :input_success_form_test_path,
+            path: :textarea_success_form_test_path,
             params: {
               id: 42
             }
@@ -105,20 +99,10 @@ describe "Form Component", type: :feature, js: true do
       end
 
       visit "/example"
-      fill_in "text-input", with: "text"
-      fill_in "email-input", with: "name@example.com"
-      fill_in "password-input", with: "secret"
-      fill_in "number-input", with: 123
-      # fill_in "textarea-input", with: "Hello \n World!"
-      fill_in "range-input", with: 10
+      fill_in "textarea-input", with: "Hello \n World!"
       expect_any_instance_of(FormTestController).to receive(:expect_params).with(hash_including(
         my_object: {
-          text_input: "text",
-          email_input: "name@example.com",
-          password_input: "secret",
-          number_input: 123,
-          # textarea_input: "Hello \n World!",
-          range_input: "10"
+          textarea_input: "Hello \n World!",
         }
       ))
       click_button "Submit me!"
@@ -128,7 +112,7 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
-            form_input id: "text-input", key: :text_input, type: :text, init: "some value"
+            form_textarea id: "textarea", key: :textarea, init: "some value"
             form_submit do
               button text: "Submit me!"
             end
@@ -139,7 +123,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :input_success_form_test_path,
+            path: :textarea_success_form_test_path,
             params: {
               id: 42
             }
@@ -148,42 +132,14 @@ describe "Form Component", type: :feature, js: true do
       end
 
       visit "/example"
-      expect(page).to have_field("text-input", with: "some value")
-    end
-
-    it "can be prefilled with a placeholder" do
-      class ExamplePage < Matestack::Ui::Page
-        def response
-            form form_config, :include do
-              form_input id: "text-input", key: :text_input, type: :text, placeholder: "some placeholder"
-              form_submit do
-                button text: "Submit me!"
-              end
-            end
-        end
-  
-        def form_config
-          {
-            for: :my_object,
-            method: :post,
-            path: :input_success_form_test_path,
-            params: {
-              id: 42
-            }
-          }
-        end
-      end
-  
-      visit "/example"
-      expect(page).to have_field("text-input", with: "")
-      expect(page).to have_field("text-input", placeholder: "some placeholder")
+      expect(page).to have_field("textarea", with: "some value")
     end
 
     it "can get a label" do
       class ExamplePage < Matestack::Ui::Page
         def response
             form form_config, :include do
-              form_input id: "text-input", key: :text_input, type: :text, label: "some label"
+              form_textarea id: "textarea", key: :textarea, label: "some label"
               form_submit do
                 button text: "Submit me!"
               end
@@ -194,7 +150,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :input_success_form_test_path,
+            path: :textarea_success_form_test_path,
             params: {
               id: 42
             }
@@ -210,7 +166,7 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
-            form_input id: "text-input", key: :foo, type: :text
+            form_textarea id: "textarea", key: :foo
             form_submit do
               button text: "Submit me!"
             end
@@ -221,7 +177,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :input_failure_form_test_path,
+            path: :textarea_failure_form_test_path,
             params: {
               id: 42
             }
@@ -230,7 +186,7 @@ describe "Form Component", type: :feature, js: true do
       end
   
       visit "/example"
-      fill_in "text-input", with: "text"
+      fill_in "textarea", with: "text"
       click_button "Submit me!"
       expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
     end
@@ -250,8 +206,8 @@ describe "Form Component", type: :feature, js: true do
   
         def response
           form form_config, :include do
-            form_input id: "title", key: :title, type: :text
-            form_input id: "description", key: :description, type: :text
+            form_textarea id: "title", key: :title
+            form_textarea id: "description", key: :description
             form_submit do
               button text: "Submit me!"
             end
@@ -262,7 +218,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: @test_model,
             method: :post,
-            path: :input_model_form_test_path
+            path: :textarea_model_form_test_path
           }
         end
       end

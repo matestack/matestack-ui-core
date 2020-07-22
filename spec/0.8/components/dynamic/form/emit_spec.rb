@@ -34,7 +34,7 @@ describe "Form Component", type: :feature, js: true do
               button text: 'Submit me!'
             end
           end
-          async show_on: "form_submitted" do
+          async show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
           end
         end

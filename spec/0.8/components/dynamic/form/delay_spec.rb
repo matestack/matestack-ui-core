@@ -37,7 +37,7 @@ describe "Form Component", type: :feature, js: true do
             end
           end
           div id: "timestamp" do
-            async show_on: "form_submitted_successfully" do
+            async show_on: "form_submitted_successfully", id: 'async-form' do
               paragraph id: 'received_timestamp', text: "{{event.data.received_at}}"
             end
           end

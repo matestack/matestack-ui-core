@@ -70,6 +70,10 @@ module Matestack::Ui::Core::Components
   require_core_component "fieldset"
   require_core_component "figure"
   require_core_component "footer"
+  require_core_component "form"
+  require_core_component "form/input"
+  require_core_component "form/select"
+  require_core_component "form/submit"
   require_core_component "header"
   require_core_component "heading"
   require_core_component "hr"
@@ -119,7 +123,8 @@ module Matestack::Ui::Core::Components
   require_core_component "tbody"
   require_core_component "td"
   require_core_component "template"
-  require_core_component "textarea"
+  require_core_component "textarea" # textarea needs to be required before form/textarea
+  require_core_component "form/textarea"
   require_core_component "tfoot"
   require_core_component "th"
   require_core_component "thead"
@@ -133,10 +138,6 @@ module Matestack::Ui::Core::Components
   require_core_component "video"
   require_core_component "wbr"
   require_core_component "youtube"
-  require_core_component "form"
-  require_core_component "form/input"
-  require_core_component "form/select"
-  require_core_component "form/submit"
 end
 
 Matestack::Ui::Core::Component::Registry.register_components(
@@ -185,6 +186,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   form_input: Matestack::Ui::Core::Form::Input::Input,
   form_select: Matestack::Ui::Core::Form::Select::Select,
   form_submit: Matestack::Ui::Core::Form::Submit::Submit,
+  form_textarea: Matestack::Ui::Core::Form::Textarea::Textarea,
   header: Matestack::Ui::Core::Header::Header,
   heading: Matestack::Ui::Core::Heading::Heading,
   hr: Matestack::Ui::Core::Hr::Hr,
