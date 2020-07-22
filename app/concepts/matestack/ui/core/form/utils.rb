@@ -4,10 +4,6 @@ module Matestack::Ui::Core::Form::Utils
     "data['#{key.to_s}']"
   end
 
-  def error_key
-    "errors['#{key.to_s}']"
-  end
-
   def input_wrapper
     case input_for
     when nil

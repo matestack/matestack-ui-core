@@ -17,9 +17,7 @@
     - if options[:options].is_a?(Array)
       - options[:options].each do |option|
         %option{value: option}=option
-  %span{class: "errors", "v-if": error_key }
-    %span{class: "error", "v-for": "error in  #{error_key}"}
-      {{ error }}
+  = render_errors
 
 - if options[:type] == :checkbox
 
@@ -46,9 +44,7 @@
         name: value,
         value: value}/
         %label{for: id_for_option(value)}=value
-  %span{class: "errors", "v-if": error_key }
-    %span{class: "error", "v-for": "error in  #{error_key}"}
-      {{ error }}
+  = render_errors
 
 - if options[:type] == :radio
 
@@ -75,6 +71,4 @@
         name: "#{attr_key}_#{value}",
         value: value}/
         %label{for: id_for_option(value)}=value
-  %span{class: "errors", "v-if": error_key }
-    %span{class: "error", "v-for": "error in  #{error_key}"}
-      {{ error }}
+  = render_errors

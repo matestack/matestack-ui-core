@@ -647,7 +647,7 @@ end
 
 ### Example 4: Multiple input fields of different types
 
-Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'range', 'textarea' types!
+Of course, our input core component accepts not only 'text', but very different input types: In this example, we will introduce 'password', 'number', 'email', 'range' types!
 
 On our example page, we define the input fields, together with a `type: X` configuration:
 
@@ -662,7 +662,6 @@ class ExamplePage < Matestack::Ui::Page
         form_input id: 'password-input',  key: :password_input, type: :password
         form_input id: 'number-input',    key: :number_input, type: :number
         form_input id: 'range-input',     key: :range_input, type: :range
-        form_input id: 'textarea-input',  key: :textarea_input, type: :textarea
         form_submit do
           button text: 'Submit me!'
         end
@@ -821,6 +820,53 @@ end
 ```
 
 If we head to `localhost:3000/example`, and fill in the input field with, e.g., *text* and click the submit button, we will get displayed our error message of `seems to be invalid`. Neat!
+
+#### Customizing error rendering
+
+Error messages are rendered in a span with class 'error' wrapped by another span with class 'errors'. You can customize the error rendering or deactivate it on a per component basis.
+
+For the above example the correspoding html looks like:
+```html
+<span class="errors">
+  <span class="error">seems to be invalid</span>
+</span>
+```
+
+###### Deactivate default error rendering
+
+Passing `errors: false` to a form input, select, textarea etc. will disable the default error rendering.
+
+```ruby
+form_input key: :foo, type: :text, errors: false
+```
+
+##### Customizing default rendering
+
+You can customize errors by passing `errors` with a hash.
+Customize the error tag by including a `tag` key with a symbol representing a html tag and the error class by including a `class`
+key with a string.
+
+```ruby
+form_input key: :foo, type: :text, errors: { tag: :div, class: 'my-error' }
+```
+Outputs errors as:
+```html
+<span class="errors">
+  <div class="my-error">seems to be invalid</div>
+</span>
+```
+
+By providing a `wrapper` key inside the errros hash you can customize the wrapper the same way you can customize the errors.
+
+```ruby
+form_input key: :foo, type: :text, errors: { wrapper: { tag: :div, class: 'my-errors-wrapper' } }
+```
+Outputs errors as:
+```html
+<div class="my-errors-wrapper">
+  <span class="error">seems to be invalid</span>
+</div>
+```
 
 ### Example 9: Mapping the form to an Active Record Model
 

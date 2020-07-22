@@ -1,7 +1,9 @@
 require_relative '../utils'
+require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Input
   class Input < Matestack::Ui::Core::Component::Static
     include Matestack::Ui::Core::Form::Utils
+    include Matestack::Ui::Core::Form::HasErrors
 
     html_attributes :accept, :alt, :autocomplete, :autofocus, :checked, :dirname, :disabled, :form, :formaction, 
       :formenctype, :formmethod, :formnovalidate, :formtarget, :height, :list, :max, :maxlength, :min, :minlength, 
@@ -13,9 +15,7 @@ module Matestack::Ui::Core::Form::Input
     def response
       label text: input_label if input_label
       input html_attributes.merge(attributes: vue_attributes)
-      span class: 'errors', attributes: { 'v-if': error_key } do
-        span class: 'error', text: '{{ error }}', attributes: { 'v-for': "error in #{error_key}" }
-      end
+      render_errors
     end
 
     def vue_attributes

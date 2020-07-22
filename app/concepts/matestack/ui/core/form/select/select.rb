@@ -1,6 +1,11 @@
+require_relative '../utils'
+require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Select
   class Select < Matestack::Ui::Core::Component::Static
+    include Matestack::Ui::Core::Form::Utils
+    include Matestack::Ui::Core::Form::HasErrors
 
+    requires :key
     requires options: { as: :select_options }
 
     def setup
@@ -9,21 +14,13 @@ module Matestack::Ui::Core::Form::Select
       end
     end
 
-    def input_key
-      'data["' + options[:key].to_s + '"]'
-    end
-
-    def error_key
-      'errors["' + options[:key].to_s + '"]'
-    end
-
     def attr_key
-      options[:key].to_s
+      key.to_s
     end
 
     def option_values
-      values = options[:options] if options[:options].is_a?(Array)
-      values = options[:options].keys if options[:options].is_a?(Hash)
+      values = select_options if select_options.is_a?(Array)
+      values = select_options.keys if select_options.is_a?(Hash)
       return values
     end
 
@@ -47,7 +44,7 @@ module Matestack::Ui::Core::Form::Select
       end
 
       unless options[:for].nil?
-        value = options[:for].send(options[:key])
+        value = options[:for].send(key)
         if [true, false].include? value
           value ? 1 : 0
         else
@@ -55,8 +52,8 @@ module Matestack::Ui::Core::Form::Select
         end
       else
         unless @included_config.nil? && @included_config[:for].nil?
-          if @included_config[:for].respond_to?(options[:key])
-            value = @included_config[:for].send(options[:key])
+          if @included_config[:for].respond_to?(key)
+            value = @included_config[:for].send(key)
             if [true, false].include? value
               value ? 1 : 0
             else
@@ -67,7 +64,7 @@ module Matestack::Ui::Core::Form::Select
               return nil
             end
             if @included_config[:for].is_a?(Hash)
-              return @included_config[:for][options[:key]]
+              return @included_config[:for][key]
             end
           end
         end
@@ -77,7 +74,6 @@ module Matestack::Ui::Core::Form::Select
     def id_for_option value
       return "#{@tag_attributes[:id]}_#{value}"
     end
-
 
   end
 end
