@@ -2,7 +2,7 @@
 
 Show [specs](/spec/usage/components/form_spec.rb)
 
-The `form` core component is a vue.js driven dynamic component. It enables you to implement dynamic forms without writing javascript. It relies on child components to collect and submit user input: `form_input`, `form_select` and `form_submit`. They are described within this documentation page.
+The `form` core component is a vue.js driven dynamic component. It enables you to implement dynamic forms without writing javascript. It relies on child components to collect and submit user input: `form_input`, `form_select`, `form_submit` and `form_textarea`. They are described within this documentation page.
 
 ## Parameters
 
