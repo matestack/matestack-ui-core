@@ -119,6 +119,7 @@ module Matestack::Ui::Core::Components
   require_core_component "tbody"
   require_core_component "td"
   require_core_component "template"
+  require_core_component "textarea"
   require_core_component "tfoot"
   require_core_component "th"
   require_core_component "thead"
@@ -235,6 +236,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   tbody: Matestack::Ui::Core::Tbody::Tbody,
   td: Matestack::Ui::Core::Td::Td,
   template: Matestack::Ui::Core::Template::Template,
+  textarea: Matestack::Ui::Core::Textarea::Textarea,
   tfoot: Matestack::Ui::Core::Tfoot::Tfoot,
   th: Matestack::Ui::Core::Th::Th,
   thead: Matestack::Ui::Core::Thead::Thead,
