@@ -902,11 +902,11 @@ git commit -m "Add admin login to DemoApp, add default :role to Person model, re
 ```
 
 ## More information on Devise & Matestack
-> todo: Add prose
+What exactly is going on under the hood with all the admin sign in stuff, you may wonder?
 
-If you need more fine-grained control of different controller actions, we recommed to take a look at 
-- Pundit
-- CanCanCan
+Here's a quick overview: Instead over implementing loads of (complex) functionality with a load of implications and edge cases, we use the `Devise` gem for a rock-solid authentication. It takes care of hasing, salting and storing the password, and through the `Devise::SessionsController`, of managing the session cookie. All that's left for us to do is check for the existence of said cookie by using the `authenticate_admin!` helper. If the required cookie is not present, the controller responds with an error code.
+
+`Devise` could do a lot more, but as this is a basic guide, we will leave it with that. For even more fine-grained control over access rights (authorization) within your application (e.g. by introducing a superadmin or having regional and national manager roles), we recommend to take a look at two other popular Ruby/Rails gems, [Pundit](https://github.com/varvet/pundit) and [CanCanCan](https://github.com/CanCanCommunity/cancancan).
 
 ## Deployment
 Time to move all the new functionality to the live application. Make sure the relevant changes are commited to Git and run
