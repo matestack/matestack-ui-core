@@ -114,7 +114,8 @@ const componentDef = {
     },
     perform: function(){
       const self = this
-      if(self.$el.querySelector('form').checkValidity()){
+      var form = self.$el.tagName == 'FORM' ? self.$el : self.$el.querySelector('form');
+      if(form.checkValidity()){
         if (self.componentConfig["emit"] != undefined) {
           matestackEventHub.$emit(self.componentConfig["emit"]);
         }

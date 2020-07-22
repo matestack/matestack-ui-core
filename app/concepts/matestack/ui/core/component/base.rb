@@ -5,6 +5,9 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
 
+    # define html global attributes 
+    html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
+
     # probably eed to remove for other tests to be green again
     include Matestack::Ui::Core::DSL
 
@@ -77,7 +80,6 @@ module Matestack::Ui::Core::Component
       # TODO: do we realy have to call this every time on initialize or should
       # it maybe be called more dynamically like its dynamic_tag_attributes
       # equivalent in Dynamic?
-      extract_html_attributes(options)
       set_tag_attributes
       setup
       validate_options

@@ -1030,7 +1030,8 @@ const componentDef = {
     },
     perform: function(){
       const self = this
-      if(self.$el.querySelector('form').checkValidity()){
+      var form = self.$el.tagName == 'FORM' ? self.$el : self.$el.querySelector('form');
+      if(form.checkValidity()){
         if (self.componentConfig["emit"] != undefined) {
           _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
         }

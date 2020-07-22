@@ -64,7 +64,6 @@ describe "Form Component", type: :feature, js: true do
       end
 
       visit '/example'
-      sleep 1
       fill_in "my-test-input", with: "bar"
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(my_object: { bar: nil, foo: "bar" }))
@@ -85,7 +84,7 @@ describe "Form Component", type: :feature, js: true do
             form_input id: "email-input",     key: :email_input, type: :email
             form_input id: "password-input",  key: :password_input, type: :password
             form_input id: "number-input",    key: :number_input, type: :number
-            form_input id: "textarea-input",  key: :textarea_input, type: :textarea
+            # form_input id: "textarea-input",  key: :textarea_input, type: :textarea # TODO textarea will be moved
             form_input id: "range-input",     key: :range_input, type: :range
             form_submit do
               button text: "Submit me!"
@@ -110,7 +109,7 @@ describe "Form Component", type: :feature, js: true do
       fill_in "email-input", with: "name@example.com"
       fill_in "password-input", with: "secret"
       fill_in "number-input", with: 123
-      fill_in "textarea-input", with: "Hello \n World!"
+      # fill_in "textarea-input", with: "Hello \n World!"
       fill_in "range-input", with: 10
       expect_any_instance_of(FormTestController).to receive(:expect_params).with(hash_including(
         my_object: {
@@ -118,7 +117,7 @@ describe "Form Component", type: :feature, js: true do
           email_input: "name@example.com",
           password_input: "secret",
           number_input: 123,
-          textarea_input: "Hello \n World!",
+          # textarea_input: "Hello \n World!",
           range_input: "10"
         }
       ))
