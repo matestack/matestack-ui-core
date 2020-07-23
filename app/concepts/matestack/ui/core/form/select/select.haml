@@ -19,33 +19,6 @@
         %option{value: option}=option
   = render_errors
 
-- if options[:type] == :checkbox
-
-  %div{id: component_id, ref: "select.multiple.#{attr_key}", "init-value": init_value}
-    - if options[:options].is_a?(Hash)
-      - options[:options].each do |key, value|
-        %input{@tag_attributes.except(:id),
-        id: id_for_option(value),
-        type: :checkbox,
-        "#{model_binding}": input_key,
-        "@change": "inputChanged(\"#{attr_key}\")",
-        "value-type": options_type,
-        name: value,
-        value: key}/
-        %label{for: id_for_option(value)}=value
-    - if options[:options].is_a?(Array)
-      - options[:options].each do |value|
-        %input{@tag_attributes.except(:id),
-        id: id_for_option(value),
-        type: :checkbox,
-        "#{model_binding}": input_key,
-        "@change": "inputChanged(\"#{attr_key}\")",
-        "value-type": options_type,
-        name: value,
-        value: value}/
-        %label{for: id_for_option(value)}=value
-  = render_errors
-
 - if options[:type] == :radio
 
   %div{id: component_id, ref: "select.#{attr_key}", "init-value": init_value}

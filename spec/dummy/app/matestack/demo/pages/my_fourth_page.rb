@@ -14,6 +14,11 @@ class Demo::Pages::MyFourthPage < Matestack::Ui::Page
         form_input key: :title, type: :text, placeholder: "title", required: true
         form_input key: :description, type: :text, placeholder: "Description", label: 'Description', attributes: { required: true }
         br
+        paragraph text: 'Checkbox'
+        form_checkbox key: :status, label: 'foobar'
+        # form_input key: :title, type: :text, placeholder: "title", required: true
+        # form_input key: :description, type: :text, placeholder: "Description", label: 'Description', attributes: { required: true }
+        # br
         form_submit do
           button text: "Submit me!"
         end
@@ -32,7 +37,7 @@ class Demo::Pages::MyFourthPage < Matestack::Ui::Page
         ul do
           DummyModel.all.each do |dummy_model|
             li do
-              plain dummy_model.title
+              plain "#{dummy_model.title} - Status #{dummy_model.status}"
             end
           end
         end

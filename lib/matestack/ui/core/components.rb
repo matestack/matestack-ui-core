@@ -71,6 +71,7 @@ module Matestack::Ui::Core::Components
   require_core_component "figure"
   require_core_component "footer"
   require_core_component "form"
+  require_core_component "form/checkbox"
   require_core_component "form/input"
   require_core_component "form/select"
   require_core_component "form/submit"
@@ -183,6 +184,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   figure: Matestack::Ui::Core::Figure::Figure,
   footer: Matestack::Ui::Core::Footer::Footer,
   form: Matestack::Ui::Core::Form::Form,
+  form_checkbox: Matestack::Ui::Core::Form::Checkbox::Checkbox,
   form_input: Matestack::Ui::Core::Form::Input::Input,
   form_select: Matestack::Ui::Core::Form::Select::Select,
   form_submit: Matestack::Ui::Core::Form::Submit::Submit,
