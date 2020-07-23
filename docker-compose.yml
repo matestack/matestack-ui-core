@@ -15,6 +15,8 @@ services:
       - node-volume:/app/node_modules
     command: "bundle exec rails server -b 0.0.0.0"
     user: ${CURRENT_UID}
+    stdin_open: true
+    tty: true
 
   webpack-watcher:
     build:

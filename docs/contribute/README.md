@@ -160,10 +160,12 @@ docs/components/div.md
 [Webpacker](https://github.com/rails/webpacker) is used for managing all JS assets. In order to create production-ready assets, run the [task](https://github.com/matestack/matestack-ui-core/blob/master/Rakefile)
 
 ```shell
-bin/rails webpack
+docker-compose run --rm webpack-watcher bash
+cd builder
+bundle exec rails webpacker:compile RAILS_ENV=production
 ```
 
-from the matestack-ui-core repository root folder. The assets will be exported to [`vendor/assets/javascripts/dist`](https://github.com/matestack/matestack-ui-core/tree/master/vendor/assets/javascripts/dist).
+The assets will be exported to [`vendor/assets/javascripts/dist`](https://github.com/matestack/matestack-ui-core/tree/master/vendor/assets/javascripts/dist).
 
 Under the hood, we use a "builder" app in the [`builder`](https://github.com/matestack/matestack-ui-core/tree/master/builder) folder in order to run webpacker and create the assets. Its webpack(er) configuration can be found in [`builder/config`](https://github.com/matestack/matestack-ui-core/tree/master/builder/config).
 

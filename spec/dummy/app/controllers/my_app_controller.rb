@@ -1,37 +1,47 @@
 class MyAppController < ApplicationController
 
   include Matestack::Ui::Core::ApplicationHelper
+  
+  include Components::Registry
+  include Demo::Components::Registry
+
+  matestack_app Demo::App
 
   def my_first_page
-    responder_for(Pages::MyApp::MyFirstPage)
+    render Demo::Pages::MyFirstPage
   end
 
   def my_second_page
-    responder_for(Pages::MyApp::MySecondPage)
+    render Demo::Pages::MySecondPage
   end
 
   def my_third_page
-    responder_for(Pages::MyApp::MyThirdPage)
+    render Demo::Pages::MyThirdPage
   end
 
   def my_fourth_page
-    responder_for(Pages::MyApp::MyFourthPage)
+    render Demo::Pages::MyFourthPage
   end
 
   def my_fifth_page
-    responder_for(Pages::MyApp::MyFifthPage)
+    render Demo::Pages::MyFifthPage
   end
 
   def my_sixth_page
-    responder_for(Pages::MyApp::MySixthPage)
+    render Demo::Pages::MySixthPage
   end
 
   def collection
-    responder_for(Pages::MyApp::Collection)
+    render Demo::Pages::Collection
   end
 
   def inline_edit
-    responder_for(Pages::MyApp::InlineEdit)
+    render Demo::Pages::InlineEdit
+  end
+
+  def rails_view_and_partial
+    @title = 'Test Title'
+    render Demo::Pages::RailsViewAndPartial
   end
 
   def some_action

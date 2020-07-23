@@ -1,6 +1,6 @@
 module Matestack::Ui::Core::Collection
 
-  CollectionConfig = Struct.new(:id, :init_offset, :init_limit, :filtered_count, :base_count, :data, :context) do
+  CollectionConfig = Struct.new(:id, :init_offset, :init_limit, :filtered_count, :base_count, :data, :params) do
 
     def paginated_data
       resulting_data = data
@@ -11,11 +11,11 @@ module Matestack::Ui::Core::Collection
     end
 
     def get_collection_offset
-      (context[:params]["#{id}-offset".to_sym] ||= init_offset).to_i
+      (params["#{id}-offset".to_sym] ||= init_offset).to_i
     end
 
     def get_collection_limit
-      (context[:params]["#{id}-limit".to_sym] ||= init_limit).to_i
+      (params["#{id}-limit".to_sym] ||= init_limit).to_i
     end
 
     def pages
@@ -63,7 +63,7 @@ module Matestack::Ui::Core::Collection
 
     def get_collection_filter collection_id, key=nil
       filter_hash = {}
-      context[:params].each do |param_key, param_value|
+      controller_params.each do |param_key, param_value|
         if param_key.start_with?("#{collection_id}-filter-")
           param_key.gsub("#{collection_id}-filter-", "")
           filter_hash[param_key.gsub("#{collection_id}-filter-", "").to_sym] = param_value
@@ -78,7 +78,7 @@ module Matestack::Ui::Core::Collection
 
     def get_collection_order collection_id, key=nil
       order_hash = {}
-      context[:params].each do |param_key, param_value|
+      controller_params.each do |param_key, param_value|
         if param_key.start_with?("#{collection_id}-order-")
           param_key.gsub("#{collection_id}-order-", "")
           order_hash[param_key.gsub("#{collection_id}-order-", "").to_sym] = param_value
@@ -101,12 +101,20 @@ module Matestack::Ui::Core::Collection
         filtered_count,
         base_count,
         data,
-        context
+        controller_params,
       )
 
       @collections[id.to_sym] = collection_config
 
       return collection_config
+    end
+
+    # try to get params from either controller params, when called in a rails legacy view or
+    # from cells context when called in a matestack app/page/component
+    def controller_params
+      return context[:params] if defined? context
+      return params.to_unsafe_h if defined? params
+      raise 'collection component is missing access to params or context'
     end
 
   end

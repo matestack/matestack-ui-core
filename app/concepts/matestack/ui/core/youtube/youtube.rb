@@ -1,7 +1,7 @@
 module Matestack::Ui::Core::Youtube
   class Youtube < Matestack::Ui::Core::Component::Static
 
-    REQUIRED_KEYS = [:yt_id, :height, :width]
+    requires :yt_id, :height, :width
 
     def setup
       url = 'https://www.youtube.com/embed/'

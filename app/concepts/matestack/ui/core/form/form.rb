@@ -1,7 +1,11 @@
 module Matestack::Ui::Core::Form
   class Form < Matestack::Ui::Core::Component::Dynamic
 
-    REQUIRED_KEYS = [:for, :path, :method]
+    requires :for, :path, method: { as: :form_method }
+
+    def vuejs_component_name
+      "matestack-ui-core-form"
+    end
 
     def setup
       begin

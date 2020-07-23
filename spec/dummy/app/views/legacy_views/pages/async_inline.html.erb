@@ -1,0 +1,13 @@
+<h1>Inline Async Component</h1>
+<%= 
+  matestack_component(:async, rerender_on: 'update_time', id: 'async-inline') do
+    div id: 'my-div' do
+      plain "#{I18n.l(DateTime.now)}"
+    end
+  end
+%>
+<%= 
+  matestack_component(:onclick, emit: 'update_time') do
+    button text: 'foobar'
+  end
+%>

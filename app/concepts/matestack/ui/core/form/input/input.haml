@@ -1,8 +1,8 @@
-- if label
-  %label=label
+- if input_label
+  %label=input_label
 
 - if [:text, :number, :email, :date, :password].include?(type)
-  %input{ @tag_attributes,
+  %input{ html_attributes,
     "v-model#{'.number' if type == :number}": input_key,
     type: type,
     "@change": "inputChanged(\"#{attr_key}\")",

@@ -1,7 +1,7 @@
 module Matestack::Ui::Core::Progress
   class Progress < Matestack::Ui::Core::Component::Static
 
-    REQUIRED_KEYS = [:max]
+    requires :max
 
     def setup
       @tag_attributes.merge!({

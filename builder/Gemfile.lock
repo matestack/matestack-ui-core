@@ -87,7 +87,7 @@ GEM
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     puma (3.12.4)
-    rack (2.1.2)
+    rack (2.2.3)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -157,7 +157,7 @@ GEM
       railties (>= 4.2)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
 
 PLATFORMS
   ruby

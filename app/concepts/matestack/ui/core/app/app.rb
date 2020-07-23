@@ -1,75 +1,35 @@
 module Matestack::Ui::Core::App
-  class App < Trailblazer::Cell
-
+  # TODO: Similar to page, App doesn't need everything base offers atm
+  class App < Matestack::Ui::Core::Component::Base
     include Matestack::Ui::Core::Cell
     include Matestack::Ui::Core::ApplicationHelper
-    include Matestack::Ui::Core::ToCell
+    # include Matestack::Ui::Core::ToCell
     include Matestack::Ui::Core::HasViewContext
 
-    view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
+    def initialize(page_class, controller_instance, context)
+      super(nil, context: context)
 
-    extend ViewName::Flat
-
-    def self.prefixes
-      _prefixes = super
-      modified_prefixes = _prefixes.map do |prefix|
-        prefix_parts = prefix.split("/")
-
-        if prefix_parts.last.include?(self.name.split("::")[-1].downcase)
-          prefix_parts[0..-2].join("/")
-        else
-          prefix
-        end
-
-      end
-
-      return modified_prefixes
+      @page_class = page_class
+      @controller_instance = controller_instance
     end
 
-    def self.views_dir
-      return ""
+    def show
+      render :app
     end
 
-    def initialize(model=nil, options={})
-      super
-      @nodes = {}
-      @cells = {}
-      @page_block = nil
-      @page_id = ""
-      setup
+    # Default "response" for just rendering the page without a more
+    # sophisticated app being supplied
+    def response
+      page_content
     end
 
-    def setup
-      true
-    end
-
-    def prepare
-      true
-    end
-
-    def show(page_id, page_nodes, &block)
-      @page_id = page_id
-      @page_nodes = page_nodes
-      prepare
-      response
-      render(view: :app, &block)
-    end
-
-    def page_nodes
-      @page_nodes
-    end
-
-    def components(&block)
-      @nodes = Matestack::Ui::Core::AppNode.build(self, &block)
-
-      @nodes.each do |key, node|
-        @cells[key] = to_cell(key, node["component_name"], node["config"], node["argument"], node["components"], nil, node["cached_params"])
+    def page_content
+      # TODO: Content probably needs/would benefit from a better name - like "DynamicWrapper" ?
+      add_child Matestack::Ui::Core::Page::Content do
+        add_child @page_class,
+                  controller_instance: @controller_instance,
+                  context: context
       end
     end
-
-    def partial(&block)
-      Matestack::Ui::Core::AppNode.build(self, &block)
-    end
-
   end
 end

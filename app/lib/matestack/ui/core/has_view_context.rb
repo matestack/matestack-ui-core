@@ -1,7 +1,7 @@
 module Matestack::Ui::Core::HasViewContext
-  def initialize(model = nil, options = {})
-    @view_context = options[:context][:view_context]
+  def initialize(*args)
     super
+    @view_context = @options.dig(:context, :view_context)
   end
 
   def method_missing(*args, &block)

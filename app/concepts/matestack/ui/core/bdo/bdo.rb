@@ -1,6 +1,6 @@
 module Matestack::Ui::Core::Bdo
   class Bdo < Matestack::Ui::Core::Component::Static
-    REQUIRED_KEYS = [:dir]
+    requires :dir
 
     def setup
       @tag_attributes.merge!({

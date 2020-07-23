@@ -11,11 +11,6 @@ const componentMixin = {
     }
   },
   methods: {
-    onRerender: function(event){
-      if (this.$el.id === event+"__wrapper"){
-        this.rerender()
-      }
-    },
     onMatestackUiCoreChannel: function(event){
       if (this.componentConfig["rerender_on"] == event.message){
         this.rerender()
@@ -23,7 +18,7 @@ const componentMixin = {
     },
     rerender: function(){
       var self = this;
-      self.params["component_key"] = self.componentConfig["component_key"]
+      //self.params["component_key"] = self.componentConfig["component_key"]
       axios({
         method: "get",
         url: location.pathname + location.search,
@@ -33,7 +28,14 @@ const componentMixin = {
         params: {"component_key": self.componentConfig["component_key"]}
       })
       .then(function(response){
-        self.asyncTemplate = response["data"];
+        var tmp_dom_element = document.createElement('div');
+        tmp_dom_element.innerHTML = response['data'];
+        var template = tmp_dom_element.querySelector('#' + self.componentConfig["component_key"]).outerHTML;
+        self.asyncTemplate = template;
+      })
+      .catch(function(error){
+        console.log(error)
+        matestackEventHub.$emit('async_rerender_error', { id: self.componentConfig["component_key"] })
       })
     },
     rerenderWith: function(newParams){
@@ -43,12 +45,10 @@ const componentMixin = {
   },
   created: function () {
     const self = this
-    matestackEventHub.$on('rerender', self.onRerender)
     matestackEventHub.$on('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   beforeDestroy: function() {
     const self = this
-    matestackEventHub.$off('rerender', self.onRerender);
     matestackEventHub.$off('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
   },
   components: {

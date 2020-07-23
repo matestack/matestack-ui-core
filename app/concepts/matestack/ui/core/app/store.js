@@ -51,7 +51,7 @@ const store = new Vuex.Store({
             window.history.pushState({matestackApp: true, url: url}, null, url);
           }
           setTimeout(function () {
-            resolve(response["data"])
+            resolve(response["data"]);
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             matestackEventHub.$emit("page_loaded", url);
