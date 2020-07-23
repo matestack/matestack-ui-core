@@ -33,12 +33,10 @@ Our component only gets one boolean data variable which is initialized as `true`
 class Components::Person::Disclaimer < Matestack::Ui::DynamicComponent
 
   def response
-    components {
-      div attributes: {"v-show": "show == true"} do
-        paragraph text: 'None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".'
-        button attributes: {"@click": "show = false"}, text: 'Hide'
-      end
-    }
+    div attributes: {"v-show": "show == true"} do
+      paragraph text: 'None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".'
+      button attributes: {"@click": "show = false"}, text: 'Hide'
+    end
   end
 
 end
@@ -100,20 +98,18 @@ As you can see, we're making use of [The Bored API](boredapi.com/) to fill an (i
 class Components::Person::Activity < Matestack::Ui::DynamicComponent
 
   def response
-    components {
-      div do
-        paragraph do
-          plain 'Need ideas on what to do with one of these persons?'
-          button attributes: {"@click": "addActivity()"}, text: 'Click here'
-        end
-        ul attributes: {"v-if": "activities.length"} do
-          li attributes: {"v-for": "activity,index in activities"} do
-            plain "{{activity}}"
-            button attributes: {"@click": "deleteActivity(index)"}, text: 'Remove'
-          end
+    div do
+      paragraph do
+        plain 'Need ideas on what to do with one of these persons?'
+        button attributes: {"@click": "addActivity()"}, text: 'Click here'
+      end
+      ul attributes: {"v-if": "activities.length"} do
+        li attributes: {"v-for": "activity,index in activities"} do
+          plain "{{activity}}"
+          button attributes: {"@click": "deleteActivity(index)"}, text: 'Remove'
         end
       end
-    }
+    end
   end
 
 end
@@ -121,22 +117,35 @@ end
 
 Same as in the example above, we trigger a JavaScript function by clicking a button. This time, it fetches data from a URL and appends the relevant part of the response to the activities array. As long as this array isn't empty, its content gets displayed as a list, each list item featuring a `delete` button.
 
-After creating the new component, we still need to put it to one of our pages! Let's add it to the bottom of the **Show** page's `response` method:
+After creating the new component, we still need to register it, both in the `/app/matestack/components/registry.rb`
 
 ```ruby
-def response
-  components {
-    # ...
-    partial :other_persons
-    custom_person_activity
-  }
+module Components::Registry
+
+  Matestack::Ui::Core::Component::Registry.register_components(
+    person_card: Components::Person::Card,
+    person_card: Components::Person::Disclaimer,
+    person_card: Components::Person::Activity
+  )
+
 end
 ```
 
-And, once more, we need to register the new dynamic component to `app/javascript/packs/application.js`:
+and, since it's a dynamic component, also in `app/javascript/packs/application.js` like this
 
 ```javascript
+// ...
 import '../../matestack/components/person/activity'
+```
+
+Finally, we can put it to one of our pages! Let's add it to the bottom of the **Show** page's `response` method:
+
+```ruby
+def response
+  # ...
+  partial :other_persons
+  person_activity
+end
 ```
 
 Spin up your app and head to the **Show** page to play around - fetching and deleting activities should work flawlessly! Hint: The way we have set it up for now, everything in this component happens on the client side and refreshing the page resets your activities to an empty array.
@@ -144,7 +153,7 @@ Spin up your app and head to the **Show** page to play around - fetching and del
 Again, don't forget to save your progress to Git. In the repo root, run
 
 ```sh
-git add app/javascript/packs/application.js app/matestack/pages/demo_app/persons/show.rb app/matestack/components/person/ && git commit -m "Add activity dynamic component to display activities from The Bored API"
+git add app/javascript/packs/application.js app/matestack/demo/pages/persons/show.rb app/matestack/components/person/ app/matestack/components/registry.rb && git commit -m "Add activity dynamic component to display activities from The Bored API"
 ```
 
 ## More information on custom dynamic components

@@ -11,7 +11,7 @@ In this guide, we will
 - add Bootstrap notification badges
 - finish of the changes by adding a loading spinner for `matestack` page transitions
 
-**Note:** This guide uses Rails 6 and Webpack. If you're using the Asset Pipeline in your application, please head to the Asset Pipeline section [at the bottom of this page]().
+**Note:** This guide uses Rails 6 and Webpack. If you're using the Asset Pipeline in your application, please head to the Asset Pipeline section [at the bottom of this page](#bootstrap-asset-pipeline).
 
 This guide is heavily inspired by [Ross Kaffenberger's guide on *Using Bootstrap with Rails Webpacker*](https://rossta.net/blog/webpacker-with-bootstrap.html).
 
@@ -87,258 +87,196 @@ git commit -m "Install Bootstrap, jQuery, update application.html.erb"
 
 For the next step, update the `matestack` app & pages to use the Bootstrap grid and apply some of the necessary classes:
 
-`app/matestack/apps/demo_app.rb`
+`app/matestack/demo/app.rb`
 ```ruby
-class Apps::DemoApp < Matestack::Ui::App
+class Demo::App < Matestack::Ui::App
 
   def prepare
     @persons = Person.all
   end
 
   def response
-    components {
-      partial :navigation
-      main do
-        custom_person_disclaimer
-        page_content
-      end
-    }
+    partial :navigation
+    main do
+      person_disclaimer
+      page_content
+    end
   end
 
   def navigation
-    partial {
-      header do
-        nav class: 'navbar navbar-expand-md navbar-dark bg-dark fixed-top' do
-          transition class: 'navbar-brand', path: :root_path, text: 'DemoApp'
-          button class: 'navbar-toggler', attributes: { "data-target": "#navbarsExampleDefault", role:"button", "data-toggle": "collapse", "aria-controls": "navbarsExampleDefault", "aria-expanded": "false" } do
-            span class: 'navbar-toggler-icon'
-          end
-          div id: 'navbarsExampleDefault', class: 'collapse navbar-collapse' do
-            ul class: 'navbar-nav mr-auto' do
-              li class: 'nav-item' do
-                transition class: 'nav-link', path: :persons_path, text: 'All persons'
-              end
+    header do
+      nav class: 'navbar navbar-expand-md navbar-dark bg-dark fixed-top' do
+        transition class: 'navbar-brand', path: :root_path, text: 'DemoApp'
+        button class: 'navbar-toggler', attributes: { "data-target": "#navbarsExampleDefault", role:"button", "data-toggle": "collapse", "aria-controls": "navbarsExampleDefault", "aria-expanded": "false" } do
+          span class: 'navbar-toggler-icon'
+        end
+        div id: 'navbarsExampleDefault', class: 'collapse navbar-collapse' do
+          ul class: 'navbar-nav mr-auto' do
+            li class: 'nav-item' do
+              transition class: 'nav-link', path: :persons_path, text: 'All persons'
             end
           end
         end
       end
-    }
+    end
   end
 
 end
 ```
 
-`app/matestack/pages/demo_app/index.rb`
+`app/matestack/demo/pages/persons/index.rb`
 ```ruby
 # ...
   def response
-    components {
-      section id: 'persons-filter-order' do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'offset-md-1 col-md-5' do
-              partial :filter
-            end
-            div class: 'col-md-5' do
-              partial :ordering
-            end
+    section id: 'persons-filter-order' do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'offset-md-1 col-md-5' do
+            partial :filter
+          end
+          div class: 'col-md-5' do
+            partial :ordering
           end
         end
       end
+    end
 
-      section id: 'persons-collection' do
-        div class: 'container' do
-          async rerender_on: 'person-collection-update' do
-            partial :content
-          end
+    section id: 'persons-collection' do
+      div class: 'container' do
+        async rerender_on: 'person-collection-update' do
+          partial :content
         end
       end
-    }
+    end
   end
 
   def filter
-    partial {
-      collection_filter @person_collection.config do
-        collection_filter_input key: :last_name, type: :text, placeholder: 'Filter by Last name'
-        collection_filter_submit do
-          button class: 'btn btn-primary', text: 'Apply'
-        end
-        collection_filter_reset do
-          button class: 'btn btn-primary', text: 'Reset'
-        end
+    collection_filter @person_collection.config do
+      collection_filter_input key: :last_name, type: :text, placeholder: 'Filter by Last name'
+      collection_filter_submit do
+        button class: 'btn btn-primary', text: 'Apply'
       end
-    }
+      collection_filter_reset do
+        button class: 'btn btn-primary', text: 'Reset'
+      end
+    end
   end
 
   def ordering
-    partial {
-      collection_order @person_collection.config do
-        plain 'Sorted by:'
-        collection_order_toggle key: :last_name do
-          button class: 'btn btn-primary' do
-            collection_order_toggle_indicator key: :last_name, asc: 'Last name (A-Z)', desc: 'Last name (Z-A)', default: 'Date of creation'
-          end
+    collection_order @person_collection.config do
+      plain 'Sorted by:'
+      collection_order_toggle key: :last_name do
+        button class: 'btn btn-primary' do
+          collection_order_toggle_indicator key: :last_name, asc: 'Last name (A-Z)', desc: 'Last name (Z-A)', default: 'Date of creation'
         end
       end
-    }
+    end
   end
 
   def content
-    partial {
-      collection_content @person_collection.config do
-        div class: 'row' do
-          @person_collection.paginated_data.each do |person|
-            div class: 'col-md-4' do
-              custom_person_card person: person
-            end
+    collection_content @person_collection.config do
+      div class: 'row' do
+        @person_collection.paginated_data.each do |person|
+          div class: 'col-md-4' do
+            person_card person: person
           end
-          div class: 'col-md-12 text-center my-3' do
-            transition path: :new_person_path, class: 'my-3 btn btn-info', text: 'Create new person'
-          end
-          partial :paginator
         end
+        div class: 'col-md-12 text-center my-3' do
+          transition path: :new_person_path, class: 'my-3 btn btn-info', text: 'Create new person'
+        end
+        partial :paginator
       end
-    }
+    end
   end
 
   def paginator
-    partial {
-      div class: 'container' do
-        div class: 'row' do
-          div class: 'col-md-12 text-center mt-5' do
-            plain "Showing persons #{@person_collection.from}"
-            plain "to #{@person_collection.to}"
-            plain "of #{@person_collection.filtered_count}"
-            plain "from a total of #{@person_collection.base_count} records."
-            ul class: 'pagination' do
+    div class: 'container' do
+      div class: 'row' do
+        div class: 'col-md-12 text-center mt-5' do
+          plain "Showing persons #{@person_collection.from}"
+          plain "to #{@person_collection.to}"
+          plain "of #{@person_collection.filtered_count}"
+          plain "from a total of #{@person_collection.base_count} records."
+          ul class: 'pagination' do
+            li class: 'page-item' do
+              collection_content_previous do
+                button class: 'page-link', text: 'previous'
+              end
+            end
+            @person_collection.pages.each do |page|
               li class: 'page-item' do
-                collection_content_previous do
-                  button class: 'page-link', text: 'previous'
+                collection_content_page_link page: page do
+                  button class: 'page-link', text: page
                 end
               end
-              @person_collection.pages.each do |page|
-                li class: 'page-item' do
-                  collection_content_page_link page: page do
-                    button class: 'page-link', text: page
-                  end
-                end
-              end
-              li class: 'page-item' do
-                collection_content_next do
-                  button class: 'page-link', text: 'next'
-                end
+            end
+            li class: 'page-item' do
+              collection_content_next do
+                button class: 'page-link', text: 'next'
               end
             end
           end
         end
       end
-    }
+    end
   end
 # ...
 ```
 
-`app/matestack/pages/demo_app/show.rb`
+`app/matestack/demo/pages/persons/show.rb`
 ```ruby
 # ...
   def response
-    components {
-      section do
-        div class: 'container' do
-          transition path: :persons_path, class: 'btn btn-secondary', text: 'Back to index'
+    section do
+      div class: 'container' do
+        transition path: :persons_path, class: 'btn btn-secondary', text: 'Back to index'
 
-          div class: 'row' do
-            div class: 'col-md-6 offset-md-3 text-center' do
-              heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
-              paragraph text: "Role: #{@person.role}"
-              transition path: :edit_person_path, params: { id: @person.id }, class: 'btn btn-secondary', text: 'Edit'
-              action delete_person_config do
-                button class: 'btn btn-warning', text: 'Delete person'
-              end
+        div class: 'row' do
+          div class: 'col-md-6 offset-md-3 text-center' do
+            heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
+            paragraph text: "Role: #{@person.role}"
+            transition path: :edit_person_path, params: { id: @person.id }, class: 'btn btn-secondary', text: 'Edit'
+            action delete_person_config do
+              button class: 'btn btn-warning', text: 'Delete person'
             end
           end
         end
       end
+    end
 
-      partial :other_persons
-      custom_person_activity
-    }
+    partial :other_persons
+    custom_person_activity
   end
 
   def other_persons
-    partial {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-12 text-center' do
-              heading size: 3, text: 'Three other persons:'
-            end
-            @other_persons.each do |person|
-              div class: 'col-md-4' do
-                custom_person_card person: person
-              end
+    section do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'col-md-12 text-center' do
+            heading size: 3, text: 'Three other persons:'
+          end
+          @other_persons.each do |person|
+            div class: 'col-md-4' do
+              person_card person: person
             end
           end
         end
       end
-    }
+    end
   end
 # ...
 ```
 
-`app/matestack/pages/demo_app/edit.rb`
+`app/matestack/demo/pages/persons/edit.rb`
 ```ruby
 # ...
   def response
-    components {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-6 offset-md-3 text-center' do
-              heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}"
-              form person_edit_form_config, :include do
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
-                  div class: 'col-sm-8' do
-                    form_input key: :first_name, class: 'form-control', type: :text
-                  end
-                end
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
-                  div class: 'col-sm-8' do
-                    form_input key: :last_name, class: 'form-control', type: :text
-                  end
-                end
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
-                  div class: 'col-sm-8' do
-                    form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: @person.role
-                  end
-                end
-                form_submit do
-                  transition path: :person_path, params: { id: @person.id }, class: 'btn btn-secondary my-3', text: 'Back to detail page'
-                  button class: 'btn btn-primary', text: 'Save changes'
-                end
-              end
-            end
-          end
-        end
-      end
-    }
-  end
-# ...
-```
-
-`app/matestack/pages/demo_app/new.rb`
-```ruby
-# ...
-def response
-  components {
     section do
       div class: 'container' do
         div class: 'row' do
           div class: 'col-md-6 offset-md-3 text-center' do
-            heading size: 2, text: 'Create new person'
-            form new_person_form_config, :include do
+            heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}"
+            form person_edit_form_config, :include do
               div class: 'form-group row' do
                 label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
                 div class: 'col-sm-8' do
@@ -354,19 +292,59 @@ def response
               div class: 'form-group row' do
                 label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
                 div class: 'col-sm-8' do
-                  form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: Person.roles.keys.first
+                  form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: @person.role
                 end
               end
               form_submit do
-                transition path: :persons_path, class: 'btn btn-secondary my-3', text: 'Back to index page'
-                button class: 'btn btn-primary', text: 'Create person'
+                transition path: :person_path, params: { id: @person.id }, class: 'btn btn-secondary my-3', text: 'Back to detail page'
+                button class: 'btn btn-primary', text: 'Save changes'
               end
             end
           end
         end
       end
     end
-  }
+  end
+# ...
+```
+
+`app/matestack/demo/pages/persons/new.rb`
+```ruby
+# ...
+def response
+  section do
+    div class: 'container' do
+      div class: 'row' do
+        div class: 'col-md-6 offset-md-3 text-center' do
+          heading size: 2, text: 'Create new person'
+          form new_person_form_config, :include do
+            div class: 'form-group row' do
+              label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
+              div class: 'col-sm-8' do
+                form_input key: :first_name, class: 'form-control', type: :text
+              end
+            end
+            div class: 'form-group row' do
+              label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
+              div class: 'col-sm-8' do
+                form_input key: :last_name, class: 'form-control', type: :text
+              end
+            end
+            div class: 'form-group row' do
+              label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
+              div class: 'col-sm-8' do
+                form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: Person.roles.keys.first
+              end
+            end
+            form_submit do
+              transition path: :persons_path, class: 'btn btn-secondary my-3', text: 'Back to index page'
+              button class: 'btn btn-primary', text: 'Create person'
+            end
+          end
+        end
+      end
+    end
+  end
 end
 # ...
 ```
@@ -427,7 +405,7 @@ $theme-colors: (
 Before we take care of styling the custom components, let's commit our local changes by running
 
 ```sh
-git add app/javascript/css/ app/javascript/packs/application.js app/matestack/apps/demo_app.rb app/matestack/pages/demo_app/persons/
+git add app/javascript/css/ app/javascript/packs/application.js app/matestack/demo/app.rb app/matestack/demo/pages/persons/
 ```
 
 followed by
@@ -444,38 +422,34 @@ Update the response methods in `app/matestack/components/person/card.rb` and `ap
 ```ruby
   # card.rb
   def response
-    components {
-      div class: 'card' do
-        div class: 'card-body' do
-          paragraph text: "#{@person.first_name} #{@person.last_name}"
-          transition path: :person_path, params: {id: @person.id}, class: 'btn btn-primary', text: 'Details'
-        end
+    div class: 'card' do
+      div class: 'card-body' do
+        paragraph text: "#{@person.first_name} #{@person.last_name}"
+        transition path: :person_path, params: {id: @person.id}, class: 'btn btn-primary', text: 'Details'
       end
-    }
+    end
   end
 
   # activity.rb
   def response
-    components {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-6 offset-md-3' do
-              paragraph class: 'text-center' do
-                plain 'Need ideas on what to do with one of these persons?'
-                button attributes: {"@click": "addActivity()"}, class: 'btn btn-primary', text: 'Click here'
-              end
-              ul attributes: {"v-if": "activities.length"}, class: 'list-group' do
-                li attributes: {"v-for": "activity,index in activities"}, class: 'list-group-item d-flex justify-content-between align-items-center' do
-                  plain "{{activity}}"
-                  span attributes: {"@click": "deleteActivity(index)"}, class: 'badge badge-primary badge-pill', text: 'X'
-                end
+    section do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'col-md-6 offset-md-3' do
+            paragraph class: 'text-center' do
+              plain 'Need ideas on what to do with one of these persons?'
+              button attributes: {"@click": "addActivity()"}, class: 'btn btn-primary', text: 'Click here'
+            end
+            ul attributes: {"v-if": "activities.length"}, class: 'list-group' do
+              li attributes: {"v-for": "activity,index in activities"}, class: 'list-group-item d-flex justify-content-between align-items-center' do
+                plain "{{activity}}"
+                span attributes: {"@click": "deleteActivity(index)"}, class: 'badge badge-primary badge-pill', text: 'X'
               end
             end
           end
         end
       end
-    }
+    end
   end
 ```
 
@@ -483,12 +457,10 @@ Also update the response method in `app/matestack/components/person/disclaimer.r
 
 ```ruby
   def response
-    components {
-      div id: 'disclaimer', class: 'container-fluid text-center', attributes: {"v-show": "show == true"} do
-        span text: 'None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".'
-        button class: 'btn btn-warning', attributes: {"@click": "show = false"}, text: 'Hide'
-      end
-    }
+    div id: 'disclaimer', class: 'container-fluid text-center', attributes: {"v-show": "show == true"} do
+      span text: 'None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".'
+      button class: 'btn btn-warning', attributes: {"@click": "show = false"}, text: 'Hide'
+    end
   end
 ```
 
@@ -538,16 +510,14 @@ To make use of the Bootstrap loading spinner, we need to update our `matestack` 
 
 ```ruby
   def response
-    components {
-      partial :navigation
-      div id: 'spinner', class: 'spinner-border', role: 'status' do
-        span class: 'sr-only', text: 'Loading...'
-      end
-      main id: 'page-content' do
-        custom_person_disclaimer
-        page_content
-      end
-    }
+    partial :navigation
+    div id: 'spinner', class: 'spinner-border', role: 'status' do
+      span class: 'sr-only', text: 'Loading...'
+    end
+    main id: 'page-content' do
+      person_disclaimer
+      page_content
+    end
   end
 ```
 
@@ -605,7 +575,7 @@ import 'animations/loading-spinner'
 
 Time to save the status quo by running
 ```sh
-git add app/javascript/ app/matestack/apps/demo_app.rb && git commit -m "Add loading spinner to demo app"
+git add app/javascript/ app/matestack/demo/app.rb && git commit -m "Add loading spinner to demo app"
 ```
 
 ## Deployment
@@ -626,7 +596,9 @@ After following this guide, your application not only pleases the eye of a poten
 
 Going ahead, the next part of this series covers [authentication via Devise](/guides/essential/05_static_components.md).
 
----
+
+<hr id="bootstrap-asset-pipeline">
+
 ## Using the Asset Pipeline instead of Webpack(er)
 If you're using the Asset Pipeline in your application, using Bootstrap to style your `matestack` pages and components also works very well - you only need to take a slightly different route while setting things up!
 

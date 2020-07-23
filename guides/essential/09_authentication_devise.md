@@ -1,6 +1,3 @@
-9:47 - X
-11:49 - 
-
 # Essential Guide 9: Authentication
 Welcome to the ninth part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
 
@@ -52,51 +49,46 @@ rails db:migrate
 and save our changes to Git via
 
 ```sh
-git add Gemfile Gemifile.lock app/models/admin.rb config/ db/ test/ && git commit -m "Add devise and create admin model"
+git add Gemfile Gemfile.lock app/models/admin.rb config/ db/ test/ && git commit -m "Add devise and create admin model"
 ```
 
 ## Adding admin app, pages, controllers & routes
-
-To properly separate the pages we want to hide behind our login from the ones in the `DemoApp`, we create a second `matestack` app in `app/matestack/apps/admin_app.rb`:
+To properly separate the pages we want to hide behind our login from the ones in the `Demo::App`, we create a second `matestack` app called `Admin::App` in `app/matestack/admin/app.rb`:
 
 ```ruby
-class Apps::AdminApp < Matestack::Ui::App
+class Admin::App < Matestack::Ui::App
 
   def response
-    components {
-      partial :navigation if admin_signed_in?
-      div id: 'spinner', class: 'spinner-border', role: 'status' do
-        span class: 'sr-only', text: 'Loading...'
-      end
-      main id: 'page-content' do
-        page_content
-      end
-    }
+    partial :navigation if admin_signed_in?
+    div id: 'spinner', class: 'spinner-border', role: 'status' do
+      span class: 'sr-only', text: 'Loading...'
+    end
+    main id: 'page-content' do
+      page_content
+    end
   end
 
   def navigation
-    partial {
-      header do
-        nav class: 'navbar navbar-expand-md navbar-dark bg-dark fixed-top' do
-          transition class: 'navbar-brand', path: :root_path, text: 'AdminApp'
-          button class: 'navbar-toggler', attributes: { "data-target": "#navbarsExampleDefault", role:"button", "data-toggle": "collapse", "aria-controls": "navbarsExampleDefault", "aria-expanded": "false" } do
-            span class: 'navbar-toggler-icon'
-          end
-          div id: 'navbarsExampleDefault', class: 'collapse navbar-collapse justify-content-end' do
-            ul class: 'navbar-nav mr-0' do
-              li class: 'nav-item' do
-                transition class: 'nav-link', path: :persons_path, text: 'All persons'
-              end
-              li class: 'nav-item' do
-                action logout_action_config do
-                  span class: 'btn-nav btn btn-primary', text: I18n.t('devise.sessions.logout')
-                end
+    header do
+      nav class: 'navbar navbar-expand-md navbar-dark bg-dark fixed-top' do
+        transition class: 'navbar-brand', path: :root_path, text: 'AdminApp'
+        button class: 'navbar-toggler', attributes: { "data-target": "#navbarsExampleDefault", role:"button", "data-toggle": "collapse", "aria-controls": "navbarsExampleDefault", "aria-expanded": "false" } do
+          span class: 'navbar-toggler-icon'
+        end
+        div id: 'navbarsExampleDefault', class: 'collapse navbar-collapse justify-content-end' do
+          ul class: 'navbar-nav mr-0' do
+            li class: 'nav-item' do
+              transition class: 'nav-link', path: :persons_path, text: 'All persons'
+            end
+            li class: 'nav-item' do
+              action logout_action_config do
+                span class: 'btn-nav btn btn-primary', text: I18n.t('devise.sessions.logout')
               end
             end
           end
         end
       end
-    }
+    end
   end
 
   protected
@@ -117,19 +109,19 @@ class Apps::AdminApp < Matestack::Ui::App
 end
 ```
 
-While it's similar to the `DemoApp`, the `AdminApp` does have some differences. Notice how we hide the navigation if no admin is currently signed, making use of a `Devise` helper: 
+While it's similar to the `Demo::App`, the `Admin::App` does have some differences. Notice how we hide the navigation if no admin is currently signed, making use of a `Devise` helper: 
 
 ```ruby
 partial :navigation if admin_signed_in?
-````
+```
 
 There is also a logout button, using a `matestack` action in a similar way to what we have seen before. This time, performing the action emits an event (`emit: "reload_page"`) which we will take care of later in this article.
 
-The `AdminApp` now provides us with a layout, but it does not feature any pages yet. To change that, create a new folder in `app/matestack/pages/admin_app/persons/` and add the following four pages, quite similiar to the ones in the `DemoApp`:
+The `Admin::App` now provides us with a layout, but it does not feature any pages yet. To change that, create a new folder in `app/matestack/admin/pages/persons/` and add the following four pages, quite similiar to the ones in the `DemoApp`:
 
 ```ruby
-# app/matestack/pages/admin_app/persons/index.rb
-class Pages::AdminApp::Persons::Index < Matestack::Ui::Page
+# app/matestack/admin/pages/persons/index.rb
+class Admin::Pages::Persons::Index < Matestack::Ui::Page
   include Matestack::Ui::Core::Collection::Helper
 
   def prepare
@@ -154,160 +146,146 @@ class Pages::AdminApp::Persons::Index < Matestack::Ui::Page
   end
 
   def response
-    components {
-      section id: 'persons-filter-order' do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'offset-md-1 col-md-5' do
-              partial :filter
-            end
-            div class: 'col-md-5' do
-              partial :ordering
-            end
+    section id: 'persons-filter-order' do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'offset-md-1 col-md-5' do
+            partial :filter
+          end
+          div class: 'col-md-5' do
+            partial :ordering
           end
         end
       end
+    end
 
-      section id: 'persons-collection' do
-        div class: 'container' do
-          async rerender_on: 'person-collection-update' do
-            partial :content
-          end
+    section id: 'persons-collection' do
+      div class: 'container' do
+        async rerender_on: 'person-collection-update' do
+          partial :content
         end
       end
-    }
+    end
   end
 
   def filter
-    partial {
-      collection_filter @person_collection.config do
-        collection_filter_input key: :last_name, type: :text, placeholder: 'Filter by Last name'
-        collection_filter_submit do
-          button class: 'btn btn-primary', text: 'Apply'
-        end
-        collection_filter_reset do
-          button class: 'btn btn-primary', text: 'Reset'
-        end
+    collection_filter @person_collection.config do
+      collection_filter_input key: :last_name, type: :text, placeholder: 'Filter by Last name'
+      collection_filter_submit do
+        button class: 'btn btn-primary', text: 'Apply'
       end
-    }
+      collection_filter_reset do
+        button class: 'btn btn-primary', text: 'Reset'
+      end
+    end
   end
 
 	def ordering
-		partial {
-			collection_order @person_collection.config do
-				plain 'Sorted by:'
-				collection_order_toggle key: :last_name do
-					button class: 'btn btn-primary' do
-						collection_order_toggle_indicator key: :last_name, asc: 'Last name (A-Z)', desc: 'Last name (Z-A)', default: 'Date of creation'
-					end
-				end
-			end
-		}
+    collection_order @person_collection.config do
+      plain 'Sorted by:'
+      collection_order_toggle key: :last_name do
+        button class: 'btn btn-primary' do
+          collection_order_toggle_indicator key: :last_name, asc: 'Last name (A-Z)', desc: 'Last name (Z-A)', default: 'Date of creation'
+        end
+      end
+    end
 	end
 
   def content
-    partial {
-      collection_content @person_collection.config do
-        div class: 'row' do
-  				@person_collection.paginated_data.each do |person|
-            div class: 'col-md-4' do
-              custom_person_card person: person, path: :admin_person_path
-            end
+    collection_content @person_collection.config do
+      div class: 'row' do
+        @person_collection.paginated_data.each do |person|
+          div class: 'col-md-4' do
+            person_card person: person, path: :admin_person_path
           end
-          div class: 'col-md-12 text-center my-3' do
-            transition path: :new_admin_person_path, class: 'my-3 btn btn-info', text: 'Create new person'
-          end
-  				partial :paginator
         end
+        div class: 'col-md-12 text-center my-3' do
+          transition path: :new_admin_person_path, class: 'my-3 btn btn-info', text: 'Create new person'
+        end
+        partial :paginator
       end
-    }
+    end
   end
 
 	def paginator
-		partial {
-      div class: 'container' do
-        div class: 'row' do
-          div class: 'col-md-12 text-center mt-5' do
-            plain "Showing persons #{@person_collection.from}"
-            plain "to #{@person_collection.to}"
-            plain "of #{@person_collection.filtered_count}"
-            plain "from a total of #{@person_collection.base_count} records."
-            ul class: 'pagination' do
+    div class: 'container' do
+      div class: 'row' do
+        div class: 'col-md-12 text-center mt-5' do
+          plain "Showing persons #{@person_collection.from}"
+          plain "to #{@person_collection.to}"
+          plain "of #{@person_collection.filtered_count}"
+          plain "from a total of #{@person_collection.base_count} records."
+          ul class: 'pagination' do
+            li class: 'page-item' do
+              collection_content_previous do
+                button class: 'page-link', text: 'previous'
+              end
+            end
+            @person_collection.pages.each do |page|
               li class: 'page-item' do
-                collection_content_previous do
-                  button class: 'page-link', text: 'previous'
+                collection_content_page_link page: page do
+                  button class: 'page-link', text: page
                 end
               end
-              @person_collection.pages.each do |page|
-                li class: 'page-item' do
-                  collection_content_page_link page: page do
-                    button class: 'page-link', text: page
-                  end
-                end
-              end
-              li class: 'page-item' do
-                collection_content_next do
-                  button class: 'page-link', text: 'next'
-                end
+            end
+            li class: 'page-item' do
+              collection_content_next do
+                button class: 'page-link', text: 'next'
               end
             end
           end
         end
       end
-		}
+    end
 	end
 
 end
 
 
-# app/matestack/pages/admin_app/persons/show.rb
-class Pages::AdminApp::Persons::Show < Matestack::Ui::Page
+# app/matestack/admin/pages/persons/show.rb
+class Admin::Pages::Persons::Show < Matestack::Ui::Page
 
   def prepare
     @other_persons = Person.where.not(id: @person.id).order("RANDOM()").limit(3)
   end
 
   def response
-    components {
-      section do
-        div class: 'container' do
-          transition path: :persons_path, class: 'btn btn-secondary', text: 'Back to index'
+    section do
+      div class: 'container' do
+        transition path: :persons_path, class: 'btn btn-secondary', text: 'Back to index'
 
-          div class: 'row' do
-            div class: 'col-md-6 offset-md-3 text-center' do
-              heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
-              paragraph text: "Role: #{@person.role}"
-              transition path: :edit_admin_person_path, params: { id: @person.id }, class: 'btn btn-secondary', text: 'Edit'
-              action delete_person_config do
-                button class: 'btn btn-warning', text: 'Delete person'
-              end
+        div class: 'row' do
+          div class: 'col-md-6 offset-md-3 text-center' do
+            heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
+            paragraph text: "Role: #{@person.role}"
+            transition path: :edit_admin_person_path, params: { id: @person.id }, class: 'btn btn-secondary', text: 'Edit'
+            action delete_person_config do
+              button class: 'btn btn-warning', text: 'Delete person'
             end
           end
         end
       end
+    end
 
-      partial :other_persons
-      custom_person_activity
-    }
+    partial :other_persons
+    custom_person_activity
   end
 
   def other_persons
-    partial {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-12 text-center' do
-              heading size: 3, text: 'Three other persons:'
-            end
-            @other_persons.each do |person|
-              div class: 'col-md-4' do
-                custom_person_card person: person, path: :admin_person_path
-              end
+    section do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'col-md-12 text-center' do
+            heading size: 3, text: 'Three other persons:'
+          end
+          @other_persons.each do |person|
+            div class: 'col-md-4' do
+              person_card person: person, path: :admin_person_path
             end
           end
         end
       end
-    }
+    end
   end
 
   def delete_person_config
@@ -328,49 +306,47 @@ class Pages::AdminApp::Persons::Show < Matestack::Ui::Page
 end
 
 
-# app/matestack/pages/admin_app/persons/new.rb
-class Pages::AdminApp::Persons::New < Matestack::Ui::Page
+# app/matestack/admin/pages/persons/new.rb
+class Admin::Pages::Persons::New < Matestack::Ui::Page
 
   def prepare
     @person = Person.new
   end
 
   def response
-    components {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-6 offset-md-3 text-center' do
-              heading size: 2, text: 'Create new person'
-              form new_person_form_config, :include do
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
-                  div class: 'col-sm-8' do
-                    form_input key: :first_name, class: 'form-control', type: :text
-                  end
+    section do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'col-md-6 offset-md-3 text-center' do
+            heading size: 2, text: 'Create new person'
+            form new_person_form_config, :include do
+              div class: 'form-group row' do
+                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
+                div class: 'col-sm-8' do
+                  form_input key: :first_name, class: 'form-control', type: :text
                 end
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
-                  div class: 'col-sm-8' do
-                    form_input key: :last_name, class: 'form-control', type: :text
-                  end
+              end
+              div class: 'form-group row' do
+                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
+                div class: 'col-sm-8' do
+                  form_input key: :last_name, class: 'form-control', type: :text
                 end
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
-                  div class: 'col-sm-8' do
-                    form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: Person.roles.keys.first
-                  end
+              end
+              div class: 'form-group row' do
+                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
+                div class: 'col-sm-8' do
+                  form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: Person.roles.keys.first
                 end
-                form_submit do
-                  transition path: :persons_path, class: 'btn btn-secondary my-3', text: 'Back to index page'
-                  button class: 'btn btn-primary', text: 'Create person'
-                end
+              end
+              form_submit do
+                transition path: :persons_path, class: 'btn btn-secondary my-3', text: 'Back to index page'
+                button class: 'btn btn-primary', text: 'Create person'
               end
             end
           end
         end
       end
-    }
+    end
   end
 
   def new_person_form_config
@@ -388,46 +364,43 @@ class Pages::AdminApp::Persons::New < Matestack::Ui::Page
 
 end
 
-
-# app/matestack/pages/admin_app/persons/edit.rb
-class Pages::AdminApp::Persons::Edit < Matestack::Ui::Page
+# app/matestack/admin/pages/persons/edit.rb
+class Admin::Pages::Persons::Edit < Matestack::Ui::Page
 
   def response
-    components {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-6 offset-md-3 text-center' do
-              heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}"
-              form person_edit_form_config, :include do
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
-                  div class: 'col-sm-8' do
-                    form_input key: :first_name, class: 'form-control', type: :text
-                  end
+    section do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'col-md-6 offset-md-3 text-center' do
+            heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}"
+            form person_edit_form_config, :include do
+              div class: 'form-group row' do
+                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
+                div class: 'col-sm-8' do
+                  form_input key: :first_name, class: 'form-control', type: :text
                 end
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
-                  div class: 'col-sm-8' do
-                    form_input key: :last_name, class: 'form-control', type: :text
-                  end
+              end
+              div class: 'form-group row' do
+                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
+                div class: 'col-sm-8' do
+                  form_input key: :last_name, class: 'form-control', type: :text
                 end
-                div class: 'form-group row' do
-                  label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
-                  div class: 'col-sm-8' do
-                    form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: @person.role
-                  end
+              end
+              div class: 'form-group row' do
+                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
+                div class: 'col-sm-8' do
+                  form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: @person.role
                 end
-                form_submit do
-                  transition path: :admin_person_path, params: { id: @person.id }, class: 'btn btn-secondary my-3', text: 'Back to detail page'
-                  button class: 'btn btn-primary', text: 'Save changes'
-                end
+              end
+              form_submit do
+                transition path: :admin_person_path, params: { id: @person.id }, class: 'btn btn-secondary my-3', text: 'Back to detail page'
+                button class: 'btn btn-primary', text: 'Save changes'
               end
             end
           end
         end
       end
-    }
+    end
   end
 
   def person_edit_form_config
@@ -449,52 +422,48 @@ class Pages::AdminApp::Persons::Edit < Matestack::Ui::Page
 end
 ```
 
-The newly added pages let us perform CRUD operations on the `Person` records in the database, but we still need a login page. Go ahead and add it in `app/matestack/pages/admin_app/sessions/sign_in.rb` with this content:
+The newly added pages let us perform CRUD operations on the `Person` records in the database, but we still need a login page. Go ahead and add it in `app/matestack/admin/pages/sessions/sign_in.rb` with this content:
 
 ```ruby
-class Pages::AdminApp::Sessions::SignIn < Matestack::Ui::Page
+class Admin::Pages::Sessions::SignIn < Matestack::Ui::Page
 
   def response
-    components {
-      section do
-        div class: 'container' do
-          div class: 'row' do
-            div class: 'col-md-4 offset-md-4' do
-              div class: 'card' do
-                div class: 'card-body text-center' do
-                  heading text: t('devise.sessions.new.login')
-                  partial :login_form
-                end
+    section do
+      div class: 'container' do
+        div class: 'row' do
+          div class: 'col-md-4 offset-md-4' do
+            div class: 'card' do
+              div class: 'card-body text-center' do
+                heading text: t('devise.sessions.new.login')
+                partial :login_form
               end
             end
           end
         end
       end
-    }
+    end
   end
 
   private
 
   def login_form
-    partial {
-      form form_config, :include do
-        div class: 'form-group row' do
-          label class: 'col-sm-12 col-form-label col-form-label-md', text: t('devise.sessions.new.email')
-          div class: 'col-sm-12' do
-            form_input key: :email, type: :text
-          end
-        end
-        div class: 'form-group row' do
-          label class: 'col-sm-12 col-form-label col-form-label-md', text: t('devise.sessions.new.password')
-          div class: 'col-sm-12' do
-            form_input key: :password, type: :password
-          end
-        end
-        form_submit class: 'text-center d-block' do
-          button class: 'btn btn-primary text-center', text: I18n.t('devise.sessions.new.login')
+    form form_config, :include do
+      div class: 'form-group row' do
+        label class: 'col-sm-12 col-form-label col-form-label-md', text: t('devise.sessions.new.email')
+        div class: 'col-sm-12' do
+          form_input key: :email, type: :text
         end
       end
-    }
+      div class: 'form-group row' do
+        label class: 'col-sm-12 col-form-label col-form-label-md', text: t('devise.sessions.new.password')
+        div class: 'col-sm-12' do
+          form_input key: :password, type: :password
+        end
+      end
+      form_submit class: 'text-center d-block' do
+        button class: 'btn btn-primary text-center', text: I18n.t('devise.sessions.new.login')
+      end
+    end
   end
 
   def form_config
@@ -548,7 +517,7 @@ en:
 Let's save the current status quo to Git by running
 
 ```sh
-git add app/matestack/apps/admin_app.rb app/matestack/pages/admin_app/sessions/sign_in.rb app/matestack/pages/admin_app/persons/ config/application.rb config/locales/devise.en.yml
+git add app/matestack/admin/app.rb app/matestack/admin/pages/sessions/sign_in.rb app/matestack/admin/pages/persons/ config/application.rb config/locales/devise.en.yml
 ````
 
 and
@@ -574,20 +543,22 @@ class Admin::PersonsController < Admin::BaseController
   layout 'administration'
   before_action :set_person, only: [:show, :edit, :update, :destroy]
 
+  matestack_app Admin::App
+
   def new
-    responder_for(Pages::AdminApp::Persons::New)
+    render Admin::Pages::Persons::New
   end
 
   def index
-    responder_for(Pages::AdminApp::Persons::Index)
+    render Admin::Pages::Persons::Index
   end
 
   def show
-    responder_for(Pages::AdminApp::Persons::Show)
+    render Admin::Pages::Persons::Show
   end
 
   def edit
-    responder_for(Pages::AdminApp::Persons::Edit)
+    render Admin::Pages::Persons::Edit
   end
 
   def update
@@ -603,7 +574,6 @@ class Admin::PersonsController < Admin::BaseController
 
   def create
     @person = Person.new(person_params)
-    p @person
     @person.save
 
     if @person.errors.any?
@@ -644,7 +614,7 @@ class Admin::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
 
   def new
-    responder_for(Pages::AdminApp::Sessions::SignIn)
+    render Admin::Pages::Sessions::SignIn, matestack_app: Admin
   end
 
   def create
@@ -682,7 +652,6 @@ What's going on here? Let's break it down one after another:
 - The `SessionsController` manages the admin sessions by providing the login page (`new` action), sign in functionality (`create` action) and logout (`destroy` action).
 
 ### Admin Routes
-
 What's left for us to do is update the routes accordingly, so head over to `config/routes.rb` and add the following lines:
 
 ```ruby
@@ -709,25 +678,23 @@ class Components::Person::Card < Matestack::Ui::StaticComponent
   end
 
   def response
-    components {
-      div class: 'card' do
-        div class: 'card-body' do
-          paragraph text: "#{@person.first_name} #{@person.last_name}"
-          transition path: @path, params: {id: @person.id}, class: 'btn btn-primary', text: 'Details'
-        end
+    div class: 'card' do
+      div class: 'card-body' do
+        paragraph text: "#{@person.first_name} #{@person.last_name}"
+        transition path: @path, params: {id: @person.id}, class: 'btn btn-primary', text: 'Details'
       end
-    }
+    end
   end
 
 end
 ```
 
-and then change `custom_person_card person: person` to `custom_person_card person: person, path: :person_path` in both `app/matestack/pages/demo_app/persons/index.rb` and `app/matestack/pages/demo_app/persons/show.rb`.
+and then change `person_card person: person` to `person_card person: person, path: :person_path` in both `app/matestack/demo/pages/persons/index.rb` and `app/matestack/demo/pages/persons/show.rb`.
 
 Again, as a milestone commit the recent changes by running
 
 ```sh
-git add app/controllers/admin/ config/routes.rb app/matestack/components/person/card.rb app/matestack/pages/demo_app/persons/
+git add app/controllers/admin/ config/routes.rb app/matestack/components/person/card.rb app/matestack/demo/pages/persons/
 ````
 
 and
@@ -835,9 +802,9 @@ git commit -m "Add admin layout, admin css & admin JS pack"
 ```
 
 ## Reducing functionality in the DemoApp and adding an admin login button
-After creating the `AdminApp`, let's cut some functionality from the `DemoApp` and make it exclusively available to a logged-in admin!
+After creating the `Admin::App`, let's cut some functionality from the `Demo::App` and make it exclusively available to a logged-in admin!
 
-Remove the following lines from both `app/matestack/pages/demo_app/edit.rb` and `app/matestack/pages/demo_app/new.rb`:
+Remove the following lines from both `app/matestack/demo/pages/edit.rb` and `app/matestack/demo/pages/new.rb`:
 
 ```ruby
 div class: 'form-group row' do
@@ -864,7 +831,7 @@ Changing the default is quite straightforward:
 ```ruby
 class AddDefaultToPersonRole < ActiveRecord::Migration[6.0]
   def change
-    change_column_default :people, :role, from: nil, to: 0
+    change_column_default :person, :role, from: nil, to: 0
   end
 end
 ```
@@ -875,24 +842,22 @@ And, to make it work, we need to migrate the database by running
 rake db:migrate
 ```
 
-Finally, add a link to the `sign_in` page to the `navigation` partial in `app/matestack/apps/demo_app.rb`:
+Finally, add a link to the `sign_in` page to the `navigation` partial in `app/matestack/demo/app.rb`:
 
 ```ruby
   def navigation
-    partial {
-      # ...
-        li class: 'nav-item' do
-          link class: 'nav-link', path: :new_admin_session_path, text: 'Admin Login'
-        end
-      # ...
-    }
+    # ...
+      li class: 'nav-item' do
+        link class: 'nav-link', path: :new_admin_session_path, text: 'Admin Login'
+      end
+    # ...
   end
 ```
 
 To finish things off, let's add the recent changes to Git via
 
 ```sh
-git add app/controllers/persons_controller.rb app/matestack/apps/demo_app.rb app/matestack/pages/demo_app/ db/
+git add app/controllers/persons_controller.rb app/matestack/demo/app.rb app/matestack/demo/pages/ db/
 ````
 
 and commit them by running

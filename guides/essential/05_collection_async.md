@@ -12,10 +12,10 @@ In this guide, we will
 We expect you to have successfully finished the [previous guide](guides/essential/04_forms_edit_new_create_update_delete.md) and no uncommited changes in your project.
 
 ## Adding a simple, filterable collection
-Right now, the **Index** page displays a simple list with all the person records in the database. This will become an overly crowded page with a long loading time quite soon, so replace the contents of `app/matestack/pages/demo_app/persons/index.rb` with the following:
+Right now, the **Index** page displays a simple list with all the person records in the database. This will become an overly crowded page with a long loading time quite soon, so replace the contents of `app/matestack/demo/pages/persons/index.rb` with the following:
 
 ```ruby
-class Pages::DemoApp::Persons::Index < Matestack::Ui::Page
+class Demo::Pages::Persons::Index < Matestack::Ui::Page
   include Matestack::Ui::Core::Collection::Helper
 
   def prepare
@@ -35,46 +35,40 @@ class Pages::DemoApp::Persons::Index < Matestack::Ui::Page
   end
 
   def response
-    components {
-      partial :filter
+    partial :filter
 
-      async rerender_on: "person-collection-update" do
-        partial :content
-      end
+    async rerender_on: "person-collection-update" do
+      partial :content
+    end
 
-      transition path: :new_person_path, text: 'Create new person'
-    }
+    transition path: :new_person_path, text: 'Create new person'
   end
 
   def filter
-    partial {
-      collection_filter @person_collection.config do
-        collection_filter_input key: :last_name, type: :text, placeholder: "Filter by Last name"
-        collection_filter_submit do
-          button text: "Apply"
-        end
-        collection_filter_reset do
-          button text: "Reset"
-        end
+    collection_filter @person_collection.config do
+      collection_filter_input key: :last_name, type: :text, placeholder: "Filter by Last name"
+      collection_filter_submit do
+        button text: "Apply"
       end
-    }
+      collection_filter_reset do
+        button text: "Reset"
+      end
+    end
   end
 
   def content
-    partial {
-      collection_content @person_collection.config do
+    collection_content @person_collection.config do
 
-        ul do
-          @person_collection.data.each do |person|
-            li do
-              plain "#{person.first_name} #{person.last_name} "
-              transition path: :person_path, params: {id: person.id}, text: '(Details)'
-            end
+      ul do
+        @person_collection.data.each do |person|
+          li do
+            plain "#{person.first_name} #{person.last_name} "
+            transition path: :person_path, params: {id: person.id}, text: '(Details)'
           end
         end
-
       end
-    }
+
+    end
   end
 
 end
@@ -95,7 +89,7 @@ Now, run `rails s` and head over to [localhost:3000](http://localhost:3000/) to 
 Let's save the new status quo to Git - this makes it easier to see where changes to the code are applied later on:
 
 ```sh
-git add app/matestack/pages/demo_app/persons/index.rb && git commit -m "Refactor person index page to use collection component"
+git add app/matestack/demo/pages/persons/index.rb && git commit -m "Refactor person index page to use collection component"
 ```
 
 ## Adding pagination
@@ -121,25 +115,23 @@ Also, note that `@person_collection.data` gets replaced by `@person_collection.p
 
 ```ruby
 def content
-  partial {
-    collection_content @person_collection.config do
+  collection_content @person_collection.config do
 
-      ul do
-        @person_collection.paginated_data.each do |person|
-          # ...
-        end
+    ul do
+      @person_collection.paginated_data.each do |person|
+        # ...
       end
-
-      partial :paginator
     end
-  }
+
+    partial :paginator
+  end
 end
 ```
 
 And, of course, the `paginator` partial needs to be defined within the page. Let's add it at the bottom:
 
 ```ruby
-class Pages::DemoApp::Persons::Index < Matestack::Ui::Page
+class Demo::Pages::Persons::Index < Matestack::Ui::Page
   include Matestack::Ui::Core::Collection::Helper
 
   def prepare
@@ -159,37 +151,35 @@ class Pages::DemoApp::Persons::Index < Matestack::Ui::Page
   end
 
   def paginator
-    partial {
-      plain "showing #{@person_collection.from}"
-      plain "to #{@person_collection.to}"
-      plain "of #{@person_collection.filtered_count}"
-      plain "from total #{@person_collection.base_count}"
+    plain "showing #{@person_collection.from}"
+    plain "to #{@person_collection.to}"
+    plain "of #{@person_collection.filtered_count}"
+    plain "from total #{@person_collection.base_count}"
 
-      collection_content_previous do
-        button text: "previous"
-      end
+    collection_content_previous do
+      button text: "previous"
+    end
 
-      @person_collection.pages.each do |page|
-        collection_content_page_link page: page do
-          button text: page
-        end
+    @person_collection.pages.each do |page|
+      collection_content_page_link page: page do
+        button text: page
       end
+    end
 
-      collection_content_next do
-        button text: "next"
-      end
-    }
+    collection_content_next do
+      button text: "next"
+    end
   end
 
 end
 ```
 
-Make sure to run `rails s` and head over to [localhost:3000](http://localhost:3000/) to check out the changes! As you should see, the visible persons should be reduced to three, and below them, it shows not only the currently displayed range of database records, but also handy buttons to browse the different *collection pages* (not to be confused with the `matestack` pages in `app/matestack/pages/`)!
+Make sure to run `rails s` and head over to [localhost:3000](http://localhost:3000/) to check out the changes! As you should see, the visible persons should be reduced to three, and below them, it shows not only the currently displayed range of database records, but also handy buttons to browse the different *collection pages* (not to be confused with the `matestack` pages in `app/matestack/demo/pages/*`)!
 
 Again, let's commit the new status quo to Git before enhancing things once more:
 
 ```sh
-git add app/matestack/pages/demo_app/persons/index.rb && git commit -m "Add pagination to collection component on person index page"
+git add app/matestack/demo/pages/persons/index.rb && git commit -m "Add pagination to collection component on person index page"
 ```
 
 ## Adding ordering
@@ -220,12 +210,10 @@ While the changes above may work, the page visitor probably misses a clue on whe
 
 ```ruby
 def response
-  components {
-    partial :filter
-    partial :ordering
+  partial :filter
+  partial :ordering
 
-    # ...
-  }
+  # ...
 end
 ```
 
@@ -237,19 +225,17 @@ def filter
 end
 
 def ordering
-  partial {
-    collection_order @person_collection.config do
+  collection_order @person_collection.config do
 
-      plain "sort by:"
-      collection_order_toggle key: :last_name do
-        button do
-          plain "last_name"
-          collection_order_toggle_indicator key: :last_name, asc: '(A-Z)', desc: '(Z-A)'
-        end
+    plain "sort by:"
+    collection_order_toggle key: :last_name do
+      button do
+        plain "last_name"
+        collection_order_toggle_indicator key: :last_name, asc: '(A-Z)', desc: '(Z-A)'
       end
-
     end
-  }
+
+  end
 end
 ```
 
@@ -291,15 +277,13 @@ Even though it was not very obvious, the `async` component was a key element of 
 
 ```ruby
 def response
-  components {
-    # ...
+  # ...
 
-    async rerender_on: "person-collection-update" do
-      partial :content
-    end
+  async rerender_on: "person-collection-update" do
+    partial :content
+  end
 
-    # ...
-  }
+  # ...
 end
 ```
 
@@ -316,7 +300,7 @@ To learn more, check out the [complete API documentation](docs/components/async.
 As usual, we want to commit the progress to Git. In the repo root, run
 
 ```sh
-git add app/matestack/pages/demo_app/persons/index.rb && git commit -m "Add ordering to collection component on person index page"
+git add app/matestack/demo/pages/persons/index.rb && git commit -m "Add ordering to collection component on person index page"
 ```
 
 ## Deployment

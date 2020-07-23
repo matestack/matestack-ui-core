@@ -1,5 +1,4 @@
 # Essential Guide 3: Person Index, Show, Transition
-
 Welcome to the third part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
 
 ## Introduction
@@ -14,19 +13,19 @@ In this guide, we will
 We expect you to have successfully finished the [previous guide](guides/essential/02_active_record.md) and no uncommited changes in your project.
 
 ## Person controller & routes
-
 Let's kick it off by creating a dedicated controller for our **person** model. Add the content below to `app/controllers/persons_controller.rb`:
 
 ```ruby
 class PersonsController < ApplicationController
+  matestack_app Demo::App
 
   def index
-    responder_for(Pages::DemoApp::Person::Index)
+    render Demo::Pages::Person::Index
   end
 
   def show
     @person = Person.find_by(id: params[:id])
-    responder_for(Pages::DemoApp::Person::Show)
+    render Demo::Pages::Person::Show
   end
 
 end
@@ -38,15 +37,12 @@ Also, make sure to update the routes like this:
 Rails.application.routes.draw do
   root to: 'persons#index'
 
-  get '/first_page', to: 'demo_app#first_page'
-  get '/second_page', to: 'demo_app#second_page'
-
   resources :persons, only: [:index, :show]
 end
 ```
 
 ## Page transitions
-In `app/matestack/apps/demo_app.rb`, remove line 17-24 and add
+In `app/matestack/demo/app.rb`, remove line 17-24 and add
 
 ```ruby
 br
@@ -57,26 +53,24 @@ hr
 below line 13. By doing this, we make sure the person index page will be reachable from all pages. Also, the horizontal ruler (`hr`) tag makes it easier to distinguish between the wrapping `matestack` app and the `page_content`!
 
 ## Person index page
-For the index page (where all the persons in the database get displayed), create a file called `app/matestack/pages/demo_app/persons/index.rb` and add the content below:
+For the index page (where all the persons in the database get displayed), create a file called `app/matestack/demo/pages/persons/index.rb` and add the content below:
 
 ```ruby
-class Pages::DemoApp::Persons::Index < Matestack::Ui::Page
+class Demo::Pages::Persons::Index < Matestack::Ui::Page
 
 	def prepare
 		@persons = Person.all
 	end
 
 	def response
-		components {
-			ul do
-				@persons.each do |person|
-					li do
-						plain "#{person.first_name} #{person.last_name} "
-						transition path: :person_path, params: {id: person.id}, text: '(Details)'
-					end
-				end
-			end
-		}
+    ul do
+      @persons.each do |person|
+        li do
+          plain "#{person.first_name} #{person.last_name} "
+          transition path: :person_path, params: {id: person.id}, text: '(Details)'
+        end
+      end
+    end
 	end
 
 end
@@ -85,24 +79,21 @@ end
 Like before, we loop through all records and display them as list items. But this time, we enhance things by adding a transition link to their detail page by passing their `id` to the `params` as shown above!
 
 ## Person detail page
-In the `app/matestack/pages/demo_app/persons/` directory, add a file called `show.rb` with the contents below:
+In the `app/matestack/demo/pages/persons/` directory, add a file called `show.rb` with the contents below:
 
 ```ruby
-class Pages::DemoApp::Persons::Show < Matestack::Ui::Page
+class Demo::Pages::Persons::Show < Matestack::Ui::Page
 
   def response
-    components {
-      transition path: :persons_path, text: 'Back to index'
-      heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
-      paragraph text: "Active: #{@person.active}"
-      paragraph text: "Role: #{@person.role}"
-    }
+    transition path: :persons_path, text: 'Back to index'
+    heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
+    paragraph text: "Role: #{@person.role}"
   end
 
 end
 ```
 
-This is our detail page, featuring not only the person's name, but also their status (whether they're active or not) and their role. To make things easy for page visitors, there's also a "back" link to get back to our index page!
+This is our detail page, featuring not only the person's name, but also their role. To make things easy for page visitors, there's also a "back" link to get back to our index page!
 
 ## Further introduction: Page transitions
 Now that we've used them a couple of times, let's focus on the `transition` component a bit longer:
@@ -124,7 +115,6 @@ git add . && git commit -m "Add index/show matestack pages for person model (inc
 ```
 
 ## Deployment
-
 After you've finished all your changes and commited them to Git, run
 
 ```sh

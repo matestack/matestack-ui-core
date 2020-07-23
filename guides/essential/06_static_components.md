@@ -5,36 +5,25 @@ Welcome to the sixth part of the 10-step-guide of setting up a working Rails CRU
 In the [previous guide](guides/essential/05_collection_async.md), we introduced both async and collection components. In this part, we will discover how you can create custom static `matestack` components, either by orchestrating existing `matestack-ui-core` components or by using `*.haml*` files!
 
 In this guide, we will
-- refactor the **Index** page to use a custom static `matestack` component
-- refactor the **Show** page to use a custom static `matestack` component
+- refactor the **Index** and **Show** pages to use a custom static `matestack` component
 - add a custom static `matestack` component to the **App** layout
 
 ## Prerequisites
 We expect you to have successfully finished the [previous guide](guides/essential/05_collection_async.md) and no uncommited changes in your project.
 
 ## Extracting content to a custom static component
-Let's dive right into it! Say we want to replace the list of persons on the index page with cards (unstyled for now, but will fix that soon) - this calls for a custom static component, since those cards potentially will be reused in different places all over our application.
-
-On `app/matestack/pages/persons/index.rb`, update the content of the `content` partial to look like this:
+Let's dive right into it! Firstly, to allow for custom components, we need to update our `ApplicationController` to include a local components registry. It's simple and works like this:
 
 ```ruby
-def content
-  partial {
-    collection_content @person_collection.config do
-
-      @person_collection.paginated_data.each do |person|
-        custom_person_card person: person
-      end
-
-      partial :paginator
-    end
-  }
+class ApplicationController < ActionController::Base
+  include Matestack::Ui::Core::ApplicationHelper
+  include Components::Registry
 end
 ```
 
-See how we're calling the custom component as `custom_person_card` (custom components need a `custom_` prefix), and we're passing the current `|person|` as an argument?
+Say we want to replace the list of persons on the index page with cards (unstyled for now, but will fix that soon) - this calls for a custom static component, since those cards potentially can be (and within this guide will be) reused in different places within our application.
 
-Our application expects this file to exist in `app/matestack/components/person/card.rb`, so let's create it and add the following content:
+For the custom `matestack` card component, create a file in `app/matestack/components/person/card.rb` and add the following content:
 
 ```ruby
 class Components::Person::Card < Matestack::Ui::StaticComponent
@@ -44,12 +33,10 @@ class Components::Person::Card < Matestack::Ui::StaticComponent
   end
 
   def response
-    components {
-      div do
-        paragraph text: "#{@person.first_name} #{@person.last_name} "
-        transition path: :person_path, params: {id: @person.id}, text: '(Details)'
-      end
-    }
+    div do
+      paragraph text: "#{@person.first_name} #{@person.last_name} "
+      transition path: :person_path, params: {id: @person.id}, text: '(Details)'
+    end
   end
 
 end
@@ -57,32 +44,59 @@ end
 
 Looks familiar, right? Like with `matestack-ui-core` pages, custom components make use of `prepare` and `response` methods. In this simple example, we only orchestrate existing `matestack-ui-core` components.
 
+Remember the registry we included in the `ApplicationController`? Let's add it in `/app/matestack/components/registry.rb` and register our new `Person::Card` component properly:
+
+```ruby
+module Components::Registry
+
+  Matestack::Ui::Core::Component::Registry.register_components(
+    person_card: Components::Person::Card
+  )
+
+end
+```
+
+After registering it, we can now use our component as `person_card` (or any other name, if you feel creative)! Please note that the component registry gets cached on application starts, so removing components later on only takes effect after a re-start of the application. Adding components does work without a restart, though.
+
+On `app/matestack/demo/pages/persons/index.rb`, update the content of the `content` partial to look like this:
+
+```ruby
+def content
+  collection_content @person_collection.config do
+
+    @person_collection.paginated_data.each do |person|
+      person_card person: person
+    end
+
+    partial :paginator
+  end
+end
+```
+
+See how we're calling the custom component as `person_card`, just like any other `matestack` component, and we're passing the current `|person|` variable as an argument?
+
 When you start your application locally now, the missing list bullet points should be the only visible change. As said before, we will take care of styling soon - but first, let's reuse our newly introduced component!
 
 ## Reusing the custom static component
 How about displaying three random persons from the database on the Person **Show** page, each within a card? It's as simple as below:
 
 ```ruby
-class Pages::DemoApp::Persons::Show < Matestack::Ui::Page
+class Demo::Pages::Persons::Show < Matestack::Ui::Page
 
   def prepare
     @other_persons = Person.where.not(id: @person.id).order("RANDOM()").limit(3)
   end
 
   def response
-    components {
-      # ...
-      partial :other_persons
-    }
+    # ...
+    partial :other_persons
   end
 
   def other_persons
-    partial {
-      heading size: 3, text: 'Three other persons:'
-      @other_persons.each do |person|
-        custom_person_card person: person
-      end
-    }
+    heading size: 3, text: 'Three other persons:'
+    @other_persons.each do |person|
+      person_card person: person
+    end
   end
 
   # ...
@@ -110,13 +124,26 @@ So let's add the `disclaimer.haml` file in `app/matestack/components/person/` an
   None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".
 ```
 
-To display this disclaimer on every page within our `demo_app`, add it to `app/matestack/apps/demo_app.rb` within the `main`-block:
+To display this disclaimer on every page within our `Demo::App`, we need to register it in the `/app/matestack/components/registry.rb`:
+
+```ruby
+module Components::Registry
+
+  Matestack::Ui::Core::Component::Registry.register_components(
+    person_card: Components::Person::Card,
+    person_card: Components::Person::Disclaimer
+  )
+
+end
+```
+
+Afterwards, add it to `app/matestack/demo/app.rb` within the `main`-block:
 
 ```ruby
 # ...
   main do
     page_content
-    custom_person_disclaimer
+    person_disclaimer
   end
 # ...
 ```
@@ -135,7 +162,7 @@ To learn more, check out the [extend API documentation](docs/extend/custom_stati
 As usual, we want to commit the progress to Git. In the repo root, run
 
 ```sh
-git add app/matestack/apps/demo_app.rb app/matestack/pages/persons/ app/matestack/components/person && git commit -m "Refactor person index&show page to use custom components, add disclaimer component to app layout"
+git add app/matestack/demo/app.rb app/matestack/demo/pages/persons/ app/matestack/components/person app/matestack/components/registry.rb && git commit -m "Refactor person index&show page to use custom components, add custom component registry, add disclaimer component to app layout"
 ```
 
 ## Deployment
