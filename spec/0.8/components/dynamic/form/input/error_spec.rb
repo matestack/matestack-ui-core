@@ -8,8 +8,8 @@ describe "form input", type: :feature, js: true do
 
   before :all do
     Rails.application.routes.append do
-      scope "form_text_input_error_spec" do
-        post '/input_error_failure_form_test/:id', to: 'form_test#failure_submit', as: 'input_error_failure_form_test'
+      scope "form_text_input_error_error_spec" do
+        post '/input_error_failure_form_test/:id', to: 'form_test#failure_submit', as: 'input_error_error_failure_form_test'
       end
     end
     Rails.application.reload_routes!
@@ -34,7 +34,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_failure_form_test_path,
+          path: :input_error_error_failure_form_test_path,
           params: {
             id: 42
           }
@@ -64,7 +64,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_failure_form_test_path,
+          path: :input_error_error_failure_form_test_path,
           params: {
             id: 42
           }
@@ -94,7 +94,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_failure_form_test_path,
+          path: :input_error_error_failure_form_test_path,
           params: {
             id: 42
           }
@@ -126,7 +126,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_failure_form_test_path,
+          path: :input_error_error_failure_form_test_path,
           params: {
             id: 42
           }
