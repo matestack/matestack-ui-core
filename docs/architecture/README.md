@@ -4,7 +4,7 @@ In this section, we take a deep dive into how Matestack is implemented.
 
 **The Matestack core was developed while iterating concepts following the main goal of `just making it work`. Therefore, the core is not yet well engineered in some places. After we were happy with it working, we've spent quite some time writing tests to save the status quo, and now we're about to refactor the core.**
 
-Please refer to the [detailed architectural drawing](https://raw.githubusercontent.com/basemate/matestack-ui-core/master/docs/architecture/matestack_rendering.png) while reading the following documentation.
+Please refer to the [detailed architectural drawing](https://raw.githubusercontent.com/matestack/matestack-ui-core/master/docs/architecture/matestack_rendering.png) while reading the following documentation.
 
 ## Example
 

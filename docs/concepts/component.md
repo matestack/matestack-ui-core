@@ -10,11 +10,11 @@ This document aims to give a brief introducing to the different kinds of compone
 
 See [here](/docs/components/README.md) for a list of available `core components`. In general, they are separated into HTML-only **static** components and **dynamic** components that come with Javascript-powered, dynamic behavior.
 
-If you miss a component that you think we're missing in the `core components` right now, [create an issue](https://github.com/basemate/matestack-ui-core/issues/new) in our GitHub!
+If you miss a component that you think we're missing in the `core components` right now, [create an issue](https://github.com/matestack/matestack-ui-core/issues/new) in our GitHub!
 
-If you have created your own component and feel like it would be a great addition to the `core components`, please [create a pull request](https://github.com/basemate/matestack-ui-core/compare) including tests and documentation.
+If you have created your own component and feel like it would be a great addition to the `core components`, please [create a pull request](https://github.com/matestack/matestack-ui-core/compare) including tests and documentation.
 
-To extend the available core components, just fork [the repo](https://github.com/basemate/matestack-ui-core) and create them within the `app/concepts` folder, analogous to the existing core components - and you're always invited to reach out to [our community](https://gitter.im/basemate/community) if you face any problems!
+To extend the available core components, just fork [the repo](https://github.com/matestack/matestack-ui-core) and create them within the `app/concepts` folder, analogous to the existing core components - and you're always invited to reach out to [our community](https://gitter.im/basemate/community) if you face any problems!
 
 ## Custom Components
 
