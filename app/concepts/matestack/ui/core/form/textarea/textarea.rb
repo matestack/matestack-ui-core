@@ -18,6 +18,7 @@ module Matestack::Ui::Core::Form::Textarea
       (options[:attributes] || {}).merge({
         'v-model': input_key,
         '@change': "inputChanged('#{attr_key}')",
+        'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
         "init-value": init_value,
         ref: "input.#{attr_key}",
       })

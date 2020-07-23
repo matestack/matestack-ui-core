@@ -1,15 +1,15 @@
-require_relative "../../../../../support/utils"
-require_relative "../../../../../support/test_controller"
-require_relative "../support/form_test_controller"
-require_relative "../support/model_form_test_controller"
+require_relative "../../../../support/utils"
+require_relative "../../../../support/test_controller"
+require_relative "support/form_test_controller"
+require_relative "support/model_form_test_controller"
 include Utils
 
-describe "form input", type: :feature, js: true do
+describe "form errors", type: :feature, js: true do
 
   before :all do
     Rails.application.routes.append do
-      scope "form_text_input_error_error_spec" do
-        post '/input_error_failure_form_test/:id', to: 'form_test#failure_submit', as: 'input_error_error_failure_form_test'
+      scope "form_form_error_error_spec" do
+        post '/form_error_failure_form_test/:id', to: 'form_test#failure_submit', as: 'form_error_failure_form_test'
       end
     end
     Rails.application.reload_routes!
@@ -24,6 +24,7 @@ describe "form input", type: :feature, js: true do
       def response
         form form_config, :include do
           form_input id: "text-input", key: :foo, type: :text
+          form_textarea id: "textarea", key: :foo, type: :text
           form_submit do
             button text: "Submit me!"
           end
@@ -34,7 +35,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :form_error_failure_form_test_path,
           params: {
             id: 42
           }
@@ -44,17 +45,20 @@ describe "form input", type: :feature, js: true do
 
     visit "/example"
     fill_in "text-input", with: "text"
+    fill_in "textarea", with: "area"
     click_button "Submit me!"
-    expect(page).to have_content('seems to be invalid')
+    expect(page).to have_content('seems to be invalid', count: 2)
     expect(page).to have_selector('#text-input.error')
-    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+    expect(page).to have_selector('#textarea.error')
+    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]', count: 2)
   end
 
-  it "can turn off error messages" do
+  it "can turn off error messages with form config and turn explicit on" do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text, errors: false
+          form_input id: "text-input", key: :foo, type: :text
+          form_textarea id: "textarea", key: :foo, type: :text, errors: { wrapper: { tag: :div }, tag: :div }
           form_submit do
             button text: "Submit me!"
           end
@@ -65,26 +69,32 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :form_error_failure_form_test_path,
           params: {
             id: 42
-          }
+          },
+          errors: false
         }
       end
     end
-
+    
     visit "/example"
     fill_in "text-input", with: "text"
+    fill_in "textarea", with: "area"
     click_button "Submit me!"
-    expect(page).not_to have_content('seems to be invalid')
+    expect(page).to have_selector('#text-input.error')
+    expect(page).to have_selector('#textarea.error')
+    expect(page).to have_content('seems to be invalid', count: 1)
     expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+    expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
   end
   
-  it "lets you customize errors" do
+  it "lets you turn errors of component based" do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text, errors: { wrapper: {}, tag: :div, class: 'my-error' }
+          form_input id: "text-input", key: :foo, type: :text
+          form_textarea id: "textarea", key: :foo, type: :text, errors: false
           form_submit do
             button text: "Submit me!"
           end
@@ -95,7 +105,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :form_error_failure_form_test_path,
           params: {
             id: 42
           },
@@ -108,19 +118,21 @@ describe "form input", type: :feature, js: true do
 
     visit "/example"
     fill_in "text-input", with: "text"
+    fill_in "textarea", with: "area"
     click_button "Submit me!"
-    expect(page).to have_content('seems to be invalid')
+    expect(page).to have_content('seems to be invalid', count: 1)
     expect(page).to have_selector('#text-input.my-error')
-    expect(page).to have_xpath('//span[@class="errors"]/div[@class="my-error" and contains(.,"seems to be invalid")]')
+    expect(page).not_to have_selector('#text-input.error')
+    expect(page).to have_selector('#textarea.my-error')
+    expect(page).not_to have_selector('#textarea.error')
+    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]', count: 1)
   end
   
   it "lets you customize errors and errors wrapper" do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text, errors: { 
-            wrapper: { tag: :div, class: 'my-errors'}, tag: :div, class: 'my-error' 
-          }
+          form_input id: "text-input", key: :foo, type: :text
           form_submit do
             button text: "Submit me!"
           end
@@ -131,9 +143,17 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :form_error_failure_form_test_path,
           params: {
             id: 42
+          },
+          errors: { 
+            wrapper: { 
+              tag: :div, 
+              class: 'my-errors'
+            }, 
+            tag: :div, 
+            class: 'my-error' 
           }
         }
       end

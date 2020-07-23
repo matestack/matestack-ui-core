@@ -22,7 +22,8 @@ module Matestack::Ui::Core::Form::Input
       (options[:attributes] || {}).merge({
         "@change": change_event,
         ref: "input.#{attr_key}",
-        'init-value': init_value
+        'init-value': init_value,
+        'v-bind:class': "{ '#{input_error_class}': #{error_key} }"
       }).merge(
         type != :file ? { "#{v_model_type}": input_key } : {}
       ) # file inputs are readonly, no v-model possible

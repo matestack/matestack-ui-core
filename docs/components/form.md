@@ -842,9 +842,11 @@ form_input key: :foo, type: :text, errors: false
 
 ##### Customizing default rendering
 
-You can customize errors by passing `errors` with a hash.
+You can customize errors by passing `errors` with a hash to a input, textarea, select component or to a form component.
 Customize the error tag by including a `tag` key with a symbol representing a html tag and the error class by including a `class`
 key with a string.
+
+Configuring errors on a per form field basis
 
 ```ruby
 form_input key: :foo, type: :text, errors: { tag: :div, class: 'my-error' }
@@ -867,6 +869,38 @@ Outputs errors as:
   <span class="error">seems to be invalid</span>
 </div>
 ```
+
+Configuring errors on a per form basis. Per form field configs take precedence over the form config.
+
+```ruby
+def response
+  form form_config do
+    form_input key: :foo, type: :text
+    form_input key: :bar, type: :text, errors: false
+  end
+end
+
+def form_config
+  {
+    for: :my_model,
+    #[...]
+    errors: {
+      wrapper: { tag: :div, class: 'my-errors' },
+      input: { class: 'my-error' }
+      tag: :div,
+      class: 'my-field-error'
+    }
+  }
+```
+Outputs errors as:
+```html
+<input type="text" class="my-field-error" />
+<div class="my-errors">
+  <div class="my-error">seems to be invalid</span>
+</div>
+<input type="text" class="my-field-error" /> <!-- without any errors, because its config takes precedence over the form config -->
+```
+
 
 ### Example 9: Mapping the form to an Active Record Model
 

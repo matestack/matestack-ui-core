@@ -4,12 +4,12 @@ require_relative "../support/form_test_controller"
 require_relative "../support/model_form_test_controller"
 include Utils
 
-describe "form input", type: :feature, js: true do
+describe "form textarea", type: :feature, js: true do
 
   before :all do
     Rails.application.routes.append do
-      scope "form_text_input_error_error_spec" do
-        post '/input_error_failure_form_test/:id', to: 'form_test#failure_submit', as: 'input_error_error_failure_form_test'
+      scope "form_textarea_error_error_spec" do
+        post '/textarea_error_failure_form_test/:id', to: 'form_test#failure_submit', as: 'textarea_error_error_failure_form_test'
       end
     end
     Rails.application.reload_routes!
@@ -23,7 +23,7 @@ describe "form input", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text
+          form_textarea id: "text-input", key: :foo, type: :text
           form_submit do
             button text: "Submit me!"
           end
@@ -34,7 +34,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :textarea_error_error_failure_form_test_path,
           params: {
             id: 42
           }
@@ -54,7 +54,7 @@ describe "form input", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text, errors: false
+          form_textarea id: "text-input", key: :foo, type: :text, errors: false
           form_submit do
             button text: "Submit me!"
           end
@@ -65,7 +65,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :textarea_error_error_failure_form_test_path,
           params: {
             id: 42
           }
@@ -84,7 +84,7 @@ describe "form input", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text, errors: { wrapper: {}, tag: :div, class: 'my-error' }
+          form_textarea id: "text-input", key: :foo, type: :text, errors: { wrapper: {}, tag: :div, class: 'my-error' }
           form_submit do
             button text: "Submit me!"
           end
@@ -95,7 +95,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :textarea_error_error_failure_form_test_path,
           params: {
             id: 42
           },
@@ -118,7 +118,7 @@ describe "form input", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         form form_config, :include do
-          form_input id: "text-input", key: :foo, type: :text, errors: { 
+          form_textarea id: "text-input", key: :foo, type: :text, errors: { 
             wrapper: { tag: :div, class: 'my-errors'}, tag: :div, class: 'my-error' 
           }
           form_submit do
@@ -131,7 +131,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
+          path: :textarea_error_error_failure_form_test_path,
           params: {
             id: 42
           }
