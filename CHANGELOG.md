@@ -437,7 +437,7 @@ class TextComponent < Matestack::Ui::StaticComponent
 
   def response
     paragraph text: 'Example text directly in the component'
-    rails_view: `example/partial.html.erb`
+    rails_view path: `example/partial.html.erb`
   end
 
 end
