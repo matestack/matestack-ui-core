@@ -1,83 +1,88 @@
+require_relative '../utils'
+require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Select
   class Select < Matestack::Ui::Core::Component::Static
+    include Matestack::Ui::Core::Form::Utils
+    include Matestack::Ui::Core::Form::HasErrors
 
-    requires options: { as: :select_options }
+    html_attributes :autofocus, :disabled, :form, :multiple, :name, :required, :size
 
-    def setup
-      if @tag_attributes[:id].nil?
-        @tag_attributes[:id] = attr_key
-      end
+    requires :key
+    optional :multiple, :init, :placeholder, :disabled_values,
+      for: { as: :input_for }, 
+      label: { as: :input_label }, 
+      options: { as: :select_options }
+
+    # def response
+    #   radio_options.to_a.each do |item|
+    #     input html_attributes.merge(
+    #       attributes: vue_attributes.merge(ref: "select.#{attr_key}"), 
+    #       type: :radio,
+    #       id: "#{id_for_item(item_value(item))}",
+    #       name: item_name(item),
+    #       value: item_value(item),
+    #     )
+    #     label text: item_label(item), for: id_for_item(item_value(item))
+    #   end
+    #   render_errors
+    # end
+
+    # def html_options
+    #   html_attributes.merge(
+    #     attributes: vue_attributes,
+    #   )
+    # end
+
+    def vue_attributes
+      (options[:attributes] || {}).merge({
+        "@change": change_event,
+        ref: vue_ref,
+        'init-value': init_value || [],
+        'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
+        'value-type': value_type,
+        "#{v_model_type}": input_key,
+      })
     end
 
-    def input_key
-      'data["' + options[:key].to_s + '"]'
+    def vue_ref
+      "select#{'.multiple' if multiple}.#{attr_key}"
     end
 
-    def error_key
-      'errors["' + options[:key].to_s + '"]'
+    def value_type
+      item_value(select_options.first).is_a?(Integer) ? Integer : nil
     end
 
-    def attr_key
-      options[:key].to_s
+    def item_value(item)
+      item.is_a?(Array) ? item.last : item
     end
 
-    def option_values
-      values = options[:options] if options[:options].is_a?(Array)
-      values = options[:options].keys if options[:options].is_a?(Hash)
-      return values
+    def item_name(item)
+      "#{attr_key}_#{item.is_a?(Array) ? item.first : item}"
     end
 
-    def options_type
-      return Integer if option_values.first.is_a?(Integer)
-      return String if option_values.first.is_a?(String)
+    def item_disabled(item)
+      disabled_values.present? && disabled_values.include?(item_value(item))
     end
 
-    def model_binding
+    def item_label(item)
+      item.is_a?(Array) ? item.first : item
+    end
 
-      if option_values.first.is_a?(Integer)
-        return "v-model.number"
+    def v_model_type
+      if select_options && item_value(select_options.first).is_a?(Integer) && !multiple
+        'v-model.number'
       else
-        return "v-model"
+        'v-model'
       end
     end
 
-    def init_value
-      unless options[:init].nil?
-        return options[:init]
-      end
-
-      unless options[:for].nil?
-        value = options[:for].send(options[:key])
-        if [true, false].include? value
-          value ? 1 : 0
-        else
-          return value
-        end
-      else
-        unless @included_config.nil? && @included_config[:for].nil?
-          if @included_config[:for].respond_to?(options[:key])
-            value = @included_config[:for].send(options[:key])
-            if [true, false].include? value
-              value ? 1 : 0
-            else
-              return value
-            end
-          else
-            if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
-              return nil
-            end
-            if @included_config[:for].is_a?(Hash)
-              return @included_config[:for][options[:key]]
-            end
-          end
-        end
-      end
+    def change_event
+      "inputChanged('#{attr_key}')"
     end
 
-    def id_for_option value
-      return "#{@tag_attributes[:id]}_#{value}"
+    def id_for_item(value)
+      "#{html_attributes[:id]}_#{value}"
     end
-
 
   end
 end

@@ -400,6 +400,14 @@ And use it in your view as follows:
 To render existing rails views inside your components or pages use the new `rails_view` component. It replaces the old `html` component.
 You can render existing partials and views with this helper anywhere in your app. For further information read the `rails_view` documentation.
 
+### Changed Components
+
+#### Form Input Component
+
+The `form_input` component no longer supports the input type textarea. 
+Textareas were extracted in a component and can be used with `textarea` or in forms with `form_textarea`.
+The `form_input`component now supports all types according to W3Cs possible types.
+
 ### Removed Components
 
 #### Inline Component

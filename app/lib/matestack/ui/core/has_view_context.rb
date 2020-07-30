@@ -8,7 +8,7 @@ module Matestack::Ui::Core::HasViewContext
     if @view_context.respond_to? args.first
       @view_context.send(*args, &block)
     else
-      super
+      raise NameError, "NameError: undefined method or local variable `#{args.first}' for #{self.class.name}"
     end
   end
 end
