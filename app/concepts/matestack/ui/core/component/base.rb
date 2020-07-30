@@ -8,7 +8,7 @@ module Matestack::Ui::Core::Component
     # define html global attributes 
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
-    # probably eed to remove for other tests to be green again
+    # probably need to remove for other tests to be green again
     include Matestack::Ui::Core::DSL
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
@@ -108,15 +108,12 @@ module Matestack::Ui::Core::Component
       _prefixes = super
       modified_prefixes = _prefixes.map do |prefix|
         prefix_parts = prefix.split("/")
-
-        if prefix_parts.last.include?(self.name.split("::")[-1].downcase)
-          prefix_parts[0..-2].join("/")
+        if prefix_parts.last.include?(self.name.split("::")[-1].underscore)
+          prefix_parts[0..-2].join("/") + '/'
         else
           prefix
         end
-
       end
-
       return modified_prefixes + _prefixes
     end
 

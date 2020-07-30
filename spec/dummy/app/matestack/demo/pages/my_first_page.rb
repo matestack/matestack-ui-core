@@ -14,6 +14,8 @@ class Demo::Pages::MyFirstPage < Matestack::Ui::Page
 
     my_card
     my_demo_card
+
+    foo_fancy_stuff title: 'Huhu'
   end
 
 
