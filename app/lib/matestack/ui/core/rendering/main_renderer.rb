@@ -16,17 +16,43 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     context = create_context_hash(controller_instance)
 
     if params[:only_page]
+      # standalone page rendering, used when performing a transition
       page_instance = page_class.new(controller_instance: controller_instance, context: context)
       render_matestack_object(controller_instance, page_instance)
-    elsif (component_key = params[:component_key])
+    elsif (params[:component_key].present? && params[:component_class].blank?)
+      # async component rerendering from non isolated context
+      component_key = params[:component_key]
       page_instance = page_class.new(controller_instance: controller_instance, context: context)
       render_component(component_key, page_instance, controller_instance, context)
-    # elsif (component_name = params[:component_key])
-    #   render_isolated_component(component_name, params.fetch(:component_args, EMPTY_JSON), controller_instance, context)
-    # TODO: right now this still goes through the URL of the page, hijacks it without caring
-    # about the page or app at all. If the component is truly isolated then I'd recommend
-    # maybe mounting a URL from the engine side where these requests go for rendering
-    # isolated components.
+    elsif (params[:component_class].present? && params[:component_key].blank?)
+      # isolated component rendering
+      component_class = params[:component_class]
+      page_instance = page_class.new(controller_instance: controller_instance, context: context)
+      if params[:public_options].present?
+        public_options = JSON.parse(params[:public_options]).with_indifferent_access
+      else
+        public_options = nil
+      end
+      render_isolated_component(component_class, page_instance, controller_instance, context, public_options)
+    elsif (params[:component_class].present? && params[:component_key].present?)
+      # async component rerendering from isolated context
+      component_class_name = params[:component_class]
+      component_key = params[:component_key]
+      page_instance = page_class.new(controller_instance: controller_instance, context: context)
+      if params[:public_options].present?
+        public_options = JSON.parse(params[:public_options]).with_indifferent_access
+      else
+        public_options = nil
+      end
+      component_class = resolve_isolated_component(component_class_name)
+      if component_class
+        component_instance = component_class.new(public_options: public_options, context: context)
+        if component_instance.authorized?
+          render_component(component_key, component_instance, controller_instance, context)
+        else
+          raise "not authorized"
+        end
+      end
     else
       if app_class == false
         page_instance = page_class.new(controller_instance: controller_instance, context: context)
@@ -48,7 +74,7 @@ module Matestack::Ui::Core::Rendering::MainRenderer
 
   def render_matestack_object(controller_instance, object, opts = {}, render_method = :show)
     object.prepare
-    object.response
+    object.response if object.respond_to? :response
     rendering_options = {html: object.call(render_method)}.merge!(opts)
     controller_instance.render rendering_options
   end
@@ -100,25 +126,22 @@ module Matestack::Ui::Core::Rendering::MainRenderer
   end
 
   # TODO: too many arguments maybe get some of them together?
-  # def render_isolated_component(component_name, jsoned_args, controller_instance, context)
-  #   component_class = resolve_isolated_component(component_name)
-  #
-  #   if component_class
-  #     args = JSON.parse(jsoned_args)
-  #     args[:context] = context
-  #     # TODO: add context/controller_instance etc.
-  #     component_instance = component_class.new(args)
-  #     if component_instance.authorized?
-  #       render_matestack_object(controller_instance, component_instance)
-  #     else
-  #       # some 4xx? 404?
-  #       raise "not authorized"
-  #     end
-  #   else
-  #     # some 404 probably
-  #     raise "component not found"
-  #   end
-  # end
+  def render_isolated_component(component_class_name, page_instance, controller_instance, context, public_options = nil)
+    component_class = resolve_isolated_component(component_class_name)
+
+    if component_class
+      component_instance = component_class.new(public_options: public_options, context: context)
+      if component_instance.authorized?
+        render_matestack_object(controller_instance, component_instance, {}, :render_isolated_content)
+      else
+        # some 4xx? 404?
+        raise "not authorized"
+      end
+    else
+      # some 404 probably
+      raise "component not found"
+    end
+  end
 
   def resolve_component(name)
     constant = const_get(name)
@@ -132,17 +155,16 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     nil
   end
 
-  # def resolve_isolated_component(name)
-  #   constant = const_get(name)
-  #   # change to specific AsyncComponent parent class
-  #   if constant < Matestack::Ui::Core::Async::Async
-  #     constant
-  #   else
-  #     nil
-  #   end
-  # rescue NameError
-  #   nil
-  # end
+  def resolve_isolated_component(name)
+    constant = const_get(name)
+    if constant < Matestack::Ui::Core::Isolate::Isolate
+      constant
+    else
+      nil
+    end
+  rescue NameError
+    nil
+  end
 
 
   def resolve_app_class(controller_instance, options)
