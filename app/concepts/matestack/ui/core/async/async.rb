@@ -1,5 +1,5 @@
 module Matestack::Ui::Core::Async
-  class Async < Matestack::Ui::Core::Component::Rerender
+  class Async < Matestack::Ui::Core::Component::Dynamic
     optional :id # will be required in 1.0.0
 
     def vuejs_component_name
@@ -16,6 +16,16 @@ module Matestack::Ui::Core::Async
         "v-if": "showing",
         id: @component_config[:component_key]
       })
+    end
+
+    def show
+      render :async
+    end
+
+    def render_content
+      render :children_wrapper do
+        render :children
+      end
     end
 
     def get_component_key
