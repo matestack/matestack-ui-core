@@ -29,7 +29,7 @@ describe "Action Component", type: :feature, js: true do
             button text: "Click me!"
           end
           div id: "timestamp" do
-            async show_on: "action_submitted_successfully" do
+            toggle show_on: "action_submitted_successfully" do
               plain "{{event.data.received_at}}"
             end
           end

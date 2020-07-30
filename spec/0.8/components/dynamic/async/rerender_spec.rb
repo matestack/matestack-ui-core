@@ -291,7 +291,7 @@ describe "Async Component", type: :feature, js: true do
               end
             end
           end
-          async show_on: 'async_rerender_error', id: 'async_error' do
+          toggle show_on: 'async_rerender_error', id: 'async_error' do
             plain 'Error - {{ event.data.id }}'
           end
         end
@@ -334,7 +334,7 @@ describe "Async Component", type: :feature, js: true do
               end
             end
           end
-          async show_on: 'async_rerender_error', id: 'async_error' do
+          toggle show_on: 'async_rerender_error', id: 'async_error' do
             plain 'Error - {{ event.data.id }}'
           end
         end

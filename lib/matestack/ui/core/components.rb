@@ -129,6 +129,7 @@ module Matestack::Ui::Core::Components
   require_core_component "th"
   require_core_component "thead"
   require_core_component "time"
+  require_core_component "toggle"
   require_core_component "tr"
   require_core_component "transition"
   require_core_component "u"
@@ -243,6 +244,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   th: Matestack::Ui::Core::Th::Th,
   thead: Matestack::Ui::Core::Thead::Thead,
   time: Matestack::Ui::Core::Time::Time,
+  toggle: Matestack::Ui::Core::Toggle::Toggle,
   tr: Matestack::Ui::Core::Tr::Tr,
   transition: Matestack::Ui::Core::Transition::Transition,
   u: Matestack::Ui::Core::U::U,
