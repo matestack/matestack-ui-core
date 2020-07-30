@@ -237,6 +237,9 @@ def ordering
 
   end
 end
+
+def content
+  # ...
 ```
 
 Without much hassle, clicking on the button inside the `collection_order_toggle` now switches the order of records by the `:last_name` key.

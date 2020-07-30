@@ -1,6 +1,6 @@
 # Authorization via Pundit or CanCanCan
 
-At [basemate](https://basemate.io), we have had good experiences using matestack with [Pundit](https://github.com/varvet/pundit). [CanCanCan](https://github.com/CanCanCommunity/cancancan), another very popular authorization library in Rails, is also supported, as shown below!
+At [matestack](https://matestack.io), we have had good experiences using matestack with [Pundit](https://github.com/varvet/pundit). [CanCanCan](https://github.com/CanCanCommunity/cancancan), another very popular authorization library in Rails, is also supported, as shown below!
 
 Both Pundit and CanCanCan use pure Ruby and focus on the model and controller layer, so they are compatible to matestack's UI library.
 

@@ -50,6 +50,8 @@ The last thing to do is adding the newly created dynamic component to `app/javas
 import '../../matestack/components/person/disclaimer'
 ```
 
+> need to register in component registry?
+
 Start your application and see if it works! You should be able to click the 'Hide'-button below the disclaimer text and it disappears/gets hidden.
 
 Note that it stays hidden when `matestack` page transition get performed, but re-appears on full page reloads. This was expected since the display/hide is performed purely on the client-side and, unlike a cookie or a configuration stored in a database, doesn't persist somewhere.
@@ -124,8 +126,8 @@ module Components::Registry
 
   Matestack::Ui::Core::Component::Registry.register_components(
     person_card: Components::Person::Card,
-    person_card: Components::Person::Disclaimer,
-    person_card: Components::Person::Activity
+    person_disclaimer: Components::Person::Disclaimer,
+    person_activity: Components::Person::Activity
   )
 
 end

@@ -1,3 +1,6 @@
+> 5 steps ()
+
+
 # Custom dynamic components
 
 To create dynamic behavior, you got either:

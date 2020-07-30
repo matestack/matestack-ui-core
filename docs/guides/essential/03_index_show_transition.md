@@ -42,18 +42,31 @@ end
 ```
 
 ## Page transitions
-In `app/matestack/demo/app.rb`, remove line 17-24 and add
+In `app/matestack/demo/app.rb`, replace the contents with the code snippet below:
 
 ```ruby
-br
-transition path: :persons_path, text: 'All persons'
-hr
+class Demo::App < Matestack::Ui::App
+
+  def response
+    header do
+      heading size: 1, text: 'Demo App'
+    end
+    main do
+      page_content
+      hr
+      transition path: :persons_path, text: 'All persons'
+    end
+  end
+
+end
 ```
 
-below line 13. By doing this, we make sure the person index page will be reachable from all pages. Also, the horizontal ruler (`hr`) tag makes it easier to distinguish between the wrapping `matestack` app and the `page_content`!
+We removed the prepare statement and will do the data fetching to the page level instead. Also, the transition links to the first two pages were removed and a transition to the `main` block of the `Demo::App` added. By doing this, we make sure the person index page will be reachable from all pages. Also, the horizontal ruler (`hr`) tag makes it easier to distinguish between the wrapping `matestack` app and the `page_content`!
 
 ## Person index page
-For the index page (where all the persons in the database get displayed), create a file called `app/matestack/demo/pages/persons/index.rb` and add the content below:
+Create a new folder called `persons` in `app/matestack/demo/pages/`, and move the `first_page.rb` and `second_page.rb` there.
+
+For the index page (where all the persons in the database get displayed), rename the `first_page.rb` to  `index.rb` and add the content below:
 
 ```ruby
 class Demo::Pages::Persons::Index < Matestack::Ui::Page
@@ -130,6 +143,6 @@ heroku open
 and be proud of yourself - you're getting somewhere with this!
 
 ## Recap & outlook
-Our **person** model now has a dedicated index and detail (=show) page, and the pages within our `matestack` app are properly linked to each other.
+Our **person** model now has a dedicated index and show (=detail) page, and the pages within our `matestack` app are properly linked to each other.
 
 Let's continue and add the necessary functionality for adding new persons and editing existing ones in the [next part of the series](/guides/essential/04_form_create_update_delete.md).

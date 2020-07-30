@@ -30,13 +30,19 @@ The contents of this article are heavily inspired by [Getting Started on Heroku 
 In the terminal, create a new Rails app by running
 
 ```sh
-rails new matestack-demo-application
+rails new matestack-demo-application --database=postgresql
 ```
 
 and switch into the newly created project via
 
 ```sh
 cd matestack-demo-application
+```
+
+> Need to create database first
+
+```
+rake db:create
 ```
 
 To make sure things work as expected, you can run
@@ -74,7 +80,17 @@ production:
   password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
 ```
 
-To install `matestack-ui-core`, add `gem 'matestack-ui-core'` to your Gemfile and run `bundle install`.
+To install `matestack-ui-core`, add 
+
+```ruby
+gem 'matestack-ui-core'
+```
+
+to your Gemfile and run 
+
+```sh
+bundle install
+```
 
 For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v0.7.6` followed by `yarn install`.
 
@@ -82,7 +98,7 @@ Then, add
 
 ```js
 import MatestackUiCore from 'matestack-ui-core'
-````
+```
 
 to the `app/javascripts/packs/application.js` and run
 

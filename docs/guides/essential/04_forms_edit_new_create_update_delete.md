@@ -49,19 +49,19 @@ class PersonsController < ApplicationController
   matestack_app Demo::App
 
   def new
-    render Demo::Pages::Persons::New)
+    render Demo::Pages::Persons::New
   end
 
   def index
-    render Demo::Pages::Persons::Index)
+    render Demo::Pages::Persons::Index
   end
 
   def show
-    render Demo::Pages::Persons::Show)
+    render Demo::Pages::Persons::Show
   end
 
   def edit
-    render Demo::Pages::Persons::Edit)
+    render Demo::Pages::Persons::Edit
   end
 
   def update
@@ -246,6 +246,9 @@ class Demo::Pages::Persons::Show < Matestack::Ui::Page
         transition: {
           follow_response: true
         }
+      },
+      confirm: {
+        text: 'Do you really want to delete this person?'
       }
     }
   end

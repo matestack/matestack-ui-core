@@ -144,6 +144,7 @@ Afterwards, add it to `app/matestack/demo/app.rb` within the `main`-block:
   main do
     page_content
     person_disclaimer
+    # ...
   end
 # ...
 ```

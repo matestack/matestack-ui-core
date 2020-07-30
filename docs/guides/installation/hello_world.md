@@ -1,6 +1,6 @@
 ## Getting from zero to one, quickly
 
-*Prerequisite:* We assume you have read and followed the [installation guide](/docs/install), either in a new or existing Rails application.
+*Prerequisite:* We assume you have read and followed the [installation guide](/guides/install/README.md), either in a new or existing Rails application.
 
 ### Creating your first Matestack app
 
@@ -101,4 +101,4 @@ Even though we have only seen static content in this hello world example, you ma
 
 ## Next steps
 
-Feel invited to check the [other guides](./guides/) for more complex examples or fork our [example application](https://github.com/basemate/matestack-example-application) to start playing around yourself!
+Feel invited to check the [other guides](./guides/) for more complex examples or fork our [example application](https://github.com/matestack/matestack-example-application) to start playing around yourself!

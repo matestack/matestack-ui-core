@@ -245,7 +245,7 @@ end
     end
 
     partial :other_persons
-    custom_person_activity
+    person_activity
   end
 
   def other_persons
@@ -390,13 +390,20 @@ import 'css/application'
 Except for the few changes in `application.scss`, our application still has the basic bootstrap look. We can quite easily customize the default settings by overriding variables right before the `@import`-statement in `app/javascript/css/custom-bootstrap.scss`. This is one example, but feel free to replace the colors with ones you like better:
 
 ```css
-$body-bg: ghostwhite;
-$body-color: #101;
+$matestack-darkest-orange: #FF3B14;
+
+$matestack-lightest-grey: #F4F4F5;
+$matestack-dark-grey: #A4A4AE;
+$matestack-darkest-grey: #1B1D35;
+
+$body-bg: $matestack-lightest-grey;
+$body-color: $matestack-darkest-grey;
 
 $theme-colors: (
-  "primary": purple,
-  "info": darkcyan,
-  "warning": darkred
+  "primary": $matestack-darkest-orange,
+  "secondary": $matestack-darkest-grey,
+  "info": $matestack-darkest-grey,
+  "warning": $matestack-dark-grey
 );
 
 @import "~bootstrap/scss/bootstrap.scss";
@@ -470,7 +477,8 @@ To test it, add the following content:
 
 ```css
 #disclaimer {
-  background-color: grey;
+  background-color: #767786;
+  color: #E8E8EB;
   padding: 0.7rem 0;
   .btn {
     margin-left: 2rem;

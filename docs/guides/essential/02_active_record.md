@@ -44,13 +44,13 @@ seeded_persons = [
 	{first_name: 'Abigail', last_name: 'Salte', role: :client},
 	{first_name: 'Woodrow', last_name: 'Trembly', role: :client},
 	{first_name: 'Murray', last_name: 'Fedorko', role: :client},
-	{first_name: 'Michaele', last_name: 'Kritikos',, role: :client},
-	{first_name: 'Sammie', last_name: 'Scovill',, role: :client},
-	{first_name: 'Xavier', last_name: 'Accosta',, role: :partner},
-	{first_name: 'Otis', last_name: 'Morro',, role: :partner},
+	{first_name: 'Michaele', last_name: 'Kritikos', role: :client},
+	{first_name: 'Sammie', last_name: 'Scovill', role: :client},
+	{first_name: 'Xavier', last_name: 'Accosta', role: :partner},
+	{first_name: 'Otis', last_name: 'Morro', role: :partner},
 	{first_name: 'Omer', last_name: 'Ottman', role: :partner},
 	{first_name: 'Marlo', last_name: 'Yousko', role: :staff},
-	{first_name: 'Manuel', last_name: 'Venn', role: :staff},
+	{first_name: 'Manuel', last_name: 'Venn', role: :staff}
 ]
 
 seeded_persons.each do |person|

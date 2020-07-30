@@ -1,7 +1,7 @@
 # Core Components
 
 Matestack provides you with a wide set of core components that enable you to easily build your UI.
-You can build your [own components](/docs/extend/README.md) as well, both static or dynamic ones.
+You can [create your own components](/guides/extend/README.md) as well, both static or dynamic ones.
 
 ## Static Core Components
 

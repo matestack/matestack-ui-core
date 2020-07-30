@@ -299,6 +299,9 @@ class Admin::Pages::Persons::Show < Matestack::Ui::Page
         transition: {
           follow_response: true
         }
+      },
+      confirm: {
+        text: 'Do you really want to delete this person?'
       }
     }
   end
@@ -363,6 +366,7 @@ class Admin::Pages::Persons::New < Matestack::Ui::Page
   end
 
 end
+
 
 # app/matestack/admin/pages/persons/edit.rb
 class Admin::Pages::Persons::Edit < Matestack::Ui::Page
@@ -518,7 +522,7 @@ Let's save the current status quo to Git by running
 
 ```sh
 git add app/matestack/admin/app.rb app/matestack/admin/pages/sessions/sign_in.rb app/matestack/admin/pages/persons/ config/application.rb config/locales/devise.en.yml
-````
+```
 
 and
 
@@ -537,6 +541,7 @@ class Admin::BaseController < ApplicationController
   before_action :authenticate_admin!
   helper_method :current_admin
 end
+
 
 # app/controllers/admin/persons_controller.rb
 class Admin::PersonsController < Admin::BaseController
@@ -568,7 +573,7 @@ class Admin::PersonsController < Admin::BaseController
     if @person.errors.any?
       render json: {errors: @person.errors}, status: :unprocessable_entity
     else
-      render json: { transition_to: person_path(id: @person.id) }, status: :ok
+      render json: { transition_to: admin_person_path(id: @person.id) }, status: :ok
     end
   end
 
@@ -579,13 +584,13 @@ class Admin::PersonsController < Admin::BaseController
     if @person.errors.any?
       render json: {errors: @person.errors}, status: :unprocessable_entity
     else
-      render json: { transition_to: person_path(id: @person.id) }, status: :created
+      render json: { transition_to: admin_person_path(id: @person.id) }, status: :created
     end
   end
 
   def destroy
     if @person.destroy
-      render json: { transition_to: persons_path }, status: :ok
+      render json: { transition_to: admin_persons_path }, status: :ok
     else
       render json: {errors: @person.errors}, status: :unprocessable_entity
     end
@@ -608,13 +613,14 @@ class Admin::PersonsController < Admin::BaseController
 
 end
 
+
 # app/controllers/admin/sessions_controller.rb
 class Admin::SessionsController < Devise::SessionsController
   layout 'administration'
   before_action :configure_sign_in_params, only: [:create]
 
   def new
-    render Admin::Pages::Sessions::SignIn, matestack_app: Admin
+    render Admin::Pages::Sessions::SignIn, matestack_app: Admin::App
   end
 
   def create
@@ -695,7 +701,7 @@ Again, as a milestone commit the recent changes by running
 
 ```sh
 git add app/controllers/admin/ config/routes.rb app/matestack/components/person/card.rb app/matestack/demo/pages/persons/
-````
+```
 
 and
 
@@ -719,7 +725,7 @@ Notice that we added `layout 'administration'` inside our admin controllers. Thi
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'administration', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'administration', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -793,7 +799,7 @@ Again, as a milestone commit the recent changes by running
 
 ```sh
 git add app/views/layouts/administration.html.erb app/javascript/
-````
+```
 
 and
 
@@ -858,7 +864,7 @@ To finish things off, let's add the recent changes to Git via
 
 ```sh
 git add app/controllers/persons_controller.rb app/matestack/demo/app.rb app/matestack/demo/pages/ db/
-````
+```
 
 and commit them by running
 
