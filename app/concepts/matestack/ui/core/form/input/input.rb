@@ -1,13 +1,11 @@
 require_relative '../utils'
+require_relative '../has_input_html_attributes'
 require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Input
   class Input < Matestack::Ui::Core::Component::Static
     include Matestack::Ui::Core::Form::Utils
+    include Matestack::Ui::Core::Form::HasInputHtmlAttributes
     include Matestack::Ui::Core::Form::HasErrors
-
-    html_attributes :accept, :alt, :autocomplete, :autofocus, :checked, :dirname, :disabled, :form, :formaction, 
-      :formenctype, :formmethod, :formnovalidate, :formtarget, :height, :list, :max, :maxlength, :min, :minlength, 
-      :multiple, :name, :pattern, :placeholder, :readonly, :required, :size, :src, :step, :type, :value, :width
 
     requires :key, :type
     optional :multiple, :init, for: { as: :input_for }, label: { as: :input_label }

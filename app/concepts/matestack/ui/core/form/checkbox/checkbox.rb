@@ -1,13 +1,11 @@
 require_relative '../utils'
+require_relative '../has_input_html_attributes'
 require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Checkbox
   class Checkbox < Matestack::Ui::Core::Component::Static
     include Matestack::Ui::Core::Form::Utils
+    include Matestack::Ui::Core::Form::HasInputHtmlAttributes
     include Matestack::Ui::Core::Form::HasErrors
-
-    html_attributes :accept, :alt, :autocomplete, :autofocus, :checked, :dirname, :disabled, :form, :formaction, 
-      :formenctype, :formmethod, :formnovalidate, :formtarget, :height, :list, :max, :maxlength, :min, :minlength, 
-      :multiple, :name, :pattern, :placeholder, :readonly, :required, :size, :src, :step, :type, :value, :width
 
     requires :key
     optional :value, :false_value, :multiple, :init, for: { as: :input_for }, label: { as: :input_label }, options: { as: :checkbox_options }
@@ -40,8 +38,13 @@ module Matestack::Ui::Core::Form::Checkbox
         ref: "input.#{attr_key}",
         'init-value': init_value,
         'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
+        'value-type': value_type,
         "#{v_model_type}": input_key,
       })
+    end
+
+    def value_type
+      item_value(checkbox_options.first).is_a?(Integer) ? Integer : nil
     end
 
     def item_value(item)

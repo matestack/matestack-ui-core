@@ -72,8 +72,8 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
-            form_select id: 'group-one-radio', key: :array_input_one, type: :radio, options: ['foo','bar']
-            form_select id: 'group-two-radio', key: :array_input_two, type: :radio, options: ['foo', 'bar']
+            form_radio id: 'group-one-radio', key: :array_input_one, options: ['foo','bar']
+            form_radio id: 'group-two-radio', key: :array_input_two, options: ['foo', 'bar']
             form_submit do
               button text: 'Submit me!'
             end

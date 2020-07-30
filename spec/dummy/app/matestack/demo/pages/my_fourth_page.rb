@@ -15,7 +15,9 @@ class Demo::Pages::MyFourthPage < Matestack::Ui::Page
         form_input key: :description, type: :text, placeholder: "Description", label: 'Description', attributes: { required: true }
         br
         paragraph text: 'Checkbox'
-        form_checkbox key: :status, label: 'foobar'
+        # form_checkbox key: :status, label: 'foobar'
+        form_radio key: :old_status, options: [0, 1], label: 'foobar', init: 0
+        form_radio key: :status, options: { 'Aktiv': 1, 'Inaktiv': 0 }, label: 'foobar'
         # form_input key: :title, type: :text, placeholder: "title", required: true
         # form_input key: :description, type: :text, placeholder: "Description", label: 'Description', attributes: { required: true }
         # br

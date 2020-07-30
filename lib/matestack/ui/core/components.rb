@@ -73,6 +73,7 @@ module Matestack::Ui::Core::Components
   require_core_component "form"
   require_core_component "form/checkbox"
   require_core_component "form/input"
+  require_core_component "form/radio"
   require_core_component "form/select"
   require_core_component "form/submit"
   require_core_component "header"
@@ -186,6 +187,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   form: Matestack::Ui::Core::Form::Form,
   form_checkbox: Matestack::Ui::Core::Form::Checkbox::Checkbox,
   form_input: Matestack::Ui::Core::Form::Input::Input,
+  form_radio: Matestack::Ui::Core::Form::Radio::Radio,
   form_select: Matestack::Ui::Core::Form::Select::Select,
   form_submit: Matestack::Ui::Core::Form::Submit::Submit,
   form_textarea: Matestack::Ui::Core::Form::Textarea::Textarea,
