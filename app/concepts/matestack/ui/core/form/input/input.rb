@@ -43,6 +43,10 @@ module Matestack::Ui::Core::Form::Input
       raise "included form config is missing, please add ':include' to parent form component" if @included_config.nil?
     end
 
+    def attr_key
+      super + "#{'[]' if multiple && type == :file}"
+    end
+
     private
 
     def parse_value(value)

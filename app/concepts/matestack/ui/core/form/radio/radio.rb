@@ -8,12 +8,12 @@ module Matestack::Ui::Core::Form::Radio
     include Matestack::Ui::Core::Form::HasErrors
 
     requires :key
-    optional :value, :false_value, :multiple, :init, for: { as: :input_for }, label: { as: :input_label }, options: { as: :radio_options }
+    optional :multiple, :init, for: { as: :input_for }, label: { as: :input_label }, options: { as: :radio_options }
 
     def response
       radio_options.to_a.each do |item|
         input html_attributes.merge(
-          attributes: vue_attributes.merge(ref: "select.#{attr_key}"), 
+          attributes: vue_attributes, 
           type: :radio,
           id: "#{id_for_item(item_value(item))}",
           name: item_name(item),
@@ -51,10 +51,6 @@ module Matestack::Ui::Core::Form::Radio
       item.is_a?(Array) ? item.first : item
     end
 
-    def checked_value
-      value || 1
-    end
-
     def v_model_type
       if radio_options && item_value(radio_options.first).is_a?(Integer)
         'v-model.number'
@@ -68,7 +64,7 @@ module Matestack::Ui::Core::Form::Radio
     end
 
     def id_for_item(value)
-      "#{html_attributes[:id]}_#{value}"
+      "#{html_attributes[:id] || attr_key}_#{value}"
     end
 
   end

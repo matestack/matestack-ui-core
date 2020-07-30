@@ -243,7 +243,7 @@ describe "Form Component", type: :feature, js: true do
           def response
             form form_config, :include do
               form_select id: "my-array-test-dropdown", key: :array_input, type: :dropdown, options: ["Array Option 1","Array Option 2"]
-              form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "1": "Hash Option 1", "2": "Hash Option 2" }
+              form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "Hash Option 1": 1, "Hash Option 2": 2 }
               form_submit do
                 button text: "Submit me!"
               end
@@ -267,7 +267,7 @@ describe "Form Component", type: :feature, js: true do
         select "Array Option 2", from: "my-array-test-dropdown"
         select "Hash Option 2", from: "my-hash-test-dropdown"
         expect_any_instance_of(FormTestController).to receive(:expect_params)
-          .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "2" }))
+          .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: 2 }))
         click_button "Submit me!"
       end
 
@@ -276,7 +276,7 @@ describe "Form Component", type: :feature, js: true do
           def response
             form form_config, :include do
               form_select id: "my-array-test-dropdown", key: :array_input, type: :dropdown, options: ["Array Option 1","Array Option 2"], init: "Array Option 1"
-              form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "1": "Hash Option 1", "2": "Hash Option 2" }, init: "1"
+              form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, init: 1
               form_submit do
                 button text: "Submit me!"
               end
@@ -297,11 +297,11 @@ describe "Form Component", type: :feature, js: true do
 
         visit "/example"
         expect(page).to have_field("my-array-test-dropdown", with: "Array Option 1")
-        expect(page).to have_field("my-hash-test-dropdown", with: "1")
+        expect(page).to have_field("my-hash-test-dropdown", with: 1)
         select "Array Option 2", from: "my-array-test-dropdown"
         select "Hash Option 2", from: "my-hash-test-dropdown"
         expect_any_instance_of(FormTestController).to receive(:expect_params)
-          .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: "2" }))
+          .with(hash_including(my_object: { array_input: "Array Option 2", hash_input: 2 }))
         click_button "Submit me!"
       end
 
@@ -322,7 +322,7 @@ describe "Form Component", type: :feature, js: true do
             form form_config, :include do
               form_input id: "description", key: :description, type: :text
               # TODO: Provide better Enum Options API
-              form_select id: "status", key: :status, type: :dropdown, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
+              form_select id: "status", key: :status, type: :dropdown, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
               form_submit do
                 button text: "Submit me!"
               end
@@ -368,7 +368,7 @@ describe "Form Component", type: :feature, js: true do
             form form_config, :include do
               form_input id: "description", key: :description, type: :text
               # TODO: Provide better Enum Options API
-              form_select id: "status", key: :status, type: :dropdown, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
+              form_select id: "status", key: :status, type: :dropdown, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
               form_submit do
                 button text: "Submit me!"
               end
@@ -413,7 +413,7 @@ describe "Form Component", type: :feature, js: true do
           def response
             form form_config, :include do
               # TODO: Provide better Enum Options API
-              form_select id: "status", key: :status, type: :dropdown, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
+              form_select id: "status", key: :status, type: :dropdown, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
               form_submit do
                 button text: "Submit me!"
               end
@@ -445,7 +445,7 @@ describe "Form Component", type: :feature, js: true do
           def response
             form form_config, :include do
               form_select id: "my-array-test-dropdown", key: :array_input, type: :dropdown, options: ["Array Option 1","Array Option 2"], class: "form-control"
-              form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "1": "Hash Option 1", "2": "Hash Option 2" }, class: "form-control"
+              form_select id: "my-hash-test-dropdown", key: :hash_input, type: :dropdown, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, class: "form-control"
               form_submit do
                 button text: "Submit me!"
               end

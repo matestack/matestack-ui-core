@@ -15,7 +15,7 @@ module Matestack::Ui::Core::Form::Checkbox
       if checkbox_options
         checkbox_options.to_a.each do |item|
           input html_attributes.merge(
-            attributes: vue_attributes.merge(ref: "select.multiple.#{attr_key}"), 
+            attributes: vue_attributes, 
             type: :checkbox,
             id: "#{id_for_item(item_value(item))}",
             name: item_name(item),
@@ -35,7 +35,7 @@ module Matestack::Ui::Core::Form::Checkbox
     def vue_attributes
       (options[:attributes] || {}).merge({
         "@change": change_event,
-        ref: "input.#{attr_key}",
+        ref: "select.multiple.#{attr_key}",
         'init-value': init_value,
         'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
         'value-type': value_type,

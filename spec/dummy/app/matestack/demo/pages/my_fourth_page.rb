@@ -17,7 +17,16 @@ class Demo::Pages::MyFourthPage < Matestack::Ui::Page
         paragraph text: 'Checkbox'
         # form_checkbox key: :status, label: 'foobar'
         form_radio key: :old_status, options: [0, 1], label: 'foobar', init: 0
+        br
         form_radio key: :status, options: { 'Aktiv': 1, 'Inaktiv': 0 }, label: 'foobar'
+        br
+        form_select key: :status, options: { 'Aktiv': 1, 'Inaktiv': 0 }, label: 'Select'
+        br
+        form_select key: :status, options: (1..20).to_a, label: 'Select', disabled_values: (1..5).to_a, placeholder: 'foobar'
+        br
+        form_select key: :foobar, options: (1..20).to_a, label: 'Select', multiple: true
+        # br
+        # form_checkbox key: :bar, options: (1..20).to_a, label: 'Select'
         # form_input key: :title, type: :text, placeholder: "title", required: true
         # form_input key: :description, type: :text, placeholder: "Description", label: 'Description', attributes: { required: true }
         # br

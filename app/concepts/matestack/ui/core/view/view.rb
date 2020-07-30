@@ -9,10 +9,6 @@ module Matestack::Ui::Core::View
     optional view: { as: :view_path } # Specify a view path to render
     optional partial: { as: :partial_path } # Specifiy a partial to render
 
-    def vue_js_component_name
-      'matestack-ui-core-rails-view'
-    end
-
     def include_partial
       controller = @view_context.present? ? @view_context.controller : options[:matestack_context][:controller]
       if view_path

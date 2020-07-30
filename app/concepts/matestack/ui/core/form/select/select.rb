@@ -5,74 +5,83 @@ module Matestack::Ui::Core::Form::Select
     include Matestack::Ui::Core::Form::Utils
     include Matestack::Ui::Core::Form::HasErrors
 
+    html_attributes :autofocus, :disabled, :form, :multiple, :name, :required, :size
+
     requires :key
-    requires options: { as: :select_options }
+    optional :multiple, :init, :placeholder, :disabled_values,
+      for: { as: :input_for }, 
+      label: { as: :input_label }, 
+      options: { as: :select_options }
 
-    def setup
-      if @tag_attributes[:id].nil?
-        @tag_attributes[:id] = attr_key
-      end
+    # def response
+    #   radio_options.to_a.each do |item|
+    #     input html_attributes.merge(
+    #       attributes: vue_attributes.merge(ref: "select.#{attr_key}"), 
+    #       type: :radio,
+    #       id: "#{id_for_item(item_value(item))}",
+    #       name: item_name(item),
+    #       value: item_value(item),
+    #     )
+    #     label text: item_label(item), for: id_for_item(item_value(item))
+    #   end
+    #   render_errors
+    # end
+
+    # def html_options
+    #   html_attributes.merge(
+    #     attributes: vue_attributes,
+    #   )
+    # end
+
+    def vue_attributes
+      (options[:attributes] || {}).merge({
+        "@change": change_event,
+        ref: vue_ref,
+        'init-value': init_value || [],
+        'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
+        'value-type': value_type,
+        "#{v_model_type}": input_key,
+      })
     end
 
-    def attr_key
-      key.to_s
+    def vue_ref
+      "select#{'.multiple' if multiple}.#{attr_key}"
     end
 
-    def option_values
-      values = select_options if select_options.is_a?(Array)
-      values = select_options.keys if select_options.is_a?(Hash)
-      return values
+    def value_type
+      item_value(select_options.first).is_a?(Integer) ? Integer : nil
     end
 
-    def options_type
-      return Integer if option_values.first.is_a?(Integer)
-      return String if option_values.first.is_a?(String)
+    def item_value(item)
+      item.is_a?(Array) ? item.last : item
     end
 
-    def model_binding
+    def item_name(item)
+      "#{attr_key}_#{item.is_a?(Array) ? item.first : item}"
+    end
 
-      if option_values.first.is_a?(Integer)
-        return "v-model.number"
+    def item_disabled(item)
+      disabled_values.present? && disabled_values.include?(item_value(item))
+    end
+
+    def item_label(item)
+      item.is_a?(Array) ? item.first : item
+    end
+
+    def v_model_type
+      if select_options && item_value(select_options.first).is_a?(Integer) && !multiple
+        'v-model.number'
       else
-        return "v-model"
+        'v-model'
       end
     end
 
-    def init_value
-      unless options[:init].nil?
-        return options[:init]
-      end
-
-      unless options[:for].nil?
-        value = options[:for].send(key)
-        if [true, false].include? value
-          value ? 1 : 0
-        else
-          return value
-        end
-      else
-        unless @included_config.nil? && @included_config[:for].nil?
-          if @included_config[:for].respond_to?(key)
-            value = @included_config[:for].send(key)
-            if [true, false].include? value
-              value ? 1 : 0
-            else
-              return value
-            end
-          else
-            if @included_config[:for].is_a?(Symbol) || @included_config[:for].is_a?(String)
-              return nil
-            end
-            if @included_config[:for].is_a?(Hash)
-              return @included_config[:for][key]
-            end
-          end
-        end
-      end
+    def change_event
+      "inputChanged('#{attr_key}')"
     end
 
-    def id_for_option value
-      return "#{@tag_attributes[:id]}_#{value}"
+    def id_for_item(value)
+      "#{html_attributes[:id]}_#{value}"
     end
 
   end

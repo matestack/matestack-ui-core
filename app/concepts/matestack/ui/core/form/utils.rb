@@ -1,7 +1,7 @@
 module Matestack::Ui::Core::Form::Utils
 
   def input_key
-    "data['#{key.to_s}']"
+    "data['#{attr_key.to_s}']"
   end
 
   def input_wrapper
@@ -18,9 +18,9 @@ module Matestack::Ui::Core::Form::Utils
 
   def attr_key
     if input_wrapper.nil?
-      return "#{key.to_s}#{'[]' if multiple}"
+      return "#{key.to_s}"
     else
-      return "#{input_wrapper}.#{key.to_s}#{'[]' if multiple}"
+      return "#{input_wrapper}.#{key.to_s}"
     end
   end
 
