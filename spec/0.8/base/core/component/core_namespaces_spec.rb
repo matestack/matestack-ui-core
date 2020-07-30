@@ -40,7 +40,7 @@ describe "Component", type: :feature, js: true do
       end
 
       #defined in CORE_ROOT/app/concepts/matestack/ui/core/component1/component1.rb
-      class Matestack::Ui::Core::Component1::Component1 < Matestack::Ui::StaticComponent
+      class Matestack::Ui::Core::Component1::Component1 < Matestack::Ui::Component
         def response
           div id: "core-component-1" do
             plain "static component 1"
@@ -51,7 +51,7 @@ describe "Component", type: :feature, js: true do
       end
 
       #defined in CORE_ROOT/app/concepts/matestack/ui/core/component1/component2.rb
-      class Matestack::Ui::Core::Component1::Component2 < Matestack::Ui::StaticComponent
+      class Matestack::Ui::Core::Component1::Component2 < Matestack::Ui::Component
         def response
           div id: "core-component-2" do
             plain "static component 2"
@@ -62,7 +62,7 @@ describe "Component", type: :feature, js: true do
       end
 
       #defined in CORE_ROOT/app/concepts/matestack/ui/core/component1/component2.rb
-      class Matestack::Ui::Core::Component1::ThirdComponent < Matestack::Ui::StaticComponent
+      class Matestack::Ui::Core::Component1::ThirdComponent < Matestack::Ui::Component
         def response
           div id: "core-component-3" do
             plain "static component 3"

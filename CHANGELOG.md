@@ -232,10 +232,7 @@ This behavior changed in `0.8.0`:
 
 ```ruby
 class Matestack::Ui::Core::Collection::Filter::Filter < Matestack::Ui::DynamicComponent
-
-  def vuejs_component_name
-    "matestack-ui-core-collection-filter"
-  end
+  vue_js_component_name "matestack-ui-core-collection-filter"
 
   #...
 
@@ -259,10 +256,7 @@ This behavior changed in `0.8.0`:
 
 ```ruby
 class Components::Some::Component < Matestack::Ui::DynamicComponent
-
-  def vuejs_component_name
-    "some-component"
-  end
+  vue_js_component_name "some-component"
 
   #...
 

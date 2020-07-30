@@ -23,8 +23,8 @@ describe "Component", type: :feature, js: true do
 
   describe "static components" do
 
-    it "can render static content without any javascript involved if inherit from 'Matestack::Ui::StaticComponent'" do
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+    it "can render static content without any javascript involved if inherit from 'Matestack::Ui::Component'" do
+      class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
             plain "static component"

@@ -26,7 +26,7 @@ describe "Page", type: :feature, js: true do
 
   it "can fill slots of components with access to page instance scope" do
 
-    class Component < Matestack::Ui::StaticComponent
+    class Component < Matestack::Ui::Component
 
       def prepare
         @foo = "foo from component"

@@ -475,7 +475,7 @@ describe "Form Component", type: :feature, js: true do
       it "Example 1 - Async submit request with clientside payload from component-level" do
         module Components end
 
-        class Components::SomeComponent < Matestack::Ui::StaticComponent
+        class Components::SomeComponent < Matestack::Ui::Component
           def response
             form form_config, :include do
               form_input id: "my-test-input", key: :foo, type: :text

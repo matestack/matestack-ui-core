@@ -1,11 +1,9 @@
 module Matestack::Ui::Core::Action
   class Action < Matestack::Ui::Core::Component::Dynamic
+    vue_js_component_name 'matestack-ui-core-action'
+
     optional :path, :success, :failure, :notify, :confirm, 
       method: { as: :action_method }, params: { as: :action_params }
-
-    def vuejs_component_name
-      'matestack-ui-core-action'
-    end
 
     def setup
       @component_config[:action_path] = action_path
