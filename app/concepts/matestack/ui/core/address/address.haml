@@ -1,5 +1,5 @@
-%address{@tag_attributes}
-  - if text.nil? && block_given?
+%address{ html_attributes }
+  - if text.blank? && block_given?
     = yield
   - else
     = text

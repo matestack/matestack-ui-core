@@ -1,50 +1,50 @@
-- case options[:size]
+- case size
 - when 1
   %h1{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
 - when 2
   %h2{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
 - when 3
   %h3{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
 - when 4
   %h4{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
 - when 5
   %h5{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
 - when 6
   %h6{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
 - else
   %h1{@tag_attributes}
-    - if options[:text].blank?
+    - if text.blank?
       - if block_given?
         = yield
     - else
-      = options[:text]
+      = text
