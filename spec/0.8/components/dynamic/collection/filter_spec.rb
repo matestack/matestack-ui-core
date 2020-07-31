@@ -58,7 +58,7 @@ describe "Collection Component", type: :feature, js: true do
         end
 
         def content
-          async rerender_on: "my-first-collection-update" do
+          async id: 'my-colletion', rerender_on: "my-first-collection-update" do
             collection_content @my_collection.config do
               ul do
                 @my_collection.data.each do |dummy|
