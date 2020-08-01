@@ -1,23 +1,24 @@
-# matestack core component: Data
+# Matestack Core Component: Data
 
-Show [specs](/spec/usage/components/data_spec.rb)
+The HTML `<data>` tag, implemented in Ruby.
 
-The HTML `<data>` tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/data_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
-
-#### # id (optional)
-Expects a string with all ids the `<data>` should have.
-
-#### # class (optional)
-Expects a string with all classes the `<data>` should have.
-
-#### # value (optional)
+### Value - optional
 Expects a string and specifies the machine-readable translation of the content of the `<data>` element.
 
-## Example 1: Yield a given block
+### Text - optional
+Expects a string which will be displayed as the content inside the `<data>` tag.
+
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
+
+## Examples
+
+### Example 1: Yield a given block
 
 ```ruby
 data id: 'foo', class: 'bar', value: '1300' do
@@ -33,7 +34,7 @@ returns
 </data>
 ```
 
-## Example 2: Render `options[:text]` param
+### Example 2: Render `options[:text]` param
 
 ```ruby
 data id: 'foo', class: 'bar', value: '1301', text: 'Data example 2'
@@ -45,3 +46,4 @@ returns
 <data id="foo" class="bar" value="1301">
   Data example 2
 </data>
+```

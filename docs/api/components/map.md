@@ -1,22 +1,21 @@
-# matestack core component: Map
+# Matestack Core Component: Map
 
-Show [specs](/spec/usage/components/map_spec.rb)
+The HTML `<map>` tag, implemented in Ruby.
 
-The HTML `<map>` tag implemented in Ruby.
+Feel free to check out the [component specs](/spec/usage/components/map_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
-This component has a required `name` attribute and takes 2 optional configuration params. It contains a number of `<area>` elements that define the clickable areas in the image map.
+This component can take various optional configuration params and yields content. It is supposed to contain a number of `<area>` elements that define the clickable areas in the image map.
 
-#### # id (optional)
-Expects a string with all ids the `<map>` should have.
+### Name - required
+Specifies the name of this `<map>` tag.
 
-#### # class (optional)
-Expects a string with all classes the `<map>` should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # name
-Specifies the name of a parameter.
+## Examples
 
-## Example:
+### Example 1: Basic usage
 
 ```ruby
 img path: 'matestack-logo.png', width: 500, height: 300, alt: "otherlogo",  usemap: "#newmap"

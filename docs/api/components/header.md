@@ -1,20 +1,15 @@
-# matestack core component: Header
+# Matestack Core Component: Header
 
-Show [specs](/spec/usage/components/header_spec.rb)
+The HTML `<header>` tag, implemented in Ruby.
 
-The HTML header tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/header_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-This component expects 2 optional configuration params and optional content.
+## Examples
 
-#### # id
-Expects a string with all ids the header should have.
-
-#### # class
-Expects a string with all classes the header should have.
-
-## Example
+## Example 1: Basic usage
 
 ```ruby
 header id: "foo", class: "bar" do

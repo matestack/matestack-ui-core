@@ -1,8 +1,8 @@
-# matestack core component: Video
+# Matestack Core Component: Video
 
-Show [specs](/spec/usage/components/video_spec.rb)
+The HTML `video` tag, implemented in Ruby.
 
-The HTML video tag implemented in Ruby.
+Feel free to check out the [component specs](/spec/usage/components/video_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
 The video component takes mandatory path and type arguments and can take a number of optional configuration params.
@@ -15,9 +15,6 @@ Expects a boolean and specifies whether the video controls (play/pause button et
 
 #### # height (optional)
 Expects an integer with the height of the video in px.
-
-#### # id, class (optional)
-Like most of the core components, you can give a video an id and a class.
 
 #### # loop (optional)
 Expects a boolean and specifies whether the video will start over again every time it is finished.
@@ -40,8 +37,9 @@ Expects a string (`auto`, `metadata` or `none`) and specifies whether the whole 
 #### # width (optional)
 Expects an integer with the width of the video in px.
 
-## Example
+## Examples
 
+### Example 1: Basic usage
 
 ```ruby
 video path: 'corgi.mp4', type: "mp4", width: 500, height: 300

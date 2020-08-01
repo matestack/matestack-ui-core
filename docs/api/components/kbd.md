@@ -1,20 +1,21 @@
-# matestack core component: kbd
+# Matestack Core Component: kbd
 
-Show [specs](/spec/usage/components/kbd_spec.rb)
+The HTML `<kbd>` tag, implemented in Ruby.
 
-The HTML kbd tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/kbd_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
+### Text - optional
+Expects a string which will be displayed as the content inside the `<kbd>` tag.
 
-#### # id (optional)
-Expects a string with all ids the kbd should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # class (optional)
-Expects a string with all classes the kbd should have.
+## Examples
 
-## Example 1: Yield a given block
+### Example 1: Yield a given block
 
 ```ruby
 kbd id: 'foo', class: 'bar' do
@@ -30,7 +31,7 @@ returns
 </kbd>
 ```
 
-## Example 2: Render `options[:text]` param
+### Example 2: Render `options[:text]` param
 
 ```ruby
 kbd id: 'foo', class: 'bar', text: 'Keyboard input'
@@ -42,3 +43,4 @@ returns
 <kbd id="foo" class="bar">
   Keyboard input
 </kbd>
+```

@@ -1,8 +1,8 @@
-# matestack core component: Img
+# Matestack Core Component: Img
 
-Show [specs](/spec/usage/components/icon_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/icon_spec.rb).
 
-The HTML img tag implemented in ruby.
+The HTML img tag, implemented in Ruby.
 
 ## Parameters
 

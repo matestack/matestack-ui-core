@@ -1,8 +1,8 @@
-# matestack core component: Object
+# Matestack Core Component: Object
 
-Show [specs](/spec/usage/components/object_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/object_spec.rb).
 
-The HTML `<object>` tag implemented in Ruby.
+The HTML `<object>` tag, implemented in Ruby.
 
 ## Parameters
 

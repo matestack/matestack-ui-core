@@ -1,35 +1,32 @@
-# matestack core component: Label
+# Matestack Core Component: Label
 
-Show [specs](/spec/usage/components/label_spec.rb)
+The HTML `<label>` tag, implemented in Ruby.
 
-
-The HTML label tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/label_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 3 optional configuration params and optional content.
+### For - optional
+Expects a string that binds the label to a given form element (matches `id` of form element).
 
-#### # id (optional)
-Expects a string with all ids the div should have.
-
-#### # class (optional)
-Expects a string with all classes the div should have.
-
-#### # for (optional)
-Expects a string that binds the label to a given form element (To match `id` of form element)
-
-#### # form (optional)
+### Form - optional
 Expects a string that specifies which form or forms the label belongs to.
 
-## Example
+### Text - optional
+Expects a string which will be displayed as the content inside the `<label>` tag.
+
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
+
+## Examples
+
+### Example 1: Yield a given block
 
 ```ruby
 label id: "foo", class: "bar", for: 'input_id', form: 'form1' do
-  plain 'Label For Element' # optional content
+  plain 'Label For Element'
 end
-
-label id: 'foo', form: 'form1', text: "Label for form with id='form1'"
-
 ```
 
 returns
@@ -38,8 +35,16 @@ returns
 <label for="input_id" id="foo" class="bar">
   Label For Element
 </label>
-
-<label form="form1" id="foo">Label for form with id='form1'</label>
-
 ```
 
+### Example 2: Render `options[:text]` param
+
+```ruby
+label id: 'foo', form: 'form1', text: "Label for form with id='form1'"
+```
+
+returns
+
+```html
+<label form="form1" id="foo">Label for form with id='form1'</label>
+```

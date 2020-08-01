@@ -1,6 +1,6 @@
-# matestack core component: Onclick
+# Matestack Core Component: Onclick
 
-Show [specs](../../spec/usage/components/onclick_spec.rb)
+Feel free to check out the [component specs](../../spec/usage/components/onclick_spec.rb).
 
 The `onclick` component renders a div that runs a function when the user clicks on it. This is a simple component that can be used to wrap components with a onclick function that will emit a event. The event that must be emitted onclick can defined by passing a hash into the `onclick` component that has the key `emit`. See example below for more details.
 

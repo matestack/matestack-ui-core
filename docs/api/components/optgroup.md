@@ -1,26 +1,24 @@
-# matestack core component: Optgroup
+# Matestack Core Component: Optgroup
 
-Show [specs](/spec/usage/components/optgroup_spec.rb)
+The HTML `<optgroup>` tag, implemented in Ruby.
 
-The HTML `<optgroup>` tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/optgroup_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and yields a block.
 
-This component can take 4 optional configuration params and yield the passed content.
+### Disabled - optional
+Expects a boolean to specify if the `<optgroup>` should be disabled. Defaults to `false`, so if not specified otherwise optgroups are **not disabled**.
 
-#### # id (optional)
-Expects a string with all ids the `<optgroup>` should have.
+### Label - optional
+Expects a string which will be displayed as the label inside the `<optgroup>` tag.
 
-#### # class (optional)
-Expects a string with all classes the `<optgroup>` should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # disabled (optional)
-Specifies that the `<optgroup>` should be disabled.
+## Examples
 
-#### # label (optional)
-Specifies a label for the `<optgroup>`.
-
-## Example: Yield a given block
+### Example 1: Yield a given block
 
 ```ruby
 optgroup label: 'Swedish Cars' do
@@ -35,5 +33,25 @@ returns
 <optgroup label="Swedish Cars">
   <option value="volvo">Volvo</option>
   <option value="saab">Saab</option>
+</optgroup>
+```
+
+### Example 2: Using disabled configuration
+
+```ruby
+optgroup label: 'Disabled Group', disabled: true, id: 'disabled-group' do
+  option text: 'Option J'
+  option text: 'Option K'
+  option text: 'Option L'
+end
+```
+
+returns
+
+```html
+<optgroup disabled="disabled" id="disabled-group" label="Disabled Group">
+  <option>Option J</option>
+  <option>Option K</option>
+  <option>Option L</option>
 </optgroup>
 ```

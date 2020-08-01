@@ -1,8 +1,8 @@
-# matestack core component: Output
+# Matestack Core Component: Output
 
-Show [specs](/spec/usage/components/output_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/output_spec.rb).
 
-The HTML `<output>` tag implemented in ruby.
+The HTML `<output>` tag, implemented in Ruby.
 
 ## Parameters
 

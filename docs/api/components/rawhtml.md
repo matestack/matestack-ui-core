@@ -1,6 +1,6 @@
-# matestack core component: Rawhtml
+# Matestack Core Component: Rawhtml
 
-Show [specs](/spec/usage/components/rawhtml_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/rawhtml_spec.rb).
 
 This element simply renders the value of a variable (or simple a string) wherever you want it **without escaping HTML**.
 

@@ -1,6 +1,6 @@
-# matestack core component: Link
+# Matestack Core Component: Link
 
-Show [specs](/spec/usage/components/link_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/link_spec.rb).
 
 This component is used to either navigate within your matestack application or to send requests to outside URLs.
 

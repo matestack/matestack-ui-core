@@ -1,6 +1,6 @@
-# matestack core component: Table
+# Matestack Core Component: Table
 
-Show [specs](/spec/usage/components/table_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/table_spec.rb).
 
 Use tables to implement `<table>`, `<tr>`, `<th>`, `<td>`, `<thead>`, `<tbody>` and `<tfoot>` tags.
 

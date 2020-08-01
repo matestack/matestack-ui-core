@@ -1,6 +1,6 @@
-# matestack core component: Youtube
+# Matestack Core Component: Youtube
 
-Show [specs](../../spec/usage/components/youtube_spec.rb)
+Feel free to check out the [component specs](../../spec/usage/components/youtube_spec.rb).
 
 A youtube video, embedded into an `iFrame` HTML tag.
 

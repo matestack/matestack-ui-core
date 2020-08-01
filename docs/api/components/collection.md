@@ -1,6 +1,6 @@
-# matestack core component: Collection
+# Matestack Core Component: Collection
 
-Show [specs](/spec/usage/components/collection_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/collection_spec.rb).
 
 The `collection` component is designed to
 

@@ -1,8 +1,8 @@
-# matestack core component: Picture
+# Matestack Core Component: Picture
 
-Show [specs](/spec/usage/components/picture_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/picture_spec.rb).
 
-The HTML `<picture>` tag implemented in ruby.
+The HTML `<picture>` tag, implemented in Ruby.
 
 ## Parameters
 

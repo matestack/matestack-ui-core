@@ -1,5 +1,3 @@
-# matestack core component: PG
+# Matestack Core Component: PG
 
-Show [specs](/spec/usage/components/pg_spec.rb)
-
-The HTML `<p>` tag implemented in ruby. Please refer to the [paragraph core component](/docs/components/paragraph.md) since the PG component is deprecated and will be removed sometime in the future.
+The HTML `<p>` tag, implemented in Ruby. Please refer to the [paragraph core component](/docs/api/components/paragraph.md) since the PG component is deprecated and will be removed sometime in the future.

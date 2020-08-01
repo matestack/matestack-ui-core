@@ -1,25 +1,21 @@
-# matestack core component: Caption
+# Matestack Core Component: Caption
 
-Show [specs](/spec/usage/components/caption_spec.rb)
+The HTML `<caption>` tag, implemented in Ruby.
 
-The HTML `<caption>` tag implemented in ruby. According to the [W3C specification](https://www.w3schools.com/tags/tag_caption.asp), it defines a table caption, it must be inserted directly after the `<table>` tag, and there should only be one caption per table.
+Feel free to check out the [component specs](/spec/usage/components/caption_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can handle various optional configuration params and can either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 3 optional configuration params and optional content.
-
-#### # id (optional)
-Expects a string with all ids the caption should have.
-
-#### # class (optional)
-Expects a string with all classes the caption should have.
-
-#### # text (optional)
+### Text - optional
 Expects a string with the text that should go inside the `<caption>` tag.
 
-## Example 1
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-Specifying the text directly
+## Examples
+
+### Example 1: Render options[:text] param
 
 ```ruby
 table do
@@ -37,9 +33,7 @@ returns
 </table>
 ```
 
-## Example 2
-
-Rendering a content block between the `<caption>` tags
+### Example 2: Yield a given block
 
 ```ruby
 table id: 'foo', class: 'bar' do
@@ -54,30 +48,5 @@ returns
 ```html
 <table id="foo" class="bar">
   <caption>table caption</caption>
-</table>
-```
-
-## Example 3
-
-Rendering a `<span>` tag inside `<caption>` tags
-
-```ruby
-table do
-  caption do
-    plain "Hello"
-    span do
-      plain "table contents"
-    end
-  end
-end
-```
-
-returns
-
-```html
-<table>
-  <caption>
-    Hello <span>table contents</span>
-  </caption>
 </table>
 ```

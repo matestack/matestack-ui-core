@@ -1,6 +1,6 @@
-# matestack core component: Lists
+# Matestack Core Component: Lists
 
-Show [specs](/spec/usage/components/list_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/list_spec.rb).
 
 Use lists to implement `<ol>`, `<ul>` and `<li>`-tags.
 

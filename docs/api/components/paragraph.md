@@ -1,66 +1,51 @@
-# matestack core component: Paragraph
+# Matestack Core Component: Paragraph
 
-Show [specs](/spec/usage/components/paragraph_spec.rb)
+The HTML `<p>` tag, implemented in Ruby. This is a workaround because the single `p` is a [`Kernel` method in Ruby](https://ruby-doc.org/core-2.6.5/Kernel.html#method-i-p) (directly writes `obj.inspect` followed by a newline to the program’s standard output, e.g. `p foo` equals `puts foo.inspect`).
 
-The HTML `<p>` tag implemented in ruby. This is a workaround because the single `p` is a [`Kernel` method in Ruby](https://ruby-doc.org/core-2.6.5/Kernel.html#method-i-p) (directly writes `obj.inspect` followed by a newline to the program’s standard output, e.g. `p foo` equals `puts foo.inspect`).
+Feel free to check out the [component specs](/spec/usage/components/paragraph_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 3 optional configuration params and optional content.
+### Text - optional
+Expects a string which will be displayed as the content inside the `<p>` tag.
 
-#### # id (optional)
-Expects a string with all ids the p should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # class (optional)
-Expects a string with all classes the p should have.
+## Examples
 
-#### # text (optional)
-Expects a string with the text that should go into the `<p>` tag.
-
-## Example 1
-Specifying the text directly
+### Example 1: Yield a given block
 
 ```ruby
-div id: "foo", class: "bar" do
-  paragraph text: "Hello World"
+paragraph do
+  plain "Hello World"
 end
 ```
 
 returns
 
 ```html
-<div id="foo" class="bar">
-  <p>Hello World</p>
-</div>
+<p>Hello World</p>
 ```
 
-## Example 2
-Rendering a content block between the `<p>` tags
+### Example 2: Render options[:text] param
 
 ```ruby
-div id: "foo", class: "bar" do
-  paragraph do
-    plain "Hello World"
-  end
-end
+paragraph text: "Hello World"
 ```
 
 returns
 
 ```html
-<div id="foo" class="bar">
-  <p>Hello World</p>
-</div>
+<p>Hello World</p>
 ```
 
-## Example 3
-Rendering a `<span>` tag into `<p>` tags
+## Example 3: Rendering another component inside
 
 ```ruby
 paragraph id: "foo", class: "bar" do
-  span do
-    plain "Hello World"
-  end
+  span text: "Hello World"
 end
 ```
 

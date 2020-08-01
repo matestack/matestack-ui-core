@@ -1,51 +1,42 @@
-# matestack core component: Dfn
+# Matestack Core Component: Dfn
 
-Show [specs](/spec/usage/components/dfn_spec.rb)
+The HTML `<dfn>` tag, implemented in Ruby.
 
-The HTML `<dfn>` tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/dfn_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 2 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
+### Text - optional
+Expects a string which will be displayed as the content inside the `<dfn>` tag.
 
-#### # id (optional)
-Expects a string with all ids the dfn should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # class (optional)
-Expects a string with all classes the dfn should have.
+## Examples
 
-## Example 1
-Adding an optional id
+### Example 1: Yield a given block
 
 ```ruby
-div id: "foo", class: "bar" do
-  dfn id: "dfn-id" do
-    plain 'Example'
-  end
+dfn id: "dfn-id" do
+  plain 'Example'
 end
 ```
 
 returns
 
 ```html
-<div id="foo" class="bar">
-  <dfn id="dfn-id">Example</dfn>
-</div>
+<dfn id="dfn-id">Example</dfn>
 ```
 
-## Example 2
-Adding an optional class
+### Example 2: Render options[:text] param
 
 ```ruby
-div id: "foo", class: "bar" do
-  dfn class: "dfn-class", text: 'Example'
-end
+dfn class: "dfn-class", text: 'Example'
 ```
 
 returns
 
 ```html
-<div id="foo" class="bar">
-  <dfn class="dfn-class">Example</dfn>
-</div>
+<dfn class="dfn-class">Example</dfn>
 ```

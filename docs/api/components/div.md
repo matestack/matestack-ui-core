@@ -1,20 +1,15 @@
-# matestack core component: Div
+# Matestack Core Component: Div
 
-Show [specs](/spec/usage/components/div_spec.rb)
+The HTML `<div>` tag, implemented in Ruby.
 
-The HTML div tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/div_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-This component can take 2 optional configuration params and optional content.
+## Examples
 
-#### # id (optional)
-Expects a string with all ids the div should have.
-
-#### # class (optional)
-Expects a string with all classes the div should have.
-
-## Example
+### Example 1: Basic usage
 
 ```ruby
 div id: "foo", class: "bar" do

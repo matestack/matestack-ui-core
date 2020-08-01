@@ -1,48 +1,21 @@
-# matestack core component: Fieldset
+# Matestack Core Component: Fieldset
 
-Show [specs](/spec/usage/components/fieldset_spec.rb)
+The HTML `<fieldset>` tag, implemented in Ruby.
 
-Use Fieldset to group several `<input>` and `<label>` tags.
-
+Feel free to check out the [component specs](/spec/usage/components/fieldset_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and yield a block.
 
-`<fieldset>` can take two optional configuration params and optional content.
+### Disabled - optional
+Expects a boolean. If set to true, the `<fieldset>` will be disabled.
 
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-### Optional configuration
+## Examples
 
-#### id (optional)
-
-Expects a string with all ids the details tag should have.
-
-#### class (optional)
-
-Expects a string with all classes the details tag should have.
-
-#### Disabled (optional)
-
-Set `disabled` attribute on `<fieldset>` to disable all controls inside the `<fieldset>`
-
-## Example 1
-
-```ruby
- fieldset do
-    legend text: 'Your Inputs for Personal details'
-    label text: 'Personal Detail'
-    input
-  end
-```
-
-```html
-<fieldset>
-  <legend>Your Inputs for Personal details</legend>
-  <label>Personal Detail</label>
-  <input>
-</fieldset>
-```
-
-## Example 2
+### Example 1: Basic usage
 
 ```ruby
 fieldset id: 'foo', class: 'bar' do
@@ -60,10 +33,7 @@ end
 </fieldset>
 ```
 
-
-### Example 3
-
-**With Disabled Attribute**
+### Example 2: Disabled Attributes
 
 ```ruby 
 fieldset disabled: true do

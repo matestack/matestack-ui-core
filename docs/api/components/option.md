@@ -1,8 +1,8 @@
-# matestack core component: Option
+# Matestack Core Component: Option
 
-Show [specs](/spec/usage/components/option_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/option_spec.rb).
 
-The HTML `<option>` tag implemented in ruby.
+The HTML `<option>` tag, implemented in Ruby.
 
 ## Parameters
 

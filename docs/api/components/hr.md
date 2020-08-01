@@ -1,49 +1,28 @@
-# matestack core component: Hr
+# Matestack Core Component: Hr
 
-Show [specs](/spec/usage/components/hr_spec.rb)
+The HTML `<hr>` tag, implemented in Ruby.
 
-The HTML `<hr>` tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/hr_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-This component can take 2 optional configuration params.
+## Examples
 
-#### # id (optional)
-Expects a string with all ids the hr should have.
-
-#### # class (optional)
-Expects a string with all classes the hr should have.
-
-## Example 1
-Adding an optional id
+### Example 1: Basic usage
 
 ```ruby
-div id: "foo", class: "bar" do
-  hr id: "hr-id"
-end
+hr
+hr id: "hr-id"
+hr class: "hr-class"
+hr id: "hr-id", class: "hr-class"
 ```
 
 returns
 
 ```html
-<div id="foo" class="bar">
-  <hr id="hr-id">
-</div>
-```
-
-## Example 2
-Adding an optional class
-
-```ruby
-div id: "foo", class: "bar" do
-  hr class: "hr-class"
-end
-```
-
-returns
-
-```html
-<div id="foo" class="bar">
-  <hr class="hr-class">
-</div>
+<hr>
+<hr id="hr-id">
+<hr class="hr-class">
+<hr id="hr-id" class="hr-class">
 ```

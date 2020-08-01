@@ -1,6 +1,6 @@
-# matestack core component: Action
+# Matestack Core Component: Action
 
-Show [specs](/spec/usage/components/action_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/action_spec.rb).
 
 The action component allows us to trigger HTTP requests!
 

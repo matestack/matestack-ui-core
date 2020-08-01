@@ -1,27 +1,25 @@
-# matestack core component: Param
+# Matestack Core Component: Param
 
-Show [specs](/spec/usage/components/param_spec.rb)
+The HTML `<param>` tag, implemented in Ruby.
 
-The HTML `<param>` tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/param_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 4 optional configuration params.
-
-#### # id (optional)
-Expects a string with all ids the `<param>` should have.
-
-#### # class (optional)
-Expects a string with all classes the `<param>` should have.
-
-#### # name (optional)
-Specifies the name of a parameter.
-
-#### # value (optional)
-Specifies the value of the parameter
+### Name - optional
+Expects a string and specifies the name of a parameter.
 
 
-## Example 1:
+### Value - optional
+Expects a string and specifies the value of a parameter.
+
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
+
+## Examples
+
+### Example 1: Basic usage
 
 ```ruby
 param name: 'autoplay', value: 'true'
@@ -33,7 +31,7 @@ returns
 <param name="autoplay" value="true">
 ```
 
-## Example 2:
+### Example 2: Basic usage with `id` and `class`
 
 ```ruby
 param name: 'autoplay', value: 'true', id: 'my-id', class: 'my-class'

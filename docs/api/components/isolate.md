@@ -1,6 +1,6 @@
-# matestack core component: Isolate
+# Matestack Core Component: Isolate
 
-Show [specs](/spec/usage/components/isolate_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/isolate_spec.rb).
 
 The `isolate` component allows you to create isolated "scopes", which can be rendered without calling the main response method of a `page`. Used with `async`, only specific isolated scopes are resolved on the serverside rather than resolving the whole UI when asynchronously rerendering parts of the UI. Usage seems to be similar to `partial`, but there are important differences! Read below!
 

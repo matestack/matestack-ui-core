@@ -1,6 +1,6 @@
-# matestack core component: Form
+# Matestack Core Component: Form
 
-Show [specs](/spec/usage/components/form_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/form_spec.rb).
 
 The `form` core component is a vue.js driven dynamic component. It enables you to implement dynamic forms without writing javascript. It relies on child components to collect and submit user input: `form_input`, `form_select`, `form_submit` and `form_textarea`. They are described within this documentation page.
 

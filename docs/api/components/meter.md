@@ -1,6 +1,6 @@
-# matestack core component: Meter
+# Matestack Core Component: Meter
 
-Show [specs](/spec/usage/components/meter_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/meter_spec.rb).
 
 Use the Meter component to implement `<meter>` tag.
 

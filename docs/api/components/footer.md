@@ -1,20 +1,15 @@
-# matestack core component: Footer
+# Matestack Core Component: Footer
 
-Show [specs](/spec/usage/components/footer_spec.rb)
+The HTML `<footer>` tag, implemented in Ruby.
 
-The HTML footer tag implemented in ruby.
+Feel free to check out the [component specs](/spec/usage/components/footer_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-This component expects 2 optional configuration params and optional content.
+## Examples
 
-#### # id
-Expects a string with all ids the footer should have.
-
-#### # class
-Expects a string with all classes the footer should have.
-
-## Example
+## Example 1: Basic usage
 
 ```ruby
 footer id: "foo", class: "bar" do

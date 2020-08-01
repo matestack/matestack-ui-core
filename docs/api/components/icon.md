@@ -1,24 +1,21 @@
-# matestack core component: Icon
+# Matestack Core Component: Icon
 
-Show [specs](/spec/usage/components/icon_spec.rb)
+The HTML `<i>` tag, implemented in Ruby.
 
-The HTML `<i>` tag implemented in ruby. Use it for fancy icons!
+Feel free to check out the [component specs](/spec/usage/components/i_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 3 optional configuration params.
+### Text - optional
+Expects a string which will be displayed as the content inside the `<i>` tag.
 
-#### # id (optional)
-Expects a string with all ids the icon should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # class (optional)
-Expects a string with all classes the icon should have.
+## Examples
 
-#### # class (optional)
-Expects a string with all the content the icon should have.
-
-## Example 1
-Rendering a Font Awesome icon
+### Example 1: Rendering a Font Awesome icon
 
 ```ruby
 icon id: "foo", class: "fa fa-car"
@@ -30,8 +27,7 @@ returns
 <i id="foo" class="fa fa-car"></i>
 ```
 
-## Example 2
-Rendering a Material Design icon
+### Example 2: Rendering a Material Design icon
 
 ```ruby
 icon id: "foo", class: "material-icons", text: "accessibility"

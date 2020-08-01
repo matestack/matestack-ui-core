@@ -1,24 +1,21 @@
-# matestack core component: Code
+# Matestack Core Component: Code
 
-Show [specs](/spec/usage/components/code_spec.rb)
+The HTML `<code>` tag, implemented in Ruby.
 
-The HTML `<code>` tag implemented in Ruby.
+Feel free to check out the [component specs](/spec/usage/components/code_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
+This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-This component can take 3 optional configuration params and optional content.
+### Text - optional
+Expects a string which will be displayed as the content inside the `<code>` tag.
 
-#### # id (optional)
-Expects a string with all ids the `<code>` tag should have.
+### HMTL attributes - optional
+This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
-#### # class (optional)
-Expects a string with all classes the `<code>` tag should have.
+## Examples
 
-#### # text (optional)
-Expects a string with the text that should go into the `<code>` tag.
-
-## Example 1
-Rendering content into the `code` component
+### Example 1: Yield a given block
 
 ```ruby
 code id: "foo", class: "bar" do
@@ -34,8 +31,7 @@ returns
 </code>
 ```
 
-## Example 2
-Passing content to the `text` param
+### Example 2: Render options[:text] param
 
 ```ruby
 code id: "foo", class: "bar", text: 'puts "Hello Mate Two"'

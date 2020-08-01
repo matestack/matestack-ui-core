@@ -1,8 +1,8 @@
-# matestack core component: rails_view
+# Matestack Core Component: rails_view
 
-Show [specs](../../spec/usage/components/rails_view_spec.rb)
+Feel free to check out the [component specs](../../spec/usage/components/rails_view_spec.rb).
 
-Use your rails views or partials with this component in your views, matestack pages, components or apps. 
+Use your Rails views or partials with this component in your views, matestack pages, components or apps. 
 
 ## Parameters
 
@@ -10,11 +10,11 @@ This component expects that either `view` or `partial` is given as parameter.
 
 #### # view - optional
 Expects a string, specifying the path of the view that should be rendered by the component. 
-The path resolution works like rails `render 'your_path'` path resolution.
+The path resolution works like Rails `render 'your_path'` path resolution.
 
 #### # partial - optional
 Expects a string, specifying the partial that should be rendered by the component.
-The path resolution works like rails `render partial: 'your_path'` path resolution.
+The path resolution works like Rails `render partial: 'your_path'` path resolution.
 
 ## Example 1 - Using Rails View and Partial on a page, component or app
 

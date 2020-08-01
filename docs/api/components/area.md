@@ -1,14 +1,16 @@
-# matestack core component: Area
+# Matestack Core Component: Area
+
+The HTML `<area>` tag, implemented in Ruby.
 
 Tested within the [map specs](/spec/usage/components/map_spec.rb).
 
-The HTML `<area>` tag implemented in Ruby.
-
 ## Parameters
-This component takes up to 10 optional configuration params. It is meant to be used within the `<map>` component.
+This component can take various optional configuration params, as well as all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
+
+It is meant to be used within the `<map>` component.
 
 #### # alt (optional)
-Expects a string that specifies an alternate text for the `<area>`. Required if the href attribute is present.
+Expects a string that specifies an alternate text for the `<area>` tag. Required if the href attribute is present.
 
 #### # coords (optional)
 Expects an array of integers that define the `<area>`'s coordinates. For more details, see the [official documentation](https://www.w3schools.com/tags/att_area_coords.asp).
@@ -37,7 +39,9 @@ Expects a string to specify where to open the target URL.
 #### # type (optional)
 Expects a string to specify the media type of the target URL.
 
-## Example:
+## Examples
+
+### Example 1 - Basic usage
 
 ```ruby
 img path: 'matestack-logo.png', width: 500, height: 300, alt: "otherlogo",  usemap: "#newmap"

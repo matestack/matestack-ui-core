@@ -1,8 +1,8 @@
-# matestack core component: Iframe
+# Matestack Core Component: Iframe
 
-Show [specs](/spec/usage/components/iframe_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/iframe_spec.rb).
 
-The HTML iframe tag implemented in ruby.
+The HTML iframe tag, implemented in Ruby.
 
 ## Parameters
 

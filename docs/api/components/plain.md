@@ -1,16 +1,15 @@
-# matestack core component: Plain
+# Matestack Core Component: Plain
 
-Show [specs](/spec/usage/components/plain_spec.rb)
+This component simply renders the value of a variable (or simply a string) wherever you want it, **escaping HTML tags** (`<` becomes `&lt;` etc.).
 
-This element simply renders the value of a variable (or simple a string) wherever you want it **escaping HTML tags** (`<` becomes `&lt;` etc.).
+Feel free to check out the [component specs](/spec/usage/components/plain_spec.rb) and see the [examples](#examples) below.
 
 ## Parameters
-
 This component expects one parameter.
 
-## Example 1
+## Examples
 
-Rendering a string into a div tag.
+### Example 1: Rendering a string into a `<div>` tag.
 
 ```ruby
 
@@ -31,9 +30,7 @@ returns
   Hello World
 </div>
 ```
-## Example
-
-Render a variable into a div tag.
+### Example 2: Render a variable into a `<div>` tag.
 
 ```ruby
 

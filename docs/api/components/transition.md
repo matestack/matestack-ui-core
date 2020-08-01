@@ -1,6 +1,6 @@
-# matestack core component: Transition
+# Matestack Core Component: Transition
 
-Show [specs](/spec/usage/components/transition_spec.rb)
+Feel free to check out the [component specs](/spec/usage/components/transition_spec.rb).
 
 ## Parameters
 
