@@ -5,7 +5,7 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
 
-    # define html global attributes 
+    # define html global attributes
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
     # probably eed to remove for other tests to be green again
@@ -67,6 +67,7 @@ module Matestack::Ui::Core::Component
 
       # TODO: no idea why this is called `url_params` it contains
       # much more than this e.g. almost all params so maybe rename it?
+      # will be deprecated in future releases. use the `params` method in order to access query params
       @url_params = context&.[](:params)&.except(:action, :controller, :component_key, :matestack_context)
 
       # used when creating the child component tree
@@ -157,6 +158,11 @@ module Matestack::Ui::Core::Component
     # Seems like it might be more complicated? Not sure probably missing something.
     def prepare
       true
+    end
+
+    # access params like you would do on rails views and controllers
+    def params
+      context[:params]
     end
 
     ## ------------------ Rendering ----------------
@@ -318,7 +324,7 @@ module Matestack::Ui::Core::Component
       case args.size
       when 0 then [
         {
-          context: context, 
+          context: context,
           included_config: included_config,
         }
         ]
