@@ -9,8 +9,11 @@ class Demo::Pages::Collection < Matestack::Ui::Page
     my_base_query = DummyModel.all
 
     my_filtered_query = my_base_query
-      .where("title LIKE ?", "%#{current_filter[:title]}%")
-      .order(current_order)
+
+    my_filtered_query = my_filtered_query.where("title LIKE ?", "%#{current_filter[:title]}%") if current_filter[:title].present?
+    my_filtered_query = my_filtered_query.where("title LIKE ?", "#{current_filter[:starts_with]}%") if current_filter[:starts_with].present?
+
+    my_filtered_query = my_filtered_query.order(current_order)
 
     @my_collection = set_collection({
       id: "my-first-collection",
@@ -23,92 +26,81 @@ class Demo::Pages::Collection < Matestack::Ui::Page
   end
 
   def response
-    components {
-      heading size: 2, text: "Collection"
+    heading size: 2, text: "Collection"
 
-      partial :filter
-      partial :ordering
-      
-      async rerender_on: "my-first-collection-update" do
-        partial :content
-      end
-    }
+    partial :filter
+    partial :ordering
+
+    async rerender_on: "my-first-collection-update", id: "my-collection" do
+      partial :content
+    end
   end
 
   def filter
-    partial {
-      collection_filter @my_collection.config do
+    collection_filter @my_collection.config do
 
-        collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
-        collection_filter_input id: "my-description-filter-input", key: :description, type: :text, placeholder: "Filter by description"
-        collection_filter_submit do
-          button text: "filter"
-        end
-        collection_filter_reset do
-          button text: "reset"
-        end
-
+      collection_filter_select key: :starts_with, options: ("A".."Z").to_a, placeholder: "Starts with"
+      collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+      collection_filter_input id: "my-description-filter-input", key: :description, type: :text, placeholder: "Filter by description"
+      collection_filter_submit do
+        button text: "filter"
       end
-    }
+      collection_filter_reset do
+        button text: "reset"
+      end
+
+    end
   end
 
   def ordering
-    partial {
-      collection_order @my_collection.config do
-        plain "sort by: "
-        collection_order_toggle key: :title do
-          button do
-            collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
-            plain "title"
-          end
+    collection_order @my_collection.config do
+      plain "sort by: "
+      collection_order_toggle key: :title do
+        button do
+          collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
+          plain "title"
         end
       end
-    }
+    end
   end
 
   def content
-    partial {
-      collection_content @my_collection.config do
-        partial :list
-        partial :paginator
-      end
-    }
+    collection_content @my_collection.config do
+      partial :list
+      partial :paginator
+    end
   end
 
   def list
-    partial {
-      ul do
-        @my_collection.paginated_data.each do |dummy|
-          li do
-            plain dummy.title
-            action my_action_config(dummy.id) do
-              button text: "delete"
-            end
+    ul do
+      @my_collection.paginated_data.each do |dummy|
+        li do
+          plain dummy.title
+          action my_action_config(dummy.id) do
+            button text: "delete"
           end
         end
       end
-    }
+    end
   end
 
   def paginator
-    partial {
-      plain "showing #{@my_collection.from} to #{@my_collection.to} of \
-       #{@my_collection.filtered_count} from total #{@my_collection.base_count}"
+    plain "showing #{@my_collection.from} to #{@my_collection.to} of \
+     #{@my_collection.filtered_count} from total #{@my_collection.base_count}"
 
-      collection_content_previous do
-        button text: "previous"
-      end
+    collection_content_previous do
+      button text: "previous"
+    end
 
-      @my_collection.pages.each do |page|
-        collection_content_page_link page: page do
-          button text: page
-        end
+    @my_collection.pages.each do |page|
+      collection_content_page_link page: page do
+        button text: page
       end
+    end
 
-      collection_content_next do
-        button text: "next"
-      end
-    }
+    collection_content_next do
+      button text: "next"
+    end
   end
 
   def my_action_config id

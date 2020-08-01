@@ -31,6 +31,7 @@ describe "Collection Component", type: :feature, js: true do
           current_filter = get_collection_filter(my_collection_id)
           my_base_query = TestModel.all
           my_filtered_query = my_base_query.where("title LIKE ?", "%#{current_filter[:title]}%")
+          my_filtered_query = my_base_query.where("title LIKE ?", "%#{current_filter[:ends_with]}") unless current_filter[:ends_with].nil?
           my_filtered_query = my_filtered_query.where(description: current_filter[:description]) unless current_filter[:description].nil?
           @my_collection = set_collection({
             id: my_collection_id,
@@ -46,6 +47,7 @@ describe "Collection Component", type: :feature, js: true do
 
         def filter
           collection_filter @my_collection.config do
+            collection_filter_select id: "my-title-filter-select-ends-with", key: :ends_with, type: :dropdown, options: (1..10).to_a, placeholder: "Ends with"
             collection_filter_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
             collection_filter_input id: "my-description-filter-input", key: :description, type: :text, placeholder: "Filter by description"
             collection_filter_submit do
@@ -58,7 +60,7 @@ describe "Collection Component", type: :feature, js: true do
         end
 
         def content
-          async rerender_on: "my-first-collection-update" do
+          async rerender_on: "my-first-collection-update", id: "some-unique-id" do
             collection_content @my_collection.config do
               ul do
                 @my_collection.data.each do |dummy|
@@ -75,6 +77,7 @@ describe "Collection Component", type: :feature, js: true do
       end
 
       visit "/example"
+      
       # display whole range
       expect(page).to have_content("some-title-1")
       expect(page).to have_content("some-title-11")
@@ -110,6 +113,23 @@ describe "Collection Component", type: :feature, js: true do
       expect(page).not_to have_content("some-title-1")
       expect(page).not_to have_content("some-title-2")
 
+      click_button "reset"
+      # display whole range again
+      expect(page).to have_content("some-title-1")
+      expect(page).to have_content("some-title-11")
+
+      select "2", from: "my-title-filter-select-ends-with"
+      click_button "filter"
+      # display only matching result
+      expect(page).not_to have_content("some-title-1")
+      expect(page).to have_content("some-title-2")
+
+      select "1", from: "my-title-filter-select-ends-with"
+      click_button "filter"
+      expect(page).to have_content("some-title-1")
+      expect(page).not_to have_content("some-title-2")
+
+      click_button "reset"
       # test persistent state
       fill_in "my-title-filter-input", with: "some-title-2"
       fill_in "my-description-filter-input", with: "some-description-2"
