@@ -20,6 +20,9 @@ const componentDef = {
     navigateTo: function(url){
       const self = this
       matestackEventHub.$emit("page_loading_triggered", url);
+      this.$store.commit('setPageLoading', true);
+      this.$store.commit('setPageLoadingStart', true);
+      this.$store.commit('setPageLoadingEnd', false)
       if (self.componentConfig["delay"] != undefined) {
         setTimeout(function () {
           self.performNavigation(url)

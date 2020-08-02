@@ -5,7 +5,7 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
 
-    # define html global attributes 
+    # define html global attributes
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
     # probably eed to remove for other tests to be green again
@@ -63,7 +63,7 @@ module Matestack::Ui::Core::Component
       # it inbetween the super calls in the Dynamic super class.
       #
       # This is the configuration for the VueJS component
-      @component_config = @options.except(:context, :children, :url_params, :included_config, :matestack_context)
+      @component_config = @options.except(:context, :children, :url_params, :included_config, :matestack_context, :slots)
 
       # TODO: no idea why this is called `url_params` it contains
       # much more than this e.g. almost all params so maybe rename it?
@@ -318,7 +318,7 @@ module Matestack::Ui::Core::Component
       case args.size
       when 0 then [
         {
-          context: context, 
+          context: context,
           included_config: included_config,
         }
         ]

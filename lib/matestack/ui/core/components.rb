@@ -101,6 +101,7 @@ module Matestack::Ui::Core::Components
   require_core_component "optgroup"
   require_core_component "option"
   require_core_component "output"
+  require_core_component "page/content"
   require_core_component "paragraph"
   require_core_component "param"
   require_core_component "picture"
@@ -219,6 +220,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   output: Matestack::Ui::Core::Output::Output,
   paragraph: Matestack::Ui::Core::Paragraph::Paragraph,
   pg: Matestack::Ui::Core::Paragraph::Paragraph, # alias paragraph as pg
+  page_content_wrapper: Matestack::Ui::Core::Page::Content,
   param: Matestack::Ui::Core::Param::Param,
   picture: Matestack::Ui::Core::Picture::Picture,
   plain: Matestack::Ui::Core::Plain::Plain,

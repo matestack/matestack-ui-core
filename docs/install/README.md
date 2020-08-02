@@ -92,7 +92,7 @@ end
 
 ## Application Layout
 
-You need to add the ID "matestack_ui" to some part of your application layout (or any layout you use)
+You need to add the ID "matestack-ui" to some part of your application layout (or any layout you use)
 
 For Example, your `app/views/layouts/application.html.erb` should look like this:
 
@@ -114,7 +114,7 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
   </head>
 
   <body>
-    <div id="matestack_ui">
+    <div id="matestack-ui">
       <%= yield %>
     </div>
   </body>

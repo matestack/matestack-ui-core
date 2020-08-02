@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
-import componentMixin from '../component/component'
+import componentMixin from '../../component/component'
 
 const componentDef = {
   mixins: [componentMixin],
@@ -9,6 +9,9 @@ const componentDef = {
   },
   computed: Vuex.mapState({
     asyncPageTemplate: state => state.pageTemplate,
+    loading: state => state.pageLoading,
+    loadingStart: state => state.pageLoadingStart,
+    loadingEnd: state => state.pageLoadingEnd
   })
 }
 

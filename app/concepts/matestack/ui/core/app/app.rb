@@ -23,13 +23,29 @@ module Matestack::Ui::Core::App
       page_content
     end
 
-    def page_content
-      # TODO: Content probably needs/would benefit from a better name - like "DynamicWrapper" ?
-      add_child Matestack::Ui::Core::Page::Content do
+    # new alternative method name to be used in app defentions
+    # slots may contain a loading state element will be rendered during form start to finish of a transition
+    def yield_page slots: {}
+      page_content_wrapper slots: slots do
         add_child @page_class,
                   controller_instance: @controller_instance,
                   context: context
       end
     end
+
+    def page_content slots: {}
+      yield_page slots: slots
+    end
+
+
+    # def page_content loading_state_element_slot: nil
+    #   # TODO: Content probably needs/would benefit from a better name - like "DynamicWrapper" ?
+    #   context[:loading_state_element_slot] = loading_state_element_slot
+    #   add_child Matestack::Ui::Core::Page::Content, context: context do
+    #     add_child @page_class,
+    #               controller_instance: @controller_instance,
+    #               context: context
+    #   end
+    # end
   end
 end
