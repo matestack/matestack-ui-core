@@ -23,6 +23,11 @@ module Matestack::Ui::Core::Isolate
       @component_config[:public_options] = @options[:public_options]
       @component_config[:defer] = @options[:defer]
       @component_config[:rerender_on] = @options[:rerender_on]
+      @component_config[:rerender_delay] = @options[:rerender_delay]
+    end
+
+    def loading_classes
+      { "v-bind:class": "{ 'loading': loading === true }" }
     end
 
     # overwrite parent class render mechanism in order to make sure to only render wrapper

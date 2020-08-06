@@ -232,7 +232,7 @@ module Matestack::Ui::Core::Component
       # same applies for all isolated components, no extra defer option needed
       if child_class < Matestack::Ui::Core::Isolate::Isolate
         skip_deferred_child_response = true
-        unless args.empty? || args[0].keys.all? { |key| key == :defer || key == :public_options || key == :rerender_on || key == :init_on }
+        unless args.empty? || args[0].keys.all? { |key| key == :defer || key == :public_options || key == :rerender_on || key == :init_on || key == :rerender_delay }
           raise "isolated components can only take params in a public_options hash, which will be exposed to the client side in order to perform an async request with these params."
         end
       end

@@ -1243,6 +1243,18 @@ const componentDef = {
     }
   },
   methods: {
+    rerender: function(){
+      var self = this;
+      self.loading = true;
+      self.loadingError = false;
+      if(self.componentConfig["rerender_delay"] != undefined){
+        setTimeout(function () {
+          self.renderIsolatedContent();
+        }, parseInt(this.componentConfig["rerender_delay"]));
+      } else {
+        self.renderIsolatedContent();
+      }
+    },
     renderIsolatedContent: function(){
       var self = this;
       self.loading = true;
@@ -1260,6 +1272,8 @@ const componentDef = {
       })
       .then(function(response){
         self.loading = false;
+        self.loadingStart = false;
+        self.loadingEnd = true;
         self.isolatedTemplate = response['data'];
       })
       .catch(function(error){
@@ -1309,7 +1323,7 @@ const componentDef = {
 
     if(this.componentConfig["rerender_on"] != undefined){
       var rerender_events = this.componentConfig["rerender_on"].split(",")
-      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(rerender_event.trim(), self.renderIsolatedContent));
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(rerender_event.trim(), self.rerender));
     }
 
   },

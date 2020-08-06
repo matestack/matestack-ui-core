@@ -72,10 +72,10 @@ describe "Isolate Component", type: :feature, js: true do
     visit "/example"
 
     # used on page
-    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
+    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
     # used on component
-    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="some-other-component"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
+    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="some-other-component"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
   end
 
@@ -415,7 +415,7 @@ describe "Isolate Component", type: :feature, js: true do
 
   end
 
-  it "can use other isolated components on its response?" do
+  it "can use other isolated components on its response" do
     class SomeIsolatedComponent1 < Matestack::Ui::IsolatedComponent
 
       def response
@@ -557,13 +557,14 @@ describe "Isolate Component", type: :feature, js: true do
 
     visit "/example"
 
-    expect(page).to have_css '.loading', visible: :all
+    expect(page).to have_css '.loading-state-element-wrapper.loading', visible: :all
     expect(page).to have_css '.mocked-loading-spinner', visible: :all
     expect(page).to have_content("loading...")
     sleep 1
-    expect(page).not_to have_css '.loading', visible: :all
-    expect(page).not_to have_css '.mocked-loading-spinner', visible: :all
-    expect(page).not_to have_content("loading...")
+    expect(page).not_to have_css '.loading-state-element-wrapper.loading', visible: :all
+    expect(page).to have_css '.loading-state-element-wrapper', visible: :all
+    expect(page).to have_css '.mocked-loading-spinner', visible: :all
+    expect(page).to have_content("loading...")
   end
 
   it "can rerender itself on events" do
@@ -597,6 +598,33 @@ describe "Isolate Component", type: :feature, js: true do
     expect(page).not_to have_content(timestamp_after)
 
     timestamp_after_2 = page.find('#isolated-component-timestamp').text.to_i #still find a timestamp, otherwise would throw an error
+
+  end
+
+
+  it "can rerender itself on events with delay" do
+
+    class ExamplePage < Matestack::Ui::Page
+
+      def response
+        div id: "page-div" do
+          some_isolated_component rerender_on: "some-event", rerender_delay: 1500
+        end
+      end
+
+    end
+
+    visit "/example"
+
+    component_timestamp_before = page.find('#isolated-component-timestamp').text.to_i
+
+    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
+
+    expect(page).not_to have_content(component_timestamp_before)
+
+    component_timestamp_after = page.find('#isolated-component-timestamp').text.to_i
+
+    expect(component_timestamp_after-component_timestamp_before).to be >= 1
 
   end
 

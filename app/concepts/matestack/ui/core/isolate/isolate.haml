@@ -1,5 +1,6 @@
 %component{dynamic_tag_attributes}
-  %div{class: "matestack-isolated-component-wrapper", "v-bind:class": "{ 'loading': loading === true }"}
-    %div{class: "loading-state-element-wrapper", "v-if": "loading === true"}
+  %div{loading_classes.merge(class: "matestack-isolated-component-container")}
+    %div{loading_classes.merge(class: "loading-state-element-wrapper")}
       =loading_state_element
-    %v-runtime-template{":template":"isolatedTemplate"}
+    %div{loading_classes.merge(class: "matestack-isolated-component-wrapper")}
+      %v-runtime-template{":template":"isolatedTemplate"}
