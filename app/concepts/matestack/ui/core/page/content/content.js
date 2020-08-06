@@ -9,9 +9,7 @@ const componentDef = {
   },
   computed: Vuex.mapState({
     asyncPageTemplate: state => state.pageTemplate,
-    loading: state => state.pageLoading,
-    loadingStart: state => state.pageLoadingStart,
-    loadingEnd: state => state.pageLoadingEnd
+    loading: state => state.pageLoading
   })
 }
 

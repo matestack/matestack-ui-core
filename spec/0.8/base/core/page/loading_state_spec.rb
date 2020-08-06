@@ -72,14 +72,14 @@ describe "Page", type: :feature, js: true do
 
       visit "page_loading_state_spec/page_test_1"
 
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]')
-      expect(page).not_to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="loading-state-element-wrapper loading-end"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]')
+      expect(page).not_to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="loading-state-element-wrapper"]')
 
       click_on("Page 2")
 
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading loading-start"]/div[@class="matestack-page-wrapper loading loading-start"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading"]/div[@class="matestack-page-wrapper loading"]')
       # after transition back to init state
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]')
     end
 
     it "during loading the wrapping page elements get loading classes which can be used for css animations" do
@@ -129,16 +129,16 @@ describe "Page", type: :feature, js: true do
 
       visit "page_loading_state_spec/page_test_1"
 
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]')
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="loading-state-element-wrapper loading-end"]/div[@id="loading-spinner"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="loading-state-element-wrapper"]/div[@id="loading-spinner"]')
 
       click_on("Page 2")
 
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading loading-start"]/div[@class="matestack-page-wrapper loading loading-start"]')
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading loading-start"]/div[@class="loading-state-element-wrapper loading loading-start"]/div[@id="loading-spinner"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading"]/div[@class="matestack-page-wrapper loading"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading"]/div[@class="loading-state-element-wrapper loading"]/div[@id="loading-spinner"]')
       # after transition back to init state
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]')
-      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="loading-state-element-wrapper loading-end"]/div[@id="loading-spinner"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]')
+      expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="loading-state-element-wrapper"]/div[@id="loading-spinner"]')
 
     end
 
@@ -149,11 +149,11 @@ describe "Page", type: :feature, js: true do
       #
       # page.go_back
       #
-      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading loading-start"]/div[@class="matestack-page-wrapper loading loading-start"]')
-      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading loading-start"]/div[@class="loading-state-element-wrapper loading loading-start"]/div[@id="loading-spinner"]')
+      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading"]/div[@class="matestack-page-wrapper loading"]')
+      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading"]/div[@class="loading-state-element-wrapper loading"]/div[@id="loading-spinner"]')
       # # after transition back to init state
-      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]')
-      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container loading-end"]/div[@class="loading-state-element-wrapper loading-end"]/div[@id="loading-spinner"]')
+      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]')
+      # expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="loading-state-element-wrapper"]/div[@id="loading-spinner"]')
     end
 
   end

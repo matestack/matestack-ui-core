@@ -1,7 +1,0 @@
-%div{class: "matestack-page-wrapper"}
-  %div{class: "loading-state-element-wrapper", "v-if": "true"}
-    =loading_state_element
-  %div{"v-if": "asyncPageTemplate == null"}
-    = yield
-  %div{"v-if": "asyncPageTemplate != null"}
-    %v-runtime-template{":template":"asyncPageTemplate"}

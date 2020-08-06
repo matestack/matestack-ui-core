@@ -365,8 +365,6 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     pageTemplate: null,
     pageLoading: false,
-    pageLoadingStart: false,
-    pageLoadingEnd: true,
     currentPathName: document.location.pathname,
     currentSearch: document.location.search,
     currentOrigin: document.location.origin
@@ -377,12 +375,6 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setPageLoading (state, boolean){
       state.pageLoading = boolean
-    },
-    setPageLoadingStart (state, boolean){
-      state.pageLoadingStart = boolean
-    },
-    setPageLoadingEnd (state, boolean){
-      state.pageLoadingEnd = boolean
     },
     setCurrentLocation (state, current){
       state.currentPathName = current.path
@@ -397,8 +389,6 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     navigateTo ({ commit, state }, { url, backwards }) {
       const self = this
       commit('setPageLoading', true)
-      commit('setPageLoadingEnd', false)
-      commit('setPageLoadingStart', true)
       _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loading", url);
       if (typeof matestackUiCoreTransitionStart !== 'undefined') {
         matestackUiCoreTransitionStart(url);
@@ -427,8 +417,6 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             commit('setPageLoading', false)
-            commit('setPageLoadingStart', false)
-            commit('setPageLoadingEnd', true)
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
@@ -1463,9 +1451,7 @@ const componentDef = {
   },
   computed: vuex__WEBPACK_IMPORTED_MODULE_1__["default"].mapState({
     asyncPageTemplate: state => state.pageTemplate,
-    loading: state => state.pageLoading,
-    loadingStart: state => state.pageLoadingStart,
-    loadingEnd: state => state.pageLoadingEnd
+    loading: state => state.pageLoading
   })
 }
 

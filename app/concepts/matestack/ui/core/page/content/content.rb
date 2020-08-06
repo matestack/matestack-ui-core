@@ -20,7 +20,7 @@ module Matestack::Ui::Core::Page
     end
 
     def loading_classes
-      { "v-bind:class": "{ 'loading': loading === true, 'loading-start' : loadingStart === true, 'loading-end' : loadingEnd === true}" }
+      { "v-bind:class": "{ 'loading': loading === true }" }
     end
 
   end

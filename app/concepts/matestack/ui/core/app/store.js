@@ -9,8 +9,6 @@ const store = new Vuex.Store({
   state: {
     pageTemplate: null,
     pageLoading: false,
-    pageLoadingStart: false,
-    pageLoadingEnd: true,
     currentPathName: document.location.pathname,
     currentSearch: document.location.search,
     currentOrigin: document.location.origin
@@ -21,12 +19,6 @@ const store = new Vuex.Store({
     },
     setPageLoading (state, boolean){
       state.pageLoading = boolean
-    },
-    setPageLoadingStart (state, boolean){
-      state.pageLoadingStart = boolean
-    },
-    setPageLoadingEnd (state, boolean){
-      state.pageLoadingEnd = boolean
     },
     setCurrentLocation (state, current){
       state.currentPathName = current.path
@@ -41,8 +33,6 @@ const store = new Vuex.Store({
     navigateTo ({ commit, state }, { url, backwards }) {
       const self = this
       commit('setPageLoading', true)
-      commit('setPageLoadingEnd', false)
-      commit('setPageLoadingStart', true)
       matestackEventHub.$emit("page_loading", url);
       if (typeof matestackUiCoreTransitionStart !== 'undefined') {
         matestackUiCoreTransitionStart(url);
@@ -71,8 +61,6 @@ const store = new Vuex.Store({
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             commit('setPageLoading', false)
-            commit('setPageLoadingStart', false)
-            commit('setPageLoadingEnd', true)
             matestackEventHub.$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
