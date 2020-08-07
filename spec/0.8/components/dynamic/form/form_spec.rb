@@ -29,7 +29,7 @@ describe "Form Component", type: :feature, js: true do
   end
 
   describe "Example 6 - Async submit update request with success, which does not reset the input fields" do
-    # https://github.com/basemate/matestack-ui-core/issues/304
+    # https://github.com/matestack/matestack-ui-core/issues/304
 
     # This example uses the `TestModel` with attributes `title` and `description`
     # defined in `spec/dummy/app/models/test_model.rb`.
