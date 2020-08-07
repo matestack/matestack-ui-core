@@ -12,7 +12,7 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::DSL
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
-    view_paths << "app/matestack"
+    view_paths << "#{::Rails.root}#{'/' unless ::Rails.root.nil?}app/matestack"
 
     extend ViewName::Flat
 
