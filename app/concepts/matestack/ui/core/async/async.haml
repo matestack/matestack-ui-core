@@ -1,2 +1,6 @@
-%div{@tag_attributes}
-  = yield
+%component{dynamic_tag_attributes}
+  %div{class: "matestack-async-component-container", "v-bind:class": "{ 'loading': loading === true }"}
+    %div{class: "matestack-async-component-wrapper", "v-if": "asyncTemplate == null", "v-bind:class": "{ 'loading': loading === true }"}
+      = render_content
+    %div{class: "matestack-async-component-wrapper", "v-if": "asyncTemplate != null", "v-bind:class": "{ 'loading': loading === true }"}
+      %v-runtime-template{":template":"asyncTemplate"}
