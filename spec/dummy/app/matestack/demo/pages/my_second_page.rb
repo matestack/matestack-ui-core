@@ -5,19 +5,19 @@ class Demo::Pages::MySecondPage < Matestack::Ui::Page
   end
 
   def response
-    components{
-      heading size: 2, text: "This is Page 2"
+    heading size: 2, text: "This is Page 2"
 
-      div id: "technologies" do
-        ul do
-          @technologies.each do |technology|
-            li do
-              plain "matestack uses #{technology}"
-            end
+    some_fancy_card
+
+    div id: "technologies" do
+      ul do
+        @technologies.each do |technology|
+          li do
+            plain "matestack uses #{technology}"
           end
         end
       end
-    }
+    end
   end
 
 end
