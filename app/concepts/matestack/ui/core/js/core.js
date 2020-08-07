@@ -16,6 +16,7 @@ import onclick from '../onclick/onclick'
 import collectionContent from '../collection/content/content'
 import collectionFilter from '../collection/filter/filter'
 import collectionOrder from '../collection/order/order'
+import isolate from '../isolate/isolate'
 
 let matestackUiApp = undefined
 
