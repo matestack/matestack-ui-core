@@ -1,7 +1,8 @@
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
+import componentMixin from '../../component/component'
+
 import VRuntimeTemplate from "v-runtime-template"
-import componentMixin from '../component/component'
 
 const componentDef = {
   mixins: [componentMixin],
@@ -10,6 +11,7 @@ const componentDef = {
   },
   computed: Vuex.mapState({
     asyncPageTemplate: state => state.pageTemplate,
+    loading: state => state.pageLoading
   }),
   components: {
     VRuntimeTemplate: VRuntimeTemplate

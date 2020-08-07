@@ -4,8 +4,8 @@ import { turbolinksAdapterMixin } from 'vue-turbolinks';
 // Import from app/concepts/matestack/ui/core:
 import app from '../app/app'
 import async from '../async/async'
+import pageContent from '../page/content/content'
 import toggle from '../toggle/toggle'
-import pageContent from '../page/content'
 import store from '../app/store'
 import component from '../component/component'
 import anonymDynamicComponent from '../component/anonym-dynamic-component'
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // if they were present on the first page, which was loaded and activated turbolinks
   // the mixin does not impact the app when turbolinks is disabled
   matestackUiApp = new Vue({
-      el: "#matestack_ui",
+      el: "#matestack-ui",
       mixins: [turbolinksAdapterMixin],
       store: store
   })
@@ -45,7 +45,7 @@ document.addEventListener('turbolinks:load', () => {
   matestackUiApp.$destroy();
   // and recreate it right afterwards in order to work when used with turbolinks
   matestackUiApp = new Vue({
-      el: "#matestack_ui",
+      el: "#matestack-ui",
       mixins: [turbolinksAdapterMixin],
       store: store
   })

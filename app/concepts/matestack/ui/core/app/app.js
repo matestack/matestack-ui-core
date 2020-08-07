@@ -2,6 +2,7 @@ import Vue from 'vue/dist/vue.esm'
 import VRuntimeTemplate from "v-runtime-template"
 import Vuex from 'vuex'
 import isNavigatingToAnotherPage from "./location"
+import matestackEventHub from '../js/event-hub'
 
 const componentDef = {
   props: ['appConfig', 'params'],
@@ -22,7 +23,11 @@ const componentDef = {
           pathName: self.currentPathName,
           search: self.currentSearch
         }, document.location)){
-        self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
+          matestackEventHub.$emit("page_loading_triggered", document.location.pathname + document.location.search);
+          this.$store.commit('setPageLoading', true);
+          this.$store.commit('setPageLoadingStart', true);
+          this.$store.commit('setPageLoadingEnd', false)
+          self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
       }
     })
   },

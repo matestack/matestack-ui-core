@@ -1,13 +1,15 @@
 module Matestack::Ui::Core::Isolate
   class Isolate < Matestack::Ui::Core::Component::Dynamic
 
-    def vuejs_component_name
-      "matestack-ui-core-isolate"
-    end
+    vue_js_component_name "matestack-ui-core-isolate"
 
     def initialize(*args)
       super
       @public_options = args.map { |hash| hash[:public_options] }[0]
+      # using this instance var here as users inherit from this class and would need
+      # to use `vue_js_component_name "matestack-ui-core-isolate"` in their components
+      # which is not convinient
+      @vue_js_component_name = "matestack-ui-core-isolate"
     end
 
     def public_options

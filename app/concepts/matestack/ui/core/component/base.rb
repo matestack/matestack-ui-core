@@ -63,7 +63,7 @@ module Matestack::Ui::Core::Component
       # it inbetween the super calls in the Dynamic super class.
       #
       # This is the configuration for the VueJS component
-      @component_config = @options.except(:context, :children, :url_params, :included_config, :matestack_context)
+      @component_config = @options.except(:context, :children, :url_params, :included_config, :matestack_context, :slots)
 
       # TODO: no idea why this is called `url_params` it contains
       # much more than this e.g. almost all params so maybe rename it?
@@ -159,7 +159,11 @@ module Matestack::Ui::Core::Component
 
     # access params like you would do on rails views and controllers
     def params
-      context[:params]
+      if @matestack_context.present? && @matestack_context[:controller].present?
+        @matestack_context[:controller].params
+      else
+        context[:params]
+      end
     end
 
     ## ------------------ Rendering ----------------
