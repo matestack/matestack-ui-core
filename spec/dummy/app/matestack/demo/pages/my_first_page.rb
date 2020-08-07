@@ -14,7 +14,6 @@ class Demo::Pages::MyFirstPage < Matestack::Ui::Page
 
     my_card
     my_demo_card
-
   end
 
 

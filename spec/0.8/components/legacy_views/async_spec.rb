@@ -4,7 +4,7 @@ include Utils
 describe "Async Component", type: :feature, js: true do
 
   it 'should work on rails legacy views' do
-    class Components::LegacyViews::Pages::Async < Matestack::Ui::StaticComponent
+    class Components::LegacyViews::Pages::Async < Matestack::Ui::Component
       def response
         async rerender_on: 'update_time', id: 'async-legacy-integratable' do 
           paragraph text: DateTime.now.strftime('%Q'), id: 'time'
@@ -12,7 +12,7 @@ describe "Async Component", type: :feature, js: true do
         onclick emit: 'update_time' do
           button text: 'Click me!'
         end
-        async show_on: 'async_rerender_error', id: 'async-error' do
+        toggle show_on: 'async_rerender_error', id: 'async-error' do
           plain 'Error - {{event.data.id}}'
         end
       end
@@ -27,7 +27,7 @@ describe "Async Component", type: :feature, js: true do
 
   describe 'with collection' do
     before :all do
-      class Components::LegacyViews::Pages::Async < Matestack::Ui::StaticComponent
+      class Components::LegacyViews::Pages::Async < Matestack::Ui::Component
         cattr_accessor :collection
         def response
           collection.each_with_index do |item, index|
@@ -38,7 +38,7 @@ describe "Async Component", type: :feature, js: true do
           onclick emit: 'update_items' do
             button text: 'Click me!'
           end
-          async show_on: 'async_rerender_error', id: 'async-error' do
+          toggle show_on: 'async_rerender_error', id: 'async-error' do
             plain 'Error - {{event.data.id}}'
           end
         end

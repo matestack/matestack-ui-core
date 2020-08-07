@@ -32,7 +32,7 @@ describe "Component", type: :feature, js: true do
 
     it "with a vue js component with a name derived from the component class name" do
       # the vue.js component 'my-test-component' is defined in `spec/dummy/assets/javascripts/test/components.js`
-      class MyTestComponent < Matestack::Ui::DynamicComponent
+      class MyTestComponent < Matestack::Ui::VueJsComponent
         def response
           div id: "my-component" do
             plain "dynamic component"
@@ -63,10 +63,8 @@ describe "Component", type: :feature, js: true do
 
     it "with a vue js component named manually" do
       # the vue.js component 'test-component' is defined in `spec/dummy/assets/javascripts/test/components.js`
-      class MyTestComponent < Matestack::Ui::DynamicComponent
-        def vuejs_component_name
-          "test-component"
-        end
+      class MyTestComponent < Matestack::Ui::VueJsComponent
+        vue_js_component_name "test-component"
 
         def response
           div id: "my-component" do

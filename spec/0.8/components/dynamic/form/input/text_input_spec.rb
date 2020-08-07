@@ -25,7 +25,7 @@ describe "Form Component", type: :feature, js: true do
   describe "text input" do
 
     it "can be submitted dynamically without page reload" do
-      class SomeComponent < Matestack::Ui::StaticComponent
+      class SomeComponent < Matestack::Ui::Component
         def response
           form_input key: :bar, type: :text, id: "my-other-test-input"
         end
@@ -44,7 +44,7 @@ describe "Form Component", type: :feature, js: true do
               button text: 'Submit me!'
             end
           end
-          async show_on: "form_submitted", id: 'async-form' do
+          toggle show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
           end
         end

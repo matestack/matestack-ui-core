@@ -1,9 +1,6 @@
 module Matestack::Ui::Core::Collection::Order
   class Order < Matestack::Ui::Core::Component::Dynamic
-
-    def vuejs_component_name
-      'matestack-ui-core-collection-order'
-    end
+    vue_js_component_name 'matestack-ui-core-collection-order'
 
     def setup
       @component_config = @component_config.except(:data, :paginated_data)

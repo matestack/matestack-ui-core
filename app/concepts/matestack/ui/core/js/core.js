@@ -4,6 +4,7 @@ import { turbolinksAdapterMixin } from 'vue-turbolinks';
 // Import from app/concepts/matestack/ui/core:
 import app from '../app/app'
 import async from '../async/async'
+import toggle from '../toggle/toggle'
 import pageContent from '../page/content'
 import store from '../app/store'
 import component from '../component/component'
@@ -15,6 +16,7 @@ import onclick from '../onclick/onclick'
 import collectionContent from '../collection/content/content'
 import collectionFilter from '../collection/filter/filter'
 import collectionOrder from '../collection/order/order'
+import isolate from '../isolate/isolate'
 
 let matestackUiApp = undefined
 

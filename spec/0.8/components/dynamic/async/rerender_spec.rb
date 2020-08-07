@@ -56,7 +56,7 @@ describe "Async Component", type: :feature, js: true do
       end
     end
 
-    class SomeComponent < Matestack::Ui::StaticComponent
+    class SomeComponent < Matestack::Ui::Component
       def response
         div id: "yielded-content-1" do
           yield_components
@@ -73,7 +73,7 @@ describe "Async Component", type: :feature, js: true do
       register_self_as(:some_component)
     end
 
-    class OtherComponent < Matestack::Ui::StaticComponent
+    class OtherComponent < Matestack::Ui::Component
       def response
         div id: "nested-yielded-content-2" do
           yield_components
@@ -109,7 +109,7 @@ describe "Async Component", type: :feature, js: true do
       end
     end
 
-    class SomeComponent < Matestack::Ui::StaticComponent
+    class SomeComponent < Matestack::Ui::Component
       def response
         div id: "static-content-on-component" do
           plain "Component 1.1: #{DateTime.now.strftime('%Q')}"
@@ -134,7 +134,7 @@ describe "Async Component", type: :feature, js: true do
       register_self_as(:some_component)
     end
 
-    class OtherComponent < Matestack::Ui::StaticComponent
+    class OtherComponent < Matestack::Ui::Component
       def response
         div id: "static-content-on-other-component" do
           plain "Component 2.1: #{DateTime.now.strftime('%Q')}"
@@ -291,7 +291,7 @@ describe "Async Component", type: :feature, js: true do
               end
             end
           end
-          async show_on: 'async_rerender_error', id: 'async_error' do
+          toggle show_on: 'async_rerender_error', id: 'async_error' do
             plain 'Error - {{ event.data.id }}'
           end
         end
@@ -334,7 +334,7 @@ describe "Async Component", type: :feature, js: true do
               end
             end
           end
-          async show_on: 'async_rerender_error', id: 'async_error' do
+          toggle show_on: 'async_rerender_error', id: 'async_error' do
             plain 'Error - {{ event.data.id }}'
           end
         end

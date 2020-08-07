@@ -13,7 +13,7 @@ module Matestack::Ui::Core::Component
 
     def dynamic_tag_attributes
       attrs = {
-        "is": vuejs_component_name,
+        "is": self.class.vue_js_name,
         "ref": component_id,
         ":params":  @url_params.to_json,
         ":component-config": @component_config.to_json,
@@ -23,8 +23,14 @@ module Matestack::Ui::Core::Component
       attrs
     end
 
-    def vuejs_component_name
-      self.class.name.split(/(?=[A-Z])/).join("-").downcase.gsub("::", "")
+    class << self
+      def vue_js_component_name(name)
+        @vue_js_name = name.to_s
+      end
+
+      def vue_js_name
+        @vue_js_name ||= self.name.split(/(?=[A-Z])/).join("-").downcase.gsub("::", "")
+      end
     end
     
   end

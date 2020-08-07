@@ -7,6 +7,7 @@ describe Matestack::Ui::Core::Async::Async, type: :feature, js: true do
 
   it "Example 1 - Rerender on event on page-level" do
     class CoolAsync < described_class
+      vue_js_component_name 'matestack-ui-core-async'
       optional :id
       def response
         div id: id do

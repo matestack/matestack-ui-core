@@ -29,7 +29,7 @@ describe "Component", type: :feature, js: true do
 
     it "components can take an options hash" do
 
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
 
         def response
           div id: "my-component" do
@@ -58,7 +58,7 @@ describe "Component", type: :feature, js: true do
 
     it "components can auto validate if options is given and raise error if not" do
 
-      class SpecialComponent < Matestack::Ui::StaticComponent
+      class SpecialComponent < Matestack::Ui::Component
 
         requires :some_option
 

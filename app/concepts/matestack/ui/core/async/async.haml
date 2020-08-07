@@ -1,6 +1,6 @@
 %component{dynamic_tag_attributes}
-  %div{class: "matestack-async-component-wrapper", "v-bind:class": "{ 'loading': loading === true }"}
-    %div{"v-if": "asyncTemplate == null"}
+  %div{class: "matestack-async-component-container", "v-bind:class": "{ 'loading': loading === true }"}
+    %div{class: "matestack-async-component-wrapper", "v-if": "asyncTemplate == null", "v-bind:class": "{ 'loading': loading === true }"}
       = render_content
-    %div{"v-if": "asyncTemplate != null"}
+    %div{class: "matestack-async-component-wrapper", "v-if": "asyncTemplate != null", "v-bind:class": "{ 'loading': loading === true }"}
       %v-runtime-template{":template":"asyncTemplate"}

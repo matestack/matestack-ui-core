@@ -5,7 +5,7 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
 
-    # define html global attributes 
+    # define html global attributes
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
     # probably eed to remove for other tests to be green again
@@ -229,8 +229,25 @@ module Matestack::Ui::Core::Component
           skip_deferred_child_response = true
         end
       end
+      # same applies for all isolated components, no extra defer option needed
+      if child_class < Matestack::Ui::Core::Isolate::Isolate
+        skip_deferred_child_response = true
+        unless args.empty? || args[0].keys.all? { |key| key == :defer || key == :public_options || key == :rerender_on || key == :init_on || key == :rerender_delay }
+          raise "isolated components can only take params in a public_options hash, which will be exposed to the client side in order to perform an async request with these params."
+        end
+      end
 
-      args_with_context = add_context_to_options(args, @current_parent_context.get_included_config)
+      if self.class < Matestack::Ui::Core::Isolate::Isolate
+        parent_context_included_config = @current_parent_context.get_included_config
+        if parent_context_included_config.nil?
+          parent_context_included_config = { isolated_parent_class: self.class.name }
+        else
+          parent_context_included_config.merge!({ isolated_parent_class: self.class.name })
+        end
+        args_with_context = add_context_to_options(args,parent_context_included_config)
+      else
+        args_with_context = add_context_to_options(args, @current_parent_context.get_included_config)
+      end
 
       child = child_class.new(*args_with_context)
 
@@ -318,7 +335,7 @@ module Matestack::Ui::Core::Component
       case args.size
       when 0 then [
         {
-          context: context, 
+          context: context,
           included_config: included_config,
         }
         ]

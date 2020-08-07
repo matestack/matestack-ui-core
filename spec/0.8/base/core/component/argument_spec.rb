@@ -29,7 +29,7 @@ describe "Component", type: :feature, js: true do
 
     it "a component can access a simple argument, if no hash was given" do
 
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
 
         def response
           div id: "my-component" do

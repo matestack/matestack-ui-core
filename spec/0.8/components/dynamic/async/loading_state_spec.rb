@@ -8,7 +8,7 @@ describe "Async Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         async rerender_on: "my_event", id: 'async-div' do
-          sleep 1 # mock hard work
+          sleep 2 # mock hard work
           div id: "my-div" do
             plain DateTime.now.to_i
           end
@@ -18,13 +18,16 @@ describe "Async Component", type: :feature, js: true do
 
     visit "/example"
 
+    expect(page).to have_css '.matestack-async-component-container .matestack-async-component-wrapper', visible: :all
+
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
 
-    expect(page).to have_css '.loading', visible: :all
+    expect(page).to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
 
     sleep 1
 
-    expect(page).not_to have_css '.loading', visible: :all
+    expect(page).to have_css '.matestack-async-component-container .matestack-async-component-wrapper', visible: :all
+    expect(page).not_to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
 
   end
 
@@ -42,11 +45,12 @@ describe "Async Component", type: :feature, js: true do
 
     visit "/example"
 
-    expect(page).to have_css '.loading', visible: :all
+    expect(page).to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
 
     sleep 1
 
-    expect(page).not_to have_css '.loading', visible: :all
+    expect(page).to have_css '.matestack-async-component-container .matestack-async-component-wrapper', visible: :all
+    expect(page).not_to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
 
   end
 

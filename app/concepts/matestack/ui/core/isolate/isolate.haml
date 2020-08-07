@@ -1,2 +1,6 @@
-- @children_cells.each do |key, cell|
-  = cell.call(:show)
+%component{dynamic_tag_attributes}
+  %div{loading_classes.merge(class: "matestack-isolated-component-container")}
+    %div{loading_classes.merge(class: "loading-state-element-wrapper")}
+      =loading_state_element
+    %div{loading_classes.merge(class: "matestack-isolated-component-wrapper")}
+      %v-runtime-template{":template":"isolatedTemplate"}

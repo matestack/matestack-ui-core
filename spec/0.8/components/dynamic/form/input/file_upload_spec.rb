@@ -75,7 +75,7 @@ describe "Form Component", type: :feature, js: true do
               button text: 'Submit me!'
             end
           end
-          async show_on: "uploaded_successfully", id: 'async-form' do
+          toggle show_on: "uploaded_successfully", id: 'async-form' do
             plain "{{event.data.title}}"
             plain "{{event.data.file_1.instance}}"
             plain "{{event.data.file_1.name}}"
@@ -251,7 +251,7 @@ describe "Form Component", type: :feature, js: true do
               button text: 'Submit me!'
             end
           end
-          async show_on: "uploaded_successfully", hide_on: "form_submitted", id: 'async-form' do
+          toggle show_on: "uploaded_successfully", hide_on: "form_submitted", id: 'async-form' do
             plain "{{event.data.file_1.instance}}"
             plain "{{event.data.file_1.name}}"
             plain "{{event.data.files}}"

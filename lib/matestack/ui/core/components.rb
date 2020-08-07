@@ -71,7 +71,9 @@ module Matestack::Ui::Core::Components
   require_core_component "figure"
   require_core_component "footer"
   require_core_component "form"
+  require_core_component "form/checkbox"
   require_core_component "form/input"
+  require_core_component "form/radio"
   require_core_component "form/select"
   require_core_component "form/submit"
   require_core_component "header"
@@ -82,6 +84,7 @@ module Matestack::Ui::Core::Components
   require_core_component "img"
   require_core_component "input"
   require_core_component "ins"
+  require_core_component "isolate"
   require_core_component "kbd"
   require_core_component "label"
   require_core_component "legend"
@@ -129,6 +132,7 @@ module Matestack::Ui::Core::Components
   require_core_component "th"
   require_core_component "thead"
   require_core_component "time"
+  require_core_component "toggle"
   require_core_component "tr"
   require_core_component "transition"
   require_core_component "u"
@@ -183,7 +187,9 @@ Matestack::Ui::Core::Component::Registry.register_components(
   figure: Matestack::Ui::Core::Figure::Figure,
   footer: Matestack::Ui::Core::Footer::Footer,
   form: Matestack::Ui::Core::Form::Form,
+  form_checkbox: Matestack::Ui::Core::Form::Checkbox::Checkbox,
   form_input: Matestack::Ui::Core::Form::Input::Input,
+  form_radio: Matestack::Ui::Core::Form::Radio::Radio,
   form_select: Matestack::Ui::Core::Form::Select::Select,
   form_submit: Matestack::Ui::Core::Form::Submit::Submit,
   form_textarea: Matestack::Ui::Core::Form::Textarea::Textarea,
@@ -243,6 +249,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   th: Matestack::Ui::Core::Th::Th,
   thead: Matestack::Ui::Core::Thead::Thead,
   time: Matestack::Ui::Core::Time::Time,
+  toggle: Matestack::Ui::Core::Toggle::Toggle,
   tr: Matestack::Ui::Core::Tr::Tr,
   transition: Matestack::Ui::Core::Transition::Transition,
   u: Matestack::Ui::Core::U::U,

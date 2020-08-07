@@ -9,7 +9,7 @@ describe "Onclick Component", type: :feature, js: true do
         onclick emit: 'show_message' do
           button text: 'click me'
         end
-        async show_on: 'show_message' do
+        toggle show_on: 'show_message' do
           plain "some message"
         end
       end
@@ -28,7 +28,7 @@ describe "Onclick Component", type: :feature, js: true do
         onclick emit: 'show_message', data: "some static data" do
           button text: 'click me'
         end
-        async show_on: 'show_message' do
+        toggle show_on: 'show_message' do
           plain "some message"
           br
           plain "{{event.data}}"
