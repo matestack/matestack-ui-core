@@ -28,7 +28,7 @@ describe 'Creating custom components', type: :feature, js: true do
   it 'by orchestrating existing static core components' do
     module Components end
 
-    class Components::CrazyComponent < Matestack::Ui::StaticComponent
+    class Components::CrazyComponent < Matestack::Ui::Component
       def response
         div id: 'my-component-1' do
           plain "I'm a static component!"
@@ -53,10 +53,8 @@ describe 'Creating custom components', type: :feature, js: true do
   it 'by orchestrating existing dynamic core components' do
     module Components end
 
-    class Components::OwnDynamic < Matestack::Ui::DynamicComponent
-      def vuejs_component_name
-        "custom-own-dynamic"
-      end
+    class Components::OwnDynamic < Matestack::Ui::VueJsComponent
+      vue_js_component_name "custom-own-dynamic"
 
       def response
         div id: 'my-component-1' do
@@ -145,9 +143,7 @@ describe 'Creating custom components', type: :feature, js: true do
     module Components end
 
     class Components::TimeClick < Matestack::Ui::DynamicActionviewComponent
-      def vuejs_component_name
-        "custom-time-click"
-      end
+      vue_js_component_name "custom-time-click"
 
       def prepare
         @start_time = Time.now

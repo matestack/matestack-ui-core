@@ -244,7 +244,7 @@
 
 #     end
 
-#     class Components::Component < Matestack::Ui::StaticComponent
+#     class Components::Component < Matestack::Ui::Component
 
 #       def response
 #         components {

@@ -24,7 +24,7 @@ describe "Component", type: :feature, js: true do
   describe "Partials" do
 
     it "components can use local partials to structure their response" do
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
             my_partial "foo from component"
@@ -59,7 +59,7 @@ describe "Component", type: :feature, js: true do
         end
       end
 
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
         include MySharedPartials
 
         def response

@@ -60,9 +60,9 @@ Apps and pages can now actually live anywhere within your project - but we still
 
 Within a controller, you can now set the desired `matestack_app` that then wraps all pages used in this controller. This definition is inheritable - therefore, you can set in on an `ApplicationController` to make it a default for all controllers and actions, and overwrite it if needed.
 
-Both "global" and "controller-level" `matestack_app` settings can be overwritten on "action-level" using an additional parameter for the `render` method. 
+Both "global" and "controller-level" `matestack_app` settings can be overwritten on "action-level" using an additional parameter for the `render` method.
 
-The code snippet below shows some common use cases: 
+The code snippet below shows some common use cases:
 
 ```ruby
 class SomeController < ApplicationController
@@ -247,10 +247,7 @@ This behavior changes in `0.8.0`:
 
 ```ruby
 class Matestack::Ui::Core::Collection::Filter::Filter < Matestack::Ui::DynamicComponent
-
-  def vuejs_component_name
-    "matestack-ui-core-collection-filter"
-  end
+  vue_js_component_name "matestack-ui-core-collection-filter"
 
   #...
 
@@ -268,15 +265,12 @@ Formerly, custom components behaved differently than core components. `Component
 
 This behavior changes in `0.8.0`:
 
-* Without any further default processing, `Components::Some::Component` will be translated into `components-some-component` 
+* Without any further default processing, `Components::Some::Component` will be translated into `components-some-component`
 * It is now possible to set the Vue.js component name manually:
 
 ```ruby
 class Components::Some::Component < Matestack::Ui::DynamicComponent
-
-  def vuejs_component_name
-    "some-component"
-  end
+  vue_js_component_name "some-component"
 
   #...
 
@@ -430,6 +424,13 @@ Let's say you have an old view file in `app/views/example/partial.html.erb`
 ```html
 <p>An example text in a Rails view</p>
 ```
+### Changed Components
+
+#### Form Input Component
+
+The `form_input` component no longer supports the input type textarea.
+Textareas were extracted in a component and can be used with `textarea` or in forms with `form_textarea`.
+The `form_input`component now supports all types according to W3Cs possible types.
 
 You could go ahead and re-use it in a component (or simply add it to a page) like:
 ```ruby

@@ -1,7 +1,9 @@
 require_relative '../utils'
+require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Textarea
   class Textarea < Matestack::Ui::Core::Textarea::Textarea
     include Matestack::Ui::Core::Form::Utils
+    include Matestack::Ui::Core::Form::HasErrors
 
     requires :key
     optional :multiple, :init, for: { as: :input_for }, label: { as: :input_label }
@@ -9,15 +11,14 @@ module Matestack::Ui::Core::Form::Textarea
     def response
       label text: input_label if input_label
       textarea html_attributes.merge(attributes: vue_attributes)
-      span class: 'errors', attributes: { 'v-if': error_key } do
-        span class: 'error', text: '{{ error }}', attributes: { 'v-for': "error in #{error_key}" }
-      end
+      render_errors
     end
 
     def vue_attributes
       (options[:attributes] || {}).merge({
         'v-model': input_key,
         '@change': "inputChanged('#{attr_key}')",
+        'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
         "init-value": init_value,
         ref: "input.#{attr_key}",
       })

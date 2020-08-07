@@ -1,11 +1,11 @@
 require_relative '../utils'
+require_relative '../has_input_html_attributes'
+require_relative '../has_errors'
 module Matestack::Ui::Core::Form::Input
   class Input < Matestack::Ui::Core::Component::Static
     include Matestack::Ui::Core::Form::Utils
-
-    html_attributes :accept, :alt, :autocomplete, :autofocus, :checked, :dirname, :disabled, :form, :formaction, 
-      :formenctype, :formmethod, :formnovalidate, :formtarget, :height, :list, :max, :maxlength, :min, :minlength, 
-      :multiple, :name, :pattern, :placeholder, :readonly, :required, :size, :src, :step, :type, :value, :width
+    include Matestack::Ui::Core::Form::HasInputHtmlAttributes
+    include Matestack::Ui::Core::Form::HasErrors
 
     requires :key, :type
     optional :multiple, :init, for: { as: :input_for }, label: { as: :input_label }
@@ -13,16 +13,15 @@ module Matestack::Ui::Core::Form::Input
     def response
       label text: input_label if input_label
       input html_attributes.merge(attributes: vue_attributes)
-      span class: 'errors', attributes: { 'v-if': error_key } do
-        span class: 'error', text: '{{ error }}', attributes: { 'v-for': "error in #{error_key}" }
-      end
+      render_errors
     end
 
     def vue_attributes
       (options[:attributes] || {}).merge({
         "@change": change_event,
         ref: "input.#{attr_key}",
-        'init-value': init_value
+        'init-value': init_value,
+        'v-bind:class': "{ '#{input_error_class}': #{error_key} }"
       }).merge(
         type != :file ? { "#{v_model_type}": input_key } : {}
       ) # file inputs are readonly, no v-model possible
@@ -42,6 +41,10 @@ module Matestack::Ui::Core::Form::Input
 
     def custom_options_validation
       raise "included form config is missing, please add ':include' to parent form component" if @included_config.nil?
+    end
+
+    def attr_key
+      super + "#{'[]' if multiple && type == :file}"
     end
 
     private

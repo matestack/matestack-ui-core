@@ -94,7 +94,8 @@ class MyAppController < ApplicationController
   def dummy_model_params
     params.require(:dummy_model).permit(
       :title,
-      :description
+      :description,
+      :status
     )
   end
 

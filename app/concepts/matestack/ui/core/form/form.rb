@@ -1,11 +1,8 @@
 module Matestack::Ui::Core::Form
   class Form < Matestack::Ui::Core::Component::Dynamic
+    vue_js_component_name "matestack-ui-core-form"
 
     requires :for, :path, method: { as: :form_method }
-
-    def vuejs_component_name
-      "matestack-ui-core-form"
-    end
 
     def setup
       begin

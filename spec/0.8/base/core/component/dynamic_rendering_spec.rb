@@ -27,7 +27,7 @@ describe "Component", type: :feature, js: true do
 
   describe "dynamic components" do
 
-    it "render a component tag when inherit from 'Matestack::Ui::DynamicComponent'"
+    it "render a component tag when inherit from 'Matestack::Ui::VueJsComponent'"
 
   end
 
