@@ -159,7 +159,11 @@ module Matestack::Ui::Core::Component
 
     # access params like you would do on rails views and controllers
     def params
-      context[:params]
+      if @matestack_context.present? && @matestack_context[:controller].present?
+        @matestack_context[:controller].params
+      else
+        context[:params]
+      end
     end
 
     ## ------------------ Rendering ----------------

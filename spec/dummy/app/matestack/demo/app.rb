@@ -20,24 +20,24 @@ class Demo::App < Matestack::Ui::App
         transition path: :my_first_page_path do
           button text: "Page 1"
         end
-        # transition path: :my_second_page_path do
-        #   button text: "Page 2"
-        # end
-        # transition path: :my_third_page_path do
-        #   button text: "Page 3"
-        # end
-        # transition path: :my_fourth_page_path do
-        #   button text: "Page 4"
-        # end
-        # transition path: :my_fifth_page_path do
-        #   button text: "Page 5"
-        # end
-        # transition path: :my_sixth_page_path do
-        #   button text: "Page 6"
-        # end
-        # transition path: :collection_path do
-        #   button text: "Collection"
-        # end
+        transition path: :my_second_page_path do
+          button text: "Page 2"
+        end
+        transition path: :my_third_page_path do
+          button text: "Page 3"
+        end
+        transition path: :my_fourth_page_path do
+          button text: "Page 4"
+        end
+        transition path: :my_fifth_page_path do
+          button text: "Page 5"
+        end
+        transition path: :my_sixth_page_path do
+          button text: "Page 6"
+        end
+        transition path: :collection_path do
+          button text: "Collection"
+        end
         # transition path: :inline_edit_path do
         #   button text: "Inline Edit"
         # end

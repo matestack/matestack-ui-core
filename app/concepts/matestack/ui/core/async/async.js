@@ -56,7 +56,10 @@ const componentDef = {
         headers: {
           'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
         },
-        params: {"component_key": self.componentConfig["component_key"]}
+        params: {
+          "component_key": self.componentConfig["component_key"],
+          "component_class": self.componentConfig["parent_class"]
+        }
       })
       .then(function(response){
         var tmp_dom_element = document.createElement('div');

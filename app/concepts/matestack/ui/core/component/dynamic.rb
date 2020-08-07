@@ -13,7 +13,7 @@ module Matestack::Ui::Core::Component
 
     def dynamic_tag_attributes
       attrs = {
-        "is": self.class.vue_js_name,
+        "is": get_vue_js_name,
         "ref": component_id,
         ":params":  params.except(:controller, :action).to_json,
         ":component-config": @component_config.to_json,
@@ -21,6 +21,14 @@ module Matestack::Ui::Core::Component
       }
       attrs.merge!(options[:attributes]) unless options[:attributes].nil?
       attrs
+    end
+
+    def get_vue_js_name
+      if @vue_js_component_name.present?
+        @vue_js_component_name
+      else
+        self.class.vue_js_name
+      end
     end
 
     class << self

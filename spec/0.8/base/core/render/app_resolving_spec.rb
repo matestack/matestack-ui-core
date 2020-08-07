@@ -39,7 +39,7 @@ describe "Render", type: :feature, js: true do
     visit "render_app_resolving_spec/example"
 
     # dom structure implies correct rendering with wrapping minimal app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -86,11 +86,11 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
 
     visit "render_app_resolving_spec/second_example"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -138,12 +138,12 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
     expect(text).to eq("hello from page")
 
     visit "render_app_resolving_spec/second_example"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -174,7 +174,7 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
     expect(text).to eq("hello from page")
 
     visit "render_app_resolving_spec/second_example"
@@ -240,12 +240,12 @@ describe "Render", type: :feature, js: true do
 
       visit "render_app_resolving_spec/example"
       # dom structure implies correct rendering with wrapping specified app
-      text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+      text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
       expect(text).to eq("hello from example page")
 
       visit "render_app_resolving_spec/second_example"
       # dom structure implies correct rendering with wrapping specified app
-      text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container loading-end"]/div[@class="matestack-page-wrapper loading-end"]/div/div[@class="matestack-page"]/div[1]').text
+      text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page"]/div[1]').text
       expect(text).to eq("hello from some other example page")
     end
 

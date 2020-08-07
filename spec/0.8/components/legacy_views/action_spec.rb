@@ -5,6 +5,7 @@ describe "Action Component", type: :feature, js: true do
 
   it 'should work on rails legacy views' do
     visit 'legacy_views/action_custom_component'
+
     expect(page).to have_content('Action Custom Component')
     expect(page).not_to have_content('Action was successful')
     expect(page).not_to have_content('Action has failed')
