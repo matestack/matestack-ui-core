@@ -8,11 +8,11 @@ module Matestack::Ui::Core::Component
     # define html global attributes
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
-    # probably eed to remove for other tests to be green again
+    # probably need to remove for other tests to be green again
     include Matestack::Ui::Core::DSL
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
-    view_paths << "#{::Rails.root}/app/matestack"
+    view_paths << "#{::Rails.root}#{'/' unless ::Rails.root.nil?}app/matestack"
 
     extend ViewName::Flat
 
@@ -67,6 +67,7 @@ module Matestack::Ui::Core::Component
 
       # TODO: no idea why this is called `url_params` it contains
       # much more than this e.g. almost all params so maybe rename it?
+      # will be deprecated in future releases. use the `params` method in order to access query params
       @url_params = context&.[](:params)&.except(:action, :controller, :component_key, :matestack_context)
 
       # used when creating the child component tree
@@ -108,15 +109,12 @@ module Matestack::Ui::Core::Component
       _prefixes = super
       modified_prefixes = _prefixes.map do |prefix|
         prefix_parts = prefix.split("/")
-
-        if prefix_parts.last.include?(self.name.split("::")[-1].downcase)
-          prefix_parts[0..-2].join("/")
+        if prefix_parts.last.include?(self.name.split("::")[-1].underscore)
+          prefix_parts[0..-2].join("/") + '/'
         else
           prefix
         end
-
       end
-
       return modified_prefixes + _prefixes
     end
 
@@ -157,6 +155,11 @@ module Matestack::Ui::Core::Component
     # Seems like it might be more complicated? Not sure probably missing something.
     def prepare
       true
+    end
+
+    # access params like you would do on rails views and controllers
+    def params
+      context[:params]
     end
 
     ## ------------------ Rendering ----------------
@@ -229,8 +232,25 @@ module Matestack::Ui::Core::Component
           skip_deferred_child_response = true
         end
       end
+      # same applies for all isolated components, no extra defer option needed
+      if child_class < Matestack::Ui::Core::Isolate::Isolate
+        skip_deferred_child_response = true
+        unless args.empty? || args[0].keys.all? { |key| key == :defer || key == :public_options || key == :rerender_on || key == :init_on || key == :rerender_delay }
+          raise "isolated components can only take params in a public_options hash, which will be exposed to the client side in order to perform an async request with these params."
+        end
+      end
 
-      args_with_context = add_context_to_options(args, @current_parent_context.get_included_config)
+      if self.class < Matestack::Ui::Core::Isolate::Isolate
+        parent_context_included_config = @current_parent_context.get_included_config
+        if parent_context_included_config.nil?
+          parent_context_included_config = { isolated_parent_class: self.class.name }
+        else
+          parent_context_included_config.merge!({ isolated_parent_class: self.class.name })
+        end
+        args_with_context = add_context_to_options(args,parent_context_included_config)
+      else
+        args_with_context = add_context_to_options(args, @current_parent_context.get_included_config)
+      end
 
       child = child_class.new(*args_with_context)
 

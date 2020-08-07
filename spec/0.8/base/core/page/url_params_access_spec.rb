@@ -29,7 +29,7 @@ describe "Page", type: :feature, js: true do
 
       def response
         div do
-          plain "Request Params: #{@url_params}"
+          plain "foo: #{params[:foo]}"
         end
       end
 
@@ -37,7 +37,7 @@ describe "Page", type: :feature, js: true do
 
     visit "page_url_params_access_spec/page_test/?foo=bar"
 
-    expect(page).to have_content('Request Params: {"foo"=>"bar"}')
+    expect(page).to have_content("foo: bar")
 
   end
 

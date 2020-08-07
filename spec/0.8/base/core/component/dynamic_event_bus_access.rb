@@ -55,7 +55,7 @@ describe "Component", type: :feature, js: true do
           div id: "div-on-page" do
             test_component
           end
-          async show_on: "some_event" do
+          toggle show_on: "some_event" do
             plain "received some_event with: {{event.payload}}"
           end
         end

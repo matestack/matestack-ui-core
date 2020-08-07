@@ -12,7 +12,7 @@ describe "Async Component", type: :feature, js: true do
         onclick emit: 'update_time' do
           button text: 'Click me!'
         end
-        async show_on: 'async_rerender_error', id: 'async-error' do
+        toggle show_on: 'async_rerender_error', id: 'async-error' do
           plain 'Error - {{event.data.id}}'
         end
       end
@@ -38,7 +38,7 @@ describe "Async Component", type: :feature, js: true do
           onclick emit: 'update_items' do
             button text: 'Click me!'
           end
-          async show_on: 'async_rerender_error', id: 'async-error' do
+          toggle show_on: 'async_rerender_error', id: 'async-error' do
             plain 'Error - {{event.data.id}}'
           end
         end

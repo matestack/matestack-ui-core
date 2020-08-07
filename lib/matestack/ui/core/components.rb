@@ -52,6 +52,7 @@ module Matestack::Ui::Core::Components
   require_core_component "collection/filter"
   require_core_component "collection/filter/input"
   require_core_component "collection/filter/reset"
+  require_core_component "collection/filter/select"
   require_core_component "collection/filter/submit"
   require_core_component "collection/order"
   require_core_component "collection/order/toggle"
@@ -84,6 +85,7 @@ module Matestack::Ui::Core::Components
   require_core_component "img"
   require_core_component "input"
   require_core_component "ins"
+  require_core_component "isolate"
   require_core_component "kbd"
   require_core_component "label"
   require_core_component "legend"
@@ -132,6 +134,7 @@ module Matestack::Ui::Core::Components
   require_core_component "th"
   require_core_component "thead"
   require_core_component "time"
+  require_core_component "toggle"
   require_core_component "tr"
   require_core_component "transition"
   require_core_component "u"
@@ -167,6 +170,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   collection_filter: Matestack::Ui::Core::Collection::Filter::Filter,
   collection_filter_input: Matestack::Ui::Core::Collection::Filter::Input::Input,
   collection_filter_reset: Matestack::Ui::Core::Collection::Filter::Reset::Reset,
+  collection_filter_select: Matestack::Ui::Core::Collection::Filter::Select::Select,
   collection_filter_submit: Matestack::Ui::Core::Collection::Filter::Submit::Submit,
   collection_order: Matestack::Ui::Core::Collection::Order::Order,
   collection_order_toggle: Matestack::Ui::Core::Collection::Order::Toggle::Toggle,
@@ -249,6 +253,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   th: Matestack::Ui::Core::Th::Th,
   thead: Matestack::Ui::Core::Thead::Thead,
   time: Matestack::Ui::Core::Time::Time,
+  toggle: Matestack::Ui::Core::Toggle::Toggle,
   tr: Matestack::Ui::Core::Tr::Tr,
   transition: Matestack::Ui::Core::Transition::Transition,
   u: Matestack::Ui::Core::U::U,

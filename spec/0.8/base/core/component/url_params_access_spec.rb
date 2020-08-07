@@ -35,7 +35,7 @@ describe "Component", type: :feature, js: true do
             div id: "my-component" do
               # TODO: rather than accessing plain instance variables
               # I'd recommend a method based interface (easier to adjust, test, maintain if state is moved elsewhere etc.)
-              plain @url_params[:foo]
+              plain params[:foo]
             end
         end
 
