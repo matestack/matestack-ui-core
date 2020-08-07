@@ -27,7 +27,7 @@ describe "Action Component", type: :feature, js: true do
           action action_config do
             button text: "Click me!"
           end
-          async show_on: "action_submitted" do
+          toggle show_on: "action_submitted" do
             plain "action submitted!"
           end
         end

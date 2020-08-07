@@ -24,7 +24,7 @@ describe "Transition Component", type: :feature, js: true do
         main do
           page_content
         end
-        async show_on: "page_loading_triggered" do
+        toggle show_on: "page_loading_triggered" do
           plain "started a transition"
         end
       end

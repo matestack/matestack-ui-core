@@ -75,7 +75,7 @@ describe "Form Component", type: :feature, js: true do
       class BaseExamplePage < BasePage
         def response
           super
-          async show_on: "my_form_success", id: 'async-form' do
+          toggle show_on: "my_form_success", id: 'async-form' do
             plain "{{event.data.message}}"
           end
         end
@@ -95,7 +95,7 @@ describe "Form Component", type: :feature, js: true do
       class BaseExamplePage < BasePage
         def response
           super
-          async show_on: "my_form_failure", id: 'async-form' do
+          toggle show_on: "my_form_failure", id: 'async-form' do
             plain "{{event.data.message}}"
             plain "{{event.data.errors}}"
           end

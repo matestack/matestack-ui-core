@@ -135,7 +135,7 @@ describe "Action Component", type: :feature, js: true do
           action action_config do
             button text: "Click me!"
           end
-          async show_on: "my_action_success", hide_after: 300, id: 'async-page' do
+          toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
           end
         end
@@ -165,10 +165,10 @@ describe "Action Component", type: :feature, js: true do
           action action_config do
             button text: "Click me!"
           end
-          async show_on: "my_action_success", hide_after: 300, id: 'async-page-1' do
+          toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
           end
-          async show_on: "my_action_failure", hide_after: 300, id: 'async-page-2' do
+          toggle show_on: "my_action_failure", hide_after: 300 do
             plain "{{event.data.message}}"
           end
         end
@@ -205,10 +205,10 @@ describe "Action Component", type: :feature, js: true do
           main do
             page_content
           end
-          async show_on: "my_action_success", hide_after: 300, id: 'async-page-1' do
+          toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
           end
-          async show_on: "my_action_failure", hide_after: 300, id: 'async-page-2' do
+          toggle show_on: "my_action_failure", hide_after: 300 do
             plain "{{event.data.message}}"
           end
         end
@@ -308,10 +308,10 @@ describe "Action Component", type: :feature, js: true do
           main do
             page_content
           end
-          async show_on: "my_action_success", hide_after: 300, id: 'async-page-1' do
+          toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
           end
-          async show_on: "my_action_failure", hide_after: 300, id: 'async-page-2' do
+          toggle show_on: "my_action_failure", hide_after: 300 do
             plain "{{event.data.message}}"
           end
         end
@@ -432,10 +432,10 @@ describe "Action Component", type: :feature, js: true do
           main do
             page_content
           end
-          async show_on: "my_action_success", hide_after: 300, id: 'async-app-1' do
+          toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
           end
-          async show_on: "my_action_failure", hide_after: 300, id: 'async-app-2' do
+          toggle show_on: "my_action_failure", hide_after: 300 do
             plain "{{event.data.message}}"
           end
         end
@@ -550,7 +550,7 @@ describe "Action Component", type: :feature, js: true do
           action action_config do
             button text: "Click me!"
           end
-          async show_on: "my_action_success", hide_after: 300, id: 'async-page' do
+          toggle show_on: "my_action_success", hide_after: 300 do
             plain "Well done!"
           end
         end
@@ -603,7 +603,7 @@ describe "Action Component", type: :feature, js: true do
         action action_config do
           button text: "Click me!"
         end
-        async show_on: "my_action_success", hide_after: 300, id: 'async-page' do
+        toggle show_on: "my_action_success", hide_after: 300 do
           plain "Well done!"
         end
       end
