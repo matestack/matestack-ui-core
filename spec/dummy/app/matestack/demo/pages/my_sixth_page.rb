@@ -14,7 +14,7 @@ class Demo::Pages::MySixthPage < Matestack::Ui::Page
 
       custom_demo_component heading_text: "Custom Vue.js Component"
 
-      async show_on: "my_custom_event", hide_after: "2000" do
+      toggle show_on: "my_custom_event", hide_after: "2000" do
         plain "called API!"
       end
     }

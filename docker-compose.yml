@@ -37,6 +37,8 @@ services:
       dockerfile: ./Dockerfile.test
     environment:
       RAILS_ENV: test
+    links:
+      - postgres_test
     ports:
       - "33123:33123"
     volumes:
@@ -46,7 +48,18 @@ services:
     command: "bundle exec rspec spec/usage/components"
     user: ${CURRENT_UID}
 
+  postgres_test:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    volumes:
+      - test-data-volume:/var/lib/postgresql/data
+
 volumes:
-  data-volume:
+  test-data-volume:
   gem-volume:
   node-volume:

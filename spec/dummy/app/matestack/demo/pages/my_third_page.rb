@@ -20,7 +20,7 @@ class Demo::Pages::MyThirdPage < Matestack::Ui::Page
 
         br
 
-        async show_on: "my_action_succeeded", hide_after: 2000 do
+        toggle show_on: "my_action_succeeded", hide_after: 2000 do
           plain "action succeeded!"
         end
       end

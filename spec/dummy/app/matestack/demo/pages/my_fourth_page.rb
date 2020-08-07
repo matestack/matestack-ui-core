@@ -37,7 +37,7 @@ class Demo::Pages::MyFourthPage < Matestack::Ui::Page
 
       br
 
-      async show_on: "form_has_errors", hide_after: 5000 do
+      toggle show_on: "form_has_errors", hide_after: 5000 do
         plain "Data could not be submitted, please check form"
       end
 

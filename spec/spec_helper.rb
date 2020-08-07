@@ -34,7 +34,7 @@ WebMock.allow_net_connect!
 
 require File.join File.dirname(__FILE__), 'dummy', 'config', 'environment.rb'
 
-Dir[File.join File.dirname(__FILE__), 'support', '**', '*.rb'].each { |f| require f }
+Dir[File.join File.dirname(__FILE__), 'test', 'support', '**', '*.rb'].each { |f| require f }
 
 require 'pry'
 

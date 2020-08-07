@@ -4,17 +4,17 @@ class Components::LegacyViews::Pages::Action < Matestack::Ui::StaticComponent
   def response
     div id: 'foobar' do
       paragraph text: 'Im a custom component'
-      action success_action_config do 
+      action success_action_config do
         button text: 'See Success'
       end
-      action redirect_action_config do 
+      action redirect_action_config do
         button text: 'Redirect to inline action'
       end
       action_in_partial
-      async show_on: 'action_successful', id: 'async-action-success' do
+      toggle show_on: 'action_successful', id: 'async-action-success' do
         plain "Action was successful {{ event.data.time }}"
       end
-      async show_on: 'action_failed', id: 'async-action-failure' do
+      toggle show_on: 'action_failed', id: 'async-action-failure' do
         plain "Action has failed {{ event.data.time }}"
       end
       paragraph text: 'header called from inside custom component'
@@ -25,7 +25,7 @@ class Components::LegacyViews::Pages::Action < Matestack::Ui::StaticComponent
   private
 
   def action_in_partial
-    action failure_action_config do 
+    action failure_action_config do
       button text: 'See Failure'
     end
   end
