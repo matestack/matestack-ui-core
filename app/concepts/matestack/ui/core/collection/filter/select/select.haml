@@ -1,0 +1,10 @@
+- if options[:type] == :dropdown
+
+  %select{@tag_attributes}
+    %option{disabled: true}= options[:placeholder]
+    - if @options[:options].is_a?(Hash)
+      - @options[:options].each do |key, value|
+        %option{value: key}=value
+    - if @options[:options].is_a?(Array)
+      - @options[:options].each do |option|
+        %option{value: option}=option
