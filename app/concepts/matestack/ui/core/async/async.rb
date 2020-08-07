@@ -10,6 +10,9 @@ module Matestack::Ui::Core::Async
         'Calling async components without id is deprecated. Instead provide a unique id for async components.'
       ) if id.blank?
       @component_config[:component_key] = id || "async_#{Digest::SHA256.hexdigest(caller[3])}"
+      if @included_config.present? && @included_config[:isolated_parent_class].present?
+        @component_config[:parent_class] = @included_config[:isolated_parent_class]
+      end
       @tag_attributes.merge!({
         "v-if": "showing",
         id: @component_config[:component_key]

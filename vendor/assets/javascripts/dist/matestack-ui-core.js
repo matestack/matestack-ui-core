@@ -863,7 +863,10 @@ const componentMixin = {
         headers: {
           'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
         },
-        params: {"component_key": self.componentConfig["component_key"]}
+        params: {
+          "component_key": self.componentConfig["component_key"],
+          "component_class": self.componentConfig["parent_class"]
+        }
       })
       .then(function(response){
         var tmp_dom_element = document.createElement('div');
@@ -1211,6 +1214,131 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 /***/ }),
 
+/***/ "../app/concepts/matestack/ui/core/isolate/isolate.js":
+/*!************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/isolate/isolate.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
+/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
+
+
+
+
+
+const componentDef = {
+  props: ['componentConfig', 'params'],
+  data: function(){
+    return {
+      isolatedTemplate: null,
+      loading: false,
+      loadingError: false
+    }
+  },
+  methods: {
+    rerender: function(){
+      var self = this;
+      self.loading = true;
+      self.loadingError = false;
+      if(self.componentConfig["rerender_delay"] != undefined){
+        setTimeout(function () {
+          self.renderIsolatedContent();
+        }, parseInt(this.componentConfig["rerender_delay"]));
+      } else {
+        self.renderIsolatedContent();
+      }
+    },
+    renderIsolatedContent: function(){
+      var self = this;
+      self.loading = true;
+      self.loadingError = false;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "get",
+        url: location.pathname + location.search,
+        headers: {
+          'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
+        },
+        params: {
+          "component_class": self.componentConfig["component_class"],
+          "public_options": self.componentConfig["public_options"]
+        }
+      })
+      .then(function(response){
+        self.loading = false;
+        self.loadingStart = false;
+        self.loadingEnd = true;
+        self.isolatedTemplate = response['data'];
+      })
+      .catch(function(error){
+        self.loadingError = true;
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('isolate_rerender_error', { class: self.componentConfig["component_class"] })
+      })
+    },
+    startDefer: function(){
+      const self = this
+      self.loading = true;
+      setTimeout(function () {
+        self.renderIsolatedContent()
+      }, parseInt(this.componentConfig["defer"]));
+    }
+  },
+  created: function () {
+    const self = this
+  },
+  beforeDestroy: function() {
+    const self = this
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(rerender_event.trim(), self.renderIsolatedContent));
+    }
+  },
+  mounted: function (){
+    const self = this
+    if(this.componentConfig["init_on"] === undefined){
+      if(self.componentConfig["defer"] != undefined){
+        if(!isNaN(self.componentConfig["defer"])){
+          self.startDefer()
+        }
+      }else{
+        self.renderIsolatedContent();
+      }
+    }else{
+      if(self.componentConfig["defer"] != undefined){
+        if(!isNaN(self.componentConfig["defer"])){
+          var init_on_events = this.componentConfig["init_on"].split(",")
+          init_on_events.forEach(init_on_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(init_on_event.trim(), self.startDefer));
+        }
+      }else{
+        var init_on_events = this.componentConfig["init_on"].split(",")
+        init_on_events.forEach(init_on_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(init_on_event.trim(), self.renderIsolatedContent));
+      }
+    }
+
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(rerender_event.trim(), self.rerender));
+    }
+
+  },
+  components: {
+    VRuntimeTemplate: v_runtime_template__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-isolate', componentDef)
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
 /***/ "../app/concepts/matestack/ui/core/js/core.js":
 /*!****************************************************!*\
   !*** ../app/concepts/matestack/ui/core/js/core.js ***!
@@ -1235,10 +1363,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
 /* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
 /* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
+/* harmony import */ var _isolate_isolate__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../isolate/isolate */ "../app/concepts/matestack/ui/core/isolate/isolate.js");
 
 
 
 // Import from app/concepts/matestack/ui/core:
+
 
 
 

@@ -84,6 +84,7 @@ module Matestack::Ui::Core::Components
   require_core_component "img"
   require_core_component "input"
   require_core_component "ins"
+  require_core_component "isolate"
   require_core_component "kbd"
   require_core_component "label"
   require_core_component "legend"
