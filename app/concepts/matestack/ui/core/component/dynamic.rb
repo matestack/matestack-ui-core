@@ -15,7 +15,7 @@ module Matestack::Ui::Core::Component
       attrs = {
         "is": self.class.vue_js_name,
         "ref": component_id,
-        ":params":  @url_params.to_json,
+        ":params":  params.except(:controller, :action).to_json,
         ":component-config": @component_config.to_json,
         "inline-template": true,
       }
@@ -32,6 +32,6 @@ module Matestack::Ui::Core::Component
         @vue_js_name ||= self.name.split(/(?=[A-Z])/).join("-").downcase.gsub("::", "")
       end
     end
-    
+
   end
 end
