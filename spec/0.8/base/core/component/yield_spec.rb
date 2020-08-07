@@ -26,7 +26,7 @@ describe "Component", type: :feature, js: true do
   describe "Yield" do
 
     it "components can yield a block with access to scope, where block is defined" do
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
             yield_components

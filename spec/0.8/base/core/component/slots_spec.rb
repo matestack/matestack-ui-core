@@ -29,7 +29,7 @@ describe "Component", type: :feature, js: true do
 
     it "a page can fill slots of components with access to page instance scope" do
 
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
 
         def prepare
           @foo = "foo from component"
@@ -100,7 +100,7 @@ describe "Component", type: :feature, js: true do
 
     it "a component can fill slots of components with access to component instance scope" do
 
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
 
         def prepare
           @foo = "foo from component"
@@ -126,7 +126,7 @@ describe "Component", type: :feature, js: true do
         register_self_as(:some_static_component)
       end
 
-      class OtherComponent < Matestack::Ui::StaticComponent
+      class OtherComponent < Matestack::Ui::Component
 
         def prepare
           @foo = "foo from other component"

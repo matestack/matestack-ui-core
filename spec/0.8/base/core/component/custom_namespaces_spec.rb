@@ -40,7 +40,7 @@ describe "Component", type: :feature, js: true do
       module Components end
 
       #defined in "APP_ROOT/app/matestack/components/component1.rb
-      class Components::Component1 < Matestack::Ui::StaticComponent
+      class Components::Component1 < Matestack::Ui::Component
 
         def response
           div id: "my-component-1" do
@@ -55,7 +55,7 @@ describe "Component", type: :feature, js: true do
       module Components::Namespace1 end
 
       #defined in "APP_ROOT/app/matestack/components/namespace1/component1.rb
-      class Components::Namespace1::Component1 < Matestack::Ui::StaticComponent
+      class Components::Namespace1::Component1 < Matestack::Ui::Component
 
         def response
           div id: "my-namespaced-component-1" do
@@ -68,7 +68,7 @@ describe "Component", type: :feature, js: true do
       end
 
       #defined in "APP_ROOT/app/matestack/components/component1.rb
-      class Components::MyCamelcasedClassNameComponent < Matestack::Ui::StaticComponent
+      class Components::MyCamelcasedClassNameComponent < Matestack::Ui::Component
 
         def response
           div id: "my-camelcased-class-name-component" do

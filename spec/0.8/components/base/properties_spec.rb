@@ -4,7 +4,7 @@ include Utils
 describe 'Properties Mechanism', type: :feature, js: true do
 
   before :all do
-    class PropertyComponent < Matestack::Ui::StaticComponent
+    class PropertyComponent < Matestack::Ui::Component
       requires :title
       requires :foo
       optional :description, :bar
@@ -79,7 +79,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
   end
 
   it 'should raise exception if required property overwrites existing method' do
-    class TempPropertyComponent < Matestack::Ui::StaticComponent
+    class TempPropertyComponent < Matestack::Ui::Component
       requires :response
       def response
       end
@@ -98,7 +98,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
   end
 
   it 'should raise exception if optional property overwrites existing method' do
-    class TempOptionalPropertyComponent < Matestack::Ui::StaticComponent
+    class TempOptionalPropertyComponent < Matestack::Ui::Component
       optional :response
       def response
       end
@@ -117,12 +117,12 @@ describe 'Properties Mechanism', type: :feature, js: true do
   end
 
   it 'should create instance method with given alias name for required properties' do
-    class AliasPropertyComponent < Matestack::Ui::StaticComponent
+    class AliasPropertyComponent < Matestack::Ui::Component
       requires method: { as: :my_method }, response: { as: :test }
       def response
       end
     end
-    class AnotherAliasPropertyComponent < Matestack::Ui::StaticComponent
+    class AnotherAliasPropertyComponent < Matestack::Ui::Component
       requires :bla, method: { as: :my_method }, response: { as: :test }
       def response
       end
@@ -139,12 +139,12 @@ describe 'Properties Mechanism', type: :feature, js: true do
   end
 
   it 'should create instance method with given alias name for optional properties' do
-    class OptionalAliasPropertyComponent < Matestack::Ui::StaticComponent
+    class OptionalAliasPropertyComponent < Matestack::Ui::Component
       optional method: { as: :my_method }, response: { as: :test }
       def response
       end
     end
-    class AnotherOptionalAliasPropertyComponent < Matestack::Ui::StaticComponent
+    class AnotherOptionalAliasPropertyComponent < Matestack::Ui::Component
       optional :bla, method: { as: :my_method }, response: { as: :test }
       def response
       end
@@ -161,7 +161,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
   end
 
   it 'should be accesible in setup' do
-    class SetupComponent < Matestack::Ui::StaticComponent
+    class SetupComponent < Matestack::Ui::Component
       requires :title, :desc
       def setup
         @foo = title
@@ -191,7 +191,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
   end
 
   it 'should work with slots' do
-    class SlotComponent < Matestack::Ui::StaticComponent
+    class SlotComponent < Matestack::Ui::Component
       requires slot: { as: :some_slot }
       optional :other_slot
       def response

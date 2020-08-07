@@ -24,7 +24,7 @@ describe "Component", type: :feature, js: true do
   describe "View Context Access" do
 
     it "a component can access view context scope" do
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
             if @view_context.view_renderer.instance_of?(ActionView::Renderer)
@@ -53,7 +53,7 @@ describe "Component", type: :feature, js: true do
     end
 
     it "a component can access view context scope when rerendered via async" do
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
             div id: "timestamp" do

@@ -90,7 +90,7 @@ describe "Action Component", type: :feature, js: true do
 
       Rails.application.routes.append do
         post '/success_action_test', to: 'action_test#success_test', as: 'success_action_test' unless path_exists?(:success_action_test_path)
-        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_test' unless path_exists?(:failure_action_test_path)
+        post '/failure_action_test', to: 'action_test#failure_test', as: 'failure_action_action_test' # unless path_exists?(:failure_action_test_path)
       end
       Rails.application.reload_routes!
     end
@@ -101,7 +101,7 @@ describe "Action Component", type: :feature, js: true do
           action action_config do
             button text: "Click me!"
           end
-          async rerender_on: "my_action_success" do
+          async rerender_on: "my_action_success", id: 'async-page' do
             div id: "my-div" do
               plain "#{DateTime.now.strftime('%Q')}"
             end
@@ -176,7 +176,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :failure_action_test_path,
+            path: :failure_action_action_test_path,
             success: {
               emit: "my_action_success"
             },
@@ -251,7 +251,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :failure_action_test_path,
+            path: :failure_action_action_test_path,
             failure: {
               emit: "my_action_failure",
               transition: {
@@ -354,7 +354,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :failure_action_test_path,
+            path: :failure_action_action_test_path,
             failure: {
               emit: "my_action_failure",
               redirect: {

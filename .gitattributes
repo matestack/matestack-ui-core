@@ -1,4 +1,5 @@
 vendor/* linguist-vendored
 
+guides/* linguist-documentation
 docs/* linguist-documentation
 coverage/* linguist-documentation

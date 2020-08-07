@@ -4,7 +4,7 @@ include Utils
 describe "Async Component", type: :feature, js: true do
 
   it 'should work on rails legacy views' do
-    class Components::LegacyViews::Pages::Async < Matestack::Ui::StaticComponent
+    class Components::LegacyViews::Pages::Async < Matestack::Ui::Component
       def response
         async rerender_on: 'update_time', id: 'async-legacy-integratable' do 
           paragraph text: DateTime.now.strftime('%Q'), id: 'time'
@@ -27,7 +27,7 @@ describe "Async Component", type: :feature, js: true do
 
   describe 'with collection' do
     before :all do
-      class Components::LegacyViews::Pages::Async < Matestack::Ui::StaticComponent
+      class Components::LegacyViews::Pages::Async < Matestack::Ui::Component
         cattr_accessor :collection
         def response
           collection.each_with_index do |item, index|

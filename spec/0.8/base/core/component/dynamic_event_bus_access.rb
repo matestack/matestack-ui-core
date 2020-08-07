@@ -35,7 +35,7 @@ describe "Component", type: :feature, js: true do
 
     it "and emit events" do
       # the vue.js component 'my-test-component' is defined in `spec/dummy/assets/javascripts/test/components.js`
-      class TestComponent < Matestack::Ui::DynamicComponent
+      class TestComponent < Matestack::Ui::VueJsComponent
 
         def response
           div id: "my-component" do
@@ -73,7 +73,7 @@ describe "Component", type: :feature, js: true do
 
     it "and receive events" do
       # the vue.js component 'my-test-component' is defined in `spec/dummy/assets/javascripts/test/components.js`
-      class TestComponent < Matestack::Ui::DynamicComponent
+      class TestComponent < Matestack::Ui::VueJsComponent
 
         def response
           div id: "my-component" do

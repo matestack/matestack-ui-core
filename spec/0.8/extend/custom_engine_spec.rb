@@ -37,7 +37,7 @@ describe "Engine Components", type: :feature, js: true do
 
       #defined in ADDON_ENGINE_ROOT/app/concepts/matestack/ui/some_addon/component1/component1.rb
       module Matestack::Ui::SomeAddon::Component1
-        class Component1 < Matestack::Ui::StaticComponent
+        class Component1 < Matestack::Ui::Component
           def response
             div id: "core-component-1" do
               plain "I'm a static addon component!"
@@ -67,7 +67,7 @@ describe "Engine Components", type: :feature, js: true do
 
       #defined in ADDON_ENGINE_ROOT/app/concepts/matestack/ui/some_addon/component1/component1.rb
       module Matestack::Ui::SomeAddon::Component1
-        class Component1 < Matestack::Ui::StaticComponent
+        class Component1 < Matestack::Ui::Component
           def response
             div id: "core-component-1" do
               plain "I'm a static addon component!"
@@ -80,7 +80,7 @@ describe "Engine Components", type: :feature, js: true do
 
       #defined in ADDON_ENGINE_ROOT/app/concepts/matestack/ui/some_addon/component1/subcomponent1/subcomponent1.rb
       module Matestack::Ui::SomeAddon::Component1::Subcomponent1
-        class Subcomponent1 < Matestack::Ui::StaticComponent
+        class Subcomponent1 < Matestack::Ui::Component
           def response
             div id: "core-component-1-subcomponent-1" do
               plain "I'm a static addon sub component!"
@@ -113,7 +113,7 @@ describe "Engine Components", type: :feature, js: true do
 
       #defined in ADDON_ENGINE_ROOT/app/concepts/matestack/ui/some_addon/some_component/some_component.rb
       module Matestack::Ui::SomeAddon::SomeComponent
-        class SomeComponent < Matestack::Ui::StaticComponent
+        class SomeComponent < Matestack::Ui::Component
           def response
             div id: "some-core-component" do
               plain "I'm a static component!"

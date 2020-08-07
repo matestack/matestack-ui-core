@@ -6,7 +6,7 @@ describe "Async Component", type: :feature, js: true do
   describe "defer" do
 
     it "deferred loading without any timeout, deferred request right after component mounting" do
-      class SomeComponent < Matestack::Ui::StaticComponent
+      class SomeComponent < Matestack::Ui::Component
         def response
           async defer: true, id: 'async-some-component' do
             div id: "my-deferred-div-on-component" do

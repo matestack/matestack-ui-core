@@ -29,7 +29,7 @@ describe "Component", type: :feature, js: true do
 
     it "a component can resolve data before rendering in a prepare method" do
 
-      class SomeStaticComponent < Matestack::Ui::StaticComponent
+      class SomeStaticComponent < Matestack::Ui::Component
 
         def prepare
           @some_data = "some data"

@@ -2,6 +2,8 @@
 
 ## v0.8.0 Release
 
+Please note that this release contains breaking changes and soft deprecations. To make things easy for users of the current `v0.7.*` version, we have provided **Migration TODOs** at the end of each chapter.
+
 ### Improvements
 
 ### Bugfixes
@@ -10,9 +12,9 @@
 
 ### Migration guide for 0.7.x users
 
-#### `render instead` of `responder_for` in controllers
+#### 1. Using `render Pages::X` instead of `responder_for(Pages::X)` in controllers
 
-instead of:
+Instead of:
 
 ```ruby
 class SomeController < ApplicationController
@@ -37,13 +39,14 @@ class SomeController < ApplicationController
 
 end
 ```
-The `responder_for` method is still supported but will be removed in a `1.0` release.
+
+Please note that while the `responder_for` method is still being supported, it will be removed in a `1.0` release.
 
 **Migration TODOs:**
 
--[] Replace `responder_for` with `render` in your controllers
+- [ ] Replace `responder_for` with `render` in your controllers
 
-#### App/Page structure and namespacing
+#### 2. App/Page structure and namespacing
 
 Until `0.7.x`, matestack-ui-core enforced the user to keep apps and pages in a specific folder structure. An app like `Apps::MyApp` had to be stored in `app/matestack/apps/my_app.rb` and an associated page like `Pages::MyApp::MyPage` lived in `app/matestack/pages/my_app/my_page.rb`. The namespace `Pages::MyApp` determined that the page `MyPage` should be wrapped with the layout coming from `Apps::MyApp`.
 
@@ -51,13 +54,15 @@ We changed this behavior in favor of more intuitive namespacing and more control
 
 **Flexible folder structure and namespacing of apps and pages**
 
-Apps and pages can now actually live anywhere within your project - we now only recommend best practices (shown further below). The relation between apps and pages is no longer derived from the namespace.
+Apps and pages can now actually live anywhere within your project - but we still recommend sticking to some best practices, shown further below. The relation between apps and pages is no longer derived from the (folder) namespace.
 
 **Explicit app/page relation on controller level**
 
-Within a controller, you can now set the desired `matestack_app` which should wrap all pages used in this controller. This definition is inherited which means, you can set in on an `ApplicationController` and make it a default for all controller and actions.
+Within a controller, you can now set the desired `matestack_app` that then wraps all pages used in this controller. This definition is inheritable - therefore, you can set in on an `ApplicationController` to make it a default for all controllers and actions, and overwrite it if needed.
 
-The "controller-level" `matestack_app` can be overwritten on "action-level" using an additional parameter for the `render` method.
+Both "global" and "controller-level" `matestack_app` settings can be overwritten on "action-level" using an additional parameter for the `render` method.
+
+The code snippet below shows some common use cases:
 
 ```ruby
 class SomeController < ApplicationController
@@ -81,9 +86,9 @@ end
 ```
 
 **Default App**
+If no `matestack_app` is defined or it is deliberately set to `:none` as demonstrated above, matestack-ui-core will by default render the page wrapped by a minimal app. This happens in order to provide basic app-related matestack-ui-core features like `transition` and others.
 
-By default matestack-ui-core will render the page wrapped by a minimal default app in order to provide basic app-related features like `transition` and so on.
-It is possible to explicitly prevent this behavior.
+It is possible to explicitly prevent this behavior by setting `matestack_app` to false:
 
 ```ruby
 class SomeController < ApplicationController
@@ -103,23 +108,23 @@ end
 
 **Recommended best practice for app/page folder structure and namespacing**
 
-Imagine your project has two "apps". An "admin" area and a public "website" area. Your folder structure could look like:
+Imagine your project has two "apps". An "admin" area and a public "website" area. Your folder structure could look like this:
 
 ```
-app/matestack
+app/matestack/
 |
-└───admin
+└───admin/
 │   │   app.rb (`Admin::App < Matestack::Ui::App`)
-│   └───pages
+│   └───pages/
 │   │   │   dashboard.rb  (`Admin::Pages::Dashboard < Matestack::Ui::Page`)
 |
-└───website
+└───website/
 │   │   app.rb (`Website::App < Matestack::Ui::App`)
-│   └───pages
+│   └───pages/
 │   │   │   home.rb  (`Website::Pages::Home < Matestack::Ui::Page`)
 ```
 
-and your corresponding controllers:
+and your corresponding controllers could look like this:
 
 `app/controllers/admin_controller.rb`
 ```ruby
@@ -153,14 +158,19 @@ end
 
 **Migration TODOs:**
 
--[] you can keep the `0.7.x` folder structure if you want
--[] just set the related app on your controllers via `matestack_app` as it will no longer be derived automatically from the page namespace
+You can decide to either
+- [ ] keep the `0.7.x` folder structure if you want
+- [ ] and set the related app on your controllers via `matestack_app` (as it will no longer be derived automatically from the page namespace)
 
-#### Explicit component registration
+or
 
-A major change happened to the component resolving approach. Until `0.7.x` matestack-ui-core automatically translated core component calls like `some_component` to a class like `Matestack::Ui::Core::Some::Component` which had to be defined within the core at `CORE_ROOT/app/concepts/matestack/ui/core/some/component.rb`. Same applied for custom component calls like `custom_my_component` which resolved to a class `Components::My::Component` which had to be defined within the users application at `APP_ROOT/app/matestack/components/my/component.rb`
+- [ ] refactor your app/page structure according to your needs, and set the related apps on a controller level
 
-This auto resolving was completely removed in the `0.8.0` release. All components (core, custom and add-on-engine) have to be registered explicitly as described below:
+#### 3. Explicit component registration
+
+A major change happened to the component resolving approach. Until `0.7.x`, matestack-ui-core automatically translated core component calls like `some_component` to a class like `Matestack::Ui::Core::Some::Component`, which had to be defined within the core library at `CORE_ROOT/app/concepts/matestack/ui/core/some/component.rb`. The same applied for custom component calls like `custom_my_component` which resolved to a class `Components::My::Component` which had to be defined within the user's application at `APP_ROOT/app/matestack/components/my/component.rb`.
+
+This auto resolving is being completely removed in the `0.8.0` release. All components (core, custom and add-on-engine) have to be registered explicitly as described below:
 
 *Core components*
 
@@ -209,33 +219,35 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-The registered DSL method `my_component` does not have to match the components namespace structure.
+Like in the core, the registered DSL method `my_component` does not have to match the component's namespace structure. In this example, the custom `MyOwnComponent` lives in `app/matestack/components/my_own_component.rb` and is being referenced as `my_component`.
 
 TBD:
 
-Please be aware that once the component registry was loaded, the initially registered dsl_methods are cached. Removing a dsl_method from the registry will not have an effect until the server gets reloaded. Added dsl_methods however will be available without server restart.
+Please be aware that once the component registry was loaded, the initially registered dsl_methods are cached. Removing a dsl_method from the registry will not have an effect until the server gets reloaded. Added dsl_methods however will be available without having to restart the server.
 
 *AddOn engine component*
 
 TODO
 
-#### Dynamic component vuejs component names
+**Migration TODOs:**
 
-*Core components*
+If you are already using custom components:
+- [ ] Add a component registry in `APP_ROOT/app/matestack/components/registry.rb`
+- [ ] Register your existing components like `    my_component: Components::MyOwnComponent`, respecting their namespaces and setting dls_methods of your choice. The obligation of prefixing them with a `custom_` does no longer apply.
+- [ ] Since the new dls_methods may differ from the former method calls, you need to refactor the custom component usage on existing apps and pages (e.g. formerly `custom_my_own_component` should now be called `my_component`)
 
-Until `0.8.0` dynamic core components created the vuejs component name automatically derived from their class name. `Matestack::Ui::Core::Collection::Filter::Filter` for example was translated to a vuejs componente name `matestack-ui-core-collection-filter`. The two occurrences of `Filter` at the end of the class name (which comes from the folder structure and namespacing constraints) was automatically detected. The vuejs component name only had one occurrence of `filter` in it.
+#### 4.1 Dynamic (Vue.js) core component naming
 
-This behavior changed in `0.8.0`:
+Until `0.8.0`, dynamic core components created the Vue.js component name automatically by deriving it from their class name. `Matestack::Ui::Core::Collection::Filter::Filter`, for example, was translated to the Vue.js componente name `matestack-ui-core-collection-filter`. The two occurrences of `Filter` at the end of the class name (which comes from the folder structure and namespacing constraints) was automatically detected and taken care of, so the Vue.js component name only had one occurrence of `filter` in it.
+
+This behavior changes in `0.8.0`:
 
 * `Matestack::Ui::Core::Collection::Filter::Filter` will be translated to `matestack-ui-core-collection-filter-filter` without any further processing per default
-* It is now possible to set the vuejs component name manually:
+* It is now possible to set the Vue.js component name manually within the component configuration:
 
 ```ruby
 class Matestack::Ui::Core::Collection::Filter::Filter < Matestack::Ui::DynamicComponent
-
-  def vuejs_component_name
-    "matestack-ui-core-collection-filter"
-  end
+  vue_js_component_name "matestack-ui-core-collection-filter"
 
   #...
 
@@ -244,25 +256,21 @@ end
 
 **Migration Todos:**
 
-(only for core developers)
+Core developers only:
+-[ ] set Vue.js component name explicitly in order to match current Vue.js component names of all dynamic core components
 
--[ ] set vuejs component name explicitly in order to match current vuejs component names of all dynamic core components
+#### 4.2 Dynamic (Vue.js) custom component naming
 
-*Custom components*
+Formerly, custom components behaved differently than core components. `Components::Some::Component` was translated to a Vue.js componente named `custom-some-component`, in order to match their (now changed) dsl method name `custom_some_component`
 
-Custom components behaved differently than core components. `Components::Some::Component` was translated to a vuejs componente name `custom-some-component` in order to match their (now changed) dsl method name `custom_some_component`
+This behavior changes in `0.8.0`:
 
-This behavior changed in `0.8.0`:
-
-* `Components::Some::Component` will be translated to `components-some-component` without any further processing per default
-* It is now possible to set the vuejs component name manually:
+* Without any further default processing, `Components::Some::Component` will be translated into `components-some-component`
+* It is now possible to set the Vue.js component name manually:
 
 ```ruby
 class Components::Some::Component < Matestack::Ui::DynamicComponent
-
-  def vuejs_component_name
-    "some-component"
-  end
+  vue_js_component_name "some-component"
 
   #...
 
@@ -271,19 +279,21 @@ end
 
 **Migration Todos:**
 
--[ ] set vuejs component name explicitly in order to match current vuejs component names of all custom components
+Please note that you have two options, but an action is required to make the new release work with existing custom dynamic components. Either you
+
+- [ ] set Vue.js component name explicitly in order to match current Vue.js component naming of all custom components
 
 OR
 
--[ ] adapt the name of your custom vuejs components to new naming schema
+- [ ] adapt the name of your custom Vue.js components to the new naming schema demonstrated above
 
-*AddOn engine components*
+#### 4.3 Dynamic (Vue.js) AddOn engine component naming
 
 TODO
 
-#### No more components block wrapping in Pages/Components/Apps
+#### 5. No more components block wrapping in Pages/Components/Apps
 
-instead of:
+Instead of:
 
 ```ruby
 def response
@@ -295,7 +305,7 @@ def response
 end
 ```
 
-write now:
+you can now write:
 
 ```ruby
 def response
@@ -305,11 +315,16 @@ def response
 end
 ```
 
-The `components` block is still supported but will be removed in a `1.0` release.
+Please note that the `components` block is still supported, but will be removed in a `1.0` release.
 
-#### Partials are now normal method calls and don't need a block
+**Migration Todos:**
 
-instead of:
+- [ ] To be on the safe side, remove all the `components {}` wrapping blocks in your apps&pages
+
+
+#### 6. Partials are now normal method calls and don't need a block
+
+Instead of writing:
 
 ```ruby
 def response
@@ -341,9 +356,13 @@ def my_partial param
 end
 ```
 
-The old `partial` block and method call approach are still supported but will be removed in a `1.0` release.
+Please note that the old `partial` block and method call approach are still supported but will be removed in a `1.0` release.
 
-#### Slot syntax stays the same
+**Migration Todos:**
+
+- [ ] To be on the safe side, remove all the `partial {}` wrapping blocks in the partials on your apps, pages and custom components
+
+#### 7. Slot syntax stays the same
 
 We still need the `slot` block wrapping around slot content
 
@@ -363,25 +382,26 @@ def my_simple_slot
 end
 ```
 
-### Components in Rails Views
+#### Wrap-up
+After following all the **Migration Todos**, your application should work just fine. If that's not the case, please [open a GitHub issue](https://github.com/matestack/matestack-ui-core/issues/new) and/or improve this guide!
 
-It is now possible to use core and custom components in your Rails legacy views. Matestack provides a `matestack_component` helper to use components in views and partials.
+### Using matestack components in Rails Views
 
-Create a component
+It is now possible to use `matestack-ui-core` core and custom components in your Rails legacy views. Matestack provides a `matestack_component` helper to use components in views and partials.
+
+Create a custom component like
 ```ruby
 class HeaderComponent < Matestack::Ui::StaticComponent
   requires :title
 
   def response
-    header id: 'my-page-header' do
-      plain title
-    end
+    header id: 'my-page-header', text: title
   end
 
 end
 ```
 
-Register it in your registry
+and register it in your registry
 ```ruby
 module Components::Registry
   Matestack::Ui::Core::Component::Registry.register_components(
@@ -390,26 +410,49 @@ module Components::Registry
 end
 ```
 
-And use it in your view as follows:
+Now, you can go ahead and use it in your views as shown below, even passing arguments works:
 ```html
 <%= matestack_component(:header_component, title: 'A Title') %>
 ```
 
-### Rails Views in Matestack Pages/Components
+### Using Rails Views in Matestack Pages/Components
 
-To render existing rails views inside your components or pages use the new `rails_view` component. It replaces the old `html` component.
+To render existing rails views inside your components or pages, use the new `rails_view` component. It replaces the old `html` component.
 You can render existing partials and views with this helper anywhere in your app. For further information read the `rails_view` documentation.
+
+Let's say you have an old view file in `app/views/example/partial.html.erb`
+```html
+<p>An example text in a Rails view</p>
+```
+### Changed Components
+
+#### Form Input Component
+
+The `form_input` component no longer supports the input type textarea.
+Textareas were extracted in a component and can be used with `textarea` or in forms with `form_textarea`.
+The `form_input`component now supports all types according to W3Cs possible types.
+
+You could go ahead and re-use it in a component (or simply add it to a page) like:
+```ruby
+class TextComponent < Matestack::Ui::StaticComponent
+
+  def response
+    paragraph text: 'Example text directly in the component'
+    rails_view path: `example/partial.html.erb`
+  end
+
+end
+```
 
 ### Removed Components
 
-#### Inline Component
+#### 1. Inline Component
 
-The Form Inline Component is removed and can no longer be used.
+The Form Inline Component has been removed and can no longer be used.
 
-#### Absolute Component
+#### 2. Absolute Component
 
-The Absolute Component is removed and can no longer be used.
-
+The Absolute Component has been removed and can no longer be used.
 
 ## v0.7.6
 

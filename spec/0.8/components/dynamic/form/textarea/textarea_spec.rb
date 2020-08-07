@@ -24,7 +24,7 @@ describe "Form Component", type: :feature, js: true do
   describe "textarea" do
 
     it "can be submitted dynamically without page reload" do
-      class SomeComponent < Matestack::Ui::StaticComponent
+      class SomeComponent < Matestack::Ui::Component
         def response
           form_textarea key: :bar, id: "my-other-test-input"
         end
