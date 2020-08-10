@@ -223,7 +223,7 @@ module Matestack::Ui::Core::Component
     # rendering.
     def add_child(child_class, *args, &block)
 
-      # when the child is an async component like shown below, only render its wrapper
+      # when the child is an async or isolate component like shown below, only render its wrapper
       # and skip its content on normal page rendering call indicated by @matestack_skip_defer == true
       # Example: async defer: 1000 { plain "I should be deferred" }
       # the component will triger a subsequent component rendering call after 1000ms
@@ -231,17 +231,20 @@ module Matestack::Ui::Core::Component
       # the childs content in order to respond to the subsequent component rendering call with
       # the childs content. In this case: "I should be deferred"
       skip_deferred_child_response = false
-      if child_class == Matestack::Ui::Core::Async::Async
+      if child_class == Matestack::Ui::Core::Async::Async #|| child_class == Matestack::Ui::Core::Isolate::Isolate
         if args.any? { |arg| arg[:defer].present? } && @matestack_skip_defer == true
           skip_deferred_child_response = true
         end
       end
-      # same applies for all isolated components, no extra defer option needed
+
+      # check only allowed keys are passed to isolated components
       if child_class < Matestack::Ui::Core::Isolate::Isolate
-        skip_deferred_child_response = true
-        unless args.empty? || args[0].keys.all? { |key| key == :defer || key == :public_options || key == :rerender_on || key == :init_on || key == :rerender_delay }
+        unless args.empty? || args[0].keys.all? { |key| [:defer, :public_options, :rerender_on, :init_on, :rerender_delay].include? key }
           raise "isolated components can only take params in a public_options hash, which will be exposed to the client side in order to perform an async request with these params."
         end
+        # if args.any? { |arg| arg[:init_on].present? } && @matestack_skip_defer == true
+        #   skip_deferred_child_response = true
+        # end
       end
 
       if self.class < Matestack::Ui::Core::Isolate::Isolate

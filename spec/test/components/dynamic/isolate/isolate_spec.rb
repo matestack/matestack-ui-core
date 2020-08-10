@@ -9,7 +9,7 @@ describe "Isolate Component", type: :feature, js: true do
 
       def response
         div class: "some-other-component" do
-          some_isolated_component
+          some_isolated_component defer: true
         end
       end
 
@@ -44,7 +44,7 @@ describe "Isolate Component", type: :feature, js: true do
 
       def response
         div id: "page-div" do
-          some_isolated_component
+          some_isolated_component defer: true
         end
       end
 
@@ -78,7 +78,7 @@ describe "Isolate Component", type: :feature, js: true do
 
   end
 
-  it "is resolved completely independent on the server side" do
+  it "is resolved completely independent on the server side if defer true is set" do
 
     class TouchedElementsCounter
       include Singleton
@@ -133,21 +133,22 @@ describe "Isolate Component", type: :feature, js: true do
         div id: "page-div" do
           plain "page!"
           @counter.increment
-          some_isolated_component_2
+          some_isolated_component_2 defer: true
         end
       end
 
     end
 
     visit "/example"
-
     # the first request resolves the whole page --> counter + 2
     # the isolated component requests its content right after mount --> counter + 2
     expect(TouchedElementsCounter.instance.counter).to eq 4
+    expect(page).to have_css('.some-isolated-component')
 
     TouchedElementsCounter.instance.reset
 
     visit "/example?component_class=SomeIsolatedComponent"
+    expect(page).to have_css('.some-isolated-component')
 
     # the above URL is used within the async request of the isolated component in order to get its content
     # only the component itself is resolved on the server side --> counter + 2
@@ -155,42 +156,36 @@ describe "Isolate Component", type: :feature, js: true do
 
   end
 
-  it "needs to be authorized separately" do
-
+  it "needs to be authorized separately if loaded deferred" do
     class SomeNonAuthorizedIsolatedComponent < Matestack::Ui::IsolatedComponent
+      register_self_as(:some_non_authorized_isolated_component)
 
       def response
         span text: "shouldn't work, because authorized? method is not implemented"
       end
-
-
-      register_self_as(:some_non_authorized_isolated_component)
     end
 
     class ExamplePage < Matestack::Ui::Page
-
       def response
         div id: "page-div" do
           plain "page!"
-          some_non_authorized_isolated_component
+          some_non_authorized_isolated_component defer: true
         end
       end
-
     end
 
     visit "/example"
-
     expect(page).to have_content("page!") # rest of the page still works
     expect(page).not_to have_content("shouldn't work, because authorized? method is not implemented")
     expect(page).not_to have_content("please implement the `authorized? method") # async request gets that error, so it's not visible
 
     visit "/example?component_class=SomeNonAuthorizedIsolatedComponent"
-
     expect(page).not_to have_content("page!") # page is not requested
     expect(page).not_to have_content("shouldn't work, because authorized? method is not implemented")
     expect(page).to have_content("please implement the `authorized? method")
 
     class SomeForbiddenIsolatedComponent < Matestack::Ui::IsolatedComponent
+      register_self_as(:some_forbidden_isolated_component)
 
       def response
         span text: "shouldn't work, because authorized? method is returning false"
@@ -199,35 +194,29 @@ describe "Isolate Component", type: :feature, js: true do
       def authorized?
         false
       end
-
-      register_self_as(:some_forbidden_isolated_component)
     end
 
     class ExamplePage < Matestack::Ui::Page
-
       def response
         div id: "page-div" do
           plain "page!"
-          some_forbidden_isolated_component
+          some_forbidden_isolated_component defer: true
         end
       end
-
     end
 
     visit "/example"
-
     expect(page).to have_content("page!") # rest of the page still works
     expect(page).not_to have_content("shouldn't work, because authorized? method is returning false")
     expect(page).not_to have_content("not authorized") # async request gets that error, so it's not visible
 
     visit "/example?component_class=SomeForbiddenIsolatedComponent"
-
     expect(page).not_to have_content("page!") # page is not requested
     expect(page).not_to have_content("shouldn't work, because authorized? method is returning false")
     expect(page).to have_content("not authorized")
 
-
     class SomeAuthorizedIsolatedComponent < Matestack::Ui::IsolatedComponent
+      register_self_as(:some_authorized_isolated_component)
 
       def response
         span text: "should work, because authorized? method is returning true"
@@ -236,31 +225,111 @@ describe "Isolate Component", type: :feature, js: true do
       def authorized?
         true # could be current_user.admin?
       end
-
-      register_self_as(:some_authorized_isolated_component)
     end
 
     class ExamplePage < Matestack::Ui::Page
+      def response
+        div id: "page-div" do
+          plain "page!"
+          some_authorized_isolated_component defer: true
+        end
+      end
+    end
 
+    visit "/example"
+    expect(page).to have_content("page!")
+    expect(page).to have_content("should work, because authorized? method is returning true")
+
+    visit "/example?component_class=SomeAuthorizedIsolatedComponent"
+    expect(page).not_to have_content("page!") # page is not requested
+    expect(page).to have_content("should work, because authorized? method is returning true")
+  end
+
+  it "needs to be authorized separately also if not rendered deferred" do
+    class SomeNonAuthorizedIsolatedComponent < Matestack::Ui::IsolatedComponent
+      register_self_as(:some_non_authorized_isolated_component)
+
+      def response
+        span text: "shouldn't work, because authorized? method is not implemented"
+      end
+    end
+
+    class ExamplePage < Matestack::Ui::Page
+      def response
+        div id: "page-div" do
+          plain "page!"
+          some_non_authorized_isolated_component
+        end
+      end
+    end
+
+    visit "/example"
+    expect(page).to have_content('RuntimeError')
+
+    visit "/example?component_class=SomeNonAuthorizedIsolatedComponent"
+    expect(page).not_to have_content("page!") # page is not requested
+    expect(page).not_to have_content("shouldn't work, because authorized? method is not implemented")
+    expect(page).to have_content("please implement the `authorized? method")
+
+    class SomeForbiddenIsolatedComponent < Matestack::Ui::IsolatedComponent
+      register_self_as(:some_forbidden_isolated_component)
+
+      def response
+        span text: "shouldn't work, because authorized? method is returning false"
+      end
+
+      def authorized?
+        false
+      end
+    end
+
+    class ExamplePage < Matestack::Ui::Page
+      def response
+        div id: "page-div" do
+          plain "page!"
+          some_forbidden_isolated_component
+        end
+      end
+    end
+
+    visit "/example"
+    expect(page).to have_content("page!") # rest of the page still works
+    expect(page).not_to have_content("shouldn't work, because authorized? method is returning false")
+    expect(page).not_to have_content("not authorized") # async request gets that error, so it's not visible
+
+    visit "/example?component_class=SomeForbiddenIsolatedComponent"
+    expect(page).not_to have_content("page!") # page is not requested
+    expect(page).not_to have_content("shouldn't work, because authorized? method is returning false")
+    expect(page).to have_content("not authorized")
+
+    class SomeAuthorizedIsolatedComponent < Matestack::Ui::IsolatedComponent
+      register_self_as(:some_authorized_isolated_component)
+
+      def response
+        span text: "should work, because authorized? method is returning true"
+      end
+
+      def authorized?
+        true # could be current_user.admin?
+      end
+    end
+
+    class ExamplePage < Matestack::Ui::Page
       def response
         div id: "page-div" do
           plain "page!"
           some_authorized_isolated_component
         end
       end
-
     end
 
     visit "/example"
-
     expect(page).to have_content("page!")
     expect(page).to have_content("should work, because authorized? method is returning true")
 
     visit "/example?component_class=SomeAuthorizedIsolatedComponent"
-
     expect(page).not_to have_content("page!") # page is not requested
     expect(page).to have_content("should work, because authorized? method is returning true")
-
   end
 
   it "its content gets rendered in a async request right after mounted by default" do
@@ -518,7 +587,6 @@ describe "Isolate Component", type: :feature, js: true do
 
 
     visit "/example"
-
     expect(page).to have_css '.loading', visible: :all
     sleep 1
     expect(page).not_to have_css '.loading', visible: :all
