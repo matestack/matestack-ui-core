@@ -70,7 +70,6 @@ describe "Isolate Component", type: :feature, js: true do
     end
 
     visit "/example"
-
     # used on page
     expect(page).to have_xpath('//div[@id="page-div"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
@@ -161,7 +160,7 @@ describe "Isolate Component", type: :feature, js: true do
     class SomeNonAuthorizedIsolatedComponent < Matestack::Ui::IsolatedComponent
 
       def response
-        span text: "should't work, because authorized? method is not implemented"
+        span text: "shouldn't work, because authorized? method is not implemented"
       end
 
 
@@ -182,19 +181,19 @@ describe "Isolate Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).to have_content("page!") # rest of the page still works
-    expect(page).not_to have_content("should't work, because authorized? method is not implemented")
+    expect(page).not_to have_content("shouldn't work, because authorized? method is not implemented")
     expect(page).not_to have_content("please implement the `authorized? method") # async request gets that error, so it's not visible
 
     visit "/example?component_class=SomeNonAuthorizedIsolatedComponent"
 
     expect(page).not_to have_content("page!") # page is not requested
-    expect(page).not_to have_content("should't work, because authorized? method is not implemented")
+    expect(page).not_to have_content("shouldn't work, because authorized? method is not implemented")
     expect(page).to have_content("please implement the `authorized? method")
 
     class SomeForbiddenIsolatedComponent < Matestack::Ui::IsolatedComponent
 
       def response
-        span text: "should't work, because authorized? method is returning false"
+        span text: "shouldn't work, because authorized? method is returning false"
       end
 
       def authorized?
@@ -218,13 +217,13 @@ describe "Isolate Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).to have_content("page!") # rest of the page still works
-    expect(page).not_to have_content("should't work, because authorized? method is returning false")
+    expect(page).not_to have_content("shouldn't work, because authorized? method is returning false")
     expect(page).not_to have_content("not authorized") # async request gets that error, so it's not visible
 
     visit "/example?component_class=SomeForbiddenIsolatedComponent"
 
     expect(page).not_to have_content("page!") # page is not requested
-    expect(page).not_to have_content("should't work, because authorized? method is returning false")
+    expect(page).not_to have_content("shouldn't work, because authorized? method is returning false")
     expect(page).to have_content("not authorized")
 
 
@@ -302,7 +301,6 @@ describe "Isolate Component", type: :feature, js: true do
 
     visit "/example"
 
-    # sleep
     page_timestamp = page.find('#page-timestamp').text.to_i
     component_timestamp = page.find('#isolated-component-timestamp').text.to_i
 
