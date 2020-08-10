@@ -28,11 +28,7 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       # isolated component rendering
       component_class = params[:component_class]
       page_instance = page_class.new(controller_instance: controller_instance, context: context)
-      if params[:public_options].present?
-        public_options = JSON.parse(params[:public_options]).with_indifferent_access
-      else
-        public_options = nil
-      end
+      public_options = JSON.parse(params[:public_options]).with_indifferent_access rescue nil
       render_isolated_component(component_class, page_instance, controller_instance, context, public_options)
     elsif (params[:component_class].present? && params[:component_key].present?)
       # async component rerendering from isolated context

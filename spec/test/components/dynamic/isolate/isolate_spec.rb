@@ -139,6 +139,7 @@ describe "Isolate Component", type: :feature, js: true do
 
     end
 
+    TouchedElementsCounter.instance.reset
     visit "/example"
     # the first request resolves the whole page --> counter + 2
     # the isolated component requests its content right after mount --> counter + 2
@@ -146,7 +147,6 @@ describe "Isolate Component", type: :feature, js: true do
     expect(page).to have_css('.some-isolated-component')
 
     TouchedElementsCounter.instance.reset
-
     visit "/example?component_class=SomeIsolatedComponent"
     expect(page).to have_css('.some-isolated-component')
 
@@ -697,23 +697,19 @@ describe "Isolate Component", type: :feature, js: true do
   it "can wait for initial rendering until event" do
 
     class ExamplePage < Matestack::Ui::Page
-
       def response
         div id: "page-div" do
           some_isolated_component init_on: "some-event, or-another"
         end
       end
-
     end
 
     visit "/example"
-
+    sleep 1
     expect(page).not_to have_css '#isolated-component-timestamp', visible: :all
 
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
-
     expect(page).to have_css '#isolated-component-timestamp', visible: :all
-
   end
 
   it "can inherit from a isolate application base class?" do

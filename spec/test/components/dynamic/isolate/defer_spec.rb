@@ -64,6 +64,7 @@ describe "Isolate Component defer", type: :feature, js: true do
       end
     end
 
+    TouchedElementsCounter.instance.reset
     visit "/example"
     # the first request resolves the whole page --> counter + 2
     # the isolated component requests its content right after mount --> counter + 2
@@ -97,6 +98,7 @@ describe "Isolate Component defer", type: :feature, js: true do
       end
     end
 
+    TouchedElementsCounter.instance.reset
     visit "/example"
     # the first request resolves the whole page --> counter + 2
     # the isolated component requests its content right after mount --> counter + 2
@@ -133,6 +135,7 @@ describe "Isolate Component defer", type: :feature, js: true do
       end
     end
 
+    TouchedElementsCounter.instance.reset
     visit "/example"
     # the first request resolves the whole page --> counter + 2
     # the isolated component should be rendered with the page --> counter + 2

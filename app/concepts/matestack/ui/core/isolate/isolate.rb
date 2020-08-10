@@ -1,6 +1,5 @@
 module Matestack::Ui::Core::Isolate
   class Isolate < Matestack::Ui::Core::Component::Dynamic
-
     vue_js_component_name "matestack-ui-core-isolate"
 
     def initialize(*args)
@@ -22,6 +21,7 @@ module Matestack::Ui::Core::Isolate
       @component_config[:defer] = @options[:defer]
       @component_config[:rerender_on] = @options[:rerender_on]
       @component_config[:rerender_delay] = @options[:rerender_delay]
+      @component_config[:init_on] = @options[:init_on]
     end
 
     def loading_classes
