@@ -108,12 +108,86 @@ end
 
 ### Example 4 - Rerender Isolated Component with a delay
 
-TODO
+```ruby
+class Home < Matestack::Ui::Page
+  def response
+    heading size: 1, text: 'Welcome'
+    my_isolated rerender_on: 'update_time', rerender_delay: 300
+    onclick emit: 'update_time' do
+      button 'Update Time!'
+    end
+  end
+end
+```
+
+The my_isolated component will be rerendered 300ms after the `update_time` event is emitted
 
 ### Example 5 - Initialize isolated component on a event
 
-TODO
+```ruby
+class Home < Matestack::Ui::Page
+  def response
+    heading size: 1, text: 'Welcome'
+    my_isolated init_on: 'init_time'
+    onclick emit: 'init_time' do
+      button 'Init Time!'
+    end
+  end
+end
+```
+
+With `init_on: 'init_time'` you can specify an event on which the isolated component should be initialized. When you click the button the event `init_time` is emitted and the isolated component asynchronously requests its content.
 
 ### Example 6 - Use custom data in isolated components
 
-TODO
+Like described above it is possible to use custom data in your isolated components. Just pass them as a hash to `public_options` and use them in your isolated component. Be careful, because `public_options` are visible in the raw html response from the server as they get passed to a vue component.
+
+Lets render a collection of models and each of them should rerender when a user clicks a corresponding refresh button. Our model is called `Match`, representing a soccer match. It has an attribute called score with the current match score.
+
+At first we create a custom isolated component.
+```ruby
+class Components::Match::IsolatedScore < Matestack::Ui::IsolatedComponent
+
+  def prepare
+    @match = Match.find_by(public_options[:id])
+  end
+
+  def response
+    div class: 'score' do
+      plain @match.score
+    end
+    onclick emit: "update_match_#{@match.id}" do
+      button 'Refresh'
+    end
+  end
+
+end
+```
+After that we register our new custom component.
+```ruby
+module ComponentsRegistry
+  Matestack::Ui::Core::Component::Registry.register_components(
+    match_isolated_score: Components::Match::IsolatedScore
+  )
+```
+Make sure your registry is loaded in your controller. In our case we include our registry in the `ApplicationController`.
+```ruby
+class ApplicationController < ActionController::Base
+  include Matestack::Ui::Core::ApplicationHelper
+  include Components::Registry
+end
+```
+Now we create our page which will render a list of matches.
+```ruby
+class Match::Pages::Index < Matestack::Ui::Page
+  def response
+    Match.all.each do |match|
+      match_isolated_score public_options: { id: match.id }, rerender_on: "update_match_#{match.id}"
+    end
+  end
+end
+```
+
+This page will render a match_isolated_score component for each match.
+If one of the isolated components gets rerendered we need the id in order to fetch the correct match. Because the server only resolves the isolated component instead of the whole UI it does not know which match exactly is requested unless the client requests a rerender with the match id. This is why `public_options` options are passed to the client side vue component. 
+So if match two should be rerendered the client requests the match_isolated_score component with `public_options: { id: 2 }`. With this information our isolated component can fetch the match and rerender itself.

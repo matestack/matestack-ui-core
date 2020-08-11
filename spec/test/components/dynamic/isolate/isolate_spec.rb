@@ -14,7 +14,6 @@ describe "Isolate Component", type: :feature, js: true do
       end
 
       register_self_as(:some_other_component)
-
     end
 
     class SomeIsolatedComponent < Matestack::Ui::IsolatedComponent
@@ -143,8 +142,8 @@ describe "Isolate Component", type: :feature, js: true do
     visit "/example"
     # the first request resolves the whole page --> counter + 2
     # the isolated component requests its content right after mount --> counter + 2
-    expect(TouchedElementsCounter.instance.counter).to eq 4
     expect(page).to have_css('.some-isolated-component')
+    expect(TouchedElementsCounter.instance.counter).to eq 4
 
     TouchedElementsCounter.instance.reset
     visit "/example?component_class=SomeIsolatedComponent"

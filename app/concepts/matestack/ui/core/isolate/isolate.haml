@@ -1,7 +1,8 @@
 %component{dynamic_tag_attributes}
   %div{loading_classes.merge(class: "matestack-isolated-component-container")}
-    %div{loading_classes.merge(class: "loading-state-element-wrapper")}
-      =loading_state_element
+    - if loading_state_element.present?
+      %div{loading_classes.merge(class: "loading-state-element-wrapper")}
+        =loading_state_element
     - unless options[:defer] || options[:init_on]
       %div{class: "matestack-isolated-component-wrapper", "v-if": "isolatedTemplate == null", "v-bind:class": "{ 'loading': loading === true }"}
         = render_isolated_content

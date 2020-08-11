@@ -66,6 +66,7 @@ describe "Isolate Component defer", type: :feature, js: true do
 
     TouchedElementsCounter.instance.reset
     visit "/example"
+    sleep 1
     # the first request resolves the whole page --> counter + 2
     # the isolated component requests its content right after mount --> counter + 2
     expect(TouchedElementsCounter.instance.counter).to eq 4
@@ -100,13 +101,12 @@ describe "Isolate Component defer", type: :feature, js: true do
 
     TouchedElementsCounter.instance.reset
     visit "/example"
-    # the first request resolves the whole page --> counter + 2
-    # the isolated component requests its content right after mount --> counter + 2
-    expect(TouchedElementsCounter.instance.counter).to eq 4
+    expect(TouchedElementsCounter.instance.counter).to eq 2
     # isolated component should not be rendered directly
     expect(page).not_to have_css('.some-isolated-component', wait: 1)
     # isolated component should be rendered after 2000ms
     expect(page).to have_css('.some-isolated-component', wait: 3)
+    expect(TouchedElementsCounter.instance.counter).to eq 4
 
     TouchedElementsCounter.instance.reset
 

@@ -231,7 +231,7 @@ module Matestack::Ui::Core::Component
       # the childs content in order to respond to the subsequent component rendering call with
       # the childs content. In this case: "I should be deferred"
       skip_deferred_child_response = false
-      if child_class == Matestack::Ui::Core::Async::Async || child_class == Matestack::Ui::Core::Isolate::Isolate
+      if child_class <= Matestack::Ui::Core::Async::Async || child_class < Matestack::Ui::Core::Isolate::Isolate
         if args.any? { |arg| arg[:defer].present? } && @matestack_skip_defer == true
           skip_deferred_child_response = true
         end
