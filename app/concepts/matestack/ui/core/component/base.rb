@@ -231,15 +231,15 @@ module Matestack::Ui::Core::Component
       # the childs content in order to respond to the subsequent component rendering call with
       # the childs content. In this case: "I should be deferred"
       skip_deferred_child_response = false
-      if child_class <= Matestack::Ui::Core::Async::Async || child_class < Matestack::Ui::Core::Isolate::Isolate
+      if child_class <= Matestack::Ui::Core::Async::Async || child_class < Matestack::Ui::Core::Isolated::Isolated
         if args.any? { |arg| arg[:defer].present? } && @matestack_skip_defer == true
           skip_deferred_child_response = true
         end
       end
 
       # check only allowed keys are passed to isolated components
-      if child_class < Matestack::Ui::Core::Isolate::Isolate
-        unless args.empty? || args[0].keys.all? { |key| [:defer, :public_options, :rerender_on, :init_on, :rerender_delay].include? key }
+      if child_class < Matestack::Ui::Core::Isolated::Isolated
+        unless args.empty? || args[0].keys.all? { |key| [:defer, :public_options, :rerender_on, :init_on, :rerender_delay, :matestack_context].include? key }
           raise "isolated components can only take params in a public_options hash, which will be exposed to the client side in order to perform an async request with these params."
         end
         if args.any? { |arg| arg[:init_on].present? } && @matestack_skip_defer == true
@@ -247,7 +247,7 @@ module Matestack::Ui::Core::Component
         end
       end
 
-      if self.class < Matestack::Ui::Core::Isolate::Isolate
+      if self.class < Matestack::Ui::Core::Isolated::Isolated
         parent_context_included_config = @current_parent_context.get_included_config || {}
         parent_context_included_config.merge!({ isolated_parent_class: self.class.name })
         args_with_context = add_context_to_options(args,parent_context_included_config)

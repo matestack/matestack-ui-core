@@ -153,7 +153,7 @@ module Matestack::Ui::Core::Rendering::MainRenderer
 
   def resolve_isolated_component(name)
     constant = const_get(name)
-    if constant < Matestack::Ui::Core::Isolate::Isolate
+    if constant < Matestack::Ui::Core::Isolated::Isolated
       constant
     else
       nil

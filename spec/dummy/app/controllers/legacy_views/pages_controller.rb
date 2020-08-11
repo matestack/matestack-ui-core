@@ -45,6 +45,10 @@ class LegacyViews::PagesController < ApplicationController
   def onclick_custom_component
   end
 
+  def isolated_custom_component
+    render 'isolated_custom_component'
+  end
+
   def success
     render json: params.to_unsafe_h, status: :ok
   end

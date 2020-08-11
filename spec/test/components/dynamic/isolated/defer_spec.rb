@@ -1,7 +1,7 @@
 require_relative "../../../support/utils"
 include Utils
 
-describe "Isolate Component defer", type: :feature, js: true do
+describe "Isolated Component defer", type: :feature, js: true do
 
   before :all do
     class TouchedElementsCounter

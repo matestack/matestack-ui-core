@@ -1,6 +1,6 @@
 # Matestack Core Component: Isolate
 
-Feel free to check out the [component specs](/spec/usage/components/dynamic/isolate).
+Feel free to check out the [component specs](/spec/test/components/dynamic/isolated).
 
 The isolate component allows you to create components, which can be rendered independently. It means that isolate components are rendered without calling the response method of your page, which gives you the possibility to rerender components dynamically without rerendering the whole UI. 
 
