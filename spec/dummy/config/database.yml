@@ -13,7 +13,8 @@ test:
 
 development:
   <<: *default
-  database: development
+  host: postgres_dummy
+  database: dummy
 
 staging:
   <<: *default

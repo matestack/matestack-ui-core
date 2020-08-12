@@ -40,7 +40,9 @@ module Matestack::Ui::Core::Isolated
 
     # this method gets called when the isolate vuejs component requests isolated content
     def render_isolated_content
-      render :children if authorized?
+      render :children_wrapper do
+        render :children if authorized?
+      end
     end
 
     def authorized?
