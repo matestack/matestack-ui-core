@@ -2,7 +2,6 @@
 
 ## Guide Assumptions
 
-* Required knowledge etc
 This guide is designed for Ruby on Rails beginners, advanced and experienced developers. We assume that you have basic knowledge about how Ruby on Rails routing and action controllers work. In this series of guides we will cover the basic principles and usage of matestack and further down the road introduce more complex principles and example use cases.
 
 ## What is Matestack?
@@ -33,9 +32,9 @@ To enable you to write your apps, pages and components in Ruby, matestack provid
 
 For nearly all existing HTML5 Tags there is a component in order to create a ui element with this tag. Visit the [components API documentation](docs/components/) for more information about `Matestack::Ui::Component`'s.
 
-#### `Matestack::Ui::VueComponent`'s
+#### `Matestack::Ui::VueJsComponent`'s
 
-VueComponents are more complex components. These always have a Vue.js counterpart and enable easy development of dynamic ui elements which would usually require you to write javascript code. VueComponents provide an abstraction so you don't have to write javascript code and instead create rich interfaces in Ruby. Visit the [components API documentation](docs/components/) for more information about `Matestack::Ui::VueComponent`'s.
+VueJsComponents are more complex components. These always have a Vue.js counterpart and enable easy development of dynamic ui elements which would usually require you to write javascript code. VueJsComponents provide an abstraction so you don't have to write javascript code and instead create rich interfaces in Ruby. Visit the [components API documentation](docs/components/) for more information about `Matestack::Ui::VueJsComponent`'s.
 
 ## Recap & outlook
 

@@ -167,7 +167,68 @@ We successfully rendered our first page displaying "Hello World" without writing
 
 ## Create our first app
 
-TODO write create app chapter
+Lets say we want to add a header with navigation links to our first page and upcoming pages. In Rails we would implement this navigation inside our layout, so we don't repeat ourselfs by adding the navigation in every single view. With Matestack we have so called apps which replace the concept of Rails layouts. In order to add a navigation around our page similiar to a rails layout we will create an app called `Demo::App`.
+But where to put this app. We recommend you structure your apps and pages as follows:
+
+In our example we want to have a demo app and pages rendered inside this app. That means that `Demo` is our namespace for those. Therefore we put our app and pages inside a folder called `demo`. We move our first page inside this demo folder because it should belong to the demo app. Since we can have many different pages we put all pages in a subfolder called `pages`.
+
+```
+app/matestack/
+|
+└───demo/
+│   │   app.rb (`Demo::App`)
+│   └───pages/
+│   │   │   first_page.rb  (`Demo::Pages::FirstPage`)
+```
+
+Because we moved our first page inside `demo/pages` we need to update the class name accordingly, matching the Rails naming conventions. Update the class name of your first page to `Demo::Pages::FirstPage`.
+
+Now we create the demo app by creating a file called `app.rb` inside `app/matestack/demo` and add the following content. We will take a closer look at what is happening down below.
+
+```ruby
+class Demo::App < Matestack::Ui::App
+
+  def response
+    header do
+      heading size: 1, text: 'Demo App'
+    end
+    main do
+      yield_page
+    end
+  end
+
+end
+```
+
+What is happening here. An app needs to inherit from `Matestack::Ui::App` and define a response method like a page. `header, heading, main` are all matestack component helper like `div` which we used in our first page. The `yield_page` call tells the app where the page content should be rendered. In this case inside a `main` tag beneath the `header` tag.
+
+The last thing we need to do in order to render our app around our page is to tell the controller to use the app as a layout. We do this by adding `matestack_app Demo::App` inside our controller, which should now look like this:
+
+
+```ruby
+class DemoController < ApplicationController
+  matestack_app Demo::App
+
+  def first_page
+    render FirstPage
+  end
+
+end
+```
+
+If we visit [localhost:3000](http://localhost:3000/) now, we can see that our app is rendered around our first page and the "Hello world!" is shown below the heading "Demo App".
+
+
+----
+Refactor the below part and remove doubled stuff!
+
+Next steps:
+  - add a second page
+  - introduce a navigation with transition
+  - describe the benefits of transitions inside an app ;)
+----
+
+
 
 Within your `app` directory, create a directory called `matestack` - this is where `matestack` **apps**, **pages** and, later on, **components**, will live.
 
