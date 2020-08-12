@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     get 'form_inline', to: 'pages#form_inline'
     get 'form_custom_component', to: 'pages#form_custom_component'
     get 'onclick_custom_component', to: 'pages#onclick_custom_component'
+    get 'isolated_custom_component', to: 'pages#isolated_custom_component'
     post 'success', to: 'pages#success'
     post 'failure', to: 'pages#failure'
     post 'create', to: 'pages#create'

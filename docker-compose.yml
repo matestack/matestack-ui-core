@@ -9,6 +9,8 @@ services:
       - "3000:3000"
     environment:
       RAILS_ENV: development
+    links:
+      - postgres_dummy
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle
@@ -56,6 +58,17 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: test
+    volumes:
+      - test-data-volume:/var/lib/postgresql/data
+
+  postgres_dummy:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dummy
     volumes:
       - test-data-volume:/var/lib/postgresql/data
 

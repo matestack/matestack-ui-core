@@ -11,6 +11,7 @@ module Components::Registry
     legacy_views_pages_collection: Components::LegacyViews::Pages::Collection,
     legacy_views_pages_form: Components::LegacyViews::Pages::Form,
     legacy_views_pages_onclick: Components::LegacyViews::Pages::Onclick,
+    legacy_views_pages_isolated: Components::LegacyViews::Pages::Isolated,
   )
 
 end

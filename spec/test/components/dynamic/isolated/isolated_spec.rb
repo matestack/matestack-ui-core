@@ -70,10 +70,10 @@ describe "Isolate Component", type: :feature, js: true do
 
     visit "/example"
     # used on page
-    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
+    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="matestack-isolated-component-root"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
     # used on component
-    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="some-other-component"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
+    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="some-other-component"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="matestack-isolated-component-root"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
   end
 

@@ -71,20 +71,14 @@ const componentDef = {
   },
   mounted: function (){
     const self = this
-    console.log('mounted isolated component')
     if(this.componentConfig["init_on"] === undefined || this.componentConfig["init_on"] === null){
-      console.log('Its me')
       if(self.componentConfig["defer"] == true || Number.isInteger(self.componentConfig["defer"])){
-        console.log('I should render deferred')
         if(!isNaN(self.componentConfig["defer"])){
           self.startDefer()
         }
         else{
           self.renderIsolatedContent();
         }
-      }
-      else {
-        console.log('I should NOT render deferred')
       }
     }else{
       if(self.componentConfig["defer"] != undefined){

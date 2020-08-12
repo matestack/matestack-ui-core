@@ -1,5 +1,5 @@
-module Matestack::Ui::Core::Isolate
-  class Isolate < Matestack::Ui::Core::Component::Dynamic
+module Matestack::Ui::Core::Isolated
+  class Isolated < Matestack::Ui::Core::Component::Dynamic
     vue_js_component_name "matestack-ui-core-isolate"
 
     def initialize(*args)
@@ -11,9 +11,9 @@ module Matestack::Ui::Core::Isolate
       @public_options ||= {}
     end
 
-    def params
-      context[:params] ||= {}
-    end
+    # def params
+    #   context[:params] || matestack_context[:params]
+    # end
 
     def setup
       @component_config[:component_class] = self.class.name
@@ -35,12 +35,14 @@ module Matestack::Ui::Core::Isolate
 
     # only render vuejs component wrapper on show
     def show
-      render :isolate
+      render :isolated
     end
 
     # this method gets called when the isolate vuejs component requests isolated content
     def render_isolated_content
-      render :children if authorized?
+      render :children_wrapper do
+        render :children if authorized?
+      end
     end
 
     def authorized?
