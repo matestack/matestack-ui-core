@@ -15,6 +15,15 @@ In the Gemfile, replace the line starting with `gem 'sqlite3'` with `gem 'pg'`.
 
 Make sure to run `bundle install` afterwards and replace the contents of `config/database.yml` with
 
+<details>
+<summary>Note for Linux/Ubuntu users</summary>
+You may need to install additional libraries by running <br/>
+<code>sudo apt-get -y install postgresql postgresql-contrib libpq-dev</code>
+instead of only running <br/>
+<code>sudo apt-get install postgresql</code>.
+</details>
+<br/>
+
 ```yaml
 default: &default
   adapter: postgresql

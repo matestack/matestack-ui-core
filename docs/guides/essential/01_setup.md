@@ -5,7 +5,8 @@ Welcome to the first part of the 10-step-guide of setting up a working Rails CRU
 In this guide, we will
 - create a new Rails application
 - install `matestack-ui-core`
-- add a simple matestack app and two pages
+- create and render our first 'Hello world' page
+- add a simple matestack app, wrap our page and add another one
 
 ## Prerequisites
 To follow along, make sure you have successfully installed
@@ -13,15 +14,8 @@ To follow along, make sure you have successfully installed
 - RubyOnRails (Version >6.0, [view installation details](https://rubyonrails.org/))
 - Postgresql ([view installation details](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup))
 
-<details>
-<summary>Note for Linux/Ubuntu users</summary>
-You may need to install additional libraries by running <br/>
-<code>sudo apt-get -y install postgresql postgresql-contrib libpq-dev</code>
-instead of only running <br/>
-<code>sudo apt-get install postgresql</code>.
-</details>
-<br/>
 
+[//]: <> (TODO # maybe remove or rewrite this content block)
 The contents of this article are heavily inspired by [Getting Started on Heroku with Rails 6.x](https://devcenter.heroku.com/articles/getting-started-with-rails6), but goes beyond it by introducing the `matestack-ui-core` gem and setting it up with some example content. Both beginners and experienced Ruby/Rails developers should be able to follow along.
 
 ## Getting started
@@ -103,7 +97,78 @@ And add an element with the id `matestack_ui` to your layout, by changing your `
 
 By including the `Matestack::Ui::Core::ApplicationHelper` and defining a div with the `matestack_ui` id you can now use matestacks render method in your controller actions. Based on the id matestack apps and pages can be rendered and pages can be replaced without a full reload of the browser page.
 
-## Add a demo page
+## Create our first page
+
+Apps, Pages and Components will live in a Matestack directory inside your `app` directory. So lets create a directory called `matestack` inside `app`. 
+
+Now lets create our first page featuring the well known "Hello World!" greeting.
+
+Before creating our page we add a root route which calls the `first_page` action of our `DemoController`. Change your `config/routes.rb` and add the following route.
+
+```ruby
+Rails.application.routes.draw do
+  root to: 'demo#first_page'
+end
+```
+
+Accordingly to our route we create a new controller called `demo_controller.rb` within `app/controllers/`.
+
+```ruby
+class DemoController < ApplicationController
+
+  def first_page
+    # later we will render our page here
+  end
+
+end
+```
+
+Now its time to create our first page. Create a file called `first_page.rb` in `app/matestack/` and add the following content. We will take a closer look at what is happening down below.
+
+```ruby
+class FirstPage < Matestack::Ui::Page
+
+  def response
+    div do
+      plain 'Hello World!'
+    end
+  end
+
+end
+``` 
+
+A page needs to inherit from `Matestack::Ui::Page`. Each page must have a `response` method. The response method should contain your html (written in ruby) which will be displayed when this page gets rendered.
+
+In our `FirstPage` we define the response method and inside call `div` with a block and `plain` with text inside this block. `div` and `plain` are two of many `Matestack::Ui::Components` which you can use to create UI's in Ruby. As you might can imagine the `div` call will render a `<div></div>` and the given block will be rendered inside this div. `plain` renders the given argument plainly. So this response message would look like this in HTML:
+
+```html
+<div>
+  Hello World!
+</div>
+```
+
+Okay, so now lets render this page and take a look at it in the browser.
+
+To render a page matestack provides a `render` helper through the module you included earlier in the `ApplicationController`.
+
+Rendering the page is as simple as calling `render FirstPage`. Change your `DemoController` to look like this.
+
+```ruby
+class DemoController < ApplicationController
+
+  def first_page
+    render FirstPage
+  end
+
+end
+```
+
+We successfully rendered our first page displaying "Hello World" without writing any HTML code.
+
+## Create our first app
+
+TODO write create app chapter
+
 Within your `app` directory, create a directory called `matestack` - this is where `matestack` **apps**, **pages** and, later on, **components**, will live.
 
 Now, create a file called `app.rb` in `app/matestack/demo/`, and add the following content:
