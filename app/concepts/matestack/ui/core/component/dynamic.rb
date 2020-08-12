@@ -24,14 +24,15 @@ module Matestack::Ui::Core::Component
     end
 
     def get_vue_js_name
-      if @vue_js_component_name.present?
-        @vue_js_component_name
-      else
-        self.class.vue_js_name
-      end
+      self.class.vue_js_name
     end
 
     class << self
+
+      def inherited(subclass)
+        subclass.vue_js_component_name vue_js_name unless self == Matestack::Ui::Core::Component::Dynamic
+      end
+
       def vue_js_component_name(name)
         @vue_js_name = name.to_s
       end

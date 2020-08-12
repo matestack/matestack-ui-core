@@ -1,15 +1,10 @@
 module Matestack::Ui::Core::Isolate
   class Isolate < Matestack::Ui::Core::Component::Dynamic
-
     vue_js_component_name "matestack-ui-core-isolate"
 
     def initialize(*args)
       super
       @public_options = args.map { |hash| hash[:public_options] }[0]
-      # using this instance var here as users inherit from this class and would need
-      # to use `vue_js_component_name "matestack-ui-core-isolate"` in their components
-      # which is not convinient
-      @vue_js_component_name = "matestack-ui-core-isolate"
     end
 
     def public_options
@@ -26,6 +21,7 @@ module Matestack::Ui::Core::Isolate
       @component_config[:defer] = @options[:defer]
       @component_config[:rerender_on] = @options[:rerender_on]
       @component_config[:rerender_delay] = @options[:rerender_delay]
+      @component_config[:init_on] = @options[:init_on]
     end
 
     def loading_classes
@@ -44,7 +40,7 @@ module Matestack::Ui::Core::Isolate
 
     # this method gets called when the isolate vuejs component requests isolated content
     def render_isolated_content
-      render :children
+      render :children if authorized?
     end
 
     def authorized?
