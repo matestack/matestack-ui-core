@@ -77,10 +77,11 @@ Rails.application.routes.draw do
 end
 ```
 
-After that we create the corresponding person controller in `app/controllers/person_controller.rb` which will handle the index action. The index action should render the persons index page which we will create afterwards.
+After that we create the corresponding person controller in `app/controllers/person_controller.rb` which will handle the index action. The index action should render the persons index page which we will create afterwards. Do not forget to define the `matestack_app` which should be used as a layout.
 
 ```ruby
 class PersonsController < ApplicationController
+  matestack_app Demo::App
 
   def index
     render Demo::Pages::Persons::Index

@@ -272,6 +272,7 @@ class Demo::App < Matestack::Ui::App
     nav do
       link path: root_path, text: 'First Page'
       link path: second_page_path, text: 'Second Page'
+    end
     header do
       heading size: 1, text: 'Demo App'
     end
