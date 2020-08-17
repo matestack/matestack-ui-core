@@ -78,7 +78,7 @@ class Admin::App < Matestack::Ui::App
         div id: 'navbarsExampleDefault', class: 'collapse navbar-collapse justify-content-end' do
           ul class: 'navbar-nav mr-0' do
             li class: 'nav-item' do
-              transition class: 'nav-link', path: :persons_path, text: 'All persons'
+              transition class: 'nav-link', path: persons_path, text: 'All persons'
             end
             li class: 'nav-item' do
               action logout_action_config do
@@ -252,7 +252,7 @@ class Admin::Pages::Persons::Show < Matestack::Ui::Page
   def response
     section do
       div class: 'container' do
-        transition path: :persons_path, class: 'btn btn-secondary', text: 'Back to index'
+        transition path: persons_path, class: 'btn btn-secondary', text: 'All persons'
 
         div class: 'row' do
           div class: 'col-md-6 offset-md-3 text-center' do
@@ -342,7 +342,7 @@ class Admin::Pages::Persons::New < Matestack::Ui::Page
                 end
               end
               form_submit do
-                transition path: :persons_path, class: 'btn btn-secondary my-3', text: 'Back to index page'
+                transition path: persons_path, class: 'btn btn-secondary my-3', text: 'All persons'
                 button class: 'btn btn-primary', text: 'Create person'
               end
             end

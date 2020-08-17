@@ -1,47 +1,45 @@
-# Essential Guide 5: Collection & Async component
-Welcome to the fifth part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
+# Essential Guide 7: Collection & Async component
+
+Welcome to the seventh part of our essential guide about building a web application with matestack.
 
 ## Introduction
-In the [previous guide](guides/essential/04_forms_edit_new_create_update_delete.md), we added forms and pages - now we can add new persons and modify existing ones. In this part, we will improve the **Index** page by making use of some of `matestack-ui-core`'s most powerful features!
+
+In the [fourth guide](/docs/guides/essential/04_forms_edit_new_create_update_delete.md), we added forms and pages - now we can add new persons and modify existing ones. In this part, we will improve the index page by making use of some of matestacks unique features!
 
 In this guide, we will
-- refactor the **Index** page to use the `matestack` collection component, adding pagination and basic search functionality
-- introduce the concept of `matestack` async components
+- refactor the index page to use matestacks `collection` component
+- add pagination and basic search functionality to it
+- use matestack `async` component from the [sixth guide](/docs/guides/essential/06_async_component.md)
 
 ## Prerequisites
-We expect you to have successfully finished the [previous guide](guides/essential/04_forms_edit_new_create_update_delete.md) and no uncommited changes in your project.
+
+We expect you to have successfully finished the [previous guide](guides/essential/06_async_component.md).
 
 ## Adding a simple, filterable collection
-Right now, the **Index** page displays a simple list with all the person records in the database. This will become an overly crowded page with a long loading time quite soon, so replace the contents of `app/matestack/demo/pages/persons/index.rb` with the following:
+
+Right now, the index page displays a simple list of all persons in our database. Starring a growing database with hundreds or thousands of records, this page will become quite large and confusing. In order to avoid this, we will first change it into a filterable list and later add pagination and a search to it. We use matestacks `collection` component to achieve this easily. First we implement our list with the `collection` component in our `app/matestack/demo/pages/persons/index.rb`.
 
 ```ruby
 class Demo::Pages::Persons::Index < Matestack::Ui::Page
   include Matestack::Ui::Core::Collection::Helper
 
   def prepare
-    person_collection_id = "person-collection"
-
-    current_filter = get_collection_filter(person_collection_id)
-
+    @person_collection_id = "person-collection"
+    current_filter = get_collection_filter(@person_collection_id)
     person_query = Person.all
-
-    filtered_person_query = person_query
-    .where("last_name LIKE ?", "%#{current_filter[:last_name]}%")
-
+    filtered_person_query = person_query.where("last_name LIKE ?", "%#{current_filter[:last_name]}%")
     @person_collection = set_collection({
-      id: person_collection_id,
+      id: @person_collection_id,
       data: filtered_person_query
     })
   end
 
   def response
-    partial :filter
-
-    async rerender_on: "person-collection-update" do
-      partial :content
+    filter
+    async id: 'person-list', rerender_on: "#{@person_collection_id}-update" do
+      content
     end
-
-    transition path: :new_person_path, text: 'Create new person'
+    transition path: new_person_path, text: 'Create person'
   end
 
   def filter
@@ -58,16 +56,14 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
 
   def content
     collection_content @person_collection.config do
-
       ul do
         @person_collection.data.each do |person|
           li do
             plain "#{person.first_name} #{person.last_name} "
-            transition path: :person_path, params: {id: person.id}, text: '(Details)'
+            transition path: person_path(person), text: '(Details)'
           end
         end
       end
-
     end
   end
 
@@ -75,8 +71,19 @@ end
 ```
 
 What's going on here? Let's break it down and go through it one part after another:
-- `include Matestack::Ui::Core::Collection::Helper` is being added to the page to enable the magic that follows
-- within the `prepare` method/statement, we configure the `collection` by giving it an `id`, handing over a record fetched from the database and defining the filter query
+
+`include Matestack::Ui::Core::Collection::Helper` is being added to the page to add the necessary helpers for collections.
+
+Within the prepare method we choose an id for our collection, define a default `person_query` and a filtered query which uses the filter param `last_name` to further filter the `person_query`. With `set_collection` we pass these as as hash to our collection and configure it this way. 
+
+In our response method we added three new parts.
+- A partial for the filter component. It uses a `collection_filter` component which represents a form wrapper for collection filter inputs. Inside the block we use a `collection_filter_input` component to render a text input for the `last_name`. Underneath like in forms we have a wrapper for the submit action, if the contents of the block is clicked, the form will be submitted. Followed by a reset wrapper, which will reset the form if its content is clicked. 
+
+----
+# Refactor from here
+----
+
+- within the `prepare` method, we configure the `collection` by giving it an `id`, handing over a record fetched from the database and defining the filter query
 - the `response` method/statement gets broken apart into smaller parts
   - a partial for the filter components
   - a partial for the actual collection content, wrapped in an `async` component

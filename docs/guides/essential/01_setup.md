@@ -1,7 +1,9 @@
 # Essential Guide 1: Setup
-Welcome to the first part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
+
+Welcome to the first part of our essential guide about building a web application with matestack.
 
 ## Introduction
+
 In this guide, we will
 - create a new Rails application
 - install `matestack-ui-core`
@@ -9,6 +11,7 @@ In this guide, we will
 - add a simple matestack app, wrap our page and add another one
 
 ## Prerequisites
+
 To follow along, make sure you have successfully installed
 - Ruby (Version > 2.6, [view installation details](https://www.ruby-lang.org))
 - RubyOnRails (Version >6.0, [view installation details](https://rubyonrails.org/))
@@ -19,6 +22,7 @@ To follow along, make sure you have successfully installed
 The contents of this article are heavily inspired by [Getting Started on Heroku with Rails 6.x](https://devcenter.heroku.com/articles/getting-started-with-rails6), but goes beyond it by introducing the `matestack-ui-core` gem and setting it up with some example content. Both beginners and experienced Ruby/Rails developers should be able to follow along.
 
 ## Getting started
+
 In the terminal, create a new Rails app by running
 
 ```sh
@@ -108,6 +112,7 @@ Before creating our page we add a root route which calls the `first_page` action
 ```ruby
 Rails.application.routes.draw do
   root to: 'demo#first_page'
+  get '/first_page', to: 'demo#first_page'
 end
 ```
 
@@ -130,7 +135,7 @@ class FirstPage < Matestack::Ui::Page
 
   def response
     div do
-      plain 'Hello World!'
+      heading text: 'Hello World!', size: 1
     end
   end
 
@@ -139,11 +144,11 @@ end
 
 A page needs to inherit from `Matestack::Ui::Page`. Each page must have a `response` method. The response method should contain your html (written in ruby) which will be displayed when this page gets rendered.
 
-In our `FirstPage` we define the response method and inside call `div` with a block and `plain` with text inside this block. `div` and `plain` are two of many `Matestack::Ui::Components` which you can use to create UI's in Ruby. As you might can imagine the `div` call will render a `<div></div>` and the given block will be rendered inside this div. `plain` renders the given argument plainly. So this response message would look like this in HTML:
+In our `FirstPage` we define the response method and inside call `div` with a block and `heading` with text and size inside this block. `div` and `heading` are two of many `Matestack::Ui::Components` which you can use to create UI's in Ruby. As you might can imagine the `div` call will render a `<div></div>` and the given block will be rendered inside this div. `heading` renders a html headline tag with the given size, in this case a _h1_ tag. So this response message would look like this in HTML:
 
 ```html
 <div>
-  Hello World!
+  <h1>Hello World!</h1>
 </div>
 ```
 
@@ -319,6 +324,7 @@ Again visit [localhost:3000](http://localhost:3000/). Okay now pay close attenti
 matestack `transitions` asynchronously fetch the requested page without the app layout and only replaces the page. Providing a more app like or SPA like behavior. And all you needed to do was creating an app for your pages.
 
 ## Commiting the status quo
+
 Let's save the progress so far using Git. In the repo root, run
 
 ```sh
@@ -328,6 +334,7 @@ git add . && git commit -m "Save basic Rails app with PG and matestack set up"
 to do that.
 
 ## Recap & outlook
+
 We now have a working Rails app using `matestack`.
 
 In this guide we learned how matestack pages work, how we can use matestacks components to create html and how we can use an app as a layout for pages and what benefits we get through using an app. 

@@ -113,7 +113,7 @@ class Demo::App < Matestack::Ui::App
         div id: 'navbarsExampleDefault', class: 'collapse navbar-collapse' do
           ul class: 'navbar-nav mr-auto' do
             li class: 'nav-item' do
-              transition class: 'nav-link', path: :persons_path, text: 'All persons'
+              transition class: 'nav-link', path: persons_path, text: 'All persons'
             end
           end
         end
@@ -229,7 +229,7 @@ end
   def response
     section do
       div class: 'container' do
-        transition path: :persons_path, class: 'btn btn-secondary', text: 'Back to index'
+        transition path: persons_path, class: 'btn btn-secondary', text: 'All persons'
 
         div class: 'row' do
           div class: 'col-md-6 offset-md-3 text-center' do
@@ -337,7 +337,7 @@ def response
               end
             end
             form_submit do
-              transition path: :persons_path, class: 'btn btn-secondary my-3', text: 'Back to index page'
+              transition path: persons_path, class: 'btn btn-secondary my-3', text: 'All persons'
               button class: 'btn btn-primary', text: 'Create person'
             end
           end

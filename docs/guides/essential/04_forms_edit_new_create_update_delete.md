@@ -1,6 +1,6 @@
 # Essential Guide 4: Forms & Actions (Create, Update, Delete)
 
-Welcome to the forth part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
+Welcome to the fourth part of our essential guide about building a web application with matestack.
 
 ## Introduction
 
@@ -12,8 +12,6 @@ In this guide, we will
 - add an delete action to delete existing persons 
 - introduce the concept of matestack forms
 - introduce the concept of matestack actions
-
-action with a delete button to the "show" page and corresponding controller action to remove an existing person from the database
 
 ## Prerequisites
 We expect you to have successfully finished the [previous guide](guides/essential/03_index_show_transition.md).
@@ -124,7 +122,7 @@ Create a new page in `app/matestack/demo/pages/persons/new.rb` and add the follo
 class Demo::Pages::Persons::New < Matestack::Ui::Page
 
   def response
-    transition path: :persons_path, text: 'All persons'
+    transition path: persons_path, text: 'All persons'
     heading size: 2, text: 'Create a new person'
     form new_person_form_config, :include do
       label text: 'First name'
@@ -254,7 +252,7 @@ Update your show page in `app/matestack/demo/pages/persons/show.rb` to look like
 class Demo::Pages::Persons::Show < Matestack::Ui::Page
 
   def response
-    transition path: :persons_path, text: 'Back to index'
+    transition path: persons_path, text: 'All persons'
     heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
     paragraph text: "Role: #{@person.role}"
     transition path: :edit_person_path, params: { id: @person.id }, text: 'Edit'
@@ -314,4 +312,4 @@ We got a brief introduction of the `form` and `action` components and know how t
 
 But there's still more guides coming - so what's left? In the upcoming chapters, we will dive deeper into some `matestack` concepts to further enhance both user experience and developer happiness!
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`async` and `collection` components](/guides/essential/04_form_create_update_delete.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`toggle component`](/guides/essential/05_toggle_component.md).

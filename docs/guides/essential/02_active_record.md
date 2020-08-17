@@ -1,7 +1,9 @@
 # Essential Guide 2: ActiveRecord & Database
-Welcome to the second part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
+
+Welcome to the second part of our essential guide about building a web application with matestack.
 
 ## Introduction
+
 In the [previous guide](guides/essential/01_setup.md), we created a new project, installed the necessary libraries, added a demo `matestack` app featuring two `matestack` pages, and deployed it using Heroku.
 
 In this guide, we will
@@ -10,9 +12,11 @@ In this guide, we will
 - deploy the changes to the publicly running Heroku application
 
 ## Prerequisites
+
 We expect you to have successfully finished the [previous guide](guides/essential/01_setup.md).
 
 ## Adding the ActiveRecord model
+
 First, we need to create an ActiveRecord model and add the corresponding table to the database. This is quickly achieved by running
 
 ```sh
@@ -28,6 +32,7 @@ rails db:migrate
 which should update the database schema in `db/schema.rb`.
 
 ## Updating the model, adding seeds and displaying an index page
+
 The `role` database field should represent different roles which we define as an enum in our person model. Update `app/models/person.rb` to look like this:
 
 ```ruby
@@ -120,6 +125,7 @@ Run `rails s` and head over to [localhost:3000/persons/index](http://localhost:3
 Of course, this is a very basic approach that we will iterate and improve in the following parts of this guide series!
 
 ## Saving the status quo
+
 As usual, we want to commit the progress to Git. In the repo root, run
 
 ```sh
@@ -127,6 +133,7 @@ git add . && git commit -m "Introduce person model including seeds, add it to ma
 ```
 
 ## Recap & outlook
+
 We have updated the app to use a working database model, added some records and displayed them on an index page.
 
 Let's continue and build even cooler stuff by heading directly to the [next part of the series](/guides/essential/03_index_show.md).

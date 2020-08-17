@@ -1,7 +1,9 @@
 # Essential Guide 3: Person Index, Show, Transition
-Welcome to the third part of the 10-step-guide of setting up a working Rails CRUD app with `matestack-ui-core`!
+
+Welcome to the third part of our essential guide about building a web application with matestack.
 
 ## Introduction
+
 In the [previous guide](guides/essential/02_active_record.md), we added an ActiveRecord model to our project, added some fake persons to our database and displayed them on an index page.
 
 In this guide, we will
@@ -9,6 +11,7 @@ In this guide, we will
 - dive more into the concept of page transitions
 
 ## Prerequisites
+
 We expect you to have successfully finished the [previous guide](guides/essential/02_active_record.md).
 
 ## Update person controller and routes
@@ -43,6 +46,7 @@ end
 ```
 
 ## Page transitions
+
 In `app/matestack/demo/app.rb`, replace the contents with the code snippet below in order to add a navigation transition to the root path in our app layout.
 
 ```ruby
