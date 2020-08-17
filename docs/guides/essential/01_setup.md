@@ -218,90 +218,39 @@ end
 
 If we visit [localhost:3000](http://localhost:3000/) now, we can see that our app is rendered around our first page and the "Hello world!" is shown below the heading "Demo App".
 
+**Create a second page**
 
-----
-Refactor the below part and remove doubled stuff!
+In order to better unterstand which advantages and features apps provide, let's create a second page.
 
-Next steps:
-  - add a second page
-  - introduce a navigation with transition
-  - describe the benefits of transitions inside an app ;)
-----
-
-
-
-Within your `app` directory, create a directory called `matestack` - this is where `matestack` **apps**, **pages** and, later on, **components**, will live.
-
-Now, create a file called `app.rb` in `app/matestack/demo/`, and add the following content:
-
-```ruby
-class Demo::App < Matestack::Ui::App
-
-  def response
-    header do
-      heading size: 1, text: 'Demo App'
-      transition path: :first_page_path, text: 'First page'
-      br
-      transition path: :second_page_path, text: 'Second page'
-    end
-    main do
-      page_content
-    end
-  end
-
-end
-```
-
-This file provides us with a basic app layout that will stay the same throughout the pages within this app - the header (and other content you may add in the above file) will stay the same, and switching between pages will only replace the `page_content` within the `main`-tag.
-
-Moving on, create two files called `first_page.rb` and `second_page.rb` within `app/matestack/demo/pages/`, and add the following content to them:
-
-```ruby
-# in app/matestack/demo/pages/first_page.rb
-class Demo::Pages::FirstPage < Matestack::Ui::Page
-
-  def response
-    5.times do
-      paragraph text: 'Hello, first page!'
-    end
-  end
-
-end
-
-# in app/matestack/demo/pages/second_page.rb
-class Demo::Pages::SecondPage < Matestack::Ui::Page
-
-  def response
-    5.times do
-      paragraph text: 'Hello, second page!'
-    end
-  end
-
-end
-```
-
-Now, you have two simple matestack pages within your first matestack app, but we're still missing routes and controller actions, so let's quickly add them!
-
-Change your `config/routes.rb` to
+First we add a route to our `routes.rb` file.
 
 ```ruby
 Rails.application.routes.draw do
-  root to: 'demo_app#first_page'
-
-  get '/first_page', to: 'demo_app#first_page'
-  get '/second_page', to: 'demo_app#second_page'
+  root to: 'demo#first_page' 
+  get '/second_page' to: 'demo#second_page' 
 end
 ```
 
-and create a new controller called `demo_app_controller.rb` within `app/controllers/`, using the following content:
+Afterwards we create the second page under  `app/matestack/demo/pages` as `second_page.rb` and add some page content.
 
 ```ruby
-class DemoAppController < ApplicationController
-  matestack_app Demo::App
+class Demo::Pages::SecondPage < Matestack::Ui::Page
 
-  def first_page
-    render Demo::Pages::FirstPage
+  def response
+    div do
+      heading size: 1, text: 'I am the second page!'
+      paragraph text: "I'm a paragraph on the second page."
+    end
   end
+
+end
+```
+
+To view our second page we need to add the corresponding controller action `second_page`.
+
+```ruby
+class DemoController < ApplicationController
+  #...
 
   def second_page
     render Demo::Pages::SecondPage
@@ -310,7 +259,63 @@ class DemoAppController < ApplicationController
 end
 ```
 
-Great! Now, you should be able to run `rails s` once more and, when visiting [localhost:3000](http://localhost:3000/), be greeted with the contents of your first matestack page!
+Visit [localhost:3000/second_page](http://localhost:3000/second_page) to view our second page.
+
+### Understanding matestack apps
+
+Now we have two pages which we can only visit via typing in the url. Let's add a navigation above our header to our app in order to navigate between these two pages. We do this like we would normally do it, by adding two links into a _nav_ html tag using matestacks `link` helper. In this step we also add a footer for better understanding of whats happening later.
+
+```ruby
+class Demo::App < Matestack::Ui::App
+
+  def response
+    nav do
+      link path: root_path, text: 'First Page'
+      link path: second_page_path, text: 'Second Page'
+    header do
+      heading size: 1, text: 'Demo App'
+    end
+    main do
+      yield_page
+    end
+    footer do
+      hr
+      small text: 'These guides are provided by matestack'
+    end
+  end
+
+end
+```
+
+As you might guess right now, all the method calls like `nav, footer, hr, small` are calls of matestack helpers representing the equivalent html tags.
+
+If we visit [localhost:3000](http://localhost:3000/) now, we see our page with the 'Hello World!' content wrapped by our navigation, header and footer. Clicking the link to the second page, the whole browser page is rerendered and we see our second page. Nothing special here, but matestack provides us with a `transition` helper. Let's take a look at what it does by changing our links to transitions.
+
+```ruby
+class Demo::App < Matestack::Ui::App
+
+  def response
+    nav do
+      transition path: root_path, text: 'First Page'
+      transition path: second_page_path, text: 'Second Page'
+    header do
+      heading size: 1, text: 'Demo App'
+    end
+    main do
+      yield_page
+    end
+    footer do
+      hr
+      small text: 'These guides are provided by matestack'
+    end
+  end
+
+end
+```
+
+Again visit [localhost:3000](http://localhost:3000/). Okay now pay close attention to the navigation, header and footer from our app. When you click one of the links generated by the `transition` helper, you should notice that only the page content, in this case the 'Hello World!' gets replaced by the contents of our second page.
+
+matestack `transitions` asynchronously fetch the requested page without the app layout and only replaces the page. Providing a more app like or SPA like behavior. And all you needed to do was creating an app for your pages.
 
 ## Commiting the status quo
 Let's save the progress so far using Git. In the repo root, run
@@ -321,25 +326,9 @@ git add . && git commit -m "Save basic Rails app with PG and matestack set up"
 
 to do that.
 
-## Deployment
-To set up a new project, run
-```sh
-heroku create
-```
-
- followed by
-
- ```sh
- git push heroku master
- ```
-
- to trigger the first deployment! After the deployment has successfully finished, you can visit your running application by running
-
-```sh
-heroku open
-```
-
 ## Recap & outlook
-You now have a working Rails app using `matestack` not only up and running, but even successfully deployed in the public web - awesome!
+We now have a working Rails app using `matestack`.
+
+In this guide we learned how matestack pages work, how we can use matestacks components to create html and how we can use an app as a layout for pages and what benefits we get through using an app. 
 
 After taking a well deserved rest, make sure to continue exploring the features `matestack` offers you by checking out the [next part of the series](/guides/essential/02_active_record.md).

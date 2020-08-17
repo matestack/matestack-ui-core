@@ -46,3 +46,21 @@ production:
   username: myapp
   password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
 ```
+
+## Deployment
+To set up a new project, run
+```sh
+heroku create
+```
+
+ followed by
+
+ ```sh
+ git push heroku master
+ ```
+
+ to trigger the first deployment! After the deployment has successfully finished, you can visit your running application by running
+
+```sh
+heroku open
+```
