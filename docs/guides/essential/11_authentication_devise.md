@@ -11,7 +11,7 @@ In this guide, we will
 - remove some actions from the **DemoApp** and add a link to the admin login
 
 ## Prerequisites
-We expect you to have successfully finished the [previous guide](guides/essential/08_styling_notifications.md) and no uncommited changes in your project.
+We expect you to have successfully finished the [previous guide](/docs/guides/essential/10_styling_notifications.md) and no uncommited changes in your project.
 
 ## Setting up Devise
 For authentication, we rely on a popular library called [Devise](https://github.com/heartcombo/devise). You can install it by adding it to the `Gemfile` as
