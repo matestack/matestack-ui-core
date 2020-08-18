@@ -7,65 +7,13 @@ Welcome to the ninth part of our essential guide about building a web applicatio
 In a [previous guide](/docs/guides/essential/07_partials_and_custom_components.md), we introduced custom components. In this one, we're bringing it to the next level with custom vue.js components!
 
 In this guide, we will
-- add a custom vue.js component that fetches and displays data from a 3rd-party API
+- add a custom vue.js component that fetches and displays data from a third-party API
 
 ## Prerequisites
 
 We expect you to have successfully finished the [previous guide](guides/essential/06_static_components.md).
 
-## Hiding content on button click
-
-Remember the `disclaimer` custom component from the last part? Let's turn it into a custom dynamic component. For a dynamic component, we need a JavaScript file.
-
-Since we only used the `app/matestack/components/person/disclaimer.haml` file as a showcase, go ahead and replace it with a file called `disclaimer.js` that contains our JavaScript logic:
-
-```javascript
-MatestackUiCore.Vue.component('custom-person-disclaimer', {
-  mixins: [MatestackUiCore.componentMixin],
-  data() {
-    return {
-      show: true
-    };
-  }
-});
-```
-
-Our component only gets one boolean data variable which is initialized as `true`. Let's put it to use by replacing the contents of `app/matestack/components/person/disclaimer.rb` with the following:
-
-```ruby
-class Components::Person::Disclaimer < Matestack::Ui::DynamicComponent
-
-  def response
-    div attributes: {"v-show": "show == true"} do
-      paragraph text: 'None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".'
-      button attributes: {"@click": "show = false"}, text: 'Hide'
-    end
-  end
-
-end
-```
-
-All components inside the component's response are wrapped into a Vue.js conditional so they only get shown while the **show**-boolean is set to `true`. Upon clicking the button inside the component's response, this boolean gets set to `false` and therefore the whole component disappears - neat!
-
-The last thing to do is adding the newly created dynamic component to `app/javascript/packs/application.js` so it gets correctly compiled by Webpack:
-
-```javascript
-import '../../matestack/components/person/disclaimer'
-```
-
-> need to register in component registry?
-
-Start your application and see if it works! You should be able to click the 'Hide'-button below the disclaimer text and it disappears/gets hidden.
-
-Note that it stays hidden when `matestack` page transition get performed, but re-appears on full page reloads. This was expected since the display/hide is performed purely on the client-side and, unlike a cookie or a configuration stored in a database, doesn't persist somewhere.
-
-As usual, we want to commit the progress to Git. In the repo root, run
-
-```sh
-git add app/javascript/packs/application.js app/matestack/components/person/ && git commit -m "Refactor disclaimer from static to dynamic custom component"
-```
-
-## Fetching and displaying data from 3rd party APIs
+## Fetching and displaying data from a third party API
 
 We want to display an option for what you could do with the person at its show page. Therefore we want to fetch a json api and display content of the responses on the page.
 
@@ -181,7 +129,7 @@ class Demo::Pages::Persons::Show < Matestack::Ui::Page
 end
 ```
 
-Spin up your app and head to the **Show** page to play around - fetching and deleting activities should work flawlessly! Hint: The way we have set it up for now, everything in this component happens on the client side and refreshing the page resets your activities to an empty array.
+Spin up your app and head to the **Show** page to play around - fetching and deleting activities should work flawlessly! Hint: The way we have set it up for now, everything in this component happens on the client side and refreshing the page resets your activities to an empty array. If you use page transitions to swap to the index page and then back to the user, the data should still be there.
 
 Again, don't forget to save your progress to Git. In the repo root, run
 
