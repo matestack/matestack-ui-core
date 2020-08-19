@@ -225,7 +225,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   output: Matestack::Ui::Core::Output::Output,
   paragraph: Matestack::Ui::Core::Paragraph::Paragraph,
   pg: Matestack::Ui::Core::Paragraph::Paragraph, # alias paragraph as pg
-  page_content_wrapper: Matestack::Ui::Core::Page::Content,
+  page_content_wrapper: Matestack::Ui::Core::Page::Content::Content,
   param: Matestack::Ui::Core::Param::Param,
   picture: Matestack::Ui::Core::Picture::Picture,
   plain: Matestack::Ui::Core::Plain::Plain,
