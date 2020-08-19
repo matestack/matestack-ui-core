@@ -1,4 +1,4 @@
-module Matestack::Ui::Core::Page
+module Matestack::Ui::Core::Page::Content
   class Content < Matestack::Ui::Core::Component::Dynamic
 
     def response
