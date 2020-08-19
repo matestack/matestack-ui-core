@@ -103,6 +103,7 @@ module Matestack::Ui::Core::Components
   require_core_component "optgroup"
   require_core_component "option"
   require_core_component "output"
+  require_core_component "page"
   require_core_component "page/content"
   require_core_component "paragraph"
   require_core_component "param"
