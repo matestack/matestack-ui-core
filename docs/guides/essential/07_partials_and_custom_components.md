@@ -223,38 +223,6 @@ Using ur custom component is as easy as calling the name we defined in our regis
 
 When you start your application locally now, the missing list bullet points should be the only visible change. We will take care of styling soon - but first, let's reuse our newly introduced component!
 
-----
-# Refactor from here
-----
-
-## Reusing the custom component
-How about displaying three random persons from the database on the person show page, each within a card? It's as simple as below:
-
-```ruby
-class Demo::Pages::Persons::Show < Matestack::Ui::Page
-
-  def prepare
-    @other_persons = Person.where.not(id: @person.id).order("RANDOM()").limit(3)
-  end
-
-  def response
-    # ...
-    other_persons
-  end
-
-  def other_persons
-    heading size: 3, text: 'Three other persons:'
-    @other_persons.each do |person|
-      person_teaser person: person
-    end
-  end
-
-  # ...
-end
-```
-
-We query the database for three random records in the `prepare` method, add a partial for better composability and then loop through the records, handing each record as input to our custom card component!
-
 ## Using HAML in custom components
 
 If you need more fine-grained control of your view layer or want to reuse some old HAML files, you can also create custom components like this:

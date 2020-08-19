@@ -23,6 +23,7 @@ Okay, let's create our custom vue.js component. First we create a component in `
 
 ```ruby
 class Components::Persons::Activity < Matestack::Ui::VueJsComponent
+  vue_js_component_name 'person-activity'
 
   def response
     div do
@@ -44,10 +45,12 @@ end
 
 Our vue.js component renders a div containing a paragraph and a list. The paragraph contains some text and a button. We set a `v-on:click` event handler like you would normally do in vue.js with its shorter version `@click`. This means the button will call the `addActivity` method from its corresponding vue.js component. In the list below we assume that our javascript vue.js component has an `activities` array. We loop over it, again using vue.js directives and display each activity with a button labelled 'Remove' which calls `deleteActivity(index)` if clicked.
 
-Like stated above, a `Matestack::Ui::VueJsComponent` requires a javascript counterpart. Let's create it aside our ruby component in `app/matestack/components/persons/activity.js`
+Like stated above, a `Matestack::Ui::VueJsComponent` requires a javascript counterpart. 
+Inside we define a vue.js component and give it a name. The name needs to equal the name we defined in our ruby component at the top with `vue_js_component_name`. This settings is necessary in order to connect the javascript component with our ruby component. 
+Let's create it aside our ruby component in `app/matestack/components/persons/activity.js`
 
 ```javascript
-MatestackUiCore.Vue.component('custom-person-activity', {
+MatestackUiCore.Vue.component('person-activity', {
   mixins: [MatestackUiCore.componentMixin],
   data() {
     return {
@@ -82,7 +85,7 @@ After creating the new component, we still need to register it, both in the `/ap
 module Components::Registry
 
   Matestack::Ui::Core::Component::Registry.register_components(
-    person_card: Components::Persons::Teaser,
+    person_teaser: Components::Persons::Teaser,
     person_disclaimer: Components::Persons::Disclaimer,
     person_activity: Components::Persons::Activity
   )
