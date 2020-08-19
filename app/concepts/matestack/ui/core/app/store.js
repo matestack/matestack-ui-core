@@ -27,6 +27,20 @@ const store = new Vuex.Store({
     },
     resetPageTemplate (state) {
       state.pageTemplate = null;
+    },
+    pageScrollTop (state) {
+      //https://stackoverflow.com/a/35940276/13886137
+      const getScrollParent = function(node) {
+        if (node == null) {
+          return null
+        }
+        if (node.scrollHeight > node.clientHeight) {
+          return node
+        } else {
+          return getScrollParent(node.parentNode)
+        }
+      }
+      getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
     }
   },
   actions: {
@@ -61,6 +75,7 @@ const store = new Vuex.Store({
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             commit('setPageLoading', false)
+            commit('pageScrollTop')
             matestackEventHub.$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
