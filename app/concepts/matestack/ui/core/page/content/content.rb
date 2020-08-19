@@ -1,6 +1,8 @@
 module Matestack::Ui::Core::Page::Content
   class Content < Matestack::Ui::Core::Component::Dynamic
 
+    vue_js_component_name "matestack-ui-core-page-content"
+
     def response
       div class: "matestack-page-container", attributes: loading_classes do
         if options[:slots] && options[:slots][:loading_state]
