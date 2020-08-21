@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   get '/example', to: 'example#page'
+  get '/base_example', to: 'example#base'
 
   scope :my_app do
     get 'my_first_page', to: 'my_app#my_first_page'
@@ -29,6 +30,8 @@ Rails.application.routes.draw do
     get 'collection', to: 'my_app#collection'
     get 'inline_edit', to: 'my_app#inline_edit'
 
+    get 'rails_view_and_partial', to: 'my_app#rails_view_and_partial'
+
     post 'some_action', to: 'my_app#some_action'
     post 'form_action', to: 'my_app#form_action'
     post 'inline_form_action/:id', to: 'my_app#inline_form_action', as: "inline_form_action"
@@ -39,6 +42,22 @@ Rails.application.routes.draw do
   scope :api do
     get 'data', to: 'api#data'
     get 'data/:number', to: 'api#single_endpoint', as: "single_endpoint"
+  end
+
+  namespace :legacy_views do
+    get 'action_inline', to: 'pages#action_inline'
+    get 'action_custom_component', to: 'pages#action_custom_component'
+    get 'async_inline', to: 'pages#async_inline'
+    get 'async_custom_component', to: 'pages#async_custom_component'
+    get 'collection_inline', to: 'pages#collection_inline'
+    get 'collection_custom_component', to: 'pages#collection_custom_component'
+    get 'form_inline', to: 'pages#form_inline'
+    get 'form_custom_component', to: 'pages#form_custom_component'
+    get 'onclick_custom_component', to: 'pages#onclick_custom_component'
+    get 'isolated_custom_component', to: 'pages#isolated_custom_component'
+    post 'success', to: 'pages#success'
+    post 'failure', to: 'pages#failure'
+    post 'create', to: 'pages#create'
   end
 
 end

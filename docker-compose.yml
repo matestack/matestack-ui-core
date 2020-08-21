@@ -9,12 +9,16 @@ services:
       - "3000:3000"
     environment:
       RAILS_ENV: development
+    links:
+      - postgres_dummy
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle
       - node-volume:/app/node_modules
     command: "bundle exec rails server -b 0.0.0.0"
     user: ${CURRENT_UID}
+    stdin_open: true
+    tty: true
 
   webpack-watcher:
     build:
@@ -35,16 +39,52 @@ services:
       dockerfile: ./Dockerfile.test
     environment:
       RAILS_ENV: test
+    links:
+      - postgres_test
     ports:
       - "33123:33123"
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle
       - node-volume:/app/node_modules
-    command: "bundle exec rspec spec/usage/components"
+    command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
+  postgres_dummy:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dummy
+    volumes:
+      - dummy-data-volume:/var/lib/postgresql/data
+
+  postgres_test:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    volumes:
+      - test-data-volume:/var/lib/postgresql/data
+
+  postgres_dummy:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dummy
+    volumes:
+      - test-data-volume:/var/lib/postgresql/data
+
 volumes:
-  data-volume:
+  test-data-volume:
+  dummy-data-volume:
   gem-volume:
   node-volume:

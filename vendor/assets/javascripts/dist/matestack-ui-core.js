@@ -270,6 +270,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "../node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _location__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./location */ "../app/concepts/matestack/ui/core/app/location.js");
+/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
+
 
 
 
@@ -294,7 +296,9 @@ const componentDef = {
           pathName: self.currentPathName,
           search: self.currentSearch
         }, document.location)){
-        self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
+          _js_event_hub__WEBPACK_IMPORTED_MODULE_4__["default"].$emit("page_loading_triggered", document.location.pathname + document.location.search);
+          this.$store.commit('setPageLoading', true);
+          self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
       }
     })
   },
@@ -358,6 +362,7 @@ vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPOR
 const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     pageTemplate: null,
+    pageLoading: false,
     currentPathName: document.location.pathname,
     currentSearch: document.location.search,
     currentOrigin: document.location.origin
@@ -366,6 +371,9 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     setPageTemplate (state, serverResponse){
       state.pageTemplate = serverResponse
     },
+    setPageLoading (state, boolean){
+      state.pageLoading = boolean
+    },
     setCurrentLocation (state, current){
       state.currentPathName = current.path
       state.currentSearch = current.search
@@ -373,10 +381,26 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     resetPageTemplate (state) {
       state.pageTemplate = null;
+    },
+    pageScrollTop (state) {
+      //https://stackoverflow.com/a/35940276/13886137
+      const getScrollParent = function(node) {
+        if (node == null) {
+          return null
+        }
+        if (node.scrollHeight > node.clientHeight) {
+          return node
+        } else {
+          return getScrollParent(node.parentNode)
+        }
+      }
+      getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
     }
   },
   actions: {
     navigateTo ({ commit, state }, { url, backwards }) {
+      const self = this
+      commit('setPageLoading', true)
       _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loading", url);
       if (typeof matestackUiCoreTransitionStart !== 'undefined') {
         matestackUiCoreTransitionStart(url);
@@ -401,9 +425,11 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
             window.history.pushState({matestackApp: true, url: url}, null, url);
           }
           setTimeout(function () {
-            resolve(response["data"])
+            resolve(response["data"]);
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
+            commit('setPageLoading', false)
+            commit('pageScrollTop')
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
@@ -439,18 +465,25 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
-/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
+/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
 
 
 
 
 const componentDef = {
-  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_4__["default"]],
   data: function(){
     return {
+      asyncTemplate: null,
       showing: true,
-      hide_after_timeout: null,
+      loading: false,
+      hideAfterTimeout: null,
       event: {
         data: {}
       }
@@ -470,7 +503,7 @@ const componentDef = {
         }
       }
       if(this.componentConfig["hide_after"] != undefined){
-        self.hide_after_timeout = setTimeout(function () {
+        self.hideAfterTimeout = setTimeout(function () {
           self.hide()
         }, parseInt(this.componentConfig["hide_after"]));
       }
@@ -481,9 +514,36 @@ const componentDef = {
     },
     startDefer: function(){
       const self = this
+      self.loading = true;
       setTimeout(function () {
         self.rerender()
       }, parseInt(this.componentConfig["defer"]));
+    },
+    rerender: function(){
+      var self = this;
+      self.loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "get",
+        url: location.pathname + location.search,
+        headers: {
+          'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
+        },
+        params: {
+          "component_key": self.componentConfig["component_key"],
+          "component_class": self.componentConfig["parent_class"]
+        }
+      })
+      .then(function(response){
+        var tmp_dom_element = document.createElement('div');
+        tmp_dom_element.innerHTML = response['data'];
+        var template = tmp_dom_element.querySelector('#' + self.componentConfig["component_key"]).outerHTML;
+        self.loading = false;
+        self.asyncTemplate = template;
+      })
+      .catch(function(error){
+        console.log(error)
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('async_rerender_error', { id: self.componentConfig["component_key"] })
+      })
     }
   },
   created: function () {
@@ -491,15 +551,15 @@ const componentDef = {
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
       var show_events = this.componentConfig["show_on"].split(",")
-      show_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(show_event.trim(), self.show));
+      show_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(show_event.trim(), self.show));
     }
     if(this.componentConfig["hide_on"] != undefined){
       var hide_events = this.componentConfig["hide_on"].split(",")
-      hide_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(hide_event.trim(), self.hide));
+      hide_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(hide_event.trim(), self.hide));
     }
     if(this.componentConfig["rerender_on"] != undefined){
       var rerender_events = this.componentConfig["rerender_on"].split(",")
-      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(rerender_event.trim(), self.rerender));
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(rerender_event.trim(), self.rerender));
     }
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
@@ -517,23 +577,26 @@ const componentDef = {
   },
   beforeDestroy: function() {
     const self = this
-    clearTimeout(self.hide_after_timeout)
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["rerender_on"], self.rerender);
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["show_on"], self.show);
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["hide_on"], self.hide);
+    clearTimeout(self.hideAfterTimeout)
+    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(this.componentConfig["rerender_on"], self.rerender);
+    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(this.componentConfig["show_on"], self.show);
+    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(this.componentConfig["hide_on"], self.hide);
     if(this.componentConfig["show_on"] != undefined){
       var shown_events = this.componentConfig["show_on"].split(",")
-      shown_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(show_event.trim(), self.show));
+      shown_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(show_event.trim(), self.show));
     }
     if(this.componentConfig["hide_on"] != undefined){
       var hiden_events = this.componentConfig["hide_on"].split(",")
-      hiden_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(hide_event.trim(), self.hide));
+      hiden_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(hide_event.trim(), self.hide));
     }
     if(this.componentConfig["rerender_on"] != undefined){
       var rerender_events = this.componentConfig["rerender_on"].split(",")
-      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(rerender_event.trim(), self.rerender));
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(rerender_event.trim(), self.rerender));
     }
   },
+  components: {
+    VRuntimeTemplate: v_runtime_template__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }
 }
 
 let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-async', componentDef)
@@ -755,7 +818,7 @@ const componentDef = {
         this.ordering[key] = "asc"
       } else if (this.ordering[key] == "asc") {
         this.ordering[key] = "desc"
-      } else if (this.ordering[key] = "desc") {
+      } else if (this.ordering[key] == "desc") {
         this.ordering[key] = undefined
       }
       var url;
@@ -831,67 +894,8 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
-/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
-
-
-
-
-
 const componentMixin = {
-  props: ['componentConfig', 'params'],
-  data: function(){
-    return {
-      asyncTemplate: null
-    }
-  },
-  methods: {
-    onRerender: function(event){
-      if (this.$el.id === event+"__wrapper"){
-        this.rerender()
-      }
-    },
-    onMatestackUiCoreChannel: function(event){
-      if (this.componentConfig["rerender_on"] == event.message){
-        this.rerender()
-      }
-    },
-    rerender: function(){
-      var self = this;
-      self.params["component_key"] = self.componentConfig["component_key"]
-      axios__WEBPACK_IMPORTED_MODULE_1___default()({
-        method: "get",
-        url: location.pathname + location.search,
-        headers: {
-          'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
-        },
-        params: {"component_key": self.componentConfig["component_key"]}
-      })
-      .then(function(response){
-        self.asyncTemplate = response["data"];
-      })
-    },
-    rerenderWith: function(newParams){
-      Object.assign(this.params, newParams);
-      this.rerender()
-    }
-  },
-  created: function () {
-    const self = this
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on('rerender', self.onRerender)
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
-  },
-  beforeDestroy: function() {
-    const self = this
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off('rerender', self.onRerender);
-    _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off('MatestackUiCoreChannel', self.onMatestackUiCoreChannel)
-  },
-  components: {
-    VRuntimeTemplate: v_runtime_template__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
+  props: ['componentConfig', 'params']
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (componentMixin);
@@ -926,8 +930,8 @@ const componentDef = {
   data: function () {
     return {
       data: {},
-      showInlineForm: false,
       errors: {},
+      loading: false
     };
   },
   methods: {
@@ -940,21 +944,19 @@ const componentDef = {
     updateFormValue: function (key, value) {
       this.data[key] = value;
     },
+    hasErrors: function(){
+      //https://stackoverflow.com/a/27709663/13886137
+      for (var key in this.errors) {
+        if (this.errors[key] !== null && this.errors[key] != ""){
+          return true;
+        }
+      }
+      return false;
+    },
     resetErrors: function (key) {
       if (this.errors[key]) {
         this.errors[key] = null;
       }
-    },
-    launchInlineForm: function (key, value) {
-      this.showInlineForm = true;
-      this.data[key] = value;
-      const self = this;
-      setTimeout(function () {
-        self.$refs.inlineinput.focus();
-      }, 300);
-    },
-    closeInlineForm: function () {
-      this.showInlineForm = false;
     },
     setProps: function (flat, newVal) {
       for (var i in flat) {
@@ -1042,15 +1044,21 @@ const componentDef = {
     },
     perform: function(){
       const self = this
-      if (self.componentConfig["emit"] != undefined) {
-        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
-      }
-      if (self.componentConfig["delay"] != undefined) {
-        setTimeout(function () {
+      var form = self.$el.tagName == 'FORM' ? self.$el : self.$el.querySelector('form');
+      if(form.checkValidity()){
+        self.loading = true;
+        if (self.componentConfig["emit"] != undefined) {
+          _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
+        }
+        if (self.componentConfig["delay"] != undefined) {
+          setTimeout(function () {
+            self.sendRequest()
+          }, parseInt(self.componentConfig["delay"]));
+        } else {
           self.sendRequest()
-        }, parseInt(self.componentConfig["delay"]));
+        }
       } else {
-        this.sendRequest()
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('static_form_errors');
       }
     },
     sendRequest: function(){
@@ -1094,6 +1102,7 @@ const componentDef = {
       }
       axios__WEBPACK_IMPORTED_MODULE_2___default()(axios_config)
         .then(function (response) {
+          self.loading = false;
           if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["success"]["emit"], response.data);
           }
@@ -1149,9 +1158,9 @@ const componentDef = {
             self.setProps(self.data, null);
             self.initValues();
           }
-          self.showInlineForm = false;
         })
         .catch(function (error) {
+          self.loading = false;
           if (error.response && error.response.data && error.response.data.errors) {
             self.errors = error.response.data.errors;
           }
@@ -1219,27 +1228,128 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 /***/ }),
 
-/***/ "../app/concepts/matestack/ui/core/html/html.js":
-/*!******************************************************!*\
-  !*** ../app/concepts/matestack/ui/core/html/html.js ***!
-  \******************************************************/
+/***/ "../app/concepts/matestack/ui/core/isolated/isolated.js":
+/*!**************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/isolated/isolated.js ***!
+  \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
+/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
+
+
 
 
 
 const componentDef = {
-  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_1__["default"]]
+  props: ['componentConfig', 'params'],
+  data: function(){
+    return {
+      isolatedTemplate: null,
+      loading: false,
+      loadingError: false
+    }
+  },
+  methods: {
+    rerender: function(){
+      var self = this;
+      self.loading = true;
+      self.loadingError = false;
+      if(self.componentConfig["rerender_delay"] != undefined){
+        setTimeout(function () {
+          self.renderIsolatedContent();
+        }, parseInt(this.componentConfig["rerender_delay"]));
+      } else {
+        self.renderIsolatedContent();
+      }
+    },
+    renderIsolatedContent: function(){
+      var self = this;
+      self.loading = true;
+      self.loadingError = false;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "get",
+        url: location.pathname + location.search,
+        headers: {
+          'X-CSRF-Token': document.getElementsByName("csrf-token")[0].getAttribute('content')
+        },
+        params: {
+          "component_class": self.componentConfig["component_class"],
+          "public_options": self.componentConfig["public_options"]
+        }
+      })
+      .then(function(response){
+        self.loading = false;
+        self.loadingStart = false;
+        self.loadingEnd = true;
+        self.isolatedTemplate = response['data'];
+      })
+      .catch(function(error){
+        self.loadingError = true;
+        _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('isolate_rerender_error', { class: self.componentConfig["component_class"] })
+      })
+    },
+    startDefer: function(){
+      const self = this
+      self.loading = true;
+      setTimeout(function () {
+        self.renderIsolatedContent()
+      }, parseInt(this.componentConfig["defer"]));
+    }
+  },
+  created: function () {
+    const self = this
+  },
+  beforeDestroy: function() {
+    const self = this
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$off(rerender_event.trim(), self.renderIsolatedContent));
+    }
+  },
+  mounted: function (){
+    const self = this
+    if(this.componentConfig["init_on"] === undefined || this.componentConfig["init_on"] === null){
+      if(self.componentConfig["defer"] == true || Number.isInteger(self.componentConfig["defer"])){
+        if(!isNaN(self.componentConfig["defer"])){
+          self.startDefer()
+        }
+        else{
+          self.renderIsolatedContent();
+        }
+      }
+    }else{
+      if(self.componentConfig["defer"] != undefined){
+        if(!isNaN(self.componentConfig["defer"])){
+          var init_on_events = this.componentConfig["init_on"].split(",")
+          init_on_events.forEach(init_on_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(init_on_event.trim(), self.startDefer));
+        }
+      }else{
+        var init_on_events = this.componentConfig["init_on"].split(",")
+        init_on_events.forEach(init_on_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(init_on_event.trim(), self.renderIsolatedContent));
+      }
+    }
+
+    if(this.componentConfig["rerender_on"] != undefined){
+      var rerender_events = this.componentConfig["rerender_on"].split(",")
+      rerender_events.forEach(rerender_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$on(rerender_event.trim(), self.rerender));
+    }
+
+  },
+  components: {
+    VRuntimeTemplate: v_runtime_template__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }
 }
 
-let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-html', componentDef)
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-isolate', componentDef)
 
-/* harmony default export */ __webpack_exports__["default"] = (component);
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
 
 
 /***/ }),
@@ -1257,11 +1367,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_turbolinks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-turbolinks */ "../node_modules/vue-turbolinks/index.js");
 /* harmony import */ var _app_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app/app */ "../app/concepts/matestack/ui/core/app/app.js");
 /* harmony import */ var _async_async__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../async/async */ "../app/concepts/matestack/ui/core/async/async.js");
-/* harmony import */ var _page_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../page/content */ "../app/concepts/matestack/ui/core/page/content.js");
-/* harmony import */ var _app_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app/store */ "../app/concepts/matestack/ui/core/app/store.js");
-/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
-/* harmony import */ var _component_anonym_dynamic_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../component/anonym-dynamic-component */ "../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js");
-/* harmony import */ var _html_html__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../html/html */ "../app/concepts/matestack/ui/core/html/html.js");
+/* harmony import */ var _page_content_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../page/content/content */ "../app/concepts/matestack/ui/core/page/content/content.js");
+/* harmony import */ var _toggle_toggle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../toggle/toggle */ "../app/concepts/matestack/ui/core/toggle/toggle.js");
+/* harmony import */ var _app_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../app/store */ "../app/concepts/matestack/ui/core/app/store.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var _component_anonym_dynamic_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../component/anonym-dynamic-component */ "../app/concepts/matestack/ui/core/component/anonym-dynamic-component.js");
 /* harmony import */ var _transition_transition__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../transition/transition */ "../app/concepts/matestack/ui/core/transition/transition.js");
 /* harmony import */ var _action_action__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../action/action */ "../app/concepts/matestack/ui/core/action/action.js");
 /* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../form/form */ "../app/concepts/matestack/ui/core/form/form.js");
@@ -1269,10 +1379,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
 /* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
 /* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
+/* harmony import */ var _isolated_isolated__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../isolated/isolated */ "../app/concepts/matestack/ui/core/isolated/isolated.js");
 
 
 
 // Import from app/concepts/matestack/ui/core:
+
 
 
 
@@ -1298,9 +1410,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // if they were present on the first page, which was loaded and activated turbolinks
   // the mixin does not impact the app when turbolinks is disabled
   matestackUiApp = new vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]({
-      el: "#matestack_ui",
+      el: "#matestack-ui",
       mixins: [vue_turbolinks__WEBPACK_IMPORTED_MODULE_1__["turbolinksAdapterMixin"]],
-      store: _app_store__WEBPACK_IMPORTED_MODULE_5__["default"]
+      store: _app_store__WEBPACK_IMPORTED_MODULE_6__["default"]
   })
 })
 
@@ -1310,14 +1422,14 @@ document.addEventListener('turbolinks:load', () => {
   // otherwise the matestack page will jump back to the latest pageTemplate
   // fetched during the last matestack transition as the turbolinks powered
   // page transition does not write the matestack store pageTemplate state variable
-  _app_store__WEBPACK_IMPORTED_MODULE_5__["default"].commit('resetPageTemplate')
+  _app_store__WEBPACK_IMPORTED_MODULE_6__["default"].commit('resetPageTemplate')
   // we need to destroy the vue app instance
   matestackUiApp.$destroy();
   // and recreate it right afterwards in order to work when used with turbolinks
   matestackUiApp = new vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"]({
-      el: "#matestack_ui",
+      el: "#matestack-ui",
       mixins: [vue_turbolinks__WEBPACK_IMPORTED_MODULE_1__["turbolinksAdapterMixin"]],
-      store: _app_store__WEBPACK_IMPORTED_MODULE_5__["default"]
+      store: _app_store__WEBPACK_IMPORTED_MODULE_6__["default"]
   })
 })
 
@@ -1450,10 +1562,10 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 /***/ }),
 
-/***/ "../app/concepts/matestack/ui/core/page/content.js":
-/*!*********************************************************!*\
-  !*** ../app/concepts/matestack/ui/core/page/content.js ***!
-  \*********************************************************/
+/***/ "../app/concepts/matestack/ui/core/page/content/content.js":
+/*!*****************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/page/content/content.js ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1461,7 +1573,10 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "../node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+/* harmony import */ var v_runtime_template__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! v-runtime-template */ "../node_modules/v-runtime-template/dist/v-runtime-template.es.js");
+
+
 
 
 
@@ -1473,10 +1588,101 @@ const componentDef = {
   },
   computed: vuex__WEBPACK_IMPORTED_MODULE_1__["default"].mapState({
     asyncPageTemplate: state => state.pageTemplate,
-  })
+    loading: state => state.pageLoading
+  }),
+  components: {
+    VRuntimeTemplate: v_runtime_template__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }
 }
 
 let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-page-content', componentDef)
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/toggle/toggle.js":
+/*!**********************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/toggle/toggle.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  data: function(){
+    return {
+      showing: true,
+      hide_after_timeout: null,
+      event: {
+        data: {}
+      }
+    }
+  },
+  methods: {
+    show: function(event_data){
+      const self = this
+      if (this.showing === true){
+        return
+      }
+      this.showing = true
+      this.event.data = event_data
+      if(this.componentConfig["hide_after"] != undefined){
+        self.hide_after_timeout = setTimeout(function () {
+          self.hide()
+        }, parseInt(this.componentConfig["hide_after"]));
+      }
+    },
+    hide: function(){
+      this.showing = false
+      this.event.data = {}
+    }
+  },
+  created: function () {
+    const self = this
+    if(this.componentConfig["show_on"] != undefined){
+      this.showing = false
+      var show_events = this.componentConfig["show_on"].split(",")
+      show_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(show_event.trim(), self.show));
+    }
+    if(this.componentConfig["hide_on"] != undefined){
+      var hide_events = this.componentConfig["hide_on"].split(",")
+      hide_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$on(hide_event.trim(), self.hide));
+    }
+    if(this.componentConfig["show_on"] != undefined){
+      this.showing = false
+    }
+    if(this.componentConfig["init_show"] == true){
+      this.showing = true
+    }
+  },
+  beforeDestroy: function() {
+    const self = this
+    clearTimeout(self.hide_after_timeout)
+    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["show_on"], self.show);
+    _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(this.componentConfig["hide_on"], self.hide);
+    if(this.componentConfig["show_on"] != undefined){
+      var shown_events = this.componentConfig["show_on"].split(",")
+      shown_events.forEach(show_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(show_event.trim(), self.show));
+    }
+    if(this.componentConfig["hide_on"] != undefined){
+      var hiden_events = this.componentConfig["hide_on"].split(",")
+      hiden_events.forEach(hide_event => _js_event_hub__WEBPACK_IMPORTED_MODULE_1__["default"].$off(hide_event.trim(), self.hide));
+    }
+  },
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component('matestack-ui-core-toggle', componentDef)
 
 /* harmony default export */ __webpack_exports__["default"] = (componentDef);
 
@@ -1518,6 +1724,7 @@ const componentDef = {
     navigateTo: function(url){
       const self = this
       _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loading_triggered", url);
+      this.$store.commit('setPageLoading', true);
       if (self.componentConfig["delay"] != undefined) {
         setTimeout(function () {
           self.performNavigation(url)

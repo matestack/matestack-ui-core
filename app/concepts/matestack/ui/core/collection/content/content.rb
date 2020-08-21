@@ -1,8 +1,8 @@
 module Matestack::Ui::Core::Collection::Content
-  class Content < Matestack::Ui::Core::Component::Dynamic
+  class Content < Matestack::Ui::Core::Component::Rerender
+    vue_js_component_name 'matestack-ui-core-collection-content'
 
     def setup
-      @rerender = true
       @component_config = @component_config.except(:data, :paginated_data)
     end
 

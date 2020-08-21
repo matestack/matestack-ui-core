@@ -1,7 +1,0 @@
-%component{dynamic_tag_attributes}
-  %div{"id": component_id, "class": @component_class}
-    %div{"v-if": "asyncTemplate == null"}
-      - @cells.each do |key, cell|
-        = cell.call(:show)
-    %div{"v-if": "asyncTemplate != null"}
-      %v-runtime-template{":template":"asyncTemplate"}

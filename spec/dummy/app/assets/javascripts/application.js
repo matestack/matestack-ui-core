@@ -16,6 +16,7 @@
 //= require cable
 
 //= require demo/component
+//= require ./test/components
 
 App.cable.subscriptions.create("MatestackUiCoreChannel", {
   received(data) {

@@ -1,5 +1,6 @@
 module Matestack::Ui::Core::Transition
   class Transition < Matestack::Ui::Core::Component::Dynamic
+    vue_js_component_name "matestack-ui-core-transition"
 
     def setup
       @component_config[:link_path] = link_path

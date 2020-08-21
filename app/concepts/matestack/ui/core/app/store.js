@@ -8,6 +8,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     pageTemplate: null,
+    pageLoading: false,
     currentPathName: document.location.pathname,
     currentSearch: document.location.search,
     currentOrigin: document.location.origin
@@ -16,6 +17,9 @@ const store = new Vuex.Store({
     setPageTemplate (state, serverResponse){
       state.pageTemplate = serverResponse
     },
+    setPageLoading (state, boolean){
+      state.pageLoading = boolean
+    },
     setCurrentLocation (state, current){
       state.currentPathName = current.path
       state.currentSearch = current.search
@@ -23,10 +27,26 @@ const store = new Vuex.Store({
     },
     resetPageTemplate (state) {
       state.pageTemplate = null;
+    },
+    pageScrollTop (state) {
+      //https://stackoverflow.com/a/35940276/13886137
+      const getScrollParent = function(node) {
+        if (node == null) {
+          return null
+        }
+        if (node.scrollHeight > node.clientHeight) {
+          return node
+        } else {
+          return getScrollParent(node.parentNode)
+        }
+      }
+      getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
     }
   },
   actions: {
     navigateTo ({ commit, state }, { url, backwards }) {
+      const self = this
+      commit('setPageLoading', true)
       matestackEventHub.$emit("page_loading", url);
       if (typeof matestackUiCoreTransitionStart !== 'undefined') {
         matestackUiCoreTransitionStart(url);
@@ -51,9 +71,11 @@ const store = new Vuex.Store({
             window.history.pushState({matestackApp: true, url: url}, null, url);
           }
           setTimeout(function () {
-            resolve(response["data"])
+            resolve(response["data"]);
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
+            commit('setPageLoading', false)
+            commit('pageScrollTop')
             matestackEventHub.$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);

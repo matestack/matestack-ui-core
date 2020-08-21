@@ -29,5 +29,3 @@ module Matestack
     end
   end
 end
-
-# Matestack::Ui::Core::Cell = ::Cell::Haml

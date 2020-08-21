@@ -1,6 +1,6 @@
 module Matestack::Ui::Core::Map
   class Map < Matestack::Ui::Core::Component::Static
-    REQUIRED_KEYS = [:name]
+    requires :name
 
     def setup
       @tag_attributes.merge!({

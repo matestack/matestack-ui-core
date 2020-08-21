@@ -7,20 +7,18 @@ require "matestack/ui/core/version"
 Gem::Specification.new do |s|
   s.name        = "matestack-ui-core"
   s.version     = Matestack::Ui::Core::VERSION
-  s.authors     = ["Jonas Jabari", "Pascal Wengerter"]
-  s.email       = ["jonas@matestack.io", "pascal@matestack.io"]
+  s.authors     = ["Jonas Jabari", "Nils Henning", "Pascal Wengerter"]
+  s.email       = ["jonas@matestack.io", "nils@matestack.io", "pascal@matestack.io"]
   s.homepage    = "https://matestack.io"
-  s.summary     = "Escape the frontend hustle. Create beautiful software easily. Use matestack."
-  s.description = "We're replacing the original view-layer of Ruby on Rails, the most productive MVC framework we know, with our technology. By introducing matestack we get dynamic, fast and simple user interfaces without the need to touch HTML/HAML/ERB/JS/CSS. Plus, it feels like a single page application, but there's no need for all the API hustle SPAs usually bring with them."
-  s.license     = "MIT"
+  s.summary     = "Escape the frontend hustle & easily create interactive web apps in pure Ruby."
+  s.description = "Matestack provides a collection of open source gems made for Ruby on Rails developers. Matestack enables you to craft interactive web UIs without JavaScript in pure Ruby with minimum effort. UI code becomes a native and fun part of your Rails app."
+  s.license     = "LGPLv3"
   s.metadata    = { "source_code_uri" => "https://github.com/matestack/matestack-ui-core" }
 
-  s.files = Dir["{app,config,db,lib,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,vendor}/**/*", "LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", '>= 5.0'
   s.add_dependency "haml"
-  s.add_dependency "trailblazer"
-  s.add_dependency "trailblazer-rails", "1.0.9"
   s.add_dependency "trailblazer-cells"
   s.add_dependency "cells-rails"
   s.add_dependency "cells-haml"

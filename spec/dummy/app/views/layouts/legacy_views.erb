@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dummy</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <div id='matestack-ui'>
+      <nav>
+        <ul>Page 1</ul>
+        <ul>Page 2</ul>
+      </nav>
+      <div>
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

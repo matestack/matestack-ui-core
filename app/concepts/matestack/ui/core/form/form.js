@@ -10,8 +10,8 @@ const componentDef = {
   data: function () {
     return {
       data: {},
-      showInlineForm: false,
       errors: {},
+      loading: false
     };
   },
   methods: {
@@ -24,21 +24,19 @@ const componentDef = {
     updateFormValue: function (key, value) {
       this.data[key] = value;
     },
+    hasErrors: function(){
+      //https://stackoverflow.com/a/27709663/13886137
+      for (var key in this.errors) {
+        if (this.errors[key] !== null && this.errors[key] != ""){
+          return true;
+        }
+      }
+      return false;
+    },
     resetErrors: function (key) {
       if (this.errors[key]) {
         this.errors[key] = null;
       }
-    },
-    launchInlineForm: function (key, value) {
-      this.showInlineForm = true;
-      this.data[key] = value;
-      const self = this;
-      setTimeout(function () {
-        self.$refs.inlineinput.focus();
-      }, 300);
-    },
-    closeInlineForm: function () {
-      this.showInlineForm = false;
     },
     setProps: function (flat, newVal) {
       for (var i in flat) {
@@ -126,15 +124,21 @@ const componentDef = {
     },
     perform: function(){
       const self = this
-      if (self.componentConfig["emit"] != undefined) {
-        matestackEventHub.$emit(self.componentConfig["emit"]);
-      }
-      if (self.componentConfig["delay"] != undefined) {
-        setTimeout(function () {
+      var form = self.$el.tagName == 'FORM' ? self.$el : self.$el.querySelector('form');
+      if(form.checkValidity()){
+        self.loading = true;
+        if (self.componentConfig["emit"] != undefined) {
+          matestackEventHub.$emit(self.componentConfig["emit"]);
+        }
+        if (self.componentConfig["delay"] != undefined) {
+          setTimeout(function () {
+            self.sendRequest()
+          }, parseInt(self.componentConfig["delay"]));
+        } else {
           self.sendRequest()
-        }, parseInt(self.componentConfig["delay"]));
+        }
       } else {
-        this.sendRequest()
+        matestackEventHub.$emit('static_form_errors');
       }
     },
     sendRequest: function(){
@@ -178,6 +182,7 @@ const componentDef = {
       }
       axios(axios_config)
         .then(function (response) {
+          self.loading = false;
           if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
             matestackEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
           }
@@ -233,9 +238,9 @@ const componentDef = {
             self.setProps(self.data, null);
             self.initValues();
           }
-          self.showInlineForm = false;
         })
         .catch(function (error) {
+          self.loading = false;
           if (error.response && error.response.data && error.response.data.errors) {
             self.errors = error.response.data.errors;
           }

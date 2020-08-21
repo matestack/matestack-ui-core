@@ -1,10 +1,10 @@
-**Please make sure to target feature and bugfix requests to develop branch**
+**Note:** If you submit a feature or bugfix PR, pick **develop** as target branch (and delete this line afterwards).
 
-## Issue https://github.com/basemate/matestack-ui-core/issues/XXX: Short description here
+## Issue https://github.com/matestack/matestack-ui-core/issues/XXX: Short description here
 
 ### Changes
 
-- [x] Describe the changes in one or more bulletpoints
+- [ ] Describe the changes in one or more bulletpoints
 
 ### Notes
 

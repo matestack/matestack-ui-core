@@ -1,7 +1,0 @@
-%div{"class": "matestack_page"}
-  %div{"v-if": "asyncPageTemplate == null"}
-    %div{"class": "matestack_page_content"}
-      - @children_cells.each do |key, cell|
-        = cell.call(:show)
-  %div{"v-if": "asyncPageTemplate != null"}
-    %v-runtime-template{":template":"asyncPageTemplate"}

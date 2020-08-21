@@ -1,7 +1,8 @@
 module Matestack::Ui::Core::Form
   class Form < Matestack::Ui::Core::Component::Dynamic
+    vue_js_component_name "matestack-ui-core-form"
 
-    REQUIRED_KEYS = [:for, :path, :method]
+    requires :for, :path, method: { as: :form_method }
 
     def setup
       begin
@@ -27,7 +28,11 @@ module Matestack::Ui::Core::Form
             @component_config[:failure][:redirect][:path] = redirect_path options[:failure]
           end
         end
-        @tag_attributes.merge!({"@submit.prevent": true})
+        @tag_attributes.merge!({
+          "@submit.prevent": true,
+          "class": "matestack-form #{options[:class]}",
+          "v-bind:class": "{ 'has-errors': hasErrors(), 'loading': loading }"
+        })
       rescue => e
         raise "Form component could not be setted up. Reason: #{e}"
       end
