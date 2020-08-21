@@ -1,8 +1,6 @@
 # Guides overview
 Welcome to the `matestack-ui-core` guides! In here, we cover various use cases of this library, along with examples and explanations.
 
-If you need in-depth explanations of how things work, head to the [docs](/docs/README.md)
-
 ## Installation
 Learn how to properly set up `matestack-ui-core` with your existing Rails application - we cover both the AssetPipeline and Webpacker [in this guide](/docs/guides/1-installation/README.md).
 
