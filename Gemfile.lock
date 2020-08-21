@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (0.7.6)
+    matestack-ui-core (1.0.0.rc.1)
       cells-haml
       cells-rails
       haml
