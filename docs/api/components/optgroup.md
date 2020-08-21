@@ -2,8 +2,6 @@
 
 The HTML `<optgroup>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/optgroup_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component can take various optional configuration params and yields a block.
 
