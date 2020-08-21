@@ -1,4 +1,4 @@
-# Matestack Core Component: Rawhtml
+# Matestack Core Component: Unescaped
 
 This element simply renders the value of a variable (or simple a string) wherever you want it **without escaping HTML**.
 
@@ -15,7 +15,7 @@ Rendering some HTML.
 ```ruby
 
 def response
-  rawhtml <<~HTML
+  unescaped <<~HTML
   <h1>Hello World</h1>
   <script>alert('Really Hello!')</script>
   HTML
