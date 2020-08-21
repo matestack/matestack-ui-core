@@ -21,7 +21,7 @@ Since you are now familiar with the basics behind the `matestack-ui-core` librar
 
 - a collection of [best practices](guides/best_practices/README.md)
 - going crazy with [custom dynamic components and Vue.js](README.md)
-- migrate [legacy Rails applications](/guides/migrate/README.md) to use `matestack-ui-core`
+- migrate [legacy Rails applications](/docs/guides/migrate/README.md) to use `matestack-ui-core`
 - [extend core functionality](README.md) of `matestack-ui-core`
 - using `matestack` to create [Progressive Web Applications](guides/pwa/README.md)
 

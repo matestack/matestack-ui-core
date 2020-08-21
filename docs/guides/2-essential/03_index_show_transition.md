@@ -143,4 +143,4 @@ git add . && git commit -m "Add index/show matestack pages for person model (inc
 
 Our **person** model now has a dedicated index and show page. The pages within our `matestack` app are properly linked to each other. We learned how we can access data and use rails helpers inside of pages, apps and components and how transitions in more detail work.
 
-Let's continue and add the necessary functionality for adding new persons and editing existing ones in the [next part of the series](/guides/essential/04_form_create_update_delete.md).
+Let's continue and add the necessary functionality for adding new persons and editing existing ones in the [next part of the series](/docs/guides/essential/04_form_create_update_delete.md).

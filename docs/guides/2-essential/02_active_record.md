@@ -135,4 +135,4 @@ git add . && git commit -m "Introduce person model including seeds, add it to ma
 
 We have updated the app to use a working database model, added some records and displayed them on an index page.
 
-Let's continue and build even cooler stuff by heading directly to the [next part of the series](/guides/essential/03_index_show.md).
+Let's continue and build even cooler stuff by heading directly to the [next part of the series](/docs/guides/essential/03_index_show.md).

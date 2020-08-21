@@ -1040,4 +1040,4 @@ to check out the latest additions to the application!
 ## Recap & outlook
 By adding a working authentication functionality and an admin behind a login, our project now resembles a real-world software applications! On the way there, we covered some advanced topics like authentication via the `Devise` gem, serving different JavaScript packs using `Webpacker` and Rails `layouts` as well as adding text via `locales`.
 
-While the application is good as it is right now, go ahead and check out the [final part of this guide](/guides/essential/10_wrap_up.md).
+While the application is good as it is right now, go ahead and check out the [final part of this guide](/docs/guides/essential/10_wrap_up.md).

@@ -247,4 +247,4 @@ We learned how to use matestacks `collection` component to generate a filterable
 
 So what's left? In the upcoming guides, you will create your own Vue.js components and learn about other topics like styling, notifications and authorization that are part of modern web applications
 
-So stay tuned and, once ready, head over to the next part, covering [vue.js components](/guides/essential/09_dynamic_components.md) for powerful custom components.
+So stay tuned and, once ready, head over to the next part, covering [vue.js components](/docs/guides/essential/09_dynamic_components.md) for powerful custom components.

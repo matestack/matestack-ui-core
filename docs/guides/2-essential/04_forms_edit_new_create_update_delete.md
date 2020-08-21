@@ -312,4 +312,4 @@ We got a brief introduction of the `form` and `action` components and know how t
 
 But there's still more guides coming - so what's left? In the upcoming chapters, we will dive deeper into some `matestack` concepts to further enhance both user experience and developer happiness!
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`toggle component`](/guides/essential/05_toggle_component.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`toggle component`](/docs/guides/essential/05_toggle_component.md).
