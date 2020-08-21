@@ -34,7 +34,7 @@ class SomeController < ApplicationController
 end
 ```
 
-Please note that while the `responder_for` method is still being supported, it will be removed in a `1.0` release.
+Please note that while the `responder_for` method is still being supported, it will be removed in a future release.
 
 **Migration TODOs:**
 
