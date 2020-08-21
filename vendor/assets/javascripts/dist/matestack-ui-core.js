@@ -298,8 +298,6 @@ const componentDef = {
         }, document.location)){
           _js_event_hub__WEBPACK_IMPORTED_MODULE_4__["default"].$emit("page_loading_triggered", document.location.pathname + document.location.search);
           this.$store.commit('setPageLoading', true);
-          this.$store.commit('setPageLoadingStart', true);
-          this.$store.commit('setPageLoadingEnd', false)
           self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
       }
     })
@@ -383,6 +381,20 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     resetPageTemplate (state) {
       state.pageTemplate = null;
+    },
+    pageScrollTop (state) {
+      //https://stackoverflow.com/a/35940276/13886137
+      const getScrollParent = function(node) {
+        if (node == null) {
+          return null
+        }
+        if (node.scrollHeight > node.clientHeight) {
+          return node
+        } else {
+          return getScrollParent(node.parentNode)
+        }
+      }
+      getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
     }
   },
   actions: {
@@ -417,6 +429,7 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
             commit('setPageTemplate', response["data"])
             commit('setCurrentLocation', { path: url.split("?")[0], search: document.location.search, origin: document.location.origin })
             commit('setPageLoading', false)
+            commit('pageScrollTop')
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit("page_loaded", url);
             if (typeof matestackUiCoreTransitionSuccess !== 'undefined') {
               matestackUiCoreTransitionSuccess(url);
@@ -918,6 +931,7 @@ const componentDef = {
     return {
       data: {},
       errors: {},
+      loading: false
     };
   },
   methods: {
@@ -929,6 +943,15 @@ const componentDef = {
     },
     updateFormValue: function (key, value) {
       this.data[key] = value;
+    },
+    hasErrors: function(){
+      //https://stackoverflow.com/a/27709663/13886137
+      for (var key in this.errors) {
+        if (this.errors[key] !== null && this.errors[key] != ""){
+          return true;
+        }
+      }
+      return false;
     },
     resetErrors: function (key) {
       if (this.errors[key]) {
@@ -1023,6 +1046,7 @@ const componentDef = {
       const self = this
       var form = self.$el.tagName == 'FORM' ? self.$el : self.$el.querySelector('form');
       if(form.checkValidity()){
+        self.loading = true;
         if (self.componentConfig["emit"] != undefined) {
           _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["emit"]);
         }
@@ -1078,6 +1102,7 @@ const componentDef = {
       }
       axios__WEBPACK_IMPORTED_MODULE_2___default()(axios_config)
         .then(function (response) {
+          self.loading = false;
           if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
             _js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"].$emit(self.componentConfig["success"]["emit"], response.data);
           }
@@ -1135,6 +1160,7 @@ const componentDef = {
           }
         })
         .catch(function (error) {
+          self.loading = false;
           if (error.response && error.response.data && error.response.data.errors) {
             self.errors = error.response.data.errors;
           }
