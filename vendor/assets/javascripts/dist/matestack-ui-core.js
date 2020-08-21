@@ -1228,10 +1228,10 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 /***/ }),
 
-/***/ "../app/concepts/matestack/ui/core/isolate/isolate.js":
-/*!************************************************************!*\
-  !*** ../app/concepts/matestack/ui/core/isolate/isolate.js ***!
-  \************************************************************/
+/***/ "../app/concepts/matestack/ui/core/isolated/isolated.js":
+/*!**************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/isolated/isolated.js ***!
+  \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1315,20 +1315,14 @@ const componentDef = {
   },
   mounted: function (){
     const self = this
-    console.log('mounted isolated component')
     if(this.componentConfig["init_on"] === undefined || this.componentConfig["init_on"] === null){
-      console.log('Its me')
       if(self.componentConfig["defer"] == true || Number.isInteger(self.componentConfig["defer"])){
-        console.log('I should render deferred')
         if(!isNaN(self.componentConfig["defer"])){
           self.startDefer()
         }
         else{
           self.renderIsolatedContent();
         }
-      }
-      else {
-        console.log('I should NOT render deferred')
       }
     }else{
       if(self.componentConfig["defer"] != undefined){
@@ -1385,7 +1379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
 /* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
 /* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
-/* harmony import */ var _isolate_isolate__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../isolate/isolate */ "../app/concepts/matestack/ui/core/isolate/isolate.js");
+/* harmony import */ var _isolated_isolated__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../isolated/isolated */ "../app/concepts/matestack/ui/core/isolated/isolated.js");
 
 
 

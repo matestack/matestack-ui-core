@@ -44,13 +44,11 @@ module Matestack
                   (matestack_arg < Matestack::Ui::Page)
             Rendering::MainRenderer.render(self, matestack_arg, options)
           else
-            # if called from a controller and params contains a component key render without layout
-            # else it was called from within an app/page and should render normally
-            # if self.is_a?(ActionController::Base) && params&.dig(:component_key)
-            #   super layout: false
-            # else
+            if params[:component_class].present? && !((options = args.first).is_a?(Hash) && options[:html].present?)
+              Rendering::MainRenderer.render(self, Matestack::Ui::Page, {})
+            else
               super
-            # end
+            end
           end
         end
 

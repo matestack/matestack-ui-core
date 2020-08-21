@@ -256,12 +256,10 @@ describe "Async Component", type: :feature, js: true do
         expect(page).to have_content("#{item} -", count: 1)
       end
       initial_content = (0..5).map { |item| page.find("#my-div-#{item}").text }
-      save_screenshot
   
       # rerender first list element asynchronously, others should not change
       page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event_0")')
       expect(page).not_to have_content(initial_content[0])
-      save_screenshot
       initial_content[0] = page.find("#my-div-0").text
       (0..5).each do |item| 
         expect(page).to have_content("#{item} -", count: 1)

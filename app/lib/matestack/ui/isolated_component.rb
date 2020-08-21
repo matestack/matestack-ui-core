@@ -1,1 +1,1 @@
-Matestack::Ui::IsolatedComponent = Matestack::Ui::Core::Isolate::Isolate
+Matestack::Ui::IsolatedComponent = Matestack::Ui::Core::Isolated::Isolated

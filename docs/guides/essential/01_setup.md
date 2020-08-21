@@ -4,15 +4,13 @@ Welcome to the first part of the 10-step-guide of setting up a working Rails CRU
 ## Introduction
 In this guide, we will
 - create a new Rails application
-- change it to use `postgresql` and `matestack-ui-core`
+- install `matestack-ui-core`
 - add a simple matestack app and two pages
-- deploy the application to Heroku
 
 ## Prerequisites
 To follow along, make sure you have successfully installed
 - Ruby (Version > 2.6, [view installation details](https://www.ruby-lang.org))
 - RubyOnRails (Version >6.0, [view installation details](https://rubyonrails.org/))
-- Heroku CLI ([view installation details](https://devcenter.heroku.com/articles/getting-started-with-ruby#set-up))
 - Postgresql ([view installation details](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup))
 
 <details>
@@ -30,7 +28,7 @@ The contents of this article are heavily inspired by [Getting Started on Heroku 
 In the terminal, create a new Rails app by running
 
 ```sh
-rails new matestack-demo-application --database=postgresql
+rails new matestack-demo-application
 ```
 
 and switch into the newly created project via
@@ -51,48 +49,13 @@ To make sure things work as expected, you can run
 rails s
 ```
 
-to start the application - visiting [localhost:3000](http://localhost:3000/) now should reveal the canonical **Yay! You're on Rails!** screen!
+to start the application. Now visit [localhost:3000](http://localhost:3000/) and you should see the canonical **Yay! You're on Rails!** screen!
 
-## Adding Postgres and MatestackUiCore
-In the Gemfile, replace the line starting with `gem 'sqlite3'` with `gem 'pg'`.
-Make sure to run `bundle install` afterwards and replace the contents of `config/database.yml` with
+## Install Matestack
 
-```yaml
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+To install matestack, run `gem install matestack-ui-core` or add `gem 'matestack-ui-core'` to your Gemfile and run `bundle install`.
 
-development:
-  <<: *default
-  database: myapp_development
-
-test:
-  <<: *default
-  database: myapp_test
-
-production:
-  <<: *default
-  database: myapp_production
-  username: myapp
-  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
-```
-
-To install `matestack-ui-core`, add 
-
-```ruby
-gem 'matestack-ui-core'
-```
-
-to your Gemfile and run 
-
-```sh
-bundle install
-```
-
-For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v0.7.6` followed by `yarn install`.
+For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v1.0.0` followed by `yarn install`.
 
 Then, add
 
@@ -108,7 +71,7 @@ bin/webpack
 
 to compile your JavaScript code.
 
-In order to complete the `matestack-ui-core` setup, change your `app/controllers/application_controller.rb` to look like this
+In order to use matestack complete the setup by including the `Matestack::Ui::Core::ApplicationHelper` in your `ApplicationController`. Your `app/controllers/application_controller.rb` should look like this:
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -116,7 +79,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-and the `app/views/layouts/application.html.erb` to look like this:
+And add an element with the id `matestack_ui` to your layout, by changing your `app/views/layouts/application.html.erb`. It should look like this:
 
 ```html
 <!DOCTYPE html>
@@ -138,7 +101,7 @@ and the `app/views/layouts/application.html.erb` to look like this:
 </html>
 ```
 
-Background: You now can use `matestack` helpers in your controller actions, and your `matestack` apps (and the corresponding pages) get rendered into your application layout!
+By including the `Matestack::Ui::Core::ApplicationHelper` and defining a div with the `matestack_ui` id you can now use matestacks render method in your controller actions. Based on the id matestack apps and pages can be rendered and pages can be replaced without a full reload of the browser page.
 
 ## Add a demo page
 Within your `app` directory, create a directory called `matestack` - this is where `matestack` **apps**, **pages** and, later on, **components**, will live.
