@@ -335,4 +335,4 @@ We now have a working Rails app using `matestack`.
 
 In this guide we learned how matestack pages work, how we can use matestacks components to create html and how we can use an app as a layout for pages and what benefits we get through using an app.
 
-After taking a well deserved rest, make sure to continue exploring the features `matestack` offers you by checking out the [next part of the series](/guides/essential/02_active_record.md).
+After taking a well deserved rest, make sure to continue exploring the features `matestack` offers you by checking out the [next part of the series](/docs/guides/essential/02_active_record.md).
