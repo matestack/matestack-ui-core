@@ -28,7 +28,11 @@ module Matestack::Ui::Core::Form
             @component_config[:failure][:redirect][:path] = redirect_path options[:failure]
           end
         end
-        @tag_attributes.merge!({"@submit.prevent": true})
+        @tag_attributes.merge!({
+          "@submit.prevent": true,
+          "class": "matestack-form #{options[:class]}",
+          "v-bind:class": "{ 'has-errors': hasErrors(), 'loading': loading }"
+        })
       rescue => e
         raise "Form component could not be setted up. Reason: #{e}"
       end

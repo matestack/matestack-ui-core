@@ -15,18 +15,18 @@ module Matestack::Ui::Core::Form::Checkbox
       if checkbox_options
         checkbox_options.to_a.each do |item|
           input html_attributes.merge(
-            attributes: vue_attributes, 
+            attributes: vue_attributes,
             type: :checkbox,
             id: "#{id_for_item(item_value(item))}",
             name: item_name(item),
-            value: item_value(item),
+            value: item_value(item)
           )
           label text: item_name(item), for: id_for_item(item_value(item))
         end
         # checked/unchecked checkbox
-      else 
-        form_input type: :hidden, key: key, value: (false_value || 0)
-        form_input type: :checkbox, key: key, value: checked_value, id: id_for_item(value)
+      else
+        form_input type: :hidden, key: key, value: (false_value || 0), errors: false
+        form_input type: :checkbox, key: key, value: checked_value, id: id_for_item(value), errors: false
         label text: input_label, for: id_for_item(value)
       end
       render_errors

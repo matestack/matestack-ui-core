@@ -11,6 +11,7 @@ const componentDef = {
     return {
       data: {},
       errors: {},
+      loading: false
     };
   },
   methods: {
@@ -22,6 +23,15 @@ const componentDef = {
     },
     updateFormValue: function (key, value) {
       this.data[key] = value;
+    },
+    hasErrors: function(){
+      //https://stackoverflow.com/a/27709663/13886137
+      for (var key in this.errors) {
+        if (this.errors[key] !== null && this.errors[key] != ""){
+          return true;
+        }
+      }
+      return false;
     },
     resetErrors: function (key) {
       if (this.errors[key]) {
@@ -116,6 +126,7 @@ const componentDef = {
       const self = this
       var form = self.$el.tagName == 'FORM' ? self.$el : self.$el.querySelector('form');
       if(form.checkValidity()){
+        self.loading = true;
         if (self.componentConfig["emit"] != undefined) {
           matestackEventHub.$emit(self.componentConfig["emit"]);
         }
@@ -171,6 +182,7 @@ const componentDef = {
       }
       axios(axios_config)
         .then(function (response) {
+          self.loading = false;
           if (self.componentConfig["success"] != undefined && self.componentConfig["success"]["emit"] != undefined) {
             matestackEventHub.$emit(self.componentConfig["success"]["emit"], response.data);
           }
@@ -228,6 +240,7 @@ const componentDef = {
           }
         })
         .catch(function (error) {
+          self.loading = false;
           if (error.response && error.response.data && error.response.data.errors) {
             self.errors = error.response.data.errors;
           }
