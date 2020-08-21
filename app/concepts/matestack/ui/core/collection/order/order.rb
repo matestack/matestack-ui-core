@@ -7,11 +7,9 @@ module Matestack::Ui::Core::Collection::Order
     end
 
     def response
-      components {
-        div @tag_attributes do
-          yield_components
-        end
-      }
+      div @tag_attributes do
+        yield_components
+      end
     end
 
   end

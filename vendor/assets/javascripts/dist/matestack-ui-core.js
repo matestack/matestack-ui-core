@@ -818,7 +818,7 @@ const componentDef = {
         this.ordering[key] = "asc"
       } else if (this.ordering[key] == "asc") {
         this.ordering[key] = "desc"
-      } else if (this.ordering[key] = "desc") {
+      } else if (this.ordering[key] == "desc") {
         this.ordering[key] = undefined
       }
       var url;
