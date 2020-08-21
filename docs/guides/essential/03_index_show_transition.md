@@ -52,7 +52,7 @@ class Demo::App < Matestack::Ui::App
       heading size: 1, text: 'Demo App'
     end
     main do
-      page_content
+      yield_page
       hr
       transition path: :persons_path, text: 'All persons'
     end
@@ -61,7 +61,7 @@ class Demo::App < Matestack::Ui::App
 end
 ```
 
-We removed the prepare statement and will do the data fetching to the page level instead. Also, the transition links to the first two pages were removed and a transition to the `main` block of the `Demo::App` added. By doing this, we make sure the person index page will be reachable from all pages. Also, the horizontal ruler (`hr`) tag makes it easier to distinguish between the wrapping `matestack` app and the `page_content`!
+We removed the prepare statement and will do the data fetching to the page level instead. Also, the transition links to the first two pages were removed and a transition to the `main` block of the `Demo::App` added. By doing this, we make sure the person index page will be reachable from all pages. Also, the horizontal ruler (`hr`) tag makes it easier to distinguish between the wrapping `matestack` app and the `yield_page`!
 
 ## Person index page
 Create a new folder called `persons` in `app/matestack/demo/pages/`, and move the `first_page.rb` and `second_page.rb` there.

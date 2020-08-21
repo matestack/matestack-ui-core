@@ -2,15 +2,13 @@
 
 The HTML `<caption>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/caption_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component can handle various optional configuration params and can either yield content or display what gets passed to the `text` configuration param.
 
-### Text - optional
+### Text (optional)
 Expects a string with the text that should go inside the `<caption>` tag.
 
-### HMTL attributes - optional
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples

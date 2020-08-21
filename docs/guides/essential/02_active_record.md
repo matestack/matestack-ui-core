@@ -83,7 +83,7 @@ class Demo::App < Matestack::Ui::App
       transition path: :second_page_path, text: 'Second page'
     end
     main do
-      page_content
+      yield_page
       ul do
         @persons.each do |person|
           li do

@@ -2,15 +2,13 @@
 
 The HTML `<map>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/map_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component can take various optional configuration params and yields content. It is supposed to contain a number of `<area>` elements that define the clickable areas in the image map.
 
 ### Name - required
 Specifies the name of this `<map>` tag.
 
-### HMTL attributes - optional
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples

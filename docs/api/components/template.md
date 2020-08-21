@@ -2,8 +2,6 @@
 
 The HTML `<template>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/template_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
@@ -29,7 +27,7 @@ returns
 
 ```ruby
 template id: 'foo', class: 'bar' do
-  partial :example_content
+  example_content
 end
 
 def example_content

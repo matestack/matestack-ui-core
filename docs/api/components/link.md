@@ -1,34 +1,36 @@
 # Matestack Core Component: Link
 
-Feel free to check out the [component specs](/spec/usage/components/link_spec.rb).
-
-This component is used to either navigate within your matestack application or to send requests to outside URLs.
+This component is used to either navigate within your matestack application or to navigate to outside URLs.
 
 ## Parameters
 
 This component creates an `<a>`-tag and expects a mandatory path input and optional options parameters.
 
-#### # path
-If the path input is a **string** it creates a link to the outside web.
+#### path
+If the path input is a **string** it just uses this string for the link target.
 
-If the path input is a **symbol** (e.g. :root_path) it creates a route **within** your Rails application. See example 4 for further details.
+If the path input is a **symbol** (e.g. :root_path) it calls the Rails url helper method
+in order to generate the link target
 
-#### # text (optional)
+You can also just use the Rails url helper methods directly. They will return a
+string which is then used as the link target without any further processing.
+
+#### text (optional)
 The text that gets wrapped by the `<a>`-tag. If no text is given the link component looks for further arguments within itself (see examples below).
 
-#### # id (optional)
+#### id (optional)
 Expects a string with all ids `<a>`-tag should have.
 
-#### # class (optional)
+#### class (optional)
 Expects a string with all classes `<a>`-tag should have.
 
-#### # method (optional, default is get)
+#### method (optional, default is get)
 The HTTP request method the link should implement.
 
-#### # target (optional, default is nil)
+#### target (optional, default is nil)
 Specify where to open the linked document.
 
-#### # title (optional)
+#### title (optional)
 Specify a title for the link (shown on mouseover).
 
 ## Example 1
@@ -134,6 +136,23 @@ You can also dynamically create `paths` from symbols and params, as displayed be
 ```ruby
 div id: "foo", class: "bar" do
   link path: :single_endpoint_path, params: {number: 1}, text: 'Call API endpoint 1'
+end
+```
+
+returns
+
+```html
+<div id="foo" class="bar">
+  <a href="/api/single_endpoint/1">Call API endpoint 1</a>
+</div>
+```
+
+## Example 7 - path via Rails path helper method
+You can also used Rails path helper methods:
+
+```ruby
+div id: "foo", class: "bar" do
+  link path: single_endpoint_path(number: 1), text: 'Call API endpoint 1'
 end
 ```
 

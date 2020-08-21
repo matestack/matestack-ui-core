@@ -1,18 +1,16 @@
 # Matestack Core Component: rails_view
 
-Feel free to check out the [component specs](../../spec/usage/components/rails_view_spec.rb).
-
-Use your Rails views or partials with this component in your views, matestack pages, components or apps. 
+Use your Rails views or partials with this component in your views, matestack pages, components or apps.
 
 ## Parameters
 
 This component expects that either `view` or `partial` is given as parameter.
 
-#### # view - optional
-Expects a string, specifying the path of the view that should be rendered by the component. 
+#### view (optional)
+Expects a string, specifying the path of the view that should be rendered by the component.
 The path resolution works like Rails `render 'your_path'` path resolution.
 
-#### # partial - optional
+#### partial (optional)
 Expects a string, specifying the partial that should be rendered by the component.
 The path resolution works like Rails `render partial: 'your_path'` path resolution.
 
@@ -28,9 +26,9 @@ class WelcomePage < Matestack::Ui::Page
 end
 ```
 
-The above page will first render your 'welcome/header' view. 
+The above page will first render your 'welcome/header' view.
 If for example you use erb templates, it will render your `app/views/welcome/header.html.erb` view.
-And secondly it will render your 'welcome/hero' partial. 
+And secondly it will render your 'welcome/hero' partial.
 Again, if you use erb templates, it will render your `app/views/welcome/_hero.html.erb` partial.
 The usage of `rails_view` is the same on a page, component or app.
 
@@ -47,7 +45,7 @@ You can also use `rails_view` in another view
 ## Example 3 - Passing and accessing data
 
 You can access all your instance variables from your controller action within a view or partial rendered by `rails_view`.
-You can also pass data explicitly. Just add them to the hash you pass to the `rails_view` call. 
+You can also pass data explicitly. Just add them to the hash you pass to the `rails_view` call.
 You can access those like you would do if you pass `locals` to a rails view or partial.
 
 Your `rails_view` call:

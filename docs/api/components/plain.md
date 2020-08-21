@@ -2,9 +2,8 @@
 
 This component simply renders the value of a variable (or simply a string) wherever you want it, **escaping HTML tags** (`<` becomes `&lt;` etc.).
 
-Feel free to check out the [component specs](/spec/usage/components/plain_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
+
 This component expects one parameter.
 
 ## Examples
@@ -12,15 +11,9 @@ This component expects one parameter.
 ### Example 1: Rendering a string into a `<div>` tag.
 
 ```ruby
-
-def response
-  components {
-    div id: "foo", class: "bar" do
-      plain "Hello World"
-    end
-  }
+div id: "foo", class: "bar" do
+  plain "Hello World"
 end
-
 ```
 
 returns
@@ -36,14 +29,10 @@ returns
 
 @hello = "World"
 # ...
-def response
-  components {
-    div id: "foo", class: "bar" do
-      plain @hello
-    end
-  }
-end
 
+div id: "foo", class: "bar" do
+  plain @hello
+end
 ```
 
 returns

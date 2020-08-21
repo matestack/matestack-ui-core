@@ -6,9 +6,10 @@ Feel free to check out the [component specs](/spec/usage/components/transition_s
 
 Except for `id` and `class`, the transition component can handle additional parameters:
 
-### Path
+### path - required
 
-As the name suggests, the `options[:path]` expects a path within our application. If you want to rout to a link outside our application, use the [link component](/docs/components/link.md)
+As the name suggests, the `path` expects a path within our application.
+If you want to route to a link outside our application, use the [link component](/docs/api/components/link.md)
 
 ```ruby
 transition path: :page1_path do
@@ -16,7 +17,16 @@ transition path: :page1_path do
 end
 ```
 
-### Text
+If the path input is a **string** it just uses this string for the transition target.
+
+If the path input is a **symbol** (e.g. :root_path) it calls the Rails url helper method
+in order to generate the transition target
+
+You can also just use the Rails url helper methods directly. They will return a
+string which is then used as the transition target without any further processing.
+
+
+### text - optional
 
 If the transition component receives a text via its `options`, it gets rendered as shown here:
 
@@ -30,7 +40,15 @@ transition path: :page1_path, text: 'Click me for a transition'
 
 If no text is present, the transition component expects a block that it then *yields* the usual way.
 
-### Active class
+### delay - optional
+
+You can use this attribute if you want to delay the actual transition. It will not delay the `page_loading_triggered` event
+
+```ruby
+delay: 1000 # means 1000 ms
+```
+
+## Active class
 
 The `transition` component automatically gets the `active` class on the clientside when the current path equals the target path.
 
@@ -42,15 +60,7 @@ Currently active: `/some_page/child_page` --> Parent gets `child-active`
 
 Query params do not interfere with this behavior.
 
-### Delay
-
-You can use this attribute if you want to delay the actual transition. It will not delay the `page_loading_triggered` event
-
-```ruby
-delay: 1000 # means 1000 ms
-```
-
-### Events
+## Events
 
 The `transition` component automatically emits events on:
 
@@ -77,13 +87,14 @@ get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
 ```ruby
 class ExampleAppPagesController < ExampleController
   include Matestack::Ui::Core::ApplicationHelper
+  matestack_app ExampleApp
 
   def page1
-    responder_for(Pages::ExampleApp::ExamplePage)
+    render ExampleApp::Pages::ExamplePage
   end
 
   def page2
-    responder_for(Pages::ExampleApp::SecondExamplePage)
+    render ExampleApp::Pages::SecondExamplePage
   end
 
 end
@@ -92,23 +103,21 @@ end
 Then, we define our example app layout with a navigation that consists of two transition components!
 
 ```ruby
-class Apps::ExampleApp < Matestack::Ui::App
+class ExampleApp::Apps < Matestack::Ui::App
 
   def response
-    components {
-      heading size: 1, text: 'My Example App Layout'
-      nav do
-        transition path: :page1_path do
-          button text: 'Page 1'
-        end
-        transition path: :page2_path do
-          button text: 'Page 2'
-        end
+    heading size: 1, text: 'My Example App Layout'
+    nav do
+      transition path: :page1_path do
+        button text: 'Page 1'
       end
-      main do
-        page_content
+      transition path: :page2_path do
+        button text: 'Page 2'
       end
-    }
+    end
+    main do
+      yield_page
+    end
   end
 
 end
@@ -117,15 +126,13 @@ end
 Lastly, we define two example pages for our example application:
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
+class ExampleApp::Pages::ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      div id: 'my-div-on-page-1' do
-        heading size: 2, text: 'This is Page 1'
-        plain "#{DateTime.now.strftime('%Q')}"
-      end
-    }
+    div id: 'my-div-on-page-1' do
+      heading size: 2, text: 'This is Page 1'
+      plain "#{DateTime.now.strftime('%Q')}"
+    end
   end
 
 end
@@ -134,18 +141,16 @@ end
 and
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
+class ExampleApp::Pages::SecondExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      div id: 'my-div-on-page-2' do
-        heading size: 2, text: 'This is Page 2'
-        plain "#{DateTime.now.strftime('%Q')}"
-      end
-      transition path: :page1_path do
-        button text: 'Back to Page 1'
-      end
-    }
+    div id: 'my-div-on-page-2' do
+      heading size: 2, text: 'This is Page 2'
+      plain "#{DateTime.now.strftime('%Q')}"
+    end
+    transition path: :page1_path do
+      button text: 'Back to Page 1'
+    end
   end
 
 end

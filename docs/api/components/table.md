@@ -1,7 +1,5 @@
 # Matestack Core Component: Table
 
-Feel free to check out the [component specs](/spec/usage/components/table_spec.rb).
-
 Use tables to implement `<table>`, `<tr>`, `<th>`, `<td>`, `<thead>`, `<tbody>` and `<tfoot>` tags.
 
 ## Parameters
@@ -9,13 +7,13 @@ Use tables to implement `<table>`, `<tr>`, `<th>`, `<td>`, `<thead>`, `<tbody>` 
 `<table>`, `<tr>`, `<thead>`, `<tbody>` and `<tfoot>` can take 2 optional configuration params.
 `<th>` and `<td>` tags can also take a third param, text input.
 
-#### # id (optional)
+#### id (optional)
 Expects a string with all ids the element should have.
 
-#### # class (optional)
+#### class (optional)
 Expects a string with all classes the element should have.
 
-#### # text (optional)
+#### text (optional)
 Expects a string which will be rendered between the opening and closing `<th>` or `<td>`-tag
 
 ## Example 1

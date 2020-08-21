@@ -2,18 +2,16 @@
 
 The HTML `<abbr>` tag, implemented in Ruby. 
 
-Feel free to check out the [component specs](../../spec/usage/components/abbr_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component expects 1 required param and various optional configuration params and can either yield content or display what gets passed to the `text` configuration param.
 
 ### Title - required
 Expects a string with the meaning of the abbreviation contained within the tag.
 
-### Text - optional
+### Text (optional)
 Expects a string which will be displayed as the content inside the `<abbr>` tag. If this is not passed, a block must be passed instead.
 
-### HMTL attributes - optional
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples

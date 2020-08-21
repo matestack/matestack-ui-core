@@ -1,8 +1,7 @@
 # Matestack Core Component: Form
 
-Feel free to check out the [component specs](/spec/usage/components/form_spec.rb).
 
-The `form` core component is a vue.js driven dynamic component. It enables you to implement dynamic forms without writing javascript. It relies on child components to collect and submit user input: `form_input`, `form_select`, `form_submit` and `form_textarea`. They are described within this documentation page.
+The `form` core component is a Vue.js driven component. It enables you to implement dynamic forms without writing JavaScript. It relies on child components to collect and submit user input: `form_input`, `form_textarea`, `form_radio`, `form_select`, `form_checkbox` and `form_submit`. They are described within this documentation page.
 
 ## Parameters
 
@@ -12,11 +11,9 @@ The core form component accepts the following parameters. Pass them in as a hash
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form some_form_config, :include do
-        #...
-      end
-    }
+    form some_form_config do
+      #...
+    end
   end
 
   def some_form_config
@@ -31,8 +28,6 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-Don't forget to add the special keyword `:include`! This enables the form_* child components to access the configuration of ther parent `form` component.
-
 ### For
 
 The `form` component wraps the input in an object. The name of this object can be set in multiple ways:
@@ -44,7 +39,7 @@ for: :my_object
 ```
 
 ```ruby
-form some_form_config, :include do
+form some_form_config do
   form_input key: :some_input_key, type: :text
 end
 ```
@@ -66,7 +61,7 @@ for: @my_model
 ```
 
 ```ruby
-form some_form_config, :include do
+form some_form_config do
   form_input key: :some_model_attribute, type: :text
 end
 ```
@@ -97,9 +92,16 @@ This parameter accepts a classic Rails path, usually in the form of a symbol lik
 path: :action_test_path
 ```
 
+or
+
+```ruby
+path: action_test_path(id: 42)
+```
+if you want to use rails url helper methods.
+
 ### Params
 
-Using the standard Rails params, we can pass information to our route!
+Using the standard Rails params, we can pass params to our route. Only applies when `path` is given as a symbol.
 
 ```ruby
 params: { id: 42 }
@@ -107,7 +109,7 @@ params: { id: 42 }
 
 ### Emit
 
-This event gets emitted right after form submit. In contrast to the `sucsess` or `failure` events, it will be emitted regardless of the server response.
+This event gets emitted right after form submit. In contrast to the `success` or `failure` events, it will be emitted regardless of the server response.
 
 ```ruby
 emit: "form_submitted"
@@ -140,7 +142,7 @@ To trigger further behavior, we can configure the success part of a `form` to em
 
 ```ruby
 success: {
-  emit: 'my_action_success'
+  emit: 'my_form_success'
 }
 ```
 
@@ -150,9 +152,9 @@ We can also perform a transition that only gets triggered on success and also ac
 
 ```ruby
 success: {
-  emit: 'my_action_success',
+  emit: 'my_form_success',
   transition: {
-    path: :action_test_page2_path,
+    path: :form_test_page2_path,
     params: { id: 42 }
   }
 }
@@ -162,7 +164,7 @@ When the server redirects to a url, for example after creating a new record, the
 
 ```ruby
 success: {
-  emit: 'my_action_success',
+  emit: 'my_form_success',
   transition: {
     follow_response: true
   }
@@ -195,7 +197,7 @@ Please be aware, that emiting a event doen't have an effect when performing a re
 
 ```ruby
 success: {
-  emit: 'my_action_success', # doesn't have an effect when using redirect
+  emit: 'my_form_success', # doesn't have an effect when using redirect
   redirect: {
     path: :action_test_page2_path,
     params: { id: 42 }
@@ -207,7 +209,7 @@ When the server redirects to a url, for example after creating a new record, the
 
 ```ruby
 success: {
-  emit: 'my_action_success', # doesn't have an effect when using redirect
+  emit: 'my_form_success', # doesn't have an effect when using redirect
   redirect: {
     follow_response: true
   }
@@ -239,7 +241,7 @@ If submitted successfully, the `form` component resets its state by default when
 ```ruby
 method: :post
 success: {
-  emit: 'my_action_success',
+  emit: 'my_form_success',
   reset: false #default true when using the :post method when submitted successfully
 }
 ```
@@ -247,7 +249,7 @@ success: {
 ```ruby
 method: :put
 success: {
-  emit: 'my_action_success',
+  emit: 'my_form_success',
   reset: true #default false when using the :put method when submitted successfully
 }
 ```
@@ -263,7 +265,7 @@ To trigger further behavior, we can configure the failure part of an action to e
 
 ```ruby
 failure: {
-  emit: 'my_action_failure'
+  emit: 'my_form_failure'
 }
 ```
 
@@ -274,7 +276,7 @@ We can also perform a transition that only gets triggered on failure:
 
 ```ruby
 failure: {
-  emit: 'my_action_failure',
+  emit: 'my_form_failure',
   transition: {
     path: :root_path
   }
@@ -288,7 +290,7 @@ The `form` component does not reset its state by default when not submitted succ
 ```ruby
 method: :post
 failure: {
-  emit: 'my_action_failure',
+  emit: 'my_form_failure',
   reset: true #default false when using the :post method and not successful
 }
 ```
@@ -296,40 +298,660 @@ failure: {
 ```ruby
 method: :put
 failure: {
-  emit: 'my_action_failure',
+  emit: 'my_form_failure',
   reset: true #default false when using the :put method and not successful
 }
 ```
 
+#### ID - optional
 
-### ID (optional)
-
-This parameter accepts a string of ids that the action component should have:
+This parameter accepts a string of ids that the form component should have:
 
 ```ruby
-id: 'my-action-id'
+id: 'my-form-id'
 ```
 
 which renders as an HTML `id` attribute, like so:
 
 ```html
-<a id="my-action-id">...</a>
+<form id="my-form-id" class="matestack-form">...</form>
 ```
 
-### Class (optional)
+#### Class - optional
 
-This parameter accepts a string of classes that the action component should have:
+This parameter accepts a string of classes that the form component should have:
 
 ```ruby
-class: 'my-action-class'
+class: 'my-form-class'
 ```
 
 which renders as an HTML `class` attribute, like so:
 
 ```html
-<a class="my-action-class">...</a>
+<form class="matestack-form my-form-class">...</form>
 ```
 
+## Child components
+
+### form_input
+
+```ruby
+form my_form_config do
+  form_input key: :foo, type: :text, #...
+end
+```
+
+#### Parameters
+
+##### key - required
+
+Defines the key which should be used when posting the form data to the server.
+
+##### type - required
+
+Pass in as symbol. Defines the type of the `input`. All HTML input types are supported.
+
+##### placeholder - optional
+
+Defines the placeholder.
+
+##### label - optional
+
+Defines the label which will be rendered right before the input tag. You can also use the `label` component in order to create more complex label structures.
+
+##### required - optional
+
+If set to true, HTML validations will be triggered on form submit.
+
+##### init - optional
+
+If given, this value will be the initial value of the input. If used in an edit form of a given ActiveRecord model, the init value will be automatically derived from the model itself.
+
+### form_textarea
+
+```ruby
+form my_form_config do
+  form_textarea key: :foo, #...
+end
+```
+
+#### Parameters
+
+##### key - required
+
+Defines the key which should be used when posting the form data to the server.
+
+##### placeholder - optional
+
+Defines the placeholder.
+
+##### label - optional
+
+Defines the label which will be rendered right before the textarea tag. You can also use the `label` component in order to create more complex label structures.
+
+##### required - optional
+
+If set to true, HTML validations will be triggered on form submit.
+
+##### init - optional
+
+If given, this value will be the initial value of the input. If used in an edit form of a given ActiveRecord model, the init value will be automatically derived from the model itself.
+
+### form_select
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: { 'active': 1, 'deactive': 0 }, #...
+end
+```
+
+#### Parameters
+
+##### key - required
+
+Defines the key which should be used when posting the form data to the server.
+
+##### options - required
+
+Can either be an Array or Hash:
+
+**Array usage**
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: [0, 1]
+end
+```
+
+will render:
+
+```html
+<select>
+  <option value="0">0</option>
+  <option value="1">1</option>
+</select>
+```
+
+**Hash usage**
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: { 'active': 1, 'deactive': 0 }
+end
+```
+
+will render:
+
+```html
+<select>
+  <option value="0">deactive</option>
+  <option value="1">active</option>
+</select>
+```
+
+The hash values will be used as values for the options, the keys as displayed values.
+
+**ActiveRecord Enum Mapping**
+
+If you want to use ActiveRecord enums as options for your select input, you can use the enum class method:
+
+```ruby
+class Conversation < ActiveRecord::Base
+  enum status: { active: 0, archived: 1 }
+end
+```
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: Conversation.statuses
+end
+```
+
+##### disabled_values - optional
+
+Defines which options (by value) should be disabled. Pass in as Array.
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: [1,2,3], disabled_values: [1, 2]
+end
+```
+
+or
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: { 'active': 1, 'deactive': 0 }, disabled_values: [1]
+end
+```
+
+##### multiple - optional
+
+If set to true, a native HTML multiple select will be rendered. Selected values will be posted as an Array to the server.
+
+##### init - optional
+
+Defines the init value of the select input. If mapped to an ActiveRecord model, the init value will be derived automatically from the model instance.
+
+**when multiple is set to true**
+
+Pass in an Array of init values:
+
+```ruby
+form my_form_config do
+  form_select key: :status, [1,2,3], multiple: true, init: [1,2]
+end
+```
+
+**when multiple is set to false/not specified**
+
+Pass in an Integer:
+
+```ruby
+form my_form_config do
+  form_select key: :status, [1,2,3], init: 1
+end
+```
+
+##### placeholder - optional
+
+Defines the placeholder which will be rendered as first, disabled option.
+
+##### label - optional
+
+Defines the label which will be rendered right before the textarea tag. You can also use the `label` component in order to create more complex label structures.
+
+### form_radio
+
+```ruby
+form my_form_config do
+  form_radio key: :status, options: { 'active': 1, 'deactive': 0 }, #...
+end
+```
+
+#### Parameters
+
+##### key - required
+
+Defines the key which should be used when posting the form data to the server.
+
+##### options - required
+
+Can either be an Array or Hash:
+
+**Array usage**
+
+```ruby
+form my_form_config do
+  form_radio key: :status, options: [0, 1]
+end
+```
+
+will render:
+
+```html
+<input id="status_0" name="status_0" type="radio" value="0">
+<label for="status_0">
+0
+</label>
+<input id="status_1" name="status_1" type="radio" value="1">
+<label for="status_1">
+1
+</label>
+```
+
+**Hash usage**
+
+```ruby
+form my_form_config do
+  form_select key: :status, options: { 'active': 1, 'deactive': 0 }
+end
+```
+
+will render:
+
+```html
+<input id="status_1" name="status_active" type="radio" value="1">
+<label for="status_1">
+  active
+</label>
+<input id="status_0" name="status_deactive" type="radio" value="0">
+<label for="status_0">
+  deactive
+</label>
+```
+
+The hash values will be used as values for the options, the keys as displayed values.
+
+**ActiveRecord Enum Mapping**
+
+If you want to use ActiveRecord enums as options for your radio input, you can use the enum class method:
+
+```ruby
+class Conversation < ActiveRecord::Base
+  enum status: { active: 0, archived: 1 }
+end
+```
+
+```ruby
+form my_form_config do
+  form_radio key: :status, options: Conversation.statuses
+end
+```
+
+##### disabled_values - optional
+
+NOT IMPLEMENTED YET
+
+##### init - optional
+
+Defines the init value of the radio input. If mapped to an ActiveRecord model, the init value will be derived automatically from the model instance.
+
+Pass in an Integer:
+
+```ruby
+form my_form_config do
+  form_radio key: :status, [1,2,3], init: 1
+end
+```
+
+##### placeholder - optional
+
+Defines the placeholder which will be rendered as first, disabled option.
+
+##### label - optional
+
+NOT IMPLEMENTED YET
+
+You can also use the `label` component in order to create a label for this input.
+
+### form_checkbox
+
+```ruby
+form my_form_config do
+  form_checkbox key: :status, #...
+end
+```
+
+#### Parameters
+
+##### key - required
+
+Defines the key which should be used when posting the form data to the server.
+
+##### options - optional
+
+Can either be nil, an Array or Hash:
+
+**When not given**
+
+```ruby
+form my_form_config do
+  form_checkbox key: :status, label: "Active"
+end
+```
+
+will render a single checkbox which can switch between `true` and `false` as value for the given key. Will be `nil` initially. The boolean value (or nil) will be sent to the server when submitting the form.
+
+**Array usage**
+
+```ruby
+form my_form_config do
+  form_checkbox key: :status, options: [0, 1]
+end
+```
+
+will render a collection of checkboxes and their corresponding labels.
+
+Multiple checkboxes can be selected. Data will be sent as an Array of selected values to the server when submitting the form.
+
+**Hash usage**
+
+```ruby
+form my_form_config do
+  form_checkbox key: :status, options: { 'active': 1, 'deactive': 0 }
+end
+```
+
+will render a collection of checkboxes and their corresponding labels.
+
+The hash values will be used as values for the checkboxes, the keys as displayed label values.
+
+Multiple checkboxes can be selected. Data will be sent as an Array of selected values to the server when submitting the form.
+
+
+**ActiveRecord Enum Mapping**
+
+If you want to use ActiveRecord enums as options for your radio input, you can use the enum class method:
+
+```ruby
+class Conversation < ActiveRecord::Base
+  enum status: { active: 0, archived: 1 }
+end
+```
+
+```ruby
+form my_form_config do
+  form_checkbox key: :status, options: Conversation.statuses
+end
+```
+
+Multiple checkboxes can be selected. Data will be sent as an Array of selected values to the server when submitting the form.
+
+
+##### disabled_values - optional
+
+NOT IMPLEMENTED YET
+
+##### init - optional
+
+NOT IMPLEMENTED YET
+
+##### label - optional
+
+An applied label is only visible, when using a single checkbox without options.
+
+You can also use the `label` component in order to create a label for this input.
+
+### form_submit
+
+```ruby
+form my_form_config do
+  #...
+  form_submit do
+    button text: "submit"
+  end
+end
+```
+
+`form_submit` does not take any parameters but yields a given block. This block will be wrapped by a span tag. A click on that span tag and all elements within will submit the form.
+
+
+### Special inputs
+
+#### File Upload
+
+In order to perform a single file upload, add this `form_input` component
+
+```ruby
+form_input key: :some_file, type: :file
+```
+
+In order to perform multiple file uploads, add this `form_input` component
+
+```ruby
+form_input key: :some_files, type: :file, multiple: true
+```
+
+Don't forget to add the `multiple: true` attribute to your `form_config`!
+
+In order to accept multiple files, you should permit params on your controller like:
+
+`some_controller.rb`
+```ruby
+#...
+params.require(:my_form_wrapper_key).permit(
+  :some_file,
+  some_files: []
+)
+#...
+```
+
+Please be aware that the `form_input` components with a `type: :file` can not be initialized with a given file.
+
+#### Range Input
+
+Whilst working similiar to the 'text' input, the range input accepts a few more parameters. It accepts also 'min', 'max', 'step', 'list' as optional parameters.
+
+**with max, min, step set**
+
+```ruby
+form_input id: 'range-input', type: :range, min: 0, max: 100, step: 1
+```
+
+**with corresponding datalist**
+
+To use a datalist for the range input specify the 'list' parameter with the id of the provided datalist
+
+```ruby
+form_input id: 'range-input', type: :range, list: 'datalist-id'
+datalist id: 'datalist-id' do
+  option value: 10
+  option value: 20
+end
+```
+
+## Error rendering
+
+If the server is responding with a well formatted error response and status after submitting the form, matestack will automatically render server error messages right next to the corresponding input (matching error and input key). Additionally the input itself will get a 'error' css class; the parent form will get a 'has-errors' css class.
+
+The described approach is suitable for all form_* input components.
+
+By default it would look like this:
+
+```ruby
+form_input key: :title, type: :text
+```
+
+```html
+<form class="matestack-form has-errors">
+  <input type="text" class="error">
+  <span class="errors">
+    <!-- for each error string within the error array for the key 'title' -->
+    <span class="error">
+      can't be blank
+    </span>
+  </span>
+</form>
+```
+
+when a `4xx` JSON server response like that was given (ActiveRecord errors format):
+
+```json
+{
+  "errors":
+    {
+      "title": ["can't be blank"]
+    }
+}
+```
+
+You can modify the error rendering like this:
+
+**On input level**
+
+```ruby
+form_input key: :foo, type: :text,  errors: {
+  wrapper: { tag: :div, class: 'my-errors'}, tag: :div, class: 'my-error'
+}
+form_input key: :bar, type: :text,  errors: false
+```
+
+```html
+<form class="matestack-form has-errors">
+  <input type="text" class="error">
+  <div class="my-errors">
+    <!-- for each error string within the error array for the key 'title' -->
+    <div class="my-error">
+      can't be blank
+    </div>
+  </div>
+  <input type="text" class="error">
+  <!-- without any error rendering because its set to false -->
+</form>
+```
+
+**On form level**
+
+Configuring errors on a per form basis. Per form field configs take precedence over the form config.
+
+```ruby
+def response
+  form form_config do
+    form_input key: :foo, type: :text
+    form_input key: :bar, type: :text, errors: false
+  end
+end
+
+def form_config
+  {
+    for: :my_model,
+    #[...]
+    errors: {
+      wrapper: { tag: :div, class: 'my-errors' },
+      input: { class: 'my-error' },
+      tag: :div,
+      class: 'my-field-error'
+    }
+  }
+```
+Outputs errors as:
+```html
+<input type="text" class="my-field-error" />
+<div class="my-errors">
+  <div class="my-error">
+    can't be blank
+  </div>
+</div>
+<input type="text" class="my-field-error" />
+<!-- without any errors, because its config takes precedence over the form config -->
+```
+
+## Loading state
+
+The form will get a 'loading' css class while submitting the form and waiting for a server response:
+
+```html
+<form class="matestack-form loading">
+
+</form>
+```
+
+Additionally the `span` tag rendered by the `form_submit` component around your submit components will also get a 'loading' css class.
+
+If you simply want to disable your submit button, you can use a simple Vue.js binding:
+
+```ruby
+form_submit do
+  button text: "Submit me!", attributes: { "v-bind:disabled": "loading" }
+end
+
+```
+
+If you want to adjust the submit element more flexible while the form is being submitted, you could use the event mechanism of the form in combination with the `toggle` component:
+
+```ruby
+form_submit do
+  toggle hide_on: "form_loading", show_on: "form_succeeded, form_failed", init_show: true do
+    button text: "Submit me!"
+  end
+  toggle show_on: "form_loading", hide_on: "form_succeeded, form_failed" do
+    button text: "submitting...", disabled: true
+  end
+end
+```
+
+in combination with a form config like this:
+
+```ruby
+def my_form_config
+  {
+    #...
+    emit: "form_loading",
+    success: {
+      emit: "form_succeeded"
+    },
+    failure: {
+      emit: "form_failed"
+    }
+  }
+end
+
+```
+
+## Form and other VueJs components
+
+The child components `form_*` have to be placed within the scope of the parent `form` component, without any other VueJs component like `toggle`, `async` creating a new scope between the child component and the parent form component**
+
+
+```ruby
+# that's working:
+form some_form_config do
+  form_input key: :some_input_key, type: :text
+  toggle show_on: "some-event" do
+    plain "hello!"
+  end
+end
+
+# that's not working:
+form some_form_config do
+  toggle show_on: "some-event" do
+    form_input key: :some_input_key, type: :text
+  end
+end
+```
+
+We're working on a better decoupling of the form child components. In the mean time you can enable dynamic child component rendering utilizing Vue.js directly. We will shortly publish a guide towards that topic.
 
 ## Examples
 
@@ -396,18 +1018,16 @@ On our example page, we define a form that accepts text input and has a submit b
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'my-test-input', key: :foo, type: :text
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'my-test-input', key: :foo, type: :text
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :success_form_test_path,
@@ -431,34 +1051,32 @@ This time, we break the form input on purpose to test our failure message! Again
 ```ruby
 class ExamplePage < Matestack::Ui::Page
 
-def response
-  components {
-    form form_config, :include do
+  def response
+    form form_config do
       form_input id: 'my-test-input', key: :foo, type: :text
       form_submit do
         button text: 'Submit me!'
       end
     end
-    async show_on: 'my_form_failure' do
+    toggle show_on: 'my_form_failure' do
       plain "{{event.data.message}}"
       plain "{{event.data.errors}}"
     end
-  }
-end
+  end
 
-def form_config
-  return {
-    for: :my_object,
-    method: :post,
-    path: :failure_form_test_path,
-    params: {
-      id: 42
-    },
-    failure: {
-      emit: 'my_form_failure'
+  def form_config
+    {
+      for: :my_object,
+      method: :post,
+      path: :failure_form_test_path,
+      params: {
+        id: 42
+      },
+      failure: {
+        emit: 'my_form_failure'
+      }
     }
-  }
-end
+  end
 
 end
 ```
@@ -472,22 +1090,20 @@ In this example, things get a bit more complex. We now want to transition to ano
 In order to additionally show a success/failure message, we define our matestack app layout with messages, using the *async core component*:
 
 ```ruby
-class Apps::ExampleApp < Matestack::Ui::App
+class ExampleApp < Matestack::Ui::App
 
   def response
-    components {
-      heading size: 1, text: 'My Example App Layout'
-      main do
-        page_content
-      end
-      async show_on: 'my_form_success', hide_after: 300 do
-        plain "{{event.data.message}}"
-      end
-      async show_on: 'my_form_failure', hide_after: 300 do
-        plain "{{event.data.message}}"
-        plain "{{event.data.errors}}"
-      end
-    }
+    heading size: 1, text: 'My Example App Layout'
+    main do
+      yield_page
+    end
+    toggle show_on: 'my_form_success', hide_after: 300 do
+      plain "{{event.data.message}}"
+    end
+    toggle show_on: 'my_form_failure', hide_after: 300 do
+      plain "{{event.data.message}}"
+      plain "{{event.data.errors}}"
+    end
   end
 
 end
@@ -496,22 +1112,20 @@ end
 On our first example page, we define our form to transfer us to the second page (`form_test_page_2_path`) on successful input:
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
+class ExampleApp::Pages::ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      heading size: 2, text: 'This is Page 1'
-      form form_config, :include do
-        form_input id: 'my-test-input-on-page-1', key: :foo, type: :text
-        form_submit do
-          button text: 'Submit me!'
-        end
+    heading size: 2, text: 'This is Page 1'
+    form form_config do
+      form_input id: 'my-test-input-on-page-1', key: :foo, type: :text
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :success_form_test_path,
@@ -536,22 +1150,20 @@ end
 On the second example page, we aim for our failure path (`failure_form_test_path`) on purpose and define our form to transfer us to the first page (`form_test_page_1_path`) on failed input:
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
+class ExampleApp::Pages::SecondExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      heading size: 2, text: 'This is Page 2'
-      form form_config, :include do
-        form_input id: 'my-test-input-on-page-2', key: :foo, type: :text
-        form_submit do
-          button text: 'Submit me!'
-        end
+    heading size: 2, text: 'This is Page 2'
+    form form_config do
+      form_input id: 'my-test-input-on-page-2', key: :foo, type: :text
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :failure_form_test_path,
@@ -575,13 +1187,14 @@ Of course, to reach our two newly defined pages, we need to make them accessible
 ```ruby
 class ExampleAppPagesController < ExampleController
   include Matestack::Ui::Core::ApplicationHelper
+  matestack_app ExampleApp
 
   def page1
-    responder_for(Pages::ExampleApp::ExamplePage)
+    render ExampleApp::Pages::ExamplePage
   end
 
   def page2
-    responder_for(Pages::ExampleApp::SecondExamplePage)
+    render ExampleApp::Pages::SecondExamplePage
   end
 
 end
@@ -612,7 +1225,7 @@ On the `page`:
 #...
 
 def form_config
-  return {
+  {
     for: :my_object,
     method: :post,
     path: :success_form_test_path,
@@ -655,22 +1268,20 @@ On our example page, we define the input fields, together with a `type: X` confi
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'text-input',      key: :text_input, type: :text
-        form_input id: 'email-input',     key: :email_input, type: :email
-        form_input id: 'password-input',  key: :password_input, type: :password
-        form_input id: 'number-input',    key: :number_input, type: :number
-        form_input id: 'range-input',     key: :range_input, type: :range
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'text-input',      key: :text_input, type: :text
+      form_input id: 'email-input',     key: :email_input, type: :email
+      form_input id: 'password-input',  key: :password_input, type: :password
+      form_input id: 'number-input',    key: :number_input, type: :number
+      form_input id: 'range-input',     key: :range_input, type: :range
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :success_form_test_path,
@@ -693,18 +1304,16 @@ Our form_input field doesn't need to be empty when we load the page. We can `ini
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'text-input', key: :text_input, type: :text, init: 'some value'
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'text-input', key: :text_input, type: :text, init: 'some value'
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :success_form_test_path,
@@ -727,18 +1336,16 @@ Instead of a predefined value, we can also just show a placeholder in our form_i
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'text-input', key: :text_input, type: :text, placeholder: 'some placeholder'
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'text-input', key: :text_input, type: :text, placeholder: 'some placeholder'
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :success_form_test_path,
@@ -761,18 +1368,16 @@ Another useful feature is that we can also give a *label* to our form_input!
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'text-input', key: :text_input, type: :text, label: 'some label'
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'text-input', key: :text_input, type: :text, label: 'some label'
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :success_form_test_path,
@@ -795,18 +1400,16 @@ Here, we aim for the `failure_form_test_path` on purpose to check how error mess
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'text-input', key: :foo, type: :text
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'text-input', key: :foo, type: :text
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: :my_object,
       method: :post,
       path: :failure_form_test_path,
@@ -820,86 +1423,6 @@ end
 ```
 
 If we head to `localhost:3000/example`, and fill in the input field with, e.g., *text* and click the submit button, we will get displayed our error message of `seems to be invalid`. Neat!
-
-#### Customizing error rendering
-
-Error messages are rendered in a span with class 'error' wrapped by another span with class 'errors'. You can customize the error rendering or deactivate it on a per component basis.
-
-For the above example the correspoding html looks like:
-```html
-<span class="errors">
-  <span class="error">seems to be invalid</span>
-</span>
-```
-
-###### Deactivate default error rendering
-
-Passing `errors: false` to a form input, select, textarea etc. will disable the default error rendering.
-
-```ruby
-form_input key: :foo, type: :text, errors: false
-```
-
-##### Customizing default rendering
-
-You can customize errors by passing `errors` with a hash to a input, textarea, select component or to a form component.
-Customize the error tag by including a `tag` key with a symbol representing a html tag and the error class by including a `class`
-key with a string.
-
-Configuring errors on a per form field basis
-
-```ruby
-form_input key: :foo, type: :text, errors: { tag: :div, class: 'my-error' }
-```
-Outputs errors as:
-```html
-<span class="errors">
-  <div class="my-error">seems to be invalid</div>
-</span>
-```
-
-By providing a `wrapper` key inside the errros hash you can customize the wrapper the same way you can customize the errors.
-
-```ruby
-form_input key: :foo, type: :text, errors: { wrapper: { tag: :div, class: 'my-errors-wrapper' } }
-```
-Outputs errors as:
-```html
-<div class="my-errors-wrapper">
-  <span class="error">seems to be invalid</span>
-</div>
-```
-
-Configuring errors on a per form basis. Per form field configs take precedence over the form config.
-
-```ruby
-def response
-  form form_config do
-    form_input key: :foo, type: :text
-    form_input key: :bar, type: :text, errors: false
-  end
-end
-
-def form_config
-  {
-    for: :my_model,
-    #[...]
-    errors: {
-      wrapper: { tag: :div, class: 'my-errors' },
-      input: { class: 'my-error' }
-      tag: :div,
-      class: 'my-field-error'
-    }
-  }
-```
-Outputs errors as:
-```html
-<input type="text" class="my-field-error" />
-<div class="my-errors">
-  <div class="my-error">seems to be invalid</span>
-</div>
-<input type="text" class="my-field-error" /> <!-- without any errors, because its config takes precedence over the form config -->
-```
 
 
 ### Example 9: Mapping the form to an Active Record Model
@@ -925,19 +1448,17 @@ class ExamplePage < Matestack::Ui::Page
   end
 
   def response
-    components {
-      form form_config, :include do
-        form_input id: 'title', key: :title, type: :text
-        form_input id: 'description', key: :description, type: :text
-        form_submit do
-          button text: 'Submit me!'
-        end
+    form form_config do
+      form_input id: 'title', key: :title, type: :text
+      form_input id: 'description', key: :description, type: :text
+      form_submit do
+        button text: 'Submit me!'
       end
-    }
+    end
   end
 
   def form_config
-    return {
+    {
       for: @test_model,
       method: :post,
       path: :model_form_test_path
@@ -952,579 +1473,3 @@ Notice that we only _prepared_ the title, but missed out on the description.
 If we head to our example page on `localhost:3000/example`, we can already see the title input field filled in with *Title*. Trying to submit the form right away gives us the error message (`can't be blank`) because the description is, of course, still missing!
 
 After filling in the description with some input and hitting the submit button again, the instance of our `TestModel` gets successfully saved in the database - just the way we want it to work.
-
-### Example 10: Form select components
-
-Instead of typing in text, we can also offer select fields to our users. Right now, we have three of them in our core library:
-
-#### Example 10.1: The Dropdown
-
-For the dropdown select component, there are also some different possibilities:
-
-##### Example 10.1.1: Use an array of options or a hash
-
-On our example page, inside our form component we define two `form_select` fields, both with `type: dropdown`. One takes an array, the other takes a hash as `optins` to select from.
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-dropdown', key: :array_input, type: :dropdown, options: ['Array Option 1','Array Option 2']
-        form_select id: 'my-hash-test-dropdown', key: :hash_input, type: :dropdown, options: { '1': 'Hash Option 1', '2': 'Hash Option 2' }
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: :my_object,
-      method: :post,
-      path: :success_form_test_path,
-      params: {
-        id: 42
-      }
-    }
-  end
-
-end
-```
-
-Now, we can visit our example page on `localhost:3000/example` and choose one value from both of our dropdown menues. After clicking the submit button, both of them get sent to the route we defined in the `form_config`, in this case `success_form_test_path`.
-
-##### Example 10.1.2: Initializing a dropdown with a value
-
-In addition to the example above, we now `init` our form_select dropdown fields with specific values from our `options`. Notice that this works with both arrays and hashes!
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-dropdown', key: :array_input, type: :dropdown, options: ['Array Option 1','Array Option 2'], init: 'Array Option 1'
-        form_select id: 'my-hash-test-dropdown', key: :hash_input, type: :dropdown, options: { '1': 'Hash Option 1', '2': 'Hash Option 2' }, init: '1'
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: :my_object,
-      method: :post,
-      path: :success_form_test_path,
-      params: {
-        id: 42
-      }
-    }
-  end
-
-end
-```
-
-On our example page on `localhost:3000/example`, we can now see that both dropdown fields already have a pre-chosen value that we can (but not necessarily have to) submit right away.
-
-
-##### Example 10.1.3: Mapping it to an Active Record Model Array Enum
-
-Let's use our dropdown form_select field on our `TestModel`'s status via an enum array. We first define it in our `models/test_model.rb`:
-
-```ruby
-class TestModel < ApplicationRecord
-
-  enum status: [ :active, :archived ]
-
-end
-```
-
-When defining our example page, we again _prepare_ a new instance of the `TestModel` and this time set a `status` there. This `status` is then used in the `form_select` field, using the `type: dropdown` configuration:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def prepare
-    @test_model = TestModel.new
-    @test_model.status = 'active'
-  end
-
-  def response
-    components {
-      form form_config, :include do
-        form_input id: 'description', key: :description, type: :text
-        form_select id: 'status', key: :status, type: :dropdown, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: @test_model,
-      method: :post,
-      path: :model_form_test_path
-    }
-  end
-
-end
-```
-
-Visiting the example page, we see the status of our `TestModel` pre-filled as `active`, and the description being empty. We can simply type in a description and choose whether we want to change the `status` via our dropdown form_select field. Anyway, our model will get updated in the database on clicking the submit button!
-
-
-##### Example 10.1.4: Mapping it to an Active Record Model Hash Enum
-
-Very similiar to the example above, but this time we define our `TestModel`'s status as a hash:
-
-```ruby
-class TestModel < ApplicationRecord
-
-  enum status: { active: 0, archived: 1 }
-
-end
-```
-
-When defining our example page, we again _prepare_ a new instance of the `TestModel` and this time set a `status` there. This `status` is then used in the `form_select` field, using the `type: dropdown` configuration:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def prepare
-    @test_model = TestModel.new
-    @test_model.status = 'active'
-  end
-
-  def response
-    components {
-      form form_config, :include do
-        form_input id: 'description', key: :description, type: :text
-        form_select id: 'status', key: :status, type: :dropdown, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: @test_model,
-      method: :post,
-      path: :model_form_test_path
-    }
-  end
-
-end
-```
-
-The behavior is just the same as in Example 10.1.4!
-
-##### Example 10.1.5: Mapping it to Active Record Model Errors
-
-Now, we want to provoke a validation error in our form! Therefor, we modify our example above by making the status a required attribute for our `TestModel`:
-
-```ruby
-class TestModel < ApplicationRecord
-
-  enum status: { active: 0, archived: 1 }
-
-  validates :status, presence: true
-
-end
-```
-
-On our example page, we _prepare_ our `TestModel` instance, but leave the status blank on purpose:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def prepare
-    @test_model = TestModel.new
-  end
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'status', key: :status, type: :dropdown, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: @test_model,
-      method: :post,
-      path: :model_form_test_path
-    }
-  end
-
-end
-```
-
-Visiting our example page and trying to submit the form without selecting an option from our `form_select` dropdown field, we get displayed an `can't be blank` error!
-
-#### Example 10.2: The Checkbox
-
-Similar to the dropdown, we can also use checkboxes for our `form_select` components!
-
-##### Example 10.2.1: Selecting multiple items from an array or hash
-
-On our example page, we define two `form_select` fields, both with the `type: :checkbox` definition. One takes an array as `options` parameter, the other receives a hash.
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-checkbox', key: :array_input, type: :checkbox, options: ['Array Option 1','Array Option 2']
-        form_select id: 'my-hash-test-checkbox', key: :hash_input, type: :checkbox, options: { '1': 'Hash Option 1', '2': 'Hash Option 2' }
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: :my_object,
-      method: :post,
-      path: :success_form_test_path,
-      params: {
-        id: 42
-      }
-    }
-  end
-
-end
-```
-
-Now, on our `localhost:3000/example` page, we can check a random number of checkboxes and hit submit to send the checked options to the path we defined in the `form_config`.
-
-##### Example 10.2.2: Initializing it by (multiple) item(s)
-
-Just as with the dropdown `form_select` field, we can `init` our component to have one (or many) options preselected:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-checkbox', key: :array_input, type: :checkbox, options: ['Array Option 1','Array Option 2'], init: ['Array Option 1', 'Array Option 2']
-        form_select id: 'my-hash-test-checkbox', key: :hash_input, type: :checkbox, options: { '1': 'Hash Option 1', '2': 'Hash Option 2' }, init: ['2']
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: :my_object,
-      method: :post,
-      path: :success_form_test_path,
-      params: {
-        id: 42
-      }
-    }
-  end
-
-end
-```
-
-On our example page, we see the preselected checkboxes already checked. We can decide on whether to change this selection or submit it as it is!
-
-##### Example 10.2.3: Mapping to an Active Record Model Column, serialized as an Array
-
-To clean up our code, we can move the `form_select` options to our `TestModel` and serialize them there. We also make the `more_data` attribute obligatory to test our form validation!
-
-```ruby
-class TestModel < ApplicationRecord
-
-  serialize :some_data, Array
-  serialize :more_data, Array
-
-  validates :more_data, presence: true
-
-  def self.array_options
-    ['Array Option 1','Array Option 2']
-  end
-
-  def self.hash_options
-    { 'my_first_key': 'Hash Option 1', 'my_second_key': 'Hash Option 2' }
-  end
-
-end
-```
-
-Now, we _prepare_ an instance of our `TestModel` and configure the `options` in our `form_select` component to work on our model methods.
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def prepare
-    @test_model = TestModel.new
-    @test_model.some_data = ['Array Option 2']
-    @test_model.more_data = ['my_second_key']
-  end
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-checkbox', key: :some_data, type: :checkbox, options: TestModel.array_options
-        form_select id: 'my-hash-test-checkbox', key: :more_data, type: :checkbox, options: TestModel.hash_options
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: @test_model,
-      method: :post,
-      path: :model_form_test_path
-    }
-  end
-
-end
-```
-
-Visiting our example page, we see *Array Option 2* and *Hash Option 2* are already checked (as defined in the _prepare_ method) while *Array Option 1* and *Hash Option 1* are not checked. If we now uncheck *Hash Option 2* and try to submit, we receive an error message (`can't be blank`).
-
-Checking *Hash Option 2* again and trying to submit, the error message disappears and our model instance is successfully saved in the database!
-
-#### Example 10.3: The Radio Button
-
-Whilst working similiar to the checkbox, the radio button is designed to only allow for one option to be submitted.
-
-##### Example 10.3.1: Submitting one item from an array or hash
-
-We define our example page to have two `form_select` fields of `type: :radio`. One of them receives an array as `options` parameter, the other a hash:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-radio', key: :array_input, type: :radio, options: ['Array Option 1','Array Option 2']
-        form_select id: 'my-hash-test-radio', key: :hash_input, type: :radio, options: { '1': 'Hash Option 1', '2': 'Hash Option 2' }
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: :my_object,
-      method: :post,
-      path: :success_form_test_path,
-      params: {
-        id: 42
-      }
-    }
-  end
-
-end
-```
-
-Visiting our example page, we can now choose one option from each `form select` field by clicking the radio button fields, choosing e.g. *Array Option 2* and *Hash Option 1*. If we now click the submit button, the route we defined in the `form_config` receives our two options as `array_input: 'Array Option 2', hash_input: '1'`!
-
-##### Example 10.3.2: Initializing it with an item
-
-In this example, our example page looks just like before. The only difference is that we now `init` both form_select components with one of their `options`:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def response
-    components {
-      form form_config, :include do
-        form_select id: 'my-array-test-radio', key: :array_input, type: :radio, options: ['Array Option 1','Array Option 2'], init: 'Array Option 1'
-        form_select id: 'my-hash-test-radio', key: :hash_input, type: :radio, options: { '1': 'Hash Option 1', '2': 'Hash Option 2' }, init: '2'
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: :my_object,
-      method: :post,
-      path: :success_form_test_path,
-      params: {
-        id: 42
-      }
-    }
-  end
-
-end
-```
-
-On our example page we find *Array Option 1* and *Hash Option 2* preselected and can just click the submit button to send them to the route defined in `form_config`. Convenient!
-
-##### Example 10.3.3: Mapping it to an Active Record Model Array Enum
-
-We begin with adding an status enum to our `models/test_model.rb`, defined in an array:
-
-```ruby
-class TestModel < ApplicationRecord
-
-  enum status: [ :active, :archived ]
-
-end
-```
-
-On our example page definition, we create an instance of our `TestModel` and preselect a status for it:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def prepare
-    @test_model = TestModel.new
-    @test_model.status = 'active'
-  end
-
-  def response
-    components {
-      form form_config, :include do
-        form_input id: 'description', key: :description, type: :text
-        form_select id: 'status', key: :status, type: :radio, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: @test_model,
-      method: :post,
-      path: :model_form_test_path
-    }
-  end
-
-end
-```
-
-Now, if we visit our example page on `localhost:3000/example`, we see the preselected status for our `TestModel` instance. We can decide whether to change the status by toggling the radio button, and also can fill in a description in the corresponding input field. After hitting the submit button, both the status and the description get saved with the instance of our `TestModel`!
-
-##### Example 10.3.4: Mapping it to an Active Record Model Hash Enum
-
-Just as in the example above, we define a status in our `models/test_model.rb`. But this time, we define the status enum as a hash!
-
-```ruby
-class TestModel < ApplicationRecord
-
-  enum status: [ :active, :archived ]
-
-end
-```
-
-The `TestModel` instance gets _prepared_ just as in the example before this one:
-
-```ruby
-class ExamplePage < Matestack::Ui::Page
-
-  def prepare
-    @test_model = TestModel.new
-    @test_model.status = 'active'
-  end
-
-  def response
-    components {
-      form form_config, :include do
-        form_input id: 'description', key: :description, type: :text
-        form_select id: 'status', key: :status, type: :radio, options: TestModel.statuses.invert, init: TestModel.statuses[@test_model.status]
-        form_submit do
-          button text: 'Submit me!'
-        end
-      end
-    }
-  end
-
-  def form_config
-    return {
-      for: @test_model,
-      method: :post,
-      path: :model_form_test_path
-    }
-  end
-
-end
-```
-
-Again, we can visit our example page on `localhost:3000/example` and are welcome by the preselected status of our `TestModel` instance. Changing the value of the status by toggling the radio button and filling in a description plus submitting it works just as before!
-
-#### Example 10.4: The Range Input
-
-Whilst working similiar to the 'text' input, the range input accepts a few more parameters. It accepts also 'min', 'max', 'step', 'list' as optional parameters.
-
-##### Example 10.4.1: Range input with max, min, step set
-
-```ruby
-form_input id: 'range-input', type: :range, min: 0, max: 100, step: 1
-```
-
-#### Example 10.4.2: Range input with corresponding datalist
-
-To use a datalist for the range input specify the 'list' parameter with the id of the provided datalist
-
-```ruby
-form_input id: 'range-input', type: :range, list: 'datalist-id'
-datalist id: 'datalist-id' do
-  option value: 10
-  option value: 20
-end
-```
-
-#### Example 11: File Upload
-
-In order to perform a single file upload, add this `form_input` component
-
-```ruby
-form_input key: :some_file, type: :file
-```
-
-In order to perform multiple file uploads, add this `form_input` component
-
-```ruby
-form_input key: :some_files, type: :file, multiple: true
-```
-
-Don't forget to add the `multiple: true` attribute to your `form_config`!
-
-In order to accept multiple files, you should permit params on your controller like:
-
-`some_controller.rb`
-```ruby
-#...
-params.require(:my_form_wrapper_key).permit(
-  :some_file,
-  some_files: []
-)
-#...
-```
-
-Please be aware that the `form_input` components with a `type: :file` can not be initialized with a given file.

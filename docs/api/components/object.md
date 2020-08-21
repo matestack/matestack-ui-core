@@ -1,38 +1,36 @@
 # Matestack Core Component: Object
 
-Feel free to check out the [component specs](/spec/usage/components/object_spec.rb).
-
 The HTML `<object>` tag, implemented in Ruby.
 
 ## Parameters
 
 This component can take 9 optional configuration params, but at least one of the `data` or `type` attribute **MUST** be defined.
 
-#### # class (optional)
+#### class (optional)
 Expects a string with all classes the `<object>` should have.
 
-#### # data (optional)
+#### data (optional)
 Expects a string that specifies the URL of the resource to be used by the `<object`.
 
-#### # form (optional)
+#### form (optional)
 Expects a string that contains one or more *form_id*-s to specify one or more forms the `<object>` belongs to.
 
-#### # height (optional)
+#### height (optional)
 Expects a number to specify the height of the `<object>`.
 
-#### # id (optional)
+#### id (optional)
 Expects a string with all ids the `<object>` should have.
 
-#### # name (optional)
+#### name (optional)
 Expects a string that specifies a name for the `<object>`.
 
-#### # type (optional)
+#### type (optional)
 Expects a string to specify the media type of data specified in the data attribute.
 
-#### # usemap (optional)
+#### usemap (optional)
 Expects a string to specify the name of a client-side image map to be used with the `<object>`.
 
-#### # width (optional)
+#### width (optional)
 Expects a number to specify the width of the `<object>`.
 
 

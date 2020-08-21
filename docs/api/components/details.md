@@ -2,8 +2,6 @@
 
 The HTML `<details>` and `<summary>` tags, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/details_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 The `<summary >`tag either yields content or displays what gets passed to the `text` configuration param. Both `<details>` and `<summary>` tag accept all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 

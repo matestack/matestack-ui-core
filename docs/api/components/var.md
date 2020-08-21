@@ -2,10 +2,12 @@
 
 The HTML `<var>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/var_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
+
+### text - optional
+
+If given will render the text within the var tags
 
 ## Examples
 

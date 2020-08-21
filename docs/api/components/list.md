@@ -1,20 +1,18 @@
 # Matestack Core Component: Lists
 
-Feel free to check out the [component specs](/spec/usage/components/list_spec.rb).
-
 Use lists to implement `<ol>`, `<ul>` and `<li>`-tags.
 
 ## Parameters
 
 Both list definitions (`<ol>` and `<ul>`) and list elements (`<li>`) can take 2 optional configuration params. List elements (`<li>`) can also take a third param, text input.
 
-#### # id (optional)
+#### id (optional)
 Expects a string with all ids the element should have.
 
-#### # class (optional)
+#### class (optional)
 Expects a string with all classes the element should have.
 
-#### # text (optional)
+#### text (optional)
 Expects a string which will be rendered between the opening and closing `<li>`-tag
 
 ## Example 1

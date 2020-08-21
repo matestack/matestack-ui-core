@@ -21,7 +21,7 @@ class Apps::MyApp < Matestack::Ui::App
         heading size: 1, text: "My App"
       end
       main do
-        page_content
+        yield_page
       end
     }
   end

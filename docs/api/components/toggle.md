@@ -1,14 +1,12 @@
 # matestack core component: Toggle
 
-Show [specs](/spec/usage/components/dynamic/toggle_spec.rb)
-
 The `toggle` component allows us to react to events and toggle the view state.
 
 ## Parameters
 
 The toggle core component accepts the following parameters:
 
-### Show_on
+### show_on
 
 The `show_on` option lets us define an event on which the component gets shown. The content is still rendered on init pageload, but simply hidden in the browser until the event is emitted. If you want to have proper deferred loading, please refer to [defer](#defer)
 
@@ -26,7 +24,7 @@ You can pass in multiple, comma-separated events on which the component should b
 toggle show_on: 'my_event, some_other_event'
 ```
 
-### Hide_on
+### hide_on
 
 The `hide_on` option lets us define an event on which the component gets hidden.
 
@@ -45,7 +43,7 @@ toggle hide_on: 'my_event, some_other_event'
 ```
 
 
-### Hide_after
+### hide_after
 
 The `hide_after` option lets us define a timespan in milliseconds after which the component gets hidden.
 
@@ -57,26 +55,18 @@ toggle hide_after: 1000 do
 end
 ```
 
-### Shown_on/Hide_on Combination
+### init_show
 
-If you combine `shown_on` and `hide_on`, you can toggle the view state of the `toggle` component explicitly.
+The `init_show` option lets us define if the content should be shown initially.
 
-By default, the content is initially hidden until the show event is emitted when `shown_on` is applied.
+By default the content is shown initially unless `show_on` is defined.
 
-```ruby
-toggle shown_on: "my_show_event", hide_on: 'my_hide_event' do
-  div id: 'my-div' do
-    plain 'You will not see me after the event'
-  end
-end
-```
-
- If you want to display the content initially, simply add `init_show: true`
+`init_show` is therefore only used in a context like this:
 
 ```ruby
-toggle shown_on: "my_show_event", hide_on: 'my_hide_event', init_show: true do
+toggle show_on: "my_show_event", hide_on: 'my_hide_event', init_show: true do
   div id: 'my-div' do
-    plain 'You will not see me after the event'
+    plain "I'm initially shown and then can be toggled based on events"
   end
 end
 ```
@@ -85,7 +75,7 @@ end
 
 See some common use cases below:
 
-### Example 2: Show on event
+### Example 1: Show on event
 
 On our example page, we wrap a simple timestamp in an toggle component and tell it to show up when the event `my_event` gets triggered.
 
@@ -107,7 +97,7 @@ end
 
 _After_ our event was fired, the timestamp only is visible on our page!
 
-### Example 3: Hide on event
+### Example 2: Hide on event
 
 On our example page, we wrap a simple timestamp in an toggle component and tell it to hide it when the event `my_event` gets triggered.
 
@@ -129,7 +119,7 @@ end
 
 As expected, the timestamp is only visible _before_ our event was fired and is hidden/invisible _after_ the event!
 
-### Example 4: Hide after show on event
+### Example 3: Hide after show on event
 
 On our example page, we wrap a simple timestamp in an toggle component and tell it to show up when the event `my_event` gets triggered and be hidden after 1000 milliseconds.
 
@@ -151,7 +141,7 @@ end
 
 In this case, the timestamp only is visible _after_ our event was fired, but only for a certain amount of time. After the time is up, it gets hidden!
 
-### Example 5: Show on event with event payload
+### Example 4: Show on event with event payload
 
 On our example page, we wrap our toggle event around a placeholder for the event message.
 
@@ -178,3 +168,27 @@ MatestackUiCore.matestackEventHub.$emit("my_event", { message: "test!" })
 ```
 
 As a result, the event message gets shown _after_ our event was fired!
+
+### Example 5: show_on/hide_on Combination
+
+If you combine `show_on` and `hide_on`, you can toggle the view state of the `toggle` component explicitly.
+
+By default, the content is initially hidden until the show event is emitted when `show_on` is applied.
+
+```ruby
+toggle show_on: "my_show_event", hide_on: 'my_hide_event' do
+  div id: 'my-div' do
+    plain 'You will not see me after the event'
+  end
+end
+```
+
+If you want to display the content initially, simply add `init_show: true`
+
+```ruby
+toggle show_on: "my_show_event", hide_on: 'my_hide_event', init_show: true do
+  div id: 'my-div' do
+    plain 'You will not see me after the event'
+  end
+end
+```

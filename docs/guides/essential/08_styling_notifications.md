@@ -99,7 +99,7 @@ class Demo::App < Matestack::Ui::App
     partial :navigation
     main do
       person_disclaimer
-      page_content
+      yield_page
     end
   end
 
@@ -524,7 +524,7 @@ To make use of the Bootstrap loading spinner, we need to update our `matestack` 
     end
     main id: 'page-content' do
       person_disclaimer
-      page_content
+      yield_page
     end
   end
 ```

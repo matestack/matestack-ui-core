@@ -156,14 +156,14 @@ class Demo::App < Matestack::Ui::App
       transition path: :second_page_path, text: 'Second page'
     end
     main do
-      page_content
+      yield_page
     end
   end
 
 end
 ```
 
-This file provides us with a basic app layout that will stay the same throughout the pages within this app - the header (and other content you may add in the above file) will stay the same, and switching between pages will only replace the `page_content` within the `main`-tag.
+This file provides us with a basic app layout that will stay the same throughout the pages within this app - the header (and other content you may add in the above file) will stay the same, and switching between pages will only replace the `yield_page` within the `main`-tag.
 
 Moving on, create two files called `first_page.rb` and `second_page.rb` within `app/matestack/demo/pages/`, and add the following content to them:
 

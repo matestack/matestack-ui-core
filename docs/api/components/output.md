@@ -1,26 +1,24 @@
 # Matestack Core Component: Output
 
-Feel free to check out the [component specs](/spec/usage/components/output_spec.rb).
-
 The HTML `<output>` tag, implemented in Ruby.
 
 ## Parameters
 
 This component can take up to 5 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-#### # id (optional)
+#### id (optional)
 Expects a string with all ids the `<output>` should have.
 
-#### # class (optional)
+#### class (optional)
 Expects a string with all classes the `<output>` should have.
 
-#### # name (optional)
+#### name (optional)
 Specifies a name for the `<output>` element
 
-#### # for (optional)
+#### for (optional)
 Specifies the relationship between the result of the calculation, and the elements used in the calculation
 
-#### # form (optional)
+#### form (optional)
 Specifies one or more forms the `<output>` element belongs to
 
 ## Example 1:

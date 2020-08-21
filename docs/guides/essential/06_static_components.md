@@ -142,7 +142,7 @@ Afterwards, add it to `app/matestack/demo/app.rb` within the `main`-block:
 ```ruby
 # ...
   main do
-    page_content
+    yield_page
     person_disclaimer
     # ...
   end

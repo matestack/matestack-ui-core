@@ -64,7 +64,7 @@ class Admin::App < Matestack::Ui::App
       span class: 'sr-only', text: 'Loading...'
     end
     main id: 'page-content' do
-      page_content
+      yield_page
     end
   end
 

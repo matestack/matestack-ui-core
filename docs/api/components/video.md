@@ -2,39 +2,37 @@
 
 The HTML `video` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/video_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 The video component takes mandatory path and type arguments and can take a number of optional configuration params.
 
-#### # autoplay (optional)
+#### autoplay (optional)
 Expects a boolean and specifies whether the video should start playing as soon as it is ready.
 
-#### # controls (optional)
+#### controls (optional)
 Expects a boolean and specifies whether the video controls (play/pause button etc) should be displayed.
 
-#### # height (optional)
+#### height (optional)
 Expects an integer with the height of the video in px.
 
-#### # loop (optional)
+#### loop (optional)
 Expects a boolean and specifies whether the video will start over again every time it is finished.
 
-#### # muted (optional)
+#### muted (optional)
 Expects a boolean and specifies whether the audio output of the video should be muted.
 
-#### # path
+#### path
 Expects a string with the source to the video. It looks for the video in the `assets/videos` folder and uses the standard Rails asset pipeline.
 
-#### # type
+#### type
 Expects a string with the type to the video.
 
-#### # playsinline (optional)
+#### playsinline (optional)
 Expects a boolean and specifies whether the video should be played inline on iOS Safari.
 
-#### # preload (optional)
+#### preload (optional)
 Expects a string (`auto`, `metadata` or `none`) and specifies whether the whole video/only metadata/nothing should be loaded on pageload. Default (if not specified) depends on the client's browser.
 
-#### # width (optional)
+#### width (optional)
 Expects an integer with the width of the video in px.
 
 ## Examples

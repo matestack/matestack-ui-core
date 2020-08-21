@@ -2,15 +2,13 @@
 
 The HTML `<fieldset>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/fieldset_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component can take various optional configuration params and yield a block.
 
-### Disabled - optional
+### Disabled (optional)
 Expects a boolean. If set to true, the `<fieldset>` will be disabled.
 
-### HMTL attributes - optional
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -21,7 +19,7 @@ This component accepts all the canonical [HTML global attributes](https://www.w3
 fieldset id: 'foo', class: 'bar' do
   legend id: 'baz', text: 'Your Inputs for Personal details'
   label text: 'Personal Detail'
-  input 
+  input
 end
 ```
 
@@ -35,17 +33,16 @@ end
 
 ### Example 2: Disabled Attributes
 
-```ruby 
+```ruby
 fieldset disabled: true do
   legend text: 'input legend'
   input
 end
 ```
 
-```html 
+```html
 <fieldset disabled="disabled">
   <legend>input legend</legend>
   <input>
 </fieldset>
 ```
-

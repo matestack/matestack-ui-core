@@ -2,19 +2,17 @@
 
 The HTML `<param>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/param_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-### Name - optional
+### Name (optional)
 Expects a string and specifies the name of a parameter.
 
 
-### Value - optional
+### Value (optional)
 Expects a string and specifies the value of a parameter.
 
-### HMTL attributes - optional
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples

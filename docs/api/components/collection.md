@@ -9,7 +9,7 @@ The `collection` component is designed to
 - paginate the displayed instances without full page reload
 - order the displayed instances without full page reload
 
-The `collection` component should be as flexible as possible while still reducing the complexity of implementing all classic collection features by hand.
+The `collection` component should be as flexible as possible while still reducing the complexity of implementing all typical collection features by hand.
 
 ## Prerequisites
 
@@ -43,49 +43,43 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   end
 
   def response
-    components {
-      heading size: 2, text: "My Collection"
+    heading size: 2, text: "My Collection"
 
-      partial :filter
+    filter
 
-      # the content has to be wrapped in an `async` component
-      # the event has to be "your_custom_collection_id" + "-update"
-      async rerender_on: "my-first-collection-update" do
-        partial :content
-      end
-    }
+    # the content has to be wrapped in an `async` component
+    # the event has to be "your_custom_collection_id" + "-update"
+    async rerender_on: "my-first-collection-update", id: "my-collection-content" do
+      content
+    end
   end
 
   def filter
-    partial {
-      collection_filter @my_collection.config do
+    collection_filter @my_collection.config do
 
-        collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
-        collection_filter_submit do
-          button text: "filter"
-        end
-        collection_filter_reset do
-          button text: "reset"
-        end
-
+      collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+      collection_filter_submit do
+        button text: "filter"
       end
-    }
+      collection_filter_reset do
+        button text: "reset"
+      end
+
+    end
   end
 
-  def content
-    partial {    
-      collection_content @my_collection.config do
+  def content  
+    collection_content @my_collection.config do
 
-        ul do
-          @my_collection.data.each do |dummy|
-            li do
-              plain dummy.title
-            end
+      ul do
+        @my_collection.data.each do |dummy|
+          li do
+            plain dummy.title
           end
         end
-
       end
-    }
+
+    end
   end
 
 end
@@ -120,72 +114,65 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   end
 
   def response
-    components {
       heading size: 2, text: "My Collection"
 
-      partial :filter
+      filter
 
-      async rerender_on: "my-first-collection-update" do
-        partial :content
+      async rerender_on: "my-first-collection-update", id: "my-collection-content" do
+        content
       end
     }
   end
 
   def filter
-    partial {
-      collection_filter @my_collection.config do
+    collection_filter @my_collection.config do
 
-        collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
-        collection_filter_submit do
-          button text: "filter"
-        end
-        collection_filter_reset do
-          button text: "reset"
-        end
-
+      collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+      collection_filter_submit do
+        button text: "filter"
       end
-    }
+      collection_filter_reset do
+        button text: "reset"
+      end
+
+    end
   end
 
   def content
-    partial {
-      collection_content @my_collection.config do
+    collection_content @my_collection.config do
 
-        ul do
-          # now we use paginated_data!
-          @my_collection.paginated_data.each do |dummy|
-            li do
-              plain dummy.title
-            end
+      ul do
+        # now we use paginated_data!
+        @my_collection.paginated_data.each do |dummy|
+          li do
+            plain dummy.title
           end
         end
-
-        partial :paginator #has to be placed within the `collection_content` component!
       end
-    }
+
+      paginator #has to be placed within the `collection_content` component!
+    end
   end
 
   def paginator
-    partial {
-      plain "showing #{@my_collection.from}"
-      plain "to #{@my_collection.to}"
-      plain "of #{@my_collection.filtered_count}"
-      plain "from total #{@my_collection.base_count}"
+    plain "showing #{@my_collection.from}"
+    plain "to #{@my_collection.to}"
+    plain "of #{@my_collection.filtered_count}"
+    plain "from total #{@my_collection.base_count}"
 
-      collection_content_previous do
-        button text: "previous"
-      end
+    collection_content_previous do
+      button text: "previous"
+    end
 
-      @my_collection.pages.each do |page|
-        collection_content_page_link page: page do
-          button text: page
-        end
+    @my_collection.pages.each do |page|
+      collection_content_page_link page: page do
+        button text: page
       end
+    end
 
-      collection_content_next do
-        button text: "next"
-      end
-    }
+    collection_content_next do
+      button text: "next"
+    end
   end
 
 
@@ -226,70 +213,63 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
     components {
       heading size: 2, text: "My Collection"
 
-      partial :filter
-      partial :ordering
+      filter
+      ordering
 
-      async rerender_on: "my-first-collection-update" do
-        partial :content
+      async rerender_on: "my-first-collection-update", id: "my-collection-content" do
+        content
       end
     }
   end
 
   def filter
-    partial {
-      collection_filter @my_collection.config do
+    collection_filter @my_collection.config do
 
-        collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
-        collection_filter_submit do
-          button text: "filter"
-        end
-        collection_filter_reset do
-          button text: "reset"
-        end
-
+      collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+      collection_filter_submit do
+        button text: "filter"
       end
-    }
+      collection_filter_reset do
+        button text: "reset"
+      end
+
+    end
   end
 
   def ordering
-    partial {
-      collection_order @my_collection.config do
+    collection_order @my_collection.config do
 
-        plain "sort by:"
-        collection_order_toggle key: :title do
-          button do
-            # we use an "arrow up (unicode: &#8593;)"
-            # and and an "arrow down (unicode: &#8595;)" to
-            # visualize the current order state
-            collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
-            plain "title"
-          end
+      plain "sort by:"
+      collection_order_toggle key: :title do
+        button do
+          # we use an "arrow up (unicode: &#8593;)"
+          # and and an "arrow down (unicode: &#8595;)" to
+          # visualize the current order state
+          collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
+          plain "title"
         end
-
       end
-    }
+
+    end
   end
 
   def content
-    partial {
-      collection_content @my_collection.config do
+    collection_content @my_collection.config do
 
-        ul do
-          @my_collection.paginated_data.each do |dummy|
-            li do
-              plain dummy.title
-            end
+      ul do
+        @my_collection.paginated_data.each do |dummy|
+          li do
+            plain dummy.title
           end
         end
-
-        partial :paginator #has to be placed within the `collection_content` component!
-
       end
-    }
+
+      paginator #has to be placed within the `collection_content` component!
+
+    end
   end
 
   def paginator
-    partial {
       plain "showing #{@my_collection.from}"
       plain "to #{@my_collection.to}"
       plain "of #{@my_collection.filtered_count}"
@@ -308,7 +288,6 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
       collection_content_next do
         button text: "next"
       end
-    }
   end
 
 
@@ -341,50 +320,44 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   end
 
   def response
-    components {
       heading size: 2, text: "My Collection"
 
-      partial :filter
+      filter
 
-      async rerender_on: "my-first-collection-update" do
-        partial :content
+      async rerender_on: "my-first-collection-update", id: "my-collection-content" do
+        content
       end
-    }
   end
 
   def filter
-    partial {
-      collection_filter @my_collection.config do
+    collection_filter @my_collection.config do
 
-        collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
-        collection_filter_submit do
-          button text: "filter"
-        end
-        collection_filter_reset do
-          button text: "reset"
-        end
-
+      collection_filter_input key: :title, type: :text, placeholder: "Filter by Title"
+      collection_filter_submit do
+        button text: "filter"
       end
-    }
+      collection_filter_reset do
+        button text: "reset"
+      end
+
+    end
   end
 
-  def content
-    partial {    
-      collection_content @my_collection.config do
+  def content   
+    collection_content @my_collection.config do
 
-        ul do
-          @my_collection.data.each do |dummy|
-            li do
-              plain dummy.title
-              action my_action_config(dummy.id) do
-                button text: "delete"
-              end
+      ul do
+        @my_collection.data.each do |dummy|
+          li do
+            plain dummy.title
+            action my_action_config(dummy.id) do
+              button text: "delete"
             end
           end
         end
-
       end
-    }
+
+    end
   end
 
   def my_action_config id

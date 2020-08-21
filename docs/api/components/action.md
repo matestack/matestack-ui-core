@@ -1,8 +1,6 @@
 # Matestack Core Component: Action
 
-Feel free to check out the [component specs](/spec/usage/components/action_spec.rb).
-
-The action component allows us to trigger HTTP requests!
+The action component allows us to trigger async HTTP requests without Javascript!
 
 ## Parameters
 
@@ -242,12 +240,10 @@ After that, you can specify an action on our example page. Notice how we wrap a 
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      # our action component wraps a simple button
-      action action_config do
-        button text: 'Click me!'
-      end
-    }
+    # our action component wraps a simple button
+    action action_config do
+      button text: 'Click me!'
+    end
   end
 
   # this is where our action is defined
@@ -280,12 +276,10 @@ And on the example page, we specify our action component's behavior:
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      # our action component again wraps a button
-      action action_config do
-        button text: 'Click me!'
-      end
-    }
+    # our action component again wraps a button
+    action action_config do
+      button text: 'Click me!'
+    end
   end
 
   def action_config
@@ -339,18 +333,16 @@ for now it is just important that it waits for our `action_config` success messa
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      # this is our action component
-      action action_config do
-        button text: 'Click me!'
+    # this is our action component
+    action action_config do
+      button text: 'Click me!'
+    end
+    # here, we have an async component gets re-rendered on action success
+    async rerender_on: 'my_action_success', id: "my-async-component" do
+      div id: 'my-div' do
+        plain "#{DateTime.now.strftime('%Q')}"
       end
-      # here, we have an async component gets re-rendered on action success
-      async rerender_on: 'my_action_success' do
-        div id: 'my-div' do
-          plain "#{DateTime.now.strftime('%Q')}"
-        end
-      end
-    }
+    end
   end
 
   def action_config
@@ -376,16 +368,14 @@ In this example, we will show a message that gets triggered once the controller 
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      # same configuration as before
-      action action_config do
-        button text: 'Click me!'
-      end
-      # different async behavior
-      async show_on: 'my_action_success', hide_after: 300 do
-        plain '{{event.data.message}}'
-      end
-    }
+    # same configuration as before
+    action action_config do
+      button text: 'Click me!'
+    end
+    # different async behavior
+    toggle show_on: 'my_action_success', hide_after: 300 do
+      plain '{{ event.data.message }}'
+    end
   end
 
   def action_config
@@ -411,20 +401,18 @@ In the examples before, we always assumed (and made sure) that things went well.
 class ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      # our good old action including a button
-      action action_config do
-        button text: 'Click me!'
-      end
-      # success message, initially hidden and removed after 300ms
-      async show_on: 'my_action_success', hide_after: 300 do
-        plain '{{event.data.message}}'
-      end
-      # failure message, initially hidden and removed after 300ms
-      async show_on: 'my_action_failure', hide_after: 300 do
-        plain '{{event.data.message}}'
-      end
-    }
+    # our good old action including a button
+    action action_config do
+      button text: 'Click me!'
+    end
+    # success message, initially hidden and removed after 300ms
+    toggle show_on: 'my_action_success', hide_after: 300 do
+      plain '{{ event.data.message }}'
+    end
+    # failure message, initially hidden and removed after 300ms
+    toggle show_on: 'my_action_failure', hide_after: 300 do
+      plain '{{ event.data.message }}'
+    end
   end
 
   def action_config
@@ -465,18 +453,16 @@ Our example app layout, already including placeholders for success/failure notif
 class Apps::ExampleApp < Matestack::Ui::App
 
   def response
-    components {
-      heading size: 1, text: 'My Example App Layout'
-      main do
-        page_content
-      end
-      async show_on: 'my_action_success', hide_after: 300 do
-        plain '{{event.data.message}}'
-      end
-      async show_on: 'my_action_failure', hide_after: 300 do
-        plain '{{event.data.message}}'
-      end
-    }
+    heading size: 1, text: 'My Example App Layout'
+    main do
+      yield_page
+    end
+    toggle show_on: 'my_action_success', hide_after: 300 do
+      plain '{{ event.data.message }}'
+    end
+    toggle show_on: 'my_action_failure', hide_after: 300 do
+      plain '{{ event.data.message }}'
+    end
   end
 
 end
@@ -488,12 +474,14 @@ To make a transition from one page to the other work, we need to make both of th
 class ExampleAppPagesController < ExampleController
   include Matestack::Ui::Core::ApplicationHelper
 
+  matestack_app ExampleApp
+
   def page1
-    responder_for(Pages::ExampleApp::ExamplePage)
+    render ExampleApp::Pages::ExamplePage
   end
 
   def page2
-    responder_for(Pages::ExampleApp::SecondExamplePage)
+    render ExampleApp::Pages::SecondExamplePage
   end
 
 end
@@ -502,15 +490,13 @@ end
 The first page, including an action component that performs a page transition to page 2 on success!
 
 ```ruby
-class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
+class ExampleApp::Pages::ExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      heading size: 2, text: 'This is Page 1'
-      action action_config do
-        button text: 'Click me!'
-      end
-    }
+    heading size: 2, text: 'This is Page 1'
+    action action_config do
+      button text: 'Click me!'
+    end
   end
 
   def action_config
@@ -533,15 +519,13 @@ end
 The second page, including an action that shows us the failure message we defined in the controller and then transfers us back to page 1.
 
 ```ruby
-class Pages::ExampleApp::SecondExamplePage < Matestack::Ui::Page
+class ExampleApp::Pages::SecondExamplePage < Matestack::Ui::Page
 
   def response
-    components {
-      heading size: 2, text: 'This is Page 2'
-      action action_config do
-        button text: 'Click me!'
-      end
-    }
+    heading size: 2, text: 'This is Page 2'
+    action action_config do
+      button text: 'Click me!'
+    end
   end
 
   def action_config

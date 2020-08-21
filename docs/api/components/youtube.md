@@ -1,31 +1,29 @@
 # Matestack Core Component: Youtube
 
-Feel free to check out the [component specs](../../spec/usage/components/youtube_spec.rb).
-
 A youtube video, embedded into an `iFrame` HTML tag.
 
 ## Parameters
 The video tag takes mandatory *youtube id*, *height* and *width* arguments and can take a number of optional configuration params.
 
-#### # yt_id
+#### yt_id
 Expects a string with the id to the youtube video you want to embed.
 
-#### # id, class (optional)
+#### id, class (optional)
 Like most of the core components, you can give a video an id and a class.
 
-#### # height
+#### height
 Expects an integer with the height of the iFrame in px.
 
-#### # width
+#### width
 Expects an integer with the width of the iFrame in px.
 
-#### # no_controls (optional)
+#### no_controls (optional)
 Expects a boolean. If set to true, no controls will be displayed with the embedded youtube video.
 
-#### # privacy_mode (optional)
+#### privacy_mode (optional)
 Expects a boolean. If set to true, the video gets loaded from 'www.youtube-nocookie.com' instead of the default 'www.youtube.com'.
 
-#### # start_at (optional)
+#### start_at (optional)
 Expects an integer that indicates at what second the video should start.
 
 ## Example 1

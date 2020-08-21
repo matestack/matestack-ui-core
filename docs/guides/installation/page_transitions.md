@@ -119,7 +119,7 @@ class Apps::MyApp < Matestack::Ui::App
       end
 
       main do
-        page_content
+        yield_page
       end
     }
   end
@@ -128,7 +128,7 @@ end
 ```
 
 Clicking on the transition links will perform dynamic transition and change the
-page_content without a full page reload.
+yield_page without a full page reload.
 
 You can see this in action when navigating through this guides. The links on the
 sidebar of these docs are transition components.
@@ -167,8 +167,8 @@ class Apps::MyApp < Matestack::Ui::App
         div class: "loading" do
           div id: "spinner", class: "mdl-spinner mdl-js-spinner is-active"
         end
-        div id: "page_content" do
-          page_content
+        div id: "yield_page" do
+          yield_page
         end
         partial :alert_bar  #optional
       end
@@ -201,7 +201,7 @@ Now let's add some custom JavaScript behavior (just pick what you want to use on
 //Transition Start - DOM Manipulation (depends on your DOM/CSS Framework!)
 MatestackUiCore.matestackEventHub.$on('page_loading', function(url){
   //hide old content
-  document.querySelector('#page_content').style.opacity = 0;
+  document.querySelector('#yield_page').style.opacity = 0;
   setTimeout(function () {
     //show loading spinner
     document.querySelector('#spinner').style.display = "inline-block";
@@ -214,7 +214,7 @@ MatestackUiCore.matestackEventHub.$on('page_loaded', function(url){
     //hide loading spinner
     document.querySelector('#spinner').style.display = "none";
     //show new content
-    document.querySelector('#page_content').style.opacity = 1;
+    document.querySelector('#yield_page').style.opacity = 1;
   }, 500);
 });
 
@@ -239,7 +239,7 @@ MatestackUiCore.matestackEventHub.$on('page_loading_error', function(error){
     //hide loading spinner
     document.querySelector('#spinner').style.display = "none";
     //show old content again
-    document.querySelector('#page_content').style.opacity = 1;
+    document.querySelector('#yield_page').style.opacity = 1;
     //call Material Snackbar API
     var alertbarContainer = document.querySelector('#alert_bar');
     var data = {message: 'error loading: ' + error.config.url, timeout: 3000};
@@ -255,7 +255,7 @@ and a some CSS:
 `app/assets/stylesheets/application.css`
 
 ```css
-#page_content{
+#yield_page{
   transition:opacity 0.2s linear;
 }
 #spinner {

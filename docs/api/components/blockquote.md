@@ -2,18 +2,16 @@
 
 The HTML `<blockquote>` tag, implemented in Ruby.
 
-Feel free to check out the [component specs](/spec/usage/components/blockquote_spec.rb) and see the [examples](#examples) below.
-
 ## Parameters
 This component can handle various optional configuration params and can either yield content or display what gets passed to the `text` configuration param.
 
-### Cite - optional
+### Cite (optional)
 Expects a string referencing a cite for the blockquote.
 
-### Text - optional
+### Text (optional)
 Expects a string which will be displayed as the content inside the `<blockquote>` tag. If this is not passed, a block must be passed instead.
 
-### HMTL attributes - optional
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples

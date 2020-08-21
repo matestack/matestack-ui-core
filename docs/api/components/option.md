@@ -1,32 +1,30 @@
 # Matestack Core Component: Option
 
-Feel free to check out the [component specs](/spec/usage/components/option_spec.rb).
-
 The HTML `<option>` tag, implemented in Ruby.
 
 ## Parameters
 
 This component can take 7 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-#### # id (optional)
+#### id (optional)
 Expects a string with all ids the `<option>` should have.
 
-#### # class (optional)
+#### class (optional)
 Expects a string with all classes the `<option>` should have.
 
-#### # disabled (optional)
+#### disabled (optional)
 Specifies that the `<option>` should be disabled.
 
-#### # label (optional)
+#### label (optional)
 Specifies a shorter label for the `<option>`.
 
-#### # text (optional)
+#### text (optional)
 Specifies the text the `<option>` should contain.
 
-#### # selected (optional)
+#### selected (optional)
 Specifies that the `<option>` should be pre-selected when the page loads.
 
-#### # value (optional)
+#### value (optional)
 Specifies the value to be sent to a server.
 
 
