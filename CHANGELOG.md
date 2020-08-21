@@ -1,14 +1,8 @@
 # Changelog
 
-## v0.8.0 Release
+## v1.0.0 Release
 
 Please note that this release contains breaking changes and soft deprecations. To make things easy for users of the current `v0.7.*` version, we have provided **Migration TODOs** at the end of each chapter.
-
-### Improvements
-
-### Bugfixes
-
-### Security fixes
 
 ### Migration guide for 0.7.x users
 
@@ -166,11 +160,23 @@ or
 
 - [ ] refactor your app/page structure according to your needs, and set the related apps on a controller level
 
+#### 3. Base component class name adjustments
+
+We decided to rename the base component class names in order to create a better understanding of what they are:
+
+* `Matestack::Ui::StaticComponent` --> `Matestack::Ui::Component`
+* `Matestack::Ui::DynamicComponent` --> `Matestack::Ui::VueJsComponent`
+
+**Migration TODOs:**
+
+You can decide to either
+- [ ] we still keep the old class names, but we recommend to adjust the base class names as described above
+
 #### 3. Explicit component registration
 
 A major change happened to the component resolving approach. Until `0.7.x`, matestack-ui-core automatically translated core component calls like `some_component` to a class like `Matestack::Ui::Core::Some::Component`, which had to be defined within the core library at `CORE_ROOT/app/concepts/matestack/ui/core/some/component.rb`. The same applied for custom component calls like `custom_my_component` which resolved to a class `Components::My::Component` which had to be defined within the user's application at `APP_ROOT/app/matestack/components/my/component.rb`.
 
-This auto resolving is being completely removed in the `0.8.0` release. All components (core, custom and add-on-engine) have to be registered explicitly as described below:
+This auto resolving is being completely removed in the `1.0.0` release. All components (core, custom and add-on-engine) have to be registered explicitly as described below:
 
 *Core components*
 
@@ -238,15 +244,15 @@ If you are already using custom components:
 
 #### 4.1 Dynamic (Vue.js) core component naming
 
-Until `0.8.0`, dynamic core components created the Vue.js component name automatically by deriving it from their class name. `Matestack::Ui::Core::Collection::Filter::Filter`, for example, was translated to the Vue.js componente name `matestack-ui-core-collection-filter`. The two occurrences of `Filter` at the end of the class name (which comes from the folder structure and namespacing constraints) was automatically detected and taken care of, so the Vue.js component name only had one occurrence of `filter` in it.
+Until `1.0.0`, dynamic core components created the Vue.js component name automatically by deriving it from their class name. `Matestack::Ui::Core::Collection::Filter::Filter`, for example, was translated to the Vue.js componente name `matestack-ui-core-collection-filter`. The two occurrences of `Filter` at the end of the class name (which comes from the folder structure and namespacing constraints) was automatically detected and taken care of, so the Vue.js component name only had one occurrence of `filter` in it.
 
-This behavior changes in `0.8.0`:
+This behavior changes in `1.0.0`:
 
 * `Matestack::Ui::Core::Collection::Filter::Filter` will be translated to `matestack-ui-core-collection-filter-filter` without any further processing per default
 * It is now possible to set the Vue.js component name manually within the component configuration:
 
 ```ruby
-class Matestack::Ui::Core::Collection::Filter::Filter < Matestack::Ui::DynamicComponent
+class Matestack::Ui::Core::Collection::Filter::Filter < Matestack::Ui::VueJsComponent
   vue_js_component_name "matestack-ui-core-collection-filter"
 
   #...
@@ -263,13 +269,13 @@ Core developers only:
 
 Formerly, custom components behaved differently than core components. `Components::Some::Component` was translated to a Vue.js componente named `custom-some-component`, in order to match their (now changed) dsl method name `custom_some_component`
 
-This behavior changes in `0.8.0`:
+This behavior changes in `1.0.0`:
 
 * Without any further default processing, `Components::Some::Component` will be translated into `components-some-component`
 * It is now possible to set the Vue.js component name manually:
 
 ```ruby
-class Components::Some::Component < Matestack::Ui::DynamicComponent
+class Components::Some::Component < Matestack::Ui::VueJsComponent
   vue_js_component_name "some-component"
 
   #...
@@ -287,9 +293,6 @@ OR
 
 - [ ] adapt the name of your custom Vue.js components to the new naming schema demonstrated above
 
-#### 4.3 Dynamic (Vue.js) AddOn engine component naming
-
-TODO
 
 #### 5. No more components block wrapping in Pages/Components/Apps
 
@@ -374,24 +377,302 @@ def response
 end
 
 def my_simple_slot
-  slot {
+  slot do
     span id: "my_simple_slot" do
       plain "some content"
     end
-  }
+  end
 end
 ```
 
-#### Wrap-up
+#### 8. `page_content` should now be `yield_page`
+
+We changed the naming to be more expressive and in order to align with the existing `yield_components`
+
+**Migration Todos:**
+
+- [ ] On an app layout, you should now use `yield_page` instead of `page_comtent`
+
+#### 9. Wrapping DOM structure of pages has changed
+
+We changed the DOM structure around pages in order to enable better page loading state implementations.
+We also changed the class names of these wrapping divs in order to better match css naming conventions
+
+```html
+<!-- some layout markup -->
+<div class="matestack-page-container">
+  <div class="matestack-page-wrapper">
+    <div><!--this div is necessary for conditional switch to async template via v-if -->
+      <div class="matestack-page-root">
+        your page markup
+      </div>
+    </div>
+  </div>
+</div>
+<!-- some layout markup -->
+```
+
+**Migration Todos:**
+
+- [ ] If you used the old DOM structure and css class names of the wrapping elements for styling, please adjust your CSS accordingly
+
+#### 10. `yield_page` can now take a loading_state slot
+
+In order to simplify the implementation of page loading state effects, we added an optional loading_state slot for `yield_page`:
+
+`app/matestack/example_app/app.rb`
+
+```ruby
+class ExampleApp::App < Matestack::Ui::App
+
+  def response
+    # some layout stuff
+    main do
+      yield_page slots: { loading_state: my_loading_state_slot }
+    end
+    # some layout stuff
+  end
+
+  def my_loading_state_slot
+    slot do
+      span class: "some-loading-spinner" do
+        plain "loading..."
+      end
+    end
+  end
+
+end
+```
+
+which will render:
+
+```html
+<main>
+  <div class="matestack-page-container">
+    <div class="loading-state-element-wrapper">
+      <span class="some-loading-spinner">
+        loading...
+      </span>
+    </div>
+    <div class="matestack-page-wrapper">
+      <div><!--this div is necessary for conditonal switch to async template via v-if -->
+        <div class="matestack-page-root">
+          your page markup
+        </div>
+      </div>
+    </div>
+  </div>
+</end>
+```
+
+and during async page request triggered via transition:
+
+```html
+<main>
+  <div class="matestack-page-container loading">
+    <div class="loading-state-element-wrapper loading">
+      <span class="some-loading-spinner">
+        loading...
+      </span>
+    </div>
+    <div class="matestack-page-wrapper loading">
+      <div><!--this div is necessary for conditonal switch to async template via v-if -->
+        <div class="matestack-page-root">
+          your page markup
+        </div>
+      </div>
+    </div>
+  </div>
+</end>
+```
+
+You can use the `loading` class and your loading state element to implement CSS based loading state effects.
+
+#### 11. `async` component now requires an ID
+
+We changed the way how matestack resolves the content of an `async` component on rerender calls. It is now required to apply an ID to the `async` component
+
+```ruby
+async rerender_on: "some-event", id: "my-unique-id" do
+  plain hello!
+end
+```
+
+**Migration Todos:**
+
+- [ ] Please add an unique ID to each `async` component usage, even if matestack is currntly autogeneratin an ID if not applied. This will be removed in future releases
+
+#### 12. New `toggle` component is replacing `async` shown_on, hide_on, hidef_afer...
+
+We decided to move all pure clientside view state manipulation logic from the `async` component to a new component called `toggle`. `async` should now only take care of serverside rerendering based on events.
+
+```ruby
+async show_on: "some-event" do
+  plain hello!
+end
+# should now be:
+toggel show_on: "some-event" do
+  plain hello!
+end
+```
+
+**Migration Todos:**
+
+- [ ] Please use the new `toggle` component wherever you used `async show_on/hide_on/hide_after`
+
+#### 13. `async` DOM structure and loading state
+
+The `async` components wrapping DOM structure has changed in order to align with the wrapping DOM structure of pages and isolated components:
+
+```ruby
+async rerender_on: "some-event", id: "my-unique-id" do
+  plain hello!
+end
+```
+
+will render to:
+
+```html
+<div class="matestack-async-component-container">
+  <div class="matestack-async-component-wrapper">
+    <div id="my-unique-id" class="matestack-async-component-root">
+      hello!
+    </div>
+  </div>
+</div>
+```
+
+and during rerender:
+
+```html
+<div class="matestack-async-component-container loading">
+  <div class="matestack-async-component-wrapper loading">
+    <div id="my-unique-id" class="matestack-async-component-root" >
+      hello!
+    </div>
+  </div>
+</div>
+```
+
+**Migration Todos:**
+
+- [ ] If you used the old DOM structure and css class names of the wrapping elements for styling, please adjust your CSS accordingly
+
+
+#### 14. `form` component changes
+
+We reworked the form components quite a bit:
+
+- `include` keyword is no longer required
+- `form_input` component no longer supports the input type textarea.
+- Textareas were extracted in a component and can be used as standalone`textarea` or in forms with `form_textarea`.
+- `form_input`component now supports all types according to W3Cs possible types.
+- `form_select` is now only used for HTML select dropdowns
+- `form_radio` is used for rendering radio button inputs
+- `form_checkbox` is used for rendering checkbox inputs, either a single (true/false) checkbox or multiple checkboxes
+- options passed as hashes in to `form_select`, `form_radio` and `form_checkbox` are now expected to be { label_value: input_value } and thus the other way around. Until 0.7.6 it was { input_value: label_value }
+- and added a lot of new features, such as customizing the error rendering.
+
+We invested a lot of time to improve the `form` API docs found [here](/docs/api/components/form.md).
+
+- [ ] Please make sure to read through the docs and migrate your forms accordingly!
+
+#### 15. New approach towards isolated components
+
+We completely rethought the way we approached isolated components.
+
+The old approach:
+
+```ruby
+def response
+  #...
+  isolate :my_isolated_scope
+  #...
+end
+
+def my_isolated_scope
+  isolate {
+    plain "I'm isolated"
+  }
+end
+```
+is removed.
+
+Instead, we created a new component class `Matestack::Ui::IsolatedComponent`. You can build custom component which inherits from this class in order to create components, which will be resolved completely isolated on rerender calls:
+
+```ruby
+class MyPage < Matestack::Ui::Page
+
+  def response
+    #...
+    my_isolated_component defer: true, public_params: { id: 1 }
+    #...
+  end
+
+end
+```
+
+```ruby
+class MyIsolatedComponent < Matestack::Ui::IsolatedComponent
+
+  def prepare
+    my_model = MyModel.find public_params[:id]
+  end
+
+  def response
+    div do
+      plain "#{my_model} was resolved isolated within in a separate http request after page load"
+    end
+  end
+
+  def authorized?
+    true
+    # check access here using current_user for example when using Devise
+    # true means, this isolated component is public
+  end
+end
+```
+
+Using an isolated component with `defer` speeds up the init page load on complex UIs.
+
+**Migration Todos:**
+
+- [ ] Create custom isolated components wherever you used the old approach towards isolate
+
+#### 16. Params access from apps, pages and components
+
+In order to access to request params like we do on controller level, we added the `params` method to apps, pages and components:
+
+```ruby
+def response
+  plain context[:params][:id]
+  #or
+  plain @url_params[:id]
+end
+
+# should now be:
+def response
+  plain params[:id]
+end
+```
+
+**Migration Todos:**
+
+- [ ] Switch to the new `params` method in order to access request params. `@url_params` will be deprecated in future releases
+
+#### 16. Wrap-up
+
 After following all the **Migration Todos**, your application should work just fine. If that's not the case, please [open a GitHub issue](https://github.com/matestack/matestack-ui-core/issues/new) and/or improve this guide!
 
-### Using matestack components in Rails Views
+### Improvements
+
+#### Using matestack components in Rails Views
 
 It is now possible to use `matestack-ui-core` core and custom components in your Rails legacy views. Matestack provides a `matestack_component` helper to use components in views and partials.
 
 Create a custom component like
 ```ruby
-class HeaderComponent < Matestack::Ui::StaticComponent
+class HeaderComponent < Matestack::Ui::Component
   requires :title
 
   def response
@@ -424,17 +705,10 @@ Let's say you have an old view file in `app/views/example/partial.html.erb`
 ```html
 <p>An example text in a Rails view</p>
 ```
-### Changed Components
-
-#### Form Input Component
-
-The `form_input` component no longer supports the input type textarea.
-Textareas were extracted in a component and can be used with `textarea` or in forms with `form_textarea`.
-The `form_input`component now supports all types according to W3Cs possible types.
 
 You could go ahead and re-use it in a component (or simply add it to a page) like:
 ```ruby
-class TextComponent < Matestack::Ui::StaticComponent
+class TextComponent < Matestack::Ui::Component
 
   def response
     paragraph text: 'Example text directly in the component'
@@ -443,6 +717,10 @@ class TextComponent < Matestack::Ui::StaticComponent
 
 end
 ```
+
+### Collection select
+
+
 
 ### Removed Components
 
