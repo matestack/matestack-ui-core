@@ -660,7 +660,13 @@ end
 
 - [ ] Switch to the new `params` method in order to access request params. `@url_params` will be deprecated in future releases
 
-#### 16. Wrap-up
+#### 16. LICENSE change
+
+As we're performing a major release from 0.7.6 to 1.0.0, we're able to switch the license. We decided to go for the [LGPLv3 license](http://www.gnu.org/licenses/lgpl-3.0.html) following the example of Sidekiq or Trailblazer. That won't have an effect on users of our library as long as you're just using `matestack-ui-core` and not creating/publishing a derivative work. You can use `matestack-ui-core` in commercial closed source applications without any issues.Trailblazer has a comprehensive article on that [topic](https://trailblazer.to/2.1/docs/pro.html#pro-license).
+
+Our goal is to create a sustainable open source project. Therefore we need to secure funding. Selling commercial licenses on top of the LGPLv3 license for companies wanting to create/sell closed source derivative work of `matestack-ui-core` should be one pillar of that funding.
+
+#### 17. Wrap-up
 
 After following all the **Migration Todos**, your application should work just fine. If that's not the case, please [open a GitHub issue](https://github.com/matestack/matestack-ui-core/issues/new) and/or improve this guide!
 
