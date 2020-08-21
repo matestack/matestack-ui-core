@@ -25,8 +25,6 @@ const componentDef = {
         }, document.location)){
           matestackEventHub.$emit("page_loading_triggered", document.location.pathname + document.location.search);
           this.$store.commit('setPageLoading', true);
-          this.$store.commit('setPageLoadingStart', true);
-          this.$store.commit('setPageLoadingEnd', false)
           self.$store.dispatch("navigateTo", { url: document.location.pathname + document.location.search, backwards: true } );
       }
     })
