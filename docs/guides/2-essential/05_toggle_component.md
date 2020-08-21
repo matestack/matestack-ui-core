@@ -10,7 +10,7 @@ In this guide, we will introduce matestacks `toggle` and `onclick` components. F
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](guides/essential/04_forms_edit_new_create_update_delete.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/essential/04_forms_edit_new_create_update_delete.md).
 
 ## Adding a show more button with onclick
 
@@ -93,4 +93,4 @@ git add . && git commit -m "add show more toggle to person show page"
 
 We added a show more button to our persons show page and learned how to use the `onclick` and `toggle` components and what they can be used for.  
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`async` component](/guides/essential/06_async_component.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`async` component](/docs/guides/essential/06_async_component.md).
