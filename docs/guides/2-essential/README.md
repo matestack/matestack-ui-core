@@ -1,0 +1,16 @@
+# Essential Guide
+
+0. [Introduction](/docs/guides/2-essential/00_introduction.md)
+1. [Setup](/docs/guides/2-essential/01_setup.md)
+2. [Active Record](/docs/guides/2-essential/02_active_record.md)
+3. [Index, Show, Transition](/docs/guides/2-essential/03_index_show_transition.md)
+4. [Forms, CRUD](/docs/guides/2-essential/04_forms_edit_new_create_update_delete.md)
+5. [Toggle Component](/docs/guides/2-essential/05_toggle_component.md)
+6. [Async Component](/docs/guides/2-essential/06_async_component.md)
+7. [Partials and Custom Components](/docs/guides/2-essential/07_partials_and_custom_components.md)
+8. [Collection Component](/docs/guides/2-essential/08_collection_async.md)
+9. [Custom Vue.js Components](/docs/guides/2-essential/09_custom_vue_js_components.md)
+10. [Styling and Notifications](/docs/guides/2-essential/10_styling_notifications.md)
+11. [Authentication with Devise](/docs/guides/2-essential/11_authentication_devise.md)
+12. [Wrap Up](/docs/guides/2-essential/12_wrap_up.md)
+13. [Heroku Deployment](/docs/guides/2-essential/13_heroku_deployment.md)
