@@ -1,6 +1,6 @@
 # Matestack Core Component: Transition
 
-Feel free to check out the [component specs](/spec/usage/components/transition_spec.rb).
+Performing dynamic page transitions without full page reload.
 
 ## Parameters
 
