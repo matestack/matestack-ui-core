@@ -1,2 +1,5 @@
 %textarea{ html_attributes }
-  = text if text
+  - if text.nil? && block_given?
+    = yield
+  - else
+    = text

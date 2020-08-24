@@ -5,9 +5,5 @@ module Matestack::Ui::Core::Input
       :formenctype, :formmethod, :formnovalidate, :formtarget, :height, :list, :max, :maxlength, :min, :minlength, 
       :multiple, :name, :pattern, :placeholder, :readonly, :required, :size, :src, :step, :type, :value, :width
 
-    def type
-      options[:type]
-    end
-
   end
 end

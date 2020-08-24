@@ -20,21 +20,9 @@ describe 'Progress Component', type: :feature, js: true do
     expected_static_output = <<~HTML
       <progress max="100" value="75"></progress>
       <progress id="my-id" max="330" value="33" class="my-class"></progress>
-      <progress max="500" value="0"></progress>
+      <progress max="500"></progress>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
-  end
-
-  it 'Example 2: Test requires' do
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        # miss max option
-        progress value: 75
-      end
-    end
-
-    visit '/example'
-    expect(page).to have_content("Matestack::Ui::Core::Properties::PropertyMissingException")
   end
 
 end

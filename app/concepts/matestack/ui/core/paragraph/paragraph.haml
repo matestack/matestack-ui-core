@@ -1,5 +1,5 @@
-%p{@tag_attributes}
-  - if options[:text].nil? && block_given?
+%p{ html_attributes }
+  - if text.nil? && block_given?
     = yield
   - else
-    = options[:text]
+    = text
