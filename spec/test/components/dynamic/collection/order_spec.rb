@@ -48,7 +48,9 @@ describe "Collection Component", type: :feature, js: true do
             collection_order_toggle key: :title do
               button do
                 plain "title"
-                collection_order_toggle_indicator key: :title, asc: ' asc', desc: ' desc'
+                collection_order_toggle_indicator key: :title, default: ' created_at', asc: ' asc', desc: ' desc'
+                # try line below
+                # collection_order_toggle_indicator default: ' created_at', asc: ' asc', desc: ' desc'
               end
             end
           end
@@ -72,11 +74,11 @@ describe "Collection Component", type: :feature, js: true do
       end
 
       visit "/example"
-      expect(page).to have_button("title")
+      expect(page).to have_button("title created_at")
       expect(all(".item").first.text).to eq "some-title-1 some-description-1"
       expect(all(".item").last.text).to eq "some-title-11 some-description-11"
 
-      click_button "title"
+      click_button "title created_at"
       sleep 0.2 # otherwise getting stale element error, quick fix
       expect(page).to have_button("title asc")
       expect(all(".item").first.text).to eq "some-title-1 some-description-1"
@@ -90,14 +92,14 @@ describe "Collection Component", type: :feature, js: true do
 
       click_button "title desc"
       sleep 0.2 # otherwise getting stale element error, quick fix
-      expect(page).to have_button("title")
+      expect(page).to have_button("title created_at")
       expect(all(".item").first.text).to eq "some-title-1 some-description-1"
       expect(all(".item").last.text).to eq "some-title-11 some-description-11"
 
       # test persistent state
       page.driver.browser.navigate.refresh
       sleep 0.2 # otherwise getting stale element error, quick fix
-      expect(page).to have_button("title")
+      expect(page).to have_button("title created_at")
       expect(all(".item").first.text).to eq "some-title-1 some-description-1"
       expect(all(".item").last.text).to eq "some-title-11 some-description-11"
     end
