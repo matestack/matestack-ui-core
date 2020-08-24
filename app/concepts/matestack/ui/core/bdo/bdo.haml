@@ -1,5 +1,5 @@
-%bdo{@tag_attributes}
-  - if options[:text].blank? && block_given?
+%bdo{ html_attributes }
+  - if text.blank? && block_given?
     = yield
   - else
-    = options[:text]
+    = text

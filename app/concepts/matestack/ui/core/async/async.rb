@@ -13,7 +13,10 @@ module Matestack::Ui::Core::Async
       if @included_config.present? && @included_config[:isolated_parent_class].present?
         @component_config[:parent_class] = @included_config[:isolated_parent_class]
       end
-      @tag_attributes.merge!({
+    end
+
+    def children_wrapper_attributes
+      html_attributes.merge({
         "v-if": "showing",
         id: @component_config[:component_key]
       })

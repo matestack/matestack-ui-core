@@ -16,7 +16,7 @@ describe "Engine Components", type: :feature, js: true do
       layout "application"
 
       def my_action
-        render(Pages::ExamplePage)
+        render Pages::ExamplePage
       end
     end
 

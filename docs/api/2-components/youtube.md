@@ -3,9 +3,9 @@
 A youtube video, embedded into an `iFrame` HTML tag.
 
 ## Parameters
-The video tag takes mandatory *youtube id*, *height* and *width* arguments and can take a number of optional configuration params.
+The video tag takes a mandatory *youtube id* as argument and can take a number of optional configuration params.
 
-#### yt_id
+#### youtube_id
 Expects a string with the id to the youtube video you want to embed.
 
 #### id, class (optional)

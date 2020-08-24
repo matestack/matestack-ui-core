@@ -1,49 +1,55 @@
 module Matestack::Ui::Core::Form
   class Form < Matestack::Ui::Core::Component::Dynamic
     vue_js_component_name "matestack-ui-core-form"
+    
+    html_attributes :'accept-charset', :action, :autocomplete, :enctype, :method, :name, :novalidate, :rel, :target
 
-    requires :for, :path, method: { as: :form_method }
+    requires :path, for: { as: :for_option }, method: { as: :form_method }
+    optional :success, :failure, :multipart, params: { as: :form_params }
 
     def setup
       begin
         @component_config[:for] = form_wrapper
         @component_config[:submit_path] = submit_path
-        @component_config[:method] = options[:method]
-        @component_config[:success] = options[:success]
-        @component_config[:multipart] = options[:multipart] == true
-        unless options[:success].nil?
-          unless options[:success][:transition].nil?
-            @component_config[:success][:transition][:path] = transition_path options[:success]
+        @component_config[:method] = form_method
+        @component_config[:success] = success
+        @component_config[:multipart] = multipart == true
+        unless success.nil?
+          unless success[:transition].nil?
+            @component_config[:success][:transition][:path] = transition_path success
           end
-          unless options[:success][:redirect].nil?
-            @component_config[:success][:redirect][:path] = redirect_path options[:success]
-          end
-        end
-        @component_config[:failure] = options[:failure]
-        unless options[:failure].nil?
-          unless options[:failure][:transition].nil?
-            @component_config[:failure][:transition][:path] = transition_path options[:failure]
-          end
-          unless options[:failure][:redirect].nil?
-            @component_config[:failure][:redirect][:path] = redirect_path options[:failure]
+          unless success[:redirect].nil?
+            @component_config[:success][:redirect][:path] = redirect_path success
           end
         end
-        @tag_attributes.merge!({
-          "@submit.prevent": true,
-          "class": "matestack-form #{options[:class]}",
-          "v-bind:class": "{ 'has-errors': hasErrors(), 'loading': loading }"
-        })
+        @component_config[:failure] = failure
+        unless failure.nil?
+          unless failure[:transition].nil?
+            @component_config[:failure][:transition][:path] = transition_path failure
+          end
+          unless failure[:redirect].nil?
+            @component_config[:failure][:redirect][:path] = redirect_path failure
+          end
+        end
       rescue => e
         raise "Form component could not be setted up. Reason: #{e}"
       end
     end
 
+    def form_attributes
+      html_attributes.merge({
+        "@submit.prevent": true,
+        "class": "matestack-form #{options[:class]}",
+        "v-bind:class": "{ 'has-errors': hasErrors(), 'loading': loading }"
+      })
+    end
+
     def submit_path
       begin
-        if options[:path].is_a?(Symbol)
-          return ::Rails.application.routes.url_helpers.send(options[:path], options[:params])
+        if path.is_a?(Symbol)
+          return ::Rails.application.routes.url_helpers.send(path, form_params)
         else
-          return options[:path]
+          return path
         end
       rescue
         raise "Submit path not found"
@@ -81,15 +87,15 @@ module Matestack::Ui::Core::Form
     end
 
     def form_wrapper
-      case options[:for]
+      case for_option
       when Symbol
-        return options[:for]
+        return for_option
       when String
-        return options[:for]
+        return for_option
       end
 
-      if options[:for].respond_to?(:model_name)
-        return options[:for].model_name.singular
+      if for_option.respond_to?(:model_name)
+        return for_option.model_name.singular
       end
     end
 

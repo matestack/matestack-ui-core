@@ -1,6 +1,5 @@
 module Matestack::Ui::Core::Page::Content
   class Content < Matestack::Ui::Core::Component::Dynamic
-
     vue_js_component_name "matestack-ui-core-page-content"
 
     def response

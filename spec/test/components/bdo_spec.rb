@@ -28,15 +28,4 @@ describe 'Bdo component', type: :feature, js: true do
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
-
-  it 'Fails if required dir tag is not set' do
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        bdo text: 'Simple bdo ltr tag'
-      end
-    end
-
-    visit '/example'
-    expect(page).to have_content("Matestack::Ui::Core::Properties::PropertyMissingException")
-  end
 end

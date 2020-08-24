@@ -1,3 +1,6 @@
+require_relative '../support/utils'
+include Utils
+
 describe "XSS behavior", type: :feature, js: true do
 
   describe "injection in heading as an example" do
@@ -9,9 +12,8 @@ describe "XSS behavior", type: :feature, js: true do
       end
 
       visit "/example"
-
       static_output = page.html
-      expect(static_output).to include("<h1>\n#{XSS::ESCAPED_EVIL_SCRIPT}\n</h1>")
+      expect(static_output).to include("<h1>#{XSS::ESCAPED_EVIL_SCRIPT}</h1>")
     end
 
     it "does not escape when we specifically say #html_safe" do
