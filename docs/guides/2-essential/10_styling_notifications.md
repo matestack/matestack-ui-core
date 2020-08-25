@@ -79,9 +79,6 @@ class Demo::App < Matestack::Ui::App
 
   def response
     navigation
-    div id: 'spinner', class: 'spinner-border', role: 'status' do
-      span class: 'sr-only', text: 'Loading...'
-    end
     main id: 'page-content' do
       person_disclaimer
       yield_page
@@ -113,13 +110,9 @@ class Demo::App < Matestack::Ui::App
 
   def navbar_button
     button(
-      class: 'navbar-toggler text-dark',
-      role: :button,
-      attributes: {
-        "aria-controls": "navbar-default",
-        "aria-expanded": "false",
-        data: { target: '#navbar-default', toggle: :collapse },
-      }
+      class: 'navbar-toggler text-dark', role: :button,
+      data: { target: '#navbar-default', toggle: :collapse },
+      attributes: { "aria-controls": "navbar-default", "aria-expanded": "false" }
     ) do
       span class: 'navbar-toggler-icon text-dark'
     end
@@ -129,7 +122,7 @@ class Demo::App < Matestack::Ui::App
     div class: 'jumbotron jumbotron-fluid bg-light mb-0 footer' do
       div class: 'container py-5' do
         div class: 'd-flex align-items-center justify-content-center' do
-          heading class: 'm-0 mr-1 font-weight-normal', size: 5,
+          heading class: 'm-0 mr-1 font-weight-normal', size: 5, 
             text: 'This demo application and corresponding guides are provided by'
           img path: asset_path('matestack'), height: '48px'
         end
@@ -141,6 +134,8 @@ end
 ```
 
 We extracted our navigation into a partial and added a footer as a partial. Both are styled with bootstrap. Because it is quite complex, we also excluded the navigation toggle button for the responsive navigation into a partial called `navbar_button`.
+
+Next we style our person index page. Below you can see the updated file styled with bootstrap.
 
 `app/matestack/demo/pages/persons/index.rb`
 ```ruby
@@ -168,7 +163,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
 
   def response
     jumbotron_header title: 'All your persons'
-
+  
     div class: 'container overlap-container' do
       div class: 'shadow'
       div class: 'row pt-4' do
@@ -179,7 +174,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
           ordering
         end
       end
-      async rerender_on: 'person-collection-update' do
+      async rerender_on: 'person-collection-update', id: 'person-collection' do
         content
       end
     end
@@ -188,7 +183,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
       div class: 'container py-3' do
         heading text: 'You know another person?'
         div class: 'col-md-12 text-center my-3' do
-          transition path: new_person_path, class: 'my-3 btn btn-primary btn-lg', text: 'Add one'
+          transition path: new_person_path, class: 'my-3 btn btn-primary btn-lg', text: 'Add one', delay: 300
         end
       end
     end
@@ -215,7 +210,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
         div do
           collection_order_toggle key: :last_name do
             button class: 'btn btn-primary ml-2' do
-              collection_order_toggle_indicator key: :last_name,
+              collection_order_toggle_indicator key: :last_name, 
                 asc: 'Last name (A-Z)', desc: 'Last name (Z-A)', default: 'Date of creation'
             end
           end
@@ -295,177 +290,79 @@ class Components::Shared::JumbotronHeader < Matestack::Ui::Component
 
   def jumbotron_options
     {
-      class: 'jumbotron jumbotron-fluid text-secondary',
-      attributes: { style: "background-image: url('#{image_path('background')}');" }
+      class: 'jumbotron jumbotron-fluid text-secondary', 
+      style: "background-image: url('#{image_path('background')}');"
     }
   end
 
 end
 ```
 
-----
-# Refactor from here
-paste in the whole code!
-maybe don't show every updated page, just tell them to look in the repo.
-rework component styling to state that we advise to do it like that as best practice
-  use disclaimer component as example
-----
+Quite a simple component. To keep it more readable we extracted the hash argument for the first div into a method `jumbotron_options` which returns a hash with the needed classes and styling for a background image.
 
-`app/matestack/demo/pages/persons/show.rb`
-```ruby
-# ...
-  def response
-    section do
-      div class: 'container' do
-        transition path: persons_path, class: 'btn btn-secondary', text: 'All persons'
+In order to make our jumbotron and our content looking really good, we need some CSS. We want to overlap our list of person with the jumbotron and add a small shadow in order to make the overflow stand out.
 
-        div class: 'row' do
-          div class: 'col-md-6 offset-md-3 text-center' do
-            heading size: 2, text: "Name: #{@person.first_name} #{@person.last_name}"
-            paragraph text: "Role: #{@person.role}"
-            transition path: :edit_person_path, params: { id: @person.id }, class: 'btn btn-secondary', text: 'Edit'
-            action delete_person_config do
-              button class: 'btn btn-warning', text: 'Delete person'
-            end
-          end
-        end
-      end
-    end
+Therefore we add a file called `application.scss` in `app/javascripts/css/`. We will add some styles to it in order to achieve our overflow effect and some general styles for our app. For example making our footer always appear at the bottom of the page no matter how less content there might be on a page.
 
-    other_persons
-    person_activity
-  end
+```scss
+html {
+  height: 100%;
+}
 
-  def other_persons
-    section do
-      div class: 'container' do
-        div class: 'row' do
-          div class: 'col-md-12 text-center' do
-            heading size: 3, text: 'Three other persons:'
-          end
-          @other_persons.each do |person|
-            div class: 'col-md-4' do
-              person_card person: person
-            end
-          end
-        end
-      end
-    end
-  end
-# ...
-```
+body {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 270px;
+}
 
-`app/matestack/demo/pages/persons/edit.rb`
-```ruby
-# ...
-  def response
-    section do
-      div class: 'container' do
-        div class: 'row' do
-          div class: 'col-md-6 offset-md-3 text-center' do
-            heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}"
-            form person_edit_form_config, :include do
-              div class: 'form-group row' do
-                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
-                div class: 'col-sm-8' do
-                  form_input key: :first_name, class: 'form-control', type: :text
-                end
-              end
-              div class: 'form-group row' do
-                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
-                div class: 'col-sm-8' do
-                  form_input key: :last_name, class: 'form-control', type: :text
-                end
-              end
-              div class: 'form-group row' do
-                label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
-                div class: 'col-sm-8' do
-                  form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: @person.role
-                end
-              end
-              form_submit do
-                transition path: :person_path, params: { id: @person.id }, class: 'btn btn-secondary my-3', text: 'Back to detail page'
-                button class: 'btn btn-primary', text: 'Save changes'
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-# ...
-```
-
-`app/matestack/demo/pages/persons/new.rb`
-```ruby
-# ...
-def response
-  section do
-    div class: 'container' do
-      div class: 'row' do
-        div class: 'col-md-6 offset-md-3 text-center' do
-          heading size: 2, text: 'Create new person'
-          form new_person_form_config, :include do
-            div class: 'form-group row' do
-              label class: 'col-sm-4 col-form-label col-form-label-md', text: 'First name:'
-              div class: 'col-sm-8' do
-                form_input key: :first_name, class: 'form-control', type: :text
-              end
-            end
-            div class: 'form-group row' do
-              label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Last name:'
-              div class: 'col-sm-8' do
-                form_input key: :last_name, class: 'form-control', type: :text
-              end
-            end
-            div class: 'form-group row' do
-              label class: 'col-sm-4 col-form-label col-form-label-md', text: 'Person role:'
-              div class: 'col-sm-8' do
-                form_select key: :role, type: :dropdown, class: 'form-control', options: Person.roles.keys, init: Person.roles.keys.first
-              end
-            end
-            form_submit do
-              transition path: persons_path, class: 'btn btn-secondary my-3', text: 'All persons'
-              button class: 'btn btn-primary', text: 'Create person'
-            end
-          end
-        end
-      end
-    end
-  end
-end
-# ...
-```
-
-Spin up your application by running `rails s` and check how things are looking now! Some improvements happening, but still quite a way to go.
-
-Let's move on and add a file called `application.scss` in `app/javascript/css/`, making some minor adjustments:
-
-```css
 main {
   padding-top: 56px;
 }
 
-section {
-  padding: 1.5em 0;
+.jumbotron-fluid {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
 
-.pagination {
-  justify-content: center;
+.overlap-container {
+  margin-top: -7rem;
+  background: white;
+  position: relative;
+
+  &> * {
+    background: white;
+    position: relative;
+    z-index: 2;
+  }
+
+  .shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 55px;
+  }
+
 }
 
-h2 {
-  margin-top: 2rem;
-  margin-bottom: 3rem;
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
-.card {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.errors {
+  display: block;
+  color: #FF3B14;
+}
+
+.nav-link {
+  white-space: nowrap;
 }
 ```
 
-Like with the `custom-bootstrap`-file, we need to import it in `app/javascript/packs/application.js`:
+Like our custom bootstrap scss file we need to import our `application.scss` file in our `app/javascript/packs/application.js` file.
 
 ```js
 // ...
@@ -474,97 +371,104 @@ import 'css/application'
 // ...
 ```
 
+Now we can refactor and style all other person pages. Feel free to experiment and style on your own or take a look at the repository to review our changes to the pages.
+
 ## Overwriting Bootstrap default styles
-Except for the few changes in `application.scss`, our application still has the basic bootstrap look. We can quite easily customize the default settings by overriding variables right before the `@import`-statement in `app/javascript/css/custom-bootstrap.scss`. This is one example, but feel free to replace the colors with ones you like better:
 
-```css
-$matestack-darkest-orange: #FF3B14;
+We only used bootstraps components and therefore just got the well known bootstrap look and feel. In order to make our application really our own we will go on and theme bootstrap accordingly. Learn more about how and what you can theme or customize in bootstrap by reading the [bootstrap documentation](https://getbootstrap.com/docs/4.5/getting-started/theming/). 
+In the next step we change the default color scheme of bootstrap by overriding a few CSS variables or maps.
+Pay attention, all your overrides need to happen before the `@import` statement. 
 
-$matestack-lightest-grey: #F4F4F5;
-$matestack-dark-grey: #A4A4AE;
-$matestack-darkest-grey: #1B1D35;
+`app/javascript/css/custom-bootstrap.scss`
+```scss
+$darkest-orange: #FF3B14;
+$light-orange: #fecdc3;
 
-$body-bg: $matestack-lightest-grey;
-$body-color: $matestack-darkest-grey;
+$lightest-grey: #F4F4F5;
+$dark-grey: #A4A4AE;
+$darkest-grey: #1B1D35;
+
+$darkest-blue: #1b1d35;
+$darker-blue:#606171;
+
+$body-bg: white;
+$body-color: $darkest-grey;
 
 $theme-colors: (
-  "primary": $matestack-darkest-orange,
-  "secondary": $matestack-darkest-grey,
-  "info": $matestack-darkest-grey,
-  "warning": $matestack-dark-grey
+  "primary": $darkest-orange,
+  "secondary": $darker-blue,
+  "info": $light-orange,
+  "warning": $dark-grey,
+  "dark": $darkest-blue,
+  "light": $lightest-grey,
 );
 
 @import "~bootstrap/scss/bootstrap.scss";
 ```
 
-Before we take care of styling the custom components, let's commit our local changes by running
-
-```sh
-git add . && git commit -m "Make demo app & pages use bootstrap classes, customize bootstrap"
-```
-
 ## Styling custom components
-Both our application and the pages are styled, and the only thing missing are the custom components - so let us style those!
 
-Update the response methods in `app/matestack/components/persons/teaser.rb` and `app/matestack/components/persons/activity.rb` to resemble the following:
+We styled our app and pages. The last thing missing is styling of our custom components. As an example we refactor, style and upgrade our disclaimer component. We introduced it a while ago to give an example how we can use `.haml` files with components. But because we want to add the functionality to hide the disclaimer by clicking a button and we don't need a custom `.haml` file, we will remove it now. Afterwards we update our disclaimer component to contain a bootstrap alert and make it hideable.
 
+`app/matestack/components/persons/disclaimer.rb`
 ```ruby
-  # card.rb
-  def response
-    div class: 'card' do
-      div class: 'card-body' do
-        paragraph text: "#{@person.first_name} #{@person.last_name}"
-        transition path: :person_path, params: {id: @person.id}, class: 'btn btn-primary', text: 'Details'
-      end
-    end
-  end
+class Components::Persons::Disclaimer < Matestack::Ui::Component
 
-  # activity.rb
   def response
-    section do
-      div class: 'container' do
-        div class: 'row' do
-          div class: 'col-md-6 offset-md-3' do
-            paragraph class: 'text-center' do
-              plain 'Need ideas on what to do with one of these persons?'
-              button attributes: {"@click": "addActivity()"}, class: 'btn btn-primary', text: 'Click here'
-            end
-            ul attributes: {"v-if": "activities.length"}, class: 'list-group' do
-              li attributes: {"v-for": "activity,index in activities"}, class: 'list-group-item d-flex justify-content-between align-items-center' do
-                plain "{{activity}}"
-                span attributes: {"@click": "deleteActivity(index)"}, class: 'badge badge-primary badge-pill', text: 'X'
-              end
-            end
-          end
+    toggle hide_on: 'hide_disclaimer' do
+      div class: 'disclaimer-component container-fluid text-center shadow-md' do
+        disclaimer_text
+        onclick emit: 'hide_disclaimer' do
+          button class: 'btn', attributes: {"@click": "show = false"}, text: 'Hide'
         end
       end
     end
   end
-```
 
-Also update the response method in `app/matestack/components/person/disclaimer.rb` to have this content:
-
-```ruby
-  def response
-    div id: 'disclaimer', class: 'container-fluid text-center', attributes: {"v-show": "show == true"} do
-      span text: 'None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".'
-      button class: 'btn btn-warning', attributes: {"@click": "show = false"}, text: 'Hide'
-    end
+  def disclaimer_text
+    span text: 'None of the presented names belong to and/or are meant to refer to existing human beings. 
+      They were created using a "Random Name Generator".'
   end
+
+end
 ```
 
-And add a `disclaimer.scss` file right next to it - this is where we will store specific styles that only apply to this custom component. Of course, this works for both static and dynamic custom components!
+As you can see, we used the earlier introduced toggle component in order to hide the disclaimer if a user presses the "Hide" button, which emits the appropriate event for the toggle component.
 
-To test it, add the following content:
+In order to make our disclaimer float over our jumbotron header underneath the navigation we need to style it with some CSS. In order to keep our code clean and create scope-like styles we recommend a best practice for file locations and stylings. First the file location. We recommend to create the SCSS file right next to your component. In the case of the disclaimer component this would be `app/matestack/components/persons/disclaimer.scss`. Let's create that file and import it in our `custom-bootstrap.scss` with `@import '../../matestack/components/persons/disclaimer';`. By adding it below our bootstrap import, we can make use of bootstraps variables, breakpoints and more (like **md** in `@include media-breakpoint-down(md)`).
 
-```css
-#disclaimer {
-  background-color: #767786;
-  color: #E8E8EB;
-  padding: 0.7rem 0;
+In order to keep our styles for the disclaimer from affecting other elements, we recommend to add a unique class to the most outer element of your component. In our case we will add a class `.disclaimer-component` to the child `div` of the `toggle` component. The line should now look like this: 
+```ruby
+div class: 'disclaimer-component container-fluid text-center shadow-md' do
+```
+
+In our SCSS file we will only add styles inside of the selector `.disclaimer-component`. This will prevent us from overriding styles of other elements by mistake. Now let's style our disclaimer by adding the following content to our SCSS file:
+
+```scss
+.disclaimer-component {
+  position: absolute;
+  width: 90%;
+  left: 5%;
+  margin-top: 10px;
+  background-color: #fecdc3;
+  border-radius: 5px;
+  color: $darkest-blue;
+  padding: 1rem 3rem 1rem 1rem;
+
+  span {
+    padding: 0 3rem;
+    display: block;
+  }
+
   .btn {
-    margin-left: 2rem;
-    margin-bottom: 2px;
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+    line-height: 1.5;
+    padding: 0.5rem 1rem;
+    background: rgba(#ff7d63, 0.5);
+
+
     @include media-breakpoint-down(md) {
       display: block;
       margin-top: 5px;
@@ -575,100 +479,99 @@ To test it, add the following content:
 }
 ```
 
-Now, the only thing left to do is importing the component at the bottom of `app/javascript/css/custom-bootstrap.scss`. By adding it below the line importing Bootstrap, we can make use of the neat helpers (like **md** in `@include media-breakpoint-down(md)`)!
+## Adding page transition animations
 
-The import statement looks like this:
+Okay, now that our application is styled and customized we can take a look at the user experience. Using `transition` components inside an app increased the user experience already quite a lot by making the website feel more like an app. But what about smooth transitions between pages of our app. Matestack provides us with an easy to use solution to implement subtle animations, for example a loading spinner between page loads.
 
-```css
-@import '../../matestack/components/person/disclaimer';
-```
-
-Again, let's add our changes to Git by running
-
-```sh
-git add . && git commit -m "Update custom components with (custom) styling"
-```
-
-## Adding a loading spinner
-
-To make use of the Bootstrap loading spinner, we need to update our matestack demo app response method like so:
+We simply need to add a `loading_state` slot to our `yield_page` call in our demo app. The yield_page call now gets passed in `slots` as a hash. Inside the hash we set the value of the `loading_state` calling a partial. The partial `loading_state_element` contains a simple bootstrap spinner.
 
 ```ruby
+class Demo::App < Matestack::Ui::App
+
   def response
     navigation
-    div id: 'spinner', class: 'spinner-border', role: 'status' do
-      span class: 'sr-only', text: 'Loading...'
-    end
     main id: 'page-content' do
       person_disclaimer
-      yield_page
+      yield_page slots: { loading_state: loading_state_element }
+    end
+    footer
+  end
+
+  private
+
+  def navigation
+    # ...
+  end
+
+  def navbar_button
+    # ...
+  end
+
+  def footer
+    # ...
+  end
+
+  def loading_state_element
+    slot do
+      div id: 'spinner', class: 'spinner-border', role: 'status' do
+        span class: 'sr-only', text: 'Loading...'
+      end
     end
   end
+
+end
 ```
 
-Then, we need to add the functionality. Let's create a file in
-`app/javascript/animations/loading-spinner.js` with the following content:
+To better understand what we achieve with this let's take a look at matestacks DOM structure for pages, when you pass in a `loading_state` slot.
 
-```js
-MatestackUiCore.matestackEventHub.$on('page_loading', function(url){
-  //hide old content
-  document.querySelector('#page-content').style.opacity = 0;
-  setTimeout(function () {
-    //show loading spinner
-    document.querySelector('#spinner').style.display = "inline-block";
-  }, 150);
-});
-
-MatestackUiCore.matestackEventHub.$on('page_loaded', function(url){
-  setTimeout(function () {
-    //hide loading spinner
-    document.querySelector('#spinner').style.display = "none";
-    //show new content
-    document.querySelector('#page-content').style.opacity = 1;
-  }, 500);
-});
+```html
+<div class="matestack-page-container">
+  <div class="loading-state-element-wrapper"></div>
+  <div class="matestack-page-wrapper">
+    <!-- Your page content -->
+  </div>
+<div>
 ```
 
-This code switches between showing/hiding page content and loading spinner, based on events that get emitted by the page transitions - a topic we will cover in greater detail somewhere else.
+The `.loading-state-element-wrapper` div will only be rendered if a `loading_state` slot is defined. It contains the defined element, in our case our bootstrap loading spinner. The `.matestack-page-wrapper` div contains the page content. If we now visit the root page, we will see a spinner above our page content. This is because we have not yet added the required rules to hide it unless the page is actually reloading. If a page transition happens and the page is reloaded, all the above elements will get a `.loading` class added. We can use this to add a simple page transition animation.
 
-To make the transition even smoother and position the spinning animation correctly, add a file in `app/javascript/css/loading-spinner.scss` and add those lines:
+In order to do that, we add another SCSS file in `app/javascript/css/page-transition.scss` and import it in our `application.js` with `import 'css/page-transition'`. Here we will define the default styles for our loading element and page content. Our loading element should normally be invisible and our page content should be visible. If a `.loading` class is applied we want to hide the page content and show our loading element. We can achieve this with the following rules and add a smooth animation between the show and hide states.
 
-```css
-#page-content{
-  transition:opacity 0.2s linear;
+```scss
+.matestack-page-container{
+  .loading-state-element-wrapper{
+    position: fixed;
+    height: 40px;
+    width: 40px;
+    left: calc(50vw - 20px);
+    top: calc(50vh - 20px);
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out;
+
+    &.loading {
+      opacity: 1;
+    }
+  }
+
+  .matestack-page-wrapper {
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+
+    &.loading {
+      opacity: 0;
+    }
+  }
 }
-
-#spinner {
-  position: fixed;
-  left: 47%;
-  top: 20%;
-  display: none;
-}
 ```
 
-Lastly, we need to import both the `js` and `css` file in `app/javascript/packs/application.js`:
-
-```js
-// ...
-import 'css/application'
-import 'css/loading-spinner'
-
-// ...
-import '../../matestack/components/person/activity'
-import 'animations/loading-spinner'
-```
-
-Time to save the status quo by running
-```sh
-git add . && git commit -m "Add loading spinner to demo app"
-```
+If you now take a look at your application in the browser and click a transition link, you may see the animation, but only very short or maybe not at all. This is due to the fact that our page is reloaded to fast in order to fully appreciate our animation. To smooth the animation we could add a delay to our transitions with the `delay` option. This will delay the reload by a given time in milliseconds, which will give us and the user time to see the animation, preventing unwanted flickering. But be careful, don't choose a big delay, as users might get upset by to long animations.
 
 ## Recap & outlook
 
-After following this guide, your application not only pleases the eye of a potential user, but more importantly you got an understanding of how to structure the styling of matestack pages and components.
+In this guide we learned how to use bootstrap with matestack in order to style an application, how to customize bootstrap, a best practice about styling components and how we can add animations between page transitions.
 
 Going ahead, the next part of this series covers [authentication via Devise](/docs/guides/2-essential/11_authentication_devise.md).
-
 
 <hr id="bootstrap-asset-pipeline">
 
@@ -709,7 +612,7 @@ Rails.application.config.assets.paths << Rails.root.join('app/matestack/componen
 Now, in the `app/assets/stylesheets/appplciation.scss`, you can import custom component stylesheets by importing them, respecting potential namespaces. The example from above would look like this:
 
 ```css
-@import "person/disclaimer";
+@import "persons/disclaimer";
 ```
 
 From our experience, it makes sense to create a `app/assets/stylesheets/pages/` directory, containing a `.scss`-file for every `matestack` page, and then structure `app/assets/stylesheets/appplciation.scss` like this:

@@ -128,7 +128,7 @@ While it's similar to the `Demo::App`, the `Admin::App` does have some differenc
 admin_navigation if admin_signed_in?
 ```
 
-There is also a logout button, using a `action` compoent.
+There is also a logout button, using an `action` compoent.
 
 We could now use the `Admin::App` as layout, but we need to set it with `matestack_app` in the corresponding controller and we need to include our new registry with `include Admin::Component::Registry`. 
 
