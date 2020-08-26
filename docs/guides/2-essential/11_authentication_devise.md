@@ -267,6 +267,7 @@ class Admin::Pages::Persons::Index < Matestack::Ui::Page
       th text: 'Last name'
       th text: 'First name'
       th text: 'Role'
+      th
     end
   end
 
@@ -279,12 +280,17 @@ class Admin::Pages::Persons::Index < Matestack::Ui::Page
         end
         td text: person.first_name
         td text: person.role
+        td class: 'text-right' do
+          action delete_person_config(person) do
+            button text: 'Delete', class: 'btn btn-outline-primary'
+          end
+        end
       end
     end
   end
 
   def paginator
-    ul class: 'pagination' do
+    ul class: 'pagination justify-content-center' do
       li class: 'page-item' do
         collection_content_previous do
           button class: 'page-link', text: 'previous'
@@ -303,6 +309,20 @@ class Admin::Pages::Persons::Index < Matestack::Ui::Page
         end
       end
     end
+  end
+
+
+  def delete_person_config(person)
+    {
+      method: :delete,
+      path: admin_person_path(person),
+      success: {
+        emit: 'persons-collection-update'
+      },
+      confirm: {
+        text: "Do you really want to delete '#{person.first_name} #{person.last_name}'?"
+      }
+    }
   end
 
 end
@@ -364,7 +384,7 @@ class Admin::Pages::Persons::New < Admin::Pages::Persons::Form
     div class: 'container' do
       div class: 'row' do
         div class: 'col-md-6 offset-md-3 text-center' do
-          heading size: 2, text: 'Create new person'
+          heading size: 2, text: 'Create new person', class: 'my-3'
           person_form 'Create'
         end
       end
@@ -399,7 +419,7 @@ class Admin::Pages::Persons::Edit < Admin::Pages::Persons::Form
     div class: 'container my-5' do
       div class: 'row' do
         div class: 'col-md-6 offset-md-3 text-center' do
-          heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}"
+          heading size: 2, text: "Edit Person: #{@person.first_name} #{@person.last_name}", class: 'my-3'
           person_form 'Save changes'
         end
       end
