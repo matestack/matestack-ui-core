@@ -502,7 +502,7 @@ end
 
 - [ ] Please add an unique ID to each `async` component usage, even if matestack is currntly autogeneratin an ID if not applied. This will be removed in future releases
 
-#### 12. New `toggle` component is replacing `async` shown_on, hide_on, hidef_afer...
+#### 12. New `toggle` component is replacing `async` shown_on, hide_on, hide_after...
 
 We decided to move all pure clientside view state manipulation logic from the `async` component to a new component called `toggle`. `async` should now only take care of serverside rerendering based on events.
 

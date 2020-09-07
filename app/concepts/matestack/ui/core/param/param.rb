@@ -1,10 +1,5 @@
 module Matestack::Ui::Core::Param
   class Param < Matestack::Ui::Core::Component::Static
-    def setup
-      @tag_attributes.merge!({
-        name: options[:name],
-        value: options[:value]
-      })
-    end
+    html_attributes :name, :value
   end
 end

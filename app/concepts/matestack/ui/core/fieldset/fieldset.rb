@@ -1,9 +1,6 @@
 module Matestack::Ui::Core::Fieldset
   class Fieldset < Matestack::Ui::Core::Component::Static
-    def setup
-      @tag_attributes.merge!({
-        disabled: options[:disabled]
-      })
-    end
+    html_attributes :disabled, :form, :name
+    optional :text
   end
 end

@@ -1,1 +1,5 @@
-%wbr{@tag_attributes}
+%wbr{ html_attributes }
+  - if text.nil? && block_given?
+    = yield
+  - else
+    = text

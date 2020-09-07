@@ -30,6 +30,7 @@ module Matestack::Ui::Core::Component
     class << self
 
       def inherited(subclass)
+        super # do not overwrite inherited implementation of Base
         subclass.vue_js_component_name vue_js_name unless self == Matestack::Ui::Core::Component::Dynamic
       end
 

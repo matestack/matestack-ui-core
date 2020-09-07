@@ -1,5 +1,5 @@
-%fieldset{@tag_attributes}
-  -if options[:text].nil? && block_given?
+%fieldset{ html_attributes }
+  - if text.nil? && block_given?
     = yield
-  - else 
-    = options[:text]
+  - else
+    = text
