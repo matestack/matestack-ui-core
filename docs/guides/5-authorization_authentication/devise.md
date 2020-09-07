@@ -59,15 +59,15 @@ class ExampleController < ApplicationController
 end
 ```
 
-## Devise Login and Logout
+## Devise Login
 
 Using the default devise login views should work without a problem, but they will not be integrated inside a matestack app. Let's assume we have a profile matestack app called `Profile::App`. If we want to take advantage of matestacks transitions features (not reloading our app layout between page transitions) we can not use devise views, because we would need to redirect to them and therefore need to reload the whole page. Requiring us for example to implement our navigation twice. In our `Profile::App` and also in the our devise sign in view.
 
 Therefore we need to adjust a few things and create some pages. First we need a custom sign in page containing a form with email and password inputs.
 
-`app/matestack/profile/pages/sign_in.rb`
+`app/matestack/profile/pages/sessions/sign_in.rb`
 ```ruby 
-class Profile::Pages::SignIn < Matestack::Ui::Page
+class Profile::Pages::Sessions::SignIn < Matestack::Ui::Page
 
   def response
     heading text: 'Login'
@@ -78,6 +78,9 @@ class Profile::Pages::SignIn < Matestack::Ui::Page
         button text: 'Login'
       end
     end
+    toggl show_on: 'login_failure' do
+      'Your email or password is not valid.'
+    end
   end
 
   private
@@ -85,13 +88,77 @@ class Profile::Pages::SignIn < Matestack::Ui::Page
   def form_config
     for: :user,
     method: :post,
-    path: user_session_path
+    path: user_session_path,
+    success: {
+      transition: {
+        follow_response: true
+      }
+    },
+    failure: {
+      emit: 'login_failure'
+    }
   end
 
 end
 ```
 
+This page displays a form with a email and password input. The default required parameters for a devise login. It also contains a `toggle` component which gets shown when the event `login_failure` is emitted. This event gets emitted in case our form submit was unsuccessful as we specified it in our `form_config` hash. If the form is successful our app will make a transition to the page the server would redirect to.
+
+In order to render our sign in page when someone tries to access a route which needs authentication or someone visits the sign in page we must override devise session controller in order to render this page. We do this by configuring our routes to use a custom controller.
+
+`app/config/routes.rb`
+```ruby
+Rails.application.routes.draw do
+
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+
+end
 ```
+
+Override the `new` action in order to render our sign in page.
+
+`app/controllers/users/sessions_controller.rb`
+```ruby
+class Users::SessionController < Devise::SessionController
+  # include your component registry in order to use custom components
+  include Components::Registry
+
+  matestack_app Profile::App # specify the corresponding app to wrap pages in
+
+  # override in order to render a page
+  def new
+    render Profile::Pages::Sessions::SignIn
+  end
+
+end
+```
+
+Finally we need to override the create method in order to fully leverage matestacks potential. Matestack expects to retrieve a json response with a html error code if the sign in has failed due to matestacks form error handling. To achieve this we need to override the `create` method as you can see below:
+
+```ruby
+def create
+  self.resource = warden.authenticate(auth_options)
+  return render json: {}, status: 401 unless resource
+  sign_in(resource_name, resource)
+  respond_with resource, location: after_sign_in_path_for(resource)
+end
+```
+
+We stayed as close to devise implementation as possible. The important part is line 3 where we return a json response with error code 401 if warden couldn't authenticate the resource.
+
+**Wrap Up**
+That's it. Now you have a working fully integrated login with devise and matestack. All we needed to do was to create a sign in page, update our routes to use a custom session controller and override two methods in this controller. 
+
+## Devise logout
+
+----
+TODO devise logout, registration etc.
+----
+
+
+
 
 ## Example
 
