@@ -1,5 +1,8 @@
 # Essential Guide 1: Setup
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the first part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -22,10 +25,18 @@ To follow along, make sure you have successfully installed
 In the terminal, create a new Rails app by running
 
 ```sh
-rails new matestack-demo-application
+rails new matestack-demo-application --skip-turbolinks
 ```
 
-and switch into the newly created project via
+We skip turbolinks, because matestack has it's own loading api which makes turbolinks unnecessary. Using turbolinks in a matestack application can result in unwanted behavior and errors.
+
+<details>
+<summary>Remove turbolinks if installed</summary>
+We encourage you to remove turbolinks if it's installed. To do so remove the line <code>gem 'turbolinks', '~> 5'</code> from your Gemfile and remove <code>require("turbolinks").start()</code> from the <code>app/javascript/packs/application.js</code> file. To clean things up remove the two <code>"data-turbolinks-track": "reload"</code> key/value pairs from your <code>app/views/application.html.erb</code>. 
+</details>
+<br/>
+
+Switch into the newly created project via
 
 ```sh
 cd matestack-demo-application
@@ -83,8 +94,8 @@ And add an element with the id `matestack_ui` to your layout, by changing your `
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>

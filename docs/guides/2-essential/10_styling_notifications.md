@@ -1,5 +1,8 @@
 # Essential Guide 8: Styling and Notifications
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the tenth part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -60,8 +63,8 @@ Before we begin putting bootstrap to use, we need to prepare the `app/view/layou
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_pack_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
 </head>
 ```
 

@@ -1,5 +1,8 @@
 # Essential Guide 11: Authentication
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the eleventh part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -658,8 +661,8 @@ Notice that we added `layout 'administration'` inside our admin controllers. Thi
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'administration', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'administration', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'administration', media: 'all' %>
+    <%= javascript_pack_tag 'administration' %>
   </head>
 
   <body>
@@ -676,7 +679,6 @@ Add a new file in `app/javascript/packs/administration.js`, with the following c
 
 ```js
 require("@rails/ujs").start()
-require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 

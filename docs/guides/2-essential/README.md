@@ -1,5 +1,7 @@
 # Essential Guide
 
+In this series of guides we teach you how to create a rails app from the ground up with matestack and encounter how matestack makes your life easier and takes away the frontend hustle. We build a demo CRUD application which you can take a look at [here](https://demo.matestack.io). The source code of the complete application can be found on [github](https://github.com/matestack/matestack-demo-application).
+
 0. [Introduction](/docs/guides/2-essential/00_introduction.md)
 1. [Setup](/docs/guides/2-essential/01_setup.md)
 2. [Active Record](/docs/guides/2-essential/02_active_record.md)

@@ -1,5 +1,8 @@
 # Essential Guide 4: Forms & Actions (Create, Update, Delete)
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the fourth part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -169,7 +172,7 @@ The 'success' key let's us define a behavior when the form was submitted success
 Inside our form component we have calls to normal html components like `label, br, button` which render the corresponding html tag and we have calls for form inputs and a form submit. Let's take a closer look at the `form_input` call. A form input at least requires a key and a type. The type can be any html input type possible. The key defines the input name as which it will get submitted. If the model specified by the `for` key in the form config responds to the key the input will be prefilled with the value the model returns. `form_radio, form_select, form_checkbox` helpers can take an array or hash in the `options` key. They render for example a radio button for each option in the array or hash. In case of an array the label and value are the same for each radio button, in case of a hash the keys are used as labels and the values as values.
 To enable the user to submit the form, we added a button to click. This button needs to be wrapped inside a `form_submit` call, which will take care of triggering the form submit if the contents inside the given block is clicked.
 
-To learn more, check out the [complete API documentation](docs/api/2-components/form.md) for the `form` component.
+To learn more, check out the [complete API documentation](/docs/api/2-components/form.md) for the `form` component.
 
 Take a moment to familiarize yourself with everything going on and then go ahead and create another page in `app/matestack/demo/pages/persons/edit.rb`, featuring similar content:
 
@@ -240,7 +243,7 @@ Beyond that, here's some suggestions of what you could try to add in the future:
 - using other Ruby objects than ActiveRecord collections
 - fetching data from and sending data to third party APIs
 
-To learn more, check out the [complete API documentation](docs/api/2-components/form.md) for the `form` component.
+To learn more, check out the [complete API documentation](/docs/api/2-components/form.md) for the `form` component.
 
 ## Adding a delete button for persons
 
@@ -290,7 +293,7 @@ Beyond that, here's some suggestions of what you could try to add in the future:
 - sending an advanced payload with the HTTP request
 - re-rendering parts of a page on successful request
 
-To learn more, check out the [complete API documentation](docs/api/2-components/action.md) for the `action` component.
+To learn more, check out the [complete API documentation](/docs/api/2-components/action.md) for the `action` component.
 
 ## Local testing
 

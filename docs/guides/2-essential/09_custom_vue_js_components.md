@@ -1,5 +1,8 @@
 # Essential Guide 9: Custom vue.js components
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the ninth part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -150,7 +153,7 @@ As with custom components, there are hardly any limits for your creativity. You 
 - use custom dynamic components to fetch, display, modify and update records from your database
 - tweak and extend core components according to your situational, specific needs
 
-To learn more, check out the [guides](docs/guides/4-custom_components.md) for custom custom components.
+To learn more, check out the [guides](/docs/guides/4-custom_components.md) for custom custom components.
 
 ## Recap & outlook
 

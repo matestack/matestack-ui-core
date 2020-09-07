@@ -1,5 +1,8 @@
 # Essential Guide 13: Wrap Up & Outlook
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the thirteenth part of our essential guide about building a web application with matestack.
 
 ## Quick recap

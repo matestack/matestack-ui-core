@@ -1,5 +1,8 @@
 # Essential Guide 8: Collection and async component
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the eighth part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -231,7 +234,7 @@ From the developer's perspective, here is a more detailed overview of the main b
 
 That's a lot of input, so it may take some time to get used to this powerful component - but it's an investment that will pay off down the road and will make your life easier.
 
-To learn more, check out the [API documentation](docs/api/2-components/collection.md) for the `collection` component.
+To learn more, check out the [API documentation](/docs/api/2-components/collection.md) for the `collection` component.
 
 ## Saving the status quo
 

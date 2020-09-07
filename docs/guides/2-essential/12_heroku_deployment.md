@@ -1,5 +1,8 @@
 # Essential Guide 12: Heroku Deployment with Postgres
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 ## Introduction
 In this guide, we will
 - install and use PostgreSQL instead of SQLite3
