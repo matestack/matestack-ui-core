@@ -44,6 +44,8 @@ module Matestack::Ui::Core::Components
   require_core_component "caption"
   require_core_component "cite"
   require_core_component "code"
+  require_core_component "form" # required before collection
+  require_app_path "concepts/matestack/ui/core/form/has_input_html_attributes" # required before collection
   require_app_path "concepts/matestack/ui/core/collection/helper"
   require_core_component "collection/content"
   require_core_component "collection/content/next"
@@ -71,7 +73,6 @@ module Matestack::Ui::Core::Components
   require_core_component "fieldset"
   require_core_component "figure"
   require_core_component "footer"
-  require_core_component "form"
   require_core_component "form/checkbox"
   require_core_component "form/input"
   require_core_component "form/radio"

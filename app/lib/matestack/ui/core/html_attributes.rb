@@ -10,7 +10,6 @@ module Matestack::Ui::Core::HtmlAttributes
     :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onresize, :onstorage, :onunload
   ]
 
-  # prepend the initializer and add class methods
   def self.included(base)
     base.class_eval do
       extend ClassMethods

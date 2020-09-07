@@ -13,26 +13,6 @@ module Matestack::Ui::Core::Form::Select
       label: { as: :input_label }, 
       options: { as: :select_options }
 
-    # def response
-    #   radio_options.to_a.each do |item|
-    #     input html_attributes.merge(
-    #       attributes: vue_attributes.merge(ref: "select.#{attr_key}"), 
-    #       type: :radio,
-    #       id: "#{id_for_item(item_value(item))}",
-    #       name: item_name(item),
-    #       value: item_value(item),
-    #     )
-    #     label text: item_label(item), for: id_for_item(item_value(item))
-    #   end
-    #   render_errors
-    # end
-
-    # def html_options
-    #   html_attributes.merge(
-    #     attributes: vue_attributes,
-    #   )
-    # end
-
     def vue_attributes
       (options[:attributes] || {}).merge({
         "@change": change_event,

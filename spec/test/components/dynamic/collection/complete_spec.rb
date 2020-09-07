@@ -72,13 +72,13 @@ describe "Collection Component", type: :feature, js: true do
       end
 
       def content
-        async rerender_on: "my-first-collection-update", id: "my-collection" do
+        async rerender_on: 'my-first-collection-update', id: 'my-collection' do
           collection_content @my_collection.config do
             ul do
               @my_collection.paginated_data.each do |dummy|
-                li class: "item" do
+                li class: 'item' do
                   plain dummy.title
-                  plain " "
+                  plain ' '
                   plain dummy.description
                 end
               end
@@ -259,13 +259,13 @@ describe "Collection Component", type: :feature, js: true do
       end
 
       def content_1
-        async rerender_on: "my-first-collection-update", id: "my-collection-1" do
+        async rerender_on: 'my-first-collection-update', id: 'my-collection-1' do
           collection_content @my_first_collection.config do
             ul do
               @my_first_collection.paginated_data.each do |dummy|
-                li class: "item" do
+                li class: 'item' do
                   plain dummy.title
-                  plain " "
+                  plain ' '
                   plain dummy.description
                 end
               end
@@ -318,13 +318,13 @@ describe "Collection Component", type: :feature, js: true do
       end
 
       def content_2
-        async rerender_on: "my-second-collection-update", id: "my-collection-2" do
+        async rerender_on: 'my-second-collection-update', id: 'my-collection-2' do
           collection_content @my_second_collection.config do
             ul do
               @my_second_collection.paginated_data.each do |dummy|
-                li class: "item" do
+                li class: 'item' do
                   plain dummy.title
-                  plain " "
+                  plain ' '
                   plain dummy.description
                 end
               end
@@ -502,13 +502,13 @@ describe "Collection Component", type: :feature, js: true do
       end
 
       def content
-        async rerender_on: "my-first-collection-update", id: "my-collection" do
+        async rerender_on: 'my-first-collection-update', id: 'my-collection' do
           collection_content @my_collection.config do
             ul do
               @my_collection.paginated_data.each do |dummy|
                 li do
                   plain dummy.title
-                  plain " "
+                  plain ' '
                   plain dummy.description
                   action my_action_config(dummy.id) do
                     button text: "delete #{dummy.title}"

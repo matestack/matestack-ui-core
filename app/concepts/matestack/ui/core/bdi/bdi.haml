@@ -1,5 +1,5 @@
-%bdi{@tag_attributes}
-  - if options[:text].blank? && block_given?
+%bdi{ html_attributes }
+  - if text.blank? && block_given?
     = yield
   - else
-    = options[:text]
+    = text

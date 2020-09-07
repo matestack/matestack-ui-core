@@ -1,25 +1,27 @@
 module Matestack::Ui::Core::Youtube
   class Youtube < Matestack::Ui::Core::Component::Static
+    html_attributes :allow, :allowfullscreen, :allowpaymentrequest, :height, :name, 
+      :referrerpolicy, :sandbox, :src, :srcdoc, :width
 
-    requires :yt_id, :height, :width
+    requires :youtube_id
+    optional :privacy_mode, :no_controls, :start_at
 
     def setup
-      url = 'https://www.youtube.com/embed/'
-      url = 'https://www.youtube-nocookie.com/embed/' if options[:privacy_mode] == true
-      url << options[:yt_id]
-      url << '?' unless options[:no_controls] != true and options[:start_at].nil?
-      url << 'controls=0' if options[:no_controls] == true
-      url << '&amp;' if (options[:no_controls] != nil) and (options[:start_at] != nil)
-      url << "start=#{options[:start_at]}" unless options[:start_at].nil?
+      url = privacy_mode ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
+      @uri = URI("#{url}#{youtube_id}")
+      @uri.query = { 
+        controls: (no_controls ? 0 : 1),
+        start: start_at
+      }.to_query
+    end
 
-      @tag_attributes.merge!({
-        'src': url,
-        'allow': 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
-        'allowfullscreen': '',
-        'frameborder': 0,
-        'height': options[:height],
-        'width': options[:width]
-      })
+    def youtube_attributes
+      html_attributes.merge(
+        src: @uri.to_s,
+        allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+        allowfullscreen: '',
+        frameborder: 0,
+      )
     end
 
   end

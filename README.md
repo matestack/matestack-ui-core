@@ -7,6 +7,9 @@
 
 # matestack-ui-core
 
+**Note:**
+The master branch is representing the latest release. Currently this is the `1.0.0.rc.1` release. We will publish `1.0.0` in September after a bit more testing.
+
 ## Escape the frontend hustle & easily create interactive web apps in pure Ruby
 
 `matestack-ui-core` is a Rails engine for Ruby on Rails developers.

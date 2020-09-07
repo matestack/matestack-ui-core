@@ -1,14 +1,14 @@
 module Matestack::Ui::Core::Img
   class Img < Matestack::Ui::Core::Component::Static
+    html_attributes :alt, :crossorigin, :height, :ismap, :longdesc, :referrerpolicy, 
+      :sizes, :src, :srcset, :usemap, :width
 
-    def setup
-      @tag_attributes.merge!({
-        src: ActionController::Base.helpers.asset_path(options[:path]),
-        height: options[:height],
-        width: options[:width],
-        usemap: options[:usemap],
-        alt: options[:alt]
-      })
+    optional :path
+
+    def img_attributes
+      html_attributes.tap do |attributes|
+        attributes[:src] = ActionController::Base.helpers.asset_path(path) if path
+      end
     end
 
   end
