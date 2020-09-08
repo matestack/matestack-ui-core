@@ -136,7 +136,7 @@ class Admin::App < Matestack::Ui::App
 
   def logout_action_config
     {
-      method: :delete,
+      method: :get,
       path: destroy_admin_session_path,
       success: {
         redirect: {
@@ -180,7 +180,7 @@ While it's similar to the `Demo::App`, the `Admin::App` does have some differenc
 if admin_signed_in?
 ```
 
-There is also a logout button, using an `action` compoent.
+There is also a logout button, using an `action` component.
 
 We could now use the `Admin::App` as layout, but we need to set it with `matestack_app` in the corresponding controller and we need to include our new registry with `include Admin::Component::Registry`. 
 
@@ -581,7 +581,7 @@ class Admin::PersonsController < Admin::BaseController
 end
 ```
 
-We added all required actions according to our routes. Did you notice our controller now inherits from a `Admin::BaseController`? We need to create it in the next step, but why did we create one? Because all routes and corresponding actions belonging to the admin should not be visible without logging in as admin. Therefore we implement a `before_action` hook which calls devise `authenticate_admin!` helper, making sure that every action can only be called by a logged in admin. We could do this in our persons controller, but as we might add other controllers later they only need to inherit from our base controller and are also protected. Let's create the base controller in `app/controllers/admin/base_controller.rb`.
+We added all required actions according to our routes. Did you notice our controller now inherits from `Admin::BaseController`? We need to create it in the next step, but why did we create one? Because all routes and corresponding actions belonging to the admin should not be visible without logging in as admin. Therefore we implement a `before_action` hook which calls devise `authenticate_admin!` helper, making sure that every action can only be called by a logged in admin. We could do this in our persons controller, but as we might add other controllers later they only need to inherit from our base controller and are also protected. Let's create the base controller in `app/controllers/admin/base_controller.rb`.
 
 ```ruby
 class Admin::BaseController < ApplicationController
@@ -592,8 +592,9 @@ class Admin::BaseController < ApplicationController
 end
 ```
 
-In order for devise to use our sign in page, we need to create a custom session controller. Also we need to override the create and delete action of devise session controller, because we would else get errors or unwanted behavior. If we don't override the `create` action devise will trigger a full website reload and rerendering our sign in page, which means we couldn't handle login errors dynamically. The `delete` action needs to be overriden because devise usual redirect will not work with matestack. See below on how to create the session controller for devise and don't forget to update the routes in order to tell devise to use the correct controller.
+In order for devise to use our sign in page, we need to create a custom session controller. We also specify a path admins should be redirected to after sign out.
 
+See below on how to create the session controller for devise.
 
 `app/controllers/admin/sessions_controller.rb`
 ```ruby
@@ -607,20 +608,44 @@ class Admin::SessionsController < Devise::SessionsController
     render Admin::Pages::Sessions::SignIn
   end
 
-  def create
-    self.resource = warden.authenticate(auth_options)
-    return render json: {}, status: 401 unless resource
-    sign_in(resource_name, resource)
-    respond_with resource, location: after_sign_in_path_for(resource)
-  end
+  private
 
-  def destroy
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-    redirect_to new_admin_session_path, status: :see_other #https://api.rubyonrails.org/classes/ActionController/Redirecting.html
+  def after_sign_out_path_for(resource_or_scope)
+    new_admin_session_path
   end
 
 end
 ```
+
+We also need to create a custom failure app to return the expected response for login attempts with wrong credentials.
+
+`lib/devise/json_failure_app.rb`
+```ruby
+class JsonFailureApp < Devise::FailureApp
+
+  def respond
+    return super unless request.content_type == 'application/json'
+    self.status = 401
+    self.content_type = :json
+  end
+
+end
+```
+
+And tell devise to use it by requiring it in the initializer and updating the config. We also need to update the `sign_out_via` configuration parameter to use http GET requests for sign out instead of DELETE.
+
+`config/intializers/devise.rb`
+```ruby
+require "#{Rails.root}/lib/devise/json_failure_app"
+
+#...
+
+config.warden do |manager|
+  manager.failure_app = JsonFailureApp
+end
+```
+
+Finally remember to update the routes in order to tell devise to use the correct controller.
 
 `config/routes.rb`
 ```ruby
@@ -643,6 +668,8 @@ Rails.application.routes.draw do
 
 end
 ```
+
+If you want more information on why these changes and configurations are necessary take a look at our [devise guide](/docs/guides/5-authorization_authentication/devise.md).
 
 But if you try to start your application locally, visiting the admin pages doesn't work yet - what's going on?
 
@@ -853,9 +880,11 @@ git commit -m "Add admin login to DemoApp, add default :role to Person model, re
 
 What exactly is going on under the hood with all the admin sign in stuff, you may wonder?
 
-Here's a quick overview: Instead over implementing loads of (complex) functionality with a load of implications and edge cases, we use the `Devise` gem for a rock-solid authentication. It takes care of hashing, salting and storing the password, and through the `Devise::SessionsController`, of managing the session cookie. All that's left for us to do is check for the existence of said cookie by using the `authenticate_admin!` helper. If the required cookie is not present, the controller responds with an error code.
+Here's a quick overview: Instead of implementing loads of (complex) functionality with a load of implications and edge cases, we use the `Devise` gem for a rock-solid authentication. It takes care of hashing, salting and storing the password and managing session cookies. All that's left for us to do is check for authentication of admins by using the `authenticate_admin!` helper.
 
 `Devise` could do a lot more, but as this is a basic guide, we will leave it with that. For even more fine-grained control over access rights (authorization) within your application (e.g. by introducing a superadmin or having regional and national manager roles), we recommend to take a look at two other popular Ruby/Rails gems, [Pundit](https://github.com/varvet/pundit) and [CanCanCan](https://github.com/CanCanCommunity/cancancan).
+
+If you want to know more about using devise with matestack, checkout our [devise guide](/docs/guides/5-authorization_authentication/devise.md).
 
 ## Creating a admin
 
