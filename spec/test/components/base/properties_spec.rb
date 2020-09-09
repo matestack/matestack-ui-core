@@ -94,7 +94,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
 
     visit '/example'
     expect(page).to have_content(Matestack::Ui::Core::Properties::PropertyOverwritingExistingMethodException.to_s)
-    expect(page).to have_content('Required property response would overwrite already defined instance method for TempPropertyComponent')
+    expect(page).to have_content('Required property "response" would overwrite already defined instance method for TempPropertyComponent')
   end
 
   it 'should raise exception if optional property overwrites existing method' do
@@ -113,7 +113,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
 
     visit '/example'
     expect(page).to have_content(Matestack::Ui::Core::Properties::PropertyOverwritingExistingMethodException.to_s)
-    expect(page).to have_content('Optional property response would overwrite already defined instance method for TempOptionalPropertyComponent')
+    expect(page).to have_content('Optional property "response" would overwrite already defined instance method for TempOptionalPropertyComponent')
   end
 
   it 'should create instance method with given alias name for required properties' do
@@ -170,6 +170,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
         @bar = desc
       end
       def response
+        plain @foo
         paragraph text: @foo
         paragraph text: @bar
       end
@@ -230,6 +231,27 @@ describe 'Properties Mechanism', type: :feature, js: true do
       </div>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
+  end
+
+  it 'should be inheritable' do
+    class Component < Matestack::Ui::Component
+      optional :foobar, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherComponent < Component
+      optional :custom
+    end
+    component = Component.new(foobar: 'Foobar', response: 'Response')
+    another_component = AnotherComponent.new(custom: 'hi', foobar: 'foobar', response: 'response')
+    expect(component.respond_to? :foobar).to be(true)
+    expect(component.respond_to? :test).to be(true)
+    expect(another_component.respond_to? :custom).to be(true)
+    expect(another_component.custom).to eq('hi')
+    expect(another_component.respond_to? :foobar).to be(true)
+    expect(another_component.foobar).to eq('foobar')
+    expect(another_component.respond_to? :test).to be(true)
+    expect(another_component.test).to eq('response')
   end
 
 end
