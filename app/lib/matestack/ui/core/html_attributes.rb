@@ -19,6 +19,7 @@ module Matestack::Ui::Core::HtmlAttributes
   module ClassMethods
 
     def inherited(subclass)
+      super
       subclass.html_attributes *self.allowed_html_attributes
     end
 
