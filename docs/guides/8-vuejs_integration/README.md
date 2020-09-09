@@ -1,3 +1,3 @@
 # Vue.js integraion
 
-In Progress...
+![Coming Soon](../../coming_soon.png)

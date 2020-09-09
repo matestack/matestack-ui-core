@@ -1,5 +1,8 @@
 # Essential Guide 7: Partials and custom components
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the seventh part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -277,7 +280,7 @@ By leveraging useful namespaces and calling custom components within other custo
 
 Side note: Custom components also give you a neat way of reusing your `*.haml` views with matestack (erb and slim support will be added soon).
 
-To learn more, check out the [extend API documentation](docs/extend/custom_static_components.md) for custom static components.
+To learn more, check out the [extend API documentation](/docs/extend/custom_static_components.md) for custom static components.
 
 ## Saving the status quo
 

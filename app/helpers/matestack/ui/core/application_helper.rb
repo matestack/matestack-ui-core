@@ -14,6 +14,7 @@ module Matestack
         def self.included(base)
           base.extend(ClassMethods)
         end
+        
         module ClassMethods
           def matestack_app _class
             @matestack_app_class = _class

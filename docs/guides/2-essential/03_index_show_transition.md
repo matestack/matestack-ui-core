@@ -1,5 +1,8 @@
 # Essential Guide 3: Person Index, Show, Transition
 
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+
 Welcome to the third part of our essential guide about building a web application with matestack.
 
 ## Introduction
@@ -125,7 +128,7 @@ When you want to change between different pages within the same `matestack` app,
 
 For links that go outside your `matestack` app, require a full page reload or reference URLs outside your domain, make sure to use the [link component](/docs/api/2-components/link.md) instead!
 
-To learn more, check out the [complete API documentation](docs/api/2-components/transition.md) for the `transition` component.
+To learn more, check out the [complete API documentation](/docs/api/2-components/transition.md) for the `transition` component.
 
 ## Local testing
 

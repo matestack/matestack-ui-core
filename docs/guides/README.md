@@ -8,10 +8,11 @@ Welcome to the `matestack-ui-core` guides! In here, we cover various use cases o
 ## Installation
 Learn how to properly set up `matestack-ui-core` with your existing Rails application - we cover both the AssetPipeline and Webpacker [in this guide](/docs/guides/1-installation/README.md).
 
-## Essential Guide
-In this series, we start by creating a new Rails app and then expand it by installing `matestack-ui-core`, deploying it to Heroku and adding basic CRUD functionality, diving deeper on a couple of (mostly `matestack`-related) topics.
+## [Essential Guide](/docs/guides/2-essential/)
 
-This guide is split into 10 parts, each building onto the changes of the previous one. It is meant to be used as a work-along orientation where you can change various parts according to your likings.
+These series of guides introduces you to matestack step by step. We start of by creating a rails app and subsequently implement a basic CRUD app using matestack. Afterwards we dive deeper into matestacks functionalities giving you a great starting point and a good introduction. At the end we provide guides on how to work with devise and deploy your application to heroku.
+
+This guide is split into several parts building upon each other. It is intended to be a work along guide. Feel free to adapt things to your needs. 
 
 You can start with [the first article](/docs/guides/2-essential/00_introduction.md).
 
