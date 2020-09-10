@@ -7,7 +7,7 @@ This guide shows you how to add matestack-ui-core to an existing rails applicati
 Add 'matestack-ui-core' to your Gemfile
 
 ```ruby
-gem 'matestack-ui-core', '>= 1.0.0.rc.1'
+gem 'matestack-ui-core', '~> 1.0.0'
 ```
 
 and run
@@ -66,8 +66,6 @@ Require 'matestack-ui-core' in your `app/assets/stylesheets/application.css`
 ```
 
 ### Turbolinks
-
-Since `0.7.5`, matestack-ui-core is compatible with activated [turbolinks](https://github.com/turbolinks/turbolinks).
 
 We recommend to (remove/deactivate)(https://stackoverflow.com/a/38649595) turbolinks, as there is no reason to use it alongside matestack-ui-core UI dynamics and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
 
