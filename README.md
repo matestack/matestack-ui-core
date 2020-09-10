@@ -1,14 +1,12 @@
-![](https://github.com/matestack/matestack-ui-core/workflows/specs/badge.svg)
+[![Specs](https://github.com/matestack/matestack-ui-core/workflows/specs/badge.svg)](https://github.com/matestack/matestack-ui-core/actions)
 [![Gitter](https://badges.gitter.im/basemate/community.svg)](https://gitter.im/basemate/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
 [![Docs](https://img.shields.io/badge/docs-matestack-blue.svg)](https://docs.matestack.io/docs/guides/1-installation/README.md)
+[![Twitter Follow](https://img.shields.io/twitter/follow/matestack.svg?style=social)](https://twitter.com/matestack) 
 
 ![matestack logo](./logo.png)
 
 # matestack-ui-core
-
-**Note:**
-The master branch is representing the latest release. Currently this is the `1.0.0.rc.1` release. We will publish `1.0.0` in September after a bit more testing.
 
 ## Escape the frontend hustle & easily create interactive web apps in pure Ruby
 
@@ -41,7 +39,6 @@ Documentation can be found [here](https://docs.matestack.io/docs/guides/1-instal
 ## Changelog
 
 Changelog can be found [here](./CHANGELOG.md)
-
 
 ## Community
 
