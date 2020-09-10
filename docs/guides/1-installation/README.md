@@ -27,7 +27,7 @@ Rails 6+ apps, by default, use webpacker, rails 5 apps, by default, use the asse
 Add 'matestack-ui-core' to your `package.json` by running:
 
 ```
-$ yarn add https://github.com/matestack/matestack-ui-core#v1.0.0.rc.1
+$ yarn add https://github.com/matestack/matestack-ui-core#v1.0.0
 $ yarn install
 ```
 
