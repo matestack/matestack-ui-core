@@ -215,7 +215,7 @@ describe "Form Component", type: :feature, js: true do
         end
   
         def form_config
-          return {
+          {
             for: @test_model,
             method: :post,
             path: :textarea_model_form_test_path

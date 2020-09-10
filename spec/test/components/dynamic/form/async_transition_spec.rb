@@ -296,7 +296,7 @@ describe "Form Component", type: :feature, js: true do
       fill_in "my-test-input-on-page-2", with: "bar"
       click_button "Submit me!"
       expect(page).to have_content("server says: form had errors")
-      expect(page).to have_content("\"foo\": [ \"seems to be invalid\" ]", wait: 3)
+      expect(page).to have_content("\"foo\": [ \"seems to be invalid\" ]", wait: 4)
       expect(page).to have_content("This is Page 1")
       expect(page).to have_selector("body.not-reloaded")
     end

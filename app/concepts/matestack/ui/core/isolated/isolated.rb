@@ -4,7 +4,7 @@ module Matestack::Ui::Core::Isolated
 
     def initialize(*args)
       super
-      @public_options = args.map { |hash| hash[:public_options] }[0]
+      @public_options = args.map { |hash| hash&.dig(:public_options) }[0]
     end
 
     def public_options
