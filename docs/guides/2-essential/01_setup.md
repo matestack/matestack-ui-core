@@ -99,14 +99,14 @@ And add an element with the id `matestack_ui` to your layout, by changing your `
   </head>
 
   <body>
-    <div id="matestack_ui">
+    <div id="matestack-ui">
       <%= yield %>
     </div>
   </body>
 </html>
 ```
 
-By including the `Matestack::Ui::Core::ApplicationHelper` and defining a div with the `matestack_ui` id you can now use matestacks render method in your controller actions. Based on the id matestack apps and pages can be rendered and pages can be replaced without a full reload of the browser page.
+By including the `Matestack::Ui::Core::ApplicationHelper` and defining a div with the `matestack-ui` id you can now use matestacks render method in your controller actions. Based on the id matestack apps and pages can be rendered and pages can be replaced without a full reload of the browser page.
 
 ## Create our first page
 
