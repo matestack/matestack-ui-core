@@ -6,11 +6,13 @@ In order to integrate it fully in matestack apps and pages we need to adjust a f
 
 ## Table of contents
 
-1. [Setting up devise](#setting-up-devise)
-1. [Devise models](#devise-models)
-1. [Devise helpers](#devise-helpers)
-1. [Devise sign in](#devise-sign-in)
-1. [Devise sign out](#devise-sign-out)
+- [Integrating Devise](#integrating-devise)
+  - [Table of contents](#table-of-contents)
+  - [Setting up Devise](#setting-up-devise)
+  - [Devise models](#devise-models)
+  - [Devise helpers](#devise-helpers)
+  - [Devise sign in](#devise-sign-in)
+  - [Devise sign out](#devise-sign-out)
 
 ## Setting up Devise
 
@@ -74,6 +76,7 @@ Using the default devise sign in views should work without a problem, but they w
 Therefore we need to adjust a few things and create some pages. First we create a custom sign in page containing a form with email and password inputs.
 
 `app/matestack/profile/pages/sessions/sign_in.rb`
+
 ```ruby 
 class Profile::Pages::Sessions::SignIn < Matestack::Ui::Page
 
@@ -117,6 +120,7 @@ Remember to use `redirect` instead of `transition`, if you have conditional cont
 In order to render our sign in page when someone tries to access a route which needs authentication or visits the sign in page we must override devise session controller in order to render our page. We do this by configuring our routes to use a custom controller.
 
 `app/config/routes.rb`
+
 ```ruby
 Rails.application.routes.draw do
 
@@ -130,6 +134,7 @@ end
 Override the `new` action in order to render our sign in page and set the correct matestack app in the controller. Also remember to include the components registry. This is necessary if you use custom components in your app or page, because without it matestack can't resolve them.
 
 `app/controllers/users/sessions_controller.rb`
+
 ```ruby
 class Users::SessionController < Devise::SessionController
   # include your component registry in order to use custom components
@@ -190,6 +195,7 @@ action sign_out_config do
   button text: 'Sign out'
 end
 ```
+
 ```ruby
 def sign_out_config 
   {

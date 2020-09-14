@@ -51,6 +51,7 @@ If something like below is configured in your pack.js and your image is located 
 `app/javascript/images/some_image.png`
 
 `app/javascript/packs/application.js`
+
 ```javascript
 const images = require.context('../images', true)
 const imagePath = (name) => images(name, true)

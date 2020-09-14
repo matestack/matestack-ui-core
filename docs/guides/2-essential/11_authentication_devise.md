@@ -196,6 +196,7 @@ end
 ```
 
 `app/matestack/controllers/admin/persons_controller.rb`
+
 ```ruby
 class Admin::PersonsController < ApplicationController
   include Admin::Components::Registry
@@ -334,6 +335,7 @@ end
 Now we create the new and edit pages. Like we did earlier in our demo page, we create a form page which will contain a form partial, because both views will use the same view. By excluding it in a partial in a form page, both new and edit can inherit from it and reuse our form. 
 
 `app/matestack/pages/persons/form.rb`
+
 ```ruby
 class Admin::Pages::Persons::Form < Matestack::Ui::Page
 
@@ -376,6 +378,7 @@ end
 Take a closer look at the form group partial here. Every form element has the same wrapping elements and the same label with its classes. In order to not repeat ourselfs and write less code we can use a partial, which takes a label text and a block and renders the wrapping elements, label and yields the block. Our form code therefore looks much cleaner now and we kept it DRY (don't repeat yourself).
 
 `app/matestack/pages/persons/new.rb`
+
 ```ruby
 class Admin::Pages::Persons::New < Admin::Pages::Persons::Form
 
@@ -415,6 +418,7 @@ class Admin::Pages::Persons::New < Admin::Pages::Persons::Form
 end
 ```
 `app/matestack/pages/persons/edit.rb`
+
 ```ruby
 class Admin::Pages::Persons::Edit < Admin::Pages::Persons::Form
 
@@ -597,6 +601,7 @@ In order for devise to use our sign in page, we need to create a custom session 
 See below on how to create the session controller for devise.
 
 `app/controllers/admin/sessions_controller.rb`
+
 ```ruby
 class Admin::SessionsController < Devise::SessionsController
   include Admin::Components::Registry
@@ -620,6 +625,7 @@ end
 We also need to create a custom failure app to return the expected response for login attempts with wrong credentials.
 
 `lib/devise/json_failure_app.rb`
+
 ```ruby
 class JsonFailureApp < Devise::FailureApp
 
@@ -635,6 +641,7 @@ end
 And tell devise to use it by requiring it in the initializer and updating the config. We also need to update the `sign_out_via` configuration parameter to use http GET requests for sign out instead of DELETE.
 
 `config/intializers/devise.rb`
+
 ```ruby
 require "#{Rails.root}/lib/devise/json_failure_app"
 
@@ -648,6 +655,7 @@ end
 Finally remember to update the routes in order to tell devise to use the correct controller.
 
 `config/routes.rb`
+
 ```ruby
 Rails.application.routes.draw do
   root to: 'persons#index'

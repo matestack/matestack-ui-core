@@ -77,6 +77,7 @@ git add . && git commit -m "Install Bootstrap, jQuery, update application.html.e
 In the next step we arrange and style the contents of our app and pages using bootstrap. We also refactor our app and pages with partials and components where necessary.
 
 `app/matestack/demo/app.rb`
+
 ```ruby
 class Demo::App < Matestack::Ui::App
 
@@ -141,6 +142,7 @@ We extracted our navigation into a partial and added a footer as a partial. Both
 Next we style our person index page. Below you can see the updated file styled with bootstrap.
 
 `app/matestack/demo/pages/persons/index.rb`
+
 ```ruby
 class Demo::Pages::Persons::Index < Matestack::Ui::Page
   include Matestack::Ui::Core::Collection::Helper
@@ -383,6 +385,7 @@ In the next step we change the default color scheme of bootstrap by overriding a
 Pay attention, all your overrides need to happen before the `@import` statement. 
 
 `app/javascript/css/custom-bootstrap.scss`
+
 ```scss
 $darkest-orange: #FF3B14;
 $light-orange: #fecdc3;
@@ -414,6 +417,7 @@ $theme-colors: (
 We styled our app and pages. The last thing missing is styling of our custom components. As an example we refactor, style and upgrade our disclaimer component. We introduced it a while ago to give an example how we can use `.haml` files with components. But because we want to add the functionality to hide the disclaimer by clicking a button and we don't need a custom `.haml` file, we will remove it now. Afterwards we update our disclaimer component to contain a bootstrap alert and make it hideable.
 
 `app/matestack/components/persons/disclaimer.rb`
+
 ```ruby
 class Components::Persons::Disclaimer < Matestack::Ui::Component
 

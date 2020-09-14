@@ -748,6 +748,7 @@ Don't forget to add the `multiple: true` attribute to your `form_config`!
 In order to accept multiple files, you should permit params on your controller like:
 
 `some_controller.rb`
+
 ```ruby
 #...
 params.require(:my_form_wrapper_key).permit(

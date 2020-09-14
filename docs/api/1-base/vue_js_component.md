@@ -17,6 +17,7 @@ A VueJs component is defined by two files. A Ruby file and a JavaScript file:
 Within the Ruby file, the Ruby class inherits from `Matestack::Ui::VueJsComponent`:
 
 `app/matestack/components/some_component.rb`
+
 ```ruby
 class SomeComponent < Matestack::Ui::VueJsComponent
 
@@ -37,6 +38,7 @@ one root element! Disregarding this rule will lead to Vue.js errors in the brows
 This Ruby class has to be registered like all other components:
 
 `app/matestack/components/registry.rb`
+
 ```ruby
 module Components::Registry
   Matestack::Ui::Core::Component::Registry.register_components(
@@ -51,6 +53,7 @@ end
 The VueJs JavaScript component is defined in a separate JavaScript file:
 
 `app/matestack/components/some_component.js`
+
 ```javascript
 MatestackUiCore.Vue.component('some-component', {
   mixins: [MatestackUiCore.componentMixin],
@@ -135,6 +138,7 @@ As seen above, the VueJs JavaScript component name has to be referenced in the V
 Ruby component using the `vue_js_component_name` class method
 
 `app/matestack/components/some_component.rb`
+
 ```ruby
 class SomeComponent < Matestack::Ui::VueJsComponent
 
@@ -151,6 +155,7 @@ the component tag. In order to fill in some date there, you should use the `setu
 method like this:
 
 `app/matestack/components/some_component.rb`
+
 ```ruby
 class SomeComponent < Matestack::Ui::VueJsComponent
 
@@ -176,6 +181,7 @@ within the VueJs JavaScript component.
 ### Component mixin
 
 `app/matestack/components/some_component.js`
+
 ```javascript
 MatestackUiCore.Vue.component('some-component', {
   mixins: [MatestackUiCore.componentMixin],
@@ -197,6 +203,7 @@ this.componentConfig["some_serverside_data"]
 if implemented like
 
 `app/matestack/components/some_component.rb`
+
 ```ruby
 class SomeComponent < Matestack::Ui::VueJsComponent
 
@@ -216,6 +223,7 @@ Matestack offers an eventhub, which can be used to communicate between component
 #### Emitting events
 
 `app/matestack/components/some_component.js`
+
 ```javascript
 MatestackUiCore.Vue.component('some-component', {
   mixins: [MatestackUiCore.componentMixin],
@@ -233,6 +241,7 @@ Use `MatestackUiCore.matestackEventHub.$emit(EVENT_NAME, OPTIONAL PAYLOAD)`
 #### Receiving events
 
 `app/matestack/components/some_component.js`
+
 ```javascript
 MatestackUiCore.Vue.component('some-component', {
   mixins: [MatestackUiCore.componentMixin],

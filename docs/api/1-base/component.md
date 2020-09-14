@@ -15,6 +15,7 @@ components and custom components are registered slightly different:
 Create a registry module like:
 
 `APP_ROOT/app/matestack/components/registry.rb`
+
 ```ruby
 module Components::Registry
 
@@ -52,6 +53,7 @@ will be available without having to restart the server.
 ### Core component registry
 
 `CORE_ROOT/lib/matestack/ui/core/components.rb`
+
 ```ruby
 module Matestack::Ui::Core::Components
   #...
