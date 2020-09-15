@@ -3,7 +3,7 @@
 Demo: [Matestack Demo](https://demo.matestack.io)<br>
 Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
-Welcome to the tenth part of our essential guide about building a web application with matestack.
+Welcome to the tenth part of our tutorial about building a web application with matestack.
 
 ## Introduction
 

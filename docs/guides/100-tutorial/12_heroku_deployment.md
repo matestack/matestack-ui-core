@@ -110,4 +110,4 @@ Now we can close the console and run `heroku open` again. We can now login to ou
 
 We successfully deployed our application to heroku and learned what are the necessary steps to do this. We also switched our application database from sqlite to postgres, because heroku doesn't support sqlite.
 
-While the application is good as it is right now, go ahead and check out the [last part of the essential guide](/docs/guides/100-tutorial/13_wrap_up.md).
+While the application is good as it is right now, go ahead and check out the [last part of the tutorial](/docs/guides/100-tutorial/13_wrap_up.md).
