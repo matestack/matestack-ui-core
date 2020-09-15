@@ -3,6 +3,7 @@
 Demo: [Matestack Demo](https://demo.matestack.io)<br>
 Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
+
 ## Guide Assumptions
 
 This guide is designed for Ruby on Rails beginners, advanced and experienced developers. We assume that you have basic knowledge about how Ruby on Rails routing and action controllers work. In this series of guides we will cover the basic principles and usage of matestack and further down the road introduce more complex principles and example use cases.
