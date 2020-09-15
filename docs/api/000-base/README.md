@@ -101,7 +101,7 @@ A page is a special kind of `Matestack::Ui::VueJsComponent`. Matestack will
 therefore wrap the UI defined in the `response` method with some markup enabling
 dynamic UI behavior and CSS styling.
 
-Learn more about [pages](/docs/api/1-base/page.md)
+Learn more about [pages](/docs/api/000-base/page.md)
 
 ## Apps
 
@@ -116,4 +116,4 @@ The app ships a `Vuex store` and `Vue.js event hub`, which are used by core vuej
 components and can optionally be used by custom vuejs components in order to
 trigger events, manage client side date and communicate between components.
 
-Learn more about [apps](/docs/api/1-base/app.md)
+Learn more about [apps](/docs/api/000-base/app.md)

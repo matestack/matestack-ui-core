@@ -129,7 +129,7 @@ markup. See below, how you can pass in data to the VueJs JavaScript component.
 ### Same as component
 
 The basic VueJs Ruby component API is the same as described within the
-[component API documenation](/docs/api/1-base/component.md). The options below extend
+[component API documenation](/docs/api/000-base/component.md). The options below extend
 this API.
 
 ### Referencing the VueJs JavaScript component
