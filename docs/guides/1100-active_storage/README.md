@@ -1,3 +1,3 @@
 # Active Storage
 
-![Coming Soon](../../coming_soon.png)
+![Coming Soon](../../images/coming_soon.png)
