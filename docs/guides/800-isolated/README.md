@@ -1,3 +1,3 @@
 # Isolated
 
-![Coming Soon](/docs/coming_soon.png)
+![Coming Soon](../../images/coming_soon.png)
