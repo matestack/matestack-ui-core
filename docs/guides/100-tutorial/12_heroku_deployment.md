@@ -9,6 +9,8 @@ In this guide, we will
 - deploy our application to heroku
 
 ## Prerequisites
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/11_authentication_devise.md).
+
 - Heroku CLI ([view installation details](https://devcenter.heroku.com/articles/getting-started-with-ruby#set-up))
 - Postgresql ([view installation details](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup))
 

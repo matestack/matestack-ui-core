@@ -12,7 +12,7 @@ In this part, we will improve the index page by making use of some of matestacks
 In this guide, we will
 - refactor the index page to use matestacks `collection` component
 - add pagination and basic search functionality to it
-- use matestack `async` component from the [sixth guide](/docs/guides/100-tutorial/06_async_component.md)
+- use matestack `async` component from the [sixth guide](/docs/guides/100-tutorial/07_partials_and_custom_components.md)
 
 ## Prerequisites
 

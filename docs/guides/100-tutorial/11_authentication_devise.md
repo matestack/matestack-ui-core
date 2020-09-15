@@ -890,7 +890,7 @@ What exactly is going on under the hood with all the admin sign in stuff, you ma
 
 Here's a quick overview: Instead of implementing loads of (complex) functionality with a load of implications and edge cases, we use the `Devise` gem for a rock-solid authentication. It takes care of hashing, salting and storing the password and managing session cookies. All that's left for us to do is check for authentication of admins by using the `authenticate_admin!` helper.
 
-`Devise` could do a lot more, but as this is a basic guide, we will leave it with that. For even more fine-grained control over access rights (authorization) within your application (e.g. by introducing a superadmin or having regional and national manager roles), we recommend to take a look at two other popular Ruby/Rails gems, [Pundit](https://github.com/varvet/pundit) and [CanCanCan](https://github.com/CanCanCommunity/cancancan).
+`Devise` could do a lot more, but as this is a basic guide, we will leave it with that. For even more fine-grained control over access rights (authorization) within your application (e.g. by introducing a superadmin or having regional and national manager roles) we recommend you take a look at two other popular gems: [Pundit](https://github.com/varvet/pundit) and [CanCanCan](https://github.com/CanCanCommunity/cancancan).
 
 If you want to know more about using devise with matestack, checkout our [devise guide](/docs/guides/1200-devise/).
 
@@ -906,4 +906,4 @@ a = Admin.create(email: 'admin@example.com', password: 'OnlyForSuperMates', pass
 
 By adding a working authentication functionality and an admin app protected via a login, our project now much better resembles a real-world software application! On the way, we covered some advanced topics like authentication via the `Devise` gem, serving different JavaScript packs using `Webpacker` and Rails `layouts`. We leared how to structure components and pages with different namespaces and how to use different registries.
 
-While the application is good as it is right now, go ahead and check out the [next part of this guide](/docs/guides/100-tutorial/12_wrap_up.md).
+While the application is good as it is right now, go ahead and check out the [next part of this guide](/docs/guides/100-tutorial/12_heroku_deployment.md) where we will deploy our application to heroku.

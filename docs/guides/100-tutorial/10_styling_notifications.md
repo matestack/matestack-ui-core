@@ -22,7 +22,7 @@ This guide is heavily inspired by [Ross Kaffenberger's guide on *Using Bootstrap
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](guides/100-tutorial/09_custom_vue_js_components.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/09_custom_vue_js_components.md).
 
 ## Installing Bootstrap
 
@@ -580,7 +580,11 @@ In this guide we learned how to use bootstrap with matestack in order to style a
 
 Going ahead, the next part of this series covers [authentication via Devise](/docs/guides/100-tutorial/11_authentication_devise.md).
 
+<br>
+<br>
 <hr id="bootstrap-asset-pipeline">
+<br>
+<br>
 
 ## Using the Asset Pipeline instead of Webpack(er)
 If you're using the Asset Pipeline in your application, using Bootstrap to style your `matestack` pages and components also works very well - you only need to take a slightly different route while setting things up!

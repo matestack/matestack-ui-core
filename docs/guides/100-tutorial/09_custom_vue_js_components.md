@@ -7,14 +7,14 @@ Welcome to the ninth part of our essential guide about building a web applicatio
 
 ## Introduction
 
-In a [previous guide](/docs/guides/100-tutorial/07_partials_and_custom_components.md), we introduced custom components. In this one, we're bringing it to the next level with custom vue.js components!
+In a [previous guide](/docs/guides/100-tutorial/08_collection_async.md), we introduced custom components. In this one, we're bringing it to the next level with custom vue.js components!
 
 In this guide, we will
 - add a custom vue.js component that fetches and displays data from a third-party API
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](guides/100-tutorial/06_static_components.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/08_collection_async.md).
 
 ## Fetching and displaying data from a third party API
 
@@ -79,8 +79,7 @@ MatestackUiCore.Vue.component('person-activity', {
 });
 ```
 
-As you can see, we're making use of [The Bored API](boredapi.com/) to
-fill an (initially empty) array with strings. The `addActivity` method calls the api and pushes the activity from the response into the activities array. Because vue.js is reactive, our list specified in the ruby component will be updated and contain the added activity. Clicking the delete button will remove the activity and therefore remove the entry from the list.
+As you can see, we're making use of [The Bored API](https://boredapi.com) to fill an (initially empty) array with strings. The `addActivity` method calls the api and pushes the activity from the response into the activities array. Because vue.js is reactive, our list specified in the ruby component will be updated and contain the added activity. Clicking the delete button will remove the activity and therefore remove the entry from the list.
 
 After creating the new component, we still need to register it, both in the `/app/matestack/components/registry.rb`
 
@@ -153,7 +152,7 @@ As with custom components, there are hardly any limits for your creativity. You 
 - use custom dynamic components to fetch, display, modify and update records from your database
 - tweak and extend core components according to your situational, specific needs
 
-To learn more, check out the [basic building blocks](/docs/guides/200-basic_building_blocks.md) for custom custom components.
+To learn more, check out the [basic building blocks](/docs/guides/200-200-basic_building_blocks/) for custom custom components.
 
 ## Recap & outlook
 

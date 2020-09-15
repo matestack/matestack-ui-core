@@ -13,7 +13,7 @@ In this guide, we will introduce matestacks `async` component. For this we will
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](guides/100-tutorial/05_toggle_component.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/05_toggle_component.md).
 
 ## Add a delete button
 

@@ -7,7 +7,7 @@ Welcome to the second part of our essential guide about building a web applicati
 
 ## Introduction
 
-In the [previous guide](guides/100-tutorial/01_setup.md), we created a new project, installed the necessary libraries, added a demo `matestack` app featuring two `matestack` pages, and deployed it using Heroku.
+In the [previous guide](/docs/guides/100-tutorial/01_setup.md), we created a new project, installed the necessary libraries, added a demo `matestack` app featuring two `matestack` pages, and deployed it using Heroku.
 
 In this guide, we will
 - create an ActiveRecord model to work with throughout this series
@@ -15,7 +15,7 @@ In this guide, we will
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](guides/100-tutorial/01_setup.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/01_setup.md).
 
 ## Adding the ActiveRecord model
 

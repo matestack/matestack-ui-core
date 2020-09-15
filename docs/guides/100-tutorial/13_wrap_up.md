@@ -27,10 +27,12 @@ In this guide, we have followed a quite strict and pre-defined route. Now is the
 
 Since you are now familiar with the basics behind the `matestack-ui-core` library, there is a good chance you want to digg deeper on specific topics. Check out our ever-evolving list of guides and read on as you want.
 
+We recommend to read our [basic building blocks](/docs/guides/200-basic_building_blocks/) guide to get a deeper understanding how matestack works. It will repeat some of the things you learned but also extend your knowledge about matestack.
+
 ## Showcase
 
 You're super proud of what you've built using `matestack` libraries? [Let us know](mailto:jonas@matestack.io) and become part of our showcase.
 
 ## Become part of the community
 
-You're very invited to join our [chat]() or [Slack](), ask questions on our [forum]() or contribute by tackling [GitHub issues](https://github.com/matestack/matestack-ui-core/issues).
+You're very invited to contribute by tackling [GitHub issues](https://github.com/matestack/matestack-ui-core/issues).

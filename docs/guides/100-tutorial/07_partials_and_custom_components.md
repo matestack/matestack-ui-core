@@ -17,7 +17,7 @@ In this guide, we will
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](guides/100-tutorial/06_async_component.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/06_async_component.md).
 
 ## Using partials
 
@@ -280,7 +280,7 @@ By leveraging useful namespaces and calling custom components within other custo
 
 Side note: Custom components also give you a neat way of reusing your `*.haml` views with matestack (erb and slim support will be added soon).
 
-To learn more, check out the [extend API documentation](/docs/extend/custom_static_components.md) for custom static components.
+To learn more, check out the [basic building blocks](/docs/guides/200-basic_building_blocks/) guides section about custom components.
 
 ## Saving the status quo
 

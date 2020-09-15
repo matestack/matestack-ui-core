@@ -7,7 +7,7 @@ Welcome to the fourth part of our essential guide about building a web applicati
 
 ## Introduction
 
-In the [previous guide](guides/100-tutorial/03_index_show_transition.md), we added index and show pages for the **person** model. In this part, we will implement the create, update and delete part of our CRUD application. For this we will introduce the matestack `forms`.
+In the [previous guide](/docs/guides/100-tutorial/03_index_show_transition.md), we added index and show pages for the **person** model. In this part, we will implement the create, update and delete part of our CRUD application. For this we will introduce the matestack `forms`.
 
 In this guide, we will
 - add a new page and action action to create new persons
@@ -17,7 +17,7 @@ In this guide, we will
 - introduce the concept of matestack actions
 
 ## Prerequisites
-We expect you to have successfully finished the [previous guide](guides/100-tutorial/03_index_show_transition.md).
+We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/03_index_show_transition.md).
 
 ## Updating the person model
 
