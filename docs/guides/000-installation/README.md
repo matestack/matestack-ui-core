@@ -20,7 +20,7 @@ $ bundle install
 
 Matestack uses JavaScript and, in particular, [vuejs](http://vuejs.org). To include these into your existing rails app, matestack supports both, [webpack](https://webpack.js.org/)([er](https://github.com/rails/webpacker/)) and the [asset pipeline](https://guides.rubyonrails.org/asset_pipeline.html).
 
-Rails 6+ apps, by default, use webpacker, rails 5 apps, by default, use the asset pipeline.
+Rails 6+ apps use webpacker by default. Rails 5 and below apps use the asset pipeline by default.
 
 ### Webpacker
 
@@ -31,7 +31,7 @@ $ yarn add https://github.com/matestack/matestack-ui-core#v1.0.0
 $ yarn install
 ```
 
-This adds the npm package that provides the JavaScript files corresponding to matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
+This adds the npm package that provides the javascript corresponding to the matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
 
 Next, import 'matestack-ui-core' in your `app/javascript/packs/application.js`
 
@@ -45,11 +45,11 @@ and compile the JavaScript code with webpack:
 $ bin/webpack
 ```
 
-When, in the future, you update the matestack-ui-core gem, make also sure to update the npm package as well.
+When you update the matestack-ui-core gem, make sure to update the npm package as well.
 
 ### Asset Pipeline
 
-If you are not using webpacker but the asset pipeline, you don't need to install a separate npm package. All required JavaScript libraries including vuejs are provided by matestack-ui-core ready-to-use via the asset pipeline.
+If you are using the asset pipeline, you don't need to install the separate npm package. All required javascript libraries are provided by the matestack-ui-core gem.
 
 Require 'matestack-ui-core' in your `app/assets/javascript/application.js`
 
@@ -57,17 +57,9 @@ Require 'matestack-ui-core' in your `app/assets/javascript/application.js`
 //= require matestack-ui-core
 ```
 
-Require 'matestack-ui-core' in your `app/assets/stylesheets/application.css`
-
-```css
-/*
- *= require matestack-ui-core
- */
-```
-
 ### Turbolinks
 
-We recommend to (remove/deactivate)(https://stackoverflow.com/a/38649595) turbolinks, as there is no reason to use it alongside matestack-ui-core UI dynamics and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
+We recommend to (remove/deactivate)(https://stackoverflow.com/a/38649595) turbolinks, as there is no reason to use it alongside matestack-ui-core and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
 
 ## Matestack Folder
 
@@ -118,40 +110,15 @@ For Example, your `app/views/layouts/application.html.erb` should look like this
   </body>
 </html>
 ```
-Don't apply the matestack_ui ID to the body tag.
+Don't apply the "matestack-ui" id to the body tag.
 
-## Adding Support for Custom Components
-
-If you create your own vue.js components, you will need to import the javascript in your `application.js`.
-
-**Webpack**
-
-When using webpack, make sure to import your custom components in `app/javascript/packs/application.js`:
-
-```js
-import MatestackUiCore from 'matestack-ui-core'
-import '../../../app/matestack/components/my_custom_component'
-```
-
-**Asset Pipeline**
-
-When using the asset pipeline, add the matestack folder to the asset paths:
-
-`config/initializers/assets.rb`
-
-```ruby
-# 
-Rails.application.config.assets.paths << Rails.root.join('app/matestack/components')
-```
 
 ## Websocket Integration
 
-If you want to use websockets, please read [this guide](/docs/guides/1000-action_cable/)
+If you want to use websockets, please read our [action cable](/docs/guides/1000-action_cable/) guide.
 
 ## That's it!
 
 That's all you need to setup matestack!
 
-For further reading check out the [basic building blocks](/docs/guides/200-basic_building_blocks/).
-
-For your next steps in learning matestack we recommend you check out the basics [concepts](/docs/concepts/README.md) and follow the [tutorial](/docs/guides/100-tutorial) which shows you how to create your first matestack app!
+For further reading check out the [basic building blocks](/docs/guides/200-basic_building_blocks/) or get started with the [tutorial](/docs/guides/100-tutorial/) and create your first matestack app.
