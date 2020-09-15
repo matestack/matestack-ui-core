@@ -1,0 +1,18 @@
+# Essential Guide
+
+In this series of guides we teach you how to create a rails app from the ground up with matestack and encounter how matestack makes your life easier and takes away the frontend hustle. We build a demo CRUD application which you can take a look at [here](https://demo.matestack.io). The source code of the complete application can be found on [github](https://github.com/matestack/matestack-demo-application).
+
+0. [Introduction](/docs/guides/100-tutorial/00_introduction.md)
+1. [Setup](/docs/guides/100-tutorial/01_setup.md)
+2. [Active Record](/docs/guides/100-tutorial/02_active_record.md)
+3. [Index, Show, Transition](/docs/guides/100-tutorial/03_index_show_transition.md)
+4. [Forms, CRUD](/docs/guides/100-tutorial/04_forms_edit_new_create_update_delete.md)
+5. [Toggle Component](/docs/guides/100-tutorial/05_toggle_component.md)
+6. [Async Component](/docs/guides/100-tutorial/06_async_component.md)
+7. [Partials and Custom Components](/docs/guides/100-tutorial/07_partials_and_custom_components.md)
+8. [Collection Component](/docs/guides/100-tutorial/08_collection_async.md)
+9. [Custom Vue.js Components](/docs/guides/100-tutorial/09_custom_vue_js_components.md)
+10. [Styling and Notifications](/docs/guides/100-tutorial/10_styling_notifications.md)
+11. [Authentication with Devise](/docs/guides/100-tutorial/11_authentication_devise.md)
+12. [Wrap Up](/docs/guides/100-tutorial/12_wrap_up.md)
+13. [Heroku Deployment](/docs/guides/100-tutorial/13_heroku_deployment.md)

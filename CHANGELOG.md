@@ -577,7 +577,7 @@ We reworked the form components quite a bit:
 - options passed as hashes in to `form_select`, `form_radio` and `form_checkbox` are now expected to be { label_value: input_value } and thus the other way around. Until 0.7.6 it was { input_value: label_value }
 - and added a lot of new features, such as customizing the error rendering.
 
-We invested a lot of time to improve the `form` API docs found [here](/docs/api/components/form.md).
+We invested a lot of time to improve the `form` API docs found [here](/docs/api/100-components/form.md).
 
 - [ ] Please make sure to read through the docs and migrate your forms accordingly!
 

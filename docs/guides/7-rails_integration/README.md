@@ -1,3 +1,0 @@
-# Rails integration
-
-In Progress...

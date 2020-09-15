@@ -1,3 +1,0 @@
-# Asynchronous rendering
-
-In Progress...
