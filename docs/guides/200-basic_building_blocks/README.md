@@ -426,7 +426,7 @@ onclick emit: 'my-event' do
 end
 ```
 
-Read more about the [transition component](/docs/api/100-components/onclick.md).
+Read more about the [onclick component](/docs/api/100-components/onclick.md).
 
 **toggle**
 
@@ -439,7 +439,7 @@ toggle show_on: 'my-event', hide_after: 2000 do
 end
 ```
 
-Read more about the [transition component](/docs/api/100-components/toggle.md).
+Read more about the [toggle component](/docs/api/100-components/toggle.md).
 
 **action**
 
@@ -475,20 +475,20 @@ In the example above, clicking the "Delete" button will trigger an asynchronous 
 
 We recommend defining the expected hash parameter for `action` components in a method, because they can get quite large.
 
-Read more about the [transition component](/docs/api/100-components/action.md).
+Read more about the [action component](/docs/api/100-components/action.md).
 
 **forms**
 
-Read more about the [transition component](/docs/api/100-components/forms.md).
+Read more about the [forms component](/docs/api/100-components/forms.md).
 
 **async**
 
-Read more about the [transition component](/docs/api/100-components/async.md).
+Read more about the [async component](/docs/api/100-components/async.md).
 
 **isolated**
 
-Read more about the [transition component](/docs/api/100-components/isolated.md).
+Read more about the [isolated component](/docs/api/100-components/isolated.md).
 
 **collection**
 
-Read more about the [transition component](/docs/api/100-components/collection.md).
+Read more about the [collection component](/docs/api/100-components/collection.md).
