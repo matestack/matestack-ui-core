@@ -191,11 +191,13 @@ There are two different types of core components. Simple components and so calle
 
 **Using core components**
 
-Like already mentioned core components are automatically available in apps, pages and components, which means you can right ahead write your UI with apps, pages and components in pure ruby. Just use them like in the examples above. Core components always take a hash as parameter which can contain all corresponding w3c specified html attributes in order to set them.
+Like already mentioned core components are automatically available in apps, pages and components, which means you can right ahead write your UI with apps, pages and components in pure ruby. Just use them like in the examples above. Core components always take a hash as parameter which can contain all corresponding w3c specified html attributes in order to set them. Most components can also take either a `:text` option for their content or a block if they can have nested html content.
 
 ```ruby
 def response
-  div id: 'product-1', class: 'product-teaser', data: { foo: 'bar' }
+  div id: 'product-1', class: 'product-teaser', data: { foo: 'bar' } do
+    heading text: 'A Product', size: 2
+  end
   paragraph text: 'I am a p tag', class: 'highlight text-light'
   span text: 'I am a span', style: 'color: red;'
 end
@@ -204,7 +206,9 @@ end
 Rendered Result:
 
 ```html
-<div id="product-1" class="product-teaser", data-foo="bar"></div>
+<div id="product-1" class="product-teaser", data-foo="bar">
+  <h1>A product</h1>
+</div>
 <p class="highlight text-light">I am a p tag</p>
 <span style="color: red;">I am a span</span>
 ```
@@ -393,15 +397,85 @@ To learn more about the event hub head over to our [event hub api](/docs/api/000
 
 ## Core Features
 
-* prebuild vue.js components for usual and advanced functionality
+You learned about matestack apps, pages, components, custom components, custom vue.js components, the event hub and you have heard about matestacks core vue.js components. They are vue.js components that implement useful features which would else require you to write javascript. Following up is a short introduction to matestacks unique components that enable you to write rich, modern UIs with ease.
 
 **transition**
 
+Starting off with the `transition` component. The transition component is one of the key components for you to use. You should use them instead of a link if the target path of that link belongs to the same app. Given the example from above, links to our root, products index or details page should be transitions, because they will be rendered in the same app. The use of transitions enables the app to switch between pages without website reloads, instead asynchronously requesting the new page in the background and switching it after a successful response from the server. 
+
+The `transition` component requires a path. Use for example rails routes helpers to provide this. For example:
+
+```ruby
+transition path: root_path, text: 'Home'
+transition path: products_path, class: 'card-link' do
+  div class: 'card' do
+    paragraph text: 'Transition with a more complex structure'
+  end
+end
+```
+
+Read more about the [transition component](/docs/api/100-components/transition.md).
+
 **onclick**
+
+The `onclick` component is very simple. It can emit an event if the contents of the `onclick` component gets clicked. This component shows its potential when used with other components that can react to events like `toggle`, `async`, `isolated`.
+
+```ruby
+onclick emit: 'my-event' do
+  button text: 'Click me!'
+end
+```
+
+Read more about the [transition component](/docs/api/100-components/onclick.md).
 
 **toggle**
 
+The `toggle` component can toggle its view state according to either events or timers. It can show or hide its content after one of the specified events is received or hide its content after a certain amount of time. You can use it for example to show a notification if a special event occurs and automatically hide the notification after a certain period.  
+
+```ruby
+# showing content after 'my-event' was received and hiding it after 2s
+toggle show_on: 'my-event', hide_after: 2000 do
+  paragraph text: 'Your notification content'
+end
+```
+
+Read more about the [transition component](/docs/api/100-components/toggle.md).
+
 **action**
+
+The `action` component can be used to trigger a asynchronous request from for example a button click. Let's assume we want a delete button on our products show page in the management app. Deleting a product would require us to send a DELETE request to the `product_path(product.id)`. The `action` components let's us wrap content which is then clickable and triggers a request with the configured request method to the configured path and with the given params (giving you the ability to add whatever params you want) and let's us react to the server response. It can distinguish between a successful and failed response and emit events, transition somewhere, completely redirect and more for both. You only need to configure it according to your needs.
+
+```ruby
+def response
+  action action_config do
+    button text: 'Delete'
+  end
+end
+
+def action_config
+  {
+    path: product_path(product.id),
+    method: :delete,
+    params: {
+      foo: :bar
+    },
+    sucess: {
+      transition: {
+        follow_response: true
+      }
+    },
+    failure: {
+      emit: 'deletion-failed'
+    }
+  }
+end
+```
+
+In the example above, clicking the "Delete" button will trigger an asynchronous DELETE request to the `products_path(id)` with params `foo: :bar`. If successful the action component will trigger a transition to the pass the controller redirected us to. If it failed we will emit the "deletion-failed" event. 
+
+We recommend defining the expected hash parameter for `action` components in a method, because they can get quite large.
+
+Read more about the [transition component](/docs/api/100-components/action.md).
 
 **forms**
 
