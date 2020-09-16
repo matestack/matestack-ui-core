@@ -47,7 +47,7 @@ meant to be used for simple rendering of content and other components. Matestack
 will simply render the UI defined within the `response` method without any
 wrapping elements by default.
 
-[Read more](/docs/api/000-base/component.md)
+[Read more](/docs/api/000-base/20-component.md)
 
 #### VueJsComponent
 
@@ -59,7 +59,7 @@ Ruby component. The VueJs JavaScript component (defined in a separate JavaScript
 managed via Sprockets or Webpacker) will treat the response of the Ruby
 component as its template.
 
-[Read more](/docs/api/000-base/vue_js_component.md)
+[Read more](/docs/api/000-base/30-vue_js_component.md)
 
 #### IsolatedComponent
 
@@ -70,7 +70,7 @@ response defined in the Ruby component. Additionally, Matestack wraps the
 component's `response` with some DOM elements enabling asynchronous loading
 state animations.
 
-[Read more](/docs/api/000-base/isolated_component.md)
+[Read more](/docs/api/000-base/40-isolated_component.md)
 
 ### Core Components
 
@@ -101,7 +101,7 @@ A page is a special kind of `Matestack::Ui::VueJsComponent`. Matestack will
 therefore wrap the UI defined in the `response` method with some markup enabling
 dynamic UI behavior and CSS styling.
 
-Learn more about [pages](/docs/api/000-base/page.md)
+Learn more about [pages](/docs/api/000-base/10-page.md)
 
 ## Apps
 
@@ -116,4 +116,4 @@ The app ships a `Vuex store` and `Vue.js event hub`, which are used by core vuej
 components and can optionally be used by custom vuejs components in order to
 trigger events, manage client side date and communicate between components.
 
-Learn more about [apps](/docs/api/000-base/app.md)
+Learn more about [apps](/docs/api/000-base/10-app.md)

@@ -129,7 +129,7 @@ markup. See below, how you can pass in data to the VueJs JavaScript component.
 ### Same as component
 
 The basic VueJs Ruby component API is the same as described within the
-[component API documenation](/docs/api/000-base/component.md). The options below extend
+[component API documenation](/docs/api/000-base/20-component.md). The options below extend
 this API.
 
 ### Referencing the VueJs JavaScript component
@@ -216,9 +216,9 @@ class SomeComponent < Matestack::Ui::VueJsComponent
 end
 ```
 
-### Eventhub
+### Event Hub
 
-Matestack offers an eventhub, which can be used to communicate between components.
+Matestack offers an event hub, which can be used to communicate between components.
 
 #### Emitting events
 
