@@ -479,8 +479,16 @@ Read more about the [transition component](/docs/api/100-components/action.md).
 
 **forms**
 
+Read more about the [transition component](/docs/api/100-components/forms.md).
+
 **async**
+
+Read more about the [transition component](/docs/api/100-components/async.md).
 
 **isolated**
 
+Read more about the [transition component](/docs/api/100-components/isolated.md).
+
 **collection**
+
+Read more about the [transition component](/docs/api/100-components/collection.md).
