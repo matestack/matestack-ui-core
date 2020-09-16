@@ -1,13 +1,15 @@
 # Basic Building Blocks
 
-## Table of contents
-
-1. Concept
-   1. Apps
-   2. Pages
-   3. Components
-2. Event System
-3. Core Features
+**Table of contents**
+1. [Concept](#concept)
+   1. [Apps](#apps)
+   2. [Pages](#pages)
+   3. [Components](#components)
+      1. [Core Components](#core-components)
+      2. [Creating own components](#creating-own-components)
+      3. [Creating own vue.js components](#creating-own-vuejs-components)
+2. [Event Hub](#event-hub)
+3. [Core Features](#core-features)
 
 ## Concept
 
@@ -314,7 +316,7 @@ If you call a component and forget a required property matestack will throw a `M
 
 Read more about how properties work and how it prevents overwriting other methods at the [component api](/docs/api/000-base/10-component.md#passing-options-to-components).
 
-**Creating own vue.js components**
+#### Creating own vue.js components
 
 For most cases you will not need to create custom vue.js components, but if you need custom javascript behavior you can implement it by using a custom vue.js component. It only differs slightly from components. They also need to implement a `response` method and use properties to access data but they inherit from `Matestack::Ui::VueJsComponent` and require a javascript file implementing the corresponding frontend component. In order to link these they require you to set a vue.js component name. Let's take a look at an example vue.js component:
 
@@ -365,7 +367,7 @@ Implementing the javascript component works as you would normally implement your
 To use this component remember to add it like the product teaser to a registry. Also you need to add the javascript file to webpacker or the asset pipeline. To learn how to do that or if you want to know more about vue.js components take a look at the [vue.js component api](/docs/api/000-base/30-vue_js_component.md).
 
 
-## Event System
+## Event Hub
 
 Matestack uses events as a communication layer to enable features of core vue.js components. It offers an event hub which is accessible to you. Reacting to events in javascript or triggering your own events is therefore possible.
 
