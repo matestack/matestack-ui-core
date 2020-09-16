@@ -1,6 +1,7 @@
 # Basic Building Blocks
 
 **Table of contents**
+
 1. [Concept](#concept)
    1. [Apps](#apps)
    2. [Pages](#pages)
