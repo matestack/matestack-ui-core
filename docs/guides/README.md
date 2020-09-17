@@ -3,7 +3,7 @@
 Welcome to the `matestack-ui-core` guides! In here, we cover various use cases of this library, along with examples and explanations.
 
 **Note:** 
-* These guides/docs are written for `>= 1.0.0.rc.1`. If you're looking for the docs for older releases, please have a look at the github repo itself within `/docs` and select the desired version tag.
+* These guides/docs are written for `>= 1.0.0`. If you're looking for the docs for older releases, please have a look at the github repo itself within `/docs` and select the desired version tag.
 * Most of the guides are currently in progress. Please be patient while we do our best to create content while releasing a stable 1.0.0 release which will happen this September
 
 
