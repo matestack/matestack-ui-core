@@ -1,7 +1,7 @@
 [![Specs](https://github.com/matestack/matestack-ui-core/workflows/specs/badge.svg)](https://github.com/matestack/matestack-ui-core/actions)
 [![Gitter](https://badges.gitter.im/basemate/community.svg)](https://gitter.im/basemate/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
-[![Docs](https://img.shields.io/badge/docs-matestack-blue.svg)](https://docs.matestack.io/docs/guides/1-installation/README.md)
+[![Docs](https://img.shields.io/badge/docs-matestack-blue.svg)](https://docs.matestack.io)
 [![Twitter Follow](https://img.shields.io/twitter/follow/matestack.svg?style=social)](https://twitter.com/matestack) 
 
 ![matestack logo](./logo.png)
@@ -34,7 +34,7 @@ Please have a look at our [landingpage](https://www.matestack.io), presenting th
 
 ## Documentation/Installation
 
-Documentation can be found [here](https://docs.matestack.io/docs/guides/1-installation/README.md)
+Documentation can be found [here](https://docs.matestack.io)
 
 ## Changelog
 
@@ -46,7 +46,7 @@ As a low-barrier feedback channel for our early users, we have set up a Gitter c
 
 ## Contribution
 
-We are happy to accept contributors of any kind. Please refer to the [Contribution Guide](https://docs.matestack.io/docs/guides/13-contribute/README.md)
+We are happy to accept contributors of any kind. Please refer to the [Contribution Guide](https://docs.matestack.io/docs/guides/1500-contribute/README.md)
 
 ## License
 matestack-ui-core is an Open Source project licensed under the terms of the [LGPLv3 license](./LICENSE)
