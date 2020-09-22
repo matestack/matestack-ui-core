@@ -10,7 +10,7 @@ Forms are one of the most important components for a lot of applications as they
 
 ## Usage
 
-### `form` component
+### Form component
 
 Like in Rails with `form_for` you can create a form in matestack with `form`. It takes a hash as parameter with which you can configure your form and a block with the formular content. In the config hash you can set the HTTP request method, a path, success and failure behavior. You also need to specify a model, string or symbol for what the form is for. All form params will then be submitted nested in this namespace, following Rails behavior and conventions.
 
@@ -47,7 +47,7 @@ Each form requires a few keys for configuration: `:for`, `:path`, `:method`.
   
 * `:method` sets the request method the form is submitted with
 
-### `form` success and failure behavior
+### Form success and failure behavior
 
 Forms will be submitted asynchronously and in case of errors dynamically extended to show errors belonging to inputs fields. In case of a successful request the form is resetted.
 
