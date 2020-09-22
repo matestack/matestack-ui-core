@@ -513,7 +513,7 @@ def form_config
 end
 ```
 
-Inside a form you can use our form input components `form_input`, `textarea`, `form_select`, `form_radio` and `form_checkbox`. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. It is also possible to specify `:label` in order to create labels for the input on the fly. Some form components can take additional `:options` as a array or hash, which will render a the passed options. For inputs with possible multiple values, like checkboxes or multisecelects, the selected values are submitted in an array, following again Rails behavior. To learn more about the details of each input component take a look at the [form components api](/docs/api/100-components/form.md)
+Inside a form you can use our form input components `form_input`, `form_textarea`, `form_select`, `form_radio` and `form_checkbox`. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. It is also possible to specify `:label` in order to create labels for the input on the fly. Some form components can take additional `:options` as a array or hash, which will render a the passed options. For inputs with possible multiple values, like checkboxes or multisecelects, the selected values are submitted in an array, following again Rails behavior. To learn more about the details of each input component take a look at the [form components api](/docs/api/100-components/form.md)
 
 Wrap a button or any markup which should submit the form when clicked in `form_submit`.
 
