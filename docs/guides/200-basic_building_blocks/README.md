@@ -525,12 +525,36 @@ To learn more, check out the [complete form documentation](/docs/api/100-compone
 
 **async**
 
-Read more about the [async component](/docs/api/100-components/async.md).
+The `async` component can be used to load or reload content asynchronously depending on page initialization or events. Simply wrap your content which you want to render asynchronously inside the `async` component. In order to load the content asynchronously after the initial page load use `defer: true` or pass in a number to delay the defer. To reload content you can use `:rerender_on` with an event name, leveraging the event hub, to reload the content if the specified event occurs. For example rerendering a list of todos beneath the form to create todos to instantly show new created objects. Remember events can also be used with action cable, which you could use for "real time" synchronization.
+
+```ruby
+def response
+  paragraph text: 'Time when you pressed the button'
+  async id: 'current-time', rerender_on: 'update-time' do
+    paragraph text: Time.now
+  end
+  onclick emit: 'update-time' do
+    button text: 'Update Time'
+  end
+end
+```
+
+The above code snippet renders initially a paragraph and the current time followed by a button which emits the "update-time" event. The `async` component triggers an asynchronous request when the event is recieved, requesting it's content from the server. The server will respond with only the contents of the `async` components which is then replaced.
+
+For more details on how to use the [async component](/docs/api/100-components/async.md) read the corresponding api doc.
 
 **isolated**
+
+Isolated components work similar to `async` components, but there are a few differences. Isolated components can not be called or used with a block like async, instead you need to create a custom component inheriting from `Matestack::Ui::IsolatedComponent`. Creation of the custom component works similar to other components, except you need to implement an `authorized?` method. This is needed because isolated components are resolved independently, they are not calling your app, page or anything else like `async` does. Therefore they need to resolve all data independently, but can access params to do so. 
+
+So isolated components are resolved completely indepentendly unlike async for which the whole page is executed but only the async block is rendered.
+
+You can of course use every matestack component inside an isolated component, even `async` or another isolated component.
 
 Read more about the [isolated component](/docs/api/100-components/isolated.md).
 
 **collection**
+
+
 
 Read more about the [collection component](/docs/api/100-components/collection.md).
