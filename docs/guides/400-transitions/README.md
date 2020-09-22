@@ -48,4 +48,4 @@ Styling a transition which is _active_ is simple, because it automatically gets 
 
 
 
-If you want to know all details about the `transition` component, like how you can delay it or what events it emits, checkout it's [api documentation](docs/api/100-components/transition.md)
+If you want to know all details about the `transition` component, like how you can delay it or what events it emits, checkout it's [api documentation](/docs/api/100-components/transition.md)

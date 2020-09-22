@@ -471,7 +471,7 @@ def action_config
 end
 ```
 
-In the example above, clicking the "Delete" button will trigger an asynchronous DELETE request to the `products_path(id)` with params `foo: :bar`. If successful the action component will trigger a transition to the pass the controller redirected us to. If it failed we will emit the "deletion-failed" event. 
+In the example above, clicking the "Delete" button will trigger an asynchronous DELETE request to the `products_path(id)` with params `foo: :bar`. If successful the action component will trigger a transition to the path the controller redirected us to. If it failed we will emit the "deletion-failed" event. 
 
 We recommend defining the expected hash parameter for `action` components in a method, because they can get quite large.
 
