@@ -479,7 +479,49 @@ Read more about the [action component](/docs/api/100-components/action.md).
 
 **forms**
 
-Read more about the [forms component](/docs/api/100-components/forms.md).
+Like in Rails with `form_for` you can create a form in matestack with `form`. It takes a hash as parameter with which you can configure your form. In the config hash you can set the HTTP request method, a path, success and failure behavior. You also need to specify a model, string or symbol for what the form is for. All form params will then be submitted nested in this namespace, following Rails behavior and conventions.
+
+```ruby
+def response
+  form form_config do
+    form_input key: :name, type: :text, label: 'Name'
+    form_input key: :age, type: :number, label: 'Name'
+    textarea key: :description, label: 'Description'
+    form_select key: :experience, options: ['Junior', 'Senior']
+    form_radio key: :newsletter, options: { 'Yeah, a newsletter.': 1, 'Oh no. Not again.': 0 }, label: 'Name'
+    form_checkbox key: :conditions, label: "I've read the terms and conditions"
+    form_submit do
+      button text: 'Save'
+    end
+  end
+end
+
+def form_config
+  {
+    for: User.new
+    path: users_path,
+    method: :post,
+    success: {
+      transition: {
+        follow_redirect: true
+      }
+    },
+    failure: {
+      emit: 'user_form_failure'
+    }
+  }
+end
+```
+
+Inside a form you can use our form input components `form_input`, `textarea`, `form_select`, `form_radio` and `form_checkbox`. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. It is also possible to specify `:label` in order to create labels for the input on the fly. Some form components can take additional `:options` as a array or hash, which will render a the passed options. For inputs with possible multiple values, like checkboxes or multisecelects, the selected values are submitted in an array, following again Rails behavior. To learn more about the details of each input component take a look at the [form components api](/docs/api/100-components/form.md)
+
+Wrap a button or any markup which should submit the form when clicked in `form_submit`.
+
+Each form requires a few keys for configuration: `:for`, `:path`, `:method`. Like said above, `:for` can reference a active record object or a string/symbol which will be used to nest params in it. `:path` specifies the target path, the form is submitted to with the configured request method in `:method`.
+
+Forms will be submitted asynchronously and in case of errors dynamically extended to show errors belonging to inputs fields, but it is possible to set custom form behavior in success or failure cases. You could transition to another page, follow the redirect from the server as a transition or normal redirect, or emit events to leverage the above mentioned event hub.
+
+To learn more, check out the [complete form documentation](/docs/api/100-components/form.md).
 
 **async**
 

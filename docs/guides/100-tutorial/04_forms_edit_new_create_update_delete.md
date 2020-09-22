@@ -165,7 +165,7 @@ Within our response method we have at first a transition to the person index pag
 
 Let's take a closer look. Like in Rails with `form_for` you can create a form in matestack with `form`. It takes a hash as first argument for configuration. In this case we defined `new_person_form_config` to return the config hash for our form. In the config hash you can set the http request method, a path, success and failure configs and a for key, which will be explained soon. This form gets submitted as a POST request to the `persons_path`.
 
-The `for` key let's us define for what this form is. In this case we pass a empty model to the form component, which will therefore submitt the form inputs wrapped by the model name following the Rails behavior and conventions.
+The `for` key let's us define for what this form is. In this case we pass a empty model to the form component, which will therefore submit the form inputs wrapped by the model name following the Rails behavior and conventions.
 
 The 'success' key let's us define a behavior when the form was submitted successful, which means the server returned a status code of 2XX. In this case we tell the form that if successful it should follow the transition path we return in our controller action. So a page transition will happen to the detail page of our newly created model. We could also configure a failure behavior by specifying the `failure` key.
 
