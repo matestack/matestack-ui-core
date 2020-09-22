@@ -20,6 +20,9 @@ This guide is split into several parts building upon each other. It is intended 
 
 You can start with [the first article](/docs/guides/100-tutorial/00_introduction.md).
 
+## [Basic building blocks](/docs/guides/200-basic_building_blocks/README.md)
+
+Our basic building blocks guide teaches you the concepts of matestack, including apps, pages, components and the event hub. It provides you with an overview of what they are, what they can be used for and how they work. At the end we present to you core features of matestack, giving you an idea of what you can achieve with matestack with ease and without writing anything else than ruby.
 
 ## Contribute
 
