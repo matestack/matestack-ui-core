@@ -866,7 +866,9 @@ def form_config
     }
   }
 ```
+
 Outputs errors as:
+
 ```html
 <input type="text" class="my-field-error" />
 <div class="my-errors">
