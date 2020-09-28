@@ -2,16 +2,6 @@
 
 This guide shows you how to add matestack-ui-core to an existing rails application.
 
-1. [Installation](#installation)
-   1. [JavaScript Setup](#javascript-setup)
-   2. [Matestack Folder](#matestack-folder)
-   3. [Controller Setup](#controller-setup)
-   4. [Application layout adjustments](#application-layout-adjustments)
-   5. [Websocket Integration](#websocket-integration)
-2. [Usage](#usage)
-   1. [Full matestack](#full-matestack)
-   2. [Integration in existing projects](#integration-in-existing-projects)
-
 ## Installation
 
 Add 'matestack-ui-core' to your Gemfile

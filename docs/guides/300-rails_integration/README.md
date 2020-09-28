@@ -118,11 +118,11 @@ class Shop::App < Matestack::Ui::App
 
   def head_section
     header do
-      div class="round-header-background"
+      div class: "round-header-background"
       nav do
-        div class="logo" { plain "RAILS" }
+        div class: "logo" { plain "RAILS" }
       end
-      div class="hero search" do
+      div class: "hero search" do
         heading text: 'Shopping never was easier'
       end
     end

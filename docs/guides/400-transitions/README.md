@@ -4,8 +4,6 @@ Matestack `transition` component enables switching between pages without a websi
 
 The `transition` component is therefore one of the key components for you to use. You should use them instead of a link if the target path of that link belongs to the same app. Given a shopping application with a shop app, links to our root, products index or details page should be transitions, because they belong to the shop app. The use of transitions enables the app to switch between pages without website reloads, instead asynchronously requesting the new page in the background and switching it after a successful response from the server. 
 
-1. [Usage](#usage)
-2. [Styling active transitions and it's parents](#styling-active-transitions-and-its-parents)
 
 ## Usage
 

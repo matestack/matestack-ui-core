@@ -4,11 +4,6 @@ Devise is one of the most popular gems for authentication. Find out more about D
 
 In order to integrate it fully in matestack apps and pages we need to adjust a few things. This guide explains what exactly needs to be adjusted.
 
-1. [Setting up Devise](#setting-up-devise)
-2. [Devise models](#devise-models)
-3. [Devise helpers](#devise-helpers)
-4. [Devise sign in](#devise-sign-in)
-5. [Devise sign out](#devise-sign-out)
 
 ## Setting up Devise
 

@@ -1,16 +1,5 @@
 # Basic Building Blocks
 
-**Table of contents**
-
-1. [Concept](#concept)
-   1. [Apps](#apps)
-   2. [Pages](#pages)
-   3. [Components](#components)
-      1. [Core Components](#core-components)
-      2. [Creating own components](#creating-own-components)
-      3. [Creating own vue.js components](#creating-own-vuejs-components)
-2. [Event Hub](#event-hub)
-3. [Core Features](#core-features)
 
 ## Concept
 

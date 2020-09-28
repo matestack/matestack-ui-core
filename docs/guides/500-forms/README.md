@@ -2,11 +2,6 @@
 
 Forms are one of the most important components for a lot of applications as they are always needed for user input, like searches, logins, registrations, newsletter subscriptions and much more. Matestack implements a `form` component which could wrap differnt form input components also implemented in matestack like text inputs, number inputs, textareas, selects, checkboxes, radio buttons and more.
 
-1. [Usage](#usage)
-   1. [Form component](#form-component)
-   2. [Form success and failure behavior](#form-success-and-failure-behavior)
-   3. [Input components](#input-components)
-   4. [Submitting forms](#submitting-forms)
 
 ## Usage
 
