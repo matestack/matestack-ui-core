@@ -544,6 +544,6 @@ Read more about the [isolated component](/docs/guides/800-isolated/README.md).
 
 **collection**
 
-With the `collection` component you can display active record model or similar collections and add features like filtering, paginating and ordering with ease. Each of these features requires no page reload to take effect, because the `collection` component leverages a `async` component in combination with the event hub to only reload the effected content of the collection. The `collection` component is a bit more complex as it offers a lot of functionality why we will not explain the rudimentary usage here. 
+With the `collection` component you can display active record model or similar collections and add features like filtering, paginating and ordering with ease. Each of these features requires no page reload to take effect, because the `collection` component leverages a `async` component in combination with the event hub to only reload the effected content of the collection. The `collection` component is a bit more complex as it offers a lot of functionality, that's why we will not explain the rudimentary usage here. 
 
 Take a look at the [collection component guide](/docs//guides/900-collection/README.md) to learn how it works and how to use it.
