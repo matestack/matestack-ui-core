@@ -121,6 +121,7 @@ app/matestack/
 and your corresponding controllers could look like this:
 
 `app/controllers/admin_controller.rb`
+
 ```ruby
 class AdminController < ApplicationController
   include Matestack::Ui::Core::ApplicationHelper
@@ -137,6 +138,7 @@ end
 ```
 
 `app/controllers/website_controller.rb`
+
 ```ruby
 class WebsiteController < ApplicationController
   include Matestack::Ui::Core::ApplicationHelper
@@ -181,6 +183,7 @@ This auto resolving is being completely removed in the `1.0.0` release. All comp
 *Core components*
 
 `CORE_ROOT/lib/matestack/ui/core/components.rb`
+
 ```ruby
 module Matestack::Ui::Core::Components
   #...
@@ -202,6 +205,7 @@ The registered DSL method `some_new_component` does not have to match the compon
 Create a registry module like:
 
 `APP_ROOT/app/matestack/components/registry.rb`
+
 ```ruby
 module Components::Registry
 
@@ -573,7 +577,7 @@ We reworked the form components quite a bit:
 - options passed as hashes in to `form_select`, `form_radio` and `form_checkbox` are now expected to be { label_value: input_value } and thus the other way around. Until 0.7.6 it was { input_value: label_value }
 - and added a lot of new features, such as customizing the error rendering.
 
-We invested a lot of time to improve the `form` API docs found [here](/docs/api/components/form.md).
+We invested a lot of time to improve the `form` API docs found [here](/docs/api/100-components/form.md).
 
 - [ ] Please make sure to read through the docs and migrate your forms accordingly!
 
@@ -708,6 +712,7 @@ To render existing rails views inside your components or pages, use the new `rai
 You can render existing partials and views with this helper anywhere in your app. For further information read the `rails_view` documentation.
 
 Let's say you have an old view file in `app/views/example/partial.html.erb`
+
 ```html
 <p>An example text in a Rails view</p>
 ```
@@ -1075,6 +1080,7 @@ none
 ***OLD:***
 
 `app/matestack/app/example_app.rb`
+
 ```ruby
 class Apps::ExampleApp < App::Cell::App end
 ```
@@ -1082,6 +1088,7 @@ class Apps::ExampleApp < App::Cell::App end
 ***NEW:***
 
 `app/matestack/app/example_app.rb`
+
 ```ruby
 class Apps::ExampleApp < Matestack::Ui::App end
 ```
@@ -1091,6 +1098,7 @@ class Apps::ExampleApp < Matestack::Ui::App end
 ***OLD:***
 
 `app/matestack/pages/example_app/example_page.rb`
+
 ```ruby
 class Pages::ExampleApp::ExamplePage < Page::Cell::Page end
 ```
@@ -1098,6 +1106,7 @@ class Pages::ExampleApp::ExamplePage < Page::Cell::Page end
 ***NEW:***
 
 `app/matestack/pages/example_app/example_page.rb`
+
 ```ruby
 class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page end
 ```
@@ -1107,6 +1116,7 @@ class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page end
 ***OLD:***
 
 `app/matestack/components/card/cell/card.rb`
+
 ```ruby
 class Components::Card::Cell::Card < Component::Cell::Static end
 ```
@@ -1114,6 +1124,7 @@ class Components::Card::Cell::Card < Component::Cell::Static end
 ***NEW:***
 
 `app/matestack/components/card.rb`
+
 ```ruby
 class Components::Card < Matestack::Ui::StaticComponent end
 ```
@@ -1123,11 +1134,13 @@ class Components::Card < Matestack::Ui::StaticComponent end
 ***OLD:***
 
 `app/matestack/components/card/cell/card.rb`
+
 ```ruby
 class Components::Card::Cell::Card < Component::Cell::Dynamic end
 ```
 
 `app/matestack/components/card/cell/card.js`
+
 ```javascript
 MatestackUiCore.Vue.component('custom-card-cell', { ... });
 ```
@@ -1135,11 +1148,13 @@ MatestackUiCore.Vue.component('custom-card-cell', { ... });
 ***NEW:***
 
 `app/matestack/components/card.rb`
+
 ```ruby
 class Components::Card < Matestack::Ui::DynamicComponent end
 ```
 
 `app/matestack/components/card.js`
+
 ```javascript
 MatestackUiCore.Vue.component('custom-card', { ... }); //no -cell postfix
 ```
@@ -1149,6 +1164,7 @@ MatestackUiCore.Vue.component('custom-card', { ... }); //no -cell postfix
 ***OLD:***
 
 `app/matestack/pages/example_app/example_page.rb`
+
 ```ruby
 class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
@@ -1166,6 +1182,7 @@ end
 ***NEW:***
 
 `app/matestack/pages/example_app/example_page.rb`
+
 ```ruby
 class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
@@ -1197,6 +1214,7 @@ app/concepts/matestack/ui/core
 ```
 
 `app/concepts/matestack/ui/core/div/div.rb`
+
 ```ruby
 module Matestack::Ui::Core::Div
   class Div < Matestack::Ui::Core::Component::Static
@@ -1213,6 +1231,7 @@ We also removed the `Cell` module (`cell` folder) and the separate `js` and `vie
 Last module name and class name of CORE components have to be the same. That doesn't apply for CUSTOM components:
 
 `app/matestack/pages/example_app/example_page.rb`
+
 ```ruby
 class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 
@@ -1254,6 +1273,7 @@ Scoping all core components within `Matestack::Ui::Core` is reflected in differe
 Example: `async` core component
 
 `app/concepts/matestack/ui/core/async`
+
 ```javascript
 //old
 Vue.component('async-cell', componentDef)
@@ -1278,6 +1298,7 @@ ADDON_ENGINE_ROOT/app/concepts/matestack/ui/materialize
 ```
 
 `ADDON_ENGINE_ROOT/app/concepts/matestack/ui/materialize/row/row.rb`
+
 ```ruby
 module Matestack::Ui::Materialize::Row
   class Row < Matestack::Ui::Core::Component::Static
@@ -1296,6 +1317,7 @@ end
 Usage:
 
 `app/matestack/pages/example_app/example_page.rb`
+
 ```ruby
 class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 

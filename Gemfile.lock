@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (1.0.0.rc.1)
+    matestack-ui-core (1.0.0)
       cells-haml
       cells-rails
       haml
@@ -233,7 +233,7 @@ GEM
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
       railties (>= 4.2)
-    websocket-driver (0.7.2)
+    websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
