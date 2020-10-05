@@ -45,5 +45,6 @@ end
 Styling a transition which is _active_ is simple, because it automatically gets the `active` class on the clientside when the current path equals it's target path. When a sub page of a parent `transition` component is currently active, the parent `transition` component gets a `active-child` class.
 
 
+## Complete documentation
 
 If you want to know all details about the `transition` component, like how you can delay it or what events it emits, checkout it's [api documentation](/docs/api/100-components/transition.md)

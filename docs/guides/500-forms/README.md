@@ -92,6 +92,7 @@ To learn more about the details of each input component take a look at the [form
 
 Wrap a button or any markup which should submit the form when clicked in `form_submit`.
 
-----
+
+## Complete documentation
 
 If you want to know all details about the `form` component and all inputs and their usage as well as how you can customize errors, input placeholder, input value initialization and more checkout it's [api documentation](/docs/api/100-components/form.md).
