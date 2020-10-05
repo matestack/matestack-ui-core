@@ -49,4 +49,6 @@ We can customize the success and failure behavior of an `action` component by sp
 
 You can also combine `:emit` and one of `:transition`, `:redirect` if wanted.
 
+## Complete documentation
+
 If you want to know all details about the `action` component, like how you can delay it, what events it emits or how exactly the response behavior can be customized, checkout it's [api documentation](/docs/api/100-components/action.md)

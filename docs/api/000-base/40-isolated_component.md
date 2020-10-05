@@ -112,13 +112,13 @@ rendered within a secured context.
 That's why we enforce the usage of the `authorized?` method to make sure, all isolated
 components take care of their authorization themselves.
 
-If `authorized?` return `true`, the component will be rendered. If it returns `false`,
+If `authorized?` returns `true`, the component will be rendered. If it returns `false`,
 the component will not be rendered.
 
 A public isolated component therefore needs an `authorized?` method simply returning `true`.
 
 You can create your own isolated base components with their `authorized` methods
-for your use cases and thus keep your code DRY
+for your use cases and thus keep your code DRY.
 
 ### Options
 

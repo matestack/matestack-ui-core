@@ -56,10 +56,4 @@ An `async` components wraps its content in a special html structure allowing you
 
 ## Complete documentation
 
-If you want to know all details about the `async` component checkout it's [api documentation](/docs/api/100-components/async.md)
-
-
-
-
-
-![Coming Soon](../../images/coming_soon.png)
+If you want to know all details about the `async` component checkout its [api documentation](/docs/api/100-components/async.md)
