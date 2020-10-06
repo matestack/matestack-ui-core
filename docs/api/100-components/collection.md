@@ -114,14 +114,13 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   end
 
   def response
-      heading size: 2, text: "My Collection"
+    heading size: 2, text: "My Collection"
 
-      filter
+    filter
 
-      async rerender_on: "my-first-collection-update", id: "my-collection-content" do
-        content
-      end
-    }
+    async rerender_on: "my-first-collection-update", id: "my-collection-content" do
+      content
+    end
   end
 
   def filter
@@ -210,16 +209,14 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
   end
 
   def response
-    components {
-      heading size: 2, text: "My Collection"
+    heading size: 2, text: "My Collection"
 
-      filter
-      ordering
+    filter
+    ordering
 
-      async rerender_on: "my-first-collection-update", id: "my-collection-content" do
-        content
-      end
-    }
+    async rerender_on: "my-first-collection-update", id: "my-collection-content" do
+      content
+    end
   end
 
   def filter

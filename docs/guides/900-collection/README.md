@@ -23,7 +23,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   end
 
   def response
-    async id: 'product-collection', rerender_on: 'product-collection-udpate' do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
         @collection.paginated_data.each do |product|
           paragraph text: product.name
@@ -59,7 +59,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   end
 
   def response
-    async id: 'product-collection', rerender_on: 'product-collection-udpate' do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
         @collection.paginated_data.each do |product|
           paragraph text: product.name
@@ -72,8 +72,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   def pagination
     plain "showing #{@my_collection.from}"
     plain "to #{@my_collection.to}"
-    plain "of #{@my_collection.filtered_count}"
-    plain "from total #{@my_collection.base_count}"
+    plain "of #{@my_collection.base_count}"
     collection_content_previous do
       button text: "previous"
     end
@@ -119,7 +118,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
 
   def response
     filter
-    async id: 'product-collection', rerender_on: 'product-collection-udpate' do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
         @collection.paginated_data.each do |product|
           paragraph text: product.name
@@ -141,7 +140,22 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
     end
   end
 
-  #...
+  def pagination
+    plain "showing #{@my_collection.from}"
+    plain "to #{@my_collection.to}"
+    plain "of #{@my_collection.base_count}"
+    collection_content_previous do
+      button text: "previous"
+    end
+    @my_collection.pages.each do |page|
+      collection_content_page_link page: page do
+        button text: page
+      end
+    end
+    collection_content_next do
+      button text: "next"
+    end
+  end
 
 end
 ```
@@ -151,4 +165,56 @@ That's it. Now we can filter our collection by product name.
 
 ### Ordering
 
-![Coming Soon](../../images/coming_soon.png)
+Ordering a collection can be achieved by using the `collection_order_toggle` helper along with `get_collection_order` to receive the selected order. 
+
+```ruby
+class Shop::Pages::Products::Index < Matestack::Ui::Page
+  include Matestack::Ui::Core::Collection::Helper
+
+  def prepare
+    @collection_id = 'products-collection'
+    base_query = Products.all
+
+    order = get_collection_order(@collection_id)
+    ordered_query = Products.all.order(current_order)
+
+    @collection = set_collection(
+      id: @collection_id,
+      data: ordered_query,
+      init_limit: 20,
+      base_count: base_query.count
+    )
+  end
+
+  def response
+    order
+    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
+      collection_content @collection.config do
+        @collection.paginated_data.each do |product|
+          paragraph text: product.name
+        end
+      end
+    end
+    pagination
+  end
+
+  def order
+    collection_order @my_collection.config do
+      plain "sort by:"
+      collection_order_toggle key: :title do
+        button do
+          plain "Title"
+          collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;'
+        end
+      end
+    end
+  end
+
+  #...
+
+end
+```
+
+## Complete documentation
+
+If you want to know all details about the collection component as well as more example on how to use filtering, ordering and pagination together checkout its [api documentation](/docs/api/100-components/collection.md).

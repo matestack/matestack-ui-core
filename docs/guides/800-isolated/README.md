@@ -148,4 +148,4 @@ Isolated components are wrapped in a special html structure allowing you to crea
 
 ## Complete documentation
 
-If you want to know all details about isolated components checkout its [api documentation](/docs/api/000-base/40-isolated_component.md).
+If you want to know all details about isolated components checkout their [base api documentation](/docs/api/000-base/40-isolated_component.md).
