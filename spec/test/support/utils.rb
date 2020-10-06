@@ -23,4 +23,18 @@ module Utils
   def register_self_as(dsl_method)
     register_component(dsl_method, self)
   end
+
+  def matestack_render(reset_app: true, &block)
+    MatestackWrapperPage.define_method(:response, block)
+    visit matestack_components_test_path 
+    reset_matestack_app if reset_app
+  end
+
+  def matestack_app(&block)
+    MatestackWrapperApp.define_method(:response, block)
+  end
+
+  def reset_matestack_app
+    matestack_app { yield_page }
+  end
 end
