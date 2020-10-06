@@ -40,7 +40,11 @@ const store = new Vuex.Store({
           return getScrollParent(node.parentNode)
         }
       }
-      getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
+      var scrollParent = getScrollParent(document.getElementsByClassName("matestack-page-root")[0])
+      if(scrollParent){
+        scrollParent.scrollTop = 0;
+      }
+      // getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
     }
   },
   actions: {
