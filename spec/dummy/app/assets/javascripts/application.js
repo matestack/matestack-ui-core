@@ -20,6 +20,6 @@
 
 App.cable.subscriptions.create("MatestackUiCoreChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit('MatestackUiCoreChannel', data)
+    MatestackUiCore.matestackEventHub.$emit(data.message, data)
   }
 });

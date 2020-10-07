@@ -2,6 +2,7 @@ class Demo::Pages::MyFirstPage < Matestack::Ui::Page
 
   def prepare
     @my_model = DummyModel.last
+
   end
 
   def response
@@ -16,6 +17,15 @@ class Demo::Pages::MyFirstPage < Matestack::Ui::Page
     my_demo_card
 
     foo_fancy_stuff title: 'Huhu'
+
+
+    ul do
+      async update_on: "test_model_created, test_model_deleted", position: "end", id: "my-list" do
+        DummyModel.all.each do |instance|
+          my_list_item item: instance
+        end
+      end
+    end
   end
 
 

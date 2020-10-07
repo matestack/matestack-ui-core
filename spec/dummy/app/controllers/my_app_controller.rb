@@ -1,7 +1,7 @@
 class MyAppController < ApplicationController
 
   include Matestack::Ui::Core::ApplicationHelper
-  
+
   include Components::Registry
   include Demo::Components::Registry
 
@@ -56,7 +56,10 @@ class MyAppController < ApplicationController
         message: "Test Model could not be saved!"
       }, status: :unprocessable_entity
     else
-      broadcast "test_model_created"
+      ActionCable.server.broadcast("matestack_ui_core", {
+        message: "test_model_created",
+        new_element: matestack_component(:my_list_item, item: @dummy_model).to_s
+      })
       render json: { transition_to: my_second_page_path }, status: :created
     end
   end
@@ -78,7 +81,10 @@ class MyAppController < ApplicationController
   def delete_dummy_model
     @dummy_model = DummyModel.find(params[:id])
     if @dummy_model.destroy
-      broadcast "test_model_deleted"
+      ActionCable.server.broadcast("matestack_ui_core", {
+        message: "test_model_deleted",
+        remove_element_by_id: "item-#{params[:id]}"
+      })
       render json: {}, status: :ok
     else
       render json: {
@@ -99,9 +105,10 @@ class MyAppController < ApplicationController
     )
   end
 
-  def broadcast message
+  def broadcast message, item=nil
     ActionCable.server.broadcast("matestack_ui_core", {
-      message: message
+      message: message,
+      new_element: matestack_component(:my_list_item, item: item).to_s
     })
   end
 

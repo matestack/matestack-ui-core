@@ -9,6 +9,7 @@ const componentDef = {
   data: function(){
     return {
       asyncTemplate: null,
+      asyncTemplateDOMelement: null,
       showing: true,
       loading: false,
       hideAfterTimeout: null,
@@ -47,6 +48,29 @@ const componentDef = {
         self.rerender()
       }, parseInt(this.componentConfig["defer"]));
     },
+    update: function(payload){
+      let position = "beforeend"
+
+      if(this.componentConfig["position"] === "begin"){
+        position = "afterbegin"
+      }
+      if(this.componentConfig["position"] === "end"){
+        position = "beforeend"
+      }
+
+      if(payload.new_element != undefined){
+        this.asyncTemplateDOMelement.insertAdjacentHTML(
+          position,
+          payload.new_element
+        )
+      }
+
+      if(payload.remove_element_by_id != undefined){
+        this.asyncTemplateDOMelement.querySelector('#' + payload.remove_element_by_id).remove()
+      }
+
+      this.asyncTemplate = this.asyncTemplateDOMelement.outerHTML
+    },
     rerender: function(){
       var self = this;
       self.loading = true;
@@ -69,12 +93,15 @@ const componentDef = {
         self.asyncTemplate = template;
       })
       .catch(function(error){
-        console.log(error)
         matestackEventHub.$emit('async_rerender_error', { id: self.componentConfig["component_key"] })
       })
     }
   },
   created: function () {
+
+    this.asyncTemplateDOMelement = document.querySelector("#" + this.componentConfig["id"])
+    this.asyncTemplate = this.asyncTemplateDOMelement.outerHTML;
+
     const self = this
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
@@ -88,6 +115,10 @@ const componentDef = {
     if(this.componentConfig["rerender_on"] != undefined){
       var rerender_events = this.componentConfig["rerender_on"].split(",")
       rerender_events.forEach(rerender_event => matestackEventHub.$on(rerender_event.trim(), self.rerender));
+    }
+    if(this.componentConfig["update_on"] != undefined){
+      var update_events = this.componentConfig["update_on"].split(",")
+      update_events.forEach(update_event => matestackEventHub.$on(update_event.trim(), self.update));
     }
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false

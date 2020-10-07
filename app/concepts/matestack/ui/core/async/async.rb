@@ -2,7 +2,7 @@ module Matestack::Ui::Core::Async
   class Async < Matestack::Ui::Core::Component::Rerender
     vue_js_component_name "matestack-ui-core-async"
 
-    optional :id # will be required in 1.0.0
+    requires :id # will be required in 1.0.0
 
     def initialize(*args)
       super
