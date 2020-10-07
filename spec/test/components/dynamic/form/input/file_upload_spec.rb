@@ -295,4 +295,24 @@ describe "Form Component", type: :feature, js: true do
     end
   end
 
+  it 'should handle multiple values correctly with multipart: true set' do
+    matestack_render do
+      form_config = {
+        for: :test,
+        method: :get,
+        path: matestack_components_test_path
+      }
+      form form_config do
+        form_checkbox key: :checkbox, label: 'Checkbox', options: [1, 2, 3, 4]
+        form_input key: :title, label: 'Title'
+        form_submit do
+          button text: 'Submit'
+        end
+      end
+      async rerender_on: 'update', id: 'async' do
+        plain params[:test][:checkbox]
+      end
+    end
+  end
+
 end

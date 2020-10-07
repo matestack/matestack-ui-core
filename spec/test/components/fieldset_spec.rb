@@ -1,43 +1,23 @@
-require_relative '../support/utils'
-include Utils
+require 'rails_helper'
 
 describe 'Fieldset Component', type: :feature, js: true do 
-  it 'fieldset with 1 input and legend' do
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        fieldset do
-          legend text: 'input legend'
-          input
-        end
-        # advanced
-        fieldset class: 'foo', id: 'world' do
-          legend id: 'bar', class: 'hello', text: 'input legend'
-          input
-        end
-        # with disabled 
-        fieldset disabled: true do
-          legend text: 'input legend'
-          input
-        end
+  include Utils
+
+  it 'renders default fieldset with block' do
+    matestack_render do
+      fieldset do
+        legend text: 'legend'
       end
     end
-
-    visit '/example'
-    static_output = page.html
-    expected_html_output = <<~HTML
-      <fieldset>
-        <legend>input legend</legend>
-        <input/>
-      </fieldset>
-      <fieldset id="world" class="foo">
-      <legend id="bar" class="hello">input legend</legend>
-      <input/>
-      </fieldset>
-      <fieldset disabled="disabled">
-        <legend>input legend</legend>
-        <input/>
-      </fieldset>
-    HTML
-    expect(stripped(static_output)).to include(stripped(expected_html_output))
+    expect(page).to have_selector('fieldset')
+    expect(page).to have_selector('fieldset > legend', text: 'legend')
   end
+
+  it 'can be disabled' do
+    matestack_render do
+      fieldset disabled: true
+    end
+    expect(page).to have_selector('fieldset[disabled="disabled"]')
+  end
+
 end

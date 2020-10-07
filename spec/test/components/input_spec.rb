@@ -1,29 +1,22 @@
-require_relative '../support/utils'
-include Utils
+require 'rails_helper'
 
 describe 'Input Component', type: :feature, js: true do
+  include Utils
 
-  it 'Example 1' do
-
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        # simple input tag
-        input
-        # email input tag
-        input type: :email
-        # range input with max, min, step
-        input type: :range, attributes: { min: 0, max: 10, step: 0.5 }
-      end
+  it 'renders a input' do
+    matestack_render do
+      input
     end
+    expect(page).to have_selector('input')
+  end
 
-    visit "/example"
-    static_output = page.html
-    expected_static_output = <<~HTML
-    <input />
-    <input type="email" />
-    <input max="10" min="0" step="0.5" type="range" />
-    HTML
-    expect(stripped(static_output)).to include(stripped(expected_static_output))
+  it 'is possible to render different input types' do
+    matestack_render do
+      input type: :email
+      input type: :range, min: 0, max: 10, step: 0.5
+    end
+    expect(page).to have_selector("input[type='email']")
+    expect(page).to have_selector("input[type='range'][min='0'][max='10'][step='0.5']")
   end
 
 end

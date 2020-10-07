@@ -12,8 +12,8 @@ describe "XSS behavior", type: :feature, js: true do
       end
 
       visit "/example"
-      static_output = page.html
-      expect(static_output).to include("<h1>#{XSS::ESCAPED_EVIL_SCRIPT}</h1>")
+      expect(page).to have_selector('h1', text: XSS::EVIL_SCRIPT)
+      expect_alert false
     end
 
     it "does not escape when we specifically say #html_safe" do
@@ -26,10 +26,8 @@ describe "XSS behavior", type: :feature, js: true do
       # gotta accept our injected alert
       accept_alert do
         visit "/example"
+        expect_alert true
       end
-
-      # for reasons beyond me Chrome seems to remove our injected script tag,
-      # but since we accepted an alert to get here this test should be fine
     end
 
     # note that `heading do "string" end` doesn't work and you
@@ -47,6 +45,7 @@ describe "XSS behavior", type: :feature, js: true do
       end
 
       visit "/example"
+      expect_alert false
       static_output = page.html
       expect(static_output).not_to include("alert(")
     end
@@ -59,7 +58,20 @@ describe "XSS behavior", type: :feature, js: true do
       end
 
       visit "/example"
-      expect(page.html).to include("id=\"something-&quot;&gt;&lt;script&gt;alert('hello');&lt;/script&gt;")
+      expect_alert false
+      # expect(page.html).to include("id=\"something-&quot;&gt;&lt;script&gt;alert('hello');&lt;/script&gt;")
     end
+  end
+
+  
+
+  def expect_alert(alert)
+    @alert = true
+    begin
+      page.driver.browser.switch_to.alert
+    rescue
+      @alert = false        
+    end
+    expect(@alert).to be(alert)
   end
 end

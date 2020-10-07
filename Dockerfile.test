@@ -1,4 +1,4 @@
-FROM ruby:2.6.5-alpine3.9
+FROM ruby:2.7.2-alpine3.12
 
 RUN gem install bundler:2.1.4
 
@@ -20,14 +20,14 @@ RUN apk update && apk upgrade \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
     && apk add --no-cache \
-    chromium@edge=72.0.3626.121-r0 \
+    chromium@edge \
     nss@edge \
     && rm -rf /var/lib/apt/lists/* \
     /var/cache/apk/* \
     /usr/share/man \
     /tmp/*
 
-RUN apk add chromium-chromedriver@edge=72.0.3626.121-r0
+RUN apk add chromium-chromedriver@edge
 
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/
