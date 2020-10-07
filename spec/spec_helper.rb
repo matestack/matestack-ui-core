@@ -140,4 +140,14 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  config.before :all, type: :feature do
+    unless Rails.application.routes.url_helpers.method_defined?(:matestack_components_test_path)
+      Rails.application.routes.append do
+        get '/matestack_components_test', to: 'matestack_components#matestack_components_test', as: :matestack_components_test 
+      end
+      Rails.application.reload_routes!
+    end
+  end
+
 end
