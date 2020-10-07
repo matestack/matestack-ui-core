@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.0.1 Release
+
+This release contains bugfixes.
+
+### Bugfixes
+
+*  Fixed javascript automatic scroll top on page transition for short pages #462
+*  Enable async components on app level, only usable in pages and components before #458
+*  Fixed duplicate directory error when using matestack-ui-core with webpacker #460
+
+
 ## v1.0.0 Release
 
 Please note that this release contains breaking changes and soft deprecations. To make things easy for users of the current `v0.7.*` version, we have provided **Migration TODOs** at the end of each chapter.
