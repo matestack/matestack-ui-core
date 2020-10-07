@@ -21,9 +21,10 @@ module Matestack::Ui::Core::Rendering::MainRenderer
       render_matestack_object(controller_instance, page_instance)
     elsif (params[:component_key].present? && params[:component_class].blank?)
       # async component rerendering from non isolated context
+      app_instance = app_class.new(page_class, controller_instance, context)
       component_key = params[:component_key]
       page_instance = page_class.new(controller_instance: controller_instance, context: context)
-      render_component(component_key, page_instance, controller_instance, context)
+      render_component(component_key, app_instance, controller_instance, context)
     elsif (params[:component_class].present? && params[:component_key].blank?)
       # isolated component rendering
       component_class = params[:component_class]
@@ -75,15 +76,15 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     controller_instance.render rendering_options
   end
 
-  def render_component(component_key, page_instance, controller_instance, context)
+  def render_component(component_key, app_or_page_instance, controller_instance, context)
     matched_component = nil
 
-    page_instance.matestack_set_skip_defer(false)
+    app_or_page_instance.matestack_set_skip_defer(false)
 
-    page_instance.prepare
-    page_instance.response
+    app_or_page_instance.prepare
+    app_or_page_instance.response
 
-    matched_component = dig_for_component(component_key, page_instance)
+    matched_component = dig_for_component(component_key, app_or_page_instance)
 
     unless matched_component.nil?
       render_matestack_object(controller_instance, matched_component, {}, :render_content)

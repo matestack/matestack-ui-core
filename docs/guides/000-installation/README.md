@@ -27,7 +27,7 @@ Rails 6+ apps use webpacker by default. Rails 5 and below apps use the asset pip
 Add 'matestack-ui-core' to your `package.json` by running:
 
 ```
-$ yarn add https://github.com/matestack/matestack-ui-core#v1.0.0
+$ yarn add https://github.com/matestack/matestack-ui-core#v1.0.1
 $ yarn install
 ```
 
@@ -127,11 +127,11 @@ For further reading check out the [basic building blocks](/docs/guides/200-basic
 
 ## Usage
 
-There are two ways to use matestack. 
+There are two ways to use matestack.
 
 ### Full matestack
 
-First, as we call it, _full matestack_, enabling all features and developing with all benefits. Learn more about the _full matestack_  approach by following the [tutorial](/docs/guides/100-tutorial/README.md) or reading about matestacks [basic building blocks](/docs/guides/200-basic_building_blocks/README.md). 
+First, as we call it, _full matestack_, enabling all features and developing with all benefits. Learn more about the _full matestack_  approach by following the [tutorial](/docs/guides/100-tutorial/README.md) or reading about matestacks [basic building blocks](/docs/guides/200-basic_building_blocks/README.md).
 
 ### Integration in existing projects
 

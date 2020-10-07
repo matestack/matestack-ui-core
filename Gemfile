@@ -20,7 +20,7 @@ group :development, :test do
   gem 'capybara'
   gem 'webpacker', '~> 4.0'
   gem 'pg', '>= 0.18', '< 2.0'
-  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.7'
+  gem 'selenium-webdriver'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
   gem 'byebug'

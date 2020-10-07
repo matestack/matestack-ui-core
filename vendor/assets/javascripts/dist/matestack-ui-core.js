@@ -394,7 +394,11 @@ const store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
           return getScrollParent(node.parentNode)
         }
       }
-      getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
+      var scrollParent = getScrollParent(document.getElementsByClassName("matestack-page-root")[0])
+      if(scrollParent){
+        scrollParent.scrollTop = 0;
+      }
+      // getScrollParent(document.getElementsByClassName("matestack-page-root")[0]).scrollTop = 0
     }
   },
   actions: {

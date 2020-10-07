@@ -197,7 +197,7 @@ GEM
     rspec-support (3.9.2)
     rspec-wait (0.0.9)
       rspec (>= 3, < 4)
-    rubyzip (2.2.0)
+    rubyzip (2.3.0)
     safe_yaml (1.0.5)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
@@ -257,7 +257,7 @@ DEPENDENCIES
   rspec-rails (~> 3.8)
   rspec-retry
   rspec-wait (~> 0.0.9)
-  selenium-webdriver (~> 3.142, >= 3.142.7)
+  selenium-webdriver
   simplecov
   trailblazer-cells
   turbolinks
