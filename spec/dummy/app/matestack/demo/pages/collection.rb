@@ -27,12 +27,10 @@ class Demo::Pages::Collection < Matestack::Ui::Page
 
   def response
     heading size: 2, text: "Collection"
-
-    partial :filter
-    partial :ordering
-
+    filter
+    ordering
     async rerender_on: "my-first-collection-update", id: "my-collection" do
-      partial :content
+      content
     end
   end
 
@@ -66,8 +64,8 @@ class Demo::Pages::Collection < Matestack::Ui::Page
 
   def content
     collection_content @my_collection.config do
-      partial :list
-      partial :paginator
+      list
+      paginator
     end
   end
 

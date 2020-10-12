@@ -1,7 +1,6 @@
 class MyAppController < ApplicationController
 
   include Matestack::Ui::Core::ApplicationHelper
-
   include Components::Registry
   include Demo::Components::Registry
 
@@ -49,16 +48,16 @@ class MyAppController < ApplicationController
   end
 
   def form_action
-    @dummy_model = DummyModel.create(dummy_model_params)
-    if @dummy_model.errors.any?
+    dummy_model = DummyModel.create(dummy_model_params)
+    if dummy_model.errors.any?
       render json: {
-        errors: @dummy_model.errors,
+        errors: dummy_model.errors,
         message: "Test Model could not be saved!"
       }, status: :unprocessable_entity
     else
       ActionCable.server.broadcast("matestack_ui_core", {
         message: "test_model_created",
-        new_element: matestack_component(:my_list_item, item: @dummy_model).to_s
+        new_element: matestack_component(:my_list_item, item: dummy_model)
       })
       render json: { transition_to: my_second_page_path }, status: :created
     end

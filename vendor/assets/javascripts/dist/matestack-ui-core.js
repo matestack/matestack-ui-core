@@ -654,15 +654,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_event_hub__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
 /* harmony import */ var _js_helpers_query_params_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../js/helpers/query-params-helper */ "../app/concepts/matestack/ui/core/js/helpers/query-params-helper.js");
 /* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
-/* harmony import */ var _async_async__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../async/async */ "../app/concepts/matestack/ui/core/async/async.js");
 
 
 
 
-
+// import asyncMixin from '../../async/async'
 
 const componentDef = {
-  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_3__["default"], _async_async__WEBPACK_IMPORTED_MODULE_4__["default"]],
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_3__["default"]],
   data: function(){
     return {
       currentLimit: null,

@@ -4,12 +4,11 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::HasViewContext
     include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
+    include Matestack::Ui::Core::DSL
 
     # define html global attributes
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
-    # probably need to remove for other tests to be green again
-    include Matestack::Ui::Core::DSL
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
     view_paths << "#{::Rails.root}#{'/' unless ::Rails.root.nil?}app/matestack"

@@ -1,30 +1,28 @@
 class Demo::Pages::MyThirdPage < Matestack::Ui::Page
 
   def response
-    components {
-      div do
-        heading size: 2, text: "This is Page 3"
+    div do
+      heading size: 2, text: "This is Page 3"
 
-        action my_action_config do
-          button text: "Click me!"
-        end
+      action my_action_config do
+        button text: "Click me!"
+      end
 
-        br
-        br
+      br
+      br
 
-        async rerender_on: "my_action_succeeded" do
-          div id: "my-div" do
-            plain DateTime.now.strftime("%Q")
-          end
-        end
-
-        br
-
-        toggle show_on: "my_action_succeeded", hide_after: 2000 do
-          plain "action succeeded!"
+      async id: 'date-time', rerender_on: "my_action_succeeded" do
+        div id: "my-div" do
+          plain DateTime.now.strftime("%Q")
         end
       end
-    }
+
+      br
+
+      toggle show_on: "my_action_succeeded", hide_after: 2000 do
+        plain "action succeeded!"
+      end
+    end
   end
 
   def my_action_config

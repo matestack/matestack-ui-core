@@ -71,18 +71,7 @@ services:
       POSTGRES_DB: test
     volumes:
       - test-data-volume:/var/lib/postgresql/data
-
-  postgres_dummy:
-    image: postgres
-    expose:
-      - 5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: dummy
-    volumes:
-      - test-data-volume:/var/lib/postgresql/data
-
+      
 volumes:
   test-data-volume:
   dummy-data-volume:

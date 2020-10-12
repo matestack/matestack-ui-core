@@ -100,7 +100,9 @@ module Matestack
 
         def matestack_component(component, options = {}, &block)
           context = (options[:matestack_context] ||= {}).merge(controller: @_controller || self)
-          Matestack::Ui::Core::Component::Base.new(options.merge(matestack_context: context)).send(component, options.merge(matestack_context: context), &block)
+          Matestack::Ui::Core::Component::Base
+            .new(options.merge(matestack_context: context))
+            .send(component, options.merge(matestack_context: context), &block).to_s
         end
       end
     end
