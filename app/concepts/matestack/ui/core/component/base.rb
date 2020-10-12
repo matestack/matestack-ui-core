@@ -98,6 +98,11 @@ module Matestack::Ui::Core::Component
     def get_included_config
       @included_config
     end
+    alias :included_config :get_included_config
+
+    def component_config
+      @component_config
+    end
 
     # TODO: modifies/recreates view lookup paths on every invocation?!
     # At least memoize it I guess...

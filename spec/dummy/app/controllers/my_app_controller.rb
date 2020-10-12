@@ -56,8 +56,8 @@ class MyAppController < ApplicationController
       }, status: :unprocessable_entity
     else
       ActionCable.server.broadcast("matestack_ui_core", {
-        message: "test_model_created",
-        new_element: matestack_component(:my_list_item, item: dummy_model)
+        event: "test_model_created",
+        data: [matestack_component(:my_list_item, item: dummy_model), matestack_component(:my_list_item, item: dummy_model)]
       })
       render json: { transition_to: my_second_page_path }, status: :created
     end
@@ -81,8 +81,8 @@ class MyAppController < ApplicationController
     @dummy_model = DummyModel.find(params[:id])
     if @dummy_model.destroy
       ActionCable.server.broadcast("matestack_ui_core", {
-        message: "test_model_deleted",
-        remove_element_by_id: "item-#{params[:id]}"
+        event: "test_model_deleted",
+        data: "item-#{params[:id]}"
       })
       render json: {}, status: :ok
     else

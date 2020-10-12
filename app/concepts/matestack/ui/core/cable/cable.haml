@@ -1,0 +1,6 @@
+%component{dynamic_tag_attributes}
+  %div{class: "matestack-cable-component-container", "v-bind:class": "{ 'loading': loading === true }"}
+    %div{class: "matestack-cable-component-wrapper", "v-if": "cableTemplate == null", "v-bind:class": "{ 'loading': loading === true }"}
+      = render_content
+    %div{class: "matestack-cable-component-wrapper", "v-if": "cableTemplate != null", "v-bind:class": "{ 'loading': loading === true }"}
+      %v-runtime-template{":template":"cableTemplate"}

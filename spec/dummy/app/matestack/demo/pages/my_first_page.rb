@@ -23,24 +23,20 @@ class Demo::Pages::MyFirstPage < Matestack::Ui::Page
     foo_fancy_stuff title: 'Huhu'
 
 
-    collection_content @my_collection.config do
-
-    end
-
-
     # ul do
     #   async update_on: "test_model_created, test_model_deleted", position: "end", id: "my-list" do
-    #     DummyModel.all.each do |instance|
-    #       my_list_item item: instance
-    #     end
     #   end
     # end
-
-    # ul do
-    #   cable append_on: 'test_model_created', delete_on: 'test_model_deleted', update_on: 'test_model_updated' do
-    #     # stuff
-    #   end
-    # end
+    
+    ul do
+      cable id: 'foo', append_on: 'test_model_created', prepend_on: 'test_model_prepend', 
+        delete_on: 'test_model_deleted', update_on: 'test_model_updated',
+        replace_on: 'test_model_replace' do
+        DummyModel.all.each do |instance|
+          my_list_item item: instance
+        end
+      end
+    end
   end
 
 

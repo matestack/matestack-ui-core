@@ -9,7 +9,6 @@ const componentDef = {
   data: function(){
     return {
       asyncTemplate: null,
-      asyncTemplateDOMelement: null,
       showing: true,
       loading: false,
       hideAfterTimeout: null,
@@ -48,29 +47,6 @@ const componentDef = {
         self.rerender()
       }, parseInt(this.componentConfig["defer"]));
     },
-    update: function(payload){
-      let position = "beforeend"
-
-      if(this.componentConfig["position"] === "begin"){
-        position = "afterbegin"
-      }
-      if(this.componentConfig["position"] === "end"){
-        position = "beforeend"
-      }
-
-      if(payload.new_element != undefined){
-        this.asyncTemplateDOMelement.insertAdjacentHTML(
-          position,
-          payload.new_element
-        )
-      }
-
-      if(payload.remove_element_by_id != undefined){
-        this.asyncTemplateDOMelement.querySelector('#' + payload.remove_element_by_id).remove()
-      }
-
-      this.asyncTemplate = this.asyncTemplateDOMelement.outerHTML
-    },
     rerender: function(){
       var self = this;
       self.loading = true;
@@ -93,33 +69,16 @@ const componentDef = {
         self.asyncTemplate = template;
       })
       .catch(function(error){
+        console.log(error)
         matestackEventHub.$emit('async_rerender_error', { id: self.componentConfig["component_key"] })
       })
     }
   },
   created: function () {
-
-    this.asyncTemplateDOMelement = document.querySelector("#" + this.componentConfig["id"])
-    this.asyncTemplate = this.asyncTemplateDOMelement.outerHTML;
-
     const self = this
-    if(this.componentConfig["show_on"] != undefined){
-      this.showing = false
-      var show_events = this.componentConfig["show_on"].split(",")
-      show_events.forEach(show_event => matestackEventHub.$on(show_event.trim(), self.show));
-    }
-    if(this.componentConfig["hide_on"] != undefined){
-      var hide_events = this.componentConfig["hide_on"].split(",")
-      hide_events.forEach(hide_event => matestackEventHub.$on(hide_event.trim(), self.hide));
-    }
-    if(this.componentConfig["rerender_on"] != undefined){
-      var rerender_events = this.componentConfig["rerender_on"].split(",")
-      rerender_events.forEach(rerender_event => matestackEventHub.$on(rerender_event.trim(), self.rerender));
-    }
-    if(this.componentConfig["update_on"] != undefined){
-      var update_events = this.componentConfig["update_on"].split(",")
-      update_events.forEach(update_event => matestackEventHub.$on(update_event.trim(), self.update));
-    }
+    self.registerEvents(this.componentConfig['show_on'], self.show)
+    self.registerEvents(this.componentConfig['hide_on'], self.hide)
+    self.registerEvents(this.componentConfig['rerender_on'], self.rerender)
     if(this.componentConfig["show_on"] != undefined){
       this.showing = false
     }
@@ -137,21 +96,9 @@ const componentDef = {
   beforeDestroy: function() {
     const self = this
     clearTimeout(self.hideAfterTimeout)
-    matestackEventHub.$off(this.componentConfig["rerender_on"], self.rerender);
-    matestackEventHub.$off(this.componentConfig["show_on"], self.show);
-    matestackEventHub.$off(this.componentConfig["hide_on"], self.hide);
-    if(this.componentConfig["show_on"] != undefined){
-      var shown_events = this.componentConfig["show_on"].split(",")
-      shown_events.forEach(show_event => matestackEventHub.$off(show_event.trim(), self.show));
-    }
-    if(this.componentConfig["hide_on"] != undefined){
-      var hiden_events = this.componentConfig["hide_on"].split(",")
-      hiden_events.forEach(hide_event => matestackEventHub.$off(hide_event.trim(), self.hide));
-    }
-    if(this.componentConfig["rerender_on"] != undefined){
-      var rerender_events = this.componentConfig["rerender_on"].split(",")
-      rerender_events.forEach(rerender_event => matestackEventHub.$off(rerender_event.trim(), self.rerender));
-    }
+    self.removeEvents(this.componentConfig["show_on"], self.show)
+    self.removeEvents(this.componentConfig["hide_on"], self.hide)
+    self.removeEvents(this.componentConfig["rerender_on"], self.rerender)
   },
   components: {
     VRuntimeTemplate: VRuntimeTemplate
