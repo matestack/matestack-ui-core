@@ -4,10 +4,10 @@ module Matestack::Ui::Core::Cable
 
     requires :id
 
-    def response
+    def setup
       component_config[:component_key] = id
     end
-
+    
     def show
       render :cable
     end

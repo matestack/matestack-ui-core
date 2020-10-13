@@ -145,6 +145,7 @@ RSpec.configure do |config|
     unless Rails.application.routes.url_helpers.method_defined?(:matestack_components_test_path)
       Rails.application.routes.append do
         get '/matestack_components_test', to: 'matestack_components#matestack_components_test', as: :matestack_components_test 
+        get '/matestack_transition_test', to: 'matestack_components#matestack_transition_test', as: :matestack_transition_test 
       end
       Rails.application.reload_routes!
     end

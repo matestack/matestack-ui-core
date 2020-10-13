@@ -165,8 +165,10 @@ module Matestack::Ui::Core::Component
     def params
       if @matestack_context.present? && @matestack_context[:controller].present?
         @matestack_context[:controller].params
-      else
+      elsif context.present? && context[:params]
         context[:params]
+      else
+        ActionController::Parameters.new({})
       end
     end
 

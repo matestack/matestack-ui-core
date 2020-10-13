@@ -608,6 +608,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const componentDef = {
   mixins: [_component_component__WEBPACK_IMPORTED_MODULE_3__["default"]],
+  props: {
+    initialTemplate: String,
+  },
   data: function(){
     return {
       cableTemplate: null,
@@ -669,11 +672,12 @@ const componentDef = {
       return payload.data
     },
   },
-  created: function () {
-    this.cableTemplateDomElement = document.querySelector("#" + this.componentConfig["id"])
-    this.cableTemplate = this.cableTemplateDomElement.outerHTML
+  mounted: function() {
     const self = this
-    var events = this.componentConfig['append_on']
+    var dom_elem = document.createElement('div')
+    dom_elem.innerHTML = this.initialTemplate
+    this.cableTemplateDomElement = dom_elem.querySelector("#" + this.componentConfig["id"])
+    this.cableTemplate = this.cableTemplateDomElement.outerHTML
     this.registerEvents(this.componentConfig['append_on'], self.append)
     this.registerEvents(this.componentConfig['prepend_on'], self.prepend)
     this.registerEvents(this.componentConfig['delete_on'], self.delete)
@@ -682,6 +686,7 @@ const componentDef = {
   },
   beforeDestroy: function() {
     const self = this
+    this.cableTemplate = null
     this.removeEvents(this.componentConfig['append_on'], self.append)
     this.removeEvents(this.componentConfig['prepend_on'], self.prepend)
     this.removeEvents(this.componentConfig['delete_on'], self.delete)

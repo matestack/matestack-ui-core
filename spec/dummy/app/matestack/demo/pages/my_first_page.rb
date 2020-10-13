@@ -10,17 +10,17 @@ class Demo::Pages::MyFirstPage < Matestack::Ui::Page
   end
 
   def response
-    heading size: 2, text: "This is Page 1"
+    # heading size: 2, text: "This is Page 1"
 
-    div id: "some-id", class: "some-class" do
-      plain "hello from page 1"
-    end
+    # div id: "some-id", class: "some-class" do
+    #   plain "hello from page 1"
+    # end
 
 
-    my_card
-    my_demo_card
+    # my_card
+    # my_demo_card
 
-    foo_fancy_stuff title: 'Huhu'
+    # foo_fancy_stuff title: 'Huhu'
 
 
     # ul do
