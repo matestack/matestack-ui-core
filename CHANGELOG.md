@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0 Release
+
+### Improvements
+
+* added the `cable` component in order to use ActionCable to update the DOM
+
 ## v1.0.1 Release
 
 This release contains bugfixes.
