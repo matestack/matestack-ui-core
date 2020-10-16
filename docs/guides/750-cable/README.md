@@ -2,9 +2,24 @@
 
 The `cable` component is designed to asynchronously manipulate its DOM based on ActionCable events triggered on the serverside. Imagine a list of Todos and a `form` below that list. After creating a new Todo, the new list item can be rendered on the serverside and pushed to the `cable` component, which can be configured to pre or append the current list with the new item. Unlike the `async` component, the `cable` component does not request and rerender the whole list after receiving a specific event.
 
-Furthermore you can update or remove items in that list using ActionCable events as well. The `cable` component again will only manipulate the specific DOM elements and not the whole list. This requires more implementation effort but gives you more flexibility and performance while creating reactive UIs compared to the `async` component. As usual, no JavaScript is required at your end in order to implement this sophisticated reactivity.
+Furthermore you can update or remove items in that list using ActionCable events as well. The `cable` component again will only manipulate the specific DOM elements and not the whole list. This requires more implementation effort but gives you more flexibility and performance while creating reactive UIs compared to the `async` component. As usual, no JavaScript is required at your end in order to implement this sophisticated reactivity. (Only one time setup as shown below)
 
 Please read the [ActionCable Guide](/docs/guides/1000-action_cable/README.md) if you need help setting up ActionCable for your project.
+
+Please make sure to setup ActionCable correctly. Esspecially following implementation is important in order to use the `cable` component correctly:
+
+`app/javascript/channels/matestack_ui_core_channel.js`
+
+```javascript
+consumer.subscriptions.create("MatestackUiCoreChannel", {
+  //...
+  received(data) {
+    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+  }
+});
+```
+
+ActionCable pushes data as JSON to the client. You need to make sure to pass this data correctly into the `matestackEventHub` after receiving ActionCable event.
 
 
 ## `cable` vs `async` component
@@ -254,6 +269,20 @@ and on your UI class (probably your app class):
 cable id: "shopping-cart", replace_on: "shopping_cart_updated" do
   shopping_cart
 end
+```
+
+### Event data as Array
+
+All above shown examples demonstrated how to push a single component or ID to the `cable` component. In all usecases it's also possble to provide an Array of components/ID-strings, e.g.:
+
+```ruby
+ActionCable.server.broadcast("matestack_ui_core", {
+  event: "todo_updated",
+  data: [
+    matestack_component(:todo_component, todo: @todo1),
+    matestack_component(:todo_component, todo: @todo2),
+  ]
+})
 ```
 
 

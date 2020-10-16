@@ -2,12 +2,25 @@
 
 The `cable` component enables us to update the DOM based on events and data pushed via ActionCable without browser reload. Please read the [ActionCable Guide](/docs/guides/1000-action_cable/README.md) if you need help setting up ActionCable for your project.
 
+Please read the [ActionCable Guide](/docs/guides/1000-action_cable/README.md) if you need help setting up ActionCable for your project.
+
+Please make sure to setup ActionCable correctly. Esspecially following implementation is important in order to use the `cable` component correctly:
+
+`app/javascript/channels/matestack_ui_core_channel.js`
+
+```javascript
+consumer.subscriptions.create("MatestackUiCoreChannel", {
+  //...
+  received(data) {
+    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+  }
+});
+```
+
 ## `cable(*args, &block)`
 ----
 
 Returns a vue.js driven cable component initially containing content specified by a block.
-
-When rendering a list of items, make sure to use a custom component for each item. This is mandatory in order to render unique items on the serverside and push them via ActionCable to the client.
 
 Imagine something like this:
 
@@ -44,7 +57,7 @@ class ListComponent < Matestack::Ui::Component
 end
 ```
 
-
+Please notice: when rendering a list of items, we recommend to use a custom component for each item. This makes it easy to render unique items on the serverside and push them via ActionCable to the client. But it is possible to also use another component or a html string. Any given html will be used to update the list.
 
 
 **Required options**
