@@ -2,14 +2,14 @@
 
 The `cable` component is designed to asynchronously manipulate its DOM based on ActionCable events triggered on the serverside. Imagine a list of Todos and a `form` below that list. After creating a new Todo, the new list item can be rendered on the serverside and pushed to the `cable` component, which can be configured to pre or append the current list with the new item. Unlike the `async` component, the `cable` component does not request and rerender the whole list after receiving a specific event.
 
-Furthermore you can update or remove items in that list using ActionCable events as well. The `cable` component again will only manipulate the specific DOM elements and not the whole list. This requires more implementation effort but gives your more flexibility and performance while creating reactive UIs compared to the `async` component. As usual, no JavaScript is required at your end in order to implement this sophisticated reactivity.
+Furthermore you can update or remove items in that list using ActionCable events as well. The `cable` component again will only manipulate the specific DOM elements and not the whole list. This requires more implementation effort but gives you more flexibility and performance while creating reactive UIs compared to the `async` component. As usual, no JavaScript is required at your end in order to implement this sophisticated reactivity.
 
 Please read the [ActionCable Guide](/docs/guides/1000-action_cable/README.md) if you need help setting up ActionCable for your project.
 
 
 ## `cable` vs `async` component
 
-`cable` and `async` might seem similar. They indeed can be used for similar use cases - imagine implementing a reactive list of Todo items (ActiveRecord Instances) created via a `form` below the list. You can either use `async` or `cable` in order to create that reactive list!
+`cable` and `async` might seem similar. They indeed can be used for similar use cases - imagine implementing a reactive list of todo items (using ActiveRecord) created via a `form` below the list. You can either use `async` or `cable` in order to create that reactive list!
 
 But they work completely differently:
 
@@ -56,7 +56,7 @@ class MyPage < Matestack::Ui::Page
 end
 ```
 
-with a (registered!) custom component:
+with an as `todo_component` registered component:
 
 ```ruby
 class TodoComponent < Matestack::Ui::Component
@@ -74,9 +74,9 @@ class TodoComponent < Matestack::Ui::Component
 end
 ```
 
-After form submission, the form resets itself dynamically, but the list will not get updated with the new todo instance. You can now decide, if you want to use `async` or `cable` in order to implement that reactivity. `async` could react to an event emitted by the `form` and simply rerender the whole list without any further implementation. Wrapping the list in an correctly configured `async` component would be enough!
+After form submission, the form resets itself dynamically, but the list will not get updated with the new todo instance. You can now decide, if you want to use `async` or `cable` in order to implement that reactivity. `async` could react to an event emitted by the `form` and simply rerender the whole list without any further implementation. Wrapping the list in a correctly configured `async` component would be enough!
 
-But in this case, we do not want to rerender the whole list every time we submitted the form, because - let's say - the list will be quite long and rerendering the whole list would be too slow. We only want to add new items to the current DOM without touching the rest of the list. The `cable` component enables you to do exactly this. The principle behind: After form submission the new component is rendered on the serverside and than pushed to the clientside via ActionCable. The `cable` component receives this event and will than - depending on your configuration - append or prepend the current list on the UI. Implementation would look like this:
+But in this case, we do not want to rerender the whole list every time we submitted the form, because - let's say - the list will be quite long and rerendering the whole list would be getting slow. We only want to add new items to the current DOM without touching the rest of the list. The `cable` component enables you to do exactly this. The principle behind it: After form submission the new component is rendered on the serverside and than pushed to the clientside via ActionCable. The `cable` component receives this event and will than - depending on your configuration - append or prepend the current list on the UI. Implementation would look like this:
 
 ### Appending elements
 
@@ -121,7 +121,7 @@ end
 
 ```
 
-Please notice that it is mandatory to use a component for each list item. Otherwise it wouldn't be possible to render only a new list item within the `create` action and push only that new component to the client.
+Please notice that we recommend to use a component for each list item. With a component for each item it is possible to easily render a new list item within the `create` action and push it to the client. But it is possible to also use another component or a html string. Any given html will be appended to the list.
 
 ### Prepending elements
 

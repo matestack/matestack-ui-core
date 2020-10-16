@@ -12,24 +12,24 @@ When rendering a list of items, make sure to use a custom component for each ite
 Imagine something like this:
 
 ```ruby
-class MyPage < Matestack::Ui::Page
+class Page < Matestack::Ui::Page
 
   def response
     cable id: 'foo' [...] do
       #this block will be rendered as initial content
       #and may be modified on the client later on when receiving defined events
       DummyModel.all.each do |instance|
-        my_list_component item: instance
+        list_component item: instance
       end
     end
   end
 end
 ```
 
-with a (registered!) custom component:
+with an as `list_component` registered component:
 
 ```ruby
-class MyListComponent < Matestack::Ui::Component
+class ListComponent < Matestack::Ui::Component
 
   requires :item
 
@@ -44,30 +44,33 @@ class MyListComponent < Matestack::Ui::Component
 end
 ```
 
+
+
+
 **Required options**
 
 * `id` - Expects a unique string identifying the component
 
 **Optional options**
 
-* `append_on` - Expects a string which matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will be **appended** to the current cable component DOM
+* `append_on` - Expects a string matching the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will be **appended** to the current cable component DOM
 
-  On your UI class:
+  In your app, page or component:
 
   ```ruby
   cable id: 'foo', append_on: "model_created" do
     DummyModel.all.each do |instance|
-      my_list_component item: instance
+      list_component item: instance
     end
   end
   ```
 
-  On your controller:
+  In your controller:
 
   ```ruby
   ActionCable.server.broadcast("matestack_ui_core", {
     event: "model_created",
-    data: matestack_component(:my_list_component, item: @new_model_instance)
+    data: matestack_component(:list_component, item: @new_model_instance)
   })
   ```
 
@@ -76,22 +79,22 @@ end
 
 * `prepend_on` - Expects a string which matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will be **prepended** to the current cable component DOM
 
-  On your UI class:
+  In your app, page or component:
 
   ```ruby
   cable id: 'foo', prepend_on: "model_created" do
     DummyModel.all.each do |instance|
-      my_list_component item: instance
+      list_component item: instance
     end
   end
   ```
 
-  On your controller:
+  In your controller:
 
   ```ruby
   ActionCable.server.broadcast("matestack_ui_core", {
     event: "model_created",
-    data: matestack_component(:my_list_component, item: @new_model_instance)
+    data: matestack_component(:list_component, item: @new_model_instance)
   })
   ```
 
@@ -100,20 +103,20 @@ end
 
 * `replace_on` - Expects a string which matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will **replace** the whole current cable component DOM
 
-  On your UI class:
+  In your app, page or component:
 
   ```ruby
   cable id: 'foo', replace_on: "model_created" do
-    my_list_component item: instance
+    list_component item: instance
   end
   ```
 
-  On your controller:
+  In your controller:
 
   ```ruby
   ActionCable.server.broadcast("matestack_ui_core", {
     event: "model_created",
-    data: matestack_component(:my_list_component, item: @new_model_instance)
+    data: matestack_component(:list_component, item: @new_model_instance)
   })
   ```
 
@@ -123,22 +126,22 @@ end
 
 * `update_on` - Expects a string which matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will **update** a specific element iditified by its root ID within the current cable component DOM
 
-  On your UI class:
+  In your app, page or component:
 
   ```ruby
   cable id: 'foo', append_on: "model_created" do
     DummyModel.all.each do |instance|
-      my_list_component item: instance
+      list_component item: instance
     end
   end
   ```
 
-  On your controller:
+  In your controller:
 
   ```ruby
   ActionCable.server.broadcast("matestack_ui_core", {
     event: "model_created",
-    data: matestack_component(:my_list_component, item: @new_model_instance)
+    data: matestack_component(:list_component, item: @new_model_instance)
   })
   ```
 
@@ -147,17 +150,17 @@ end
 
 * `delete_on` - Expects a string which matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of a string containing the ID will **remove** a specific element identified by its root ID within the current cable component DOM
 
-  On your UI class:
+  In your app, page or component:
 
   ```ruby
   cable id: 'foo', delete_on: "model_deleted" do
     DummyModel.all.each do |instance|
-      my_list_component item: instance
+      list_component item: instance
     end
   end
   ```
 
-  On your controller:
+  In your controller:
 
   ```ruby
   ActionCable.server.broadcast("matestack_ui_core", {
