@@ -16,7 +16,7 @@ module Matestack::Ui::Core::Component
         "is": get_vue_js_name,
         "ref": component_id,
         ":params":  params.except(:controller, :action).to_json,
-        ":component-config": @component_config.to_json,
+        ":component-config": component_config.to_json,
         "inline-template": true,
       }
       attrs.merge!(options[:attributes]) unless options[:attributes].nil?

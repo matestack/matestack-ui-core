@@ -4,12 +4,11 @@ module Matestack::Ui::Core::Component
     include Matestack::Ui::Core::HasViewContext
     include Matestack::Ui::Core::HtmlAttributes
     include Matestack::Ui::Core::Properties
+    include Matestack::Ui::Core::DSL
 
     # define html global attributes
     html_attributes *HTML_GLOBAL_ATTRIBUTES, *HTML_EVENT_ATTRIBUTES
 
-    # probably need to remove for other tests to be green again
-    include Matestack::Ui::Core::DSL
 
     view_paths << "#{Matestack::Ui::Core::Engine.root}/app/concepts"
     view_paths << "#{::Rails.root}#{'/' unless ::Rails.root.nil?}app/matestack"
@@ -99,6 +98,11 @@ module Matestack::Ui::Core::Component
     def get_included_config
       @included_config
     end
+    alias :included_config :get_included_config
+
+    def component_config
+      @component_config
+    end
 
     # TODO: modifies/recreates view lookup paths on every invocation?!
     # At least memoize it I guess...
@@ -161,8 +165,10 @@ module Matestack::Ui::Core::Component
     def params
       if @matestack_context.present? && @matestack_context[:controller].present?
         @matestack_context[:controller].params
-      else
+      elsif context.present? && context[:params]
         context[:params]
+      else
+        ActionController::Parameters.new({})
       end
     end
 

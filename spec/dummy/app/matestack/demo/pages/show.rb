@@ -5,11 +5,8 @@ class Demo::Pages::Show < Matestack::Ui::Page
   end
 
   def response
-    components {
       heading size: 2, text: "Show"
-
       plain @dummy_model.inspect
-    }
   end
 
 end

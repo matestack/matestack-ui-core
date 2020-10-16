@@ -15,7 +15,7 @@ describe 'Creating custom components', type: :feature, js: true do
       layout 'application'
 
       def my_action
-        render(Pages::ExamplePage)
+        render(ExamplePage)
       end
     end
 
@@ -38,7 +38,7 @@ describe 'Creating custom components', type: :feature, js: true do
       register_self_as(:crazy_component)
     end
 
-    class Pages::ExamplePage < Matestack::Ui::Page
+    class ExamplePage < Matestack::Ui::Page
       def response
         div id: 'div-on-page' do
           crazy_component
@@ -84,7 +84,7 @@ describe 'Creating custom components', type: :feature, js: true do
 
     javascript
 
-    class Pages::ExamplePage < Matestack::Ui::Page
+    class ExamplePage < Matestack::Ui::Page
 
       def response
         div id: 'div-on-page' do
@@ -93,7 +93,7 @@ describe 'Creating custom components', type: :feature, js: true do
           # during runtime and therefore need to
           # re-initialize this DOM-part to trigger
           # Vue.js to mount the component properly.
-          async rerender_on: "refresh" do
+          async id: 'async', rerender_on: "refresh" do
             own_dynamic
           end
         end
@@ -127,7 +127,7 @@ describe 'Creating custom components', type: :feature, js: true do
       register_self_as(:time_ago)
     end
 
-    class Pages::ExamplePage < Matestack::Ui::Page
+    class ExamplePage < Matestack::Ui::Page
       def response
         div id: 'div-on-page' do
           time_ago
@@ -177,7 +177,7 @@ describe 'Creating custom components', type: :feature, js: true do
 
     javascript
 
-    class Pages::ExamplePage < Matestack::Ui::Page
+    class ExamplePage < Matestack::Ui::Page
       def response
         div id: 'div-on-page' do
           # The async rerender is only used in this test
@@ -185,7 +185,7 @@ describe 'Creating custom components', type: :feature, js: true do
           # during runtime and therefore need to
           # re-initialize this DOM-part to trigger
           # Vue.js to mount the component properly.
-          async rerender_on: "refresh" do
+          async id: 'async', rerender_on: "refresh" do
             time_click
           end
         end
