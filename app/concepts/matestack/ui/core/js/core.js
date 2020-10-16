@@ -4,6 +4,7 @@ import { turbolinksAdapterMixin } from 'vue-turbolinks';
 // Import from app/concepts/matestack/ui/core:
 import app from '../app/app'
 import async from '../async/async'
+import cable from '../cable/cable'
 import pageContent from '../page/content/content'
 import toggle from '../toggle/toggle'
 import store from '../app/store'

@@ -7,7 +7,7 @@ This guide shows you how to add matestack-ui-core to an existing rails applicati
 Add 'matestack-ui-core' to your Gemfile
 
 ```ruby
-gem 'matestack-ui-core', '~> 1.0.0'
+gem 'matestack-ui-core', '~> 1.1'
 ```
 
 and run
@@ -27,7 +27,7 @@ Rails 6+ apps use webpacker by default. Rails 5 and below apps use the asset pip
 Add 'matestack-ui-core' to your `package.json` by running:
 
 ```
-$ yarn add https://github.com/matestack/matestack-ui-core#v1.0.1
+$ yarn add https://github.com/matestack/matestack-ui-core#v1.1.0
 $ yarn install
 ```
 

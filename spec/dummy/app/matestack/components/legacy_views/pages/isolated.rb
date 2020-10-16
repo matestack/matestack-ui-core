@@ -1,12 +1,13 @@
 class Components::LegacyViews::Pages::Isolated < Matestack::Ui::IsolatedComponent
 
   def response
+    time = DateTime.now.strftime('%Q')
     div class: 'my-isolated' do
-      plain DateTime.now.strftime('%Q')
+      plain time
     end
     hr
     async rerender_on: 'async_update_time', id: 'foobar' do
-      paragraph id: 'async-time', text: DateTime.now.strftime('%Q')
+      paragraph id: 'async-time', text: time
     end
   end
 

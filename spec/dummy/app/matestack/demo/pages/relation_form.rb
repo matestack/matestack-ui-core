@@ -10,33 +10,27 @@ class Demo::Pages::RelationForm < Matestack::Ui::Page
   end
 
   def response
-    components {
-      heading size: 2, text: "Relation Form"
+    heading size: 2, text: "Relation Form"
 
-      if @my_model.new_record?
-        partial :parent_form
-      else
-        partial :parent_values
-        partial :children
-      end
-    }
+    if @my_model.new_record?
+      parent_form
+    else
+      parent_values
+      children
+    end
   end
 
   def parent_form
-    partial {
-      form parent_form_config, :include do
-        form_input key: :title, type: :text
-        form_submit do
-          button text: "save"
-        end
+    form parent_form_config, :include do
+      form_input key: :title, type: :text
+      form_submit do
+        button text: "save"
       end
-    }
+    end
   end
 
   def parent_values
-    partial {
-      heading size: 3, text: @my_model.title
-    }
+    heading size: 3, text: @my_model.title
   end
 
   def parent_form_config
@@ -54,11 +48,7 @@ class Demo::Pages::RelationForm < Matestack::Ui::Page
   end
 
   def children
-    partial {
-      plain "children"
-    }
+    plain "children"
   end
-
-
 
 end

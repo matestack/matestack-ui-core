@@ -25,7 +25,6 @@ module Matestack::Ui::Core::Components
 
   require_app_path "concepts/matestack/ui/core/component/base"
   require_app_path "concepts/matestack/ui/core/component/dynamic"
-  require_app_path "concepts/matestack/ui/core/component/rerender"
   require_app_path "concepts/matestack/ui/core/component/static"
 
   require_core_component "abbr"
@@ -41,6 +40,7 @@ module Matestack::Ui::Core::Components
   require_core_component "blockquote"
   require_core_component "br"
   require_core_component "button"
+  require_core_component "cable"
   require_core_component "caption"
   require_core_component "cite"
   require_core_component "code"
@@ -162,6 +162,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   blockquote: Matestack::Ui::Core::Blockquote::Blockquote,
   br: Matestack::Ui::Core::Br::Br,
   button: Matestack::Ui::Core::Button::Button,
+  cable: Matestack::Ui::Core::Cable::Cable,
   caption: Matestack::Ui::Core::Caption::Caption,
   cite: Matestack::Ui::Core::Cite::Cite,
   code: Matestack::Ui::Core::Code::Code,

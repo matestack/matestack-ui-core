@@ -370,7 +370,7 @@ describe "Isolate Component", type: :feature, js: true do
     visit "/example"
 
     page_timestamp = page.find('#page-timestamp').text.to_i
-    component_timestamp = page.find('#isolated-component-timestamp').text.to_i
+    component_timestamp = page.find('#isolated-component-timestamp', wait: 3).text.to_i
 
     expect(component_timestamp-page_timestamp).to be >= 2
 

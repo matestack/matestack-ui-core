@@ -32,7 +32,7 @@ We skip turbolinks, because matestack has it's own loading api which makes turbo
 
 <details>
 <summary>Remove turbolinks if installed</summary>
-We encourage you to remove turbolinks if it's installed. To do so remove the line <code>gem 'turbolinks', '~> 5'</code> from your Gemfile and remove <code>require("turbolinks").start()</code> from the <code>app/javascript/packs/application.js</code> file. To clean things up remove the two <code>"data-turbolinks-track": "reload"</code> key/value pairs from your <code>app/views/application.html.erb</code>. 
+We encourage you to remove turbolinks if it's installed. To do so remove the line <code>gem 'turbolinks', '~> 5'</code> from your Gemfile and remove <code>require("turbolinks").start()</code> from the <code>app/javascript/packs/application.js</code> file. To clean things up remove the two <code>"data-turbolinks-track": "reload"</code> key/value pairs from your <code>app/views/application.html.erb</code>.
 </details>
 <br/>
 
@@ -60,7 +60,7 @@ to start the application. Now visit [localhost:3000](http://localhost:3000/) and
 
 To install matestack, run `gem install matestack-ui-core` or add `gem 'matestack-ui-core'` to your Gemfile and run `bundle install`.
 
-For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v1.0.0` followed by `yarn install`.
+For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v1.1.0` followed by `yarn install`.
 
 Then, add
 
