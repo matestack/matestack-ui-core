@@ -310,9 +310,9 @@ If you call a component and forget a required property matestack will throw a `M
 
 Read more about how properties work and how it prevents overwriting other methods at the [component api](/docs/api/000-base/10-component.md#passing-options-to-components).
 
-#### Creating own vue.js components
+#### Creating own Vue.js components
 
-For most cases you will not need to create custom vue.js components, but if you need custom javascript behavior you can implement it by using a custom vue.js component. It only differs slightly from components. They also need to implement a `response` method and use properties to access data but they inherit from `Matestack::Ui::VueJsComponent` and require a javascript file implementing the corresponding frontend component. In order to link these they require you to set a vue.js component name. Let's take a look at an example vue.js component:
+For most cases you will not need to create custom Vue.js components, but if you need custom javascript behavior you can implement it by using a custom Vue.js component. It only differs slightly from components. They also need to implement a `response` method and use properties to access data but they inherit from `Matestack::Ui::VueJsComponent` and require a javascript file implementing the corresponding frontend component. In order to link these they require you to set a Vue.js component name. Let's take a look at an example Vue.js component:
 
 `app/matestack/components/products/image_slider.rb`
 
@@ -335,7 +335,7 @@ class Components::Products::ImageSlider < Matestack::Ui::VueJsComponent
 end
 ```
 
-We put the necessary vue.js component in the same directory beneath our ruby component. In this file we create our vue component and link it to our ruby component by specifying `vue_js_component_name` inside our ruby component to match the component name we gave our vue component. In this case "products-image-slider".
+We put the necessary Vue.js component in the same directory beneath our ruby component. In this file we create our Vue.js component and link it to our ruby component by specifying `vue_js_component_name` inside our ruby component to match the component name we gave our Vue.js component. In this case "products-image-slider".
 
 `app/matestack/components/products/image_slider.js`
 
@@ -356,18 +356,18 @@ MatestackUiCore.Vue.component('products-image-slider', {
 })
 ```
 
-Implementing the javascript component works as you would normally implement your vue.js component. Head over to the [vue.js docs]() to learn more about vue.js. 
+Implementing the javascript component works as you would normally implement your Vue.js component. Head over to the [Vue.js docs]() to learn more about vue.js. 
 
-To use this component remember to add it like the product teaser to a registry. Also you need to add the javascript file to webpacker or the asset pipeline. To learn how to do that or if you want to know more about vue.js components take a look at the [vue.js component api](/docs/api/000-base/30-vue_js_component.md).
+To use this component remember to add it like the product teaser to a registry. Also you need to add the javascript file to webpacker or the asset pipeline. To learn how to do that or if you want to know more about Vue.js components take a look at the [Vue.js component api](/docs/api/000-base/30-vue_js_component.md).
 
 
 ## Event Hub
 
-Matestack uses events as a communication layer to enable features of core vue.js components. It offers an event hub which is accessible to you. Reacting to events in javascript or triggering your own events is therefore possible.
+Matestack uses events as a communication layer to enable features of core Vue.js components. It offers an event hub which is accessible to you. Reacting to events in javascript or triggering your own events is therefore possible.
 
-There are some core vue.js components that can react to events and some that can emit events. For example a `toggle` component can be configured to show its content when a certain event appears. Combine it with an `onclick` component which can emit events when its content is clicked and you could create a collapsable content component without writing anything else than ruby.
+There are some core Vue.js components that can react to events and some that can emit events. For example a `toggle` component can be configured to show its content when a certain event appears. Combine it with an `onclick` component which can emit events when its content is clicked and you could create a collapsable content component without writing anything else than ruby.
 
-So reacting to events or triggering them can be done with the core vue.js components. But if you want to react to events or trigger them yourself for example in a custom vue.js component you can do this as shown below.
+So reacting to events or triggering them can be done with the core Vue.js components. But if you want to react to events or trigger them yourself for example in a customVvue.js component you can do this as shown below.
 
 ```js
 // use MatestackUiCore.matestackEventHub.$emit(event_name, optional_payload)
@@ -386,7 +386,7 @@ To learn more about the event hub head over to our [event hub api](/docs/api/000
 
 ## Core Features
 
-You learned about matestack apps, pages, components, custom components, custom vue.js components, the event hub and you have heard about matestacks core vue.js components. They are vue.js components that implement useful features which would else require you to write javascript. Following up is a short introduction to matestacks unique components that enable you to write rich, modern UIs with ease.
+You learned about matestack apps, pages, components, custom components, custom Vue.js components, the event hub and you have heard about matestacks core Vue.js components. They are Vue.js components that implement useful features which would else require you to write javascript. Following up is a short introduction to matestacks unique components that enable you to write rich, modern UIs with ease.
 
 **transition**
 

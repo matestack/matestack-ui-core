@@ -932,9 +932,9 @@ end
 
 ```
 
-## Form and other VueJs components
+## Form and other Vue.js components
 
-The child components `form_*` have to be placed within the scope of the parent `form` component, without any other VueJs component like `toggle`, `async` creating a new scope between the child component and the parent form component**
+The child components `form_*` have to be placed within the scope of the parent `form` component, without any other Vue.js component like `toggle`, `async` creating a new scope between the child component and the parent form component**
 
 
 ```ruby

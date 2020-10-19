@@ -155,7 +155,7 @@ With `init_on` you can specify events on which the isolate components gets initi
 
 #### public_options
 
-You can pass data as a hash to your custom isolate component with the `public_options` option. This data is inside the isolate component accessible via a hash with indifferent access, for example `public_options[:item_id]`. All data contained in the `public_options` will be passed as json to the corresponding vue component, which means this data is visible on the client side as it is rendered in the vue component config. So be careful what data you pass into `public_options`!
+You can pass data as a hash to your custom isolate component with the `public_options` option. This data is inside the isolate component accessible via a hash with indifferent access, for example `public_options[:item_id]`. All data contained in the `public_options` will be passed as json to the corresponding Vue.js component, which means this data is visible on the client side as it is rendered in the Vue.js component config. So be careful what data you pass into `public_options`!
 
 Due to the isolation of the component the data needs to be stored on the client side as to encapsulate the component from the rest of the UI.
 For example: You want to render a collection of models in single components which should be able to rerender asynchronously without rerendering the whole UI. Since we do not rerender the whole UI there is no way the component can know which of the models it should rerender. Therefore passing for example the id in the public_options hash gives you the possibility to access the id in an async request and fetch the model again for rerendering. See below for examples.
@@ -346,7 +346,7 @@ With `init_on: 'init_time'` you can specify an event on which the isolated compo
 
 ### Example 6 - Use custom data in isolated components
 
-Like described above it is possible to use custom data in your isolated components. Just pass them as a hash to `public_options` and use them in your isolated component. Be careful, because `public_options` are visible in the raw html response from the server as they get passed to a vue component.
+Like described above it is possible to use custom data in your isolated components. Just pass them as a hash to `public_options` and use them in your isolated component. Be careful, because `public_options` are visible in the raw html response from the server as they get passed to a Vue.js component.
 
 Lets render a collection of models and each of them should rerender when a user clicks a corresponding refresh button. Our model is called `Match`, representing a soccer match. It has an attribute called score with the current match score.
 
@@ -401,5 +401,5 @@ end
 ```
 
 This page will render a match_isolated_score component for each match.
-If one of the isolated components gets rerendered we need the id in order to fetch the correct match. Because the server only resolves the isolated component instead of the whole UI it does not know which match exactly is requested unless the client requests a rerender with the match id. This is why `public_options` options are passed to the client side vue component.
+If one of the isolated components gets rerendered we need the id in order to fetch the correct match. Because the server only resolves the isolated component instead of the whole UI it does not know which match exactly is requested unless the client requests a rerender with the match id. This is why `public_options` options are passed to the client side Vue.js component.
 So if match two should be rerendered the client requests the match_isolated_score component with `public_options: { id: 2 }`. With this information our isolated component can fetch the match and rerender itself.
