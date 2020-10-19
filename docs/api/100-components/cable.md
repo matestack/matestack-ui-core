@@ -20,7 +20,7 @@ consumer.subscriptions.create("MatestackUiCoreChannel", {
 ## `cable(*args, &block)`
 ----
 
-Returns a vue.js driven cable component initially containing content specified by a block.
+Returns a Vue.js driven cable component initially containing content specified by a block.
 
 Imagine something like this:
 

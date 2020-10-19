@@ -64,7 +64,7 @@ If you do not want to use the rails generator just create the `matestack_ui_core
 
 ## Usage
 
-After setting up the client side javascript for our action cable we now take a look at how to create server side events to trigger for example rerenderings of `async`/isolated components or show/hide content with the `toggle` component. We will introduce two different types of creating server side events. First broadcasting events to all subscribed clients and secondly sending events to a user by authenticating a connection through a devise user.
+After setting up the client side JavaScript for our action cable we now take a look at how to create server side events to trigger for example rerenderings of `async`/isolated components or show/hide content with the `toggle` component. We will introduce two different types of creating server side events. First broadcasting events to all subscribed clients and secondly sending events to a user by authenticating a connection through a devise user.
 
 ### Broadcast
 
@@ -244,4 +244,4 @@ PrivateChannel.broadcast_to(user, {
 
 ## Conclusion
 
-Creating channels and connections can be done like you want. To learn more about all the possibilities read Rails Guide about [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html). Important for the use with matestack is to emit events in the javascript `received(data)` callback and have a clear structure to determine what the name of the event is which should be emitted. Like shown above we recommend using an `:event` key in your websocket broadcast, which represents the event name that gets emitted through the event hub. You optionally can pass all the received data as payload to that event or also use a specific key. As this is optional you don't need to pass any data to the event emit.
+Creating channels and connections can be done like you want. To learn more about all the possibilities read Rails Guide about [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html). Important for the use with matestack is to emit events in the JavaScript `received(data)` callback and have a clear structure to determine what the name of the event is which should be emitted. Like shown above we recommend using an `:event` key in your websocket broadcast, which represents the event name that gets emitted through the event hub. You optionally can pass all the received data as payload to that event or also use a specific key. As this is optional you don't need to pass any data to the event emit.

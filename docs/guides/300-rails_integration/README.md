@@ -94,7 +94,7 @@ Now we can use our matestack component in our view. Replacing the `render partia
 <% end %>
 ```
 
-This approach gives you access inside this component to all matestack features except page transitions. You can use `async`, `toggle`, `collection`, `actions`, `forms`, `isolated`, `onclick` and more vue.js components inside your components, enabling you to build modern and interactive UIs in pure ruby, while keeping a low effort for integrating or slowly migrating your project to matestack.
+This approach gives you access inside this component to all matestack features except page transitions. You can use `async`, `toggle`, `collection`, `actions`, `forms`, `isolated`, `onclick` and more Vue.js components inside your components, enabling you to build modern and interactive UIs in pure ruby, while keeping a low effort for integrating or slowly migrating your project to matestack.
 
 To use matestack page transition feature you have to use matestack pages inside a matestack app. 
 

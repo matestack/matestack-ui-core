@@ -51,7 +51,7 @@ Visit `localhost:3000/sandbox/hello` in order to visit the sandbox page. It live
 Visit `localhost:3000/my_app/my_first_page` in order to visit some example use cases. The pages live in `spec/dummy/app/matestack/pages/my_app`.
 
 ### Run the Webpack Watcher
-The builder app located in `builder/` uses webpacker in order build matestacks Javascript based on the source code found in `app/`. During development it can be used to compile the javascript when any relevant source code is changed. Run it like seen below:
+The builder app located in `builder/` uses webpacker in order build matestacks Javascript based on the source code found in `app/`. During development it can be used to compile the JavaScript when any relevant source code is changed. Run it like seen below:
 
 ```shell
 docker-compose up webpack-watcher

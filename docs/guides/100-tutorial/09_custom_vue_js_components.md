@@ -20,7 +20,7 @@ We expect you to have successfully finished the [previous guide](/docs/guides/10
 
 We want to display an option for what you could do with the person at its show page. Therefore we want to fetch a json api and display content of the responses on the page.
 
-We can achieve this by creating a custom Vue.js component. A custom Vue.js component is different from a custom component in the way that it needs a corresponding javascript file, which implements the frontend counterpart of our custom Vue.js component.
+We can achieve this by creating a custom Vue.js component. A custom Vue.js component is different from a custom component in the way that it needs a corresponding JavaScript file, which implements the frontend counterpart of our custom Vue.js component.
 
 Okay, let's create our custom Vue.js component. First we create a component in `app/matestack/components/persons/activity.rb`.
 
@@ -46,10 +46,10 @@ class Components::Persons::Activity < Matestack::Ui::VueJsComponent
 end
 ```
 
-Our Vue.js component renders a div containing a paragraph and a list. The paragraph contains some text and a button. We set a `v-on:click` event handler like you would normally do in Vue.js with its shorter version `@click`. This means the button will call the `addActivity` method from its corresponding Vue.js component. In the list below we assume that our javascript Vue.js component has an `activities` array. We loop over it, again using Vue.js directives and display each activity with a button labelled 'Remove' which calls `deleteActivity(index)` if clicked.
+Our Vue.js component renders a div containing a paragraph and a list. The paragraph contains some text and a button. We set a `v-on:click` event handler like you would normally do in Vue.js with its shorter version `@click`. This means the button will call the `addActivity` method from its corresponding Vue.js component. In the list below we assume that our JavaScript Vue.js component has an `activities` array. We loop over it, again using Vue.js directives and display each activity with a button labelled 'Remove' which calls `deleteActivity(index)` if clicked.
 
-Like stated above, a `Matestack::Ui::VueJsComponent` requires a javascript counterpart.
-Inside we define a Vue.js component and give it a name. The name needs to equal the name we defined in our ruby component at the top with `vue_js_component_name`. This settings is necessary in order to connect the javascript component with our ruby component.
+Like stated above, a `Matestack::Ui::VueJsComponent` requires a JavaScript counterpart.
+Inside we define a Vue.js component and give it a name. The name needs to equal the name we defined in our ruby component at the top with `vue_js_component_name`. This settings is necessary in order to connect the JavaScript component with our ruby component.
 Let's create it aside our ruby component in `app/matestack/components/persons/activity.js`
 
 ```javascript

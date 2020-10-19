@@ -7,7 +7,7 @@ Welcome to the tenth part of our tutorial about building a web application with 
 
 ## Introduction
 
-After introducing vue.js components in the [previous guide](/docs/guides/100-tutorial/09_custom_vue_js_components.md), it's time to work on the appearance and user experience of the application.
+After introducing Vue.js components in the [previous guide](/docs/guides/100-tutorial/09_custom_vue_js_components.md), it's time to work on the appearance and user experience of the application.
 
 In this guide, we will
 - install and set up the popular UI toolkit [Bootstrap](https://getbootstrap.com/)
@@ -42,7 +42,7 @@ import 'css/custom-bootstrap'
 
 Bootstrap requires jQuery and popper.js, so now is a good time to add those dependencies. Install it by runnning `yarn add jquery popper.js`.
 
-Afterwards import all javascript dependencies of bootstrap and bootstraps own javascript in the `app/javascript/packs/application.js` by adding the following lines to it.
+Afterwards import all JavaScript dependencies of bootstrap and bootstraps own JavaScript in the `app/javascript/packs/application.js` by adding the following lines to it.
 
 ```js
 import 'jquery'

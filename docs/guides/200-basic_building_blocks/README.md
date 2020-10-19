@@ -60,7 +60,7 @@ Apps need to inherit from `Matestack::Ui::App` and implement a `response` method
 
 How the call of `heading text: "Matestack Shop"` works will be explained later in this guide.
 
-As you might have read in the [installation](/docs/guides/000-installation/) guide you need to have a rails layout containing a html element with "matestack-ui" as class name. This is required because matestack uses vue.js and we mount to this class name. Because we do not yet support writing "html, head, meta" and other tags that are used outside the body in matestack you need at least one layout file. But we recommend using one layout file for each app.
+As you might have read in the [installation](/docs/guides/000-installation/) guide you need to have a rails layout containing a html element with "matestack-ui" as class name. This is required because matestack uses Vue.js and we mount to this class name. Because we do not yet support writing "html, head, meta" and other tags that are used outside the body in matestack you need at least one layout file. But we recommend using one layout file for each app.
 
 **Accessing data in apps**
 
@@ -176,7 +176,7 @@ Components are reusable UI parts. They can represent simple parts like a button 
 
 Above we used methods like `heading`, `paragraph`, `small` and `div`. These are all what we call core components provided trough a core component registry which is automatically loaded. They are components representing the corresponding html tag. For example calling `div` would result after rendering in `<div></div>`. Matestack provides a always expanding wide set of w3c's specified html tags for you, so you could write UIs in pure ruby. All available components are listed in our [components api](/docs/api/100-components/).
 
-There are two different types of core components. Simple components and so called vue.js components. `div` for example is a simple component, it renders a "div" tag either emtpy or containing the content given by a block. `toggle` on the other hand is a vue.js component, because it comes with a corresponding vue.js component to enable dynamic behavior on the client side. `toggle` for example can show or hide content depending on events, enabling you to write such dynamic behavior without writing anything else than ruby.
+There are two different types of core components. Simple components and so called Vue.js components. `div` for example is a simple component, it renders a "div" tag either emtpy or containing the content given by a block. `toggle` on the other hand is a Vue.js component, because it comes with a corresponding Vue.js component to enable dynamic behavior on the client side. `toggle` for example can show or hide content depending on events, enabling you to write such dynamic behavior without writing anything else than ruby.
 
 **Using core components**
 
@@ -312,7 +312,7 @@ Read more about how properties work and how it prevents overwriting other method
 
 #### Creating own Vue.js components
 
-For most cases you will not need to create custom Vue.js components, but if you need custom javascript behavior you can implement it by using a custom Vue.js component. It only differs slightly from components. They also need to implement a `response` method and use properties to access data but they inherit from `Matestack::Ui::VueJsComponent` and require a javascript file implementing the corresponding frontend component. In order to link these they require you to set a Vue.js component name. Let's take a look at an example Vue.js component:
+For most cases you will not need to create custom Vue.js components, but if you need custom JavaScript behavior you can implement it by using a custom Vue.js component. It only differs slightly from components. They also need to implement a `response` method and use properties to access data but they inherit from `Matestack::Ui::VueJsComponent` and require a JavaScript file implementing the corresponding frontend component. In order to link these they require you to set a Vue.js component name. Let's take a look at an example Vue.js component:
 
 `app/matestack/components/products/image_slider.rb`
 
@@ -356,18 +356,18 @@ MatestackUiCore.Vue.component('products-image-slider', {
 })
 ```
 
-Implementing the javascript component works as you would normally implement your Vue.js component. Head over to the [Vue.js docs]() to learn more about vue.js. 
+Implementing the JavaScript component works as you would normally implement your Vue.js component. Head over to the [Vue.js docs]() to learn more about Vue.js. 
 
-To use this component remember to add it like the product teaser to a registry. Also you need to add the javascript file to webpacker or the asset pipeline. To learn how to do that or if you want to know more about Vue.js components take a look at the [Vue.js component api](/docs/api/000-base/30-vue_js_component.md).
+To use this component remember to add it like the product teaser to a registry. Also you need to add the JavaScript file to webpacker or the asset pipeline. To learn how to do that or if you want to know more about Vue.js components take a look at the [Vue.js component api](/docs/api/000-base/30-vue_js_component.md).
 
 
 ## Event Hub
 
-Matestack uses events as a communication layer to enable features of core Vue.js components. It offers an event hub which is accessible to you. Reacting to events in javascript or triggering your own events is therefore possible.
+Matestack uses events as a communication layer to enable features of core Vue.js components. It offers an event hub which is accessible to you. Reacting to events in JavaScript or triggering your own events is therefore possible.
 
 There are some core Vue.js components that can react to events and some that can emit events. For example a `toggle` component can be configured to show its content when a certain event appears. Combine it with an `onclick` component which can emit events when its content is clicked and you could create a collapsable content component without writing anything else than ruby.
 
-So reacting to events or triggering them can be done with the core Vue.js components. But if you want to react to events or trigger them yourself for example in a customVvue.js component you can do this as shown below.
+So reacting to events or triggering them can be done with the core Vue.js components. But if you want to react to events or trigger them yourself for example in a custom Vue.js component you can do this as shown below.
 
 ```js
 // use MatestackUiCore.matestackEventHub.$emit(event_name, optional_payload)
@@ -379,14 +379,14 @@ MatestackUiCore.matestackEventHub.$emit('my-event', { some: 'optional data' })
 MatestackUiCore.matestackEventHub.$on('my-event', reactToEvent)
 ```
 
-Matestack also uses events to give you the option to hook into some processes like page loading and run custom javascript, for example to trigger complex page transition animations, but there is an easier way for simple page transitions animations.
+Matestack also uses events to give you the option to hook into some processes like page loading and run custom JavaScript, for example to trigger complex page transition animations, but there is an easier way for simple page transitions animations.
 
 To learn more about the event hub head over to our [event hub api](/docs/api/000-base/50-event_hub.md)
 
 
 ## Core Features
 
-You learned about matestack apps, pages, components, custom components, custom Vue.js components, the event hub and you have heard about matestacks core Vue.js components. They are Vue.js components that implement useful features which would else require you to write javascript. Following up is a short introduction to matestacks unique components that enable you to write rich, modern UIs with ease.
+You learned about matestack apps, pages, components, custom components, custom Vue.js components, the event hub and you have heard about matestacks core Vue.js components. They are Vue.js components that implement useful features which would else require you to write JavaScript. Following up is a short introduction to matestacks unique components that enable you to write rich, modern UIs with ease.
 
 **transition**
 

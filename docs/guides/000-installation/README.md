@@ -18,7 +18,7 @@ $ bundle install
 
 ### JavaScript Setup
 
-Matestack uses JavaScript and, in particular, [vuejs](http://vuejs.org). To include these into your existing rails app, matestack supports both, [webpack](https://webpack.js.org/)([er](https://github.com/rails/webpacker/)) and the [asset pipeline](https://guides.rubyonrails.org/asset_pipeline.html).
+Matestack uses JavaScript and, in particular, [Vue.js](http://vuejs.org). To include these into your existing rails app, matestack supports both, [webpack](https://webpack.js.org/)([er](https://github.com/rails/webpacker/)) and the [asset pipeline](https://guides.rubyonrails.org/asset_pipeline.html).
 
 Rails 6+ apps use webpacker by default. Rails 5 and below apps use the asset pipeline by default.
 
@@ -31,7 +31,7 @@ $ yarn add https://github.com/matestack/matestack-ui-core#v1.1.0
 $ yarn install
 ```
 
-This adds the npm package that provides the javascript corresponding to the matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
+This adds the npm package that provides the JavaScript corresponding to the matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
 
 Next, import 'matestack-ui-core' in your `app/javascript/packs/application.js`
 
@@ -49,7 +49,7 @@ When you update the matestack-ui-core gem, make sure to update the npm package a
 
 #### Asset Pipeline
 
-If you are using the asset pipeline, you don't need to install the separate npm package. All required javascript libraries are provided by the matestack-ui-core gem.
+If you are using the asset pipeline, you don't need to install the separate npm package. All required JavaScript libraries are provided by the matestack-ui-core gem.
 
 Require 'matestack-ui-core' in your `app/assets/javascript/application.js`
 

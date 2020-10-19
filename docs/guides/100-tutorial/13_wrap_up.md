@@ -9,7 +9,7 @@ Welcome to the thirteenth part of our tutorial about building a web application 
 
 What have we got so far? After following the previous guides, there's now a `RubyOnRails` application running on `Heroku` with a public and admin area allowing for basic CRUD operations.
 
-We have achieved this by setting up two matestack apps each with some matestack pages and by orchestrating matestacks components and vue.js components.
+We have achieved this by setting up two matestack apps each with some matestack pages and by orchestrating matestacks components and Vue.js components.
 
 One of the matestack apps is only available after an admin has logged in and protected by the `Devise` gem. The application pleases the eye and offers a great user experience since we have set up and customized `Bootstrap`. Assets are being served by `Webpacker`.
 
