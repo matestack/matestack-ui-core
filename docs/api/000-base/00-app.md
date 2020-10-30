@@ -7,8 +7,8 @@ An app is a special kind of `Matestack::Ui::VueJsComponent`. Matestack will
 therefore wrap the UI defined in the `response` method with some markup enabling
 dynamic UI behavior and CSS styling.
 
-The app ships a `Vuex store` and `Vue.js event hub`, which are used by core vuejs
-components and can optionally be used by custom vuejs components in order to
+The app ships a `Vuex store` and `Vue.js event hub`, which are used by core Vue.js
+components and can optionally be used by custom Vue.js components in order to
 trigger events, manage client side date and communicate between components.
 
 ## An App can wrap pages with a layout

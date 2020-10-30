@@ -52,10 +52,10 @@ wrapping elements by default.
 #### VueJsComponent
 
 In order to equip a Ruby component with some JavaScript, we associate
-the Ruby component with a VueJs JavaScript component. The Ruby component therefore needs to inherit
+the Ruby component with a Vue.js JavaScript component. The Ruby component therefore needs to inherit
 from `Matestack::Ui::VueJsComponent`. Matestack will then render a HTML component
 tag with some special attributes and props around the response defined in the
-Ruby component. The VueJs JavaScript component (defined in a separate JavaScript file and
+Ruby component. The Vue.js JavaScript component (defined in a separate JavaScript file and
 managed via Sprockets or Webpacker) will treat the response of the Ruby
 component as its template.
 
@@ -112,8 +112,8 @@ An app is a special kind of `Matestack::Ui::VueJsComponent`. Matestack will
 therefore wrap the UI defined in the `response` method with some markup enabling
 dynamic UI behavior and CSS styling.
 
-The app ships a `Vuex store` and `Vue.js event hub`, which are used by core vuejs
-components and can optionally be used by custom vuejs components in order to
+The app ships a `Vuex store` and `Vue.js event hub`, which are used by core Vue.js
+components and can optionally be used by custom Vue.js components in order to
 trigger events, manage client side date and communicate between components.
 
 Learn more about [apps](/docs/api/000-base/10-app.md)

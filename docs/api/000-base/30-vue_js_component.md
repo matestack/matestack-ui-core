@@ -1,18 +1,18 @@
-# VueJs Component
+# Vue.js Component
 
 In order to equip a Ruby component with some JavaScript, we associate
-the Ruby component with a VueJs JavaScript component. The Ruby component therefore needs to inherit
+the Ruby component with a Vue.js JavaScript component. The Ruby component therefore needs to inherit
 from `Matestack::Ui::VueJsComponent`. Matestack will then render a HTML component
 tag with some special attributes and props around the response defined in the
-Ruby component. The VueJs JavaScript component (defined in a separate JavaScript file and
+Ruby component. The Vue.js JavaScript component (defined in a separate JavaScript file and
 managed via Sprockets or Webpacker) will treat the response of the Ruby
 component as its template.
 
 ## Structure, files and registry
 
-A VueJs component is defined by two files. A Ruby file and a JavaScript file:
+A Vue.js component is defined by two files. A Ruby file and a JavaScript file:
 
-### VueJs Ruby component
+### Vue.js Ruby component
 
 Within the Ruby file, the Ruby class inherits from `Matestack::Ui::VueJsComponent`:
 
@@ -48,9 +48,9 @@ module Components::Registry
   )
 end
 ```
-### VueJs JavaScript component
+### Vue.js JavaScript component
 
-The VueJs JavaScript component is defined in a separate JavaScript file:
+The Vue.js JavaScript component is defined in a separate JavaScript file:
 
 `app/matestack/components/some_component.js`
 
@@ -73,7 +73,7 @@ it right next to the Ruby component file.
 
 *Important*
 
-The VueJs JavaScript file needs to be imported by some kind of JavaScript package
+The Vue.js JavaScript file needs to be imported by some kind of JavaScript package
 manager. This could be `Sprockets` or `Webpacker`
 
 For **Sprockets** it would be something like:
@@ -112,29 +112,29 @@ If setup correctly, matestack will render the component to:
 </component>
 ```
 
-As you can see, the component tag is referencing the VueJs JavaScript component via `is`
+As you can see, the component tag is referencing the Vue.js JavaScript component via `is`
 and tells the JavaScript component that it should use the inner html (coming from the `response` method)
 as the `inline-template` of the component.
 
 `{{ foo }}` will be evaluated to "bar" as soon as Vue.js has booted and mounted
 the component in the browser.
 
-Matestack will inject JSON objects into the VueJs JavaScript component through
+Matestack will inject JSON objects into the Vue.js JavaScript component through
 the `component-config` and `params` props if either component config or params are
 available. This data is injected once on initial serverside rendering of the component's
-markup. See below, how you can pass in data to the VueJs JavaScript component.
+markup. See below, how you can pass in data to the Vue.js JavaScript component.
 
-## VueJs Ruby component API
+## Vue.js Ruby component API
 
 ### Same as component
 
-The basic VueJs Ruby component API is the same as described within the
+The basic Vue.js Ruby component API is the same as described within the
 [component API documenation](/docs/api/000-base/20-component.md). The options below extend
 this API.
 
-### Referencing the VueJs JavaScript component
+### Referencing the Vue.js JavaScript component
 
-As seen above, the VueJs JavaScript component name has to be referenced in the VueJs
+As seen above, the Vue.js JavaScript component name has to be referenced in the Vue.js
 Ruby component using the `vue_js_component_name` class method
 
 `app/matestack/components/some_component.rb`
@@ -148,7 +148,7 @@ class SomeComponent < Matestack::Ui::VueJsComponent
 end
 ```
 
-### Passing data to the VueJs JavaScript component
+### Passing data to the Vue.js JavaScript component
 
 Like seen above, matestack renders a `component-config` prop as an attribute of
 the component tag. In order to fill in some date there, you should use the `setup`
@@ -174,9 +174,9 @@ This data is then available as:
 this.componentConfig["some_serverside_data"]
 ```
 
-within the VueJs JavaScript component.
+within the Vue.js JavaScript component.
 
-## VueJs JavaScript component API
+## Vue.js JavaScript component API
 
 ### Component mixin
 
@@ -279,6 +279,6 @@ As we're pretty much implementing pure Vue.js components, you can refer to the
 [Vue.js guides](https://vuejs.org/v2/guide/) in order to learn more about Vue.js component
 usage
 
-## VueJs JavaScript component scope
+## Vue.js JavaScript component scope
 
 TODO
