@@ -208,7 +208,7 @@ Run `rails s` and head over to [localhost:3000](http://localhost:3000/) to and c
 
 ## Deep dive into the `collection` component
 
-So we have come quite a way from simply displaying all the `person` records in a plain list, right? By making use of the `collection` component and adding the necessary configuration, the person index page content is now searchable, orderable and paginated! This would have required us to write a lot of javascript and a complex controller action, but with matestack `collection` component we could do it all just with a few lines of ruby.
+So we have come quite a way from simply displaying all the `person` records in a plain list, right? By making use of the `collection` component and adding the necessary configuration, the person index page content is now searchable, orderable and paginated! This would have required us to write a lot of JavaScript and a complex controller action, but with matestack `collection` component we could do it all just with a few lines of ruby.
 
 The `collection` component was created with exactly this use case in mind - you got a collection of data (e.g. from ActiveRecord) that needs to be displayed in a filterable, ordered and paginated fashion (list, table, cards) without forcing you to write a lot of (repetitive, yet complex) logic.
 
@@ -250,4 +250,4 @@ We learned how to use matestacks `collection` component to generate a filterable
 
 So what's left? In the upcoming guides, you will create your own Vue.js components and learn about other topics like styling, notifications and authorization that are part of modern web applications
 
-So stay tuned and, once ready, head over to the next part, covering [vue.js components](/docs/guides/100-tutorial/09_dynamic_components.md) for powerful custom components.
+So stay tuned and, once ready, head over to the next part, covering [Vue.js components](/docs/guides/100-tutorial/09_dynamic_components.md) for powerful custom components.

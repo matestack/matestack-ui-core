@@ -65,7 +65,7 @@ But how can we easily update the list, when the delete action was successful? Re
 
 ## Rerender list when person is deleted
 
-When a person is deleted an event is emitted, but nothing more happens, but we want to update the list of persons, so we no longer see the deleted person in the list. In order to achieve this we could write some javascript which would manipulate the dom or we can use matestacks `async` component and get the result we want in no time and without touching any javascript. Okay, so let's update our index page like this:
+When a person is deleted an event is emitted, but nothing more happens, but we want to update the list of persons, so we no longer see the deleted person in the list. In order to achieve this we could write some JavaScript which would manipulate the dom or we can use matestacks `async` component and get the result we want in no time and without touching any JavaScript. Okay, so let's update our index page like this:
 
 ```ruby
 class Demo::Pages::Persons::Index
@@ -125,6 +125,6 @@ git add . && git commit -m "add delete button to person list and update it dynam
 
 ## Recap & outlook
 
-We added a delete button to our person list on the index page. When a person is deleted our list gets automatically updated without even reloading the page, just by updating the part that is needed. And all of that with a few lines of code and without writing any javascript.
+We added a delete button to our person list on the index page. When a person is deleted our list gets automatically updated without even reloading the page, just by updating the part that is needed. And all of that with a few lines of code and without writing any JavaScript.
 
 Take a well deserved rest and make sure to come back to the next part of this series, introducing [partials and custom components](/docs/guides/100-tutorial/07_partials_and_custom_components.md).

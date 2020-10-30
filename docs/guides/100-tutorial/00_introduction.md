@@ -10,7 +10,7 @@ This guide is designed for Ruby on Rails beginners, advanced and experienced dev
 
 ## What is Matestack?
 
-Matestack deeply integrates a Vue.js based UI into Ruby on Rails, offering prebuilt components. Use these prebuild components to write dynamic Web-UIs mostly in pure Ruby and with minimum effort. Matestack enables you to develop rich SPA like interfaces in no time and without touching javascript. And if you need to go deeper you can always create your own custom components to do so. 
+Matestack deeply integrates a Vue.js based UI into Ruby on Rails, offering prebuilt components. Use these prebuild components to write dynamic Web-UIs mostly in pure Ruby and with minimum effort. Matestack enables you to develop rich SPA like interfaces in no time and without touching JavaScript. And if you need to go deeper you can always create your own custom components to do so. 
 
 ## Concept
 
@@ -38,7 +38,7 @@ For nearly all existing HTML5 Tags there is a component in order to create a ui 
 
 #### `Matestack::Ui::VueJsComponent`'s
 
-VueJsComponents are more complex components. These always have a Vue.js counterpart and enable easy development of dynamic ui elements which would usually require you to write javascript code. VueJsComponents provide an abstraction so you don't have to write javascript code and instead create rich interfaces in Ruby. Visit the [components API documentation](/docs/api/100-components/) for more information about `Matestack::Ui::VueJsComponent`'s.
+VueJsComponents are more complex components. These always have a Vue.js counterpart and enable easy development of dynamic ui elements which would usually require you to write JavaScript code. VueJsComponents provide an abstraction so you don't have to write JavaScript code and instead create rich interfaces in Ruby. Visit the [components API documentation](/docs/api/100-components/) for more information about `Matestack::Ui::VueJsComponent`'s.
 
 ## Recap & outlook
 
