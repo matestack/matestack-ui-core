@@ -1,8 +1,8 @@
-### Event Hub
+# Event Hub
 
 Matestack offers an event hub, which can be used to communicate between components.
 
-#### Emitting events
+## Emitting events
 
 `app/matestack/components/some_component.js`
 
@@ -20,7 +20,7 @@ MatestackUiCore.Vue.component('some-component', {
 
 Use `MatestackUiCore.matestackEventHub.$emit(EVENT_NAME, OPTIONAL PAYLOAD)`
 
-#### Receiving events
+## Receiving events
 
 `app/matestack/components/some_component.js`
 
