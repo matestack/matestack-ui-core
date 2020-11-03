@@ -12,11 +12,11 @@ In this part, we will improve the index page by making use of some of matestacks
 In this guide, we will
 - refactor the index page to use matestacks `collection` component
 - add pagination and basic search functionality to it
-- use matestack `async` component from the [sixth guide](/docs/guides/100-tutorial/07_partials_and_custom_components.md)
+- use matestack `async` component from the [sixth guide](/docs/reactive_apps/1000-tutorial/07_partials_and_custom_components.md)
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/07_partials_and_custom_components.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/07_partials_and_custom_components.md).
 
 ## Adding a simple, filterable collection
 
@@ -250,4 +250,4 @@ We learned how to use matestacks `collection` component to generate a filterable
 
 So what's left? In the upcoming guides, you will create your own Vue.js components and learn about other topics like styling, notifications and authorization that are part of modern web applications
 
-So stay tuned and, once ready, head over to the next part, covering [Vue.js components](/docs/guides/100-tutorial/09_dynamic_components.md) for powerful custom components.
+So stay tuned and, once ready, head over to the next part, covering [Vue.js components](/docs/reactive_apps/1000-tutorial/09_dynamic_components.md) for powerful custom components.

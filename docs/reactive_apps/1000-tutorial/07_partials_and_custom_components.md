@@ -17,7 +17,7 @@ In this guide, we will
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/06_async_component.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/06_async_component.md).
 
 ## Using partials
 
@@ -280,7 +280,7 @@ By leveraging useful namespaces and calling custom components within other custo
 
 Side note: Custom components also give you a neat way of reusing your `*.haml` views with matestack (erb and slim support will be added soon).
 
-To learn more, check out the [basic building blocks](/docs/guides/200-basic_building_blocks/) guides section about custom components.
+To learn more, check out the [basic building blocks](/docs/reactive_apps/README.md) guides section about custom components.
 
 ## Saving the status quo
 
@@ -294,4 +294,4 @@ git add . && git commit -m "Refactor person new, edit, index, show page to use c
 
 Today, we covered a great way of extracting recurring UI elements into reusable components with matestack. Of course, we only covered a very basic use case here and there are various ways of using custom components.
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`collection` component](/docs/guides/100-tutorial/08_collection_async.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`collection` component](/docs/reactive_apps/1000-tutorial/08_collection_async.md).

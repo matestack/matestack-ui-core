@@ -77,4 +77,4 @@ Don't apply the "matestack-ui" id to the body tag.
 
 ### ActionCable Integration
 
-Some of Matestack's reactive core components may be used with ActionCable. If you want to use ActionCable, please read our [action cable](/docs/reactivity/1000-action_cable/) guide.
+Some of Matestack's reactive core components may be used with ActionCable. If you want to use ActionCable, please read our [action cable](/docs/reactive_components/1000-action_cable/) guide.

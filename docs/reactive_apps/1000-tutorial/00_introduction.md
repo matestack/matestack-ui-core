@@ -45,4 +45,4 @@ VueJsComponents are more complex components. These always have a Vue.js counterp
 We introduced you to the apps, pages and components concepts of matestack. In order to unterstand better how matestack works, we create an application from the ground up using matestack and enhancing it step by step while leveraging more and more features of matestack.
 Read the following guides to get started with matestack and get a better understanding about how apps, pages, components work.
 
-Let's setup a rails app with matestack by following the [next guide](/docs/guides/100-tutorial/01_setup.md)
+Let's setup a rails app with matestack by following the [next guide](/docs/reactive_apps/1000-tutorial/01_setup.md)

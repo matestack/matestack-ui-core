@@ -67,7 +67,7 @@ In the example above, clicking the "Delete" button will trigger an asynchronous 
 
 We recommend defining the expected hash parameter for `action` components in a method, because they can get quite large.
 
-Read more about the [action component](/docs/guides/600-actions/README.md).
+Read more about the [action component](/docs/reactive_components/200-actions/README.md).
 
 **forms**
 
@@ -113,7 +113,7 @@ Each form requires a few keys for configuration: `:for`, `:path`, `:method`. Lik
 
 Forms will be submitted asynchronously and in case of errors dynamically extended to show errors belonging to inputs fields, but it is possible to set custom form behavior in success or failure cases. You could transition to another page, follow the redirect from the server as a transition or normal redirect, or emit events to leverage the above mentioned event hub.
 
-To learn more, check out the [form guide](/docs/guides/500-forms/README.md).
+To learn more, check out the [form guide](/docs/reactive_components/300-forms/README.md).
 
 **async**
 
@@ -133,7 +133,7 @@ end
 
 The above code snippet renders initially a paragraph and the current time followed by a button which emits the "update-time" event. The `async` component triggers an asynchronous request when the event is recieved, requesting it's content from the server. The server will respond with only the contents of the `async` components which is then replaced.
 
-Read more about the [action component](/docs/guides/700-async/README.md).
+Read more about the [action component](/docs/reactive_components/400-async/README.md).
 
 **isolated**
 
@@ -143,10 +143,10 @@ So isolated components are resolved completely indepentendly unlike async for wh
 
 You can of course use every matestack component inside an isolated component, even `async` or another isolated component.
 
-Read more about the [isolated component](/docs/guides/800-isolated/README.md).
+Read more about the [isolated component](/docs/reactive_components/600-isolated/README.md).
 
 **collection**
 
 With the `collection` component you can display active record model or similar collections and add features like filtering, paginating and ordering with ease. Each of these features requires no page reload to take effect, because the `collection` component leverages a `async` component in combination with the event hub to only reload the effected content of the collection. The `collection` component is a bit more complex as it offers a lot of functionality, that's why we will not explain the rudimentary usage here.
 
-Take a look at the [collection component guide](/docs//guides/900-collection/README.md) to learn how it works and how to use it.
+Take a look at the [collection component guide](/docs//guides/700-collection/README.md) to learn how it works and how to use it.

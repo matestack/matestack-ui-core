@@ -7,7 +7,7 @@ Welcome to the fourth part of our tutorial about building a web application with
 
 ## Introduction
 
-In the [previous guide](/docs/guides/100-tutorial/03_index_show_transition.md), we added index and show pages for the **person** model. In this part, we will implement the create, update and delete part of our CRUD application. For this we will introduce the matestack `forms`.
+In the [previous guide](/docs/reactive_apps/1000-tutorial/03_index_show_transition.md), we added index and show pages for the **person** model. In this part, we will implement the create, update and delete part of our CRUD application. For this we will introduce the matestack `forms`.
 
 In this guide, we will
 - add a new page and action action to create new persons
@@ -17,7 +17,7 @@ In this guide, we will
 - introduce the concept of matestack actions
 
 ## Prerequisites
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/03_index_show_transition.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/03_index_show_transition.md).
 
 ## Updating the person model
 
@@ -315,4 +315,4 @@ We got a brief introduction of the `form` and `action` components and know how t
 
 But there's still more guides coming - so what's left? In the upcoming chapters, we will dive deeper into some `matestack` concepts to further enhance both user experience and developer happiness!
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`toggle component`](/docs/guides/100-tutorial/05_toggle_component.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`toggle component`](/docs/reactive_apps/1000-tutorial/05_toggle_component.md).

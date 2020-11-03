@@ -9,7 +9,7 @@ In this guide, we will
 - deploy our application to heroku
 
 ## Prerequisites
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/11_authentication_devise.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/11_authentication_devise.md).
 
 - Heroku CLI ([view installation details](https://devcenter.heroku.com/articles/getting-started-with-ruby#set-up))
 - Postgresql ([view installation details](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup))
@@ -110,4 +110,4 @@ Now we can close the console and run `heroku open` again. We can now login to ou
 
 We successfully deployed our application to heroku and learned what are the necessary steps to do this. We also switched our application database from sqlite to postgres, because heroku doesn't support sqlite.
 
-While the application is good as it is right now, go ahead and check out the [last part of the tutorial](/docs/guides/100-tutorial/13_wrap_up.md).
+While the application is good as it is right now, go ahead and check out the [last part of the tutorial](/docs/reactive_apps/1000-tutorial/13_wrap_up.md).

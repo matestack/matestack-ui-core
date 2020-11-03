@@ -7,7 +7,7 @@ Welcome to the tenth part of our tutorial about building a web application with 
 
 ## Introduction
 
-After introducing Vue.js components in the [previous guide](/docs/guides/100-tutorial/09_custom_vue_js_components.md), it's time to work on the appearance and user experience of the application.
+After introducing Vue.js components in the [previous guide](/docs/reactive_apps/1000-tutorial/09_custom_vue_js_components.md), it's time to work on the appearance and user experience of the application.
 
 In this guide, we will
 - install and set up the popular UI toolkit [Bootstrap](https://getbootstrap.com/)
@@ -22,7 +22,7 @@ This guide is heavily inspired by [Ross Kaffenberger's guide on *Using Bootstrap
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/09_custom_vue_js_components.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/09_custom_vue_js_components.md).
 
 ## Installing Bootstrap
 
@@ -578,7 +578,7 @@ If you now take a look at your application in the browser and click a transition
 
 In this guide we learned how to use bootstrap with matestack in order to style an application, how to customize bootstrap, a best practice about styling components and how we can add animations between page transitions.
 
-Going ahead, the next part of this series covers [authentication via Devise](/docs/guides/100-tutorial/11_authentication_devise.md).
+Going ahead, the next part of this series covers [authentication via Devise](/docs/reactive_apps/1000-tutorial/11_authentication_devise.md).
 
 <br>
 <br>

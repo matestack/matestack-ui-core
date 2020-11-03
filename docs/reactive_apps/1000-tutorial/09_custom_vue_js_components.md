@@ -7,14 +7,14 @@ Welcome to the ninth part of our tutorial about building a web application with 
 
 ## Introduction
 
-In a [previous guide](/docs/guides/100-tutorial/08_collection_async.md), we introduced custom components. In this one, we're bringing it to the next level with custom Vue.js components!
+In a [previous guide](/docs/reactive_apps/1000-tutorial/08_collection_async.md), we introduced custom components. In this one, we're bringing it to the next level with custom Vue.js components!
 
 In this guide, we will
 - add a custom Vue.js component that fetches and displays data from a third-party API
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/08_collection_async.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/08_collection_async.md).
 
 ## Fetching and displaying data from a third party API
 
@@ -152,10 +152,10 @@ As with custom components, there are hardly any limits for your creativity. You 
 - use custom dynamic components to fetch, display, modify and update records from your database
 - tweak and extend core components according to your situational, specific needs
 
-To learn more, check out the [basic building blocks](/docs/guides/200-200-basic_building_blocks/) for custom custom components.
+To learn more, check out the [basic building blocks](/docs/reactive_apps/README.md) for custom custom components.
 
 ## Recap & outlook
 
 In this guide, we introduced custom Vue.js components - an option for you to bring more complex JavaScript functionality to your application by extending matestacks components with your own Vue.js components.
 
-Let's go ahead and learn how to best add [styling and notifications](/docs/guides/100-tutorial/10_styling_notifications.md) to our application in the next part of the series!
+Let's go ahead and learn how to best add [styling and notifications](/docs/reactive_apps/1000-tutorial/10_styling_notifications.md) to our application in the next part of the series!

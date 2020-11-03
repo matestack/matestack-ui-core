@@ -4,7 +4,7 @@ The `cable` component is designed to asynchronously manipulate its DOM based on 
 
 Furthermore you can update or remove items in that list using ActionCable events as well. The `cable` component again will only manipulate the specific DOM elements and not the whole list. This requires more implementation effort but gives you more flexibility and performance while creating reactive UIs compared to the `async` component. As usual, no JavaScript is required at your end in order to implement this sophisticated reactivity. (Only one time setup as shown below)
 
-Please read the [ActionCable Guide](/docs/guides/1000-action_cable/README.md) if you need help setting up ActionCable for your project.
+Please read the [ActionCable Guide](/docs/reactive_components/1000-action_cable/README.md) if you need help setting up ActionCable for your project.
 
 Please make sure to setup ActionCable correctly. Esspecially following implementation is important in order to use the `cable` component correctly:
 

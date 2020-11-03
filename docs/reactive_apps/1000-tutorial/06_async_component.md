@@ -13,7 +13,7 @@ In this guide, we will introduce matestacks `async` component. For this we will
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/05_toggle_component.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/05_toggle_component.md).
 
 ## Add a delete button
 
@@ -127,4 +127,4 @@ git add . && git commit -m "add delete button to person list and update it dynam
 
 We added a delete button to our person list on the index page. When a person is deleted our list gets automatically updated without even reloading the page, just by updating the part that is needed. And all of that with a few lines of code and without writing any JavaScript.
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing [partials and custom components](/docs/guides/100-tutorial/07_partials_and_custom_components.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing [partials and custom components](/docs/reactive_apps/1000-tutorial/07_partials_and_custom_components.md).

@@ -7,7 +7,7 @@ Welcome to the eleventh part of our tutorial about building a web application wi
 
 ## Introduction
 
-Our app looks great after finishing the [previous guide](/docs/guides/100-tutorial/10_styling_notifications.md). To make it more of a real-world example, we add a private area, which is only accessible for logged in admins.
+Our app looks great after finishing the [previous guide](/docs/reactive_apps/1000-tutorial/10_styling_notifications.md). To make it more of a real-world example, we add a private area, which is only accessible for logged in admins.
 
 In this guide, we will
 - install and set up the devise gem
@@ -17,7 +17,7 @@ In this guide, we will
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/guides/100-tutorial/10_styling_notifications.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/10_styling_notifications.md).
 
 ## Setting up Devise
 
@@ -906,4 +906,4 @@ a = Admin.create(email: 'admin@example.com', password: 'OnlyForSuperMates', pass
 
 By adding a working authentication functionality and an admin app protected via a login, our project now much better resembles a real-world software application! On the way, we covered some advanced topics like authentication via the `Devise` gem, serving different JavaScript packs using `Webpacker` and Rails `layouts`. We leared how to structure components and pages with different namespaces and how to use different registries.
 
-While the application is good as it is right now, go ahead and check out the [next part of this guide](/docs/guides/100-tutorial/12_heroku_deployment.md) where we will deploy our application to heroku.
+While the application is good as it is right now, go ahead and check out the [next part of this guide](/docs/reactive_apps/1000-tutorial/12_heroku_deployment.md) where we will deploy our application to heroku.
