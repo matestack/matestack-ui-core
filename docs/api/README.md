@@ -1,4 +1,5 @@
-# API Reference
+# Core Components
 
-1. [Base](/docs/api/000-base)
-2. [Core Components](/docs/api/100-components)
+Matestack provides you with a wide set of core components that enable you to easily build your UI.
+
+Please use the sidebar to navigate to the component documentations.

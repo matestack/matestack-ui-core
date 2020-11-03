@@ -1,17 +1,41 @@
-# App
+# App API
 
 An app defines a layout within its `response` method and uses the `yield_page`
 method to yield the content of a page in its layout.
 
-An app is a special kind of `Matestack::Ui::VueJsComponent`. Matestack will
-therefore wrap the UI defined in the `response` method with some markup enabling
-dynamic UI behavior and CSS styling.
+## Use core components
 
-The app ships a `Vuex store` and `Vue.js event hub`, which are used by core Vue.js
-components and can optionally be used by custom Vue.js components in order to
-trigger events, manage client side date and communicate between components.
+`app/matestack/example_app/app.rb`
 
-## An App can wrap pages with a layout
+```ruby
+class ExampleApp::App < Matestack::Ui::App
+
+  def response
+    heading size: 1, text: "My Example App Layout"
+  end
+
+end
+```
+
+## Use registered custom components
+
+Imagine having created and registered a custom component `card`. Go ahead and use it on your page:
+
+`app/matestack/example_app/pages/example_page.rb`
+
+```ruby
+class ExampleApp::Pages < Matestack::Ui::Page
+
+  def response
+    heading size: 1, text: "My Example App Layout"
+    # calling your registered card component without using matestack_component helper!
+    card title: "hello"
+  end
+
+end
+```
+
+## Yielding Matestack pages
 
 `app/matestack/example_app/app.rb`
 
@@ -30,35 +54,7 @@ class ExampleApp::App < Matestack::Ui::App
 end
 ```
 
-`app/matestack/example_app/pages/example_page.rb`
-
-```ruby
-class ExampleApp::Pages::ExamplePage < Matestack::Ui::Page
-
-  def response
-    div id: "my-div-on-page-1" do
-      heading size: 2, text: "This is Page 1"
-    end
-  end
-
-end
-```
-
-`app/matestack/pages/example_app/second_example_page.rb`
-
-```ruby
-class ExampleApp::Pages::SecondExamplePage < Matestack::Ui::Page
-
-  def response
-    div id: "my-div-on-page-2" do
-      heading size: 2, text: "This is Page 2"
-    end
-  end
-
-end
-```
-
-## An App enables transitions between pages without page reload
+## Transitions between pages without page reload
 
 `app/matestack/example_app/app.rb`
 
@@ -85,7 +81,7 @@ end
 
 The `transition` components will trigger async HTTP requests and exchange the page content without a page reload.
 
-## An App enables transitions between pages without page reload with loading element
+## Transitions between pages with loading element
 
 `app/matestack/example_app/app.rb`
 
@@ -153,6 +149,32 @@ and during async page request triggered via transition:
 </end>
 ```
 
-You can use the `loading` class and your loading state element to implement CSS based loading state effects.
+You can use the `loading` class and your loading state element to implement CSS based loading state effects. It may look like this (scss):
 
-For more informations on transitions, visit [transitions](/docs/api/100-components/transition.md)
+```scss
+
+.matestack-page-container{
+
+  .matestack-page-wrapper {
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+
+    &.loading {
+      opacity: 0;
+    }
+  }
+
+  .loading-state-element-wrapper{
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    &.loading {
+      opacity: 1;
+    }
+  }
+
+}
+
+```
+
+For more informations on transitions, visit [transitions](/docs/apps/400-transitions/README.md)

@@ -1,83 +1,9 @@
-# Component
-
-Components are used to define reusable UI elements.`matestack-ui-core` contains
-a number of generic, so-called `core components`, but anyone can extend them
-and write `custom components` that live within his or her application and cater
-a specific or unique need.
-
-## Component registry
-
-Since version 1.0.0, components need to be registered in a registry file. Core
-components and custom components are registered slightly different:
-
-### Custom component registry
-
-Create a registry module like:
-
-`APP_ROOT/app/matestack/components/registry.rb`
-
-```ruby
-module Components::Registry
-
-  Matestack::Ui::Core::Component::Registry.register_components(
-    #...
-    some_component: Some::Component,
-    #...
-  )
-
-end
-```
-
-and make sure to include this module in your base controller like:
-
-```ruby
-class ApplicationController < ActionController::Base
-
-  include Matestack::Ui::Core::ApplicationHelper
-  include Components::Registry
-
-end
-```
-
-The registered DSL method `some_component` does NOT have to match namespace
-structure of the component class. (but it could if you like to, as shown in the
-example above)
-
-*Note*
-
-Please be aware that once the component registry was loaded, the initially
-registered dsl_methods are cached. Removing a dsl_method from the registry will
-not have an effect until the server gets reloaded. Added dsl_methods however
-will be available without having to restart the server.
-
-### Core component registry
-
-`CORE_ROOT/lib/matestack/ui/core/components.rb`
-
-```ruby
-module Matestack::Ui::Core::Components
-  #...
-  require_core_component "some/new/component"
-  #...
-end
-
-Matestack::Ui::Core::Component::Registry.register_components(
-  #...
-  some_new_component: Matestack::Ui::Core::Some::New::Component,
-  #...
-)
-```
-
-The registered DSL method `some_new_component` does not have to match the
-components namespace structure.
-
-
-## Component API
+# Component API
 
 See below for an overview of the various possibilities Matestack provides for
-component configuration:
+component implementation:
 
-### Response
+## Response
 
 Use the `response` method to define the UI of the component by using other components.
 
@@ -118,7 +44,7 @@ This is the HTML which gets created:
 If no `response` method is defined, matestack will look for a corresponding `HAML`
 template file lying next to Ruby component file.
 
-### Prepare
+## Prepare
 
 Use a prepare method to resolve data before rendering a component!
 
@@ -163,7 +89,7 @@ This is the HTML which gets created:
 The prepare method comes in handy to read from the database or to resolve content
 before displaying it!
 
-### Params access
+## Params access
 
 A component can access request information, e.g. url query params, by calling
 the `params` method:
@@ -205,14 +131,14 @@ reads the `[:foo]` from the params and displays it like so:
 </div>
 ```
 
-### Passing options to components
+## Passing options to components
 
-#### Define optional and required properties
+### Define optional and required properties
 
 Matestack components give you the option to define required and optional
 properties for a component. It creates helpers for these properties automatically.
 
-##### Requires
+#### Requires
 
 Required properties are required for your component to work, like the name suggests.
 If at least one required property is missing a `Matestack::Ui::Core::Properties::PropertyMissingException`
@@ -238,7 +164,7 @@ class SomeComponent < Matestack::Ui::Component
   requires :some_property, :some_other
 
   def response
-    # display some_property plain inside a div and some_other property inside a paragraph beneath it
+     display some_property plain inside a div and some_other property inside a paragraph beneath it
     div do
       plain some_property
     end
@@ -248,7 +174,7 @@ class SomeComponent < Matestack::Ui::Component
 end
 ```
 
-##### Optional
+#### Optional
 
 To define optional attributes you can use the same syntax as `requires`.
 Just use `optional` instead of `requires`. Optional attributes are optional
@@ -257,10 +183,10 @@ and not validated for presence like required attributes.
 ```ruby
 class SomeComponent < Matestack::Ui::Component
 
-  optional :optional_property, :other_optional_property # optional properties could be empty
+  optional :optional_property, :other_optional_property  optional properties could be empty
 
   def response
-    # display optional_property plain inside a div and other_optional_property property inside a paragraph beneath it
+     display optional_property plain inside a div and other_optional_property property inside a paragraph beneath it
     div do
       plain optional_property
     end
@@ -270,7 +196,7 @@ class SomeComponent < Matestack::Ui::Component
 end
 ```
 
-##### Passing properties to components
+#### Passing properties to components
 
 Pass the properties as a hash directly to the component when calling it.
 You can pass any object you like and use it in the component with the helper.
@@ -279,7 +205,7 @@ You can pass any object you like and use it in the component with the helper.
 class SomeComponent < Matestack::Ui::Component
 
   requires :some_option,
-  optional :some_other # optional properties could be empty
+  optional :some_other  optional properties could be empty
 
   def response
     div do
@@ -321,7 +247,7 @@ The outcome is quite as expected:
 </div>
 ```
 
-##### Alias properties
+#### Alias properties
 
 Matestack tries to prevent overriding existing methods while creating helpers.
 If you pass a property with a name that matches any instance method of your
@@ -336,9 +262,9 @@ class SomeComponent < Matestack::Ui::Component
 
   def response
     div do
-      plain "#{foo} - #{bar} - #{my_method}" # string concatenation of properties foo, bar, and method aliased as my_method
+      plain "#{foo} - #{bar} - #{my_method}"  string concatenation of properties foo, bar, and method aliased as my_method
     end
-    paragraph my_response if my_response.present? # response property aliased as my_response inside a paragraph if it is present
+    paragraph my_response if my_response.present?  response property aliased as my_response inside a paragraph if it is present
   end
 end
 ```
@@ -349,7 +275,7 @@ Some common names that could not be used as properties:
 :params
 ```
 
-### Arguments
+## Arguments
 
 If no hash was given, a component can also access/accept a simple argument!
 
@@ -372,7 +298,7 @@ class ExamplePage < Matestack::Ui::Page
 
   def response
     div id: "div-on-page" do
-      # simply pass a string here
+       simply pass a string here
       some_component "foo from page"
     end
   end
@@ -390,7 +316,7 @@ No miracle to find here, just what was expected!
 </div>
 ```
 
-### Yielding inside components
+## Yielding inside components
 
 Components can yield a block with access to scope, where a block is defined.
 This works the way *yield* usually works in Ruby.
@@ -438,11 +364,11 @@ Not a fancy example, but this is the result:
 </div>
 ```
 
-### Partials
+## Partials
 
 Use partials to keep the code dry and indentation layers manageable!
 
-#### Local partials on component level
+### Local partials on component level
 
 In the component definition, see how this time from inside the response, the
 `my_partial` method below is called:
@@ -489,7 +415,7 @@ a more exciting example of partial usage is waiting!
 </div>
 ```
 
-#### Modules: Partials on steriods!
+### Modules: Partials on steriods!
 
 Extract code snippets to modules for an even better project structure. First,
 create a module:
@@ -549,14 +475,14 @@ Try combining partials with options and slots (see below) for maximum readabilit
 dryness and fun!
 
 
-### Slots
+## Slots
 
 Similar to named slots in Vue.js, slots in Matestack allows us to inject whole
 UI snippets into the component. It's a more specific yielding mechanism as you will yield
 multiple "named" blocks into the component. Each of these blocks can be referenced
 and positioned independently in the component,
 
-#### Slots on the page instance scope
+### Slots on the page instance scope
 
 Define the slots within the component file as shown below. Please make sure to inject
 slots within a hash `slots: { ... }` into the component.
@@ -600,19 +526,19 @@ class ExamplePage < Matestack::Ui::Page
   end
 
   def my_simple_slot
-    slot {
+    slot do
       span id: "my_simple_slot" do
         plain "some content"
       end
-    }
+    end
   end
 
   def my_second_simple_slot
-    slot {
+    slot do
       span id: "my_simple_slot" do
         plain @foo
       end
-    }
+    end
   end
 
 end
@@ -635,7 +561,7 @@ configuration got overwritten by the page's local `@foo`!
 </div>
 ```
 
-#### Using slots of components within components
+### Using slots of components within components
 
 To use *component instance scope slots*, first define slots within a static component:
 
@@ -682,11 +608,11 @@ class Some::Component < Matestack::Ui::Component
   end
 
   def my_slot_from_component
-    slot {
+    slot do
       span id: "my-slot-from-component" do
         plain @foo
       end
-    }
+    end
   end
 
 end
@@ -709,11 +635,11 @@ class ExamplePage < Matestack::Ui::Page
   end
 
   def my_slot_from_page
-    slot {
+    slot do
       span id: "my-slot-from-page" do
         plain @foo
       end
-    }
+    end
   end
 
 end

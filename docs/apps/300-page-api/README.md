@@ -1,14 +1,10 @@
-# Page
+# Page API
 
 A page orchestrates components within its response method. A Rails controller
 action references a page (and its corresponding app) in its render call. Thus a
 matestack page substitutes a typical Rails view.
 
-A page is a special kind of `Matestack::Ui::VueJsComponent`. Matestack will
-therefore wrap the UI defined in the `response` method with some markup enabling
-dynamic UI behavior and CSS styling.
-
-## A Page orchestrates components
+## Use core components
 
 `app/matestack/example_app/pages/example_page.rb`
 
@@ -24,26 +20,27 @@ class ExampleApp::Pages < Matestack::Ui::Page
 end
 ```
 
-## A Page can be used as a controller action response
+## Use registered custom components
 
-`app/controllers/my_controller.rb`
+Imagine having created and registered a custom component `card`. Go ahead and use it on your page:
+
+`app/matestack/example_app/pages/example_page.rb`
 
 ```ruby
-class MyController < ApplicationController
+class ExampleApp::Pages < Matestack::Ui::Page
 
-  # if not already included
-  include Matestack::Ui::Core::ApplicationHelper
-
-  matestack_app ExampleApp
-
-  def my_action
-    render ExampleApp::Pages
+  def response
+    div do
+      # calling your registered card component without using matestack_component helper!
+      card title: "hello"
+    end
   end
 
 end
 ```
 
-## A Page can access request params
+
+## Access request params
 
 `visit "/my_action_path/?foo=bar"`
 
@@ -61,7 +58,9 @@ class ExampleApp::Pages < Matestack::Ui::Page
 end
 ```
 
-## A Page can resolve data in a prepare method, which runs before rendering
+## Prepare method
+
+The `prepare` method is called before rendering.
 
 `app/matestack/example_app/pages/example_page.rb`
 
@@ -80,7 +79,8 @@ class ExampleApp::Pages < Matestack::Ui::Page
 
 end
 ```
-## A Page can use classic ruby within component orchestration
+
+## Use pure Ruby on pages
 
 `app/matestack/example_app/pages/example_page.rb`
 
@@ -106,7 +106,7 @@ class ExampleApp::Pages < Matestack::Ui::Page
 end
 ```
 
-## A Page can use page methods within component orchestration
+## Use instance methods
 
 `app/matestack/example_app/pages/example_page.rb`
 
@@ -136,7 +136,7 @@ class ExampleApp::Pages < Matestack::Ui::Page
 end
 ```
 
-## A Page can structure the response using local partials
+## Use local partials
 
 `app/matestack/example_app/pages/example_page.rb`
 
@@ -201,7 +201,7 @@ renders to:
 
 </div>
 ```
-## A Page can structure the response using partials from included modules
+## Use partials from included modules
 
 `app/matestack/pages/my_shared_partials.rb`
 

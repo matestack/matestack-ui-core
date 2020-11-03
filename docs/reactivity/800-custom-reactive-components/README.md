@@ -1,4 +1,4 @@
-# Vue.js Component
+# Custom reactive components
 
 In order to equip a Ruby component with some JavaScript, we associate
 the Ruby component with a Vue.js JavaScript component. The Ruby component therefore needs to inherit
