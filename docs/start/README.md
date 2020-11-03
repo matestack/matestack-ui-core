@@ -14,14 +14,14 @@ The docs cover following main topics:
 
 Learn how to properly set up and update matestack-ui-core with your existing Rails application.
 
-## [UI components in pure Ruby](/docs/core/ui_components/)
+## [UI components in pure Ruby](/docs/core/ui_components/README.md)
 
 Craft your UI based on your components written in pure Ruby. Utilizing Ruby's amazing language features, you're able to create a cleaner and more maintainable UI implementation.
 
-## [Reactive components in pure Ruby](/docs/core/reactive_components/)
+## [Reactive components in pure Ruby](/docs/core/reactive_components/README.md)
 
 What about going even one step further and implement **REACTIVE** UIs in pure Ruby? Matestack's reactive core components can be used with a simple Ruby DSL enabling you to create reactive UIs without touching JavaScript!
 
-## [Reactive apps in pure Ruby](/docs/core/reactive_apps/)
+## [Reactive apps in pure Ruby](/docs/core/reactive_apps/README.md)
 
 The last step in order to leverage the full Matestack power: Create app (~Rails layout) and page (Rails ~view) classes and implement dynamic page transitions without any JavaScript implementation required.
