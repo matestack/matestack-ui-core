@@ -1,5 +1,5 @@
 [![Specs](https://github.com/matestack/matestack-ui-core/workflows/specs/badge.svg)](https://github.com/matestack/matestack-ui-core/actions)
-[![Discord](https://img.shields.io/discord/771413294136426496.svg)](https://discord.gg/c6tQxF)
+[![Discord](https://img.shields.io/discord/771413294136426496.svg)](https://discord.com/invite/c6tQxFG)
 [![Gem Version](https://badge.fury.io/rb/matestack-ui-core.svg)](https://badge.fury.io/rb/matestack-ui-core)
 [![Docs](https://img.shields.io/badge/docs-matestack-blue.svg)](https://docs.matestack.io)
 [![Twitter Follow](https://img.shields.io/twitter/follow/matestack.svg?style=social)](https://twitter.com/matestack)
@@ -35,7 +35,7 @@ Changelog can be found [here](./CHANGELOG.md)
 
 ## Community
 
-As a low-barrier feedback channel for our early users, we have set up a Discord server that can be found [here](https://discord.gg/c6tQxF). You are very welcome to ask questions and send us feedback there!
+As a low-barrier feedback channel for our early users, we have set up a Discord server that can be found [here](https://discord.com/invite/c6tQxFG). You are very welcome to ask questions and send us feedback there!
 
 ## Contribution
 
