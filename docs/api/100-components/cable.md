@@ -2,7 +2,7 @@
 
 The `cable` component enables us to update the DOM based on events and data pushed via ActionCable without a browser reload.
 
-Please read the [ActionCable Guide](/docs/guides/1000-action_cable/README.md) if you need help setting up ActionCable for your project, and make sure you have set up ActionCable correctly. The following code snippet is crucial to make the `cable` component work correctly:
+Please read the [ActionCable Guide](/docs/reactive_components/1000-action_cable/README.md) if you need help setting up ActionCable for your project, and make sure you have set up ActionCable correctly. The following code snippet is crucial to make the `cable` component work correctly:
 
 `app/javascript/channels/matestack_ui_core_channel.js`
 
