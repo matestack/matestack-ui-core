@@ -207,11 +207,6 @@ end
 Just like you used matestack's core components on your own UI component, you can use your own UI components within other custom UI components.
 You decide when using a Ruby method partial should be replaced by another self contained UI component!
 
-#### Yield components into components
-
-Sometimes it's not enough to just pass simple data into a component. No worries! You can just yield a block into your components!
-Using this approach gives you more flexibility when using your UI components. Ofcourse yielding can be used alongside passing in simple params.
-
 `app/matestack/components/card.rb`
 
 ```ruby
@@ -255,6 +250,7 @@ end
 
 ```
 
+
 `app/matestack/components/registry.rb`
 
 ```ruby
@@ -269,10 +265,11 @@ module Components::Registry
 end
 ```
 
-#### Use named slots for advanced content injection
+#### Yield components into components
 
-If you need to inject multiple blocks into your UI component, you can use \"slots\"!
-Slots help you to build complex UI components with multiple named content placeholders for highest implementation flexibility!
+Sometimes it's not enough to just pass simple data into a component. No worries! You can just yield a block into your components!
+Using this approach gives you more flexibility when using your UI components. Ofcourse yielding can be used alongside passing in simple params.
+
 
 `app/matestack/components/card.rb`
 
@@ -317,6 +314,67 @@ end
 
 ```
 
+#### Use named slots for advanced content injection
+
+If you need to inject multiple blocks into your UI component, you can use \"slots\"!
+Slots help you to build complex UI components with multiple named content placeholders for highest implementation flexibility!
+
+`app/matestack/components/card.rb`
+
+```ruby
+
+class Components::Card < Matestack::Ui::Component
+
+  requires :body
+  optional :title
+  optional :image
+
+  def response
+    div class: "card shadow-sm border-0 bg-light" do
+      img path: image, class: "w-100" if image.present?
+      card_body slots: { heading: heading_slot, body: body_slot }
+    end
+  end
+
+  def heading_slot
+    slot do
+      heading size: 5, text: title if title.present?
+    end
+  end
+  
+  def body_slot
+    slot do
+      paragraph class: "card-text", text: body
+    end
+  end
+
+end
+
+```
+`app/matestack/components/card_body.rb`
+
+```ruby
+
+class Components::CardBody < Matestack::Ui::Component
+
+  requires :slots
+
+  def response
+    # Just an example. Would make more sense, if this component had
+    # a more complex structure
+    div class: "card-body" do
+      div class: "heading-section" do
+        slot slots[:heading]
+      end
+      div class: "body-section" do
+        slot slots[:body]
+      end
+    end
+  end
+
+end
+
+```
 
 
 ### 2. Use reactive UI components in pure Ruby
