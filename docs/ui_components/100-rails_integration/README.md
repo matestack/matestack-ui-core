@@ -14,7 +14,7 @@ The easiest way to integrate Matestack is by creating custom components and usin
 
 This is a perfect place to start refactoring our application to use matestack. It's easy to start from the inside out, first replacing parts of your UI with components. As partials already are used to structure your UI in smaller reusable parts they are a perfect starting point. So let's refactor our product teaser into a custom component.
 
-After successfully following the [installation guide](/docs/start/000-installation/README.md) we can start. Remember to set the id "matestack-ui" in your corresponding layout.
+After successfully following the [installation guide](/docs/start/100-installation/README.md) we can start. Remember to set the id "matestack-ui" in your corresponding layout.
 
 Start by creating a file called `teaser.rb` in `app/matestack/components/products/teaser.rb`. Placement of this file is as you see similar to our partial. In this file we implement our component in pure ruby as follows:
 

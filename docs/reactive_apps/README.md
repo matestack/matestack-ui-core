@@ -59,7 +59,7 @@ Apps need to inherit from `Matestack::Ui::App` and implement a `response` method
 
 How the call of `heading text: "Matestack Shop"` works will be explained later in this guide.
 
-As you might have read in the [installation](/docs/start/000-installation/) guide you need to have a rails layout containing a html element with "matestack-ui" as class name. This is required because matestack uses Vue.js and we mount to this class name. Because we do not yet support writing "html, head, meta" and other tags that are used outside the body in matestack you need at least one layout file. But we recommend using one layout file for each app.
+As you might have read in the [installation](/docs/start/100-installation/) guide you need to have a rails layout containing a html element with "matestack-ui" as class name. This is required because matestack uses Vue.js and we mount to this class name. Because we do not yet support writing "html, head, meta" and other tags that are used outside the body in matestack you need at least one layout file. But we recommend using one layout file for each app.
 
 **Accessing data in apps**
 
