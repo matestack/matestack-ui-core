@@ -2,6 +2,50 @@
 
 Matestack apps and pages are connected to Rails through controllers and controller actions. HTTP requests are handled through classic Rails routing and responded through Rails controller actions. Just let the controller action render Matestack page instead of a Rails view at the end. Optionally you can use apps on controller or action level in order to wrap the page with a layout written in pure Ruby.
 
+## JavaScript Setup
+
+Matestack's JavaScript needs to be integrated into your Rails application in order to use the reactive, JavaScript driven features. You can use Webpacker (recommended) or Rails assets pipeline to do this.
+
+### Webpacker
+
+Add 'matestack-ui-core' to your `package.json` by running:
+
+```
+$ yarn add https://github.com/matestack/matestack-ui-core#v1.1.0
+$ yarn install
+```
+
+This adds the npm package that provides the JavaScript corresponding to the matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
+
+Next, import 'matestack-ui-core' in your `app/javascript/packs/application.js`
+
+```js
+import MatestackUiCore from 'matestack-ui-core'
+```
+
+and compile the JavaScript code with webpack:
+
+```
+$ bin/webpack --watch
+```
+
+**When you update the matestack-ui-core gem, make sure to update the npm package as well.**
+
+### Asset Pipeline
+
+If you are using the asset pipeline, you don't need to install the separate npm package. All required JavaScript libraries are provided by the matestack-ui-core gem.
+
+Require 'matestack-ui-core' in your `app/assets/javascript/application.js`
+
+```javascript
+//= require matestack-ui-core
+```
+
+### Turbolinks
+
+We recommend to (remove/deactivate)(https://stackoverflow.com/a/38649595) turbolinks, as there is no reason to use it alongside matestack-ui-core and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
+
+
 ## Rails layouts still required
 
 Even if a Matestack app defines the layout of the UI, you need a classic Rails layout in order to get things running:

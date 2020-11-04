@@ -28,13 +28,6 @@ end
 
 Such a component is defined within your application. We call them custom components. While implementing these, you use Matestack's core components in order to define your UI: Above we used methods like `heading`, `paragraph`, `img` and `div`. These are all what we call core components provided trough a core component registry which is automatically loaded. These core components representing the corresponding HTML tags. Calling `div` for example would result in `<div></div>`  after rendering. Matestack provides a always expanding wide set of w3c's specified HTML tags, enabling you to write UIs in pure Ruby. All available components are listed in our [components api](/docs/api/100-components/).
 
-## Accessing data in components
-
-In components you have access to your helpers and all Rails helpers. You don't have access to controller instance variables, because components should be reusable everywhere and therefore not depend on instance variables set in controller actions.
-
-To access data inside components we can define required and/or optional properties which are passed to the component via hash and used with getter methods in the component. Our `card` for example requires a body in order to show a minimal Bootstrap card.
-
-
 ## Component registry
 
 In order to use your custom component we need to register the component. We therefore need to create a component registry. We could place it anywhere we want, but we recommend placing it inside the components folder. It is possible to have multiple component registries, for example to keep shop components seperated from management components. Create a file called `registry.rb` in `app/matestack/components/`.
@@ -93,3 +86,9 @@ class Components::Products::Detail < Matestack::Ui::Component
 end
 
 ```
+
+## Accessing data in components
+
+In components you have access to your helpers and all Rails helpers. You don't have access to controller instance variables, because components should be reusable everywhere and therefore not depend on instance variables set in controller actions.
+
+To access data inside components we can define required and/or optional properties which are passed to the component via hash and used with getter methods in the component. Our `card` for example requires a body in order to show a minimal Bootstrap card.

@@ -1,8 +1,10 @@
 # Rails integration
 
+## JavaScript Setup
+
 Matestack's JavaScript needs to be integrated into your Rails application in order to use the reactive, JavaScript driven features. You can use Webpacker (recommended) or Rails assets pipeline to do this.
 
-## Webpacker
+### Webpacker
 
 Add 'matestack-ui-core' to your `package.json` by running:
 
@@ -27,7 +29,7 @@ $ bin/webpack --watch
 
 **When you update the matestack-ui-core gem, make sure to update the npm package as well.**
 
-## Asset Pipeline
+### Asset Pipeline
 
 If you are using the asset pipeline, you don't need to install the separate npm package. All required JavaScript libraries are provided by the matestack-ui-core gem.
 
@@ -37,7 +39,7 @@ Require 'matestack-ui-core' in your `app/assets/javascript/application.js`
 //= require matestack-ui-core
 ```
 
-## Turbolinks
+### Turbolinks
 
 We recommend to (remove/deactivate)(https://stackoverflow.com/a/38649595) turbolinks, as there is no reason to use it alongside matestack-ui-core and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
 
