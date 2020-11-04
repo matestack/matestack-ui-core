@@ -25,7 +25,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   def response
     async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
-        @collection.paginated_data.each do |product|
+        @collection.data.each do |product|
           paragraph text: product.name
         end
       end
@@ -61,12 +61,14 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   def response
     async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
+        # now we use paginated_data!
         @collection.paginated_data.each do |product|
           paragraph text: product.name
         end
       end
+      # pagination has to be placed within the wrapping async!
+      pagination
     end
-    pagination
   end
 
   def pagination
@@ -120,12 +122,15 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
     filter
     async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
+        # here we use paginated_data!
         @collection.paginated_data.each do |product|
           paragraph text: product.name
         end
       end
+      # pagination has to be placed within the wrapping async!
+      pagination
     end
-    pagination
+    
   end
 
   def filter
@@ -190,12 +195,14 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
     order
     async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
       collection_content @collection.config do
+        # here we use paginated_data!
         @collection.paginated_data.each do |product|
           paragraph text: product.name
         end
       end
+      # pagination has to be placed within the wrapping async!
+      pagination
     end
-    pagination
   end
 
   def order
