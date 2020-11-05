@@ -2,7 +2,7 @@
 
 This guide shows you how to add matestack-ui-core to an existing rails application.
 
-If you want to use Matestack's optional reactivity features, please follow this [guide](/docs/reactive_components/100-rails-integration/) after performed the following steps for basic installation:
+If you want to use Matestack's optional reactivity features, please follow this [guide](/docs/reactive_components/100-rails_integration/) after performed the following steps for basic installation:
 
 ## Installation
 
