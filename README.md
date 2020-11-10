@@ -39,12 +39,13 @@ As a low-barrier feedback channel for our early users, we have set up a Discord 
 
 ## Contribution
 
-We are happy to accept contributors of any kind. Please refer to the [Contribution Guide](https://docs.matestack.io/docs/start/400-contribute/README.md)
+We are happy to accept contributors of any kind! In order to make it as easy and fun as possible to contribute to `matestack-ui-core`, we would like to onboard contributors personally! Best way to become a contributor: Ping us on Discord! We will schedule a video call with you and show you, how and what to work on :)
+
+Here are some good first issues for first time contributors: [good first issues](https://github.com/matestack/matestack-ui-core/issues?q=is%3Aopen+is%3Aissue+label%3A"good+first+issue")
 
 ## Features
 
 On our [landingpage](https://www.matestack.io), we're presenting the following features alongside some live demos!
-
 
 ### 1. Create UI components in pure Ruby
 
