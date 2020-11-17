@@ -80,8 +80,8 @@ class Profile::Pages::Sessions::SignIn < Matestack::Ui::Page
         button text: 'Sign in'
       end
     end
-    toggl show_on: 'sign_in_failure' do
-      'Your email or password is not valid.'
+    toggle show_on: 'sign_in_failure' do
+      plain 'Your email or password is not valid.'
     end
   end
 
@@ -129,7 +129,7 @@ Override the `new` action in order to render our sign in page and set the correc
 `app/controllers/users/sessions_controller.rb`
 
 ```ruby
-class Users::SessionController < Devise::SessionController
+class Users::SessionsController < Devise::SessionsController
   # include your component registry in order to use custom components
   include Components::Registry
 
