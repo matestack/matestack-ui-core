@@ -88,16 +88,18 @@ class Profile::Pages::Sessions::SignIn < Matestack::Ui::Page
   private
 
   def form_config
-    for: :user,
-    method: :post,
-    path: user_session_path,
-    success: {
-      transition: {
-        follow_response: true
+    {
+      for: :user,
+      method: :post,
+      path: user_session_path,
+      success: {
+        transition: {
+          follow_response: true
+        }
+      },
+      failure: {
+        emit: 'sign_in_failure'
       }
-    },
-    failure: {
-      emit: 'sign_in_failure'
     }
   end
 
