@@ -245,7 +245,7 @@ module Matestack::Ui::Core::Component
 
       # check only allowed keys are passed to isolated components
       if child_class < Matestack::Ui::Core::Isolated::Isolated
-        unless args.empty? || args[0].keys.all? { |key| [:defer, :public_options, :rerender_on, :init_on, :rerender_delay, :matestack_context].include? key }
+        unless args.empty? || args[0].keys.all? { |key| [:defer, :public_options, :rerender_on, :init_on, :rerender_delay, :matestack_context, :context].include? key }
           raise "isolated components can only take params in a public_options hash, which will be exposed to the client side in order to perform an async request with these params."
         end
         if args.any? { |arg| arg[:init_on].present? } && @matestack_skip_defer == true

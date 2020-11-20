@@ -102,8 +102,8 @@ module Matestack
           controller = (self.class <= ActionController::Base) ? self : @_controller
           context = (options[:matestack_context] ||= {}).merge(controller: controller)
           Matestack::Ui::Core::Component::Base
-            .new(options.merge(matestack_context: context))
-            .send(component, options.merge(matestack_context: context), &block).to_s
+            .new(options.merge(context: context, matestack_context: context))
+            .send(component, options.merge(context: context, matestack_context: context), &block).to_s
         end
       end
     end

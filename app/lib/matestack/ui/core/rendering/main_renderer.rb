@@ -61,11 +61,14 @@ module Matestack::Ui::Core::Rendering::MainRenderer
     end
   end
 
+  # needs refactoring!
+  # we shouldn't pass in the parts of the controller_instance and the instance itself
   def create_context_hash(controller_instance)
     {
       view_context: controller_instance.view_context,
       params: controller_instance.params,
-      request: controller_instance.request
+      request: controller_instance.request,
+      controller: controller_instance # if this is not included here, rails route helpers will fail with undefined method `url_options' for nil:NilClass in some cases
     }
   end
 

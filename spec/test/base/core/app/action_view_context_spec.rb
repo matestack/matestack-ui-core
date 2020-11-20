@@ -27,6 +27,7 @@ describe "App", type: :feature, js: true do
         end
         plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here
         plain time_ago_in_words(3.minutes.from_now) # calling an ActionView Date Helper here
+        plain "root_path: #{root_path}" # calling a Path Helper here
         main do
           page_content
         end
@@ -55,6 +56,7 @@ describe "App", type: :feature, js: true do
     expect(page).to have_content("Test Link")
     expect(page).to have_content("has access to ActionView Context")
     expect(page).to have_content("3 minutes")
+    expect(page).to have_content("root_path: /")
   end
 
 end
