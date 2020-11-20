@@ -13,6 +13,7 @@ module Components::Registry
     legacy_views_pages_form: Components::LegacyViews::Pages::Form,
     legacy_views_pages_onclick: Components::LegacyViews::Pages::Onclick,
     legacy_views_pages_isolated: Components::LegacyViews::Pages::Isolated,
+    legacy_views_pages_viewcontext: Components::LegacyViews::Pages::Viewcontext,
   )
 
 end

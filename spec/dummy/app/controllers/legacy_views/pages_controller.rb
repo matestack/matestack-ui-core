@@ -6,14 +6,14 @@ class LegacyViews::PagesController < ApplicationController
 
   def action_inline
   end
-  
+
   def action_custom_component
     @title = 'Test Title'
   end
-  
+
   def async_custom_component
   end
-  
+
   def async_inline
   end
 
@@ -43,6 +43,9 @@ class LegacyViews::PagesController < ApplicationController
   end
 
   def onclick_custom_component
+  end
+
+  def viewcontext_custom_component
   end
 
   def isolated_custom_component
