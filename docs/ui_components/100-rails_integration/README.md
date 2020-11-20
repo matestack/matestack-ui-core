@@ -14,13 +14,12 @@ The easiest way to integrate Matestack is by creating custom components and usin
 
 This is a perfect place to start refactoring our application to use matestack. It's easy to start from the inside out, first replacing parts of your UI with components. As partials already are used to structure your UI in smaller reusable parts they are a perfect starting point. So let's refactor our product teaser into a custom component.
 
-After successfully following the [installation guide](/docs/start/100-installation/README.md) we can start. Remember to set the id "matestack-ui" in your corresponding layout.
+After successfully following the [installation guide](/docs/start/100-installation/README.md) we can start.
 
 Start by creating a file called `teaser.rb` in `app/matestack/components/products/teaser.rb`. Placement of this file is as you see similar to our partial. In this file we implement our component in pure ruby as follows:
 
 ```ruby
 class Components::Products::Teaser < Matestack::Ui::Component
-  include ::Rails.application.routes.url_helpers
 
   requires :product
 
@@ -37,7 +36,7 @@ class Components::Products::Teaser < Matestack::Ui::Component
 end
 ```
 
-We inherit from `Matestack::Ui::Component` to create our teaser component. As it should display product informations it requires a product. We can access this product through a getter method `product`. To access Rails url helpers we have to include `Rails.application.routes.url_helpers` as components usually get access to them through the pages but we render our component outside a Matestack page. Now we have now a teaser component, but in order to use it we have to register it and include our registration in our `ApplicationController`.
+We inherit from `Matestack::Ui::Component` to create our teaser component. As it should display product informations it requires a product. We can access this product through a getter method `product`. Now we have now a teaser component, but in order to use it we have to register it and include our registration in our `ApplicationController`.
 
 Let's register our component by creating a component registry in `app/matestack/components/registry.rb`.
 

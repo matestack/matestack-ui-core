@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0 Release
+
+### Improvements
+
+* Enable usage of Rails view/route helpers on standalone components used via matestack_component helper #476
+
 ## v1.1.0 Release
 
 ### Improvements

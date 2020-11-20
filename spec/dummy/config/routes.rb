@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   mount Matestack::Ui::Core::Engine, at: '/matestack'
 
+  root to: 'my_app#my_first_page'
+
   scope :components_tests do
     get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"
     get "custom_components_test", to: 'components_tests#custom_components_test'
@@ -55,6 +57,7 @@ Rails.application.routes.draw do
     get 'form_custom_component', to: 'pages#form_custom_component'
     get 'onclick_custom_component', to: 'pages#onclick_custom_component'
     get 'isolated_custom_component', to: 'pages#isolated_custom_component'
+    get 'viewcontext_custom_component', to: 'pages#viewcontext_custom_component'
     post 'success', to: 'pages#success'
     post 'failure', to: 'pages#failure'
     post 'create', to: 'pages#create'
