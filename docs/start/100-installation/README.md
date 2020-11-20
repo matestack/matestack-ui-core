@@ -9,7 +9,7 @@ If you want to use Matestack's optional reactivity features, please follow this 
 Add 'matestack-ui-core' to your Gemfile
 
 ```ruby
-gem 'matestack-ui-core', '~> 1.1'
+gem 'matestack-ui-core', '~> 1.2'
 ```
 
 and run
