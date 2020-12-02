@@ -96,8 +96,8 @@ Rails.application.config.assets.paths << Rails.root.join('app/matestack/componen
 
 For **Webpacker** it would look like this:
 
-`app/javascript/packs/application.js`:
 ```js
+// app/javascript/packs/application.js 
 import MatestackUiCore from 'matestack-ui-core'
 import '../../../app/matestack/components/some_component'
 ```
