@@ -1,8 +1,6 @@
 # Installation guide
 
-This guide shows you how to add matestack-ui-core to an existing rails application.
-
-If you want to use Matestack's optional reactivity features, please follow this [guide](/docs/reactive_components/100-rails_integration/) after performed the following steps for basic installation:
+This guide shows you how to add the `matestack-ui-core` gem to an existing Rails application.
 
 ## Installation
 
@@ -20,12 +18,16 @@ $ bundle install
 
 ### Matestack folder
 
-Create a folder called 'matestack' in your app directory. All your matestack apps,
+Create a folder called 'matestack' in your app directory. All your Matestack apps,
 pages and components will be defined there.
+
+```shell
+$ mkdir app/matestack
+```
 
 ### Controller setup
 
-Add the matestack helper to your controllers. If you want to make the helpers
+Add the Matestack helper to your controllers. If you want to make the helpers
 available in all controllers, add it to your 'ApplicationController' this way:
 
 `app/controllers/application_controller.rb`
@@ -36,3 +38,9 @@ class ApplicationController < ActionController::Base
   #...
 end
 ```
+
+### Conclusion
+
+Now, you are both able to use the static Matestack core components in your canonical Rails views as well as creating static Matestack apps and pages.
+
+If you want to use Matestack's optional reactivity features, please follow this [guide](/docs/reactive_components/100-rails_integration/) to set up the JavaScript parts via the AssetPipeline or Webpacker.
