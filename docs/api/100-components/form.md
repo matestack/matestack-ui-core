@@ -1224,6 +1224,7 @@ In the example shown above, the `success` `transition` is statically defined. So
 Imagine creating a new Active Record instance with a `form`. If you want to show the fresh instance on another page and therefore want to define a `transition` after successful form submission, you would need to know the ID of the fresh instance! That is not possible, as the ID is auto-generated and depends on the current environment/state. Therefore you can tell the `form` component to follow a transition, which the server action defines after creating the new instance (and now knowing the ID):
 
 On the `page`:
+
 ```ruby
 #...
 
@@ -1241,6 +1242,7 @@ def form_config
   }
 end
 ```
+
 On the `controller` `action`:
 
 ```ruby
