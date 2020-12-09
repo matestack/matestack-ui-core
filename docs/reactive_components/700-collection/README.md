@@ -23,7 +23,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   end
 
   def response
-    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-update" do
       collection_content @collection.config do
         @collection.data.each do |product|
           paragraph text: product.name
@@ -59,7 +59,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
   end
 
   def response
-    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-update" do
       collection_content @collection.config do
         # now we use paginated_data!
         @collection.paginated_data.each do |product|
@@ -120,7 +120,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
 
   def response
     filter
-    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-update" do
       collection_content @collection.config do
         # here we use paginated_data!
         @collection.paginated_data.each do |product|
@@ -193,7 +193,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
 
   def response
     order
-    async id: 'product-collection', rerender_on: "#{@collection_id}-udpate" do
+    async id: 'product-collection', rerender_on: "#{@collection_id}-update" do
       collection_content @collection.config do
         # here we use paginated_data!
         @collection.paginated_data.each do |product|
