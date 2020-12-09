@@ -294,7 +294,7 @@ Core developers only:
 
 #### 4.2 Dynamic (Vue.js) custom component naming
 
-Formerly, custom components behaved differently than core components. `Components::Some::Component` was translated to a Vue.js componente named `custom-some-component`, in order to match their (now changed) dsl method name `custom_some_component`
+Formerly, custom components behaved differently than core components. `Components::Some::Component` was translated to a Vue.js component named `custom-some-component`, in order to match their (now changed) dsl method name `custom_some_component`
 
 This behavior changes in `1.0.0`:
 
@@ -349,7 +349,7 @@ Please note that the `components` block is still supported, but will be removed 
 
 **Migration Todos:**
 
-- [ ] To be on the safe side, remove all the `components {}` wrapping blocks in your apps&pages
+- [ ] To be on the safe side, remove all the `components {}` wrapping blocks in your apps and pages
 
 
 #### 6. Partials are now normal method calls and don't need a block
@@ -418,7 +418,7 @@ We changed the naming to be more expressive and in order to align with the exist
 
 **Migration Todos:**
 
-- [ ] On an app layout, you should now use `yield_page` instead of `page_comtent`
+- [ ] On an app layout, you should now use `yield_page` instead of `page_component`
 
 #### 9. Wrapping DOM structure of pages has changed
 
@@ -482,7 +482,7 @@ which will render:
       </span>
     </div>
     <div class="matestack-page-wrapper">
-      <div><!--this div is necessary for conditonal switch to async template via v-if -->
+      <div><!--this div is necessary for conditional switch to async template via v-if -->
         <div class="matestack-page-root">
           your page markup
         </div>
@@ -503,7 +503,7 @@ and during async page request triggered via transition:
       </span>
     </div>
     <div class="matestack-page-wrapper loading">
-      <div><!--this div is necessary for conditonal switch to async template via v-if -->
+      <div><!--this div is necessary for conditional switch to async template via v-if -->
         <div class="matestack-page-root">
           your page markup
         </div>
@@ -527,7 +527,7 @@ end
 
 **Migration Todos:**
 
-- [ ] Please add an unique ID to each `async` component usage, even if matestack is currntly autogeneratin an ID if not applied. This will be removed in future releases
+- [ ] Please add an unique ID to each `async` component usage, even if matestack is currently auto-generating an ID if not applied. This will be removed in future releases
 
 #### 12. New `toggle` component is replacing `async` shown_on, hide_on, hide_after...
 
@@ -830,10 +830,10 @@ The Absolute Component has been removed and can no longer be used.
 XSS/Script injection vulnerablilty fixed in 0.7.4
 
 * matestack-ui-core was vulnerable to XSS/Script injection
-* matestack-ui-core did not excape strings by default and did not cover this in the docs
+* matestack-ui-core did not escape strings by default and did not cover this in the docs
 * matestack-ui-core should have escaped strings by default in order to prevent XSS/Script injection vulnerability
 * 0.7.4 fixes that by performing string escaping by default now
-* a new component `unescaped` (like `plain` before) allows to render unsecaped strings, but forces the developer to explicitly make a concious decision about that
+* a new component `unescaped` (like `plain` before) allows to render unescaped strings, but forces the developer to explicitly make a concious decision about that
 
 ```ruby
 class Pages::MyApp::MyExamplePage < Matestack::Ui::Page
