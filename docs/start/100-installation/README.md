@@ -41,6 +41,6 @@ end
 
 ### Conclusion
 
-Now, you are both able to use the static Matestack core components in your canonical Rails views as well as creating static Matestack apps and pages.
+Now, you are able to create UI components in pure Ruby and use them in your Rails views. Additionally you can substitute Rails views and layouts with Matestack pages and apps.
 
-If you want to use Matestack's optional reactivity features, please follow this [guide](/docs/reactive_components/100-rails_integration/) to set up the JavaScript parts via the AssetPipeline or Webpacker.
+If you want to use Matestack's optional reactivity features in pure Ruby (through dynamic Vue.js components such as `form` and `async` or dynamic page transitions), please follow this [guide](/docs/reactive_components/100-rails_integration/) to set up the JavaScript parts via AssetPipeline or Webpacker.
