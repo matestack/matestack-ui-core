@@ -65,9 +65,9 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
         @collection.paginated_data.each do |product|
           paragraph text: product.name
         end
+        # pagination has to be placed within the collection_content!
+        pagination
       end
-      # pagination has to be placed within the wrapping async!
-      pagination
     end
   end
 
@@ -126,9 +126,9 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
         @collection.paginated_data.each do |product|
           paragraph text: product.name
         end
+        # pagination has to be placed within the collection_content!
+        pagination
       end
-      # pagination has to be placed within the wrapping async!
-      pagination
     end
     
   end
@@ -199,9 +199,9 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
         @collection.paginated_data.each do |product|
           paragraph text: product.name
         end
+        # pagination has to be placed within the collection_content!
+        pagination
       end
-      # pagination has to be placed within the wrapping async!
-      pagination
     end
   end
 
