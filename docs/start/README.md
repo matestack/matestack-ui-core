@@ -28,4 +28,4 @@ What about going even one step further and implement **REACTIVE** UIs in pure Ru
 
 The last step in order to leverage the full Matestack power: Create app (~Rails layout) and page (Rails ~view) classes and implement dynamic page transitions without any JavaScript implementation required.
 
-In order to get started quickly, you might want to start with the [getting-started-guide](/docs/start/150-getting-started)
+In order to get started quickly, you might want to start with the [getting-started-guide](/docs/start/150-getting_started)
