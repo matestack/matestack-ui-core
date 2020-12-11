@@ -96,6 +96,7 @@ On `app/views/layouts/application.html.erb` do:
 - [x] Add the `matestack-ui` ID to a DOM element within (not on!) the `body` tag
 
 `app/views/layouts/application.html.erb`
+
 ```erb
 <!DOCTYPE html>
 <html>
