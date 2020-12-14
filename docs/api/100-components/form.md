@@ -860,9 +860,9 @@ def form_config
     #[...]
     errors: {
       wrapper: { tag: :div, class: 'my-errors' },
-      input: { class: 'my-error' },
       tag: :div,
-      class: 'my-field-error'
+      class: 'my-error',
+      input: { class: 'my-field-error' }
     }
   }
 ```
