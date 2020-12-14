@@ -29,6 +29,10 @@ dynamic Web-App.
 
 Documentation can be found [here](https://docs.matestack.io)
 
+## Getting started
+
+A getting started guide can be found [here](https://docs.matestack.io/docs/start/150-getting_started)
+
 ## Changelog
 
 Changelog can be found [here](./CHANGELOG.md)
@@ -342,7 +346,7 @@ class Components::Card < Matestack::Ui::Component
       heading size: 5, text: title if title.present?
     end
   end
-  
+
   def body_slot
     slot do
       paragraph class: "card-text", text: body
