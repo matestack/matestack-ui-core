@@ -26,7 +26,13 @@ module Matestack::Ui::Core::Form::Checkbox
         # checked/unchecked checkbox
       else
         form_input type: :hidden, key: key, value: (false_value || 0), errors: false
-        form_input type: :checkbox, key: key, value: checked_value, id: id_for_item(value), errors: false
+        form_input html_attributes.merge(
+          type: :checkbox, 
+          key: key, 
+          value: checked_value, 
+          id: id_for_item(value), 
+          errors: false
+        )
         label text: input_label, for: id_for_item(value)
       end
       render_errors

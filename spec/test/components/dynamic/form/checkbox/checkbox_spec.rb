@@ -172,7 +172,7 @@ describe "Form Component", type: :feature, js: true do
 
         def response
           form form_config, :include do
-            form_checkbox id: "my-array-test-checkbox", key: :status, label: 'Status'
+            form_checkbox id: "my-array-test-checkbox", key: :status, label: 'Status', class: 'test'
             form_submit do
               button text: "Submit me!"
             end
@@ -196,6 +196,7 @@ describe "Form Component", type: :feature, js: true do
 
       visit "/example"
       expect(page).to have_field('Status', checked: false)
+      expect(page).to have_css('input.test')
 
       check 'Status'
       click_button "Submit me!"
