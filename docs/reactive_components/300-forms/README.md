@@ -123,6 +123,7 @@ def form_config
       wrapper: { tag: :div, class: 'invalid-feedback' },
       input: { class: 'is-invalid' }
     }
+  }
 end
 ```
 
@@ -168,6 +169,7 @@ def form_config
     failure: {
       emit: "failed"
     }
+  }
 end
 ```
 
