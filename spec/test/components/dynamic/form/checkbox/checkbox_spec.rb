@@ -20,12 +20,12 @@ describe "Form Component", type: :feature, js: true do
       end
       Rails.application.reload_routes!
     end
-  
+
     after :all do
       Object.send(:remove_const, :TestModel)
       load "#{Rails.root}/app/models/test_model.rb"
     end
-  
+
     before :each do
       allow_any_instance_of(FormTestController).to receive(:expect_params)
     end
@@ -62,6 +62,38 @@ describe "Form Component", type: :feature, js: true do
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(my_object: { array_input: ["Array Option 2"], hash_input: ["1", "2"] }))
       click_button "Submit me!"
+    end
+
+    it "renders auto generated IDs based on user specified ID and optional user specified class per checkbox" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+            form form_config, :include do
+              form_checkbox id: "foo", key: :foo, options: [1, 2]
+              form_checkbox id: "bar", key: :bar, options: [1, 2], class: "some-class"
+              form_submit do
+                button text: "Submit me!"
+              end
+            end
+        end
+
+        def form_config
+          {
+            for: :my_object,
+            method: :post,
+            path: :checkbox_success_form_test_path,
+            params: {
+              id: 42
+            }
+          }
+        end
+      end
+
+      visit "/example"
+
+      expect(page).to have_selector('#foo_1')
+      expect(page).to have_selector('#foo_2')
+      expect(page).to have_selector('.some-class#bar_1')
+      expect(page).to have_selector('.some-class#bar_2')
     end
 
     it "can be initialized by (multiple) item(s)" do

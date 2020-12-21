@@ -6,13 +6,13 @@ include Utils
 
 describe "Form Component", type: :feature, js: true do
 
-  
+
   before :all do
     Rails.application.routes.append do
-      scope "form_text_input_spec" do
-        post '/input_success_form_test', to: 'form_test#success_submit', as: 'input_success_form_test'
-        post '/input_failure_form_test/:id', to: 'form_test#failure_submit', as: 'input_failure_form_test'
-        post '/input_model_form_test', to: 'model_form_test#model_submit', as: 'input_model_form_test'
+      scope "form_custom_input_spec" do
+        post '/input_success_form_test', to: 'form_test#success_submit', as: 'custom_input_success_form_test'
+        post '/input_failure_form_test/:id', to: 'form_test#failure_submit', as: 'custom_input_failure_form_test'
+        post '/input_model_form_test', to: 'model_form_test#model_submit', as: 'custom_input_model_form_test'
       end
     end
     Rails.application.reload_routes!
@@ -20,26 +20,67 @@ describe "Form Component", type: :feature, js: true do
 
   before :each do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
+
+    class Components::CustomFormInputTest < Matestack::Ui::Core::Form::Input::Base
+
+      vue_js_component_name "custom-form-input-test"
+
+      def response
+        div class: "custom-input-markup" do
+          label text: "my form input"
+          input input_attributes
+          button attributes: {"@click": "changeValueViaJs(42)"}, text: "change value"
+          render_errors
+        end
+      end
+
+      register_self_as(:custom_form_input_test)
+    end
   end
 
-  describe "text input" do
+  describe "custom input components" do
 
-    it "can be submitted dynamically without page reload" do
-      class SomeComponent < Matestack::Ui::Component
-        def response
-          form_input key: :bar, type: :text, id: "my-other-test-input"
-        end
-
-        register_self_as(:some_component)
-      end
+    it "can be used for individual input markup rendering and data processing via custom JS/3rd party JS" do
 
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config do
-            div do
-              some_partial
+            custom_form_input_test key: :bar, type: :text, id: "bar"
+            form_submit do
+              button text: 'Submit me!'
             end
-            some_component
+          end
+        end
+
+        def form_config
+          return {
+            for: :my_object,
+            method: :post,
+            path: custom_input_success_form_test_path
+          }
+        end
+      end
+
+      visit '/example'
+
+      expect(page).to have_xpath('//div[@class="custom-input-markup"]/input[@id="bar" and @class="js-added-class"]')
+
+      click_button "change value"
+
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(my_object: { bar: 42 }))
+
+      click_button "Submit me!"
+
+    end
+
+    it "can be used within core form along other core inputs" do
+
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          form form_config do
+            form_input key: :foo, type: :text, id: "foo"
+            custom_form_input_test key: :bar, type: :text, id: "bar"
             form_submit do
               button text: 'Submit me!'
             end
@@ -49,43 +90,38 @@ describe "Form Component", type: :feature, js: true do
           end
         end
 
-        def some_partial
-          form_input key: :foo, type: :text, id: "my-test-input"
-        end
-
         def form_config
           return {
             for: :my_object,
             method: :post,
-            path: "form_text_input_spec/input_success_form_test",
-            emit: "form_submitted"
+            path: custom_input_success_form_test_path,
+            success: { emit: "form_submitted" }
           }
         end
       end
 
       visit '/example'
-      fill_in "my-test-input", with: "bar"
+
+      fill_in "foo", with: "foo"
+      fill_in "bar", with: "bar"
       expect_any_instance_of(FormTestController).to receive(:expect_params)
-        .with(hash_including(my_object: { bar: nil, foo: "bar" }))
+        .with(hash_including(my_object: { bar: "bar", foo: "foo" }))
 
       click_button "Submit me!"
       expect(page).to have_content("form submitted!")
     end
 
-  end
 
-  describe 'input' do
+    it "supports 'text', 'password', 'number', 'email', 'textarea', 'range' type as the core input does" do
 
-    it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea', 'range' type" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
-            form_input id: "text-input",      key: :text_input, type: :text
-            form_input id: "email-input",     key: :email_input, type: :email
-            form_input id: "password-input",  key: :password_input, type: :password
-            form_input id: "number-input",    key: :number_input, type: :number
-            # form_input id: "textarea-input",  key: :textarea_input, type: :textarea # TODO textarea will be moved
-            form_input id: "range-input",     key: :range_input, type: :range
+          form form_config do
+            custom_form_input_test id: "text-input",      key: :text_input, type: :text
+            custom_form_input_test id: "email-input",     key: :email_input, type: :email
+            custom_form_input_test id: "password-input",  key: :password_input, type: :password
+            custom_form_input_test id: "number-input",    key: :number_input, type: :number
+            custom_form_input_test id: "range-input",     key: :range_input, type: :range
             form_submit do
               button text: "Submit me!"
             end
@@ -96,10 +132,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :input_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: custom_input_success_form_test_path
           }
         end
       end
@@ -109,7 +142,6 @@ describe "Form Component", type: :feature, js: true do
       fill_in "email-input", with: "name@example.com"
       fill_in "password-input", with: "secret"
       fill_in "number-input", with: 123
-      # fill_in "textarea-input", with: "Hello \n World!"
       fill_in "range-input", with: 10
       expect_any_instance_of(FormTestController).to receive(:expect_params).with(hash_including(
         my_object: {
@@ -117,7 +149,6 @@ describe "Form Component", type: :feature, js: true do
           email_input: "name@example.com",
           password_input: "secret",
           number_input: 123,
-          # textarea_input: "Hello \n World!",
           range_input: "10"
         }
       ))
@@ -125,24 +156,22 @@ describe "Form Component", type: :feature, js: true do
     end
 
     it "can be initialized with value" do
+
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
-            form_input id: "text-input", key: :text_input, type: :text, init: "some value"
+          form form_config do
+            custom_form_input_test id: "text-input", key: :text_input, type: :text, init: "some value"
             form_submit do
               button text: "Submit me!"
             end
           end
         end
-  
+
         def form_config
           {
             for: :my_object,
             method: :post,
-            path: :input_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: custom_input_success_form_test_path
           }
         end
       end
@@ -151,84 +180,77 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field("text-input", with: "some value")
     end
 
-    it "can be prefilled with a placeholder" do
-      class ExamplePage < Matestack::Ui::Page
-        def response
-            form form_config, :include do
-              form_input id: "text-input", key: :text_input, type: :text, placeholder: "some placeholder"
-              form_submit do
-                button text: "Submit me!"
-              end
-            end
-        end
-  
-        def form_config
-          {
-            for: :my_object,
-            method: :post,
-            path: :input_success_form_test_path,
-            params: {
-              id: 42
-            }
-          }
-        end
-      end
-  
-      visit "/example"
-      expect(page).to have_field("text-input", with: "")
-      expect(page).to have_field("text-input", placeholder: "some placeholder")
-    end
+    it "can extend initialization via custom JS (trigger 3rd party libraries for example)" do
 
-    it "can get a label" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config, :include do
-              form_input id: "text-input", key: :text_input, type: :text, label: "some label"
-              form_submit do
-                button text: "Submit me!"
-              end
-            end
-        end
-  
-        def form_config
-          {
-            for: :my_object,
-            method: :post,
-            path: :input_success_form_test_path,
-            params: {
-              id: 42
-            }
-          }
-        end
-      end
-  
-      visit "/example"
-      expect(page).to have_xpath('//label[contains(.,"some label")]')
-    end
-
-    it "can display server errors async" do
-      class ExamplePage < Matestack::Ui::Page
-        def response
-          form form_config, :include do
-            form_input id: "text-input", key: :foo, type: :text
+          form form_config do
+            custom_form_input_test id: "text-input", key: :text_input, type: :text, init: "change me via JS"
             form_submit do
               button text: "Submit me!"
             end
           end
         end
-  
+
         def form_config
           {
             for: :my_object,
             method: :post,
-            path: :input_failure_form_test_path,
-            params: {
-              id: 42
-            }
+            path: custom_input_success_form_test_path
           }
         end
       end
-  
+
+      visit "/example"
+      expect(page).to have_field("text-input", with: "done")
+    end
+
+    it "can be prefilled with a placeholder" do
+
+      class ExamplePage < Matestack::Ui::Page
+        def response
+            form form_config do
+              custom_form_input_test id: "text-input", key: :text_input, type: :text, placeholder: "some placeholder"
+              form_submit do
+                button text: "Submit me!"
+              end
+            end
+        end
+
+        def form_config
+          {
+            for: :my_object,
+            method: :post,
+            path: custom_input_success_form_test_path,
+          }
+        end
+      end
+
+      visit "/example"
+      expect(page).to have_field("text-input", with: "")
+      expect(page).to have_field("text-input", placeholder: "some placeholder")
+    end
+
+    it "can display server errors async" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          form form_config do
+            custom_form_input_test id: "text-input", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        end
+
+        def form_config
+          {
+            for: :my_object,
+            method: :post,
+            path: custom_input_failure_form_test_path(id: 42)
+          }
+        end
+      end
+
       visit "/example"
       fill_in "text-input", with: "text"
       click_button "Submit me!"
@@ -237,42 +259,42 @@ describe "Form Component", type: :feature, js: true do
 
     it "can be mapped to an Active Record Model" do
       Object.send(:remove_const, :TestModel)
-  
+
       class TestModel < ApplicationRecord
         validates :description, presence:true
       end
-  
+
       class ExamplePage < Matestack::Ui::Page
         def prepare
           @test_model = TestModel.new
           @test_model.title = "Title"
         end
-  
+
         def response
-          form form_config, :include do
-            form_input id: "title", key: :title, type: :text
-            form_input id: "description", key: :description, type: :text
+          form form_config do
+            custom_form_input_test id: "title", key: :title, type: :text
+            custom_form_input_test id: "description", key: :description, type: :text
             form_submit do
               button text: "Submit me!"
             end
           end
         end
-  
+
         def form_config
           return {
             for: @test_model,
             method: :post,
-            path: :input_model_form_test_path
+            path: custom_input_model_form_test_path
           }
         end
       end
-  
+
       visit "/example"
       expect(page).to have_field("title", with: "Title")
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
       expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
-  
+
       value = "#{DateTime.now}"
       fill_in "description", with: value
       page.find("body").click #defocus

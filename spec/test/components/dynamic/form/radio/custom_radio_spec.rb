@@ -6,68 +6,143 @@ include Utils
 
 describe "Form Component", type: :feature, js: true do
 
-  describe "Radio" do
 
-    before :all do
-      Rails.application.routes.append do
-        post '/radio_success_form_test/:id', to: 'form_test#success_submit', as: 'radio_success_form_test'
-        post '/radio_success_form_test_with_transition/:id', to: 'form_test#success_submit_with_transition', as: 'radio_success_form_test_with_transition'
-        post '/radio_failure_form_test_with_transition/:id', to: 'form_test#failure_submit_with_transition', as: 'radio_failure_form_test_with_transition'
-        post '/radio_success_form_test_with_redirect/:id', to: 'form_test#success_submit_with_redirect', as: 'radio_success_form_test_with_redirect'
-        post '/radio_failure_form_test_with_redirect/:id', to: 'form_test#failure_submit_with_redirect', as: 'radio_failure_form_test_with_redirect'
-        post '/radio_failure_form_test/:id', to: 'form_test#failure_submit', as: 'radio_failure_form_test'
-        post '/radio_model_form_test', to: 'model_form_test#model_submit', as: 'radio_model_form_test'
+  before :all do
+    Rails.application.routes.append do
+      scope "form_custom_radio_spec" do
+        post '/radio_success_form_test', to: 'form_test#success_submit', as: 'custom_radio_success_form_test'
+        post '/radio_failure_form_test/:id', to: 'form_test#failure_submit', as: 'custom_radio_failure_form_test'
+        post '/radio_model_form_test', to: 'model_form_test#model_submit', as: 'custom_radio_model_form_test'
       end
-      Rails.application.reload_routes!
     end
+    Rails.application.reload_routes!
+  end
 
-    after :all do
-      Object.send(:remove_const, :TestModel)
-      load "#{Rails.root}/app/models/test_model.rb"
+  before :each do
+    allow_any_instance_of(FormTestController).to receive(:expect_params)
+
+    class Components::CustomFormRadioTest < Matestack::Ui::Core::Form::Radio::Base
+
+      vue_js_component_name "custom-form-radio-test"
+
+      def response
+        div class: "custom-input-markup" do
+          label text: "my form input"
+          render_options
+          button attributes: {"@click": "changeValueViaJs(2)"}, text: "change value"
+          render_errors
+        end
+      end
+
+      register_self_as(:custom_form_radio_test)
     end
+  end
 
-    before :each do
-      allow_any_instance_of(FormTestController).to receive(:expect_params)
-    end
+  describe "custom radio components" do
 
-    it "renders auto generated IDs based on user specified ID and optional user specified class per radio button" do
+    it "can be used for individual radio markup rendering and data processing via custom JS/3rd party JS" do
+
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config, :include do
-              form_radio id: "foo", key: :foo, options: [1, 2]
-              form_radio id: "bar", key: :bar, options: [1, 2], class: "some-class"
-              form_submit do
-                button text: "Submit me!"
-              end
+          form form_config do
+            custom_form_radio_test key: :bar, id: "bar", options: { "Option 1": 1, "Option 2": 2 }
+            form_submit do
+              button text: 'Submit me!'
             end
+          end
+        end
+
+        def form_config
+          return {
+            for: :my_object,
+            method: :post,
+            path: custom_radio_success_form_test_path
+          }
+        end
+      end
+
+      visit '/example'
+
+      expect(page).to have_xpath('//div[@class="custom-input-markup"]/input[@id="bar_1" and @class="js-added-class"]')
+
+      click_button "change value"
+
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(my_object: { bar: 2 }))
+
+      click_button "Submit me!"
+
+    end
+
+    it "can be used within core form along other core inputs" do
+
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          form form_config do
+            form_radio key: :foo, id: "foo", options: { "Option 1": 1, "Option 2": 2 }
+            custom_form_radio_test key: :bar, id: "bar", options: { "Option 3": 3, "Option 4": 4 }
+            form_submit do
+              button text: 'Submit me!'
+            end
+          end
+          toggle show_on: "form_submitted", id: 'async-form' do
+            plain "form submitted!"
+          end
+        end
+
+        def form_config
+          return {
+            for: :my_object,
+            method: :post,
+            path: custom_radio_success_form_test_path,
+            success: { emit: "form_submitted" }
+          }
+        end
+      end
+
+      visit '/example'
+
+      choose "Option 2"
+      choose "Option 4"
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(my_object: { bar: 4, foo: 2 }))
+
+      click_button "Submit me!"
+      expect(page).to have_content("form submitted!")
+    end
+
+    it "can display server errors async" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          form form_config do
+            custom_form_radio_test id: "foo", key: :foo, type: :text
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
         end
 
         def form_config
           {
             for: :my_object,
             method: :post,
-            path: :radio_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: custom_radio_failure_form_test_path(id: 42)
           }
         end
       end
 
       visit "/example"
 
-      expect(page).to have_selector('#foo_1')
-      expect(page).to have_selector('#foo_2')
-      expect(page).to have_selector('.some-class#bar_1')
-      expect(page).to have_selector('.some-class#bar_2')
+      click_button "Submit me!"
+      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
     end
 
     it "takes an array of options or hash and submits one selected item" do
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
-            form_radio id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"]
-            form_radio id: "my-hash-test-radio", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }
+            custom_form_radio_test id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"]
+            custom_form_radio_test id: "my-hash-test-radio", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }
             form_submit do
               button text: "Submit me!"
             end
@@ -78,15 +153,13 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :radio_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: custom_radio_success_form_test_path
           }
         end
       end
 
       visit "/example"
+
       choose('Array Option 2')
       choose('Hash Option 1')
       expect_any_instance_of(FormTestController).to receive(:expect_params)
@@ -98,8 +171,8 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
-            form_radio id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"], init: "Array Option 1"
-            form_radio id: "my-hash-test-radio", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, init: 2
+            custom_form_radio_test id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"], init: "Array Option 1"
+            custom_form_radio_test id: "my-hash-test-radio", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, init: 2
             form_submit do
               button text: "Submit me!"
             end
@@ -110,10 +183,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :radio_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: custom_radio_success_form_test_path
           }
         end
       end
@@ -125,6 +195,34 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field('Hash Option 2', checked: true)
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(my_object: { array_input: "Array Option 1", hash_input: 2 }))
+      click_button "Submit me!"
+    end
+
+    it "can extend initialization via custom JS (trigger 3rd party libraries for example)" do
+
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          form form_config do
+            custom_form_radio_test id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"], init: "change me via JS"
+            form_submit do
+              button text: "Submit me!"
+            end
+          end
+        end
+
+        def form_config
+          {
+            for: :my_object,
+            method: :post,
+            path: custom_radio_success_form_test_path
+          }
+        end
+      end
+
+      visit "/example"
+
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(my_object: { array_input: "Array Option 1" }))
       click_button "Submit me!"
     end
 
@@ -145,7 +243,7 @@ describe "Form Component", type: :feature, js: true do
           form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
-            form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
+            custom_form_radio_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
             form_submit do
               button text: "Submit me!"
             end
@@ -156,7 +254,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: @test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: custom_radio_model_form_test_path
           }
         end
       end
@@ -191,7 +289,7 @@ describe "Form Component", type: :feature, js: true do
           form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
-            form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
+            custom_form_radio_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
             form_submit do
               button text: "Submit me!"
             end
@@ -202,7 +300,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: @test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: custom_radio_model_form_test_path
           }
         end
       end
@@ -237,7 +335,7 @@ describe "Form Component", type: :feature, js: true do
           form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
-            form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
+            custom_form_radio_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
             form_submit do
               button text: "Submit me!"
             end
@@ -248,7 +346,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: @test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: custom_radio_model_form_test_path
           }
         end
       end
@@ -283,7 +381,7 @@ describe "Form Component", type: :feature, js: true do
           form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
-            form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
+            custom_form_radio_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
             form_submit do
               button text: "Submit me!"
             end
@@ -294,7 +392,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: 'test_model',
             method: :post,
-            path: :radio_model_form_test_path
+            path: custom_radio_model_form_test_path
           }
         end
       end
@@ -328,7 +426,7 @@ describe "Form Component", type: :feature, js: true do
           form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
-            form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
+            custom_form_radio_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
             form_submit do
               button text: "Submit me!"
             end
@@ -339,7 +437,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: custom_radio_model_form_test_path
           }
         end
       end
@@ -356,7 +454,6 @@ describe "Form Component", type: :feature, js: true do
       expect(TestModel.last.status).to eq("archived")
     end
 
-    it "can have a label"
-
   end
+
 end
