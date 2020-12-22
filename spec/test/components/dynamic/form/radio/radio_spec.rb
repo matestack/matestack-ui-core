@@ -20,14 +20,46 @@ describe "Form Component", type: :feature, js: true do
       end
       Rails.application.reload_routes!
     end
-  
+
     after :all do
       Object.send(:remove_const, :TestModel)
       load "#{Rails.root}/app/models/test_model.rb"
     end
-  
+
     before :each do
       allow_any_instance_of(FormTestController).to receive(:expect_params)
+    end
+
+    it "renders auto generated IDs based on user specified ID and optional user specified class per radio button" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+            form form_config, :include do
+              form_radio id: "foo", key: :foo, options: [1, 2]
+              form_radio id: "bar", key: :bar, options: [1, 2], class: "some-class"
+              form_submit do
+                button text: "Submit me!"
+              end
+            end
+        end
+
+        def form_config
+          {
+            for: :my_object,
+            method: :post,
+            path: :radio_success_form_test_path,
+            params: {
+              id: 42
+            }
+          }
+        end
+      end
+
+      visit "/example"
+
+      expect(page).to have_selector('#foo_1')
+      expect(page).to have_selector('#foo_2')
+      expect(page).to have_selector('.some-class#bar_1')
+      expect(page).to have_selector('.some-class#bar_2')
     end
 
     it "takes an array of options or hash and submits one selected item" do

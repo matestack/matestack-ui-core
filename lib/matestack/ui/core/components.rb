@@ -120,6 +120,7 @@ module Matestack::Ui::Core::Components
   require_core_component "s"
   require_core_component "samp"
   require_core_component "section"
+  require_core_component "select"
   require_core_component "small"
   require_core_component "span"
   require_core_component "strong"
@@ -241,6 +242,7 @@ Matestack::Ui::Core::Component::Registry.register_components(
   s: Matestack::Ui::Core::S::S,
   samp: Matestack::Ui::Core::Samp::Samp,
   section: Matestack::Ui::Core::Section::Section,
+  select: Matestack::Ui::Core::Select::Select,
   small: Matestack::Ui::Core::Small::Small,
   span: Matestack::Ui::Core::Span::Span,
   strong: Matestack::Ui::Core::Strong::Strong,

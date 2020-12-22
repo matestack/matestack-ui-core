@@ -60,6 +60,11 @@ describe "Form Component", type: :feature, js: true do
   describe "File Upload" do
 
     it "can upload (multiple) single files if multipart is set to true" do
+      Object.send(:remove_const, :TestModel)
+      class TestModel < ApplicationRecord
+        has_one_attached :file
+      end
+
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
@@ -159,6 +164,11 @@ describe "Form Component", type: :feature, js: true do
     end
 
     it "is not initialized with any given file even if mapped to an AciveRecord Model" do
+      Object.send(:remove_const, :TestModel)
+      class TestModel < ApplicationRecord
+        has_one_attached :file
+      end
+
       class ExamplePage < Matestack::Ui::Page
         def prepare
           @test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
@@ -198,6 +208,11 @@ describe "Form Component", type: :feature, js: true do
     end
 
     it "can correctly map errors" do
+      Object.send(:remove_const, :TestModel)
+      class TestModel < ApplicationRecord
+        has_one_attached :file
+      end
+      
       class ExamplePage < Matestack::Ui::Page
         def response
           form form_config, :include do
@@ -295,24 +310,24 @@ describe "Form Component", type: :feature, js: true do
     end
   end
 
-  it 'should handle multiple values correctly with multipart: true set' do
-    matestack_render do
-      form_config = {
-        for: :test,
-        method: :get,
-        path: matestack_components_test_path
-      }
-      form form_config do
-        form_checkbox key: :checkbox, label: 'Checkbox', options: [1, 2, 3, 4]
-        form_input key: :title, label: 'Title'
-        form_submit do
-          button text: 'Submit'
-        end
-      end
-      async rerender_on: 'update', id: 'async' do
-        plain params[:test][:checkbox]
-      end
-    end
-  end
+    # it 'should handle multiple values correctly with multipart: true set' do
+    #   matestack_render do
+    #     form_config = {
+    #       for: :test,
+    #       method: :get,
+    #       path: matestack_components_test_path
+    #     }
+    #     form form_config do
+    #       form_checkbox key: :checkbox, label: 'Checkbox', options: [1, 2, 3, 4]
+    #       form_input key: :title, label: 'Title'
+    #       form_submit do
+    #         button text: 'Submit'
+    #       end
+    #     end
+    #     async rerender_on: 'update', id: 'async' do
+    #       plain params[:test][:checkbox]
+    #     end
+    #   end
+    # end
 
 end

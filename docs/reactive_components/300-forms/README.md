@@ -123,6 +123,7 @@ def form_config
       wrapper: { tag: :div, class: 'invalid-feedback' },
       input: { class: 'is-invalid' }
     }
+  }
 end
 ```
 
@@ -168,6 +169,7 @@ def form_config
     failure: {
       emit: "failed"
     }
+  }
 end
 ```
 
@@ -195,6 +197,7 @@ Read more about success and failure behavior customization at the [form api docu
 Inside a form you can use our form input components `form_input`, `form_textarea`, `form_select`, `form_radio` and `form_checkbox`. Do not use the basic input components `input`, `textarea` and so on, because they do not work with matestack forms. Instead use the _form input_ components. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. If you specified an active record object or similar in the `form` with the `:for` options, inputs will be prefilled with the value of the corresponding attribute or method of the object. It is also possible to specify `:label` in order to create labels for the input on the fly.
 
 * `form_input` - Represents a html "input". All w3c specified input types are supported by this component, just pass in your wanted type with the `:type` option.
+
   ```ruby
     form_input key: :name, type: :text, label: 'Name'
     form_input key: :age, type: :number, label: 'Age'
@@ -202,6 +205,7 @@ Inside a form you can use our form input components `form_input`, `form_textarea
   ```
 
 * `form_textarea` - Represents a html "textarea".
+
   ```ruby
     form_textarea key: :description, label: 'Description'
   ```
