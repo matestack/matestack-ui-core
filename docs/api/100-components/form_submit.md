@@ -40,7 +40,7 @@ If you simply want to disable your submit button, you can use a simple Vue.js bi
 
 ```ruby
 form_submit do
-  button text: "Submit me!", attributes: { "v-bind:disabled": "loading" }
+  button text: "Submit me!", attributes: { "v-bind:disabled": "loading()" }
 end
 
 ```
