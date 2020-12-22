@@ -2,14 +2,35 @@
 
 ## v1.3.0 Release
 
+### Potential breaking change
+
+If you have used a `form_submit` component like this:
+
+```ruby
+form_submit do
+  button text: "Submit me!", attributes: { "v-bind:disabled": "loading" }
+end
+```
+
+in order to disable the the button during submission of the form, please turn `loading` into `loading()`:
+
+
+```ruby
+form_submit do
+  button text: "Submit me!", attributes: { "v-bind:disabled": "loading()" }
+end
+```
+
+If you have implemented your own form components, please adjust them as described in the customize section of each form component. Most likely, you now have to provide exactly one root element per form component due to the reworked form components.
+
 ### Improvements
 
 - Splitted form API docs into multiple files
-- Implements #474 Add HTML <select> tag to core components
-- Implements #492 Enable extendability of form_* components
-  - Reworked form_* components in order to provide a better API for custom form components
-  - form_* components are separate Vue.js components now
-  - Each form_* uses a Vue.js mixin and a Ruby base class. This mixin and base class can be used in custom components in order to easy create own form components
+- Implements #474 Add HTML `<select>` tag to core components
+- Implements #492 Enable extendability of `form_*` components
+  - Reworked `form_*` components in order to provide a better API for custom form components
+  - `form_*` components are separate Vue.js components now
+  - Each `form_*` uses a Vue.js mixin and a Ruby base class. This mixin and base class can be used in custom components in order to easy create own form components
 
 ## Bugfixes
 
