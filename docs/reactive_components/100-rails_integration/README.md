@@ -9,7 +9,7 @@ Matestack's JavaScript needs to be integrated into your Rails application in ord
 Add 'matestack-ui-core' to your `package.json` by running:
 
 ```
-$ yarn add https://github.com/matestack/matestack-ui-core#v1.2.0
+$ yarn add https://github.com/matestack/matestack-ui-core#v1.3.0
 $ yarn install
 ```
 

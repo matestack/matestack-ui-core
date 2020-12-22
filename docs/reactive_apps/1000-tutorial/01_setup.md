@@ -60,7 +60,7 @@ to start the application. Now visit [localhost:3000](http://localhost:3000/) and
 
 To install matestack, run `gem install matestack-ui-core` or add `gem 'matestack-ui-core'` to your Gemfile and run `bundle install`.
 
-For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v1.2.0` followed by `yarn install`.
+For a complete setup with Webpacker, you also need to run `yarn add https://github.com/matestack/matestack-ui-core#v1.3.0` followed by `yarn install`.
 
 Then, add
 
