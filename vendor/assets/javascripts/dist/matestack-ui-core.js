@@ -1019,6 +1019,130 @@ const componentMixin = {
 
 /***/ }),
 
+/***/ "../app/concepts/matestack/ui/core/form/checkbox/checkbox.js":
+/*!*******************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/checkbox/checkbox.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _mixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mixin */ "../app/concepts/matestack/ui/core/form/checkbox/mixin.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data() {
+    return {};
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component("matestack-ui-core-form-checkbox", componentDef);
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/checkbox/mixin.js":
+/*!****************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/checkbox/mixin.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const formCheckboxMixin = {
+  methods: {
+    initialize: function(){
+      const self = this
+      let data = {};
+
+      for (let key in self.$refs) {
+        let initValue = self.$refs[key]["attributes"]["init-value"];
+        let valueType = self.$refs[key]["attributes"]["value-type"];
+
+        if (key.startsWith("select.")) {
+          if (key.startsWith("select.multiple.")) {
+            if (initValue) {
+              data[key.replace("select.multiple.", "")] = JSON.parse(initValue["value"]);
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize(JSON.parse(initValue["value"]))
+            } else {
+              data[key.replace("select.multiple.", "")] = [];
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize([])
+            }
+          } else {
+            if (initValue) {
+              if (valueType && valueType["value"] == "Integer") {
+                data[key.replace("select.", "")] = parseInt(initValue["value"]);
+                Object.assign(self.$parent.data, data);
+                self.afterInitialize(parseInt(initValue["value"]))
+              } else {
+
+                data[key.replace("select.", "")] = initValue["value"];
+                Object.assign(self.$parent.data, data);
+                self.afterInitialize(initValue["value"])
+              }
+            } else {
+              data[key.replace("select.", "")] = null;
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize(null)
+            }
+          }
+        } else {
+          if (initValue) {
+            if(initValue["value"] === "true"){
+              data[key.replace("input.", "")] = true;
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize(true)
+            }
+            if(initValue["value"] === "false"){
+              data[key.replace("input.", "")] = false;
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize(false)
+            }
+          } else {
+            data[key.replace("input.", "")] = null;
+            Object.assign(self.$parent.data, data);
+            self.afterInitialize(null)
+          }
+        }
+      }
+
+      //without the timeout it's somehow not working
+      setTimeout(function () {
+        self.$forceUpdate()
+      }, 1);
+    },
+    inputChanged: function (key) {
+      this.$parent.resetErrors(key);
+      this.$forceUpdate();
+    },
+    afterInitialize: function(value){
+      // can be used in the main component for further initialization steps
+    },
+    setValue: function (value){
+      this.$parent.data[this.componentConfig["key"]] = value
+      this.$forceUpdate();
+    }
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (formCheckboxMixin);
+
+
+/***/ }),
+
 /***/ "../app/concepts/matestack/ui/core/form/form.js":
 /*!******************************************************!*\
   !*** ../app/concepts/matestack/ui/core/form/form.js ***!
@@ -1054,9 +1178,6 @@ const componentDef = {
     initDataKey: function (key, initValue) {
       this.data[key] = initValue;
     },
-    inputChanged: function (key) {
-      this.resetErrors(key);
-    },
     updateFormValue: function (key, value) {
       this.data[key] = value;
     },
@@ -1080,11 +1201,11 @@ const componentDef = {
           flat[i] = newVal;
         } else if (flat[i] instanceof File){
           flat[i] = newVal;
-          this.$refs["input."+i].value = newVal
+          this.$refs["input-component-for-"+i].value = newVal
         } else if (flat[i] instanceof Array) {
           if(flat[i][0] instanceof File){
             flat[i] = newVal
-            this.$refs["input."+i].value = newVal
+            this.$refs["input-component-for-"+i].value = newVal
           }
         } else if (typeof flat[i] === "object" && !(flat[i] instanceof Array)) {
           setProps(flat[i], newVal);
@@ -1093,54 +1214,26 @@ const componentDef = {
         }
       }
     },
-    filesAdded: function (key) {
-      const dataTransfer = event.dataTransfer || event.target;
-      const files = dataTransfer.files;
-      if (event.target.attributes.multiple) {
-        this.data[key] = [];
-        for (let index in files) {
-          if (files[index] instanceof File) {
-            this.data[key].push(files[index]);
-          }
-        }
-      } else {
-        this.data[key] = files[0];
-      }
-    },
     initValues: function () {
       let self = this;
       let data = {};
       for (let key in self.$refs) {
-        let initValue = self.$refs[key]["attributes"]["init-value"];
-        let valueType = self.$refs[key]["attributes"]["value-type"];
-
-        if (key.startsWith("input.")) {
-          if (initValue) {
-            data[key.replace("input.", "")] = initValue["value"];
-          } else {
-            data[key.replace("input.", "")] = null;
-          }
+        if (key.startsWith("input-component")) {
+          self.$refs[key].initialize()
         }
-        if (key.startsWith("select.")) {
-          if (key.startsWith("select.multiple.")) {
-            if (initValue) {
-              data[key.replace("select.multiple.", "")] = JSON.parse(initValue["value"]);
-            } else {
-              data[key.replace("select.multiple.", "")] = [];
-            }
-          } else {
-            if (initValue) {
-              if (valueType && valueType["value"] == "Integer") data[key.replace("select.", "")] = parseInt(initValue["value"]);
-              else {
-                data[key.replace("select.", "")] = initValue["value"];
-              }
-            } else {
-              data[key.replace("select.", "")] = null;
-            }
-          }
+        if (key.startsWith("textarea-component")) {
+          self.$refs[key].initialize()
+        }
+        if (key.startsWith("select-component")) {
+          self.$refs[key].initialize()
+        }
+        if (key.startsWith("radio-component")) {
+          self.$refs[key].initialize()
+        }
+        if (key.startsWith("checkbox-component")) {
+          self.$refs[key].initialize()
         }
       }
-      self.data = data;
     },
     shouldResetFormOnSuccessfulSubmit() {
       const self = this;
@@ -1344,6 +1437,432 @@ let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].compone
 
 /***/ }),
 
+/***/ "../app/concepts/matestack/ui/core/form/input/input.js":
+/*!*************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/input/input.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _mixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mixin */ "../app/concepts/matestack/ui/core/form/input/mixin.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data() {
+    return {};
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component("matestack-ui-core-form-input", componentDef);
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/input/mixin.js":
+/*!*************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/input/mixin.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const formInputMixin = {
+  methods: {
+    initialize: function(){
+      const self = this
+      let data = {};
+
+      for (let key in this.$refs) {
+        let initValue = this.$refs[key]["attributes"]["init-value"];
+
+        if (initValue) {
+          data[key.replace("input.", "")] = initValue["value"];
+          Object.assign(self.$parent.data, data);
+          self.afterInitialize(initValue["value"])
+        } else {
+          data[key.replace("input.", "")] = null;
+          Object.assign(self.$parent.data, data);
+          self.afterInitialize(null)
+        }
+      }
+
+      //without the timeout it's somehow not working
+      setTimeout(function () {
+        self.$forceUpdate()
+      }, 1);
+    },
+    filesAdded: function (key) {
+      const dataTransfer = event.dataTransfer || event.target;
+      const files = dataTransfer.files;
+      if (event.target.attributes.multiple) {
+        this.$parent.data[key] = [];
+        for (let index in files) {
+          if (files[index] instanceof File) {
+            this.$parent.data[key].push(files[index]);
+          }
+        }
+      } else {
+        this.$parent.data[key] = files[0];
+      }
+    },
+    inputChanged: function (key) {
+      this.$parent.resetErrors(key);
+      this.$forceUpdate();
+    },
+    afterInitialize: function(value){
+      // can be used in the main component for further initialization steps
+    },
+    setValue: function (value){
+      this.$parent.data[this.componentConfig["key"]] = value
+      this.$forceUpdate();
+    }
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (formInputMixin);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/radio/mixin.js":
+/*!*************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/radio/mixin.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const formRadioMixin = {
+  methods: {
+    initialize: function(){
+      const self = this
+      let data = {};
+
+      for (let key in self.$refs) {
+        let initValue = self.$refs[key]["attributes"]["init-value"];
+        let valueType = self.$refs[key]["attributes"]["value-type"];
+
+        if (key.startsWith("select.")) {
+          if (key.startsWith("select.multiple.")) {
+            if (initValue) {
+              data[key.replace("select.multiple.", "")] = JSON.parse(initValue["value"]);
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize(JSON.parse(initValue["value"]))
+            } else {
+              data[key.replace("select.multiple.", "")] = [];
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize([])
+            }
+          } else {
+            if (initValue) {
+              if (valueType && valueType["value"] == "Integer") {
+                data[key.replace("select.", "")] = parseInt(initValue["value"]);
+                Object.assign(self.$parent.data, data);
+                self.afterInitialize(parseInt(initValue["value"]))
+              } else {
+                data[key.replace("select.", "")] = initValue["value"];
+                Object.assign(self.$parent.data, data);
+                self.afterInitialize(initValue["value"])
+              }
+            } else {
+              data[key.replace("select.", "")] = null;
+              Object.assign(self.$parent.data, data);
+              self.afterInitialize(null)
+            }
+          }
+        }
+      }
+
+      //without the timeout it's somehow not working
+      setTimeout(function () {
+        self.$forceUpdate();
+      }, 1);
+    },
+    inputChanged: function (key) {
+      this.$parent.resetErrors(key);
+      this.$forceUpdate();
+    },
+    afterInitialize: function(value){
+      // can be used in the main component for further initialization steps
+    },
+    setValue: function (value){
+      this.$parent.data[this.componentConfig["key"]] = value
+      this.$forceUpdate();
+    }
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (formRadioMixin);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/radio/radio.js":
+/*!*************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/radio/radio.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _mixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mixin */ "../app/concepts/matestack/ui/core/form/radio/mixin.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data() {
+    return {};
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component("matestack-ui-core-form-radio", componentDef);
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/select/mixin.js":
+/*!**************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/select/mixin.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const formSelectMixin = {
+  methods: {
+    initialize: function(){
+      const self = this
+      let data = {};
+
+      for (let key in self.$refs) {
+        let initValue = self.$refs[key]["attributes"]["init-value"];
+        let valueType = self.$refs[key]["attributes"]["value-type"];
+
+        if (key.startsWith("select.")) {
+          if (key.startsWith("select.multiple.")) {
+            if (initValue) {
+              data[key.replace("select.multiple.", "")] = JSON.parse(initValue["value"]);
+              self.afterInitialize(JSON.parse(initValue["value"]))
+            } else {
+              data[key.replace("select.multiple.", "")] = [];
+              self.afterInitialize([])
+            }
+          } else {
+            if (initValue) {
+              if (valueType && valueType["value"] == "Integer") {
+                data[key.replace("select.", "")] = parseInt(initValue["value"]);
+                self.afterInitialize(parseInt(initValue["value"]))
+              } else {
+                data[key.replace("select.", "")] = initValue["value"];
+                self.afterInitialize(initValue["value"])
+              }
+            } else {
+              data[key.replace("select.", "")] = null;
+              self.afterInitialize(null)
+            }
+          }
+        }
+      }
+
+      //without the timeout it's somehow not working
+      setTimeout(function () {
+        Object.assign(self.$parent.data, data);
+        self.$forceUpdate()
+      }, 1);
+    },
+    inputChanged: function (key) {
+      this.$parent.resetErrors(key);
+      this.$forceUpdate();
+    },
+    afterInitialize: function(value){
+      // can be used in the main component for further initialization steps
+    },
+    setValue: function (value){
+      this.$parent.data[this.componentConfig["key"]] = value
+      this.$forceUpdate();
+    }
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (formSelectMixin);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/select/select.js":
+/*!***************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/select/select.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _mixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mixin */ "../app/concepts/matestack/ui/core/form/select/mixin.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data() {
+    return {};
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component("matestack-ui-core-form-select", componentDef);
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/submit/submit.js":
+/*!***************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/submit/submit.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data() {
+    return {};
+  },
+  methods: {
+    loading: function(){
+      return this.$parent.loading;
+    }
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component("matestack-ui-core-form-submit", componentDef);
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/textarea/mixin.js":
+/*!****************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/textarea/mixin.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const formTextareaMixin = {
+  methods: {
+    initialize: function(){
+      const self = this
+      let data = {};
+
+      for (let key in this.$refs) {
+        let initValue = this.$refs[key]["attributes"]["init-value"];
+
+        if (initValue) {
+          data[key.replace("input.", "")] = initValue["value"];
+          Object.assign(self.$parent.data, data);
+          self.afterInitialize(initValue["value"])
+        } else {
+          data[key.replace("input.", "")] = null;
+          Object.assign(self.$parent.data, data);
+          self.afterInitialize(null)
+        }
+      }
+
+      //without the timeout it's somehow not working
+      setTimeout(function () {
+        self.$forceUpdate()
+      }, 1);
+    },
+    inputChanged: function (key) {
+      this.$parent.resetErrors(key);
+      this.$forceUpdate();
+    },
+    afterInitialize: function(value){
+      // can be used in the main component for further initialization steps
+    },
+    setValue: function (value){
+      this.$parent.data[this.componentConfig["key"]] = value
+      this.$forceUpdate();
+    }
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (formTextareaMixin);
+
+
+/***/ }),
+
+/***/ "../app/concepts/matestack/ui/core/form/textarea/textarea.js":
+/*!*******************************************************************!*\
+  !*** ../app/concepts/matestack/ui/core/form/textarea/textarea.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue.esm */ "../node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _mixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mixin */ "../app/concepts/matestack/ui/core/form/textarea/mixin.js");
+/* harmony import */ var _component_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../component/component */ "../app/concepts/matestack/ui/core/component/component.js");
+
+
+
+
+
+const componentDef = {
+  mixins: [_component_component__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data() {
+    return {};
+  }
+}
+
+let component = vue_dist_vue_esm__WEBPACK_IMPORTED_MODULE_0__["default"].component("matestack-ui-core-form-textarea", componentDef);
+
+/* harmony default export */ __webpack_exports__["default"] = (componentDef);
+
+
+/***/ }),
+
 /***/ "../app/concepts/matestack/ui/core/isolated/isolated.js":
 /*!**************************************************************!*\
   !*** ../app/concepts/matestack/ui/core/isolated/isolated.js ***!
@@ -1492,15 +2011,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _transition_transition__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../transition/transition */ "../app/concepts/matestack/ui/core/transition/transition.js");
 /* harmony import */ var _action_action__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../action/action */ "../app/concepts/matestack/ui/core/action/action.js");
 /* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../form/form */ "../app/concepts/matestack/ui/core/form/form.js");
-/* harmony import */ var _onclick_onclick__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../onclick/onclick */ "../app/concepts/matestack/ui/core/onclick/onclick.js");
-/* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
-/* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
-/* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
-/* harmony import */ var _isolated_isolated__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../isolated/isolated */ "../app/concepts/matestack/ui/core/isolated/isolated.js");
+/* harmony import */ var _form_input_input__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../form/input/input */ "../app/concepts/matestack/ui/core/form/input/input.js");
+/* harmony import */ var _form_input_mixin__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../form/input/mixin */ "../app/concepts/matestack/ui/core/form/input/mixin.js");
+/* harmony import */ var _form_select_select__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../form/select/select */ "../app/concepts/matestack/ui/core/form/select/select.js");
+/* harmony import */ var _form_select_mixin__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../form/select/mixin */ "../app/concepts/matestack/ui/core/form/select/mixin.js");
+/* harmony import */ var _form_radio_radio__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../form/radio/radio */ "../app/concepts/matestack/ui/core/form/radio/radio.js");
+/* harmony import */ var _form_radio_mixin__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../form/radio/mixin */ "../app/concepts/matestack/ui/core/form/radio/mixin.js");
+/* harmony import */ var _form_checkbox_checkbox__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../form/checkbox/checkbox */ "../app/concepts/matestack/ui/core/form/checkbox/checkbox.js");
+/* harmony import */ var _form_checkbox_mixin__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../form/checkbox/mixin */ "../app/concepts/matestack/ui/core/form/checkbox/mixin.js");
+/* harmony import */ var _form_textarea_textarea__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../form/textarea/textarea */ "../app/concepts/matestack/ui/core/form/textarea/textarea.js");
+/* harmony import */ var _form_textarea_mixin__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../form/textarea/mixin */ "../app/concepts/matestack/ui/core/form/textarea/mixin.js");
+/* harmony import */ var _form_submit_submit__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../form/submit/submit */ "../app/concepts/matestack/ui/core/form/submit/submit.js");
+/* harmony import */ var _onclick_onclick__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../onclick/onclick */ "../app/concepts/matestack/ui/core/onclick/onclick.js");
+/* harmony import */ var _collection_content_content__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../collection/content/content */ "../app/concepts/matestack/ui/core/collection/content/content.js");
+/* harmony import */ var _collection_filter_filter__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../collection/filter/filter */ "../app/concepts/matestack/ui/core/collection/filter/filter.js");
+/* harmony import */ var _collection_order_order__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../collection/order/order */ "../app/concepts/matestack/ui/core/collection/order/order.js");
+/* harmony import */ var _isolated_isolated__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../isolated/isolated */ "../app/concepts/matestack/ui/core/isolated/isolated.js");
 
 
 
 // Import from app/concepts/matestack/ui/core:
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1881,12 +2422,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/event-hub */ "../app/concepts/matestack/ui/core/js/event-hub.js");
 /* harmony import */ var _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/component/component */ "../app/concepts/matestack/ui/core/component/component.js");
-/* harmony import */ var _app_concepts_matestack_ui_core_js_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/core */ "../app/concepts/matestack/ui/core/js/core.js");
-/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index.scss */ "../app/javascript/matestack-ui-core/styles/index.scss");
-/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_index_scss__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _app_concepts_matestack_ui_core_form_input_mixin__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/form/input/mixin */ "../app/concepts/matestack/ui/core/form/input/mixin.js");
+/* harmony import */ var _app_concepts_matestack_ui_core_form_select_mixin__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/form/select/mixin */ "../app/concepts/matestack/ui/core/form/select/mixin.js");
+/* harmony import */ var _app_concepts_matestack_ui_core_form_radio_mixin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/form/radio/mixin */ "../app/concepts/matestack/ui/core/form/radio/mixin.js");
+/* harmony import */ var _app_concepts_matestack_ui_core_form_checkbox_mixin__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/form/checkbox/mixin */ "../app/concepts/matestack/ui/core/form/checkbox/mixin.js");
+/* harmony import */ var _app_concepts_matestack_ui_core_form_textarea_mixin__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/form/textarea/mixin */ "../app/concepts/matestack/ui/core/form/textarea/mixin.js");
+/* harmony import */ var _app_concepts_matestack_ui_core_js_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../app/concepts/matestack/ui/core/js/core */ "../app/concepts/matestack/ui/core/js/core.js");
+/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./styles/index.scss */ "../app/javascript/matestack-ui-core/styles/index.scss");
+/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_styles_index_scss__WEBPACK_IMPORTED_MODULE_11__);
 
 
  // Import from app/concepts/matestack/ui/core:
+
+
+
+
+
 
 
 
@@ -1897,7 +2448,12 @@ var MatestackUiCore = {
   Vuex: vuex__WEBPACK_IMPORTED_MODULE_1__["default"],
   axios: axios__WEBPACK_IMPORTED_MODULE_2___default.a,
   matestackEventHub: _app_concepts_matestack_ui_core_js_event_hub__WEBPACK_IMPORTED_MODULE_3__["default"],
-  componentMixin: _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__["default"]
+  componentMixin: _app_concepts_matestack_ui_core_component_component__WEBPACK_IMPORTED_MODULE_4__["default"],
+  formInputMixin: _app_concepts_matestack_ui_core_form_input_mixin__WEBPACK_IMPORTED_MODULE_5__["default"],
+  formSelectMixin: _app_concepts_matestack_ui_core_form_select_mixin__WEBPACK_IMPORTED_MODULE_6__["default"],
+  formCheckboxMixin: _app_concepts_matestack_ui_core_form_checkbox_mixin__WEBPACK_IMPORTED_MODULE_8__["default"],
+  formTextareaMixin: _app_concepts_matestack_ui_core_form_textarea_mixin__WEBPACK_IMPORTED_MODULE_9__["default"],
+  formRadioMixin: _app_concepts_matestack_ui_core_form_radio_mixin__WEBPACK_IMPORTED_MODULE_7__["default"]
 };
 window.MatestackUiCore = MatestackUiCore;
 /* harmony default export */ __webpack_exports__["default"] = (MatestackUiCore);

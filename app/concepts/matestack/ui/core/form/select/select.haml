@@ -1,9 +1,0 @@
-- if input_label
-  %label= input_label
-
-%select{ html_attributes.merge(vue_attributes) }
-  - if placeholder
-    %option{value: 'null', disabled: true, selected: init_value.nil?}= placeholder
-  - select_options.to_a.each do |item|
-    %option{value: item_value(item), disabled: item_disabled(item)}= item_label(item)
-= render_errors
