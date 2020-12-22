@@ -73,10 +73,19 @@ module Matestack::Ui::Core::Form::Checkbox
       (options[:attributes] || {}).merge({
         "@change": change_event,
         ref: "input.#{attr_key}",
-        'init-value': init_value,
+        'init-value': init_value_for_single_input,
         'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
         "#{v_model_type}": input_key
       })
+    end
+
+    def init_value_for_single_input
+      if init_value == true || init_value == 1
+        return "true"
+      end
+      if init_value == false || init_value == 0
+        return "false"
+      end
     end
 
     def value_type

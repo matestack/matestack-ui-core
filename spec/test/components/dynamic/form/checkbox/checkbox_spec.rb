@@ -235,6 +235,159 @@ describe "Form Component", type: :feature, js: true do
       expect(TestModel.last.status).to eq(1)
     end
 
+    it "can be initialized with a boolean/integer value as true" do
+      Object.send(:remove_const, :TestModel)
+      load "#{Rails.root}/app/models/test_model.rb"
+
+      class ExamplePage < Matestack::Ui::Page
+        def prepare
+          @test_model = TestModel.new
+          @test_model.status = 1
+          @test_model.some_boolean_value = true
+        end
+
+        def response
+          form form_config, :include do
+            form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
+            form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
+            form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config', init: 1
+            form_checkbox id: "init-as-boolean-from-config", key: :bar, label: 'Boolean Value from Config', init: true
+            form_submit do
+              button text: "Submit me!"
+            end
+            toggle show_on: 'success', id: 'async-page' do
+              plain 'Success'
+            end
+          end
+        end
+
+        def form_config
+          return {
+            for: @test_model,
+            method: :post,
+            path: checkbox_success_form_test_path(id: 42),
+            success: {
+              emit: :success
+            }
+          }
+        end
+      end
+
+      visit "/example"
+
+      expect(page).to have_field('Integer Value from Model', checked: true)
+      expect(page).to have_field('Boolean Value from Model', checked: true)
+      expect(page).to have_field('Integer Value from Config', checked: true)
+      expect(page).to have_field('Boolean Value from Config', checked: true)
+
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(test_model: { status: true, some_boolean_value: true, foo: true, bar: true }))
+      click_button "Submit me!"
+
+    end
+
+    it "can be initialized with a boolean/integer value as false" do
+      Object.send(:remove_const, :TestModel)
+      load "#{Rails.root}/app/models/test_model.rb"
+
+      class ExamplePage < Matestack::Ui::Page
+        def prepare
+          @test_model = TestModel.new
+          @test_model.status = 0
+          @test_model.some_boolean_value = false
+        end
+
+        def response
+          form form_config, :include do
+            form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
+            form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
+            form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config', init: 0
+            form_checkbox id: "init-as-boolean-from-config", key: :bar, label: 'Boolean Value from Config', init: false
+            form_submit do
+              button text: "Submit me!"
+            end
+            toggle show_on: 'success', id: 'async-page' do
+              plain 'Success'
+            end
+          end
+        end
+
+        def form_config
+          return {
+            for: @test_model,
+            method: :post,
+            path: checkbox_success_form_test_path(id: 42),
+            success: {
+              emit: :success
+            }
+          }
+        end
+      end
+
+      visit "/example"
+
+      expect(page).to have_field('Integer Value from Model', checked: false)
+      expect(page).to have_field('Boolean Value from Model', checked: false)
+      expect(page).to have_field('Integer Value from Config', checked: false)
+      expect(page).to have_field('Boolean Value from Config', checked: false)
+
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(test_model: { status: false, some_boolean_value: false, foo: false, bar: false }))
+      click_button "Submit me!"
+
+    end
+
+    it "can be initialized with a boolean/integer value as null" do
+      Object.send(:remove_const, :TestModel)
+      load "#{Rails.root}/app/models/test_model.rb"
+
+      class ExamplePage < Matestack::Ui::Page
+        def prepare
+          @test_model = TestModel.new
+          # @test_model.status = 0
+          # @test_model.some_boolean_value = false
+        end
+
+        def response
+          form form_config, :include do
+            form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
+            form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
+            form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config' #, init: 0
+            form_checkbox id: "init-as-boolean-from-config", key: :bar, label: 'Boolean Value from Config' #, init: false
+            form_submit do
+              button text: "Submit me!"
+            end
+            toggle show_on: 'success', id: 'async-page' do
+              plain 'Success'
+            end
+          end
+        end
+
+        def form_config
+          return {
+            for: @test_model,
+            method: :post,
+            path: checkbox_success_form_test_path(id: 42),
+            success: {
+              emit: :success
+            }
+          }
+        end
+      end
+
+      visit "/example"
+
+      expect(page).to have_field('Integer Value from Model', checked: false)
+      expect(page).to have_field('Boolean Value from Model', checked: false)
+      expect(page).to have_field('Integer Value from Config', checked: false)
+      expect(page).to have_field('Boolean Value from Config', checked: false)
+
+      expect_any_instance_of(FormTestController).to receive(:expect_params)
+        .with(hash_including(test_model: { status: nil, some_boolean_value: nil, foo: nil, bar: nil }))
+      click_button "Submit me!"
+
+    end
+
   end
 
 end
