@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.3.0 Release
+
+### Improvements
+
+- Splitted form API docs into multiple files
+- Implements #474 Add HTML <select> tag to core components
+- Implements #492 Enable extendability of form_* components
+  - Reworked form_* components in order to provide a better API for custom form components
+  - form_* components are separate Vue.js components now
+  - Each form_* uses a Vue.js mixin and a Ruby base class. This mixin and base class can be used in custom components in order to easy create own form components
+
+## Bugfixes
+
+- Fixes #490 Custom classes for checkboxes
+- Fixes #494 true/false checkboxes are initialized incorrectly
+
+
 ## v1.2.0 Release
 
 ### Improvements
