@@ -2,12 +2,12 @@
 
 The `form` core component is a Vue.js driven component. It enables you to implement dynamic forms without writing JavaScript. It relies on child components to collect and submit user input: `form_input`, `form_textarea`, `form_radio`, `form_select`, `form_checkbox` and `form_submit`. They are described on their own documentation page
 
-- [form_input](/docs/api/form_input.md)
-- [form_textarea](/docs/api/form_textarea.md)
-- [form_radio](/docs/api/form_radio.md)
-- [form_select](/docs/api/form_select.md)
-- [form_checkbox](/docs/api/form_checkbox.md)
-- [form_submit](/docs/api/form_submit.md)
+- [form_input](/docs/api/100-components/form_input.md)
+- [form_textarea](/docs/api/100-components/form_textarea.md)
+- [form_radio](/docs/api/100-components/form_radio.md)
+- [form_select](/docs/api/100-components/form_select.md)
+- [form_checkbox](/docs/api/100-components/form_checkbox.md)
+- [form_submit](/docs/api/100-components/form_submit.md)
 
 ## Parameters
 
@@ -452,7 +452,7 @@ If you simply want to disable your submit button, you can use a simple Vue.js bi
 
 ```ruby
 form_submit do
-  button text: "Submit me!", attributes: { "v-bind:disabled": "loading" }
+  button text: "Submit me!", attributes: { "v-bind:disabled": "loading()" }
 end
 
 ```
