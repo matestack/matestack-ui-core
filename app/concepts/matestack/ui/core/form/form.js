@@ -18,9 +18,6 @@ const componentDef = {
     initDataKey: function (key, initValue) {
       this.data[key] = initValue;
     },
-    inputChanged: function (key) {
-      this.resetErrors(key);
-    },
     updateFormValue: function (key, value) {
       this.data[key] = value;
     },
@@ -44,11 +41,11 @@ const componentDef = {
           flat[i] = newVal;
         } else if (flat[i] instanceof File){
           flat[i] = newVal;
-          this.$refs["input."+i].value = newVal
+          this.$refs["input-component-for-"+i].value = newVal
         } else if (flat[i] instanceof Array) {
           if(flat[i][0] instanceof File){
             flat[i] = newVal
-            this.$refs["input."+i].value = newVal
+            this.$refs["input-component-for-"+i].value = newVal
           }
         } else if (typeof flat[i] === "object" && !(flat[i] instanceof Array)) {
           setProps(flat[i], newVal);
@@ -57,54 +54,26 @@ const componentDef = {
         }
       }
     },
-    filesAdded: function (key) {
-      const dataTransfer = event.dataTransfer || event.target;
-      const files = dataTransfer.files;
-      if (event.target.attributes.multiple) {
-        this.data[key] = [];
-        for (let index in files) {
-          if (files[index] instanceof File) {
-            this.data[key].push(files[index]);
-          }
-        }
-      } else {
-        this.data[key] = files[0];
-      }
-    },
     initValues: function () {
       let self = this;
       let data = {};
       for (let key in self.$refs) {
-        let initValue = self.$refs[key]["attributes"]["init-value"];
-        let valueType = self.$refs[key]["attributes"]["value-type"];
-
-        if (key.startsWith("input.")) {
-          if (initValue) {
-            data[key.replace("input.", "")] = initValue["value"];
-          } else {
-            data[key.replace("input.", "")] = null;
-          }
+        if (key.startsWith("input-component")) {
+          self.$refs[key].initialize()
         }
-        if (key.startsWith("select.")) {
-          if (key.startsWith("select.multiple.")) {
-            if (initValue) {
-              data[key.replace("select.multiple.", "")] = JSON.parse(initValue["value"]);
-            } else {
-              data[key.replace("select.multiple.", "")] = [];
-            }
-          } else {
-            if (initValue) {
-              if (valueType && valueType["value"] == "Integer") data[key.replace("select.", "")] = parseInt(initValue["value"]);
-              else {
-                data[key.replace("select.", "")] = initValue["value"];
-              }
-            } else {
-              data[key.replace("select.", "")] = null;
-            }
-          }
+        if (key.startsWith("textarea-component")) {
+          self.$refs[key].initialize()
+        }
+        if (key.startsWith("select-component")) {
+          self.$refs[key].initialize()
+        }
+        if (key.startsWith("radio-component")) {
+          self.$refs[key].initialize()
+        }
+        if (key.startsWith("checkbox-component")) {
+          self.$refs[key].initialize()
         }
       }
-      self.data = data;
     },
     shouldResetFormOnSuccessfulSubmit() {
       const self = this;
