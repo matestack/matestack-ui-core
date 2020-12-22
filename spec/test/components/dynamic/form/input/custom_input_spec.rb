@@ -297,7 +297,7 @@ describe "Form Component", type: :feature, js: true do
 
       value = "#{DateTime.now}"
       fill_in "description", with: value
-      page.find("body").click #defocus
+      # page.find("body").click #defocus
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
       expect(page).to have_field("description", with: "")
