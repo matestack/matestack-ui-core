@@ -8,6 +8,8 @@ We will add a screencast for this guide shortly!
 
 *This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out [this guide](https://docs.matestack.io/docs/ui_components/100-rails_integration)*
 
+*All of the introduced components can be used on your existing Rails views using the `matestack_component` helper.*
+
 ## Setup
 
 - [x] Create a new Rails app and install some dependencies:
@@ -19,10 +21,10 @@ bundle add matestack-ui-core --version "~> 1.3.0"
 yarn add https://github.com/matestack/matestack-ui-core#v1.3.0
 ```
 
-- [x] Use Rails scafflolder in order to setup some files:
+- [x] Use Rails scaffolder in order to setup some files:
 
 ```bash
-rails g scaffold Post body:text likes_count:integer retweets_count:integer username:string
+rails g scaffold Post body:text likes_count:integer username:string
 ```
 
 ## Model & Database
@@ -37,7 +39,6 @@ class CreatePosts < ActiveRecord::Migration[6.0]
     create_table :posts do |t|
       t.text :body
       t.integer :likes_count, default: 0 # add default
-      t.integer :retweets_count, default: 0 # add default
       t.string :username
 
       t.timestamps
@@ -418,7 +419,7 @@ end
 Cool! Now you should see the list automatically updating itself after form submission without
 a browser page reload! And we didn't write any JavaScript for that. Just two lines of simple Ruby code! How cool is that?
 
-Now we need to add some `action` components in order to "like" or "retweet" the posts.
+Now we need to add some `action` components in order to "like" the posts.
 
 ## Enable "likes"
 
@@ -505,98 +506,7 @@ end
 When you click the "Like" button on a post, you will see the counter increasing without a full page reload!
 Again: Reactivity without any JavaScript!
 
-Now we do the same for "retweet":
-
-## Enable "retweet"
-
-- [x] Add the `retweet` route:
-
-`config/routes.rb`
-
-```ruby
-Rails.application.routes.draw do
-  resources :posts do
-    member do
-      put 'like', to: 'posts#like'
-      put 'retweet', to: 'posts#retweet'
-    end
-  end
-end
-```
-
-- [x] Add the `retweet` action on the controller:
-
-`app/controller/posts_controller.rb`
-
-```ruby
-# ...
-
-# PUT /posts/1/retweet
-def retweet
-  @post = Post.find params[:id]
-  @post.increment(:retweets_count)
-
-  if @post.save
-    render json: {
-      message: 'Post was successfully retweeted.'
-    }, status: :created
-  else
-    render json: {
-      errors: @post.errors,
-      message: 'Post could not be retweeted.'
-    }, status: :unprocessable_entity
-  end
-end
-
-# ...
-```
-
-- [x] Add the `retweet` action component and emit a post-specific event
-- [x] Add the new event to the per-post async config
-
-`app/matestack/twitter_clone/pages/index.rb`
-
-```ruby
-# ...
-
-def post_list_partial
-  @posts.each do |post|
-    post_partial(post)
-  end
-end
-
-def post_partial post
-  async rerender_on: "liked_post_#{post.id}, retweeted_post_#{post.id}", id: "post-#{post.id}" do
-    div class: "mb-3 p-3 rounded shadow-sm" do
-      heading size: 5 do
-        plain post.username
-        small text: post.created_at.strftime("%d.%m.%Y %H:%M")
-      end
-      paragraph text: post.body, class: "mb-5"
-      action path: like_post_path(post), method: :put, success: { emit: "liked_post_#{post.id}" } do
-        button class: "btn btn-light" do
-          plain "Like (#{post.likes_count})"
-        end
-      end
-      action path: retweet_post_path(post), method: :put, success: { emit: "retweeted_post_#{post.id}" } do
-        button class: "btn btn-light" do
-          plain "Retweet (#{post.retweets_count})"
-        end
-      end
-    end
-  end
-end
-
-# ...
-```
-
-**Test the current state**
-
-- [x] Navigate to `localhost:3000/posts`
-
-Now, the same should be working for "retweet". Great! We added a reactive form and reactive actions.
-We can now add some reactive feedback on top using the `toggle` component!
-
+Great! We added a reactive form and reactive actions. We can now add some reactive feedback on top using the toggle component!
 
 ## Add reactive feedback using the `toggle` component
 
@@ -713,7 +623,6 @@ end
 
 - [x] Broadcast the `cable__created_post` event from the `create` action on the posts controller
 - [x] Broadcast the `cable__liked_post_xyz` event from the `like` action on the posts controller
-- [x] Broadcast the `cable__retweeted_post_xyz` event from the `retweet` action on the posts controller
 
 `app/controller/posts_controller.rb`
 
@@ -736,26 +645,6 @@ def like
     render json: {
       errors: @post.errors,
       message: 'Post could not be liked.'
-    }, status: :unprocessable_entity
-  end
-end
-
-# PUT /posts/1/retweet
-def retweet
-  @post = Post.find params[:id]
-  @post.increment(:retweets_count)
-
-  if @post.save
-    ActionCable.server.broadcast('matestack_ui_core', {
-      event: "cable__retweeted_post_#{@post.id}"
-    })
-    render json: {
-      message: 'Post was successfully retweeted.'
-    }, status: :created
-  else
-    render json: {
-      errors: @post.errors,
-      message: 'Post could not be retweeted.'
     }, status: :unprocessable_entity
   end
 end
@@ -800,13 +689,7 @@ end
 def post_list_partial
   async rerender_on: "cable__created_post", id: "post-list" do
     @posts.each do |post|
-      div class: "mb-3 p-3 rounded shadow-sm" do
-        heading size: 5 do
-          plain post.username
-          small text: post.created_at.strftime("%d.%m.%Y %H:%M")
-        end
-        paragraph text: post.body
-      end
+      post_partial(post)
     end
   end
 end
@@ -829,8 +712,8 @@ def post_list_partial
 end
 
 def post_partial post
-  # async rerender_on: "liked_post_#{post.id}, retweeted_post_#{post.id}", id: "post-#{post.id}" do
-  async rerender_on: "cable__liked_post_#{post.id}, cable__retweeted_post_#{post.id}", id: "post-#{post.id}" do
+  # async rerender_on: "liked_post_#{post.id}", id: "post-#{post.id}" do
+  async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
     div class: "mb-3 p-3 rounded shadow-sm" do
       heading size: 5 do
         plain post.username
@@ -841,12 +724,6 @@ def post_partial post
       action path: like_post_path(post), method: :put do
         button class: "btn btn-light" do
           plain "Like (#{post.likes_count})"
-        end
-      end
-      # action path: retweet_post_path(post), method: :put, success: { emit: "retweeted_post_#{post.id}" } do
-      action path: retweet_post_path(post), method: :put do
-        button class: "btn btn-light" do
-          plain "Retweet (#{post.retweets_count})"
         end
       end
     end
@@ -890,7 +767,7 @@ class Components::Post < Matestack::Ui::Component
 
   def response
     # copied from the index page
-    async rerender_on: "cable__liked_post_#{post.id}, cable__retweeted_post_#{post.id}", id: "post-#{post.id}" do
+    async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
       div class: "mb-3 p-3 rounded shadow-sm" do
         heading size: 5 do
           plain post.username
@@ -900,11 +777,6 @@ class Components::Post < Matestack::Ui::Component
         action path: like_post_path(post), method: :put do
           button class: "btn btn-light" do
             plain "Like (#{post.likes_count})"
-          end
-        end
-        action path: retweet_post_path(post), method: :put do
-          button class: "btn btn-light" do
-            plain "Retweet (#{post.retweets_count})"
           end
         end
       end
@@ -977,7 +849,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
     end
 
     # def post_partial post
-    #   async rerender_on: "cable__liked_post_#{post.id}, cable__retweeted_post_#{post.id}", id: "post-#{post.id}" do
+    #   async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
     #     div class: "mb-3 p-3 rounded shadow-sm" do
     #       heading size: 5 do
     #         plain post.username
@@ -987,11 +859,6 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
     #       action path: like_post_path(post), method: :put do
     #         button class: "btn btn-light" do
     #           plain "Like (#{post.likes_count})"
-    #         end
-    #       end
-    #       action path: retweet_post_path(post), method: :put do
-    #         button class: "btn btn-light" do
-    #           plain "Retweet (#{post.retweets_count})"
     #         end
     #       end
     #     end
@@ -1090,7 +957,7 @@ end
 You probably don't realize any difference on the UI, but now ONLY the fresh post will be rendered on the server and pushed to the `cable` component mounted in the browser.
 The `cable` component is configured to `prepend` (put on top) everything pushed from the server on the `cable__created_post` event. This reactivity approach is now already much more scalable in a context of big/complex UI rerendering.
 
-The `cable` component can `prepend`, `append`, `update` and `delete` elements within its body or `replace` its whole body with something pushed from the server. We want to use the `update` feature in order to rerender a specific post when liked or retweeted:
+The `cable` component can `prepend`, `append`, `update` and `delete` elements within its body or `replace` its whole body with something pushed from the server. We want to use the `update` feature in order to rerender a specific post when liked:
 
 ## Adjust the `cable` component for post rerendering
 
@@ -1116,7 +983,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
     def post_list_partial
       # cable prepend_on: "cable__created_post", id: "post-list" do
-      cable prepend_on: "cable__created_post", update_on: "cable__liked_post, cable__retweeted_post", id: "post-list" do
+      cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
         @posts.each do |post|
           post_component post: post
         end
@@ -1136,7 +1003,7 @@ class Components::Post < Matestack::Ui::Component
   requires :post
 
   def response
-    # async rerender_on: "cable__liked_post_#{post.id}, cable__retweeted_post_#{post.id}", id: "post-#{post.id}" do
+    # async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
       div class: "mb-3 p-3 rounded shadow-sm", id: "post-#{post.id}" do
         heading size: 5 do
           plain post.username
@@ -1148,11 +1015,6 @@ class Components::Post < Matestack::Ui::Component
             plain "Like (#{post.likes_count})"
           end
         end
-        action path: retweet_post_path(post), method: :put do
-          button class: "btn btn-light" do
-            plain "Retweet (#{post.retweets_count})"
-          end
-        end
       end
     # end
   end
@@ -1160,7 +1022,7 @@ class Components::Post < Matestack::Ui::Component
 end
 ```
 
-- [x] Adjust the ActionCable broadcast on the `like` and `retweet` action on the post controller
+- [x] Adjust the ActionCable broadcast on the `like` action on the post controller
 
 `app/controller/posts_controller.rb`
 
@@ -1191,30 +1053,6 @@ def like
   end
 end
 
-# PUT /posts/1/retweet
-def retweet
-  @post = Post.find params[:id]
-  @post.increment(:retweets_count)
-
-  if @post.save
-    ActionCable.server.broadcast('matestack_ui_core', {
-      # event: "cable__retweeted_post_#{@post.id}"
-      # no id required in the event name, the cable component will figure out which post
-      # should be updated using the root element ID of the pushed component
-      event: "cable__retweeted_post", # change the event name
-      data: matestack_component(:post_component, post: @post) # add this line
-    })
-    render json: {
-      message: 'Post was successfully retweeted.'
-    }, status: :created
-  else
-    render json: {
-      errors: @post.errors,
-      message: 'Post could not be retweeted.'
-    }, status: :unprocessable_entity
-  end
-end
-
 # POST /posts
 def create
   @post = Post.new(post_params)
@@ -1241,14 +1079,554 @@ end
 **Test the current state**
 
 - [x] Navigate to `localhost:3000/posts`
-- [x] Like and retweet something on both browser tabs
+- [x] Like something on both browser tabs
 
 Again: you probably don't realize any difference on the UI, but now ONLY the updated post will be rendered on the server and pushed to the `cable` component mounted in the browser.
 
-The `cable` component is configured to `updated` the component pushed from the server on the `cable__liked_post` or `cable__retweeted_post` event. The `cable` component then reads the ID of the root element of the pushed component, looks for that ID within it's body and updates this element with the pushed component.
+The `cable` component is configured to `updated` the component pushed from the server on the `cable__liked_post` event. The `cable` component then reads the ID of the root element of the pushed component, looks for that ID within it's body and updates this element with the pushed component.
 
-Now, we're rerendering the list and its elements completely with the `cable` component. As described, this is an ALTERNATIVE approach to the introduced `async` component approach. The `cable` component requries a bit more implementation and brain power but makes our reactivity more scalable. Use the `cable` component wherever you think `async` would be too slow at some point!
+Now, we're rerendering the list and its elements completely with the `cable` component. As described, this is an ALTERNATIVE approach to the introduced `async` component approach. The `cable` component requires a bit more implementation and brain power but makes our reactivity more scalable. Use the `cable` component wherever you think `async` would be too slow at some point!
+
+Ok, let's lazy load the list of posts in order to speed up initial page load when reading the posts from the database and rendering them gets "too slow" at some point. Take a deep breath: We will use `async` and `cable` together now!
+
+Relax, it's super simple:
+
+## Lazy load the post list with async's `defer` feature
+
+- [x] Wrap an `async` component around the `cable` component
+- [x] Configure this `async` to defer its rendering
+- [x] Move the ActiveRecord query out of the `prepare` method into a helper method
+
+`app/matestack/twitter_clone/posts/index.rb`
+
+```ruby
+class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
+
+  # def prepare
+  #   @posts = Post.all
+  # end
+
+  def response
+    post_form_partial
+    post_list_partial
+  end
+
+  private
+
+    # ...
+
+    def posts
+      Post.all
+    end
+
+    def post_list_partial
+      async defer: true, id: "deferred-post-list" do
+        cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
+          # @posts.each do |post|
+          posts.each do |post|
+            post_component post: post
+          end
+        end
+      end
+    end
+
+end
+```
+
+**Test the current state**
+
+- [x] Navigate to `localhost:3000/posts`
+- [x] Check the browsers network monitor and watch how a subsequent HTTP GET call resolves the posts list
+- [x] Change `defer: true` to `defer: 1000` and see, how the subsequent call is deferred for 1000 milliseconds now
+
+That was easy, right? The `async` requested its content right after the page was loaded. We moved the ActiveRecord query out of the `prepare` method out of following reason: When rendering a Matestack page/component, the `prepare` method is always called. This means, the ActiveRecord query is performed on the initial page load although we don't need the data yet. Matestacks rendering mechanism stops rendering components which are wrapped in an `async defer` component on initial page load and only renders them, when they are explicitly requested in a subsequent HTTP call. Therefore we should take care of calling the ActiveRecord query only from within the deferred block. In our example we accomplish this by calling the helper method `posts` instead of using the instance variable `@posts`, formerly resolved in the `prepare` method.
+
+Using this approach, it is super simple to speed up initial page loads without adding complexity or JavaScript to your code! Awesome!
+
+Want some sugar? How about adding a CSS animation while lazy loading the post list?
+
+`app/javascript/packs/stylesheets/application.scss`
+
+```scss
+// Async loading state
+.matestack-async-component-container{
+
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+
+  &.loading {
+    opacity: 0;
+  }
+
+}
+```
+
+`app/javascript/packs/application.js`
+
+```javascript
+// add this line
+import "./stylesheets/application.scss";
+```
+
+- [x] Refresh the browser and enjoy the fade effect!
+
+Speaking of fade effects: Let's add a second page in order to show, how you can use Matestacks app and `transition` component in order to implement dynamic page transitions without full browser page reload and without adding any JavaScript!
+
+## Implement dynamic page transitions
+
+We will create a profile page in order to save the username in a session cookie rather than asking for the username on the post form! Obviously, you would use proper user management via something like `devise` in a real world example!
+
+- [x] Add an view helper method in order to access the session cookie from a Matestack page
+
+`app/helpers/cookie_helper.rb`
+
+```ruby
+module CookieHelper
+
+  def current_username
+    cookies[:username]
+  end
+
+end
+
+```
+
+- [x] Remove the username input from the post form
+- [x] Remove the toggle components from the post index page; we will add them to the app in a bit enabling the new profile page to trigger them as well!
+
+`app/matestack/twitter_clone/posts/index.rb`
+
+```ruby
+class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
+
+  def response
+    post_form_partial
+    post_list_partial
+  end
+
+  private
+
+    def post_form_partial
+      div class: "mb-3 p-3 rounded shadow-sm" do
+        heading size: 4, text: "New Post", class: "mb-3"
+        form form_config_helper do
+          # div class: "mb-3" do
+          #   form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
+          # end
+          div class: "mb-3" do
+            form_input key: :body, type: :text, placeholder: "What's up?", class: "form-control"
+          end
+          div class: "mb-3" do
+            form_submit do
+              button type: :submit, class: "btn btn-primary", text: "Post!"
+            end
+          end
+        end
+      end
+      # toggle show_on: "submitted", hide_after: 5000 do
+      #   div class: "container fixed-bottom w-100 bg-success text-white p-3 rounded-top" do
+      #     heading size: 4, text: "Success: {{ event.data.message }}"
+      #   end
+      # end
+      # toggle show_on: "form_failed", hide_after: 5000 do
+      #   div class: "container fixed-bottom w-100 bg-danger text-white p-3 rounded-top" do
+      #     heading size: 4, text: "Error: {{ event.data.message }}"
+      #   end
+      # end
+    end
+
+    # ...
+
+end
+```
+
+- [x] Adjust the create action in order to use the cookie instead of a user input
+
+`app/matestack/twitter_clone/posts/index.rb`
+
+```ruby
+# ...
+
+# POST /posts
+def create
+  @post = Post.new(post_params)
+
+  @post.username = cookies[:username] # add this
+
+  # check if the username is already set
+  if cookies[:username].blank?
+    # if not complain!
+    render json: {
+      message: 'No username given!'
+    }, status: :unprocessable_entity
+  else
+    # if yes, perform the code we already got
+    if @post.save
+      ActionCable.server.broadcast('matestack_ui_core', {
+        event: 'cable__created_post',
+        data: matestack_component(:post_component, post: @post)
+      })
+      render json: {
+        message: 'Post was successfully created.'
+      }, status: :created
+    else
+      render json: {
+        errors: @post.errors,
+        message: 'Post could not be created.'
+      }, status: :unprocessable_entity
+    end
+  end
+
+end
+
+# ...
+```
+
+- [x] Add a second page
+
+```bash
+mkdir -p app/matestack/twitter_clone/pages/profile
+touch app/matestack/twitter_clone/pages/profile/edit.rb
+```
+
+- [x] Add some code to the profile edit page
+
+`app/matestack/twitter_clone/pages/profile`
+
+```ruby
+class TwitterClone::Pages::Profile::Edit < Matestack::Ui::Page
+
+  def response
+    div class: "mb-3 p-3 rounded shadow-sm" do
+      heading size: 4, text: "Your Profile", class: "mb-3"
+      form form_config_helper do
+        div class: "mb-3" do
+          form_input key: :username, type: :text, placeholder: "Username", class: "form-control", init: current_username
+        end
+        div class: "mb-3" do
+          form_submit do
+            button type: :submit, class: "btn btn-primary", text: "Save!"
+          end
+        end
+      end
+    end
+  end
+
+  private
+
+  def form_config_helper
+    {
+      for: :profile, path: profile_update_path, method: :put,
+      success: { emit: "submitted" },
+      failure: { emit: "form_failed" },
+      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+    }
+  end
+
+end
+```
+
+- [x] Add the `profile` routes:
+
+`config/routes.rb`
+
+```ruby
+Rails.application.routes.draw do
+  resources :posts do
+    member do
+      put 'like', to: 'posts#like'
+    end
+  end
+  scope :profile, as: :profile do
+    get 'edit', to: 'profile#edit'
+    put 'update', to: 'profile#update'
+  end
+end
+```
+
+- [x] Add the `profile` controller:
+
+```bash
+touch app/controllers/profile_controller.rb
+```
+
+`app/controllers/profile_controller.rb`
+
+```ruby
+class ProfileController < ApplicationController
+
+  matestack_app TwitterClone::App
+
+  # GET /profile/edit
+  def edit
+    render TwitterClone::Pages::Profile::Edit
+  end
+
+  # PUT /profile/update
+  def update
+    if profile_params[:username].blank?
+      render json: {
+        message: 'Profile could not be updated.',
+        errors: { username: ["can't be blank!"] }
+      }, status: :unprocessable_entity
+    else
+      cookies[:username] = profile_params[:username]
+      render json: {
+        message: 'Profile was successfully updated.'
+      }, status: :created
+    end
+  end
+
+  private
+
+    # Only allow a list of trusted parameters through.
+    def profile_params
+      params.require(:profile).permit(:username)
+    end
+end
+
+```
+
+- [x] Add `transition` components to the app
+- [x] Add the `toggle` components from the post index page to the app, this way they can be triggered from all pages
+
+`app/matestack/twitter_clone/app.rb`
+
+```ruby
+class TwitterClone::App < Matestack::Ui::App
+
+  def response
+    div class: "container" do
+      # heading size: 1, text: "Twitter Clone", class: "mb-5"
+      # yield_page
+      heading size: 1, text: "Twitter Clone"
+      transition path: posts_path do
+        button class: "btn btn-light", text: "Timeline"
+      end
+      transition path: profile_edit_path do
+        button class: "btn btn-light", text: "Your Profile"
+      end
+      div class: "mt-5" do
+        yield_page
+      end
+      # add the toggle components here, this way all pages are able to trigger them!
+      toggle show_on: "submitted", hide_after: 5000 do
+        div class: "container fixed-bottom w-100 bg-success text-white p-3 rounded-top" do
+          heading size: 4, text: "Success: {{ event.data.message }}"
+        end
+      end
+      toggle show_on: "form_failed", hide_after: 5000 do
+        div class: "container fixed-bottom w-100 bg-danger text-white p-3 rounded-top" do
+          heading size: 4, text: "Error: {{ event.data.message }}"
+        end
+      end
+    end
+  end
+
+end
+```
+
+**Test the current state**
+
+- [x] Navigate to `localhost:3000/posts`
+- [x] Click on "Your Profile"
+- [x] See how the page is updated without a full browser page reload
+- [x] See how the url changed according to our routes and realize that we're using plain Rails routing for page transitions
+- [x] Enter a username there
+- [x] Realize, that we used the form for a non ActiveRecord data structure
+- [x] Click on "Timeline"
+- [x] Again: see how the page is updated without a full browser page reload, maybe even inspect your browsers network monitor ;)
+- [x] Post something and enjoy not to enter a username anymore (use a private tab if you want to act as a different user!)
+
+Great, we just added a second page and added some `transition` components to our app and without further effort, we implemented dynamic page transitions without touching any JavaScript. The `transition` component triggered the app to request the desired page at the server targeting the appropriate controller action through Rails routing and adjusted the DOM where we placed the `yield_page` on our app!
+
+And you know what: let's add some CSS animations!
+
+- [x] Add some basic animations to your stylesheets (SCSS)
+
+`app/javascript/packs/stylesheets/application.scss`
+
+```scss
+// Async loading state
+.matestack-async-component-container{
+
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+
+  &.loading {
+    opacity: 0;
+  }
+
+}
+
+// Page loading state
+.matestack-page-container{
+
+  .matestack-page-wrapper {
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+
+    &.loading {
+      opacity: 0;
+    }
+  }
+
+}
+```
+
+- [x] Add delays to the `transition` components; otherwise we probably won't see the animations!
+
+`app/matestack/twitter_clone/app.rb`
+
+```ruby
+class TwitterClone::App < Matestack::Ui::App
+
+  def response
+    div class: "container" do
+      heading size: 1, text: "Twitter Clone"
+      # transition path: posts_path do
+      transition path: posts_path, delay: 300 do
+        button class: "btn btn-light", text: "Timeline"
+      end
+      # transition path: profile_edit_path do
+      transition path: profile_edit_path, delay: 300 do
+        button class: "btn btn-light", text: "Your Profile"
+      end
+      div class: "mt-5" do
+        yield_page
+      end
+    end
+  end
+
+end
+```
+
+**Test the current state**
+
+- [x] Navigate to `localhost:3000/posts`
+- [x] Click on the transition components
+- [x] Enjoy the fade effects once again :)
+
+And now we do something, what's not possible in Twitter: Editing. Tweets. Inline. In pure Ruby! (Just because it's nice to showcase that)
+
+## Inline Editing
+
+- [x] Add an edit form
+- [x] Add an `onclick` component emit an event indicating that we want to show the form now
+- [x] Wrap your code into toggle components, switching the currently visible content
+
+`app/matestack/components/post.rb`
+
+```ruby
+class Components::Post < Matestack::Ui::Component
+
+  requires :post
+
+  def response
+    div class: "mb-3 p-3 rounded shadow-sm", id: "post-#{post.id}" do
+      heading size: 5 do
+        plain post.username
+        small text: post.created_at.strftime("%d.%m.%Y %H:%M")
+      end
+      toggle hide_on: "edit-post-#{post.id}", show_on: "updated", init_show: true do
+        show_partial
+      end
+      toggle show_on: "edit-post-#{post.id}", hide_on: "updated" do
+        edit_partial
+      end
+      # paragraph text: post.body, class: "mb-5"
+      # action path: like_post_path(post), method: :put do
+      #   button class: "btn btn-light" do
+      #     plain "Like (#{post.likes_count})"
+      #   end
+      # end
+    end
+  end
+
+  private
+
+  def show_partial
+    paragraph text: post.body, class: "mb-5"
+    action path: like_post_path(post), method: :put do
+      button class: "btn btn-light" do
+        plain "Like (#{post.likes_count})"
+      end
+    end
+    # onclick emits an event triggering the toggle components to show/hide
+    # we use Bootstraps "d-inline" utility class here because onclick renders
+    # a block element (will be changed to an inline element in a future release)
+    onclick emit: "edit-post-#{post.id}", class: "d-inline" do
+      button class: "btn btn-link" do
+        plain "Edit"
+      end
+    end
+  end
+
+  def edit_partial
+    form form_config_helper do
+      div class: "mb-3" do
+        form_input key: :body, type: :text, placeholder: "What's up?", class: "form-control"
+      end
+      div class: "mb-3" do
+        form_submit do
+          button type: :submit, class: "btn btn-primary", text: "Update!"
+        end
+      end
+    end
+  end
+
+  def form_config_helper
+    {
+      for: post, path: post_path(id: post.id), method: :put,
+      success: { emit: "updated" },
+      failure: { emit: "form_failed" },
+      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+    }
+  end
+
+end
+```
+
+- [x] Add the update action to the posts controller
+
+`app/controller/posts_controller.rb`
+
+```ruby
+# ...
+
+# PUT /posts/1
+def update
+  @post = Post.find(params[:id])
+
+  if @post.update(post_params)
+    ActionCable.server.broadcast('matestack_ui_core', {
+      event: "cable__updated_post",
+      data: matestack_component(:post_component, post: @post)
+    })
+    render json: {
+      message: 'Post was successfully updated.'
+    }, status: :created
+  else
+    render json: {
+      errors: @post.errors,
+      message: 'Post could not be updated.'
+    }, status: :unprocessable_entity
+  end
+end
+
+# ...
+```
+
+**Test the current state**
+
+- [x] Navigate to `localhost:3000/posts`
+- [x] Click on the edit button on a Tweet
+- [x] Change the value and submit
+- [x] Do it again. And again!
+- [x] Party around! You've reached the end of the tutorial!
 
 ## Conclusion
 
 We've built a reactive Twitter clone in pure Ruby. Fantastic! :)
+
+Like it? Consider giving the [project](https://github.com/matestack/matestack-ui-core) a star or even become a [sponsor](https://github.com/sponsors/matestack) on Github, share it with your friends and colleagues (and family?) and join our [Discord](https://discord.com/invite/c6tQxFG) server! We're super happy about feedback, looking forward to hear your success stories and help you to build awesome things with Matestack!
