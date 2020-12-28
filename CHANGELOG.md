@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.1 Release
+
+### Bugfixes
+
+- Fixes #497 Cable component throws browser error when initial content contains form component
+
 ## v1.3.0 Release
 
 ### Potential breaking change
