@@ -4,6 +4,10 @@ describe "Cable Component", type: :feature, js: true do
   include Utils
   include Matestack::Ui::Core::ApplicationHelper
 
+  before :each do
+
+  end
+
   it 'should have the typical matestack wrapping classes' do
     matestack_render do
       cable id: 'foobar' do
@@ -42,7 +46,7 @@ describe "Cable Component", type: :feature, js: true do
     expect(page).to have_selector('h1#id', text: 'replaced')
     reset_matestack_app
   end
-  
+
   it 'should be possible to add vue.js components' do
     matestack_render do
       cable id: 'cable-replace', replace_on: 'replace' do
@@ -60,6 +64,48 @@ describe "Cable Component", type: :feature, js: true do
     script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \"#{onclick}\" })".gsub("\n", "")
     page.execute_script(script)
     expect(page).not_to have_selector('p#id', text: 'paragraph')
+    expect(page).to have_selector('button', text: 'Click')
+    expect(page).not_to have_content('event successful emitted')
+
+    click_on 'Click'
+    expect(page).to have_content('event successful emitted')
+  end
+
+  it 'should render Vue.js components and forms without Vue.js console error' do
+    # unfortunately I can't test this as I'm not getting the browsers console.log via capybara/Selenium
+    # tried all hints found on Stackoverflow etc
+    matestack_render do
+      cable id: 'cable-replace', replace_on: 'replace' do
+        form for: :some_object, path: "/", method: :post do
+          form_input key: :foo, type: :text, label: :foo, id: :foo
+        end
+      end
+    end
+
+    # this was throwing a console error in v.1.3.0
+    # "Interpolation inside attributes has been removed. Use v-bind or the colon shorthand instead. For example, instead of <div id="{{ val }}">, use <div :id="val">."
+    # fixed in v.1.3.1 without explicitly testing it...
+
+    expect(page).to have_selector('form')
+    expect(page).to have_selector('input#foo')
+  end
+
+  it 'should work without any initial body given' do
+    matestack_render do
+      cable id: 'cable-replace', replace_on: 'replace' do
+        # nothing
+      end
+      toggle show_on: 'test' do
+        plain 'event successful emitted'
+      end
+    end
+
+    expect(page).not_to have_content('event successful emitted')
+
+    onclick = matestack_component(:onclick, emit: :test) { button text: 'Click' }
+    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \"#{onclick}\" })".gsub("\n", "")
+    page.execute_script(script)
+
     expect(page).to have_selector('button', text: 'Click')
     expect(page).not_to have_content('event successful emitted')
 
