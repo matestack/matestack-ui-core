@@ -4,7 +4,10 @@
 
 In this step-by-step guide, we will show you how to create a Twitter clone with Matestack, following the great screencasts from Chris McCord [Phoenix LiveView Twitter Clone](https://youtu.be/MZvmYaFkNJI) and Nate Hopkins [Stimulus Reflex Twitter Clone](https://youtu.be/F5hA79vKE_E).
 
-We will add a screencast for this guide shortly!
+I've added two screencasts showing you what you will be doing in this tutorial:
+
+* [Part 1](https://youtu.be/Mue5gs6Wtq4)
+* [Part 2](https://youtu.be/nO7Kz9pRbIU)
 
 *This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out [this guide](https://docs.matestack.io/docs/ui_components/100-rails_integration)*
 
