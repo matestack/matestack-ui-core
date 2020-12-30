@@ -1,17 +1,17 @@
-# Matestack Ui Core Getting Started
+# Create a reactive Twitter clone in pure Ruby
 
-**Create a reactive Twitter clone in pure Ruby**
+**Matestack Ui Core Getting Started**
 
-In this step-by-step guide, we will show you how to create a Twitter clone with Matestack, following the great screencasts from Chris McCord [Phoenix LiveView Twitter Clone](https://youtu.be/MZvmYaFkNJI) and Nate Hopkins [Stimulus Reflex Twitter Clone](https://youtu.be/F5hA79vKE_E).
+In this step-by-step guide, I will show you how to create a Twitter clone in pure Ruby with Matestack, following the great screencasts from Chris McCord [Phoenix LiveView Twitter Clone](https://youtu.be/MZvmYaFkNJI) and Nate Hopkins [Stimulus Reflex Twitter Clone](https://youtu.be/F5hA79vKE_E). We will use the Gem “matestack-ui-core”, which enables us to implement our UI in some Ruby classes rather than writing ERB, HAML or Slim views. Furthermore we don’t need to touch JavaScript in order to create reactive UI features, such as updating the DOM without a full browser page reload or syncing multiple web clients through Action Cable!
 
 I've added two screencasts showing you what you will be doing in this tutorial:
 
-* [Part 1](https://youtu.be/Mue5gs6Wtq4)
-* [Part 2](https://youtu.be/nO7Kz9pRbIU)
+[![Create a reactive Twitter clone in pure Ruby - Part 1/2](https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg)](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
+
+[![Create a reactive Twitter clone in pure Ruby - Part 2/2](https://img.youtube.com/vi/nO7Kz9pRbIU/0.jpg)](https://www.youtube.com/watch?v=nO7Kz9pRbIU)
+
 
 *This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out [this guide](https://docs.matestack.io/docs/ui_components/100-rails_integration)*
-
-*All of the introduced components can be used on your existing Rails views using the `matestack_component` helper.*
 
 ## Setup
 
