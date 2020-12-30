@@ -6,7 +6,7 @@ In this step-by-step guide, I will show you how to create a Twitter clone in pur
 
 I've added a screencast (two parts) showing you what you will be doing in this tutorial:
 
-[![Create a reactive Twitter clone in pure Ruby - Part 1/2](https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg)](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
+[<img src="https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg" width="350">](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
 
 
 *This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out [this guide](https://docs.matestack.io/docs/ui_components/100-rails_integration)*
