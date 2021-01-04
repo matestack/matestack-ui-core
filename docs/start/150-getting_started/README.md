@@ -85,7 +85,7 @@ require("@rails/ujs").start()
 // require("turbolinks").start() //remove
 require("@rails/activestorage").start()
 require("channels")
-require("matestack-ui-core") //add
+import MatestackUiCore from 'matestack-ui-core' //add
 
 ```
 
