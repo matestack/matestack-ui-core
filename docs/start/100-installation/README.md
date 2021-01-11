@@ -78,7 +78,7 @@ In your package.json, change the version number used in the GitHub path referenc
   "name": "xyz",
   "dependencies": {
     // adjust the following path in order to match the Ruby Gem version!
-    "matestack-ui-core": "https://github.com/matestack/matestack-ui-core#v1.3.0", 
+    "matestack-ui-core": "https://github.com/matestack/matestack-ui-core#v1.3.2", 
   }
 }
 

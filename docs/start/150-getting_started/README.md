@@ -18,8 +18,8 @@ I've added a screencast (two parts) showing you what you will be doing in this t
 ```bash
 rails new twitter_clone --webpacker
 cd twitter_clone
-bundle add matestack-ui-core --version "~> 1.3.0"
-yarn add https://github.com/matestack/matestack-ui-core#v1.3.0
+bundle add matestack-ui-core --version "~> 1.3.2"
+yarn add https://github.com/matestack/matestack-ui-core#v1.3.2
 ```
 
 - [x] Use Rails scaffolder in order to setup some files:
