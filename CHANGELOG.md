@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.3.2 Release - 2021-01-11
+
+### Bugfixes
+
+- Fixes #503 new vue-turbolinks v2.2.0 causes error on webpacker compile
+
+### Security bumps
+
+- Various version bumps triggered through dependabot
+
 ## v1.3.1 Release - 2020-12-28
 
 ### Bugfixes
