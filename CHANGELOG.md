@@ -1,12 +1,12 @@
 # Changelog
 
-## v1.3.1 Release
+## v1.3.1 Release - 2020-12-28
 
 ### Bugfixes
 
 - Fixes #497 Cable component throws browser error when initial content contains form component
 
-## v1.3.0 Release
+## v1.3.0 Release - 2020-12-22
 
 ### Potential breaking change
 
@@ -44,19 +44,19 @@ If you have implemented your own form components, please adjust them as describe
 - Fixes #494 true/false checkboxes are initialized incorrectly
 
 
-## v1.2.0 Release
+## v1.2.0 Release - 2020-11-20
 
 ### Improvements
 
 * Enable usage of Rails view/route helpers on standalone components used via matestack_component helper #476
 
-## v1.1.0 Release
+## v1.1.0 Release - 2020-10-16
 
 ### Improvements
 
 * added the `cable` component in order to use ActionCable to update the DOM
 
-## v1.0.1 Release
+## v1.0.1 Release - 2020-10-07
 
 This release contains bugfixes.
 
@@ -67,7 +67,7 @@ This release contains bugfixes.
 *  Fixed duplicate directory error when using matestack-ui-core with webpacker #460
 
 
-## v1.0.0 Release
+## v1.0.0 Release - 2020-09-10
 
 Please note that this release contains breaking changes and soft deprecations. To make things easy for users of the current `v0.7.*` version, we have provided **Migration TODOs** at the end of each chapter.
 
@@ -810,7 +810,7 @@ The Form Inline Component has been removed and can no longer be used.
 
 The Absolute Component has been removed and can no longer be used.
 
-## v0.7.6
+## v0.7.6 - 2020-05-06
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.6)
 
@@ -840,7 +840,7 @@ The Absolute Component has been removed and can no longer be used.
 * Updated core dev and test environment to Rails 6
 * Added form/action `redirect_to` option #415
 
-## v0.7.5
+## v0.7.5 - 2020-03-11
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.5)
 
@@ -863,7 +863,7 @@ The Absolute Component has been removed and can no longer be used.
 
 * Fixed broken history button behavior introduced in `0.7.4` #386
 
-## v0.7.4
+## v0.7.4 2020-02-10
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.4)
 
@@ -988,7 +988,7 @@ single matestack module for example
 * Anchor Link Click triggers full page transition by PragTob
 
 
-## v0.7.3
+## v0.7.3 - 2019-11-10
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/pulls?q=is%3Apr+is%3Aclosed+milestone%3A0.7.3)
 
@@ -1048,7 +1048,7 @@ none
 * Async component doesn't work on component-level by jonasjabari
 
 
-## v0.7.2.1
+## v0.7.2.1 - 2019-09-10
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/5?closed=1)
 
@@ -1060,7 +1060,7 @@ none
 
 - Fixed image component 157 #158 by jonasjabari
 
-## v0.7.2
+## v0.7.2 - 2019-09-05
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/4?closed=1)
 
@@ -1092,7 +1092,7 @@ none
 - added missing @tag_attributes #151 by jonasjabari
 - update yarn and fix controller action name #141 by pascalwengerter
 
-## v0.7.1
+## v0.7.1 - 2019-08-01
 
 [Merged PRs](https://github.com/basemate/matestack-ui-core/milestone/3?closed=1)
 
@@ -1115,7 +1115,7 @@ none
 
 - Fixed Link Component #84 by jonasjabari
 
-## v0.7.0
+## v0.7.0 - 2019-06-25
 
 ### Breaking changes for users
 
@@ -1405,14 +1405,14 @@ class Pages::ExampleApp::ExamplePage < Matestack::Ui::Page
 end
 ```
 
-## v0.6.0
+## v0.6.0 - 2019-04-27
 
 ### Improvements
 
 * added documentation
 * added tests
 
-## v0.6.0.pre.1
+## v0.6.0.pre.1 - 2019-02-26
 
 This release is marked as PRE. Test coverage is not sufficient at the moment.
 
