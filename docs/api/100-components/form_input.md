@@ -55,6 +55,8 @@ If given, this value will be the initial value of the input. If used in an edit 
 
 ## File Upload
 
+Don't forget to add the `multipart: true` attribute to your `form_config` in order to enable file uploads!
+
 In order to perform a single file upload, add this `form_input` component
 
 ```ruby
@@ -67,7 +69,7 @@ In order to perform multiple file uploads, add this `form_input` component
 form_input key: :some_files, type: :file, multiple: true
 ```
 
-Don't forget to add the `multiple: true` attribute to your `form_config`!
+Don't forget to add the `multiple: true` attribute to your `form_config` in order to enable multi file upload!
 
 In order to accept multiple files, you should permit params on your controller like:
 
