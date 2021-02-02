@@ -13,6 +13,7 @@
     "yarn": "^1.22.0"
   },
   "exports": {
+    ".": "./app/javascript/matestack-ui-core",
     "./concepts/": "./app/concepts/matestack/ui/core/"
   },
   "scripts": {
