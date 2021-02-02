@@ -27,3 +27,19 @@ jobs:
         run: |
           docker-compose run --rm test_5_2 bundle exec rake db:schema:load
           docker-compose run --rm test_5_2 bundle exec rspec spec/test
+  test_5_1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          docker-compose run --rm test_5_1 bundle exec rake db:schema:load
+          docker-compose run --rm test_5_1 bundle exec rspec spec/test
+  test_5_0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          docker-compose run --rm test_5_0 bundle exec rake db:schema:load
+          docker-compose run --rm test_5_0 bundle exec rspec spec/test
