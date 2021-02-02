@@ -50,6 +50,39 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
+  test_5_2:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test.5.2
+    environment:
+      RAILS_ENV: test
+    links:
+      - postgres_test
+    command: "bundle exec rspec spec/test"
+    user: ${CURRENT_UID}
+
+  test_6_0:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test.6.0
+    environment:
+      RAILS_ENV: test
+    links:
+      - postgres_test
+    command: "bundle exec rspec spec/test"
+    user: ${CURRENT_UID}
+
+  test_6_1:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test.6.1
+    environment:
+      RAILS_ENV: test
+    links:
+      - postgres_test
+    command: "bundle exec rspec spec/test"
+    user: ${CURRENT_UID}
+
   postgres_dummy:
     image: postgres
     expose:
@@ -71,7 +104,7 @@ services:
       POSTGRES_DB: test
     volumes:
       - test-data-volume:/var/lib/postgresql/data
-      
+
 volumes:
   test-data-volume:
   dummy-data-volume:

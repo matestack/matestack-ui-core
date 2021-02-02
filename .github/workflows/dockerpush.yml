@@ -3,13 +3,27 @@ name: specs
 on: [push]
 
 jobs:
-  test:
+  test_6_1:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-
       - name: Run tests
         run: |
-          docker-compose run --rm test bundle exec rake db:schema:load
-          docker-compose run --rm test bundle exec rspec spec/test
+          docker-compose run --rm test_6_1 bundle exec rake db:schema:load
+          docker-compose run --rm test_6_1 bundle exec rspec spec/test
+  test_6_0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          docker-compose run --rm test_6_0 bundle exec rake db:schema:load
+          docker-compose run --rm test_6_0 bundle exec rspec spec/test
+  test_5_2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          docker-compose run --rm test_5_2 bundle exec rake db:schema:load
+          docker-compose run --rm test_5_2 bundle exec rspec spec/test
