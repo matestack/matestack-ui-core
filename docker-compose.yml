@@ -50,28 +50,6 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
-  test_5_0_ruby_2_5:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.test_5_0_ruby_2_5
-    environment:
-      RAILS_ENV: test
-    links:
-      - postgres_test
-    command: "bundle exec rspec spec/test"
-    user: ${CURRENT_UID}
-
-  test_5_1_ruby_2_5:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.test_5_1_ruby_2_5
-    environment:
-      RAILS_ENV: test
-    links:
-      - postgres_test
-    command: "bundle exec rspec spec/test"
-    user: ${CURRENT_UID}
-
   test_5_2_ruby_2_6:
     build:
       context: .
