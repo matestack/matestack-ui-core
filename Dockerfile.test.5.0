@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-alpine3.12
+FROM ruby:2.5-alpine3.12
 
 RUN gem install bundler:2.1.4
 
