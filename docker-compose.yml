@@ -57,7 +57,7 @@ services:
     environment:
       RAILS_ENV: test
     links:
-      - postgres_test_5_2_ruby_2_6
+      - "postgres_test_5_2_ruby_2_6:postgres_test"
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
@@ -68,7 +68,7 @@ services:
     environment:
       RAILS_ENV: test
     links:
-      - postgres_test_6_0_ruby_2_6
+      - "postgres_test_6_0_ruby_2_6:postgres_test"
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
@@ -79,7 +79,7 @@ services:
     environment:
       RAILS_ENV: test
     links:
-      - postgres_test_6_1_ruby_2_7
+      - "postgres_test_6_1_ruby_2_7:postgres_test"
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
@@ -90,7 +90,7 @@ services:
     environment:
       RAILS_ENV: test
     links:
-      - postgres_test_6_1_ruby_3_0
+      - "postgres_test_6_1_ruby_3_0:postgres_test"
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
@@ -116,8 +116,6 @@ services:
 
   postgres_test:
     <<: *postgres_test_base
-    volumes:
-      - test-data-volume:/var/lib/postgresql/data
 
   postgres_test_6_1_ruby_3_0:
     <<: *postgres_test_base
