@@ -58,7 +58,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_5_2_ruby_2_6:postgres_test"
-    command: "bundle exec rspec spec/test"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
   test_6_0_ruby_2_6:
@@ -69,7 +69,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_6_0_ruby_2_6:postgres_test"
-    command: "bundle exec rspec spec/test"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
   test_6_1_ruby_2_7:
@@ -80,7 +80,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_6_1_ruby_2_7:postgres_test"
-    command: "bundle exec rspec spec/test"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
   test_6_1_ruby_3_0:
@@ -91,7 +91,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_6_1_ruby_3_0:postgres_test"
-    command: "bundle exec rspec spec/test"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
   postgres_dummy:

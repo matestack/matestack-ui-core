@@ -9,29 +9,25 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_6_1_ruby_3_0 bundle exec rake db:migrate
-          docker-compose run --rm test_6_1_ruby_3_0 bundle exec rspec spec/test
+          docker-compose run --rm test_6_1_ruby_3_0
   test_6_1_ruby_2_7:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_6_1_ruby_2_7 bundle exec rake db:migrate
-          docker-compose run --rm test_6_1_ruby_2_7 bundle exec rspec spec/test
+          docker-compose run --rm test_6_1_ruby_2_7
   test_6_0_ruby_2_6:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_6_0_ruby_2_6 bundle exec rake db:migrate
-          docker-compose run --rm test_6_0_ruby_2_6 bundle exec rspec spec/test
+          docker-compose run --rm test_6_0_ruby_2_6
   test_5_2_ruby_2_6:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_5_2_ruby_2_6 bundle exec rake db:migrate
-          docker-compose run --rm test_5_2_ruby_2_6 bundle exec rspec spec/test
+          docker-compose run --rm test_5_2_ruby_2_6

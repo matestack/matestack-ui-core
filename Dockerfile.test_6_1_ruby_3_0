@@ -40,5 +40,7 @@ RUN rm Gemfile.lock
 RUN mv _Gemfile Gemfile
 RUN mv _Gemfile.lock Gemfile.lock
 
+RUN rm /app/spec/dummy/db/schema.rb
+
 RUN rm /app/spec/dummy/config/application.rb
 RUN mv /app/spec/dummy/config/application.6.1_rb /app/spec/dummy/config/application.rb
