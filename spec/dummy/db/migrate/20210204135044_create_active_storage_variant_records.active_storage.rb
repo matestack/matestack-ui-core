@@ -1,7 +1,7 @@
 # This migration comes from active_storage (originally 20191206030411)
-class CreateActiveStorageVariantRecords < ActiveRecord::Migration[6.0]
-  def change
-    if Rails::VERSION::MAJOR >= 6 && Rails::VERSION::MINOR >= 1
+if Rails::VERSION::MAJOR >= 6 && Rails::VERSION::MINOR >= 1
+  class CreateActiveStorageVariantRecords < ActiveRecord::Migration[6.0]
+    def change
       create_table :active_storage_variant_records do |t|
         t.belongs_to :blob, null: false, index: false
         t.string :variation_digest, null: false
@@ -9,6 +9,12 @@ class CreateActiveStorageVariantRecords < ActiveRecord::Migration[6.0]
         t.index %i[ blob_id variation_digest ], name: "index_active_storage_variant_records_uniqueness", unique: true
         t.foreign_key :active_storage_blobs, column: :blob_id
       end
+    end
+  end
+else
+  class CreateActiveStorageVariantRecords < ActiveRecord::Migration[5.2]
+    def change
+      
     end
   end
 end
