@@ -50,10 +50,10 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
-  test_5_0:
+  test_5_0_ruby_2_5:
     build:
       context: .
-      dockerfile: ./Dockerfile.test.5.2
+      dockerfile: ./Dockerfile.test_5_0_ruby_2_5
     environment:
       RAILS_ENV: test
     links:
@@ -61,10 +61,10 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
-  test_5_1:
+  test_5_1_ruby_2_5:
     build:
       context: .
-      dockerfile: ./Dockerfile.test.5.2
+      dockerfile: ./Dockerfile.test_5_1_ruby_2_5
     environment:
       RAILS_ENV: test
     links:
@@ -72,10 +72,10 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
-  test_5_2:
+  test_5_2_ruby_2_6:
     build:
       context: .
-      dockerfile: ./Dockerfile.test.5.2
+      dockerfile: ./Dockerfile.test_5_2_ruby_2_6
     environment:
       RAILS_ENV: test
     links:
@@ -83,10 +83,10 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
-  test_6_0:
+  test_6_0_ruby_2_6:
     build:
       context: .
-      dockerfile: ./Dockerfile.test.6.0
+      dockerfile: ./Dockerfile.test_6_0_ruby_2_6
     environment:
       RAILS_ENV: test
     links:
@@ -94,10 +94,21 @@ services:
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
-  test_6_1:
+  test_6_1_ruby_2_7:
     build:
       context: .
-      dockerfile: ./Dockerfile.test.6.1
+      dockerfile: ./Dockerfile.test_6_1_ruby_2_7
+    environment:
+      RAILS_ENV: test
+    links:
+      - postgres_test
+    command: "bundle exec rspec spec/test"
+    user: ${CURRENT_UID}
+
+  test_6_1_ruby_3_0:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test_6_1_ruby_3_0
     environment:
       RAILS_ENV: test
     links:
