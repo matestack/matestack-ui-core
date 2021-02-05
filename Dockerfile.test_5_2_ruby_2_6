@@ -13,7 +13,7 @@ COPY matestack-ui-core.gemspec /app/
 COPY Gemfile.5.2 /app/Gemfile
 RUN bundle install
 
-COPY package.json yarn* /app/
+COPY package.json /app/
 RUN yarn install
 
 RUN apk update && apk upgrade \
