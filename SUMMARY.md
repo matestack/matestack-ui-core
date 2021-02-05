@@ -1,12 +1,6 @@
 # Table of contents
 
 * [README](README.md)
-* [Start](start/README.md)
-  * [Create a reactive Twitter clone in pure Ruby](start/150-getting_started.md)
-  * [Core Contribution](start/400-contribute.md)
-  * [Community](start/300-community.md)
-  * [About Matestack](start/200-about.md)
-  * [Installation/Update guide](start/100-installation.md)
 * [api](api/README.md)
   * [Core Components](api/100-components/README.md)
     * [Matestack Core Component: Samp](api/100-components/samp.md)
@@ -144,6 +138,12 @@
   * [Haml components](ui_components/500-haml_components.md)
   * [Testing](ui_components/1400-testing.md)
   * [Reusing views or partials](ui_components/400-reusing_views_or_partials.md)
+* [Matestack UI Core Docs](start/README.md)
+  * [Create a reactive Twitter clone in pure Ruby](start/150-getting_started.md)
+  * [Core Contribution](start/400-contribute.md)
+  * [Community](start/300-community.md)
+  * [About Matestack](start/200-about.md)
+  * [Installation/Update guide](start/100-installation.md)
 * [Changelog](changelog.md)
 * [Contributor Covenant Code of Conduct](code_of_conduct.md)
 
