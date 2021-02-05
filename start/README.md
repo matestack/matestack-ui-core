@@ -1,4 +1,4 @@
-# Matestack UI Core Docs
+# Start
 
 Welcome to the docs of the Ruby gem `matestack-ui-core`!
 
