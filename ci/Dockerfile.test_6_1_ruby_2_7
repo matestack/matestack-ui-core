@@ -1,4 +1,4 @@
-FROM ruby:2.6-alpine3.12
+FROM ruby:2.7-alpine3.12
 
 RUN gem install bundler:2.1.4
 
@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY ./lib/ /app/lib/
 COPY matestack-ui-core.gemspec /app/
-COPY Gemfile.6.0 /app/Gemfile
+COPY ./ci/Gemfile.6.1 /app/Gemfile
 RUN bundle install
 
 COPY package.json /app/
@@ -34,13 +34,16 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 
 RUN mv Gemfile _Gemfile
 RUN mv Gemfile.lock _Gemfile.lock
+RUN mv yarn.lock _yarn.lock
 COPY . /app
 RUN rm Gemfile
 RUN rm Gemfile.lock
+RUN rm yarn.lock
 RUN mv _Gemfile Gemfile
 RUN mv _Gemfile.lock Gemfile.lock
+RUN mv _yarn.lock yarn.lock
 
 RUN rm /app/spec/dummy/db/schema.rb
 
 RUN rm /app/spec/dummy/config/application.rb
-RUN mv /app/spec/dummy/config/application.6.0_rb /app/spec/dummy/config/application.rb
+RUN mv /app/spec/dummy/config/application.6.1_rb /app/spec/dummy/config/application.rb

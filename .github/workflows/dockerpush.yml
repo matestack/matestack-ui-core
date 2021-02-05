@@ -9,11 +9,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_6_1_ruby_3_0
+          docker-compose -f ./ci/docker-compose.ci.yml run --rm test_6_1_ruby_3_0
       - name: Upload lock files
         uses: actions/upload-artifact@v2
         with:
-          name: lockfiles
+          name: lockfiles_test_6_1_ruby_3_0
           path: |
             yarn.lock
             Gemfile.lock
@@ -23,11 +23,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_6_1_ruby_2_7
+          docker-compose -f ./ci/docker-compose.ci.yml run --rm test_6_1_ruby_2_7
       - name: Upload lock files
         uses: actions/upload-artifact@v2
         with:
-          name: lockfiles
+          name: lockfiles_test_6_1_ruby_2_7
           path: |
             yarn.lock
             Gemfile.lock
@@ -37,11 +37,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_6_0_ruby_2_6
+          docker-compose -f ./ci/docker-compose.ci.yml run --rm test_6_0_ruby_2_6
       - name: Upload lock files
         uses: actions/upload-artifact@v2
         with:
-          name: lockfiles
+          name: lockfiles_test_6_0_ruby_2_6
           path: |
             yarn.lock
             Gemfile.lock
@@ -51,11 +51,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose run --rm test_5_2_ruby_2_6
+          docker-compose -f ./ci/docker-compose.ci.yml run --rm test_5_2_ruby_2_6
       - name: Upload lock files
         uses: actions/upload-artifact@v2
         with:
-          name: lockfiles
+          name: lockfiles_test_5_2_ruby_2_6
           path: |
             yarn.lock
             Gemfile.lock

@@ -1,58 +1,9 @@
 version: '3'
 services:
 
-  dummy:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.dev
-    ports:
-      - "3000:3000"
-    environment:
-      RAILS_ENV: development
-    links:
-      - postgres_dummy
-    volumes:
-      - ./:/app
-      - gem-volume:/usr/local/bundle
-      - node-volume:/app/node_modules
-    command: "bundle exec rails server -b 0.0.0.0"
-    user: ${CURRENT_UID}
-    stdin_open: true
-    tty: true
-
-  webpack-watcher:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.dev
-    environment:
-      RAILS_ENV: development
-    volumes:
-      - ./:/app
-      - gem-volume:/usr/local/bundle
-      - node-volume:/app/node_modules
-    command: "sh -c 'cd builder && ./bin/webpack --watch'"
-    user: ${CURRENT_UID}
-
-  test:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.test
-    environment:
-      RAILS_ENV: test
-    links:
-      - postgres_test
-    ports:
-      - "33123:33123"
-    volumes:
-      - ./:/app
-      - gem-volume:/usr/local/bundle
-      - node-volume:/app/node_modules
-    command: "bundle exec rspec spec/test"
-    user: ${CURRENT_UID}
-
   test_5_2_ruby_2_6:
     build:
-      context: .
+      context: ../
       dockerfile: ./ci/Dockerfile.test_5_2_ruby_2_6
     environment:
       RAILS_ENV: test
@@ -63,7 +14,7 @@ services:
 
   test_6_0_ruby_2_6:
     build:
-      context: .
+      context: ../
       dockerfile: ./ci/Dockerfile.test_6_0_ruby_2_6
     environment:
       RAILS_ENV: test
@@ -74,7 +25,7 @@ services:
 
   test_6_1_ruby_2_7:
     build:
-      context: .
+      context: ../
       dockerfile: ./ci/Dockerfile.test_6_1_ruby_2_7
     environment:
       RAILS_ENV: test
@@ -85,7 +36,7 @@ services:
 
   test_6_1_ruby_3_0:
     build:
-      context: .
+      context: ../
       dockerfile: ./ci/Dockerfile.test_6_1_ruby_3_0
     environment:
       RAILS_ENV: test
@@ -93,17 +44,6 @@ services:
       - "postgres_test_6_1_ruby_3_0:postgres_test"
     command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test"
     user: ${CURRENT_UID}
-
-  postgres_dummy:
-    image: postgres
-    expose:
-      - 5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: dummy
-    volumes:
-      - dummy-data-volume:/var/lib/postgresql/data
 
   postgres_test_base: &postgres_test_base
     image: postgres
@@ -113,9 +53,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: test
-
-  postgres_test:
-    <<: *postgres_test_base
 
   postgres_test_6_1_ruby_3_0:
     <<: *postgres_test_base
@@ -128,9 +65,3 @@ services:
 
   postgres_test_5_2_ruby_2_6:
     <<: *postgres_test_base
-
-volumes:
-  test-data-volume:
-  dummy-data-volume:
-  gem-volume:
-  node-volume:
