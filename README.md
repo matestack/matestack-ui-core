@@ -36,7 +36,7 @@ dynamic Web-App.
 - Rails 6.1.1 + Ruby 3.0.0
 - Rails 6.1.1 + Ruby 2.7.2
 - Rails 6.0.3.4 + Ruby 2.6.6
-- Rails 5.2.4.1 + Ruby 2.6.6
+- Rails 5.2.4.4 + Ruby 2.6.6
 
 Rails versions below 5.2 are not supported.
 
