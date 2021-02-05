@@ -1,4 +1,4 @@
-require_dependency "cell/partial"
+require "cell/partial"
 
 module Matestack::Ui::Core::View
   class View < Matestack::Ui::Core::Component::Static
@@ -15,7 +15,7 @@ module Matestack::Ui::Core::View
         controller.render_to_string view_path, layout: false, locals: locals
       elsif partial_path
         controller.render_to_string partial: partial_path, layout: false, locals: locals
-      else  
+      else
         raise 'view or partial param missing for RailsView Component'
       end
     end

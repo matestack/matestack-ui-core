@@ -17,9 +17,9 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib,vendor}/**/*", "LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", '>= 5.0'
-  s.add_dependency "haml"
-  s.add_dependency "trailblazer-cells"
-  s.add_dependency "cells-rails"
-  s.add_dependency "cells-haml"
+  s.add_dependency "rails", '>= 5.2'
+  s.add_dependency "haml", '>= 4.1.0.beta.1'
+  s.add_dependency "trailblazer-cells", '>= 0.0.3'
+  s.add_dependency "cells-rails", '>= 0.1.0'
+  s.add_dependency "cells-haml", '>= 0.0.10'
 end

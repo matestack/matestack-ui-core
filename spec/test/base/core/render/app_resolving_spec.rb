@@ -6,8 +6,16 @@ describe "Render", type: :feature, js: true do
   before :all do
     Rails.application.routes.append do
       scope "render_app_resolving_spec" do
-        get '/example', to: 'render_test#example'
-        get '/second_example', to: 'render_test#second_example'
+        get '/example_a', to: 'render_test_a#example'
+        get '/second_example_a', to: 'render_test_a#second_example'
+        get '/example_b', to: 'render_test_b#example'
+        get '/second_example_b', to: 'render_test_b#second_example'
+        get '/example_c', to: 'render_test_c#example'
+        get '/second_example_c', to: 'render_test_c#second_example'
+        get '/example_d', to: 'render_test_d#example'
+        get '/second_example_d', to: 'render_test_d#second_example'
+        get '/example_e', to: 'render_test_e#example'
+        get '/second_example_e', to: 'render_test_e#second_example'
       end
     end
     Rails.application.reload_routes!
@@ -25,7 +33,8 @@ describe "Render", type: :feature, js: true do
 
     end
 
-    class RenderTestController < ActionController::Base
+    # otherwise the matestack_app_class class var would be set as specified in the former spec
+    class RenderTestAController < ActionController::Base
       layout "application"
 
       include Matestack::Ui::Core::ApplicationHelper
@@ -36,7 +45,7 @@ describe "Render", type: :feature, js: true do
 
     end
 
-    visit "render_app_resolving_spec/example"
+    visit "render_app_resolving_spec/example_a"
 
     # dom structure implies correct rendering with wrapping minimal app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
@@ -71,7 +80,8 @@ describe "Render", type: :feature, js: true do
       end
     end
 
-    class RenderTestController < ActionController::Base
+    # otherwise the matestack_app_class class var would be set as specified in the former spec
+    class RenderTestBController < ActionController::Base
       layout "application"
       include Matestack::Ui::Core::ApplicationHelper
 
@@ -84,11 +94,11 @@ describe "Render", type: :feature, js: true do
       end
     end
 
-    visit "render_app_resolving_spec/example"
+    visit "render_app_resolving_spec/example_b"
     # dom structure implies correct rendering with wrapping specified app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
 
-    visit "render_app_resolving_spec/second_example"
+    visit "render_app_resolving_spec/second_example_b"
     # dom structure implies correct rendering with wrapping specified app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
@@ -122,7 +132,8 @@ describe "Render", type: :feature, js: true do
       end
     end
 
-    class RenderTestController < ActionController::Base
+    # otherwise the matestack_app_class class var would be set as specified in the former spec
+    class RenderTestCController < ActionController::Base
       include Matestack::Ui::Core::ApplicationHelper
       layout "application"
       matestack_app ExampleApp::App
@@ -136,12 +147,12 @@ describe "Render", type: :feature, js: true do
       end
     end
 
-    visit "render_app_resolving_spec/example"
+    visit "render_app_resolving_spec/example_c"
     # dom structure implies correct rendering with wrapping specified app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
 
-    visit "render_app_resolving_spec/second_example"
+    visit "render_app_resolving_spec/second_example_c"
     # dom structure implies correct rendering with wrapping specified app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
@@ -158,8 +169,7 @@ describe "Render", type: :feature, js: true do
     end
 
     # otherwise the matestack_app_class class var would be set as specified in the former spec
-    Object.send(:remove_const, :RenderTestController) if defined?(RenderTestController)
-    class RenderTestController < ActionController::Base
+    class RenderTestDController < ActionController::Base
       include Matestack::Ui::Core::ApplicationHelper
       layout "application"
 
@@ -172,12 +182,12 @@ describe "Render", type: :feature, js: true do
       end
     end
 
-    visit "render_app_resolving_spec/example"
+    visit "render_app_resolving_spec/example_d"
     # dom structure implies correct rendering with wrapping specified app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
 
-    visit "render_app_resolving_spec/second_example"
+    visit "render_app_resolving_spec/second_example_d"
     # dom structure implies correct rendering without app
     text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-page-root"]/div').text
     expect(text).to eq("hello from page")
@@ -224,8 +234,8 @@ describe "Render", type: :feature, js: true do
       end
 
       # otherwise the matestack_app_class class var would be set as specified in the former spec
-      Object.send(:remove_const, :RenderTestController) if defined?(RenderTestController)
-      class RenderTestController < ActionController::Base
+
+      class RenderTestEController < ActionController::Base
         include Matestack::Ui::Core::ApplicationHelper
         layout "application"
 
@@ -238,12 +248,12 @@ describe "Render", type: :feature, js: true do
         end
       end
 
-      visit "render_app_resolving_spec/example"
+      visit "render_app_resolving_spec/example_e"
       # dom structure implies correct rendering with wrapping specified app
       text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
       expect(text).to eq("hello from example page")
 
-      visit "render_app_resolving_spec/second_example"
+      visit "render_app_resolving_spec/second_example_e"
       # dom structure implies correct rendering with wrapping specified app
       text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
       expect(text).to eq("hello from some other example page")

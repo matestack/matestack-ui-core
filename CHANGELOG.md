@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.4.0 Release - 2021-02-05
+
+### Improvements
+
+- Ruby 3 support
+- Vue update to 2.6.12
+- Vuex update to 3.6.2
+- Gemspec update clarifying that Rails below 5.2 is not supported (EOL versions anyway!)
+- CI test runs against multiple Rails/Ruby version combination
+
+### Bugfixes
+
+- Webpacker 6 support #500
+
+### Security bumps
+
+- Various version bumps triggered through dependabot
+
 ## v1.3.2 Release - 2021-01-11
 
 ### Bugfixes
