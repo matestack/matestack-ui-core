@@ -10,6 +10,13 @@ jobs:
       - name: Run tests
         run: |
           docker-compose run --rm test_6_1_ruby_3_0
+      - name: Upload lock files
+        uses: actions/upload-artifact@v2
+        with:
+          name: lockfiles
+          path: |
+            yarn.lock
+            Gemfile.lock
   test_6_1_ruby_2_7:
     runs-on: ubuntu-latest
     steps:
@@ -17,6 +24,13 @@ jobs:
       - name: Run tests
         run: |
           docker-compose run --rm test_6_1_ruby_2_7
+      - name: Upload lock files
+        uses: actions/upload-artifact@v2
+        with:
+          name: lockfiles
+          path: |
+            yarn.lock
+            Gemfile.lock
   test_6_0_ruby_2_6:
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +38,13 @@ jobs:
       - name: Run tests
         run: |
           docker-compose run --rm test_6_0_ruby_2_6
+      - name: Upload lock files
+        uses: actions/upload-artifact@v2
+        with:
+          name: lockfiles
+          path: |
+            yarn.lock
+            Gemfile.lock
   test_5_2_ruby_2_6:
     runs-on: ubuntu-latest
     steps:
@@ -31,3 +52,10 @@ jobs:
       - name: Run tests
         run: |
           docker-compose run --rm test_5_2_ruby_2_6
+      - name: Upload lock files
+        uses: actions/upload-artifact@v2
+        with:
+          name: lockfiles
+          path: |
+            yarn.lock
+            Gemfile.lock
