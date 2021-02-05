@@ -3,12 +3,11 @@
 The HTML `<details>` and `<summary>` tags, implemented in Ruby.
 
 ## Parameters
-
 The `<summary >`tag either yields content or displays what gets passed to the `text` configuration param. Both `<details>` and `<summary>` tag accept all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
 
-### Example 1: Render options\[:text\] param in `<summary>`
+### Example 1: Render options[:text] param in `<summary>`
 
 ```ruby
 details id: 'foo', class: 'bar' do
@@ -17,7 +16,7 @@ details id: 'foo', class: 'bar' do
 end
 ```
 
-```markup
+```html
 <details id="foo" class="bar">
   <summary>Greetings</summary>
   Hello World!
@@ -35,7 +34,7 @@ details id: 'foo', class: 'bar' do
 end
 ```
 
-```markup
+```html
 <details id="foo" class="bar">
   <summary>Greetings</summary>
   <p>Hello World!</p>
@@ -50,9 +49,8 @@ details id: 'foo' do
 end
 ```
 
-```markup
+```html
 <details id="foo">
   Hello World!
 </details>
 ```
-

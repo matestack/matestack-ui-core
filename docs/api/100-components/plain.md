@@ -1,6 +1,6 @@
 # Matestack Core Component: Plain
 
-This component simply renders the value of a variable \(or simply a string\) wherever you want it, **escaping HTML tags** \(`<` becomes `&lt;` etc.\).
+This component simply renders the value of a variable (or simply a string) wherever you want it, **escaping HTML tags** (`<` becomes `&lt;` etc.).
 
 ## Parameters
 
@@ -18,15 +18,15 @@ end
 
 returns
 
-```markup
+```html
 <div id="foo" class="bar">
   Hello World
 </div>
 ```
-
 ### Example 2: Render a variable into a `<div>` tag.
 
 ```ruby
+
 @hello = "World"
 # ...
 
@@ -37,9 +37,8 @@ end
 
 returns
 
-```markup
+```html
 <div id="foo" class="bar">
   World
 </div>
 ```
-

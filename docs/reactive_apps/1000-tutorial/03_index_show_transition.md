@@ -1,26 +1,26 @@
 # Essential Guide 3: Person Index, Show, Transition
 
-Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the third part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
-In the [previous guide](02_active_record.md), we added an ActiveRecord model to our project, added some fake persons to our database and displayed them on an index page.
+In the [previous guide](/docs/reactive_apps/1000-tutorial/02_active_record.md), we added an ActiveRecord model to our project, added some fake persons to our database and displayed them on an index page.
 
 In this guide, we will
-
-* a detail page for every person
-* dive more into the concept of page transitions
+- a detail page for every person
+- dive more into the concept of page transitions
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](02_active_record.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/02_active_record.md).
 
 ## Update person controller and routes
 
-We want to add a detail page for our persons. In order to do that we need to update our `routes.rb` to include the show action for persons. Also now is a good time to swap our rails root route to our persons index action.
+We want to add a detail page for our persons. In order to do that we need to update our `routes.rb` to include the show action for persons.
+Also now is a good time to swap our rails root route to our persons index action.
 
 ```ruby
 Rails.application.routes.draw do
@@ -124,11 +124,11 @@ As you might see, we can access instance variables from controllers and rails he
 
 Now that we've used them a couple of times, let's focus on the `transition` component a bit longer:
 
-When you want to change between different pages within the same `matestack` app, using a `transition` component gives you a neat advantage: After clicking the link, instead of doing a full page reload, only the page content within your app gets replaced - this leads to a better performance \(faster page load\) and a more app-like feeling for your users or page visitors!
+When you want to change between different pages within the same `matestack` app, using a `transition` component gives you a neat advantage: After clicking the link, instead of doing a full page reload, only the page content within your app gets replaced - this leads to a better performance (faster page load) and a more app-like feeling for your users or page visitors!
 
-For links that go outside your `matestack` app, require a full page reload or reference URLs outside your domain, make sure to use the [link component](../../api/100-components/link.md) instead!
+For links that go outside your `matestack` app, require a full page reload or reference URLs outside your domain, make sure to use the [link component](/docs/api/100-components/link.md) instead!
 
-To learn more, check out the [complete API documentation](../../api/100-components/transition.md) for the `transition` component.
+To learn more, check out the [complete API documentation](/docs/api/100-components/transition.md) for the `transition` component.
 
 ## Local testing
 
@@ -138,7 +138,7 @@ Run `rails s` and head over to [localhost:3000](http://localhost:3000/) to test 
 
 As usual, we want to commit the progress to Git. In the repo root, run
 
-```bash
+```sh
 git add . && git commit -m "Add index/show matestack pages for person model (incl. controller, routes), update demo matestack app"
 ```
 
@@ -146,5 +146,4 @@ git add . && git commit -m "Add index/show matestack pages for person model (inc
 
 Our **person** model now has a dedicated index and show page. The pages within our `matestack` app are properly linked to each other. We learned how we can access data and use rails helpers inside of pages, apps and components and how transitions in more detail work.
 
-Let's continue and add the necessary functionality for adding new persons and editing existing ones in the [next part of the series](04_forms_edit_new_create_update_delete.md).
-
+Let's continue and add the necessary functionality for adding new persons and editing existing ones in the [next part of the series](/docs/reactive_apps/1000-tutorial/04_forms_edit_new_create_update_delete.md).

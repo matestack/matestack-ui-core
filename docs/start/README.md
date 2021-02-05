@@ -8,25 +8,24 @@ You end up writing 50% less code while increasing productivity, maintainability 
 
 The docs cover following main topics:
 
-[**Installation**](100-installation.md)
+**[Installation](/docs/start/100-installation/)**
 
 Learn how to properly set up and update matestack-ui-core with your existing Rails application.
 
-[**UI components in pure Ruby**](../ui_components/)
+**[UI components in pure Ruby](/docs/ui_components/README.md)**
 
 Craft your UI based on your components written in pure Ruby. Utilizing Ruby's amazing language features, you're able to create a cleaner and more maintainable UI implementation.
 
-[**Reactive components in pure Ruby**](../reactive_components/)
+**[Reactive components in pure Ruby](/docs/reactive_components/README.md)**
 
-_Optional feature_
+*Optional feature*
 
 What about going even one step further and implement **REACTIVE** UIs in pure Ruby? Matestack's reactive core components can be used with a simple Ruby DSL enabling you to create reactive UIs without touching JavaScript!
 
-[**Reactive apps in pure Ruby**](../reactive_apps/)
+**[Reactive apps in pure Ruby](/docs/reactive_apps/README.md)**
 
-_Optional feature_
+*Optional feature*
 
-The last step in order to leverage the full Matestack power: Create app \(~Rails layout\) and page \(Rails ~view\) classes and implement dynamic page transitions without any JavaScript implementation required.
+The last step in order to leverage the full Matestack power: Create app (~Rails layout) and page (Rails ~view) classes and implement dynamic page transitions without any JavaScript implementation required.
 
-In order to get started quickly, you might want to start with the [getting-started-guide](150-getting_started.md)
-
+In order to get started quickly, you might want to start with the [getting-started-guide](/docs/start/150-getting_started)

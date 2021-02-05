@@ -1,5 +1,6 @@
 # Matestack Core Component: Form Textarea
 
+
 ```ruby
 form my_form_config do
   form_textarea key: :foo, #...
@@ -32,7 +33,7 @@ If given, this value will be the initial value of the input. If used in an edit 
 
 If you want to create your own textarea component, that's easily done since `v.1.3.0`.
 
-* Create your own Ruby component:
+- Create your own Ruby component:
 
 `app/matestack/components/my_form_textarea.rb`
 
@@ -58,7 +59,7 @@ class Components::MyFormTextarea < Matestack::Ui::Core::Form::Textarea::Base
 end
 ```
 
-* Register your component:
+- Register your component:
 
 `app/matestack/components/registry.rb`
 
@@ -74,7 +75,7 @@ module Components::Registry
 end
 ```
 
-* Create the corresponding Vue.js component:
+- Create the corresponding Vue.js component:
 
 `app/matestack/componenst/my_form_textarea.js`
 
@@ -100,14 +101,15 @@ MatestackUiCore.Vue.component('my-form-textarea', {
     // this.componentConfig["foo"] would be "bar" in this case
   }
 });
+
 ```
 
-* Don't forget to require the custom component JavaScript according to your JS setup!
-* Finally, use it within a `form`:
+- Don't forget to require the custom component JavaScript according to your JS setup!
+
+- Finally, use it within a `form`:
 
 ```ruby
 form some_form_config do
   my_form_textarea key: :foo
 end
 ```
-

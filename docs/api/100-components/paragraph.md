@@ -1,19 +1,16 @@
 # Matestack Core Component: Paragraph
 
-The HTML `<p>` tag, implemented in Ruby. This is a workaround because the single `p` is a [`Kernel` method in Ruby](https://ruby-doc.org/core-2.6.5/Kernel.html#method-i-p) \(directly writes `obj.inspect` followed by a newline to the program’s standard output, e.g. `p foo` equals `puts foo.inspect`\).
+The HTML `<p>` tag, implemented in Ruby. This is a workaround because the single `p` is a [`Kernel` method in Ruby](https://ruby-doc.org/core-2.6.5/Kernel.html#method-i-p) (directly writes `obj.inspect` followed by a newline to the program’s standard output, e.g. `p foo` equals `puts foo.inspect`).
 
 Alias: `pg`
 
 ## Parameters
-
 This component can take various optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-### Text \(optional\)
-
+### Text (optional)
 Expects a string which will be displayed as the content inside the `<p>` tag.
 
-### HMTL attributes \(optional\)
-
+### HMTL attributes (optional)
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -28,11 +25,11 @@ end
 
 returns
 
-```markup
+```html
 <p>Hello World</p>
 ```
 
-### Example 2: Render options\[:text\] param
+### Example 2: Render options[:text] param
 
 ```ruby
 paragraph text: "Hello World"
@@ -40,7 +37,7 @@ paragraph text: "Hello World"
 
 returns
 
-```markup
+```html
 <p>Hello World</p>
 ```
 
@@ -54,9 +51,8 @@ end
 
 returns
 
-```markup
+```html
 <p id="foo" class="bar">
   <span>Hello World</span>
 </p>
 ```
-

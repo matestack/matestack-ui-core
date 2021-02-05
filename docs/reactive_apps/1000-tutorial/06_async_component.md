@@ -1,20 +1,19 @@
 # Essential Guide 6: Async Component
 
-Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the sixth part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
-In this guide, we will introduce matestacks `async` component. For this we will
-
-* render all persons in a list with a delete button
-* use the `async` component to update the list when a person is deleted
+In this guide, we will introduce matestacks `async` component. For this we will 
+- render all persons in a list with a delete button
+- use the `async` component to update the list when a person is deleted
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](05_toggle_component.md).
+We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/05_toggle_component.md).
 
 ## Add a delete button
 
@@ -112,15 +111,15 @@ end
 
 What happens here? An `async` component can render or rerender content asynchronously, either on events or on page loads. In this case, we give the `async` component an `id`, which is required, and specify with `rerender_on: 'person-deleted'` that it should rerender its content when a 'person-deleted' event was emitted.
 
-Now when we visit [localhost:3000](http://localhost:3000) and click on the delete button of one of the persons the person should dissappear from the list. The action component calls the delete action and on success emits the `person-deleted` event. The `async` component therefore requests its content asynchronously and the server resolves the content of the async component and response with the updated list items, contained inside the `async` component.
+Now when we visit [localhost:3000](http://localhost:3000) and click on the delete button of one of the persons the person should dissappear from the list. The action component calls the delete action and on success emits the `person-deleted` event. The `async` component therefore requests its content asynchronously and the server resolves the content of the async component and response with the updated list items, contained inside the `async` component. 
 
-To learn more, check out the [complete API documentation](../../api/100-components/async.md) for the `async` component.
+To learn more, check out the [complete API documentation](/docs/api/100-components/async.md) for the `async` component.
 
 ## Saving the status quo
 
 As usual, we want to commit the progress to Git. In the repo root, run
 
-```bash
+```sh
 git add . && git commit -m "add delete button to person list and update it dynamically"
 ```
 
@@ -128,5 +127,4 @@ git add . && git commit -m "add delete button to person list and update it dynam
 
 We added a delete button to our person list on the index page. When a person is deleted our list gets automatically updated without even reloading the page, just by updating the part that is needed. And all of that with a few lines of code and without writing any JavaScript.
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing [partials and custom components](07_partials_and_custom_components.md).
-
+Take a well deserved rest and make sure to come back to the next part of this series, introducing [partials and custom components](/docs/reactive_apps/1000-tutorial/07_partials_and_custom_components.md).

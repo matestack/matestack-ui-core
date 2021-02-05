@@ -1,13 +1,13 @@
 # Matestack Core Component: Collection
 
-Feel free to check out the [component specs](https://github.com/matestack/matestack-ui-core/tree/0e84336eae78e6c86403c0c60fbe8fca4bcd8081/spec/usage/components/collection_spec.rb).
+Feel free to check out the [component specs](/spec/usage/components/collection_spec.rb).
 
 The `collection` component is designed to
 
-* display instances from a model \(Active Record or similar\)
-* filter the displayed instances without full page reload
-* paginate the displayed instances without full page reload
-* order the displayed instances without full page reload
+- display instances from a model (Active Record or similar)
+- filter the displayed instances without full page reload
+- paginate the displayed instances without full page reload
+- order the displayed instances without full page reload
 
 The `collection` component should be as flexible as possible while still reducing the complexity of implementing all typical collection features by hand.
 
@@ -87,7 +87,7 @@ end
 
 ### Filtered & paginated collection
 
-In this example, we want to display only a limited \(10\) amount of instances of `DummyModel` at once and filter the collection by title using a text input. We want to display the classic pagination buttons and information below the list of paginated instances.
+In this example, we want to display only a limited (10) amount of  instances of `DummyModel` at once and filter the collection by title using a text input. We want to display the classic pagination buttons and information below the list of paginated instances.
 
 ```ruby
 class Pages::MyApp::Collection < Matestack::Ui::Page
@@ -180,7 +180,7 @@ end
 
 ### Filtered & paginated & ordered collection
 
-In this example, we want to display only a limited \(10\) amount of instances of `DummyModel` at once and filter the collection by title using a text input. We want to display the classic pagination buttons and information below the list of paginated instances. Additionally, we want to order the collection by title ascending or descending.
+In this example, we want to display only a limited (10) amount of  instances of `DummyModel` at once and filter the collection by title using a text input. We want to display the classic pagination buttons and information below the list of paginated instances. Additionally, we want to order the collection by title ascending or descending.
 
 ```ruby
 class Pages::MyApp::Collection < Matestack::Ui::Page
@@ -372,4 +372,3 @@ class Pages::MyApp::Collection < Matestack::Ui::Page
 
 end
 ```
-

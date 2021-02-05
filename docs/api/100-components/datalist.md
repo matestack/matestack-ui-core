@@ -3,7 +3,6 @@
 The HTML `<datalist>` tag, implemented in Ruby.
 
 ## Parameters
-
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -18,7 +17,6 @@ end
 
 returns
 
-```markup
+```html
 <datalist id="foo" class="bar">Example Text</datalist>
 ```
-

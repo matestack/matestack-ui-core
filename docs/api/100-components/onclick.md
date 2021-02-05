@@ -26,4 +26,3 @@ class ExamplePage < Matestack::Ui::Page
   end
 end
 ```
-

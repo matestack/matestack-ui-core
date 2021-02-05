@@ -6,24 +6,19 @@ The HTML `<output>` tag, implemented in Ruby.
 
 This component can take up to 5 optional configuration params and either yield content or display what gets passed to the `text` configuration param.
 
-### id \(optional\)
-
+#### id (optional)
 Expects a string with all ids the `<output>` should have.
 
-### class \(optional\)
-
+#### class (optional)
 Expects a string with all classes the `<output>` should have.
 
-### name \(optional\)
-
+#### name (optional)
 Specifies a name for the `<output>` element
 
-### for \(optional\)
-
+#### for (optional)
 Specifies the relationship between the result of the calculation, and the elements used in the calculation
 
-### form \(optional\)
-
+#### form (optional)
 Specifies one or more forms the `<output>` element belongs to
 
 ## Example 1:
@@ -34,7 +29,7 @@ output name: 'x', for: 'a b', text: ''
 
 returns
 
-```markup
+```html
 <output for="a b" name="x"></output>
 ```
 
@@ -48,9 +43,8 @@ end
 
 returns
 
-```markup
+```html
 <output for="a b" form="form_id" id="my-id" name="x" class="my-class">
   All attributes
 </output>
 ```
-

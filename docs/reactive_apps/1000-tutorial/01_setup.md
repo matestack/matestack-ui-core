@@ -1,54 +1,56 @@
 # Essential Guide 1: Setup
 
-Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)<br>
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the first part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
 In this guide, we will
-
-* create a new Rails application
-* install `matestack-ui-core`
-* create and render our first 'Hello world' page
-* add a simple matestack app, wrap our page and add another one
+- create a new Rails application
+- install `matestack-ui-core`
+- create and render our first 'Hello world' page
+- add a simple matestack app, wrap our page and add another one
 
 ## Prerequisites
 
 To follow along, make sure you have successfully installed
+- Ruby (Version > 2.6, [view installation details](https://www.ruby-lang.org))
+- RubyOnRails (Version >6.0, [view installation details](https://rubyonrails.org/))
 
-* Ruby \(Version &gt; 2.6, [view installation details](https://www.ruby-lang.org)\)
-* RubyOnRails \(Version &gt;6.0, [view installation details](https://rubyonrails.org/)\)
 
 ## Getting started
 
 In the terminal, create a new Rails app by running
 
-```bash
+```sh
 rails new matestack-demo-application --skip-turbolinks
 ```
 
 We skip turbolinks, because matestack has it's own loading api which makes turbolinks unnecessary. Using turbolinks in a matestack application can result in unwanted behavior and errors.
 
-Remove turbolinks if installed We encourage you to remove turbolinks if it's installed. To do so remove the line `gem 'turbolinks', '~> 5'` from your Gemfile and remove `require("turbolinks").start()` from the `app/javascript/packs/application.js` file. To clean things up remove the two `"data-turbolinks-track": "reload"` key/value pairs from your `app/views/application.html.erb`. &lt;/details&gt;   
-
+<details>
+<summary>Remove turbolinks if installed</summary>
+We encourage you to remove turbolinks if it's installed. To do so remove the line <code>gem 'turbolinks', '~> 5'</code> from your Gemfile and remove <code>require("turbolinks").start()</code> from the <code>app/javascript/packs/application.js</code> file. To clean things up remove the two <code>"data-turbolinks-track": "reload"</code> key/value pairs from your <code>app/views/application.html.erb</code>.
+</details>
+<br/>
 
 Switch into the newly created project via
 
-```bash
+```sh
 cd matestack-demo-application
 ```
 
 > Need to create database first
 
-```text
+```
 rake db:create
 ```
 
 To make sure things work as expected, you can run
 
-```bash
+```sh
 rails s
 ```
 
@@ -62,13 +64,13 @@ For a complete setup with Webpacker, you also need to run `yarn add https://gith
 
 Then, add
 
-```javascript
+```js
 import MatestackUiCore from 'matestack-ui-core'
 ```
 
 to the `app/javascripts/packs/application.js` and run
 
-```bash
+```sh
 bin/webpack
 ```
 
@@ -84,7 +86,7 @@ end
 
 And add an element with the id `matestack_ui` to your layout, by changing your `app/views/layouts/application.html.erb`. It should look like this:
 
-```markup
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -147,11 +149,11 @@ class FirstPage < Matestack::Ui::Page
 end
 ```
 
-A page needs to inherit from `Matestack::Ui::Page`. Each page must have a `response` method. The response method should contain your html \(written in ruby\) which will be displayed when this page gets rendered.
+A page needs to inherit from `Matestack::Ui::Page`. Each page must have a `response` method. The response method should contain your html (written in ruby) which will be displayed when this page gets rendered.
 
 In our `FirstPage` we define the response method and inside call `div` with a block and `heading` with text and size inside this block. `div` and `heading` are two of many `Matestack::Ui::Components` which you can use to create UI's in Ruby. As you might can imagine the `div` call will render a `<div></div>` and the given block will be rendered inside this div. `heading` renders a html headline tag with the given size, in this case a _h1_ tag. So this response message would look like this in HTML:
 
-```markup
+```html
 <div>
   <h1>Hello World!</h1>
 </div>
@@ -177,11 +179,12 @@ We successfully rendered our first page displaying "Hello World" without writing
 
 ## Create our first app
 
-Lets say we want to add a header with navigation links to our first page and upcoming pages. In Rails we would implement this navigation inside our layout, so we don't repeat ourselfs by adding the navigation in every single view. With Matestack we have so called apps which replace the concept of Rails layouts. In order to add a navigation around our page similiar to a rails layout we will create an app called `Demo::App`. But where to put this app. We recommend you structure your apps and pages as follows:
+Lets say we want to add a header with navigation links to our first page and upcoming pages. In Rails we would implement this navigation inside our layout, so we don't repeat ourselfs by adding the navigation in every single view. With Matestack we have so called apps which replace the concept of Rails layouts. In order to add a navigation around our page similiar to a rails layout we will create an app called `Demo::App`.
+But where to put this app. We recommend you structure your apps and pages as follows:
 
 In our example we want to have a demo app and pages rendered inside this app. That means that `Demo` is our namespace for those. Therefore we put our app and pages inside a folder called `demo`. We move our first page inside this demo folder because it should belong to the demo app. Since we can have many different pages we put all pages in a subfolder called `pages`.
 
-```text
+```
 app/matestack/
 |
 └───demo/
@@ -213,6 +216,7 @@ What is happening here. An app needs to inherit from `Matestack::Ui::App` and de
 
 The last thing we need to do in order to render our app around our page is to tell the controller to use the app as a layout. We do this by adding `matestack_app Demo::App` inside our controller, which should now look like this:
 
+
 ```ruby
 class DemoController < ApplicationController
   matestack_app Demo::App
@@ -239,7 +243,7 @@ Rails.application.routes.draw do
 end
 ```
 
-Afterwards we create the second page under `app/matestack/demo/pages` as `second_page.rb` and add some page content.
+Afterwards we create the second page under  `app/matestack/demo/pages` as `second_page.rb` and add some page content.
 
 ```ruby
 class Demo::Pages::SecondPage < Matestack::Ui::Page
@@ -267,7 +271,7 @@ class DemoController < ApplicationController
 end
 ```
 
-Visit [localhost:3000/second\_page](http://localhost:3000/second_page) to view our second page.
+Visit [localhost:3000/second_page](http://localhost:3000/second_page) to view our second page.
 
 ### Understanding matestack apps
 
@@ -330,7 +334,7 @@ matestack `transitions` asynchronously fetch the requested page without the app 
 
 Let's save the progress so far using Git. In the repo root, run
 
-```bash
+```sh
 git add . && git commit -m "Save basic Rails app with PG and matestack set up"
 ```
 
@@ -342,5 +346,4 @@ We now have a working Rails app using `matestack`.
 
 In this guide we learned how matestack pages work, how we can use matestacks components to create html and how we can use an app as a layout for pages and what benefits we get through using an app.
 
-After taking a well deserved rest, make sure to continue exploring the features `matestack` offers you by checking out the [next part of the series](02_active_record.md).
-
+After taking a well deserved rest, make sure to continue exploring the features `matestack` offers you by checking out the [next part of the series](/docs/reactive_apps/1000-tutorial/02_active_record.md).

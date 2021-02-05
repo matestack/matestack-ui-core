@@ -8,7 +8,7 @@ Please be aware that, if not configured otherwise, the `async` core component do
 
 The async core component accepts the following parameters:
 
-### ID \(required\)
+### ID (required)
 
 The `async` component needs an ID in order to resolve the correct content on an async HTTP request
 
@@ -18,7 +18,7 @@ async id: "some-unique-id" do
 end
 ```
 
-### Rerender\_on \(optional\)
+### Rerender_on (optional)
 
 The `rerender_on` option lets us define an event on which the component gets rerendered.
 
@@ -32,13 +32,13 @@ end
 
 **Note:** The `rerender_on` option lets you rerender parts of your UI asynchronously. But please consider that, if not configured differently, it
 
-a\) is **not** _lazily loaded_ and
+a) is **not** _lazily loaded_ and
 
-b\) and does get displayed on initial pageload
+b) and does get displayed on initial pageload
 
 by default.
 
-Lazy \(or defered\) loading can be configured like shown [here](async.md#defer).
+Lazy (or defered) loading can be configured like shown  [here](#defer).
 
 You can pass in multiple, comma-separated events on which the component should rerender.
 
@@ -51,9 +51,7 @@ async rerender_on: 'my_event, some_other_event', id: "some-unique-id"
 The `defer` option may be used in two ways:
 
 #### simple defer
-
 `defer: true` implies that the content of the `async` component gets requested within a separate GET request right after initial page load is done.
-
 ```ruby
 async defer: true, id: "some-unique-id"do
   div id: 'my-div' do
@@ -63,9 +61,7 @@ end
 ```
 
 #### delayed defer
-
 `defer: 2000` means that the content of the `async` component gets requested within a separate GET request 2000 milliseconds after initial page load is done.
-
 ```ruby
 async defer: 2000, id: "some-unique-id" do
   div id: 'my-div' do
@@ -103,7 +99,7 @@ The `SomeModel.some_query` does not get executed within the first page load and 
 
 Async components will be wrapped by a DOM structure like this:
 
-```markup
+```html
 <div class="matestack-async-component-container">
   <div class="matestack-async-component-wrapper">
     <div class="matestack-async-component-root" >
@@ -113,9 +109,10 @@ Async components will be wrapped by a DOM structure like this:
 </div>
 ```
 
-During async rendering a `loading` class will automatically be applied, which can be used for CSS styling and animations:
+During async rendering a `loading` class will automatically be applied, which can be used for
+CSS styling and animations:
 
-```markup
+```html
 <div class="matestack-async-component-container loading">
   <div class="matestack-async-component-wrapper loading">
     <div class="matestack-async-component-root" >
@@ -153,9 +150,15 @@ Not surprisingly, the timestamp gets updated after our event was fired!
 
 On our example page, we wrap our async event around a placeholder for the event message.
 
-\`\`\`ruby class ExamplePage &lt; Matestack::Ui::Page
+```ruby
+class ExamplePage < Matestack::Ui::Page
 
-def response async defer: true, id: "some-unique-id" do div id: 'my-div' do plain 'I will be requested within a separate GET request right after initial page load is done' end end end
+  def response
+    async defer: true, id: "some-unique-id" do
+      div id: 'my-div' do
+        plain 'I will be requested within a separate GET request right after initial page load is done'
+      end
+    end
+  end
 
 end
-

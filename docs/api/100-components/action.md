@@ -123,9 +123,9 @@ end
 
 #### Perform redirect
 
-We can also perform a redirect \(full page load\) that only gets triggered on success and also accepts further params:
+We can also perform a redirect (full page load) that only gets triggered on success and also accepts further params:
 
-Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page \(including the surrounding app\) gets reloaded!
+Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page (including the surrounding app) gets reloaded!
 
 ```ruby
 success: {
@@ -166,6 +166,7 @@ end
 
 Same applies for the `failure` configuration.
 
+
 ### Failure
 
 As counterpart to the success part of the action component, there is also the possibility to define the failure behavior. This is what gets triggered after the response to our action returns a failure code, usually in the range of `400` or `500` HTTP status codes.
@@ -189,7 +190,7 @@ failure: {
 }
 ```
 
-### ID \(optional\)
+### ID (optional)
 
 This parameter accepts a string of ids that the action component should have:
 
@@ -199,11 +200,11 @@ id: 'my-action-id'
 
 which renders as an HTML `id` attribute, like so:
 
-```markup
+```html
 <a id="my-action-id">...</a>
 ```
 
-### Class \(optional\)
+### Class (optional)
 
 This parameter accepts a string of classes that the action component should have:
 
@@ -213,7 +214,7 @@ class: 'my-action-class'
 
 which renders as an HTML `class` attribute, like so:
 
-```markup
+```html
 <a class="my-action-class">...</a>
 ```
 
@@ -227,7 +228,7 @@ See some common use cases for the action core component below:
 
 ### Example 1 - Async request with payload
 
-First, make sure our routes accept requests the way we want to use them. Modify them in `config/routes.rb`
+First, make sure our routes accept requests the way we want to use them.  Modify them in `config/routes.rb`
 
 ```ruby
 post '/action_test', to: 'action_test#test', as: 'action_test'
@@ -325,7 +326,8 @@ end
 
 ### Example 3.1: Async request with success event emit used for rerendering
 
-Below, we define an action component and an async component. The async component is documented [here](https://github.com/matestack/matestack-ui-core/tree/0e84336eae78e6c86403c0c60fbe8fca4bcd8081/docs/components/async.md), for now it is just important that it waits for our `action_config` success message and will get re-rendered.
+Below, we define an action component and an async component. The async component is documented [here](/docs/components/async.md),
+for now it is just important that it waits for our `action_config` success message and will get re-rendered.
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -356,7 +358,7 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-Now, if we click the button and everything goes well \(which should be the case in this very simple example\), we can see the timestamp gets updated - nice!
+Now, if we click the button and everything goes well (which should be the case in this very simple example), we can see the timestamp gets updated - nice!
 
 ### Example 3.2: Async request with success event emit used for notification
 
@@ -386,14 +388,14 @@ class ExamplePage < Matestack::Ui::Page
     }
   end
 
-end
+end  
 ```
 
 This time, after clicking our action component we should see the `good job!` message that was initially hidden and disappears again after 300ms.
 
 ### Example 3.3: Async request with failure event emit used for notification
 
-In the examples before, we always assumed \(and made sure\) that things went well. Now, it's the first time to use the `failure_action_test_path` to see how we can notify the user if things go wrong!
+In the examples before, we always assumed (and made sure) that things went well. Now, it's the first time to use the `failure_action_test_path` to see how we can notify the user if things go wrong!
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -544,7 +546,6 @@ end
 
 Now, we can visit `localhost:3000/action_test/page1` and see our first page, shown by the `This is Page 1` text.
 
-There, we can click on our button \(`Click me!`\) and get transfered to the second page. There, we see the `This is Page 2` text and, for 300ms, our `server says: good job!` success message. Neat!
+There, we can click on our button (`Click me!`) and get transfered to the second page. There, we see the `This is Page 2` text and, for 300ms, our `server says: good job!` success message. Neat!
 
-If we click the button \(`Click me!`\) on the second page, we get the failure message \(`server says: something went wrong!`\) and get sent back to page 2, just as we wanted to.
-
+If we click the button (`Click me!`) on the second page, we get the failure message (`server says: something went wrong!`) and get sent back to page 2, just as we wanted to.

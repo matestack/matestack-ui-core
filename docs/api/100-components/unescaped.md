@@ -1,6 +1,6 @@
 # Matestack Core Component: Unescaped
 
-This element simply renders the value of a variable \(or simple a string\) wherever you want it **without escaping HTML**.
+This element simply renders the value of a variable (or simple a string) wherever you want it **without escaping HTML**.
 
 Only use this if you are sure that you have full control over the input to this function/no malicious code can find its way inside.
 
@@ -13,18 +13,19 @@ This component expects one parameter.
 Rendering some HTML.
 
 ```ruby
+
 def response
   unescaped <<~HTML
   <h1>Hello World</h1>
   <script>alert('Really Hello!')</script>
   HTML
 end
+
 ```
 
 returns
 
-```markup
+```html
 <h1>Hello World</h1>
 <script>alert('Really Hello!')</script>
 ```
-

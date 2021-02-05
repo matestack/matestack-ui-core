@@ -18,11 +18,11 @@ onclick emit: 'my-event' do
 end
 ```
 
-Read more about the [onclick component](../api/100-components/onclick.md).
+Read more about the [onclick component](/docs/api/100-components/onclick.md).
 
 **toggle**
 
-The `toggle` component can toggle its view state according to either events or timers. It can show or hide its content after one of the specified events is received or hide its content after a certain amount of time. You can use it for example to show a notification if a special event occurs and automatically hide the notification after a certain period.
+The `toggle` component can toggle its view state according to either events or timers. It can show or hide its content after one of the specified events is received or hide its content after a certain amount of time. You can use it for example to show a notification if a special event occurs and automatically hide the notification after a certain period.  
 
 ```ruby
 # showing content after 'my-event' was received and hiding it after 2s
@@ -31,11 +31,11 @@ toggle show_on: 'my-event', hide_after: 2000 do
 end
 ```
 
-Read more about the [toggle component](../api/100-components/toggle.md).
+Read more about the [toggle component](/docs/api/100-components/toggle.md).
 
 **action**
 
-The `action` component can be used to trigger a asynchronous request from for example a button click. Let's assume we want a delete button on our products show page in the management app. Deleting a product would require us to send a DELETE request to the `product_path(product.id)`. The `action` components let's us wrap content which is then clickable and triggers a request with the configured request method to the configured path and with the given params \(giving you the ability to add whatever params you want\) and let's us react to the server response. It can distinguish between a successful and failed response and emit events, transition somewhere, completely redirect and more for both. You only need to configure it according to your needs.
+The `action` component can be used to trigger a asynchronous request from for example a button click. Let's assume we want a delete button on our products show page in the management app. Deleting a product would require us to send a DELETE request to the `product_path(product.id)`. The `action` components let's us wrap content which is then clickable and triggers a request with the configured request method to the configured path and with the given params (giving you the ability to add whatever params you want) and let's us react to the server response. It can distinguish between a successful and failed response and emit events, transition somewhere, completely redirect and more for both. You only need to configure it according to your needs.
 
 ```ruby
 def response
@@ -67,7 +67,7 @@ In the example above, clicking the "Delete" button will trigger an asynchronous 
 
 We recommend defining the expected hash parameter for `action` components in a method, because they can get quite large.
 
-Read more about the [action component](200-actions.md).
+Read more about the [action component](/docs/reactive_components/200-actions/README.md).
 
 **forms**
 
@@ -105,7 +105,7 @@ def form_config
 end
 ```
 
-Inside a form you can use our form input components `form_input`, `form_textarea`, `form_select`, `form_radio` and `form_checkbox`. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. It is also possible to specify `:label` in order to create labels for the input on the fly. Some form components can take additional `:options` as a array or hash, which will render a the passed options. For inputs with possible multiple values, like checkboxes or multisecelects, the selected values are submitted in an array, following again Rails behavior. To learn more about the details of each input component take a look at the [form components api](../api/100-components/form.md)
+Inside a form you can use our form input components `form_input`, `form_textarea`, `form_select`, `form_radio` and `form_checkbox`. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. It is also possible to specify `:label` in order to create labels for the input on the fly. Some form components can take additional `:options` as a array or hash, which will render a the passed options. For inputs with possible multiple values, like checkboxes or multisecelects, the selected values are submitted in an array, following again Rails behavior. To learn more about the details of each input component take a look at the [form components api](/docs/api/100-components/form.md)
 
 Wrap a button or any markup which should submit the form when clicked in `form_submit`.
 
@@ -113,7 +113,7 @@ Each form requires a few keys for configuration: `:for`, `:path`, `:method`. Lik
 
 Forms will be submitted asynchronously and in case of errors dynamically extended to show errors belonging to inputs fields, but it is possible to set custom form behavior in success or failure cases. You could transition to another page, follow the redirect from the server as a transition or normal redirect, or emit events to leverage the above mentioned event hub.
 
-To learn more, check out the [form guide](300-forms.md).
+To learn more, check out the [form guide](/docs/reactive_components/300-forms/README.md).
 
 **async**
 
@@ -133,7 +133,7 @@ end
 
 The above code snippet renders initially a paragraph and the current time followed by a button which emits the "update-time" event. The `async` component triggers an asynchronous request when the event is recieved, requesting it's content from the server. The server will respond with only the contents of the `async` components which is then replaced.
 
-Read more about the [action component](400-async.md).
+Read more about the [action component](/docs/reactive_components/400-async/README.md).
 
 **isolated**
 
@@ -143,11 +143,10 @@ So isolated components are resolved completely indepentendly unlike async for wh
 
 You can of course use every matestack component inside an isolated component, even `async` or another isolated component.
 
-Read more about the [isolated component](600-isolated.md).
+Read more about the [isolated component](/docs/reactive_components/600-isolated/README.md).
 
 **collection**
 
 With the `collection` component you can display active record model or similar collections and add features like filtering, paginating and ordering with ease. Each of these features requires no page reload to take effect, because the `collection` component leverages a `async` component in combination with the event hub to only reload the effected content of the collection. The `collection` component is a bit more complex as it offers a lot of functionality, that's why we will not explain the rudimentary usage here.
 
-Take a look at the [collection component guide](700-collection.md) to learn how it works and how to use it.
-
+Take a look at the [collection component guide](/docs/reactive_components/700-collection/README.md) to learn how it works and how to use it.

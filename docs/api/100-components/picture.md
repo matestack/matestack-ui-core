@@ -6,12 +6,10 @@ The HTML `<picture>` tag, implemented in Ruby.
 
 This component can take 2 optional configuration params and yield the passed content.
 
-### id \(optional\)
-
+#### id (optional)
 Expects a string with all ids the `<picture>` should have.
 
-### class \(optional\)
-
+#### class (optional)
 Expects a string with all classes the `<picture>` should have.
 
 ## Example: Yield a given block
@@ -24,9 +22,8 @@ end
 
 returns
 
-```markup
+```html
 <picture id="foo" class="bar">
   <img src="/assets/matestack-logo-XXXX.png" />
 </picture>
 ```
-
