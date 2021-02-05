@@ -11,7 +11,7 @@ form my_form_config do
 end
 ```
 
-All child components `form_*` (including this component) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
+All child components `form_*` \(including this component\) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
 
 ```ruby
 # that's working:
@@ -42,7 +42,6 @@ If you simply want to disable your submit button, you can use a simple Vue.js bi
 form_submit do
   button text: "Submit me!", attributes: { "v-bind:disabled": "loading()" }
 end
-
 ```
 
 If you want to adjust the submit element more flexible while the form is being submitted, you could use the event mechanism of the form in combination with the `toggle` component:
@@ -73,5 +72,5 @@ def my_form_config
     }
   }
 end
-
 ```
+

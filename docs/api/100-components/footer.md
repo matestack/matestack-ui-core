@@ -3,6 +3,7 @@
 The HTML `<footer>` tag, implemented in Ruby.
 
 ## Parameters
+
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -17,8 +18,9 @@ end
 
 returns
 
-```html
+```markup
 <footer id="foo" class="bar">
   Hello World
 </footer>
 ```
+

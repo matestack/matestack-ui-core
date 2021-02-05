@@ -1,28 +1,29 @@
 # Essential Guide 8: Styling and Notifications
 
-Demo: [Matestack Demo](https://demo.matestack.io)<br>
-Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)  
+ Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the tenth part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
-After introducing Vue.js components in the [previous guide](/docs/reactive_apps/1000-tutorial/09_custom_vue_js_components.md), it's time to work on the appearance and user experience of the application.
+After introducing Vue.js components in the [previous guide](09_custom_vue_js_components.md), it's time to work on the appearance and user experience of the application.
 
 In this guide, we will
-- install and set up the popular UI toolkit [Bootstrap](https://getbootstrap.com/)
-- add styling to the existing pages and components using bootstrap
-- cover the best practice for styling custom components
-- add bootstrap notification badges
-- finish of the changes by adding a loading spinner for matestack page transitions
 
-**Note:** This guide uses Rails 6 and Webpack. If you're using the Asset Pipeline in your application, please head to the Asset Pipeline section [at the bottom of this page](#bootstrap-asset-pipeline).
+* install and set up the popular UI toolkit [Bootstrap](https://getbootstrap.com/)
+* add styling to the existing pages and components using bootstrap
+* cover the best practice for styling custom components
+* add bootstrap notification badges
+* finish of the changes by adding a loading spinner for matestack page transitions
 
-This guide is heavily inspired by [Ross Kaffenberger's guide on *Using Bootstrap with Rails Webpacker*](https://rossta.net/blog/webpacker-with-bootstrap.html).
+**Note:** This guide uses Rails 6 and Webpack. If you're using the Asset Pipeline in your application, please head to the Asset Pipeline section [at the bottom of this page](10_styling_notifications.md#bootstrap-asset-pipeline).
+
+This guide is heavily inspired by [Ross Kaffenberger's guide on _Using Bootstrap with Rails Webpacker_](https://rossta.net/blog/webpacker-with-bootstrap.html).
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/09_custom_vue_js_components.md).
+We expect you to have successfully finished the [previous guide](09_custom_vue_js_components.md).
 
 ## Installing Bootstrap
 
@@ -34,7 +35,7 @@ Let's kick it off by running `yarn add bootstrap` to install Bootstrap. Then, cr
 
 to import it. The only missing part now is importing this file in to the existing `app/javascript/packs/application.js` file.
 
-```js
+```javascript
 import 'css/custom-bootstrap'
 ```
 
@@ -44,7 +45,7 @@ Bootstrap requires jQuery and popper.js, so now is a good time to add those depe
 
 Afterwards import all JavaScript dependencies of bootstrap and bootstraps own JavaScript in the `app/javascript/packs/application.js` by adding the following lines to it.
 
-```js
+```javascript
 import 'jquery'
 import 'popper.js'
 import 'bootstrap'
@@ -54,7 +55,7 @@ import 'bootstrap'
 
 Before we begin putting bootstrap to use, we need to prepare the `app/view/layouts/application.html.erb` for responsive use by adding the appropiate meta tag. Therefore we update the `<head>` section of our `app/views/layouts/application.html.erb`.
 
-```html
+```markup
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -70,7 +71,7 @@ Before we begin putting bootstrap to use, we need to prepare the `app/view/layou
 
 Let's save our changes by running
 
-```sh
+```bash
 git add . && git commit -m "Install Bootstrap, jQuery, update application.html.erb"
 ```
 
@@ -152,23 +153,23 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
     current_filter = get_collection_filter(person_collection_id)
     current_order = get_collection_order(person_collection_id)
 
-		person_query = Person.all
+        person_query = Person.all
     filtered_person_query = person_query
     .where("last_name LIKE ?", "%#{current_filter[:last_name]}%")
-		.order(current_order)
+        .order(current_order)
 
     @person_collection = set_collection({
       id: person_collection_id,
       data: filtered_person_query,
-			init_limit: 6,
-			filtered_count: filtered_person_query.count,
-			base_count: person_query.count
+            init_limit: 6,
+            filtered_count: filtered_person_query.count,
+            base_count: person_query.count
     })
   end
 
   def response
     jumbotron_header title: 'All your persons'
-  
+
     div class: 'container overlap-container' do
       div class: 'shadow'
       div class: 'row pt-4' do
@@ -208,7 +209,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
     end
   end
 
-	def ordering
+    def ordering
     collection_order @person_collection.config do
       div class: 'form-group d-flex justify-content-end' do
         label text: 'Sorted by:', class: 'col-form-label'
@@ -222,7 +223,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
         end
       end
     end
-	end
+    end
 
   def content
     collection_content @person_collection.config do
@@ -235,7 +236,7 @@ class Demo::Pages::Persons::Index < Matestack::Ui::Page
     end
   end
 
-	def paginator
+    def paginator
     div class: 'col-md-12 text-center mt-5' do
       div class: 'p-2' do
         paginator_description
@@ -309,7 +310,7 @@ In order to make our jumbotron and our content looking really good, we need some
 
 Therefore we add a file called `application.scss` in `app/javascripts/css/`. We will add some styles to it in order to achieve our overflow effect and some general styles for our app. For example making our footer always appear at the bottom of the page no matter how less content there might be on a page.
 
-```scss
+```css
 html {
   height: 100%;
 }
@@ -369,7 +370,7 @@ main {
 
 Like our custom bootstrap scss file we need to import our `application.scss` file in our `app/javascript/packs/application.js` file.
 
-```js
+```javascript
 // ...
 import 'css/custom-bootstrap'
 import 'css/application'
@@ -380,13 +381,11 @@ Now we can refactor and style all other person pages. Feel free to experiment an
 
 ## Overwriting Bootstrap default styles
 
-We only used bootstraps components and therefore just got the well known bootstrap look and feel. In order to make our application really our own we will go on and theme bootstrap accordingly. Learn more about how and what you can theme or customize in bootstrap by reading the [bootstrap documentation](https://getbootstrap.com/docs/4.5/getting-started/theming/). 
-In the next step we change the default color scheme of bootstrap by overriding a few CSS variables or maps.
-Pay attention, all your overrides need to happen before the `@import` statement. 
+We only used bootstraps components and therefore just got the well known bootstrap look and feel. In order to make our application really our own we will go on and theme bootstrap accordingly. Learn more about how and what you can theme or customize in bootstrap by reading the [bootstrap documentation](https://getbootstrap.com/docs/4.5/getting-started/theming/). In the next step we change the default color scheme of bootstrap by overriding a few CSS variables or maps. Pay attention, all your overrides need to happen before the `@import` statement.
 
 `app/javascript/css/custom-bootstrap.scss`
 
-```scss
+```css
 $darkest-orange: #FF3B14;
 $light-orange: #fecdc3;
 
@@ -442,16 +441,17 @@ end
 
 As you can see, we used the earlier introduced toggle component in order to hide the disclaimer if a user presses the "Hide" button, which emits the appropriate event for the toggle component.
 
-In order to make our disclaimer float over our jumbotron header underneath the navigation we need to style it with some CSS. In order to keep our code clean and create scope-like styles we recommend a best practice for file locations and stylings. First the file location. We recommend to create the SCSS file right next to your component. In the case of the disclaimer component this would be `app/matestack/components/persons/disclaimer.scss`. Let's create that file and import it in our `custom-bootstrap.scss` with `@import '../../matestack/components/persons/disclaimer';`. By adding it below our bootstrap import, we can make use of bootstraps variables, breakpoints and more (like **md** in `@include media-breakpoint-down(md)`).
+In order to make our disclaimer float over our jumbotron header underneath the navigation we need to style it with some CSS. In order to keep our code clean and create scope-like styles we recommend a best practice for file locations and stylings. First the file location. We recommend to create the SCSS file right next to your component. In the case of the disclaimer component this would be `app/matestack/components/persons/disclaimer.scss`. Let's create that file and import it in our `custom-bootstrap.scss` with `@import '../../matestack/components/persons/disclaimer';`. By adding it below our bootstrap import, we can make use of bootstraps variables, breakpoints and more \(like **md** in `@include media-breakpoint-down(md)`\).
 
-In order to keep our styles for the disclaimer from affecting other elements, we recommend to add a unique class to the most outer element of your component. In our case we will add a class `.disclaimer-component` to the child `div` of the `toggle` component. The line should now look like this: 
+In order to keep our styles for the disclaimer from affecting other elements, we recommend to add a unique class to the most outer element of your component. In our case we will add a class `.disclaimer-component` to the child `div` of the `toggle` component. The line should now look like this:
+
 ```ruby
 div class: 'disclaimer-component container-fluid text-center shadow-md' do
 ```
 
 In our SCSS file we will only add styles inside of the selector `.disclaimer-component`. This will prevent us from overriding styles of other elements by mistake. Now let's style our disclaimer by adding the following content to our SCSS file:
 
-```scss
+```css
 .disclaimer-component {
   position: absolute;
   width: 90%;
@@ -490,7 +490,7 @@ In our SCSS file we will only add styles inside of the selector `.disclaimer-com
 
 Okay, now that our application is styled and customized we can take a look at the user experience. Using `transition` components inside an app increased the user experience already quite a lot by making the website feel more like an app. But what about smooth transitions between pages of our app. Matestack provides us with an easy to use solution to implement subtle animations, for example a loading spinner between page loads.
 
-We simply need to add a `loading_state` slot to our `yield_page` call in our demo app. The yield_page call now gets passed in `slots` as a hash. Inside the hash we set the value of the `loading_state` calling a partial. The partial `loading_state_element` contains a simple bootstrap spinner.
+We simply need to add a `loading_state` slot to our `yield_page` call in our demo app. The yield\_page call now gets passed in `slots` as a hash. Inside the hash we set the value of the `loading_state` calling a partial. The partial `loading_state_element` contains a simple bootstrap spinner.
 
 ```ruby
 class Demo::App < Matestack::Ui::App
@@ -531,7 +531,7 @@ end
 
 To better understand what we achieve with this let's take a look at matestacks DOM structure for pages, when you pass in a `loading_state` slot.
 
-```html
+```markup
 <div class="matestack-page-container">
   <div class="loading-state-element-wrapper"></div>
   <div class="matestack-page-wrapper">
@@ -544,7 +544,7 @@ The `.loading-state-element-wrapper` div will only be rendered if a `loading_sta
 
 In order to do that, we add another SCSS file in `app/javascript/css/page-transition.scss` and import it in our `application.js` with `import 'css/page-transition'`. Here we will define the default styles for our loading element and page content. Our loading element should normally be invisible and our page content should be visible. If a `.loading` class is applied we want to hide the page content and show our loading element. We can achieve this with the following rules and add a smooth animation between the show and hide states.
 
-```scss
+```css
 .matestack-page-container{
   .loading-state-element-wrapper{
     position: fixed;
@@ -578,18 +578,14 @@ If you now take a look at your application in the browser and click a transition
 
 In this guide we learned how to use bootstrap with matestack in order to style an application, how to customize bootstrap, a best practice about styling components and how we can add animations between page transitions.
 
-Going ahead, the next part of this series covers [authentication via Devise](/docs/reactive_apps/1000-tutorial/11_authentication_devise.md).
+Going ahead, the next part of this series covers [authentication via Devise](11_authentication_devise.md).
 
-<br>
-<br>
-<hr id="bootstrap-asset-pipeline">
-<br>
-<br>
+## Using the Asset Pipeline instead of Webpack\(er\)
 
-## Using the Asset Pipeline instead of Webpack(er)
 If you're using the Asset Pipeline in your application, using Bootstrap to style your `matestack` pages and components also works very well - you only need to take a slightly different route while setting things up!
 
 ### Installing Bootstrap and jQuery
+
 Add the following lines to your Gemfile
 
 ```ruby
@@ -605,7 +601,7 @@ and run `bundle install`. Afterwards, change `app/assets/stylesheets/appplciatio
 
 To use jQuery and various Bootstrap JavaScript plugins, add the following lines to your `application.js`:
 
-```js
+```javascript
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
@@ -614,6 +610,7 @@ To use jQuery and various Bootstrap JavaScript plugins, add the following lines 
 Now, we're good to go concerning the underlying libraries. Further information can be found on the [Bootstrap Gem Site](https://github.com/twbs/bootstrap-rubygem).
 
 ### Styling matestack custom components and pages
+
 Since we want to put the `.scss`-files for our custom components right next to the component definition in `app/matestack/components/`, we need to update our `config/initializers/assets.rb` configuration by adding the following line:
 
 ```ruby
@@ -647,3 +644,4 @@ From our experience, it makes sense to create a `app/assets/stylesheets/pages/` 
 ...
 @import "demo/dynamicComponent";
 ```
+

@@ -1,33 +1,34 @@
 # Essential Guide 2: ActiveRecord & Database
 
-Demo: [Matestack Demo](https://demo.matestack.io)<br>
-Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)  
+ Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the second part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
-In the [previous guide](/docs/reactive_apps/1000-tutorial/01_setup.md), we created a new project, installed the necessary libraries, added a demo `matestack` app featuring two `matestack` pages, and deployed it using Heroku.
+In the [previous guide](01_setup.md), we created a new project, installed the necessary libraries, added a demo `matestack` app featuring two `matestack` pages, and deployed it using Heroku.
 
 In this guide, we will
-- create an ActiveRecord model to work with throughout this series
-- add some seeded data and migrate the database
+
+* create an ActiveRecord model to work with throughout this series
+* add some seeded data and migrate the database
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/01_setup.md).
+We expect you to have successfully finished the [previous guide](01_setup.md).
 
 ## Adding the ActiveRecord model
 
 First, we need to create an ActiveRecord model and add the corresponding table to the database. This is quickly achieved by running
 
-```sh
+```bash
 rails generate model Person first_name:string last_name:string role:integer
 ```
 
 in the terminal. After the command has finished, you should see a new migration in `db/migrations/` and a newly added model `app/models/person.rb`. To then apply those changes, you need to run
 
-```sh
+```bash
 rails db:migrate
 ```
 
@@ -39,7 +40,7 @@ The `role` database field should represent different roles which we define as an
 
 ```ruby
 class Person < ApplicationRecord
-	enum role: [:client, :partner, :staff]
+    enum role: [:client, :partner, :staff]
 end
 ```
 
@@ -47,27 +48,27 @@ Great! Now, let's populate the database with some "fake" persons. Therefore add 
 
 ```ruby
 seeded_persons = [
-	{first_name: 'Harris', last_name: 'Bees', role: :client},
-	{first_name: 'Abigail', last_name: 'Salte', role: :client},
-	{first_name: 'Woodrow', last_name: 'Trembly', role: :client},
-	{first_name: 'Murray', last_name: 'Fedorko', role: :client},
-	{first_name: 'Michaele', last_name: 'Kritikos', role: :client},
-	{first_name: 'Sammie', last_name: 'Scovill', role: :client},
-	{first_name: 'Xavier', last_name: 'Accosta', role: :partner},
-	{first_name: 'Otis', last_name: 'Morro', role: :partner},
-	{first_name: 'Omer', last_name: 'Ottman', role: :partner},
-	{first_name: 'Marlo', last_name: 'Yousko', role: :staff},
-	{first_name: 'Manuel', last_name: 'Venn', role: :staff}
+    {first_name: 'Harris', last_name: 'Bees', role: :client},
+    {first_name: 'Abigail', last_name: 'Salte', role: :client},
+    {first_name: 'Woodrow', last_name: 'Trembly', role: :client},
+    {first_name: 'Murray', last_name: 'Fedorko', role: :client},
+    {first_name: 'Michaele', last_name: 'Kritikos', role: :client},
+    {first_name: 'Sammie', last_name: 'Scovill', role: :client},
+    {first_name: 'Xavier', last_name: 'Accosta', role: :partner},
+    {first_name: 'Otis', last_name: 'Morro', role: :partner},
+    {first_name: 'Omer', last_name: 'Ottman', role: :partner},
+    {first_name: 'Marlo', last_name: 'Yousko', role: :staff},
+    {first_name: 'Manuel', last_name: 'Venn', role: :staff}
 ]
 
 seeded_persons.each do |person|
-	Person.create(person)
+    Person.create(person)
 end
 ```
 
 and run
 
-```sh
+```bash
 rails db:seed
 ```
 
@@ -130,7 +131,7 @@ Of course, this is a very basic approach that we will iterate and improve in the
 
 As usual, we want to commit the progress to Git. In the repo root, run
 
-```sh
+```bash
 git add . && git commit -m "Introduce person model including seeds, add it to matestack/demo/app.rb"
 ```
 
@@ -138,4 +139,5 @@ git add . && git commit -m "Introduce person model including seeds, add it to ma
 
 We have updated the app to use a working database model, added some records and displayed them on an index page.
 
-Let's continue and build even cooler stuff by heading directly to the [next part of the series](/docs/reactive_apps/1000-tutorial/03_index_show.md).
+Let's continue and build even cooler stuff by heading directly to the [next part of the series](https://github.com/matestack/matestack-ui-core/tree/0e84336eae78e6c86403c0c60fbe8fca4bcd8081/docs/reactive_apps/1000-tutorial/03_index_show.md).
+

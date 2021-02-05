@@ -3,6 +3,7 @@
 The HTML `<figure>` tag, implemented in Ruby.
 
 ## Parameters
+
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -17,8 +18,9 @@ end
 
 returns
 
-```html
+```markup
 <figure id="foo" class="bar">
   <img src="your-asset-path/matestack-logo.png" width="500" height="300" alt="logo"/>
 </figure>
 ```
+

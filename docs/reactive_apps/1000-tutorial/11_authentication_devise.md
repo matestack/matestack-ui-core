@@ -1,30 +1,30 @@
 # Essential Guide 11: Authentication
 
-Demo: [Matestack Demo](https://demo.matestack.io)<br>
-Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)  
+ Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the eleventh part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
-Our app looks great after finishing the [previous guide](/docs/reactive_apps/1000-tutorial/10_styling_notifications.md). To make it more of a real-world example, we add a private area, which is only accessible for logged in admins.
+Our app looks great after finishing the [previous guide](10_styling_notifications.md). To make it more of a real-world example, we add a private area, which is only accessible for logged in admins.
 
 In this guide, we will
-- install and set up the devise gem
-- add a second matestack app for our private administration area
-- move some of the CRUD functionality into the private admin app
-- add a link to the administration area in our demo app
+
+* install and set up the devise gem
+* add a second matestack app for our private administration area
+* move some of the CRUD functionality into the private admin app
+* add a link to the administration area in our demo app
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/10_styling_notifications.md).
+We expect you to have successfully finished the [previous guide](10_styling_notifications.md).
 
 ## Setting up Devise
 
-For authentication we use the popular library [devise](https://github.com/heartcombo/devise). To install it, we add `gem 'devise'` to our Gemfile and run `bundle install` afterwards.
-To finish the devise installation we run `rails generate devise:install`.
+For authentication we use the popular library [devise](https://github.com/heartcombo/devise). To install it, we add `gem 'devise'` to our Gemfile and run `bundle install` afterwards. To finish the devise installation we run `rails generate devise:install`.
 
-Then we need to add 
+Then we need to add
 
 ```ruby
 config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
@@ -36,23 +36,24 @@ in `config/environments/development.rb`.
 
 After a successful setup we can now generate our admin model. Our admins don't need any extra data, so it's enough to run devise generator and specify admin as a name for our model.
 
-```sh
+```bash
 rails generate devise admin
 ```
 
 Finally, we need to migrate the database by running
 
-```sh
+```bash
 rails db:migrate
 ```
 
 and save our changes to Git via
 
-```sh
+```bash
 git . && git commit -m "add devise and create admin model"
 ```
 
 ## Adding admin app, controllers and routes
+
 Our demo app is responsible for all pages available to everyone, but some actions should only be available by admins. This is one reason to create a seperate admin app. The other reason is that we want another layout for our admin app. Therefore we create a second matestack app under the `Admin` namespace in `app/matestack/admin/app.rb`.
 
 ```ruby
@@ -147,7 +148,6 @@ class Admin::App < Matestack::Ui::App
   end
 
 end
-
 ```
 
 In our `Admin::App` we call a custom `notifications` component which we will now create under `app/matestack/admin/components/notifications.rb`. Why do we this time put our components folder inside our admin folder? Because the notifications component should only be used in the admin context and we therefore store components that should only be used in the admin context inside the admin folder. We even create another registry in `app/matestack/admin/components/registry.rb` to seperate the two contexts better.
@@ -174,7 +174,7 @@ class Admin::Components::Shared::Notifications < Matestack::Ui::Component
 end
 ```
 
-While it's similar to the `Demo::App`, the `Admin::App` does have some differences. Notice how we hide a part of the navigation if no admin is currently signed in, making use of a `Devise` helper: 
+While it's similar to the `Demo::App`, the `Admin::App` does have some differences. Notice how we hide a part of the navigation if no admin is currently signed in, making use of a `Devise` helper:
 
 ```ruby
 if admin_signed_in?
@@ -182,7 +182,7 @@ if admin_signed_in?
 
 There is also a logout button, using an `action` component.
 
-We could now use the `Admin::App` as layout, but we need to set it with `matestack_app` in the corresponding controller and we need to include our new registry with `include Admin::Component::Registry`. 
+We could now use the `Admin::App` as layout, but we need to set it with `matestack_app` in the corresponding controller and we need to include our new registry with `include Admin::Component::Registry`.
 
 Let's create our routes for our admin area and after it the controllers we referred to in our routes.
 
@@ -225,9 +225,9 @@ class Admin::Pages::Persons::Index < Matestack::Ui::Page
     @person_collection = set_collection({
       id: person_collection_id,
       data: filtered_person_query,
-			init_limit: 10,
-			filtered_count: filtered_person_query.count,
-			base_count: person_query.count
+            init_limit: 10,
+            filtered_count: filtered_person_query.count,
+            base_count: person_query.count
     })
   end
 
@@ -332,7 +332,7 @@ class Admin::Pages::Persons::Index < Matestack::Ui::Page
 end
 ```
 
-Now we create the new and edit pages. Like we did earlier in our demo page, we create a form page which will contain a form partial, because both views will use the same view. By excluding it in a partial in a form page, both new and edit can inherit from it and reuse our form. 
+Now we create the new and edit pages. Like we did earlier in our demo page, we create a form page which will contain a form partial, because both views will use the same view. By excluding it in a partial in a form page, both new and edit can inherit from it and reuse our form.
 
 `app/matestack/pages/persons/form.rb`
 
@@ -375,7 +375,7 @@ class Admin::Pages::Persons::Form < Matestack::Ui::Page
 end
 ```
 
-Take a closer look at the form group partial here. Every form element has the same wrapping elements and the same label with its classes. In order to not repeat ourselfs and write less code we can use a partial, which takes a label text and a block and renders the wrapping elements, label and yields the block. Our form code therefore looks much cleaner now and we kept it DRY (don't repeat yourself).
+Take a closer look at the form group partial here. Every form element has the same wrapping elements and the same label with its classes. In order to not repeat ourselfs and write less code we can use a partial, which takes a label text and a block and renders the wrapping elements, label and yields the block. Our form code therefore looks much cleaner now and we kept it DRY \(don't repeat yourself\).
 
 `app/matestack/pages/persons/new.rb`
 
@@ -417,6 +417,7 @@ class Admin::Pages::Persons::New < Admin::Pages::Persons::Form
 
 end
 ```
+
 `app/matestack/pages/persons/edit.rb`
 
 ```ruby
@@ -605,7 +606,7 @@ See below on how to create the session controller for devise.
 ```ruby
 class Admin::SessionsController < Devise::SessionsController
   include Admin::Components::Registry
-  
+
   matestack_app Admin::App
   layout 'administration'
 
@@ -677,7 +678,7 @@ Rails.application.routes.draw do
 end
 ```
 
-If you want more information on why these changes and configurations are necessary take a look at our [devise guide](/docs/guides/1200-devise/).
+If you want more information on why these changes and configurations are necessary take a look at our [devise guide](https://github.com/matestack/matestack-ui-core/tree/0e84336eae78e6c86403c0c60fbe8fca4bcd8081/docs/guides/1200-devise/README.md).
 
 But if you try to start your application locally, visiting the admin pages doesn't work yet - what's going on?
 
@@ -685,7 +686,7 @@ But if you try to start your application locally, visiting the admin pages doesn
 
 Notice that we added `layout 'administration'` inside our admin controllers. This looks for file called `administration.html.erb` in `app/views/layouts/`, which we need to create. Add the following content to it:
 
-```html
+```markup
 <!DOCTYPE html>
 <html>
   <head>
@@ -708,11 +709,11 @@ Notice that we added `layout 'administration'` inside our admin controllers. Thi
 </html>
 ```
 
-In there, we reference a different `javascript_pack_tag`(that is, `'administration'`) than in our `application.html.erb` layout (which uses `'application'`) - so we need to set it up via Webpacker!
+In there, we reference a different `javascript_pack_tag`\(that is, `'administration'`\) than in our `application.html.erb` layout \(which uses `'application'`\) - so we need to set it up via Webpacker!
 
 Add a new file in `app/javascript/packs/administration.js`, with the following content:
 
-```js
+```javascript
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
@@ -767,8 +768,7 @@ $theme-colors: (
 
 ## Updating the notifications component
 
-As you might saw or experienced, our admin person edit page doesn't really do anything if we update a user. Thats because we have no show page to which we would normally transition. If we transition to the edit page, you wouldn't see any difference and therefore will not know if the update was successfull. Here comes our notification component in handy. We will implement bootstrap alerts popping up showing success or failure messages by using the `toggle` component in combination with the form `success: { emit: '...' }` and `failure: { emit: '...' }` configuration options. As you can see above we emit a `person_form_success` or `person_form_failure` in our edit and new forms depending on the result. We
-therefore can use a `toggle` component with these events. Let's update our notification component to do that.
+As you might saw or experienced, our admin person edit page doesn't really do anything if we update a user. Thats because we have no show page to which we would normally transition. If we transition to the edit page, you wouldn't see any difference and therefore will not know if the update was successfull. Here comes our notification component in handy. We will implement bootstrap alerts popping up showing success or failure messages by using the `toggle` component in combination with the form `success: { emit: '...' }` and `failure: { emit: '...' }` configuration options. As you can see above we emit a `person_form_success` or `person_form_failure` in our edit and new forms depending on the result. We therefore can use a `toggle` component with these events. Let's update our notification component to do that.
 
 ```ruby
 class Admin::Components::Shared::Notifications < Matestack::Ui::Component
@@ -778,7 +778,7 @@ class Admin::Components::Shared::Notifications < Matestack::Ui::Component
       # alerts for new and edit person forms
       notification_badge :person_form_success, :success, 'Person successfully updated'
       notification_badge :person_form_failure, :danger, 'There was an error while saving the person.'
-      
+
       # alerts for login
       notification_badge :login_failure, :danger, 'Login incorrect'
     end
@@ -828,7 +828,7 @@ Also, remove `:role` from the `person_params` in `app/controllers/persons_contro
 
 Since any page visitor can now create new person records in the database but only admins can edit the `:role` attribute, let's add a default value through a migration:
 
-```sh
+```bash
 rails g migration AddDefaultToPersonRole
 ```
 
@@ -844,7 +844,7 @@ end
 
 And, to make it work, we need to migrate the database by running
 
-```sh
+```bash
 rake db:migrate
 ```
 
@@ -874,13 +874,13 @@ Finally, add a link to the `sign_in` page to the `navigation` partial in `app/ma
 
 To finish things off, let's add the recent changes to Git via
 
-```sh
+```bash
 git add app/controllers/persons_controller.rb app/matestack/demo/app.rb app/matestack/demo/pages/ db/
 ```
 
 and commit them by running
 
-```sh
+```bash
 git commit -m "Add admin login to DemoApp, add default :role to Person model, restrict role modification to admins"
 ```
 
@@ -888,11 +888,11 @@ git commit -m "Add admin login to DemoApp, add default :role to Person model, re
 
 What exactly is going on under the hood with all the admin sign in stuff, you may wonder?
 
-Here's a quick overview: Instead of implementing loads of (complex) functionality with a load of implications and edge cases, we use the `Devise` gem for a rock-solid authentication. It takes care of hashing, salting and storing the password and managing session cookies. All that's left for us to do is check for authentication of admins by using the `authenticate_admin!` helper.
+Here's a quick overview: Instead of implementing loads of \(complex\) functionality with a load of implications and edge cases, we use the `Devise` gem for a rock-solid authentication. It takes care of hashing, salting and storing the password and managing session cookies. All that's left for us to do is check for authentication of admins by using the `authenticate_admin!` helper.
 
-`Devise` could do a lot more, but as this is a basic guide, we will leave it with that. For even more fine-grained control over access rights (authorization) within your application (e.g. by introducing a superadmin or having regional and national manager roles) we recommend you take a look at two other popular gems: [Pundit](https://github.com/varvet/pundit) and [CanCanCan](https://github.com/CanCanCommunity/cancancan).
+`Devise` could do a lot more, but as this is a basic guide, we will leave it with that. For even more fine-grained control over access rights \(authorization\) within your application \(e.g. by introducing a superadmin or having regional and national manager roles\) we recommend you take a look at two other popular gems: [Pundit](https://github.com/varvet/pundit) and [CanCanCan](https://github.com/CanCanCommunity/cancancan).
 
-If you want to know more about using devise with matestack, checkout our [devise guide](/docs/guides/1200-devise/).
+If you want to know more about using devise with matestack, checkout our [devise guide](https://github.com/matestack/matestack-ui-core/tree/0e84336eae78e6c86403c0c60fbe8fca4bcd8081/docs/guides/1200-devise/README.md).
 
 ## Creating a admin
 
@@ -906,4 +906,5 @@ a = Admin.create(email: 'admin@example.com', password: 'OnlyForSuperMates', pass
 
 By adding a working authentication functionality and an admin app protected via a login, our project now much better resembles a real-world software application! On the way, we covered some advanced topics like authentication via the `Devise` gem, serving different JavaScript packs using `Webpacker` and Rails `layouts`. We leared how to structure components and pages with different namespaces and how to use different registries.
 
-While the application is good as it is right now, go ahead and check out the [next part of this guide](/docs/reactive_apps/1000-tutorial/12_heroku_deployment.md) where we will deploy our application to heroku.
+While the application is good as it is right now, go ahead and check out the [next part of this guide](12_heroku_deployment.md) where we will deploy our application to heroku.
+
