@@ -9,7 +9,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_5_2_ruby_2_6:postgres_test"
-    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && && cp yarn.lock ./ci/yarn.lock"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && cp yarn.lock ./ci/yarn.lock"
     user: ${CURRENT_UID}
 
   test_6_0_ruby_2_6:
@@ -20,7 +20,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_6_0_ruby_2_6:postgres_test"
-    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && && cp yarn.lock ./ci/yarn.lock"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && cp yarn.lock ./ci/yarn.lock"
     user: ${CURRENT_UID}
 
   test_6_1_ruby_2_7:
@@ -31,7 +31,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_6_1_ruby_2_7:postgres_test"
-    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && && cp yarn.lock ./ci/yarn.lock"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && cp yarn.lock ./ci/yarn.lock"
     user: ${CURRENT_UID}
 
   test_6_1_ruby_3_0:
@@ -42,7 +42,7 @@ services:
       RAILS_ENV: test
     links:
       - "postgres_test_6_1_ruby_3_0:postgres_test"
-    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && && cp yarn.lock ./ci/yarn.lock"
+    command: sh -c "bundle exec rake db:drop && bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rspec spec/test && cp Gemfile.lock ./ci/Gemfile.lock && cp yarn.lock ./ci/yarn.lock"
     user: ${CURRENT_UID}
 
   postgres_test_base: &postgres_test_base
