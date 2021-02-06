@@ -1,4 +1,4 @@
-# Transition
+# Matestack Core Component: Transition
 
 Performing dynamic page transitions without full page reload.
 

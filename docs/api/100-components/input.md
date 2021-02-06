@@ -1,4 +1,4 @@
-# Input
+# Matestack Core Component: Input
 
 The HTML `<input>` tag, implemented in Ruby.
 

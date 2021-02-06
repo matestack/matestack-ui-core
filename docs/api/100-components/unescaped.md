@@ -1,4 +1,4 @@
-# Unescaped
+# Matestack Core Component: Unescaped
 
 This element simply renders the value of a variable \(or simple a string\) wherever you want it **without escaping HTML**.
 

@@ -1,4 +1,4 @@
-# Authorization via Pundit or CanCanCan
+# Authorization
 
 At [matestack](https://matestack.io), we have had good experiences using matestack with [Pundit](https://github.com/varvet/pundit). [CanCanCan](https://github.com/CanCanCommunity/cancancan), another very popular authorization library in Rails, is also supported, as shown below!
 

@@ -1,4 +1,4 @@
-# Wbr
+# Matestack Core Component: Wbr
 
 The HTML `<wbr>` tag, implemented in Ruby.
 

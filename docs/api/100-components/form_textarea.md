@@ -1,4 +1,4 @@
-# Form Textarea
+# Matestack Core Component: Form Textarea
 
 ```ruby
 form my_form_config do

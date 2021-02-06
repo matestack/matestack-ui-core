@@ -1,4 +1,4 @@
-# Optgroup
+# Matestack Core Component: Optgroup
 
 The HTML `<optgroup>` tag, implemented in Ruby.
 

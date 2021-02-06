@@ -1,4 +1,4 @@
-# Template
+# Matestack Core Component: Template
 
 The HTML `<template>` tag, implemented in Ruby.
 

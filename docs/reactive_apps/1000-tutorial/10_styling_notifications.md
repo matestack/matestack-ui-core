@@ -1,4 +1,4 @@
-# Essential Guide 8: Styling and Notifications
+# Essential Guide 10: Styling and Notifications
 
 Demo: [Matestack Demo](https://demo.matestack.io)  
  Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)

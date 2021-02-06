@@ -1,4 +1,4 @@
-# Picture
+# Matestack Core Component: Picture
 
 The HTML `<picture>` tag, implemented in Ruby.
 

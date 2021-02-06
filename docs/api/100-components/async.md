@@ -1,4 +1,4 @@
-# Async
+# Matestack Core Component: Async
 
 The `async` component enables us to rerender parts of the UI based on events without full page reload.
 

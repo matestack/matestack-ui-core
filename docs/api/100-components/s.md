@@ -1,4 +1,4 @@
-# S
+# Matestack Core Component: S
 
 The HTML `<s>` tag, implemented in Ruby.
 

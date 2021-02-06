@@ -1,4 +1,4 @@
-# Ins
+# Matestack Core Component: Ins
 
 The HTML `<ins>` tag, implemented in Ruby.
 

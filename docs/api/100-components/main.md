@@ -1,4 +1,4 @@
-# Main
+# Matestack Core Component: Main
 
 The HTML `<main>` tag, implemented in Ruby.
 

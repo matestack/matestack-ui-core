@@ -1,4 +1,4 @@
-# Form Radio
+# Matestack Core Component: Form Radio
 
 The `form_radio` component is Vue.js driven child component of the `form` component and is used to collect user input.
 

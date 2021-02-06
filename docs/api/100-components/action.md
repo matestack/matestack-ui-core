@@ -1,4 +1,4 @@
-# Action
+# Matestack Core Component: Action
 
 The action component allows us to trigger async HTTP requests without Javascript!
 

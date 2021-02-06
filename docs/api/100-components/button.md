@@ -1,4 +1,4 @@
-# Button
+# Matestack Core Component: Button
 
 The HTML `<button>` tag, implemented in Ruby.
 

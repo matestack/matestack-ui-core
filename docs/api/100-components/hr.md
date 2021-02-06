@@ -1,4 +1,4 @@
-# Hr
+# Matestack Core Component: Hr
 
 The HTML `<hr>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Legend
+# Matestack Core Component: Legend
 
 The HTML `<legend>` tag, implemented in Ruby.
 

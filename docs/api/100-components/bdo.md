@@ -1,4 +1,4 @@
-# Bdo
+# Matestack Core Component: Bdo
 
 The HTML `<bdo>` tag, implemented in Ruby.
 

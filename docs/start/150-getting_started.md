@@ -1,4 +1,4 @@
-# Create a reactive Twitter clone in pure Ruby
+# Getting Started
 
 **Matestack Ui Core Getting Started**
 

@@ -1,4 +1,4 @@
-# Form
+# Matestack Core Component: Form
 
 The `form` core component is a Vue.js driven component. It enables you to implement dynamic forms without writing JavaScript. It relies on child components to collect and submit user input: `form_input`, `form_textarea`, `form_radio`, `form_select`, `form_checkbox` and `form_submit`. They are described on their own documentation page
 

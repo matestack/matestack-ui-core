@@ -1,4 +1,4 @@
-# Bdi
+# Matestack Core Component: Bdi
 
 The HTML `<bdi>` tag, implemented in Ruby.
 

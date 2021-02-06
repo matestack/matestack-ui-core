@@ -1,4 +1,4 @@
-# Figure
+# Matestack Core Component: Figure
 
 The HTML `<figure>` tag, implemented in Ruby.
 

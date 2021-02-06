@@ -1,4 +1,4 @@
-# Paragraph
+# Matestack Core Component: Paragraph
 
 The HTML `<p>` tag, implemented in Ruby. This is a workaround because the single `p` is a [`Kernel` method in Ruby](https://ruby-doc.org/core-2.6.5/Kernel.html#method-i-p) \(directly writes `obj.inspect` followed by a newline to the program’s standard output, e.g. `p foo` equals `puts foo.inspect`\).
 

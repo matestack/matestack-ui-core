@@ -1,4 +1,4 @@
-# Object
+# Matestack Core Component: Object
 
 The HTML `<object>` tag, implemented in Ruby.
 

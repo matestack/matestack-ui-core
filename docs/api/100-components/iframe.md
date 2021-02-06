@@ -1,4 +1,4 @@
-# Iframe
+# Matestack Core Component: Iframe
 
 The HTML iframe tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Dfn
+# Matestack Core Component: Dfn
 
 The HTML `<dfn>` tag, implemented in Ruby.
 

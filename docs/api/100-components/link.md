@@ -1,4 +1,4 @@
-# Link
+# Matestack Core Component: Link
 
 This component is used to either navigate within your matestack application or to navigate to outside URLs.
 

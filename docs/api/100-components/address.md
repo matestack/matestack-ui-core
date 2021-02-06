@@ -1,4 +1,4 @@
-# Address
+# Matestack Core Component: Address
 
 The HTML `<address>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Form Submit
+# Matestack Core Component: Form Submit
 
 The `form_submit` component is Vue.js driven child component of the `form` component and is used to trigger the parent `form` to submit its data.
 

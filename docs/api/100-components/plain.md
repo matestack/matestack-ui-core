@@ -1,4 +1,4 @@
-# Plain
+# Matestack Core Component: Plain
 
 This component simply renders the value of a variable \(or simply a string\) wherever you want it, **escaping HTML tags** \(`<` becomes `&lt;` etc.\).
 

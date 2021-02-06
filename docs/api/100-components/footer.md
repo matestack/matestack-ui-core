@@ -1,4 +1,4 @@
-# Footer
+# Matestack Core Component: Footer
 
 The HTML `<footer>` tag, implemented in Ruby.
 

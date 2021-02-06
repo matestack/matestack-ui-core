@@ -1,4 +1,4 @@
-# Section
+# Matestack Core Component: Section
 
 The HTML `<section>` tag, implemented in Ruby.
 

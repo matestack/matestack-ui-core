@@ -1,4 +1,4 @@
-# Div
+# Matestack Core Component: Div
 
 The HTML `<div>` tag, implemented in Ruby.
 

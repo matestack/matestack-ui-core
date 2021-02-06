@@ -1,4 +1,4 @@
-# Noscript
+# Matestack Core Component: Noscript
 
 The HTML `<noscript>` tag, implemented in Ruby.
 

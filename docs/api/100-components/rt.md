@@ -1,4 +1,4 @@
-# Rt
+# Matestack Core Component: Rt
 
 The HTML `<rt>` tag, implemented in Ruby.
 

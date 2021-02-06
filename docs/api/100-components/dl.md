@@ -1,4 +1,4 @@
-# Dl
+# Matestack Core Component: Dl
 
 The HTML `<dl>` tag, implemented in Ruby.
 

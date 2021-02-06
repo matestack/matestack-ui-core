@@ -1,4 +1,4 @@
-# Rp
+# Matestack Core Component: Rp
 
 The HTML `<rp>` tag, implemented in Ruby.
 

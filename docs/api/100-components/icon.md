@@ -1,4 +1,4 @@
-# Icon
+# Matestack Core Component: Icon
 
 The HTML `<i>` tag, implemented in Ruby.
 

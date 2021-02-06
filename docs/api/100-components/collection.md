@@ -1,4 +1,4 @@
-# Collection
+# Matestack Core Component: Collection
 
 Feel free to check out the [component specs](https://github.com/matestack/matestack-ui-core/tree/829eb2f5a7483ef4b78450a5429589ec8f8123e8/spec/usage/components/collection_spec.rb).
 

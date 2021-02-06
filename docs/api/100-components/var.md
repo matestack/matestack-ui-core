@@ -1,4 +1,4 @@
-# Var
+# Matestack Core Component: Var
 
 The HTML `<var>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Toggle
+# matestack core component: Toggle
 
 The `toggle` component allows us to react to events and toggle the view state.
 

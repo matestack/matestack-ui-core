@@ -1,4 +1,4 @@
-# U
+# Matestack Core Component: U
 
 The HTML `<u>` tag, implemented in Ruby.
 

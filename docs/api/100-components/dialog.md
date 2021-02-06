@@ -1,4 +1,4 @@
-# Dialog
+# Matestack Core Component: Dialog
 
 The HTML `<dialog>` tag, implemented in Ruby.
 

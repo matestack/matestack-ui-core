@@ -1,4 +1,4 @@
-# Ruby
+# Matestack Core Component: Ruby
 
 The HTML `<ruby>` tag, implemented in Ruby.
 

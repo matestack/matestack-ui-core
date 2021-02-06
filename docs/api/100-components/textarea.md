@@ -1,4 +1,4 @@
-# Textarea
+# Matestack Core Component: Textarea
 
 The HTML textarea tag, implemented in Ruby.
 
