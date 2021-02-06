@@ -1,4 +1,4 @@
-# Matestack Core Component: Article
+# Article
 
 The HTML `<article>` tag, implemented in Ruby.
 

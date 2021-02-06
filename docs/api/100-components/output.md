@@ -1,4 +1,4 @@
-# Matestack Core Component: Output
+# Output
 
 The HTML `<output>` tag, implemented in Ruby.
 

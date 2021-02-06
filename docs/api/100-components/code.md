@@ -1,4 +1,4 @@
-# Matestack Core Component: Code
+# Code
 
 The HTML `<code>` tag, implemented in Ruby.
 

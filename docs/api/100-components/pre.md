@@ -1,4 +1,4 @@
-# Matestack Core Component: Pre
+# Pre
 
 The HTML `<pre>` tag, implemented in Ruby.
 

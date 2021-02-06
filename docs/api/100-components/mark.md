@@ -1,4 +1,4 @@
-# Matestack Core Component: Mark
+# Mark
 
 The HTML `<mark>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Matestack Core Component: Details
+# Details
 
 The HTML `<details>` and `<summary>` tags, implemented in Ruby.
 

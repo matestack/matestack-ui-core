@@ -1,4 +1,4 @@
-# Matestack Core Component: Table
+# Table
 
 Use tables to implement `<table>`, `<tr>`, `<th>`, `<td>`, `<thead>`, `<tbody>` and `<tfoot>` tags.
 

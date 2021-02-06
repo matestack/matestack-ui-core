@@ -1,4 +1,4 @@
-# Matestack Core Component: Dd
+# Dd
 
 The HTML `<dd>` tag, implemented in Ruby.
 

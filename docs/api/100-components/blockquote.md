@@ -1,4 +1,4 @@
-# Matestack Core Component: Blockquote
+# Blockquote
 
 The HTML `<blockquote>` tag, implemented in Ruby.
 

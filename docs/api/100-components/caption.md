@@ -1,4 +1,4 @@
-# Matestack Core Component: Caption
+# Caption
 
 The HTML `<caption>` tag, implemented in Ruby.
 

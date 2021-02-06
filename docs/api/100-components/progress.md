@@ -1,4 +1,4 @@
-# Matestack Core Component: Progress
+# Progress
 
 The HTML `<progress>` tag, implemented in Ruby.
 

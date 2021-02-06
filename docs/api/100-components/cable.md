@@ -1,4 +1,4 @@
-# Matestack Core Component: Cable
+# Cable
 
 The `cable` component enables us to update the DOM based on events and data pushed via ActionCable without a browser reload.
 

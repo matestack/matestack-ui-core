@@ -1,4 +1,4 @@
-# Matestack Core Component: Abbr
+# Abbr
 
 The HTML `<abbr>` tag, implemented in Ruby.
 

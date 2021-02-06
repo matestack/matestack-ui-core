@@ -1,4 +1,4 @@
-# Matestack Core Component: Dt
+# Dt
 
 The HTML `<dt>` tag, implemented in Ruby.
 

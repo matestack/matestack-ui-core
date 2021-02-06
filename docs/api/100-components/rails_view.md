@@ -1,4 +1,4 @@
-# Matestack Core Component: rails\_view
+# rails\_view
 
 Use your Rails views or partials with this component in your views, matestack pages, components or apps.
 

@@ -1,4 +1,4 @@
-# Matestack Core Component: Area
+# Area
 
 The HTML `<area>` tag, implemented in Ruby.
 

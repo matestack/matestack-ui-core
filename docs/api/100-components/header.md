@@ -1,4 +1,4 @@
-# Matestack Core Component: Header
+# Header
 
 The HTML `<header>` tag, implemented in Ruby.
 

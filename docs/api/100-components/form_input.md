@@ -1,4 +1,4 @@
-# Matestack Core Component: Form Input
+# Form Input
 
 The `form_input` component is Vue.js driven child component of the `form` component and is used to collect user input.
 

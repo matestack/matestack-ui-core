@@ -1,4 +1,4 @@
-# Matestack Core Component: Q
+# Q
 
 The HTML `<q>` tag, implemented in Ruby.
 

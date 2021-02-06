@@ -1,4 +1,4 @@
-# Matestack Core Component: Datalist
+# Datalist
 
 The HTML `<datalist>` tag, implemented in Ruby.
 

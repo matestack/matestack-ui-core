@@ -1,4 +1,4 @@
-# Matestack Core Component: Aside
+# Aside
 
 The HTML `<aside>` tag, implemented in Ruby.
 

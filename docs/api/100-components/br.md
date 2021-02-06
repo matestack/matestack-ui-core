@@ -1,4 +1,4 @@
-# Matestack Core Component: Br
+# Br
 
 The HTML `<br>` tag, implemented in Ruby.
 

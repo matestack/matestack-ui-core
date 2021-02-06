@@ -1,4 +1,4 @@
-# Matestack Core Component: Samp
+# Samp
 
 The HTML `<samp>` tag, implemented in Ruby.
 

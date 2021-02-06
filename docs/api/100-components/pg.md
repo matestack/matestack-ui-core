@@ -1,4 +1,4 @@
-# Matestack Core Component: PG
+# PG
 
 The HTML `<p>` tag, implemented in Ruby.
 

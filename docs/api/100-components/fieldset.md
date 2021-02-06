@@ -1,4 +1,4 @@
-# Matestack Core Component: Fieldset
+# Fieldset
 
 The HTML `<fieldset>` tag, implemented in Ruby.
 

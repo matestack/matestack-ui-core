@@ -1,4 +1,4 @@
-# Matestack Core Component: Sup
+# Sup
 
 The HTML `<sup>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Matestack Core Component: Del
+# Del
 
 The HTML `<del>` tag, implemented in Ruby.
 

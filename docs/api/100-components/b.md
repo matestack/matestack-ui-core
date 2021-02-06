@@ -1,4 +1,4 @@
-# Matestack Core Component: B
+# B
 
 The HTML `<b>` tag, implemented in Ruby.
 

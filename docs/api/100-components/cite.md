@@ -1,4 +1,4 @@
-# Matestack Core Component: Cite
+# Cite
 
 The HTML `<cite>` tag, implemented in Ruby.
 

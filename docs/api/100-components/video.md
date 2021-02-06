@@ -1,4 +1,4 @@
-# Matestack Core Component: Video
+# Video
 
 The HTML `video` tag, implemented in Ruby.
 
