@@ -18,8 +18,9 @@ end
 
 returns
 
-```html
+```markup
 <nav id="foo" class="bar">
   Hello World
 </nav>
 ```
+

@@ -8,7 +8,7 @@ form my_form_config do
 end
 ```
 
-All child components `form_*` (including this component) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
+All child components `form_*` \(including this component\) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
 
 ```ruby
 # that's working:
@@ -112,7 +112,7 @@ end
 
 If you want to create your own input component, that's easily done since `v.1.3.0`. Imagine, you want to use `flatpickr` and therefore need to adjust the `input` rendering and need to initialize the third party library:
 
-- Create your own Ruby component:
+* Create your own Ruby component:
 
 `app/matestack/components/my_form_input.rb`
 
@@ -138,7 +138,7 @@ class Components::MyFormInput < Matestack::Ui::Core::Form::Input::Base
 end
 ```
 
-- Register your component:
+* Register your component:
 
 `app/matestack/components/registry.rb`
 
@@ -154,7 +154,7 @@ module Components::Registry
 end
 ```
 
-- Create the corresponding Vue.js component:
+* Create the corresponding Vue.js component:
 
 Generic code:
 
@@ -180,7 +180,6 @@ MatestackUiCore.Vue.component('my-form-input', {
     // this.componentConfig["foo"] would be "bar" in this case
   }
 });
-
 ```
 
 In order to support the `flatpickr` library, you would do something like this:
@@ -201,15 +200,14 @@ MatestackUiCore.Vue.component('my-form-input', {
     });
   }
 });
-
 ```
 
-- Don't forget to require the custom component JavaScript according to your JS setup!
-
-- Finally, use it within a `form`:
+* Don't forget to require the custom component JavaScript according to your JS setup!
+* Finally, use it within a `form`:
 
 ```ruby
 form some_form_config do
   my_form_input key: :foo, type: :text
 end
 ```
+

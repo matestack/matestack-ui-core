@@ -3,6 +3,7 @@
 The HTML `<var>` tag, implemented in Ruby.
 
 ## Parameters
+
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ### text - optional
@@ -21,13 +22,13 @@ end
 
 returns
 
-```html
+```markup
 <var id="foo" class="bar">
   Simple text
 </var>
 ```
 
-### Example 2: Render options[:text] param
+### Example 2: Render options\[:text\] param
 
 ```ruby
 var id: "foo", class: "bar", text: 'Simple text'
@@ -35,8 +36,9 @@ var id: "foo", class: "bar", text: 'Simple text'
 
 returns
 
-```html
+```markup
 <var id="foo" class="bar">
   Simple text
 </var>
 ```
+

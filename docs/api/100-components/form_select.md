@@ -8,7 +8,7 @@ form my_form_config do
 end
 ```
 
-All child components `form_*` (including this component) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
+All child components `form_*` \(including this component\) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
 
 ```ruby
 # that's working:
@@ -47,7 +47,7 @@ end
 
 will render:
 
-```html
+```markup
 <select>
   <option value="0">0</option>
   <option value="1">1</option>
@@ -64,7 +64,7 @@ end
 
 will render:
 
-```html
+```markup
 <select>
   <option value="0">deactive</option>
   <option value="1">active</option>
@@ -89,9 +89,9 @@ form my_form_config do
 end
 ```
 
-### disabled_values - optional
+### disabled\_values - optional
 
-Defines which options (by value) should be disabled. Pass in as Array.
+Defines which options \(by value\) should be disabled. Pass in as Array.
 
 ```ruby
 form my_form_config do
@@ -147,7 +147,7 @@ Defines the label which will be rendered right before the textarea tag. You can 
 
 If you want to create your own select component, that's easily done since `v.1.3.0`. Imagine, you want to use `select2.js` and therefore need to adjust the `select` rendering and need to initialize the third party library:
 
-- Create your own Ruby component:
+* Create your own Ruby component:
 
 `app/matestack/components/my_form_select.rb`
 
@@ -175,7 +175,7 @@ class Components::MyFormSelect < Matestack::Ui::Core::Form::Select::Base
 end
 ```
 
-- Register your component:
+* Register your component:
 
 `app/matestack/components/registry.rb`
 
@@ -191,7 +191,7 @@ module Components::Registry
 end
 ```
 
-- Create the corresponding Vue.js component:
+* Create the corresponding Vue.js component:
 
 Generic code:
 
@@ -217,7 +217,6 @@ MatestackUiCore.Vue.component('my-form-select', {
     // this.componentConfig["foo"] would be "bar" in this case
   }
 });
-
 ```
 
 In order to support the `select2.js` library, you would do something like this:
@@ -246,15 +245,14 @@ MatestackUiCore.Vue.component('my-form-select', {
     });
   }
 });
-
 ```
 
-- Don't forget to require the custom component JavaScript according to your JS setup!
-
-- Finally, use it within a `form`:
+* Don't forget to require the custom component JavaScript according to your JS setup!
+* Finally, use it within a `form`:
 
 ```ruby
 form some_form_config do
   my_form_select key: :foo, options: [1,2,3]
 end
 ```
+

@@ -3,6 +3,7 @@
 The HTML `<hr>` tag, implemented in Ruby.
 
 ## Parameters
+
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -18,9 +19,10 @@ hr id: "hr-id", class: "hr-class"
 
 returns
 
-```html
+```markup
 <hr>
 <hr id="hr-id">
 <hr class="hr-class">
 <hr id="hr-id" class="hr-class">
 ```
+

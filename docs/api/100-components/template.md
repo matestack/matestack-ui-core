@@ -3,6 +3,7 @@
 The HTML `<template>` tag, implemented in Ruby.
 
 ## Parameters
+
 This component accepts all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 ## Examples
@@ -17,7 +18,7 @@ end
 
 returns
 
-```html
+```markup
 <template id="foo" class="bar">
   <p>Template example 1</p>
 </template>
@@ -37,7 +38,7 @@ end
 
 returns
 
-```html
-<template id="foo" class="bar">
-  <p>I am part of a partial</p>
-</template>
+\`\`\`html
+
+I am part of a partial
+

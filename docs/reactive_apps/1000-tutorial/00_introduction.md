@@ -1,8 +1,7 @@
 # Creating a SPA-like App with Matestack
 
-Demo: [Matestack Demo](https://demo.matestack.io)<br>
-Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
-
+Demo: [Matestack Demo](https://demo.matestack.io)  
+ Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 ## Guide Assumptions
 
@@ -34,15 +33,15 @@ To enable you to write your apps, pages and components in Ruby, matestack provid
 
 #### `Matestack::Ui::Component`'s
 
-For nearly all existing HTML5 Tags there is a component in order to create a ui element with this tag. Visit the [components API documentation](/docs/api/100-components/) for more information about `Matestack::Ui::Component`'s.
+For nearly all existing HTML5 Tags there is a component in order to create a ui element with this tag. Visit the [components API documentation](../../api/100-components/) for more information about `Matestack::Ui::Component`'s.
 
 #### `Matestack::Ui::VueJsComponent`'s
 
-VueJsComponents are more complex components. These always have a Vue.js counterpart and enable easy development of dynamic ui elements which would usually require you to write JavaScript code. VueJsComponents provide an abstraction so you don't have to write JavaScript code and instead create rich interfaces in Ruby. Visit the [components API documentation](/docs/api/100-components/) for more information about `Matestack::Ui::VueJsComponent`'s.
+VueJsComponents are more complex components. These always have a Vue.js counterpart and enable easy development of dynamic ui elements which would usually require you to write JavaScript code. VueJsComponents provide an abstraction so you don't have to write JavaScript code and instead create rich interfaces in Ruby. Visit the [components API documentation](../../api/100-components/) for more information about `Matestack::Ui::VueJsComponent`'s.
 
 ## Recap & outlook
 
-We introduced you to the apps, pages and components concepts of matestack. In order to unterstand better how matestack works, we create an application from the ground up using matestack and enhancing it step by step while leveraging more and more features of matestack.
-Read the following guides to get started with matestack and get a better understanding about how apps, pages, components work.
+We introduced you to the apps, pages and components concepts of matestack. In order to unterstand better how matestack works, we create an application from the ground up using matestack and enhancing it step by step while leveraging more and more features of matestack. Read the following guides to get started with matestack and get a better understanding about how apps, pages, components work.
 
-Let's setup a rails app with matestack by following the [next guide](/docs/reactive_apps/1000-tutorial/01_setup.md)
+Let's setup a rails app with matestack by following the [next guide](01_setup.md)
+

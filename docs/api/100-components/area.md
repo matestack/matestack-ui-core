@@ -3,38 +3,49 @@
 The HTML `<area>` tag, implemented in Ruby.
 
 ## Parameters
+
 This component can take various optional configuration params, as well as all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) like `id` or `class`.
 
 It is meant to be used within the `<map>` component.
 
-### alt (optional)
+### alt \(optional\)
+
 Expects a string that specifies an alternate text for the `<area>` tag. Required if the href attribute is present.
 
-### coords (optional)
+### coords \(optional\)
+
 Expects an array of integers that define the `<area>`'s coordinates. For more details, see the [official documentation](https://www.w3schools.com/tags/att_area_coords.asp).
 
-### download (optional)
+### download \(optional\)
+
 Expects a string to specify the target that will be downloaded when a user clicks on the hyperlink.
 
-### href (optional)
+### href \(optional\)
+
 Expects a string to specify the hyperlink target for the area.
 
-### hreflang (optional)
+### hreflang \(optional\)
+
 Expects a string to specify the language of the target URL.
 
-### media (optional)
+### media \(optional\)
+
 Expects a string to specify what media/device the target URL is optimized for.
 
-### rel (optional)
+### rel \(optional\)
+
 Expects a string to specify the relationship between the current document and the target URL.
 
-### shape (optional)
+### shape \(optional\)
+
 Expects a string to specify the shape of the area: Default, rect, circle, poly.
 
-### target (optional)
+### target \(optional\)
+
 Expects a string to specify where to open the target URL.
 
-### type (optional)
+### type \(optional\)
+
 Expects a string to specify the media type of the target URL.
 
 ## Examples
@@ -53,7 +64,7 @@ end
 
 returns
 
-```html
+```markup
 <img src="matestack-logo.png" alt="otherlogo" width="500" height="300" usemap="#newmap">
 
 <map name="newmap">
@@ -62,3 +73,4 @@ returns
    <area shape="rect" coords="200,200,300,300" href="third.htm" alt="Third">
 </map>
 ```
+

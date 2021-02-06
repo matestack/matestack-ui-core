@@ -8,8 +8,7 @@ Except for `id` and `class`, the transition component can handle additional para
 
 ### path - required
 
-As the name suggests, the `path` expects a path within our application.
-If you want to route to a link outside our application, use the [link component](/docs/api/100-components/link.md)
+As the name suggests, the `path` expects a path within our application. If you want to route to a link outside our application, use the [link component](link.md)
 
 ```ruby
 transition path: :page1_path do
@@ -19,12 +18,9 @@ end
 
 If the path input is a **string** it just uses this string for the transition target.
 
-If the path input is a **symbol** (e.g. :root_path) it calls the Rails url helper method
-in order to generate the transition target
+If the path input is a **symbol** \(e.g. :root\_path\) it calls the Rails url helper method in order to generate the transition target
 
-You can also just use the Rails url helper methods directly. They will return a
-string which is then used as the transition target without any further processing.
-
+You can also just use the Rails url helper methods directly. They will return a string which is then used as the transition target without any further processing.
 
 ### text - optional
 
@@ -34,11 +30,11 @@ If the transition component receives a text via its `options`, it gets rendered 
 transition path: :page1_path, text: 'Click me for a transition'
 ```
 
-```HTML
+```markup
 <a href='my_example_app/page1'>Click me for a transition</a>
 ```
 
-If no text is present, the transition component expects a block that it then *yields* the usual way.
+If no text is present, the transition component expects a block that it then _yields_ the usual way.
 
 ### delay - optional
 
@@ -56,7 +52,7 @@ When a sub page of a parent `transition` component is currently active, the pare
 
 Parent target: `/some_page`
 
-Currently active: `/some_page/child_page` --> Parent gets `child-active`
+Currently active: `/some_page/child_page` --&gt; Parent gets `child-active`
 
 Query params do not interfere with this behavior.
 
@@ -64,12 +60,12 @@ Query params do not interfere with this behavior.
 
 The `transition` component automatically emits events on:
 
-* transition triggered by user action -> "page_loading_triggered"
-* *optional client side delay via `delay` attribute*
-* start to get new page from server -> "page_loading"
-* *server side/network delay*
-* successfully received new page from server -> "page_loaded"
-* failed to receive new page from server -> "page_loading_error"
+* transition triggered by user action -&gt; "page\_loading\_triggered"
+* _optional client side delay via `delay` attribute_
+* start to get new page from server -&gt; "page\_loading"
+* _server side/network delay_
+* successfully received new page from server -&gt; "page\_loaded"
+* failed to receive new page from server -&gt; "page\_loading\_error"
 
 ## Examples
 
@@ -77,7 +73,7 @@ The transition core component renders the HTML `<a>` tag and performs a page tra
 
 ### Example 1: Perform transition from one page to another without full page reload
 
-First, we define our routes (`config/routes.rb`) and the corresponding endpoints in our example controller:
+First, we define our routes \(`config/routes.rb`\) and the corresponding endpoints in our example controller:
 
 ```ruby
 get 'my_example_app/page1', to: 'example_app_pages#page1', as: 'page1'
@@ -156,8 +152,9 @@ class ExampleApp::Pages::SecondExamplePage < Matestack::Ui::Page
 end
 ```
 
-Now, we can visit our first example page via `localhost:3000/my_example_app/page1` and see our two buttons (`Page 1` and `Page 2`) and the content of page 1 (`My Example App Layout` and `This is Page 1`).
+Now, we can visit our first example page via `localhost:3000/my_example_app/page1` and see our two buttons \(`Page 1` and `Page 2`\) and the content of page 1 \(`My Example App Layout` and `This is Page 1`\).
 
-After clicking on the `Page 2`-button, we get transferred to our second page (`This is Page 2`) without re-loading the whole page.
+After clicking on the `Page 2`-button, we get transferred to our second page \(`This is Page 2`\) without re-loading the whole page.
 
-If we then click the other button available (`Back to Page 1`), we get transferred back to the first page, again without re-loading the whole page. This behavior can save quite some request payload (and therefore loading time) as only the relevant content on a page gets replaced!
+If we then click the other button available \(`Back to Page 1`\), we get transferred back to the first page, again without re-loading the whole page. This behavior can save quite some request payload \(and therefore loading time\) as only the relevant content on a page gets replaced!
+

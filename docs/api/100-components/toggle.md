@@ -6,9 +6,9 @@ The `toggle` component allows us to react to events and toggle the view state.
 
 The toggle core component accepts the following parameters:
 
-### show_on
+### show\_on
 
-The `show_on` option lets us define an event on which the component gets shown. The content is still rendered on init pageload, but simply hidden in the browser until the event is emitted. If you want to have proper deferred loading, please refer to [defer](#defer)
+The `show_on` option lets us define an event on which the component gets shown. The content is still rendered on init pageload, but simply hidden in the browser until the event is emitted. If you want to have proper deferred loading, please refer to [defer](toggle.md#defer)
 
 ```ruby
 toggle show_on: 'my_event' do
@@ -24,7 +24,7 @@ You can pass in multiple, comma-separated events on which the component should b
 toggle show_on: 'my_event, some_other_event'
 ```
 
-### hide_on
+### hide\_on
 
 The `hide_on` option lets us define an event on which the component gets hidden.
 
@@ -42,8 +42,7 @@ You can pass in multiple, comma-separated events on which the component should b
 toggle hide_on: 'my_event, some_other_event'
 ```
 
-
-### hide_after
+### hide\_after
 
 The `hide_after` option lets us define a timespan in milliseconds after which the component gets hidden.
 
@@ -55,7 +54,7 @@ toggle hide_after: 1000 do
 end
 ```
 
-### init_show
+### init\_show
 
 The `init_show` option lets us define if the content should be shown initially.
 
@@ -163,13 +162,13 @@ end
 
 As an example, we can fire the following event:
 
-```js
+```javascript
 MatestackUiCore.matestackEventHub.$emit("my_event", { message: "test!" })
 ```
 
 As a result, the event message gets shown _after_ our event was fired!
 
-### Example 5: show_on/hide_on Combination
+### Example 5: show\_on/hide\_on Combination
 
 If you combine `show_on` and `hide_on`, you can toggle the view state of the `toggle` component explicitly.
 
@@ -192,3 +191,4 @@ toggle show_on: "my_show_event", hide_on: 'my_hide_event', init_show: true do
   end
 end
 ```
+

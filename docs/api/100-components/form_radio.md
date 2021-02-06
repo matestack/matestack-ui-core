@@ -8,7 +8,7 @@ form my_form_config do
 end
 ```
 
-All child components `form_*` (including this component) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
+All child components `form_*` \(including this component\) have to be placed within the scope of the parent `form` component, without any other Vue.js driven component like `toggle`, `async` creating a new scope between the child component and the parent form component! Non-Vue.js component can be placed between `form` and `form_*` without issues!
 
 ```ruby
 # that's working:
@@ -47,7 +47,7 @@ end
 
 will render:
 
-```html
+```markup
 <input id="status_0" name="status_0" type="radio" value="0">
 <label for="status_0">
 0
@@ -68,7 +68,7 @@ end
 
 will render:
 
-```html
+```markup
 <input id="status_1" name="status_active" type="radio" value="1">
 <label for="status_1">
   active
@@ -97,7 +97,7 @@ form my_form_config do
 end
 ```
 
-### disabled_values - optional
+### disabled\_values - optional
 
 NOT IMPLEMENTED YET
 
@@ -127,7 +127,7 @@ You can also use the `label` component in order to create a label for this input
 
 If you want to create your own radio component, that's easily done since `v.1.3.0`.
 
-- Create your own Ruby component:
+* Create your own Ruby component:
 
 `app/matestack/components/my_form_radio.rb`
 
@@ -152,7 +152,7 @@ class Components::MyFormRadio < Matestack::Ui::Core::Form::Radio::Base
 end
 ```
 
-- Register your component:
+* Register your component:
 
 `app/matestack/components/registry.rb`
 
@@ -168,7 +168,7 @@ module Components::Registry
 end
 ```
 
-- Create the corresponding Vue.js component:
+* Create the corresponding Vue.js component:
 
 Generic code:
 
@@ -196,15 +196,14 @@ MatestackUiCore.Vue.component('my-form-radio', {
     // this.componentConfig["foo"] would be "bar" in this case
   }
 });
-
 ```
 
-- Don't forget to require the custom component JavaScript according to your JS setup!
-
-- Finally, use it within a `form`:
+* Don't forget to require the custom component JavaScript according to your JS setup!
+* Finally, use it within a `form`:
 
 ```ruby
 form some_form_config do
   my_form_radio key: :foo, options: [1,2,3]
 end
 ```
+

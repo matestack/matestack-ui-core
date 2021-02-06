@@ -4,19 +4,22 @@ Use tables to implement `<table>`, `<tr>`, `<th>`, `<td>`, `<thead>`, `<tbody>` 
 
 ## Parameters
 
-`<table>`, `<tr>`, `<thead>`, `<tbody>` and `<tfoot>` can take 2 optional configuration params.
-`<th>` and `<td>` tags can also take a third param, text input.
+`<table>`, `<tr>`, `<thead>`, `<tbody>` and `<tfoot>` can take 2 optional configuration params. `<th>` and `<td>` tags can also take a third param, text input.
 
-#### id (optional)
+### id \(optional\)
+
 Expects a string with all ids the element should have.
 
-#### class (optional)
+### class \(optional\)
+
 Expects a string with all classes the element should have.
 
-#### text (optional)
+### text \(optional\)
+
 Expects a string which will be rendered between the opening and closing `<th>` or `<td>`-tag
 
 ## Example 1
+
 Implementing a simple, hard coded table.
 
 ```ruby
@@ -52,7 +55,7 @@ end
 
 returns
 
-```html
+```markup
 <table class="foo">
   <tr class="bar">
     <th>First</th>
@@ -73,6 +76,7 @@ returns
 ```
 
 ## Example 2
+
 The real beauty comes into play when things get a little more complicated
 
 ```ruby
@@ -113,7 +117,7 @@ end
 
 returns
 
-```html
+```markup
 <table class='foo'>
   <tr class='bar'>
     <th>Jonas</th>
@@ -176,7 +180,7 @@ end
 
 returns
 
-```html
+```markup
 <table>
   <thead>
     <tr>
@@ -206,3 +210,4 @@ returns
   </tfoot>
 </table>
 ```
+

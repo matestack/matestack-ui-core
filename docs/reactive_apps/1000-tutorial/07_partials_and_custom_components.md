@@ -1,7 +1,7 @@
 # Essential Guide 7: Partials and custom components
 
-Demo: [Matestack Demo](https://demo.matestack.io)<br>
-Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)  
+ Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the seventh part of our tutorial about building a web application with matestack.
 
@@ -10,14 +10,15 @@ Welcome to the seventh part of our tutorial about building a web application wit
 In this part, we will discover how we can create custom components with matestack to declutter and better structure our code.
 
 In this guide, we will
-- refactor our new and edit forms with partials
-- refactor our person index page with components
-- refactor the show page and reuse our component
-- add a custom component to our app
+
+* refactor our new and edit forms with partials
+* refactor our person index page with components
+* refactor the show page and reuse our component
+* add a custom component to our app
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/06_async_component.md).
+We expect you to have successfully finished the [previous guide](06_async_component.md).
 
 ## Using partials
 
@@ -134,7 +135,7 @@ class Demo::Pages::Persons::Edit < Demo::Pages::Persons::Form
 end
 ```
 
-We successfully refactored our code using partials, so it's better structured, more readable and we keep it dry (don't repeat yourself).
+We successfully refactored our code using partials, so it's better structured, more readable and we keep it dry \(don't repeat yourself\).
 
 Visit [localhost:3000](http://localhost:3000) and navigate to the new and edit pages, to check that everything works like before.
 
@@ -241,7 +242,7 @@ Since this component does not have a `response` method, matestack automatically 
 
 So let's add the `disclaimer.haml` file in `app/matestack/components/person/` and add a simple paragraph:
 
-```haml
+```text
 %p
   None of the presented names belong to and/or are meant to refer to existing human beings. They were created using a "Random Name Generator".
 ```
@@ -275,18 +276,17 @@ Different from our `person_teaser`, we don't need to hand over properties to our
 
 ## More information on custom components
 
-Even though we only covered very basic cases here, you may already have some idea of how powerful custom components can be!
-By leveraging useful namespaces and calling custom components within other custom components, you can get quite fancy and build complex user interfaces while keeping the code maintainable and reasonable.
+Even though we only covered very basic cases here, you may already have some idea of how powerful custom components can be! By leveraging useful namespaces and calling custom components within other custom components, you can get quite fancy and build complex user interfaces while keeping the code maintainable and reasonable.
 
-Side note: Custom components also give you a neat way of reusing your `*.haml` views with matestack (erb and slim support will be added soon).
+Side note: Custom components also give you a neat way of reusing your `*.haml` views with matestack \(erb and slim support will be added soon\).
 
-To learn more, check out the [basic building blocks](/docs/reactive_apps/README.md) guides section about custom components.
+To learn more, check out the [basic building blocks](../) guides section about custom components.
 
 ## Saving the status quo
 
 As usual, we want to commit the progress to Git. In the repo root, run
 
-```sh
+```bash
 git add . && git commit -m "Refactor person new, edit, index, show page to use custom components, add custom component registry, add disclaimer component to app"
 ```
 
@@ -294,4 +294,5 @@ git add . && git commit -m "Refactor person new, edit, index, show page to use c
 
 Today, we covered a great way of extracting recurring UI elements into reusable components with matestack. Of course, we only covered a very basic use case here and there are various ways of using custom components.
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`collection` component](/docs/reactive_apps/1000-tutorial/08_collection_async.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`collection` component](08_collection_async.md).
+
