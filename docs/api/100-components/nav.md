@@ -1,4 +1,4 @@
-# Matestack Core Component: Nav
+# Nav
 
 The HTML `<nav>` tag, implemented in Ruby.
 

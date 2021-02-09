@@ -1,4 +1,4 @@
-# Matestack Core Component: Data
+# Data
 
 The HTML `<data>` tag, implemented in Ruby.
 

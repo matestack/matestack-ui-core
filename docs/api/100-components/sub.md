@@ -1,4 +1,4 @@
-# Matestack Core Component: Sub
+# Sub
 
 The HTML `<sub>` tag, implemented in Ruby.
 

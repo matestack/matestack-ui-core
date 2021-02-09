@@ -1,4 +1,4 @@
-# Matestack Core Component: Em
+# Em
 
 The HTML `<em>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Matestack Core Component: Map
+# Map
 
 The HTML `<map>` tag, implemented in Ruby.
 

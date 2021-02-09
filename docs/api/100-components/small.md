@@ -1,4 +1,4 @@
-# Matestack Core Component: Small
+# Small
 
 The HTML `<small>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Matestack Core Component: Option
+# Option
 
 The HTML `<option>` tag, implemented in Ruby.
 

@@ -1,4 +1,4 @@
-# Matestack Core Component: Select
+# Select
 
 The HTML `<select>` tag, implemented in Ruby.
 

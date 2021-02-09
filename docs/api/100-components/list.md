@@ -1,4 +1,4 @@
-# Matestack Core Component: Lists
+# Lists
 
 Use lists to implement `<ol>`, `<ul>` and `<li>`-tags.
 

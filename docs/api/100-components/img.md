@@ -1,4 +1,4 @@
-# Matestack Core Component: Img
+# Img
 
 The HTML img tag, implemented in Ruby.
 

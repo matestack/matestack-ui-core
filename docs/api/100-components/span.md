@@ -1,4 +1,4 @@
-# Matestack Core Component: Span
+# Span
 
 The HTML `<span>` tag, implemented in Ruby.
 

@@ -469,12 +469,14 @@ end
 # ...
 
 def post_list_partial
-  @posts.each do |post|
-    post_partial(post)
+  async rerender_on: "submitted", id: "post-list" do
+    @posts.each do |post|
+      post_partial(post)
+    end
   end
 end
 
-def post_partial post
+def post_partial(post)
   async rerender_on: "liked_post_#{post.id}", id: "post-#{post.id}" do
     div class: "mb-3 p-3 rounded shadow-sm" do
       heading size: 5 do

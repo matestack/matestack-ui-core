@@ -1,4 +1,4 @@
-# Matestack Core Component: Meter
+# Meter
 
 Use the Meter component to implement `<meter>` tag.
 

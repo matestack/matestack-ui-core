@@ -1,4 +1,4 @@
-# Matestack Core Component: Label
+# Label
 
 The HTML `<label>` tag, implemented in Ruby.
 

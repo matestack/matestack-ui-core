@@ -1,4 +1,4 @@
-# Matestack Core Component: Youtube
+# Youtube
 
 A youtube video, embedded into an `iFrame` HTML tag.
 

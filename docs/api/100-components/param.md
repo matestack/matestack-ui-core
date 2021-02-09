@@ -1,4 +1,4 @@
-# Matestack Core Component: Param
+# Param
 
 The HTML `<param>` tag, implemented in Ruby.
 

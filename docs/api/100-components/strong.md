@@ -1,4 +1,4 @@
-# Matestack Core Component: Strong
+# Strong
 
 The HTML `<strong>` tag, implemented in Ruby.
 

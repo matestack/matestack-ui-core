@@ -1,4 +1,4 @@
-# Matestack Core Component: kbd
+# Kbd
 
 The HTML `<kbd>` tag, implemented in Ruby.
 
