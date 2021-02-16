@@ -53,7 +53,7 @@ Documentation can be found [here](https://docs.matestack.io)
 
 ## Getting started
 
-A getting started guide can be found [here](https://docs.matestack.io/docs/start/150-getting_started)
+A getting started guide can be found [here](https://docs.matestack.io/start/150-getting_started)
 
 ## Changelog
 
