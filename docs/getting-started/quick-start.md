@@ -15,8 +15,8 @@ _This guide utilizes the full power of Matestack and uses `matestack-ui-core` as
 ```bash
 rails new twitter_clone --webpacker
 cd twitter_clone
-bundle add matestack-ui-core --version "~> 1.3.2"
-yarn add https://github.com/matestack/matestack-ui-core#v1.3.2
+bundle add matestack-ui-core
+yarn add matestack-ui-core
 ```
 
 * [x] Use Rails scaffolder in order to setup some files:
@@ -95,7 +95,7 @@ On `app/views/layouts/application.html.erb` do:
 
 `app/views/layouts/application.html.erb`
 
-```text
+```markup
 <!DOCTYPE html>
 <html>
   <head>
@@ -384,7 +384,10 @@ You should see a basic index page with a form on top. When submitting the form w
 def form_config_helper
   {
     for: Post.new, path: posts_path, method: :post,
-    errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } },
+    errors: { 
+      wrapper: { tag: :div, class: 'invalid-feedback' }, 
+      input: { class: 'is-invalid' } 
+    },
     success: { emit: "submitted" }
   }
 end
