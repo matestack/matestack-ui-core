@@ -285,5 +285,5 @@ ActionCable.server.broadcast("matestack_ui_core", {
 
 ## Complete documentation
 
-If you want to know all details about the `cable` component checkout its [api documentation](../components-api/core-components/cable.md)
+If you want to know all details about the `cable` component checkout its [api documentation](../components-api/reactive-core-components/cable.md)
 
