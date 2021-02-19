@@ -19,7 +19,7 @@ If necessary, extend with pure JavaScript. **No Opal involved.**
 
 ### Why Matestack?
 
-Matestack was created because modern web app development became more and more complex due to the rise of JavaScript frontend frameworks and the SPA frontend/REST API/JSON backend architecture. This sophisticated approach might be suitable for big teams and applications but way to complex for most of small to medium sized teams and application scopes. 
+Matestack was created because modern web app development became more and more complex due to the rise of JavaScript frontend frameworks and the SPA frontend/REST API/JSON backend architecture. This sophisticated approach might be suitable for big teams and applications but is way to complex for most of small to medium sized teams and application scopes. 
 
 In contrast, Matestack helps Rails developers creating modern, reactive web apps while focusing on **simplicity**, **developer happiness** and **productivity**:
 
@@ -43,16 +43,16 @@ Additionally, most of Matestack does not require Action Cable or Redis, but can 
 
 ### Ecosystem
 
-Matestack currently offers two Ruby gems**:**
+Matestack currently offers two open source Ruby gems**:**
 
 * `matestack-ui-core` ships all you need to build reactive UIs in pure Ruby. You have to take care of styling and additional UI components yourself.
-* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **\(specs and docs in progress currently\)**
+* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **\(specs and docs in progress currently\) --&gt;** [**https://matestack.gitbook.io/matestack-ui-bootstrap/**](https://matestack.gitbook.io/matestack-ui-bootstrap/)\*\*\*\*
 
 ### Live Demo
 
-Based on `matestack-ui-core` and `matestack-ui-bootstrap` this reactive dummy app was created in pure Ruby without writing any JavaScript, ERB/HAML/SLIM and CSS: \([check it out](https://ui.matestack.io) \| [source code](https://github.com/matestack/matestack-ui-bootstrap/tree/main/spec/dummy)\)
+Based on `matestack-ui-core` and `matestack-ui-bootstrap` this reactive dummy app was created in pure Ruby without writing any JavaScript, ERB/HAML/SLIM and CSS: \([check it out](https://dummy.matestack.io) \| [source code](https://github.com/matestack/matestack-ui-bootstrap/tree/main/spec/dummy)\)
 
-![https://ui.matestack.io](.gitbook/assets/image%20%281%29.png)
+![https://dummy.matestack.io](.gitbook/assets/image%20%281%29.png)
 
 ### Compatibility
 
