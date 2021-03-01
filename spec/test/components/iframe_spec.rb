@@ -21,7 +21,7 @@ describe 'Iframe Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <iframe src="https://www.demopage.com">The browser does not support iframe.</iframe>
-      <iframe id="my-id" src="https://www.demopage.com" srcdoc="Mate Stack UI!" class="my-class">The browser does not support iframe.</iframe>
+      <iframe id="my-id" class="my-class" src="https://www.demopage.com" srcdoc="Mate Stack UI!">The browser does not support iframe.</iframe>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
@@ -30,10 +30,10 @@ describe 'Iframe Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         # simple iframe tag
-        iframe src: "https://www.demopage.com", text: 'The browser does not support iframe.'
+        iframe 'The browser does not support iframe.', src: "https://www.demopage.com"
         # enhanced iframe tag
-        iframe id: 'my-id', class: 'my-class', src: "https://www.demopage.com",
-          srcdoc: "Mate Stack UI!", text: 'The browser does not support iframe.'
+        iframe 'The browser does not support iframe.', id: 'my-id', class: 'my-class', src: "https://www.demopage.com",
+          srcdoc: "Mate Stack UI!"
       end
     end
 
@@ -41,7 +41,7 @@ describe 'Iframe Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <iframe src="https://www.demopage.com">The browser does not support iframe.</iframe>
-      <iframe id="my-id" src="https://www.demopage.com" srcdoc="Mate Stack UI!" class="my-class">The browser does not support iframe.</iframe>
+      <iframe id="my-id" class="my-class" src="https://www.demopage.com" srcdoc="Mate Stack UI!">The browser does not support iframe.</iframe>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

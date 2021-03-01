@@ -1,5 +1,5 @@
 class MatestackWrapperApp < Matestack::Ui::App
   def response
-    yield_page
+    yield
   end
 end

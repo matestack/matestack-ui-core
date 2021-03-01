@@ -1,12 +1,8 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (1.0.1)
-      cells-haml
-      cells-rails
-      haml
+    matestack-ui-core (2.0.0)
       rails (>= 5.0)
-      trailblazer-cells
 
 GEM
   remote: https://rubygems.org/
@@ -78,26 +74,12 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    cells (4.1.7)
-      declarative-builder (< 0.2.0)
-      declarative-option (< 0.2.0)
-      tilt (>= 1.4, < 3)
-      uber (< 0.2.0)
-    cells-haml (0.0.10)
-      cells (>= 4.0.1, <= 6.0.0)
-      haml (>= 4.1.0.beta.1)
-    cells-rails (0.1.0)
-      actionpack (>= 5.0)
-      cells (>= 4.1.6, < 5.0.0)
     childprocess (3.0.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
-    declarative-builder (0.1.0)
-      declarative-option (< 0.2.0)
-    declarative-option (0.1.0)
     diff-lcs (1.3)
     docile (1.3.2)
     erubi (1.9.0)
@@ -106,9 +88,6 @@ GEM
       railties (>= 3.0.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    haml (5.1.2)
-      temple (>= 0.8.0)
-      tilt
     hashdiff (1.0.0)
     i18n (1.8.3)
       concurrent-ruby (~> 1.0)
@@ -209,22 +188,17 @@ GEM
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.2.1)
+    sprockets-rails (3.2.2)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
-    tilt (2.0.10)
-    trailblazer-cells (0.0.3)
-      cells (>= 4.1.0.rc1, < 5.0.0)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
-    uber (0.1.0)
     webmock (3.8.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -246,8 +220,6 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capybara
-  cells-haml
-  cells-rails
   generator_spec
   matestack-ui-core!
   pg (>= 0.18, < 2.0)
@@ -259,7 +231,6 @@ DEPENDENCIES
   rspec-wait (~> 0.0.9)
   selenium-webdriver
   simplecov
-  trailblazer-cells
   turbolinks
   webmock
   webpacker (~> 4.0)

@@ -6,12 +6,12 @@ describe "Heading Component", type: :feature, js: true do
   it "Example 1" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        heading size: 1, id: "my-id", class: "my-class", text: "Heading"
-        heading size: 2, id: "my-id", class: "my-class", text: "Heading"
-        heading size: 3, id: "my-id", class: "my-class", text: "Heading"
-        heading size: 4, id: "my-id", class: "my-class", text: "Heading"
-        heading size: 5, id: "my-id", class: "my-class", text: "Heading"
-        heading size: 6, id: "my-id", class: "my-class", text: "Heading"
+        h1 "Heading", id: "my-id", class: "my-class"
+        h2 "Heading", id: "my-id", class: "my-class"
+        h3 "Heading", id: "my-id", class: "my-class"
+        h4 "Heading", id: "my-id", class: "my-class"
+        h5 "Heading", id: "my-id", class: "my-class"
+        h6 "Heading", id: "my-id", class: "my-class"
       end
     end
 
@@ -43,7 +43,7 @@ describe "Heading Component", type: :feature, js: true do
   it "Example 2" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        heading id: "my-id", class: "my-class", text: "Heading"
+        h1 'Heading', id: "my-id", class: "my-class"
       end
     end
 
@@ -60,7 +60,7 @@ describe "Heading Component", type: :feature, js: true do
   it "Example 3" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        heading size:1, id: "my-id", class: "my-class" do
+        h1 id: "my-id", class: "my-class" do
           plain "Heading"
         end
       end

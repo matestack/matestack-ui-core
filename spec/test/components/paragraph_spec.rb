@@ -8,13 +8,13 @@ describe 'Paragraph Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         # simple paragraph
-        paragraph text: 'I am simple'
+        paragraph 'I am simple'
         # enhanced paragraph
         paragraph id: 'my-id', class: 'my-class' do
           plain 'I am enhanced'
         end
         # alias pg
-        pg text: 'Alias paragraph'
+        pg 'Alias paragraph'
       end
     end
 

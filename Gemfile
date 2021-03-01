@@ -11,10 +11,6 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem "trailblazer-cells"
-gem "cells-rails"
-gem "cells-haml"
-
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'capybara'

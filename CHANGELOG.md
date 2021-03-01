@@ -1,5 +1,24 @@
 # Changelog
 
+## v 2.0.0
+
+* removed internal dependencies from cells, haml and trailblazer-cells
+
+* passing text with option :text is deprecated, please pass text as first argument
+
+* changes for components
+  * `area` coords will no longer be automatically joined -> html option does exactly what is expected, no magic
+* content blocks take precedence over text or :text option
+* `heading` component does not exist anymore. use `h1`,`h2`,`h3`...instead
+* `italic` and `icon` are now called with the corresponding html tag `i`
+* `link`has no more option :path which can take a symbol and renders it with rails url helper. Use :href with or without rails url helper instead
+
+
+Questions:
+* remove alias pg for paragraph? Only give one option?!
+
+
+
 ## v1.3.1 Release
 
 ### Bugfixes

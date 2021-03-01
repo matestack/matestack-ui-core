@@ -12,8 +12,6 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
-//= require matestack-ui-core
 //= require cable
 
 //= require demo/component

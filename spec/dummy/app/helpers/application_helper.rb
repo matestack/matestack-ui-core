@@ -1,3 +1,3 @@
 module ApplicationHelper
-  include Matestack::Ui::Core::ApplicationHelper
+  # include Matestack::Ui::Core::ApplicationHelper
 end

@@ -7,7 +7,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link path: "https://matestack.org", text: 'here'
+          link 'here', href: "https://matestack.org"
         end
       end
     end
@@ -26,7 +26,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link path: "https://matestack.org", title: "The matestack website" do
+          link href: "https://matestack.org", title: "The matestack website" do
             plain 'here'
           end
         end
@@ -47,7 +47,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link path: "https://matestack.org", target: "_blank" do
+          link href: "https://matestack.org", target: "_blank" do
             plain 'here'
           end
         end
@@ -73,7 +73,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link path: :link_test_path do
+          link href: link_test_path do
             plain 'here'
           end
         end
@@ -94,7 +94,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link text: 'Click', path: :inline_edit_path
+          link text: 'Click', href: inline_edit_path
         end
       end
     end
@@ -113,7 +113,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link path: :single_endpoint_path, params: {number: 1}, text: 'Call API endpoint 1'
+          link href: single_endpoint_path(number: 1), text: 'Call API endpoint 1'
         end
       end
     end
@@ -131,7 +131,7 @@ describe 'Link Component', type: :feature, js: true do
   it "behaves correctly with anchor links (no reload, retain anchor)" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        link path: "#someanchor", text: "go to anchor", id: "my-link"
+        link href: "#someanchor", text: "go to anchor", id: "my-link"
         br times: 200
         div id: "someanchor" do
           plain "hello!"
@@ -176,7 +176,7 @@ describe 'Link Component', type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          link path: "#someanchor", text: "go to anchor", id: "my-link"
+          link href: "#someanchor", text: "go to anchor", id: "my-link"
           br times: 200
           div id: "someanchor" do
             plain "hello!"
@@ -213,7 +213,7 @@ describe 'Link Component', type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          link path: "?a=true", text: "go to anchor", id: "my-link"
+          link href: "?a=true", text: "go to anchor", id: "my-link"
           br times: 200
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"

@@ -35,6 +35,8 @@ module Utils
   end
 
   def reset_matestack_app
-    matestack_app { yield_page }
+    MatestackWrapperApp.define_method(:response) do |&block|
+      block.call
+    end
   end
 end
