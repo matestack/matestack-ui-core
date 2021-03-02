@@ -25,6 +25,8 @@ class Demo::FirstPage < Matestack::Ui::Page
       div Time.now
     end
 
+    paragraph time_ago_in_words(1.minute.ago)
+
   end
 
   def a_slot(number)
