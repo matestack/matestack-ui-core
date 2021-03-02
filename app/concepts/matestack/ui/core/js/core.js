@@ -6,7 +6,6 @@ import app from '../app/app'
 import async from '../async/async'
 import cable from '../cable/cable'
 import pageContent from '../page/content/content'
-import toggle from '../toggle/toggle'
 import store from '../app/store'
 import component from '../component/component'
 import anonymDynamicComponent from '../component/anonym-dynamic-component'
@@ -24,11 +23,15 @@ import formCheckboxMixin from '../form/checkbox/mixin'
 import formTextarea from '../form/textarea/textarea'
 import formTextareaMixin from '../form/textarea/mixin'
 import formSubmit from '../form/submit/submit'
-import onclick from '../onclick/onclick'
 import collectionContent from '../collection/content/content'
 import collectionFilter from '../collection/filter/filter'
 import collectionOrder from '../collection/order/order'
 import isolate from '../isolated/isolated'
+
+// IMPORTS AT NEW LOCATION
+// TODO: optimize js
+import toggle from '../../../../../../lib/matestack/ui/vue_js/components/toggle'
+import onclick from '../../../../../../lib/matestack/ui/vue_js/components/onclick'
 
 let matestackUiApp = undefined
 

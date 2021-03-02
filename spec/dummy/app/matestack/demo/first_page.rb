@@ -14,6 +14,10 @@ class Demo::FirstPage < Matestack::Ui::Page
       div 'I am toggable'
     end
 
+    onclick emit: 'show', data: { foo: :bar } do
+      button 'Klick!'
+    end
+
   end
 
   def a_slot(number)
