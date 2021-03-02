@@ -1,8 +1,10 @@
+require_relative 'slots'
 module Matestack
   module Ui
     module Core
       module TagHelper
         extend Gem::Deprecate
+        include Slots
         
         # can't take content or a block
         VOID_TAGS = %i[area base br col hr img input link meta param command keygen source]
