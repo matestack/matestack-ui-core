@@ -21,7 +21,7 @@ describe 'Q Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <q>This is simple quote text</q>
-      <q cite="this is a cite" id="my-id" class="my-class">This is a enhanced quote with text</q>
+      <q id="my-id" class="my-class" cite="this is a cite">This is a enhanced quote with text</q>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
@@ -30,9 +30,9 @@ describe 'Q Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         # simple quote
-        q text: 'This is simple quote text'
+        q 'This is simple quote text'
         # enhanced quote
-        q id: 'my-id', class: 'my-class', cite: 'this is a cite', text: 'This is a enhanced quote with text'
+        q 'This is a enhanced quote with text', id: 'my-id', class: 'my-class', cite: 'this is a cite'
       end
     end
 
@@ -40,7 +40,7 @@ describe 'Q Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <q>This is simple quote text</q>
-      <q cite="this is a cite" id="my-id" class="my-class">This is a enhanced quote with text</q>
+      <q id="my-id" class="my-class" cite="this is a cite">This is a enhanced quote with text</q>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

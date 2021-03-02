@@ -60,7 +60,7 @@ module Matestack
 
         def render_content
           if children.empty?
-            child_content = self.escape ? html_escape(text) : text
+            child_content = self.escape ? html_escape(text) : text if text
           else
             child_content = children.map { |child| child.render_content }.join.html_safe
           end

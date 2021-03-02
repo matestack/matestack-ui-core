@@ -28,7 +28,7 @@ describe 'Time Component', type: :feature, js: true do
     expected_static_output = <<~HTML
       <p>This should show <time class="my-simple-time">12:00</time></p>
       <p id="my-parent-paragraph">
-        Today is <time datetime="2019-02-12T10:38:39+02:00" id="example-timestamp">July 7</time>
+        Today is <time id="example-timestamp" datetime="2019-02-12T10:38:39+02:00">July 7</time>
       </p>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))

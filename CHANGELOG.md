@@ -12,11 +12,10 @@
 * `heading` component does not exist anymore. use `h1`,`h2`,`h3`...instead
 * `italic` and `icon` are now called with the corresponding html tag `i`
 * `link`has no more option :path which can take a symbol and renders it with rails url helper. Use :href with or without rails url helper instead
-
-
-Questions:
-* remove alias pg for paragraph? Only give one option?!
-
+* `unescaped` renamed to `unescape` as it fits the naming conventions more. For example rails html_escape not html_escaped. `unescaped` is deprecated now
+* `video` has no more magic creation of source tag or automatically fetch asset path to keep dsl as close to html as possible
+* removed alias `pg` for `paragraph`
+* `rails_view` is replaced by `rails_render`. Use `rails_render partial: '/some_partial', locals: { foo: 1 }; rails_render file: '/some_view', locals: { foo: 1 }` to render a partial or a file or anything you want. Use the same as you would use rails `render`
 
 
 ## v1.3.1 Release
