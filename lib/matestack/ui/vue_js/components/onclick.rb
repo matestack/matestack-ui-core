@@ -11,6 +11,8 @@ module Matestack
             end
           end
 
+          protected
+
           def config
             {
               emit: options[:emit],

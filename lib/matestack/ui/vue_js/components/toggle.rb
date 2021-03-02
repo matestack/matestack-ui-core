@@ -11,6 +11,8 @@ module Matestack
             end
           end
 
+          protected
+
           def config
             {
               show_on: options[:show_on],

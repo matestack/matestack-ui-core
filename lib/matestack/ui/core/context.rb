@@ -9,6 +9,10 @@ module Matestack
         attribute :component_block
         attribute :async_components
 
+        def async_components
+          @async_components ||= {}
+        end
+
       end
     end
   end

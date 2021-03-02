@@ -21,6 +21,10 @@ class Demo::FirstPage < Matestack::Ui::Page
       button 'Klick!'
     end
 
+    async id: 'time', rerender_on: 'show' do
+      div Time.now
+    end
+
   end
 
   def a_slot(number)

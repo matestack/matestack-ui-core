@@ -7,6 +7,7 @@ module Matestack
           toggle: Matestack::Ui::VueJs::Components::Toggle,
           onclick: Matestack::Ui::VueJs::Components::Onclick,
           transition: Matestack::Ui::VueJs::Components::Transition,
+          async: Matestack::Ui::VueJs::Components::Async,
         )
 
       end
