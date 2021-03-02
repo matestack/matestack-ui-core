@@ -4,7 +4,7 @@ class Demo::Components::Header < Matestack::Ui::Component
     h1 'This is a header'
     slot slots[:first]
     paragraph 'Juhu !!!'
-    slot slots[:first]
+    slot slots[:second] 
   end
 
 end

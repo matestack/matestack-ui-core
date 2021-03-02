@@ -2,12 +2,18 @@ class Demo::FirstPage < Matestack::Ui::Page
 
   def response
     # Demo::Components::Header.()
-    header slots: { first: a_slot(1) }
+    header slots: { first: a_slot(1), second: a_slot(3) }
     h1 'First page with new logic!'
     abbr title: 'test'
 
     rails_render partial: '/some_partial', locals: { foo: 1 }
     rails_render file: '/some_view', locals: { foo: 1 }
+
+    # integrating toggle component
+    toggle show_on: 'show' do
+      div 'I am toggable'
+    end
+
   end
 
   def a_slot(number)

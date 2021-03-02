@@ -16,9 +16,9 @@ module Matestack
         attr_accessor :html_tag, :text, :options, :parent, :escape
 
         def initialize(html_tag = nil, text = nil, options = {}, &block)
-          self.slots = self.options.delete(:slots)
+          self.slots = self.options.delete(:slots) if self.options
           # extract_options(text, options) is called in properties
-          self.html_tag = html_tag unless html_tag ==
+          self.html_tag = html_tag unless html_tag == :slot
           self.escape = self.options.delete(:escape) || true
           self.parent = Matestack::Ui::Core::Context.parent
           self.parent.children << self if self.parent unless html_tag == :slot

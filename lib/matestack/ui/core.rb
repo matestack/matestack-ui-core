@@ -23,21 +23,16 @@ require "matestack/ui/app"
 require "matestack/ui/page"
 require "matestack/ui/component"
 
-# require 'trailblazer/cell'
-# require 'cell/rails'
-# require 'cell/haml'
+# VueJs Components
+vue_js_base_path = 'matestack/ui/vue_js'
+module Matestack
+  module Ui
+    module VueJs
 
-# require "matestack/ui/core/cell"
-# require "matestack/ui/core/engine"
+    end
+  end
+end
 
-# require "matestack/ui/core/dsl"
-# require "matestack/ui/core/component/registry"
-# require "matestack/ui/core/components"
-
-# module Matestack
-#   module Ui
-#     module Core
-#       # Your code goes here...
-#     end
-#   end
-# end
+require "#{vue_js_base_path}/vue"
+require "#{vue_js_base_path}/components/toggle"
+require "#{vue_js_base_path}/registry"
