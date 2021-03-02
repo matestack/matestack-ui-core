@@ -1,6 +1,8 @@
-class FirstPage < Matestack::Ui::Page
+class Demo::FirstPage < Matestack::Ui::Page
 
   def response
+    Demo::Components::Header.()
+    header
     h1 'First page with new logic!'
     abbr title: 'test'
 

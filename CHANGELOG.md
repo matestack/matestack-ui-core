@@ -17,6 +17,9 @@
 * removed alias `pg` for `paragraph`
 * `rails_view` is replaced by `rails_render`. Use `rails_render partial: '/some_partial', locals: { foo: 1 }; rails_render file: '/some_view', locals: { foo: 1 }` to render a partial or a file or anything you want. Use the same as you would use rails `render`
 
+* Syntax to register components has slightly changed. Now you need to call `Matestack::Ui::Component.register(...)` instead of `Matestack::Ui::Core::Component::Registry.register_components`
+
+* an app now defines the complete layout, including the head, scripts, csrf tags etc.
 
 ## v1.3.1 Release
 

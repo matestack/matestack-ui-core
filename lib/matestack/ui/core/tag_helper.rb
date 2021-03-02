@@ -35,7 +35,11 @@ module Matestack
         deprecate :unescaped, :unescape, 2021, 10
         
         def matestack(&block)
-          div(id: 'matestack-ui', &block)
+          div(id: 'matestack-ui') do
+            Base.new(:component, component_attributes) do
+              div(class: 'matestack-app-wrapper', &block)
+            end
+          end
         end
 
         # override image in order to implement automatically using rails assets path
