@@ -7,4 +7,8 @@ class DemoController < ActionController::Base
     render Demo::FirstPage
   end
 
+  def second
+    render Demo::SecondPage
+  end
+
 end

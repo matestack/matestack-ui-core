@@ -1,5 +1,4 @@
 import Vue from 'vue/dist/vue.esm'
-import { turbolinksAdapterMixin } from 'vue-turbolinks';
 
 // Import from app/concepts/matestack/ui/core:
 import app from '../app/app'
@@ -9,7 +8,6 @@ import pageContent from '../page/content/content'
 import store from '../app/store'
 import component from '../component/component'
 import anonymDynamicComponent from '../component/anonym-dynamic-component'
-import transition from '../transition/transition'
 import action from '../action/action'
 import form from '../form/form'
 import formInput from '../form/input/input'
@@ -32,6 +30,7 @@ import isolate from '../isolated/isolated'
 // TODO: optimize js
 import toggle from '../../../../../../lib/matestack/ui/vue_js/components/toggle'
 import onclick from '../../../../../../lib/matestack/ui/vue_js/components/onclick'
+import transition from '../../../../../../lib/matestack/ui/vue_js/components/transition'
 
 let matestackUiApp = undefined
 
@@ -44,24 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // the mixin does not impact the app when turbolinks is disabled
   matestackUiApp = new Vue({
       el: "#matestack-ui",
-      mixins: [turbolinksAdapterMixin],
-      store: store
-  })
-})
-
-// this event fires after DOMContentLoaded and only if turbolinks are enabled
-document.addEventListener('turbolinks:load', () => {
-  // we need to empty the currently stored pageTemplate state variable
-  // otherwise the matestack page will jump back to the latest pageTemplate
-  // fetched during the last matestack transition as the turbolinks powered
-  // page transition does not write the matestack store pageTemplate state variable
-  store.commit('resetPageTemplate')
-  // we need to destroy the vue app instance
-  matestackUiApp.$destroy();
-  // and recreate it right afterwards in order to work when used with turbolinks
-  matestackUiApp = new Vue({
-      el: "#matestack-ui",
-      mixins: [turbolinksAdapterMixin],
       store: store
   })
 })

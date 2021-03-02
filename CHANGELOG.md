@@ -21,6 +21,8 @@
 
 * an app now defines the complete layout, including the head, scripts, csrf tags etc.
 
+* `transition` can no longer handle symbols as path. Use rails path helper instead
+
 ## v1.3.1 Release
 
 ### Bugfixes

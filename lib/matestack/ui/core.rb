@@ -36,4 +36,5 @@ end
 require "#{vue_js_base_path}/vue"
 require "#{vue_js_base_path}/components/toggle"
 require "#{vue_js_base_path}/components/onclick"
+require "#{vue_js_base_path}/components/transition"
 require "#{vue_js_base_path}/registry"

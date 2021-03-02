@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   # mount Matestack::Ui::Core::Engine, at: '/matestack'
 
-  root to: 'demo#first', as: :first
+  root to: 'demo#first'
+  get :second, to: 'demo#second', as: :second
 
   # root to: 'my_app#my_first_page'
 

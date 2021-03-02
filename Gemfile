@@ -21,7 +21,6 @@ group :development, :test do
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
   gem 'webmock'
-  gem 'turbolinks'
 end
 
 group :test do
