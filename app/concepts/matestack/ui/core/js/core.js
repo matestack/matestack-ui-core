@@ -7,7 +7,6 @@ import pageContent from '../page/content/content'
 import store from '../app/store'
 import component from '../component/component'
 import anonymDynamicComponent from '../component/anonym-dynamic-component'
-import action from '../action/action'
 import form from '../form/form'
 import formInput from '../form/input/input'
 import formInputMixin from '../form/input/mixin'
@@ -31,6 +30,7 @@ import toggle from '../../../../../../lib/matestack/ui/vue_js/components/toggle'
 import onclick from '../../../../../../lib/matestack/ui/vue_js/components/onclick'
 import transition from '../../../../../../lib/matestack/ui/vue_js/components/transition'
 import async from '../../../../../../lib/matestack/ui/vue_js/components/async'
+import action from '../../../../../../lib/matestack/ui/vue_js/components/action'
 
 let matestackUiApp = undefined
 

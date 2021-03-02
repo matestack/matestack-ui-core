@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   root to: 'demo#first'
   get :second, to: 'demo#second', as: :second
+  post :action, to: 'demo#action', as: :action
 
   # root to: 'my_app#my_first_page'
 

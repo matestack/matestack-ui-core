@@ -8,6 +8,7 @@ module Matestack
           onclick: Matestack::Ui::VueJs::Components::Onclick,
           transition: Matestack::Ui::VueJs::Components::Transition,
           async: Matestack::Ui::VueJs::Components::Async,
+          action: Matestack::Ui::VueJs::Components::Action,
         )
 
       end

@@ -11,4 +11,8 @@ class DemoController < ActionController::Base
     render Demo::SecondPage
   end
 
+  def action
+    render json: {}, status: :ok
+  end
+
 end

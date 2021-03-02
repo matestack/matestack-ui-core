@@ -23,6 +23,8 @@
 
 * `transition` can no longer handle symbols as path. Use rails path helper instead
 
+* `Matestack::Ui::DynamicActionviewComponent, Matestack::Ui::Core::Actionview::Dynamic` und static entfernt -> wird nicht benötigt, weil ActionView Helper zur Verfügung stehen
+
 ## v1.3.1 Release
 
 ### Bugfixes

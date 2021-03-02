@@ -27,6 +27,10 @@ class Demo::FirstPage < Matestack::Ui::Page
 
     paragraph time_ago_in_words(1.minute.ago)
 
+    action method: :post, path: action_path, success: { transition: { path: second_path }, emit: 'success' } do
+      button 'Action Transition'
+    end
+
   end
 
   def a_slot(number)
