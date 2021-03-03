@@ -2,7 +2,7 @@ class Demo::FirstPage < Matestack::Ui::Page
 
   def response
     # Demo::Components::Header.()
-    header slots: { first: a_slot(1), second: a_slot(3) }
+    header slots: { first: a_slot(1), second: a_slot(3) }, user: 'Nils'
     h1 'First page with new logic!'
     transition path: second_path do
       button 'Second Page'
@@ -28,7 +28,9 @@ class Demo::FirstPage < Matestack::Ui::Page
     paragraph time_ago_in_words(1.minute.ago)
 
     action method: :post, path: action_path, success: { emit: 'success' }, confirm: true do
-      button 'Action Transition'
+      div do
+        button content
+      end
     end
 
     cable id: 'test-cable', replace_on: :replace do

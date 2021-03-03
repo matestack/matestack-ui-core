@@ -11,7 +11,9 @@ module Matestack
         include Matestack::Ui::Core::Properties
         include Matestack::Ui::Core::TagHelper
 
-        CORE_COMPONENTS = [Matestack::Ui::Core::Base]
+        CORE_COMPONENTS = [
+          Matestack::Ui::Core::Base,
+        ]
 
         attr_accessor :html_tag, :text, :options, :parent, :escape, :bind_to_parent
 

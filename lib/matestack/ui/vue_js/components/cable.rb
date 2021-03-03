@@ -6,7 +6,6 @@ module Matestack
           vue_name 'matestack-ui-core-cable'
 
           attr_accessor :block_content
-          required :id
 
           # %component{dynamic_tag_attributes.merge('v-bind:initial-template': "#{render_content.to_json}")}
           #   %div{class: "matestack-cable-component-container", "v-bind:class": "{ 'loading': loading === true }"}
@@ -21,7 +20,7 @@ module Matestack
 
           def content(&block)
             Matestack::Ui::Core::Base.new(:without_parent, nil, nil) do
-              div(class: 'matestack-cable-component-root', id: parent.ctx.id, &block)
+              div(class: 'matestack-cable-component-root', id: parent.options[:id], &block)
             end
           end
 
@@ -54,8 +53,8 @@ module Matestack
 
           def config
             {
-              id: ctx.id,
-              component_key: ctx.id,
+              id: options[:id],
+              component_key: options[:id],
               # events
               append_on: options[:append_on],
               prepend_on: options[:prepend_on],

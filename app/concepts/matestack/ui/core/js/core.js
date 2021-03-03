@@ -2,7 +2,6 @@ import Vue from 'vue/dist/vue.esm'
 
 // Import from app/concepts/matestack/ui/core:
 import app from '../app/app'
-import cable from '../cable/cable'
 import pageContent from '../page/content/content'
 import store from '../app/store'
 import component from '../component/component'
@@ -31,6 +30,7 @@ import onclick from '../../../../../../lib/matestack/ui/vue_js/components/onclic
 import transition from '../../../../../../lib/matestack/ui/vue_js/components/transition'
 import async from '../../../../../../lib/matestack/ui/vue_js/components/async'
 import action from '../../../../../../lib/matestack/ui/vue_js/components/action'
+import cable from '../../../../../../lib/matestack/ui/vue_js/components/cable'
 
 let matestackUiApp = undefined
 
