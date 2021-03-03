@@ -4,7 +4,7 @@ class DemoController < ActionController::Base
   matestack_app Demo::App
 
   def first
-    render Demo::FirstPage
+    render Demo::FirstPage, user: 'Nils'
   end
 
   def second

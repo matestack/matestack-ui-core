@@ -5,12 +5,8 @@ module Matestack
 
         attr_accessor :slots
 
-        def slot(content = nil, &block)
-          if content
-            plain content
-          else
-            Matestack::Ui::Core::Base.new(:slot, nil, {}, &block).render_content
-          end
+        def slot(some_arg, *args)
+          some_arg.call(*args)
         end
 
       end

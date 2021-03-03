@@ -25,6 +25,11 @@
 
 * `Matestack::Ui::DynamicActionviewComponent, Matestack::Ui::Core::Actionview::Dynamic` und static entfernt -> wird nicht benötigt, weil ActionView Helper zur Verfügung stehen
 
+* slots api has changed. Always use `method(:your_slot_method)` to pass slots into another component. Use `slot slots[:your_slot]` to render the slot. Pass optional params to slots in order to use with your method `slot slots[:your_slot], 'A param'`.
+
+* Properties are now accessed via a context `context` or short `ctx`. Access your defined `required` or `optional` properties via `ctx.your_property`
+
+
 ## v1.3.1 Release
 
 ### Bugfixes

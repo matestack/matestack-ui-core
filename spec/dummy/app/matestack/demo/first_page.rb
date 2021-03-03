@@ -1,8 +1,10 @@
 class Demo::FirstPage < Matestack::Ui::Page
 
+  optional :user
+
   def response
     # Demo::Components::Header.()
-    header slots: { first: a_slot(1), second: a_slot(3) }, user: 'Nils'
+    header slots: { first: method(:a_slot), user: method(:stuff) }, user: 'Nils'
     h1 'First page with new logic!'
     transition path: second_path do
       button 'Second Page'
@@ -40,10 +42,12 @@ class Demo::FirstPage < Matestack::Ui::Page
   end
 
   def a_slot(number)
-    slot do
-      div content
-      paragraph number
-    end
+    div content
+    paragraph number
+  end
+
+  def stuff
+    b ctx.user
   end
 
   def content

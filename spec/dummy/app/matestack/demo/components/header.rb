@@ -4,9 +4,10 @@ class Demo::Components::Header < Matestack::Ui::Component
 
   def response
     h1 'This is a header'
-    slot slots[:first]
-    paragraph 'Juhu !!!'
-    slot slots[:second] 
+    [1,2].each do |number|
+      slot slots[:first], number
+    end
+    slot slots[:user]
     div do
       h2 ctx.user
     end
