@@ -21,7 +21,6 @@ import formSubmit from '../form/submit/submit'
 import collectionContent from '../collection/content/content'
 import collectionFilter from '../collection/filter/filter'
 import collectionOrder from '../collection/order/order'
-import isolate from '../isolated/isolated'
 
 // IMPORTS AT NEW LOCATION
 // TODO: optimize js
@@ -31,6 +30,7 @@ import transition from '../../../../../../lib/matestack/ui/vue_js/components/tra
 import async from '../../../../../../lib/matestack/ui/vue_js/components/async'
 import action from '../../../../../../lib/matestack/ui/vue_js/components/action'
 import cable from '../../../../../../lib/matestack/ui/vue_js/components/cable'
+import isolate from '../../../../../../lib/matestack/ui/vue_js/components/isolated'
 
 let matestackUiApp = undefined
 
