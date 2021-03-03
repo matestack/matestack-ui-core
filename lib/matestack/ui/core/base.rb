@@ -13,15 +13,18 @@ module Matestack
 
         CORE_COMPONENTS = [Matestack::Ui::Core::Base]
 
-        attr_accessor :html_tag, :text, :options, :parent, :escape
+        attr_accessor :html_tag, :text, :options, :parent, :escape, :bind_to_parent
 
         def initialize(html_tag = nil, text = nil, options = {}, &block)
+          self.bind_to_parent = ([:slot, :without_parent].include?(html_tag) ? false : true)
+          p 'To parent? ' + html_tag.to_s
+          p self.bind_to_parent
           self.slots = self.options.delete(:slots) if self.options
           # extract_options(text, options) is called in properties
-          self.html_tag = html_tag unless html_tag == :slot
+          self.html_tag = html_tag if self.bind_to_parent
           self.escape = self.options.delete(:escape) || true
           self.parent = Matestack::Ui::Core::Context.parent
-          self.parent.children << self if self.parent unless html_tag == :slot
+          self.parent.children << self if self.parent if self.bind_to_parent
           Matestack::Ui::Core::Context.parent = self
           # create children
           create_children(&block)
@@ -61,7 +64,7 @@ module Matestack
 
         def render_content
           if children.empty?
-            child_content = self.escape ? html_escape(text) : text if text
+            child_content = self.escape ? ERB::Util.html_escape(text) : text if text
           else
             child_content = children.map { |child| child.render_content }.join.html_safe
           end

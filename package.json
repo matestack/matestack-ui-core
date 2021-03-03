@@ -17,8 +17,5 @@
   },
   "scripts": {
     "postinstall": "link-module-alias"
-  },
-  "_moduleAliases": {
-    "+matestack-ui-core-concepts": "app/concepts/matestack/ui/core"
   }
 }

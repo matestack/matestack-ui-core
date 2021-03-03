@@ -14,7 +14,7 @@ services:
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle
-      - node-volume:/app/node_modules
+      # - node-volume:/app/node_modules
     command: "bundle exec rails server -b 0.0.0.0"
     user: ${CURRENT_UID}
     stdin_open: true
@@ -29,7 +29,7 @@ services:
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle
-      - node-volume:/app/node_modules
+      # - node-volume:/app/node_modules
     command: "sh -c 'cd builder && ./bin/webpack --watch'"
     user: ${CURRENT_UID}
 
@@ -46,7 +46,7 @@ services:
     volumes:
       - ./:/app
       - gem-volume:/usr/local/bundle
-      - node-volume:/app/node_modules
+      # - node-volume:/app/node_modules
     command: "bundle exec rspec spec/test"
     user: ${CURRENT_UID}
 
@@ -76,4 +76,4 @@ volumes:
   test-data-volume:
   dummy-data-volume:
   gem-volume:
-  node-volume:
+  # node-volume:

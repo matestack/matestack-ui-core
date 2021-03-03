@@ -22,7 +22,7 @@ module Matestack
             {}.tap do |conf|
               conf[:action_path] = options[:path]
               conf[:method] = options[:method]
-              conf[:sucess] = options[:success]
+              conf[:success] = options[:success]
               conf[:failure] = options[:failure]
               conf[:notify] = true if options[:notify].nil?
               conf[:confirm] = options[:confirm]

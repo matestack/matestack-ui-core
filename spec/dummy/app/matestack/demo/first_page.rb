@@ -27,9 +27,13 @@ class Demo::FirstPage < Matestack::Ui::Page
 
     paragraph time_ago_in_words(1.minute.ago)
 
-    action method: :post, path: action_path, success: { transition: { path: second_path }, emit: 'success' } do
+    action method: :post, path: action_path, success: { emit: 'success' }, confirm: true do
       button 'Action Transition'
     end
+
+    cable id: 'test-cable', replace_on: :replace do
+      div 'Start content'
+    end 
 
   end
 

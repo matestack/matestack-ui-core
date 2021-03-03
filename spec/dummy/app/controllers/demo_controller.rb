@@ -13,6 +13,10 @@ class DemoController < ActionController::Base
 
   def action
     render json: {}, status: :ok
+    ActionCable.server.broadcast('matestack_ui_core', { 
+      event: 'replace',
+      data: Demo::Components::Time.()
+    })
   end
 
 end

@@ -9,6 +9,7 @@ module Matestack
           transition: Matestack::Ui::VueJs::Components::Transition,
           async: Matestack::Ui::VueJs::Components::Async,
           action: Matestack::Ui::VueJs::Components::Action,
+          cable: Matestack::Ui::VueJs::Components::Cable,
         )
 
       end
