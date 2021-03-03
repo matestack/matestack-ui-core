@@ -11,9 +11,9 @@ module Matestack
         include Matestack::Ui::Core::Properties
         include Matestack::Ui::Core::TagHelper
 
-        CORE_COMPONENTS = [
-          Matestack::Ui::Core::Base,
-        ]
+        # CORE_COMPONENTS = [
+        #   Matestack::Ui::Core::Base,
+        # ]
 
         attr_accessor :html_tag, :text, :options, :parent, :escape, :bind_to_parent
 
@@ -83,7 +83,7 @@ module Matestack
 
         def method_missing(name, *args, &block)
           parent = self
-          while parent.present? && CORE_COMPONENTS.include?(parent.class)
+          while parent.present? && Matestack::Ui::Core::Base::CORE_COMPONENTS.include?(parent.class)
             return parent.send(name, *args, &block) if parent.respond_to?(name)
             parent = parent.parent
           end

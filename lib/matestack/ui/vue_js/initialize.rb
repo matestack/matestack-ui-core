@@ -1,6 +1,7 @@
 class Matestack::Ui::Core::Base
 
-  CORE_COMPONENTS += [
+  CORE_COMPONENTS = [
+    Matestack::Ui::Core::Base,
     Matestack::Ui::VueJs::Components::Action,
     Matestack::Ui::VueJs::Components::Async,
     Matestack::Ui::VueJs::Components::Cable,

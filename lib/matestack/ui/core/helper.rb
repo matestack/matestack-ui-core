@@ -34,7 +34,7 @@ module Matestack
               if params[:component_key]
                 render_component page, params[:component_key], options
               elsif params[:component_class]
-                render html: params[:component_class].constantize.(params[:public_options])
+                render html: params[:component_class].constantize.(public_options: JSON.parse(params[:public_options]))
               else
                 render_page page, options
               end

@@ -11,7 +11,7 @@ class Demo::FirstPage < Matestack::Ui::Page
     end
     abbr title: 'test'
 
-    isolate_test rerender_on: 'isolate'
+    isolate_test rerender_on: 'isolate', public_options: { foo: :bar }
 
     rails_render partial: '/some_partial', locals: { foo: 1 }
     rails_render file: '/some_view', locals: { foo: 1 }

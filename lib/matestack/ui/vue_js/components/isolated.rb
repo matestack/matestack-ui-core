@@ -7,8 +7,11 @@ module Matestack
 
           attr_accessor :defer
           attr_accessor :init_on
-
+          attr_accessor :public_options
+          
           def initialize(html_tag = nil, text = nil, options = {}, &block)
+            extract_options(text, options)
+            self.public_options = self.options[:public_options]
             super
             self.defer = self.options[:defer]
             self.init_on = self.options[:init_on]
@@ -17,24 +20,15 @@ module Matestack
           def create_children
             # content only should be rendered if param :component_class is present
             if params[:component_class].present?
-              self.response
+              if authorized?
+                self.response
+              end
             else
               self.isolated do
                 self.response
               end
             end
           end
-
-          # %component{dynamic_tag_attributes}
-          #   %div{loading_classes.merge(class: "matestack-isolated-component-container")}
-          #     - if loading_state_element.present?
-          #       %div{loading_classes.merge(class: "loading-state-element-wrapper")}
-          #         =loading_state_element
-          #     - unless options[:defer] || options[:init_on]
-          #       %div{class: "matestack-isolated-component-wrapper", "v-if": "isolatedTemplate == null", "v-bind:class": "{ 'loading': loading === true }"}
-          #         = render_isolated_content
-          #     %div{class: "matestack-isolated-component-wrapper", "v-if": "isolatedTemplate != null", "v-bind:class": "{ 'loading': loading === true }"}
-          #       %v-runtime-template{":template":"isolatedTemplate"}
 
           def isolated
             Matestack::Ui::Core::Base.new(:component, component_attributes) do
@@ -60,6 +54,10 @@ module Matestack
               rerender_delay: options[:rerender_delay],
               init_on: options[:init_on],
             }
+          end
+
+          def authorized?
+            raise "authorized needs to be implemented by #{self.class}"
           end
 
         end
