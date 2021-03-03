@@ -28,7 +28,9 @@ module Matestack
                     end
                   end
                   div 'v-if': 'asyncPageTemplate != null' do
-                    Base.new('v-runtime-template', ':template': 'asyncPageTemplate')
+                    div class: 'matestack-page-root' do
+                      Base.new('v-runtime-template', ':template': 'asyncPageTemplate')
+                    end
                   end
                 end
               end

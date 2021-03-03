@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "Cable Component", type: :feature, js: true do
   include Utils
-  include Matestack::Ui::Core::ApplicationHelper
+  # include Matestack::Ui::Core::ApplicationHelper
 
   before :each do
 

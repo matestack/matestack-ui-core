@@ -25,17 +25,14 @@ describe "Action Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
       def action_config
         return {
           method: :post,
-          path: :action_test_path,
-          data: {
-            foo: "bar"
-          }
+          path: action_test_path(foo: 'bar')
         }
       end
     end
@@ -55,17 +52,14 @@ describe "Action Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
       def action_config
         return {
           method: :post,
-          path: :action_test_with_url_param_path,
-          params: {
-            id: 42
-          }
+          path: action_test_with_url_param_path(id: 42),
         }
       end
     end
@@ -99,7 +93,7 @@ describe "Action Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
           async rerender_on: "my_action_success", id: 'async-page' do
             div id: "my-div" do
@@ -111,7 +105,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :success_action_test_path,
+            path: success_action_test_path,
             success: {
               emit: "my_action_success"
             }
@@ -133,7 +127,7 @@ describe "Action Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
           toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
@@ -143,7 +137,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :success_action_test_path,
+            path: success_action_test_path,
             success: {
               emit: "my_action_success"
             }
@@ -163,7 +157,7 @@ describe "Action Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
           toggle show_on: "my_action_success", hide_after: 300 do
             plain "{{event.data.message}}"
@@ -176,7 +170,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :failure_action_action_test_path,
+            path: failure_action_action_test_path,
             success: {
               emit: "my_action_success"
             },
@@ -201,15 +195,23 @@ describe "Action Component", type: :feature, js: true do
     it "Example 6 - Async request with success/failure event used for transition" do
       class Example::App < Matestack::Ui::App
         def response
-          heading size: 1, text: "My Example App Layout"
-          main do
-            page_content
-          end
-          toggle show_on: "my_action_success", hide_after: 300 do
-            plain "{{event.data.message}}"
-          end
-          toggle show_on: "my_action_failure", hide_after: 300 do
-            plain "{{event.data.message}}"
+          html do
+            head do
+              unescape csrf_meta_tags
+              unescape Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag(:application)
+            end
+            body do
+              matestack do
+                h1 'App'
+                yield
+                toggle show_on: "my_action_success", hide_after: 300 do
+                  plain "{{event.data.message}}"
+                end
+                toggle show_on: "my_action_failure", hide_after: 300 do
+                  plain "{{event.data.message}}"
+                end
+              end
+            end
           end
         end
       end
@@ -219,21 +221,20 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::Pages::ExamplePage < Matestack::Ui::Page
         def response
-          heading size: 2, text: "This is Page 1"
+          h2 "This is Page 1"
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
         end
 
         def action_config
           return {
             method: :post,
-            path: :success_action_test_path,
+            path: success_action_test_path,
             success: {
               emit: "my_action_success",
               transition: {
-                path: :action_test_page2_path,
-                params: { id: 42 }
+                path: action_test_page2_path(id: 42),
               }
             }
           }
@@ -242,20 +243,20 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::Pages::SecondExamplePage < Matestack::Ui::Page
         def response
-          heading size: 2, text: "This is Page 2"
+          h2 "This is Page 2"
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
         end
 
         def action_config
           return {
             method: :post,
-            path: :failure_action_action_test_path,
+            path: failure_action_action_test_path,
             failure: {
               emit: "my_action_failure",
               transition: {
-                path: :action_test_page1_path
+                path: action_test_page1_path
               }
             }
           }
@@ -263,7 +264,7 @@ describe "Action Component", type: :feature, js: true do
       end
 
       class ExampleAppPagesController < ExampleController
-        include Matestack::Ui::Core::ApplicationHelper
+        include Matestack::Ui::Core::Helper
         matestack_app Example::App
 
         def page1
@@ -284,18 +285,14 @@ describe "Action Component", type: :feature, js: true do
       Rails.application.reload_routes!
 
       visit "action_test/page1"
-      expect(page).to have_content("My Example App Layout")
       expect(page).to have_content("This is Page 1")
       expect(page).not_to have_content("This is Page 2")
-
       click_button "Click me!"
-      expect(page).to have_content("My Example App Layout")
       expect(page).to have_content("server says: good job!")
       expect(page).not_to have_content("This is Page 1")
       expect(page).to have_content("This is Page 2")
 
       click_button "Click me!"
-      expect(page).to have_content("My Example App Layout")
       expect(page).to have_content("server says: something went wrong!")
       expect(page).not_to have_content("This is Page 2")
       expect(page).to have_content("This is Page 1")
@@ -304,15 +301,23 @@ describe "Action Component", type: :feature, js: true do
     it "Example 6.1 - Async request with success/failure event used for redirect" do
       class Example::App < Matestack::Ui::App
         def response
-          heading size: 1, text: "My Example App Layout"
-          main do
-            page_content
-          end
-          toggle show_on: "my_action_success", hide_after: 300 do
-            plain "{{event.data.message}}"
-          end
-          toggle show_on: "my_action_failure", hide_after: 300 do
-            plain "{{event.data.message}}"
+          html do
+            head do
+              unescape csrf_meta_tags
+              unescape Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag(:application)
+            end
+            body do
+              matestack do
+                h1 'App'
+                yield
+                toggle show_on: "my_action_success", hide_after: 300 do
+                  plain "{{event.data.message}}"
+                end
+                toggle show_on: "my_action_failure", hide_after: 300 do
+                  plain "{{event.data.message}}"
+                end
+              end
+            end
           end
         end
       end
@@ -322,21 +327,20 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::Pages::ExamplePage < Matestack::Ui::Page
         def response
-          heading size: 2, text: "This is Page 1"
+          h2 "This is Page 1"
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
         end
 
         def action_config
           return {
             method: :post,
-            path: :success_action_test_path,
+            path: success_action_test_path,
             success: {
               emit: "my_action_success",
               redirect: {
-                path: :action_test_page2_path,
-                params: { id: 42 }
+                path: action_test_page2_path(id: 42),
               }
             }
           }
@@ -345,20 +349,20 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::Pages::SecondExamplePage < Matestack::Ui::Page
         def response
-          heading size: 2, text: "This is Page 2"
+          h2 "This is Page 2"
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
         end
 
         def action_config
           return {
             method: :post,
-            path: :failure_action_action_test_path,
+            path: failure_action_action_test_path,
             failure: {
               emit: "my_action_failure",
               redirect: {
-                path: :action_test_page1_path
+                path: action_test_page1_path
               }
             }
           }
@@ -366,7 +370,7 @@ describe "Action Component", type: :feature, js: true do
       end
 
       class ExampleAppPagesController < ExampleController
-        include Matestack::Ui::Core::ApplicationHelper
+        include Matestack::Ui::Core::Helper
         matestack_app Example::App
 
         def page1
@@ -389,13 +393,11 @@ describe "Action Component", type: :feature, js: true do
       visit "action_test/page1"
       page.evaluate_script('document.body.classList.add("not-reloaded")')
       expect(page).to have_selector("body.not-reloaded")
-      expect(page).to have_content("My Example App Layout")
       expect(page).to have_content("This is Page 1")
       expect(page).not_to have_content("This is Page 2")
 
       click_button "Click me!"
       expect(page).not_to have_selector("body.not-reloaded")
-      expect(page).to have_content("My Example App Layout")
       expect(page).not_to have_content("server says: good job!")
       expect(page).not_to have_content("This is Page 1")
       expect(page).to have_content("This is Page 2")
@@ -403,7 +405,6 @@ describe "Action Component", type: :feature, js: true do
 
       click_button "Click me!"
       expect(page).not_to have_selector("body.not-reloaded")
-      expect(page).to have_content("My Example App Layout")
       expect(page).not_to have_content("server says: something went wrong!")
       expect(page).not_to have_content("This is Page 2")
       expect(page).to have_content("This is Page 1")
@@ -428,15 +429,23 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::App < Matestack::Ui::App
         def response
-          heading size: 1, text: "My Example App Layout"
-          main do
-            page_content
-          end
-          toggle show_on: "my_action_success", hide_after: 300 do
-            plain "{{event.data.message}}"
-          end
-          toggle show_on: "my_action_failure", hide_after: 300 do
-            plain "{{event.data.message}}"
+          html do
+            head do
+              unescape csrf_meta_tags
+              unescape Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag(:application)
+            end
+            body do
+              matestack do
+                h1 'App'
+                yield
+                toggle show_on: "my_action_success", hide_after: 300 do
+                  plain "{{event.data.message}}"
+                end
+                toggle show_on: "my_action_failure", hide_after: 300 do
+                  plain "{{event.data.message}}"
+                end
+              end
+            end
           end
         end
       end
@@ -446,16 +455,16 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::Pages::ExamplePage < Matestack::Ui::Page
         def response
-          heading size: 2, text: "This is Page 1"
+          h2 "This is Page 1"
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
         end
 
         def action_config
           return {
             method: :post,
-            path: :success_action_test_with_redirect_path,
+            path: success_action_test_with_redirect_path,
             success: {
               emit: "my_action_success",
               redirect: {
@@ -468,16 +477,16 @@ describe "Action Component", type: :feature, js: true do
 
       class Example::Pages::SecondExamplePage < Matestack::Ui::Page
         def response
-          heading size: 2, text: "This is Page 2"
+          h2 "This is Page 2"
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
         end
 
         def action_config
           return {
             method: :post,
-            path: :failure_action_test_with_redirect_path,
+            path: failure_action_test_with_redirect_path,
             failure: {
               emit: "my_action_failure",
               redirect: {
@@ -489,7 +498,7 @@ describe "Action Component", type: :feature, js: true do
       end
 
       class ExampleAppPagesController < ExampleController
-        include Matestack::Ui::Core::ApplicationHelper
+        include Matestack::Ui::Core::Helper
         matestack_app Example::App
 
         def page1
@@ -512,13 +521,11 @@ describe "Action Component", type: :feature, js: true do
       visit "action_test/page1"
       page.evaluate_script('document.body.classList.add("not-reloaded")')
       expect(page).to have_selector("body.not-reloaded")
-      expect(page).to have_content("My Example App Layout")
       expect(page).to have_content("This is Page 1")
       expect(page).not_to have_content("This is Page 2")
 
       click_button "Click me!"
       expect(page).not_to have_selector("body.not-reloaded")
-      expect(page).to have_content("My Example App Layout")
       expect(page).not_to have_content("server says: good job!")
       expect(page).not_to have_content("This is Page 1")
       expect(page).to have_content("This is Page 2")
@@ -526,7 +533,6 @@ describe "Action Component", type: :feature, js: true do
 
       click_button "Click me!"
       expect(page).not_to have_selector("body.not-reloaded")
-      expect(page).to have_content("My Example App Layout")
       expect(page).not_to have_content("server says: something went wrong!")
       expect(page).not_to have_content("This is Page 2")
       expect(page).to have_content("This is Page 1")
@@ -548,7 +554,7 @@ describe "Action Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           action action_config do
-            button text: "Click me!"
+            button "Click me!"
           end
           toggle show_on: "my_action_success", hide_after: 300 do
             plain "Well done!"
@@ -558,7 +564,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :delete,
-            path: :action_destroy_test_path,
+            path: action_destroy_test_path,
             data: {
               foo: "bar"
             },
@@ -601,7 +607,7 @@ describe "Action Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
         toggle show_on: "my_action_success", hide_after: 300 do
           plain "Well done!"
@@ -611,7 +617,7 @@ describe "Action Component", type: :feature, js: true do
       def action_config
         return {
           method: :delete,
-          path: :action_destroy_default_text_test_path,
+          path: action_destroy_default_text_test_path,
           data: {
             foo: "bar"
           },
@@ -638,7 +644,7 @@ describe "Action Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
@@ -663,7 +669,7 @@ describe "Action Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
@@ -692,7 +698,7 @@ describe "Action Component", type: :feature, js: true do
   #   class ExamplePage < Matestack::Ui::Page
   #     def response
   #       action action_config do
-  #         button text: "Click me!"
+  #         button "Click me!"
   #       end
   #     end
   #
@@ -729,18 +735,18 @@ describe "Action Component", type: :feature, js: true do
     end
     Rails.application.reload_routes!
 
-    class Example::App < Matestack::Ui::App
-      def response
-        heading size: 1, text: "My Example App Layout"
-        main do
-          page_content
-        end
-      end
-    end
+    # class Example::App < Matestack::Ui::App
+    #   def response
+    #     h1 "My Example App Layout"
+    #     main do
+    #       page_content
+    #     end
+    #   end
+    # end
 
     class ExampleAppPagesController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
-      matestack_app Example::App
+      include Matestack::Ui::Core::Helper
+      matestack_app App
 
       def page1
         render(Example::Pages::ExamplePage)
@@ -756,16 +762,16 @@ describe "Action Component", type: :feature, js: true do
 
     class Example::Pages::ExamplePage < Matestack::Ui::Page
       def response
-        heading size: 2, text: "This is Page 1"
+        h2 "This is Page 1"
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
       def action_config
         return {
           method: :post,
-          path: :success_action_test_string_path,
+          path: success_action_test_string_path,
           success: {
             emit: "my_action_success",
             transition: {
@@ -778,18 +784,16 @@ describe "Action Component", type: :feature, js: true do
 
     class Example::Pages::SecondExamplePage < Matestack::Ui::Page
       def response
-        heading size: 2, text: "This is Page 2"
-        paragraph text: 'You made it!'
+        h2 "This is Page 2"
+        paragraph 'You made it!'
       end
     end
 
     visit "action_test/page1"
-    expect(page).to have_content("My Example App Layout")
     expect(page).to have_content("This is Page 1")
     expect(page).not_to have_content("This is Page 2")
 
     click_button "Click me!"
-    expect(page).to have_content("My Example App Layout")
     expect(page).not_to have_content("This is Page 1")
     expect(page).to have_content("This is Page 2")
     expect(page).to have_content("You made it!")
@@ -806,7 +810,7 @@ describe "Action Component", type: :feature, js: true do
   #   class ExamplePage < Matestack::Ui::Page
   #     def response
   #       action action_config do
-  #         button text: "Click me!"
+  #         button "Click me!"
   #       end
   #     end
   #
@@ -831,29 +835,20 @@ describe "Action Component", type: :feature, js: true do
     module FollowResponseExample
     end
 
-    class FollowResponseExample::App < Matestack::Ui::App
-      def response
-        heading size: 1, text: "My Example App Layout"
-        main do
-          page_content
-        end
-      end
-    end
-
     module FollowResponseExample::Pages
     end
 
     class FollowResponseExample::Pages::ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
       def action_config
         return {
           method: :post,
-          path: :test_models_path,
+          path: test_models_path,
           data: {
             title: "A title for my new test object"
           },
@@ -867,15 +862,16 @@ describe "Action Component", type: :feature, js: true do
     end
 
     class FollowResponseExample::Pages::TestModelPage < Matestack::Ui::Page
+      required :test_model
       def response
-        heading text: @test_model.title, size: 1
+        h1 ctx.test_model.title
         plain "This page has been loaded via redirect_to and follow_response."
       end
     end
 
     class TestModelsController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
-      matestack_app FollowResponseExample::App
+      include Matestack::Ui::Core::Helper
+      matestack_app App
 
       def index
         render FollowResponseExample::Pages::ExamplePage
@@ -890,7 +886,7 @@ describe "Action Component", type: :feature, js: true do
 
       def show
         @test_model = TestModel.find params[:id]
-        render FollowResponseExample::Pages::TestModelPage
+        render FollowResponseExample::Pages::TestModelPage, test_model: @test_model
       end
     end
 
@@ -901,14 +897,15 @@ describe "Action Component", type: :feature, js: true do
 
     visit "/test_models"
     click_button "Click me!"
-    expect(page).to have_no_text "Click me"
+    expect(page).not_to have_text "Click me"
     expect(page).to have_text "A title for my new test object"
     expect(page).to have_text "This page has been loaded via redirect_to and follow_response."
   end
 
   specify "follow_response option makes a transition follow controllers' redirect_to" do
     class TestModelsController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
+      matestack_app App
 
       def index
         render FollowResponseExample::Pages::ExamplePage
@@ -921,7 +918,7 @@ describe "Action Component", type: :feature, js: true do
 
       def show
         @test_model = TestModel.find params[:id]
-        render FollowResponseExample::Pages::TestModelPage
+        render FollowResponseExample::Pages::TestModelPage, test_model: @test_model
       end
     end
 
@@ -930,13 +927,7 @@ describe "Action Component", type: :feature, js: true do
     end
     Rails.application.reload_routes!
 
-    class FollowResponseExample::App < Matestack::Ui::App
-      def response
-        heading size: 1, text: "My Example App Layout"
-        main do
-          page_content
-        end
-      end
+    module FollowResponseExample
     end
 
     module FollowResponseExample::Pages
@@ -945,14 +936,14 @@ describe "Action Component", type: :feature, js: true do
     class FollowResponseExample::Pages::ExamplePage < Matestack::Ui::Page
       def response
         action action_config do
-          button text: "Click me!"
+          button "Click me!"
         end
       end
 
       def action_config
         return {
           method: :post,
-          path: :test_models_path,
+          path: test_models_path,
           data: {
             title: "A title for my new test object"
           },
@@ -966,8 +957,9 @@ describe "Action Component", type: :feature, js: true do
     end
 
     class FollowResponseExample::Pages::TestModelPage < Matestack::Ui::Page
+      optional :test_model
       def response
-        heading text: @test_model.title, size: 1
+        h1 ctx.test_model.title
         plain "This page has been loaded via redirect_to and follow_response."
       end
     end

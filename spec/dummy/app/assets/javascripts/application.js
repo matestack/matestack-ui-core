@@ -12,14 +12,7 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require matestack-ui-core
 //= require cable
 
 //= require demo/component
 //= require ./test/components
-
-App.cable.subscriptions.create("MatestackUiCoreChannel", {
-  received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
-  }
-});

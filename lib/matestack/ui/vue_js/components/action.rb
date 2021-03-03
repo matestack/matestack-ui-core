@@ -27,6 +27,7 @@ module Matestack
               conf[:notify] = true if options[:notify].nil?
               conf[:confirm] = options[:confirm]
               conf[:confirm_text] = options[:confirm].try(:[], :text) || 'Are you sure?'
+              conf[:data] = options[:data]
             end
           end
 
