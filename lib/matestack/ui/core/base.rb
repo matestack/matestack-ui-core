@@ -18,9 +18,7 @@ module Matestack
         attr_accessor :html_tag, :text, :options, :parent, :escape, :bind_to_parent
 
         def initialize(html_tag = nil, text = nil, options = {}, &block)
-          self.bind_to_parent = ([:slot, :without_parent].include?(html_tag) ? false : true)
-          p 'To parent? ' + html_tag.to_s
-          p self.bind_to_parent
+          self.bind_to_parent = ([:without_parent].include?(html_tag) ? false : true)
           self.slots = self.options.delete(:slots) if self.options
           # extract_options(text, options) is called in properties
           self.html_tag = html_tag if self.bind_to_parent

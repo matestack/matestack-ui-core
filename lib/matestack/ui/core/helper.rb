@@ -28,11 +28,13 @@ module Matestack
             options = args.second || {}
             app = options.delete(:app) || self.class.matestack_app
             page = args.first
-            if app && params[:only_page].nil? && params[:component_key].nil?
+            if app && params[:only_page].nil? && params[:component_key].nil? && params[:component_class].nil?
               render_app app, page, options
             else
               if params[:component_key]
                 render_component page, params[:component_key], options
+              elsif params[:component_class]
+                render html: params[:component_class].constantize.(params[:public_options])
               else
                 render_page page, options
               end

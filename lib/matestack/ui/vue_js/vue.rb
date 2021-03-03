@@ -37,6 +37,11 @@ module Matestack
           raise "vue_name missing for #{self.class}" unless self.class.vue_name
           self.class.vue_name
         end
+
+        def self.inherited(subclass)
+          subclass.vue_name(self.vue_name)
+          super
+        end
           
       end
     end
