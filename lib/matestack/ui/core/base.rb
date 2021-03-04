@@ -92,6 +92,11 @@ module Matestack
           return raise NameError, "#{name} is not defined for #{parent}", caller
         end
 
+        # give easy access to vue data attributes
+        def vue
+          Matestack::Ui::Core::VueAttributes
+        end
+
       end
     end
   end

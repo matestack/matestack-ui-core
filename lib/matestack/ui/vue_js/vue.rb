@@ -18,11 +18,15 @@ module Matestack
         def component_attributes
           options.merge({
             is: vue_name,
-            ref: options[:id] || nil,
+            ref: component_id,
             ':params': params.to_json,
             ':component-config': self.config.to_json,
             'inline-template': true
           })
+        end
+
+        def component_id
+          options[:id] || nil
         end
           
         def config
