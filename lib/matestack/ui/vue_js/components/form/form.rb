@@ -6,6 +6,9 @@ module Matestack
           class Form < Matestack::Ui::VueJs::Vue
             vue_name 'matestack-ui-core-form'
 
+            internal :for, :path, :success, :failure, :multipart, :emit
+            internal method: { as: :form_method }
+
             # setup form context to allow child components like inputs to access the form configuration
             def initialize(html_tag = nil, text = nil, options = {}, &block)
               previous_form_context = Matestack::Ui::VueJs::Components::Form::Context.form_context
@@ -31,12 +34,12 @@ module Matestack
             def config
               {
                 for: for_attribute,
-                submit_path: options[:path],
-                method: options[:method],
-                success: options[:success],
-                failure: options[:failure],
-                multipart: !!options[:multipart],
-                emit: options[:emit],
+                submit_path: internal_context.path,
+                method: internal_context.form_method,
+                success: internal_context.success,
+                failure: internal_context.failure,
+                multipart: !!internal_context.multipart,
+                emit: internal_context.emit,
               }
             end
 
@@ -46,7 +49,7 @@ module Matestack
             end
 
             def for_option
-              @for_option ||= options.delete(:for)
+              @for_option ||= internal_context.for
             end
 
           end

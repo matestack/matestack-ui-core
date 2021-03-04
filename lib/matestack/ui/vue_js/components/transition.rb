@@ -5,6 +5,8 @@ module Matestack
         class Transition < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-transition'
 
+          internal :path
+
           def response
             div attributes do
               yield
@@ -15,15 +17,15 @@ module Matestack
 
           def attributes
             {
-              href: options[:path],
-              '@click.prevent': "navigateTo(\"#{options[:path]}\")",
+              href: internal_context.path,
+              '@click.prevent': "navigateTo(\"#{internal_context.path}\")",
               "v-bind:class": "{ active: isActive, 'active-child': isChildActive }"
             }
           end
 
           def config
             {
-              link_path: options[:path],
+              link_path: internal_context.path,
             }
           end
 

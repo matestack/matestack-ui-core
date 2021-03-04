@@ -11,7 +11,7 @@ module Matestack
         module Initializer
           def initialize(html_tag = nil, text = nil, options = {}, &block)
             extract_options(text, options)
-            create_context(options)
+            create_context
             super
           end
         end
@@ -45,14 +45,14 @@ module Matestack
         alias :ctx :context
         
         def required_property_keys
-          self.class.required_property_keys
+          self.class.required_property_keys || []
         end
         
         def optional_property_keys
-          self.class.optional_property_keys
+          self.class.optional_property_keys || []
         end
         
-        def create_context(options)
+        def create_context
           self.required_property_keys.uniq.each do |key|
             raise "required property '#{key}' is missing for '#{self.class}'" unless self.options.has_key? key
             context.send(:"#{key}=", self.options.delete(key))
