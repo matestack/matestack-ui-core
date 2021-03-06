@@ -23,4 +23,12 @@ class DemoController < ActionController::Base
     })
   end
 
+  def speed
+    render Demo::Index
+  end
+
+  def index
+    render 'rails/index'
+  end
+
 end

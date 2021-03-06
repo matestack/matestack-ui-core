@@ -1,0 +1,17 @@
+<h1>Test</h1>
+<% 100.times do %>
+  <div>
+    <div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <b>Nested Content</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= render partial: 'rails/some_partial', collection: (1..100).to_a, as: :name %>

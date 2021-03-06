@@ -6,7 +6,10 @@ module Matestack
         def initialize(html_tag = nil, text = nil, options = {}, &block)
           extract_options(text, options)
           create_internal_context
+          ic = Matestack::Ui::Core::Context.internal_context if VUE_JS_COMPONENTS.include?(self.class)
+          Matestack::Ui::Core::Context.internal_context = self if VUE_JS_COMPONENTS.include?(self.class)
           super(html_tag, text, options, &block)
+          Matestack::Ui::Core::Context.internal_context = ic if VUE_JS_COMPONENTS.include?(self.class)
         end
         
         def create_children(&block)

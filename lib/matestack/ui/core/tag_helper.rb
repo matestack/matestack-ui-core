@@ -24,8 +24,6 @@ module Matestack
           end
         end
         
-        # CORE_COMPONENTS = [Matestack::Ui::Core::Base]#, Matestack::Ui::Core::Base::Vue, Matestack::Ui::Core::Base::Toggle, Matestack::Ui::Core::Base::Transition]
-        
         def plain(text)
           Matestack::Ui::Core::Base.new(nil, text, nil)
         end
