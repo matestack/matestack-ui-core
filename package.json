@@ -1,8 +1,12 @@
 {
   "name": "matestack-ui-core",
-  "version": "1.4.0",
-  "main": "app/javascript/matestack-ui-core",
-  "private": true,
+  "version": "1.5.0",
+  "main": "app/javascript/matestack-ui-core/index.js",
+  "files": [
+    "app",
+    "LICENSE"
+  ],
+  "license": "LGPLv3",
   "dependencies": {
     "axios": "^0.21.1",
     "link-module-alias": "^1.2.0",
