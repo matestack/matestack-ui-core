@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.0 Release - 2021-03-07
+
+### Improvements
+
+- NPM package usage
+
 ## v1.4.0 Release - 2021-02-05
 
 ### Improvements
