@@ -1,2 +1,0 @@
-# Sponsoring \[WIP\]
-
