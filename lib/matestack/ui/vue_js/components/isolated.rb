@@ -5,17 +5,7 @@ module Matestack
         class Isolated < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-isolate'
 
-          attr_accessor :defer
-          attr_accessor :init_on
-          attr_accessor :public_options
-          
-          def initialize(html_tag = nil, text = nil, options = {}, &block)
-            extract_options(text, options)
-            self.public_options = self.options[:public_options]
-            super
-            self.defer = self.options[:defer]
-            self.init_on = self.options[:init_on]
-          end
+          internal :defer, :init_on, :public_options, :rerender_on, :rerender_delay
 
           def create_children
             # content only should be rendered if param :component_class is present
@@ -33,7 +23,7 @@ module Matestack
           def isolated
             Matestack::Ui::Core::Base.new(:component, component_attributes) do
               div class: 'matestack-isolated-component-container', 'v-bind:class': '{ loading: loading === true }' do
-                unless self.defer || self.init_on
+                unless internal_context.defer || internal_context.init_on
                   div class: 'matestack-isolated-component-wrapper', 'v-if': 'isolatedTemplate == null', 'v-bind:class': '{ loading: loading === true }' do
                     yield
                   end
@@ -48,11 +38,11 @@ module Matestack
           def config
             {
               component_class: self.class.name,
-              public_options: options[:public_options],
-              defer: options[:defer],
-              rerender_on: options[:rerender_on],
-              rerender_delay: options[:rerender_delay],
-              init_on: options[:init_on],
+              public_options: internal_context.public_options,
+              defer: internal_context.defer,
+              rerender_on: internal_context.rerender_on,
+              rerender_delay: internal_context.rerender_delay,
+              init_on: internal_context.init_on,
             }
           end
 

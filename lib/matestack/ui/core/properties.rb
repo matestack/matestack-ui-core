@@ -35,18 +35,7 @@ module Matestack
         end
     
         def context 
-          # find parent which should have a context
-          # context only makes sense for non base components
-          # parent_context = while parent.present? && Matestack::Ui::Core::Base.matestack_components.include?(self.class)
-          #   return parent.ctx if parent.respond_to?(:ctx)
-          # end
-          # @context ||= (parent_context || OpenStruct.new)
-          return @context if @context
-          if Matestack::Ui::Core::Base.matestack_components.include?(self.class)
-            @context = Matestack::Ui::Core::Context.parent_context&.context
-          else
-            @context = OpenStruct.new
-          end
+          @context ||= OpenStruct.new
         end
         alias :ctx :context
         

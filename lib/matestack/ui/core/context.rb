@@ -4,8 +4,6 @@ module Matestack
       class Context < ActiveSupport::CurrentAttributes
 
         attribute :parent
-        attribute :parent_context
-        attribute :internal_context
         attribute :params
         attribute :controller
         attribute :component_block

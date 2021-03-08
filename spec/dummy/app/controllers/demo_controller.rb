@@ -28,7 +28,8 @@ class DemoController < ActionController::Base
   end
 
   def index
-    render 'rails/index'
+    # view_context.javascript_pack_tag 'application'
+    render 'rails/index', layout: 'application'
   end
 
 end

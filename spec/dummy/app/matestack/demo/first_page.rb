@@ -3,6 +3,15 @@ class Demo::FirstPage < Matestack::Ui::Page
   optional :user
 
   def response
+
+    div do 
+      foobar name: 'Test' do
+        div do
+          paragraph content
+        end
+      end
+    end
+
     # Demo::Components::Header.()
     header slots: { first: method(:a_slot), user: method(:stuff) }, user: 'Nils'
     h1 'First page with new logic!'
@@ -19,6 +28,10 @@ class Demo::FirstPage < Matestack::Ui::Page
     # integrating toggle component
     toggle show_on: 'show' do
       div 'I am toggable'
+    end
+
+    div do
+      plain content
     end
 
     onclick emit: 'show', data: { foo: :bar } do
