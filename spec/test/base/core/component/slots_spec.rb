@@ -6,9 +6,7 @@ describe "Component", type: :feature, js: true do
   before :all do
 
     class ComponentTestController < ActionController::Base
-      layout "application"
-
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage
@@ -30,15 +28,12 @@ describe "Component", type: :feature, js: true do
     it "a page can fill slots of components with access to page instance scope" do
 
       class SomeStaticComponent < Matestack::Ui::Component
-
-        def prepare
-          @foo = "foo from component"
-        end
-
+        
         def response
+          @foo = "foo from component"
           div id: "my-component" do
-            slot @options[:my_first_slot]
-            slot @options[:my_second_slot]
+            slot slots[:my_first_slot]
+            slot slots[:my_second_slot]
           end
         end
 
@@ -46,31 +41,24 @@ describe "Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-
-        def prepare
-          @foo = "foo from page"
-        end
-
+        
         def response
+          @foo = "foo from page"
           div do
-            some_static_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
+            some_static_component slots: { my_first_slot: method(:my_simple_slot), my_second_slot: method(:my_second_simple_slot) }
           end
         end
 
         def my_simple_slot
-          slot {
-            span id: "my_simple_slot" do
-              plain "some content"
-            end
-          }
+          span id: "my_simple_slot" do
+            plain "some content"
+          end
         end
 
         def my_second_simple_slot
-          slot {
-            span id: "my_simple_slot" do
-              plain @foo
-            end
-          }
+          span id: "my_simple_slot" do
+            plain @foo
+          end
         end
 
       end
@@ -101,41 +89,33 @@ describe "Component", type: :feature, js: true do
     it "a component can fill slots of components with access to component instance scope" do
 
       class SomeStaticComponent < Matestack::Ui::Component
-
-        def prepare
-          @foo = "foo from component"
-        end
-
+        
         def response
+          @foo = "foo from component"
           div id: "my-component" do
             other_component slots: {
-              my_slot_from_component: my_slot_from_component,
-              my_slot_from_page: @options[:my_slot_from_page]
+              my_slot_from_component: method(:my_slot_from_component),
+              my_slot_from_page: slots[:my_slot_from_page]
             }
           end
         end
 
         def my_slot_from_component
-          slot {
-            span id: "my-slot-from-component" do
-              plain @foo
-            end
-          }
+          span id: "my-slot-from-component" do
+            plain @foo
+          end
         end
 
         register_self_as(:some_static_component)
       end
 
       class OtherComponent < Matestack::Ui::Component
-
-        def prepare
-          @foo = "foo from other component"
-        end
-
+        
         def response
+          @foo = "foo from other component"
           div id: "my-other-component" do
-            slot @options[:slots][:my_slot_from_component]
-            slot @options[:slots][:my_slot_from_page]
+            slot slots[:my_slot_from_component]
+            slot slots[:my_slot_from_page]
             plain @foo
           end
         end
@@ -144,23 +124,18 @@ describe "Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-
-        def prepare
-          @foo = "foo from page"
-        end
-
+        
         def response
+          @foo = "foo from page"
           div id: "page-div" do
-            some_static_component my_slot_from_page: my_slot_from_page
+            some_static_component slots: { my_slot_from_page: method(:my_slot_from_page) }
           end
         end
 
         def my_slot_from_page
-          slot {
-            span id: "my-slot-from-page" do
-              plain @foo
-            end
-          }
+          span id: "my-slot-from-page" do
+            plain @foo
+          end
         end
 
       end

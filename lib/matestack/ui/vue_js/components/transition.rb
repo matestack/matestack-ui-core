@@ -8,8 +8,11 @@ module Matestack
           internal :path
 
           def response
-            div attributes do
-              yield
+            link attributes do
+              if block_given?
+                yield
+              end
+              plain self.text if self.text
             end
           end
 

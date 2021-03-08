@@ -1,6 +1,6 @@
 # Tested through its instance, the other functions are thoroughly
 # used elsewhere
-describe Matestack::Ui::Core::Component::Registry do
+describe Matestack::Ui::Core::ComponentRegistry do
   let(:dsl_module) { Module.new }
   let(:instance) { Matestack::Ui::Core::Component::Registry::Instance.new(dsl_module)}
   let(:component_class) { Class.new }

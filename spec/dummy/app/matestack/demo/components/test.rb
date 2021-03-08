@@ -1,20 +1,12 @@
-class Demo::Components::Test < Matestack::Ui::Component
-
-  optional :name
+class Demo::Components::Test < Matestack::Ui::VueJsComponent
+  vue_name 'test-component'
 
   def response
-    div do
-      div do
-        plain ctx.name
+    div id: "my-component" do
+      button "@click": "emitMessage(\"some_event\", \"hello event bus!\")" do
+        plain "click me!"
       end
     end
-    div do
-      yield
-    end
-  end
-
-  def content
-    'bar'
   end
 
 end

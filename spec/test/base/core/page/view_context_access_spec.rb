@@ -7,7 +7,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage
@@ -30,7 +30,7 @@ describe "Page", type: :feature, js: true do
 
       def response
         div do
-          if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+          if view_context.view_renderer.instance_of?(ActionView::Renderer)
             plain "has access to ActionView Context"
           end
           plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here

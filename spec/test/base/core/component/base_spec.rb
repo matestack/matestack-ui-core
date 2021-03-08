@@ -5,7 +5,7 @@ include Utils
 # especially around DSL registrations.
 # Elsewhere anonymous classes are used to not interfere with the other parts of
 # the system too much.
-describe Matestack::Ui::Core::Component::Base do
+describe Matestack::Ui::Core::Base do
 
   describe "#initialize" do
     # TODO: This seems to be the existing semantics

@@ -77,8 +77,12 @@ module Matestack
           Matestack::Ui::Core::Context.params || ActionController::Parameters.new({})
         end
 
+        def view_context
+          Matestack::Ui::Core::Context&.controller&.view_context
+        end
+
         def method_missing(name, *args, &block)
-          return Matestack::Ui::Core::Context.controller.view_context.send(name, *args, &block) if Matestack::Ui::Core::Context.controller&.view_context&.respond_to?(name, true)
+          return view_context.send(name, *args, &block) if view_context && view_context.respond_to?(name, true)
           return raise NameError, "#{name} is not defined for #{self.class}", caller
         end
 

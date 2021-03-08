@@ -1,52 +1,52 @@
-require_relative "../../../support/utils"
-include Utils
+# require_relative "../../../support/utils"
+# include Utils
 
-describe "Page", type: :feature, js: true do
+# describe "Page", type: :feature, js: true do
 
-  before :all do
-    class PageTestController < ActionController::Base
-      layout "application"
+#   before :all do
+#     class PageTestController < ActionController::Base
+#       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+#       include Matestack::Ui::Core::Helper
 
-      def my_action
-        render ExamplePage
-      end
+#       def my_action
+#         render ExamplePage
+#       end
 
-    end
+#     end
 
-    Rails.application.routes.append do
-      scope "page_prepare_spec" do
-        get '/page_test', to: 'page_test#my_action', as: 'preparepage_test_action'
-      end
-    end
-    Rails.application.reload_routes!
+#     Rails.application.routes.append do
+#       scope "page_prepare_spec" do
+#         get '/page_test', to: 'page_test#my_action', as: 'preparepage_test_action'
+#       end
+#     end
+#     Rails.application.reload_routes!
 
-  end
+#   end
 
-  describe "Prepare" do
+#   describe "Prepare" do
 
-    it "a component can resolve data before rendering in a prepare method" do
+#     it "a component can resolve data before rendering in a prepare method" do
 
-      class ExamplePage < Matestack::Ui::Page
+#       class ExamplePage < Matestack::Ui::Page
 
-        def prepare
-          @hello = "Hello World from Example Page!"
-        end
+#         def prepare
+#           @hello = "Hello World from Example Page!"
+#         end
 
-        def response
-          div do
-            plain @hello
-          end
-        end
+#         def response
+#           div do
+#             plain @hello
+#           end
+#         end
 
-      end
+#       end
 
-      visit "page_prepare_spec/page_test"
+#       visit "page_prepare_spec/page_test"
 
-      expect(page).to have_content("Hello World from Example Page!")
-    end
+#       expect(page).to have_content("Hello World from Example Page!")
+#     end
 
-  end
+#   end
 
-end
+# end

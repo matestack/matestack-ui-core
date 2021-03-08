@@ -58,3 +58,6 @@ require "#{vue_js_base_path}/components/collection/order"
 require "#{vue_js_base_path}/components/collection/page"
 require "#{vue_js_base_path}/components/collection/previous"
 require "#{vue_js_base_path}/registry"
+
+# require abbreveations for apps, pages and components
+require "matestack/ui/vue_js_component"

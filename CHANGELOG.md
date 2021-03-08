@@ -28,6 +28,10 @@
 * slots api has changed. Always use `method(:your_slot_method)` to pass slots into another component. Use `slot slots[:your_slot]` to render the slot. Pass optional params to slots in order to use with your method `slot slots[:your_slot], 'A param'`.
 
 * Properties are now accessed via a context `context` or short `ctx`. Access your defined `required` or `optional` properties via `ctx.your_property`
+  
+* Slots given with a :slots key are accessible trough a slots method, but you can use custom properties to also use slots. Recommended to always use :slots param for better encapsulating slots from params.
+
+* You can pass a component an argument and options like `header 'Your headline', color: :blue`. Access it now with `self.text # or text` instead of `@argument`
 
 
 ## v1.3.1 Release

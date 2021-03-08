@@ -14,12 +14,12 @@ describe "Page", type: :feature, js: true do
 
   it "should not be able to access controller instance variables" do
     class ExamplePage < Matestack::Ui::Page
-      required :bar
+      optional :bar
       def response
         div do
           plain ctx.bar
         end
-        plain @bar
+        plain @foo
       end
     end
 

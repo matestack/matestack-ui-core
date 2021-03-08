@@ -15,9 +15,7 @@ class Demo::FirstPage < Matestack::Ui::Page
     # Demo::Components::Header.()
     header slots: { first: method(:a_slot), user: method(:stuff) }, user: 'Nils'
     h1 'First page with new logic!'
-    transition path: second_path do
-      button 'Second Page'
-    end
+    transition 'Second Page', path: second_path
     abbr title: 'test'
 
     isolate_test rerender_on: 'isolate', public_options: { foo: :bar }

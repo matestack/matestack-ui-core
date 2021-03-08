@@ -5,7 +5,7 @@ describe "Component", type: :feature, js: true do
 
   before :all do
     class ComponentTestController < ActionController::Base
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
       layout "application"
 
       def my_action

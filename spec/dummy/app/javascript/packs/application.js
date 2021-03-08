@@ -10,4 +10,7 @@
 require("@rails/ujs").start()
 require("channels")
 
+
 import MatestackUiCore from 'matestack-ui-core'
+
+import '../js/components'

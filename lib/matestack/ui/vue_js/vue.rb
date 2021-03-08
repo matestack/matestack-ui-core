@@ -12,7 +12,7 @@ module Matestack
         def create_children(&block)
           vue_component do
             self.response do
-              block.call
+              block.call if block_given?
             end
           end
         end
@@ -36,7 +36,7 @@ module Matestack
         end
           
         def config
-          raise "config needs to be overwritten by #{self.class}"
+          # raise "config needs to be overwritten by #{self.class}"
         end
         
         def self.vue_name(name = nil)

@@ -16,7 +16,7 @@ module Utils
   # ends up on Object so the method is available on a class level which
   # for tests allows a relatively convenient access
   def register_component(dsl_method, component_class)
-    Matestack::Ui::Core::Component::Registry.register_component(dsl_method, component_class)
+    Matestack::Ui::Component.register({ dsl_method => component_class })
   end
 
   # even more test convenience
