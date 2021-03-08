@@ -649,7 +649,7 @@ describe "Action Component", type: :feature, js: true do
       end
 
       def action_config
-        return {
+        {
           id: 'action-id',
           class: 'action-class'
         }
@@ -959,6 +959,7 @@ describe "Action Component", type: :feature, js: true do
     class FollowResponseExample::Pages::TestModelPage < Matestack::Ui::Page
       optional :test_model
       def response
+        byebug
         h1 ctx.test_model.title
         plain "This page has been loaded via redirect_to and follow_response."
       end

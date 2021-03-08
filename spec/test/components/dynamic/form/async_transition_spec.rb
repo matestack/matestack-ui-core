@@ -238,7 +238,7 @@ describe "Form Component", type: :feature, js: true do
     end
     
     class ExampleAppPagesController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
       matestack_app Example::App
     
       def page1

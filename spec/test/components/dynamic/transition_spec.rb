@@ -8,24 +8,35 @@ describe "Transition Component", type: :feature, js: true do
     end
 
     class Example::App < Matestack::Ui::App
+      
       def response
-        heading size: 1, text: "My Example App Layout"
-        nav do
-          transition path: :page1_path do
-            button text: "Page 1"
+        html do
+          head do
+            unescape csrf_meta_tags
+            plain Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag('application').html_safe
           end
-          transition path: :page2_path, params: {some_other_param: "bar" } do
-            button text: "Page 2"
+          body do
+            matestack do
+              h1 "My Example App Layout"
+              nav do
+                transition path: page1_path do
+                  button "Page 1"
+                end
+                transition path: page2_path(some_other_param: "bar") do
+                  button "Page 2"
+                end
+                transition path: page3_path, delay: 1500 do
+                  button "Page 3"
+                end
+              end
+              main do
+                yield
+              end
+              toggle show_on: "page_loading_triggered" do
+                plain "started a transition"
+              end
+            end
           end
-          transition path: :page3_path, delay: 1500 do
-            button text: "Page 3"
-          end
-        end
-        main do
-          page_content
-        end
-        toggle show_on: "page_loading_triggered" do
-          plain "started a transition"
         end
       end
     end
@@ -36,9 +47,9 @@ describe "Transition Component", type: :feature, js: true do
     class Example::Pages::ExamplePage < Matestack::Ui::Page
       def response
         div id: "my-div-on-page-1" do
-          heading size: 2, text: "This is Page 1"
+          h2 "This is Page 1"
           plain "#{DateTime.now.strftime('%Q')}"
-          plain "#{context[:params][:some_param]}"
+          plain "#{params[:some_param]}"
         end
       end
     end
@@ -46,15 +57,15 @@ describe "Transition Component", type: :feature, js: true do
     class Example::Pages::SecondExamplePage < Matestack::Ui::Page
       def response
         div id: "my-div-on-page-2" do
-          heading size: 2, text: "This is Page 2"
+          h2 "This is Page 2"
           plain "#{DateTime.now.strftime('%Q')}"
         end
-        transition path: :page1_path do
-          button text: "Back to Page 1"
-          plain "#{context[:params][:some_other_param]}"
+        transition path: page1_path do
+          button "Back to Page 1"
+          plain "#{params[:some_other_param]}"
         end
-        transition path: :sub_page2_path do
-          button text: "Sub Page 2"
+        transition path: sub_page2_path do
+          button "Sub Page 2"
         end
       end
     end
@@ -62,12 +73,12 @@ describe "Transition Component", type: :feature, js: true do
     class Example::Pages::SubSecondExamplePage < Matestack::Ui::Page
       def response
         div id: "my-div-on-page-2" do
-          heading size: 2, text: "This is a Subpage of Page 2"
+          h2 "This is a Subpage of Page 2"
           plain "#{DateTime.now.strftime('%Q')}"
         end
-        transition path: :page1_path do
-          button text: "Back to Page 1"
-          plain "#{context[:params][:some_other_param]}"
+        transition path: page1_path do
+          button "Back to Page 1"
+          plain "#{params[:some_other_param]}"
         end
       end
     end
@@ -75,14 +86,14 @@ describe "Transition Component", type: :feature, js: true do
     class Example::Pages::ThirdExamplePage < Matestack::Ui::Page
       def response
         div id: "my-div-on-page-3" do
-          heading size: 2, text: "This is Page 3"
+          h2 "This is Page 3"
           plain "#{DateTime.now.strftime('%Q')}"
         end
       end
     end
 
     class ExampleAppPagesController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
       matestack_app Example::App
 
       def page1
@@ -285,7 +296,7 @@ describe "Transition Component", type: :feature, js: true do
   #
   #     def response
   #       components {
-  #         heading size: 1, text: "My Example App Layout"
+  #         heading "My Example App Layout"
   #         nav do
   #           transition path: "http://127.0.0.1:35553/my_example_app/page1" do
   #             button text: "Page 1"
@@ -311,7 +322,7 @@ describe "Transition Component", type: :feature, js: true do
   #     def response
   #       components {
   #         div id: "my-div-on-page-1" do
-  #           heading size: 2, text: "This is Page 1"
+  #           h2 "This is Page 1"
   #           plain "#{DateTime.now.strftime('%Q')}"
   #         end
   #       }
@@ -324,7 +335,7 @@ describe "Transition Component", type: :feature, js: true do
   #     def response
   #       components {
   #         div id: "my-div-on-page-2" do
-  #           heading size: 2, text: "This is Page 2"
+  #           h2 "This is Page 2"
   #           plain "#{DateTime.now.strftime('%Q')}"
   #         end
   #         transition path: 'my_example_app/page1' do
@@ -336,7 +347,7 @@ describe "Transition Component", type: :feature, js: true do
   #   end
   #
   #   class ExampleAppPagesController < ExampleController
-  #     include Matestack::Ui::Core::ApplicationHelper
+  #     include Matestack::Ui::Core::Helper
   #
   #     def page1
   #       render(Example::Pages::ExamplePage)

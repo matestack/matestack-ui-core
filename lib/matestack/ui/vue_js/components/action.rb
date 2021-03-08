@@ -18,7 +18,7 @@ module Matestack
             {
               href: internal_context.path,
               '@click.prevent': 'perform',
-            }
+            }.merge(options)
           end
 
           def config

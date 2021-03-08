@@ -212,7 +212,7 @@ describe "Async Component", type: :feature, js: true do
     end
 
     class AsyncInAppPagesController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def example
         render Example::Pages::ExamplePage, matestack_app: Example::App

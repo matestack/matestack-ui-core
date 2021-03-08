@@ -79,7 +79,7 @@ module Matestack
                 method_name = value[:as] || key
                 required = value[:required]
                 internal_context.send(:"#{method_name}=", self.options.delete(key))
-                raise "required option '#{key}' is missing for #{self}" if internal_context.send(method_name).nil?
+                raise "required option '#{key}' is missing for #{self}" if internal_context.send(method_name).nil? && required
               end
             else
               internal_context.send(:"#{option}=", self.options.delete(option))
