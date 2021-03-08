@@ -16,6 +16,12 @@ module Matestack
           form_checkbox: Matestack::Ui::VueJs::Components::Form::Checkbox,
           form_radio: Matestack::Ui::VueJs::Components::Form::Radio,
           form_select: Matestack::Ui::VueJs::Components::Form::Select,
+          collection_content: Matestack::Ui::VueJs::Components::Collection::Content,
+          collection_filter: Matestack::Ui::VueJs::Components::Collection::Filter,
+          collection_order: Matestack::Ui::VueJs::Components::Collection::Order,
+          collection_next: Matestack::Ui::VueJs::Components::Collection::Next,
+          collection_previous: Matestack::Ui::VueJs::Components::Collection::Previous,
+          collection_page: Matestack::Ui::VueJs::Components::Collection::Page,
         )
 
       end
