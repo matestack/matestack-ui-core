@@ -41,7 +41,7 @@ describe "Async Component", type: :feature, js: true do
     expect(page).not_to have_content(before_content)
   end
 
-  it "rerender on event behind yield_components" do
+  it "rerender on event behind yield" do
     class ExamplePage < Matestack::Ui::Page
       def response
         div do
@@ -59,7 +59,7 @@ describe "Async Component", type: :feature, js: true do
     class SomeComponent < Matestack::Ui::Component
       def response
         div id: "yielded-content-1" do
-          yield_components
+          yield
         end
         other_component do
           async rerender_on: "my_other_event", id: 'async-some-component' do
@@ -76,7 +76,7 @@ describe "Async Component", type: :feature, js: true do
     class OtherComponent < Matestack::Ui::Component
       def response
         div id: "nested-yielded-content-2" do
-          yield_components
+          yield
         end
       end
 
@@ -191,9 +191,19 @@ describe "Async Component", type: :feature, js: true do
 
     class Example::App < Matestack::Ui::App
       def response
-        heading size: 1, text: "My Example App Layout"
-        main do
-          page_content
+        html do
+          head do
+            unescape csrf_meta_tags
+            unesacape javascript_pack_tag('application')
+          end
+          body do
+            matestack do
+              h1 "My Example App Layout"
+              main do
+                yield
+              end
+            end
+          end
         end
       end
     end
@@ -231,6 +241,7 @@ describe "Async Component", type: :feature, js: true do
     before_content = element.text
 
     page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    expect(page).not_to have_content(before_content)
     element = page.find("#my-div")
     after_content = element.text
     expect(before_content).not_to eq(after_content)

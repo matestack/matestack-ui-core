@@ -8,12 +8,16 @@ module Matestack
 
             def response
               div class: 'matestack-ui-core-form-checkbox' do
-                if checkbox_options
-                  render_checkbox_options
-                else
-                  render_true_false_checkbox
-                end
+                render_options
                 render_errors
+              end
+            end
+
+            def render_options
+              if checkbox_options
+                render_checkbox_options
+              else
+                render_true_false_checkbox
               end
             end
 
@@ -24,6 +28,7 @@ module Matestack
             def config
               {
                 init_value: init_value,
+                key: key,
               }
             end
 
@@ -44,11 +49,11 @@ module Matestack
                 value: item_value(item),
                 ref: "select.multiple.#{key}",
                 '@change': change_event,
-                'init-value': init_value,
+                'init-value': (init_value || []).to_json,
                 'v-bind:class': "{ '#{error_class}': #{error_key} }",
                 'value-type': item_value(checkbox_options.first).is_a?(Integer) ? Integer : nil,
                 "#{v_model_type}": input_key,
-              }
+              }.merge(self.options)
             end
 
             def render_true_false_checkbox
@@ -89,7 +94,7 @@ module Matestack
             end
 
             def item_id(item)
-              "#{key}_#{item_value(item)}"
+              "#{id}_#{item_value(item).to_s.gsub(" ", '_')}"
             end
 
           end

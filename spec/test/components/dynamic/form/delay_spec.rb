@@ -30,15 +30,13 @@ describe "Form Component", type: :feature, js: true do
     it "if set, delays form submit" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input key: :foo, type: :text, id: "my-test-input"
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           div id: "timestamp" do
             toggle show_on: "form_submitted_successfully", id: 'async-form' do
-              paragraph id: 'received_timestamp', text: "{{event.data.received_at}}"
+              paragraph "{{event.data.received_at}}", id: 'received_timestamp'
             end
           end
         end
@@ -47,7 +45,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :form_delay_success_submit_path,
+            path: form_delay_success_submit_path,
             delay: 1000,
             success: {
               emit: "form_submitted_successfully"

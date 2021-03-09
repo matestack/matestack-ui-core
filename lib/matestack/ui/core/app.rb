@@ -14,6 +14,9 @@ module Matestack
             'inline-template': true,
           }
         end
+
+        def loading_state_element
+        end
         
       end
     end

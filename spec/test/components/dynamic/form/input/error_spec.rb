@@ -22,11 +22,9 @@ describe "form input", type: :feature, js: true do
   it "should render error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -34,10 +32,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
-          params: {
-            id: 42
-          }
+          path: input_error_error_failure_form_test_path(id: 42),
         }
       end
     end
@@ -47,17 +42,15 @@ describe "form input", type: :feature, js: true do
     click_button "Submit me!"
     expect(page).to have_content('seems to be invalid')
     expect(page).to have_selector('#text-input.error')
-    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+    expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
   end
 
   it "can turn off error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text, errors: false
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -65,10 +58,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
-          params: {
-            id: 42
-          }
+          path: input_error_error_failure_form_test_path(id: 42),
         }
       end
     end
@@ -77,17 +67,15 @@ describe "form input", type: :feature, js: true do
     fill_in "text-input", with: "text"
     click_button "Submit me!"
     expect(page).not_to have_content('seems to be invalid')
-    expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+    expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
   end
   
   it "lets you customize errors" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text, errors: { wrapper: {}, tag: :div, class: 'my-error' }
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -95,10 +83,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
-          params: {
-            id: 42
-          },
+          path: input_error_error_failure_form_test_path(id: 42),
           errors: {
             input: { class: 'my-error' }
           }
@@ -111,19 +96,17 @@ describe "form input", type: :feature, js: true do
     click_button "Submit me!"
     expect(page).to have_content('seems to be invalid')
     expect(page).to have_selector('#text-input.my-error')
-    expect(page).to have_xpath('//span[@class="errors"]/div[@class="my-error" and contains(.,"seems to be invalid")]')
+    expect(page).to have_xpath('//div[@class="errors"]/div[@class="my-error" and contains(.,"seems to be invalid")]')
   end
   
   it "lets you customize errors and errors wrapper" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text, errors: { 
             wrapper: { tag: :div, class: 'my-errors'}, tag: :div, class: 'my-error' 
           }
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -131,10 +114,7 @@ describe "form input", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :input_error_error_failure_form_test_path,
-          params: {
-            id: 42
-          }
+          path: input_error_error_failure_form_test_path(id: 42),
         }
       end
     end

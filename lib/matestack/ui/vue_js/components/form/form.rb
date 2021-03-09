@@ -6,7 +6,7 @@ module Matestack
           class Form < Matestack::Ui::VueJs::Vue
             vue_name 'matestack-ui-core-form'
 
-            internal :for, :path, :success, :failure, :multipart, :emit
+            internal :for, :path, :success, :failure, :multipart, :emit, :delay, :errors
             internal method: { as: :form_method }
 
             # setup form context to allow child components like inputs to access the form configuration
@@ -40,6 +40,7 @@ module Matestack
                 failure: internal_context.failure,
                 multipart: !!internal_context.multipart,
                 emit: internal_context.emit,
+                delay: internal_context.delay,
               }
             end
 

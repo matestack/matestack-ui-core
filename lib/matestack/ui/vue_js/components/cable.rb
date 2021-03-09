@@ -7,7 +7,8 @@ module Matestack
 
           attr_accessor :block_content
 
-          internal :id, :append_on, :prepend_on, :delete_on, :update_on, :replace_on
+          internal :append_on, :prepend_on, :delete_on, :update_on, :replace_on
+          internal id: { required: true }
 
           # %component{dynamic_tag_attributes.merge('v-bind:initial-template': "#{render_content.to_json}")}
           #   %div{class: "matestack-cable-component-container", "v-bind:class": "{ 'loading': loading === true }"}
@@ -16,7 +17,7 @@ module Matestack
 
           def create_children(&block)
             # first render block content
-            self.block_content = content(&block).render_content
+            self.block_content = content(&block).render_content if block_given?
             super
           end
 

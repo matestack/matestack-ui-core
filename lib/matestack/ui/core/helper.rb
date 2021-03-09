@@ -32,7 +32,7 @@ module Matestack
               render_app app, page, options
             else
               if params[:component_key]
-                render_component page, params[:component_key], options
+                render_component app, page, params[:component_key], options
               elsif params[:component_class]
                 render html: params[:component_class].constantize.(public_options: JSON.parse(params[:public_options]))
               else
@@ -52,8 +52,8 @@ module Matestack
           render html: page.new(options).render_content.html_safe, layout: false
         end
         
-        def render_component(page, component_key, options)
-          page.new(options)
+        def render_component(app, page, component_key, options)
+          app.new(options) { page.new(options) } # create page structure in order to later access registered async components
           render html: Matestack::Ui::Core::Context.async_components[component_key].render_content.html_safe, layout: false
         end
         

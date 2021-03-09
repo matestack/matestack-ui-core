@@ -36,11 +36,12 @@ describe "Form Component", type: :feature, js: true do
 
     before do
       class TestModelPage < Matestack::Ui::Page
+        optional :test_model
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input id: 'title', key: :title, type: :text
             form_input id: 'description', key: :description, type: :text
-            form_submit { button text: "Save" }
+            button "Save"
           end
           toggle show_on: "form_has_errors", hide_after: 5000, id: 'async-form-errors' do
             plain "Form has errors"
@@ -54,9 +55,9 @@ describe "Form Component", type: :feature, js: true do
 
         def form_config
           {
-            for: @test_model,
+            for: ctx.test_model,
             method: :put,
-            path: "/some_test_models/#{@test_model.id}",
+            path: "/some_test_models/#{ctx.test_model.id}",
             success: { emit: "update_successful" },
             failure: { emit: "form_has_errors" }
           }
@@ -65,10 +66,11 @@ describe "Form Component", type: :feature, js: true do
 
       class SomeTestModelsController < ApplicationController
         include Matestack::Ui::Core::Helper
+        matestack_app App
 
         def show
           @test_model = TestModel.find params[:id]
-          render TestModelPage
+          render TestModelPage, test_model: @test_model
         end
 
         def update
@@ -101,6 +103,7 @@ describe "Form Component", type: :feature, js: true do
 
     specify do
       test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
+      p test_model.id
       visit Rails.application.routes.url_helpers.some_test_model_path(test_model)
       expect(find_field(:title).value).to eq "Foo"
 
@@ -119,9 +122,9 @@ describe "Form Component", type: :feature, js: true do
     before do
       class SearchPage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input id: 'query', key: :query, type: :text
-            form_submit { button text: "Search" }
+            button "Search"
           end
           toggle show_on: "form_has_errors", hide_after: 5000, id: 'async-form-errors' do
             plain "Form has errors"
@@ -178,9 +181,9 @@ describe "Form Component", type: :feature, js: true do
     before do
       class SearchPage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input id: 'query', key: :query, type: :text
-            form_submit { button text: "Search" }
+            button "Search"
           end
           toggle show_on: "form_has_errors", hide_after: 5000, id: 'async-form-errors' do
             plain "Form has errors"
@@ -205,6 +208,7 @@ describe "Form Component", type: :feature, js: true do
 
       class SearchesController < ApplicationController
         include Matestack::Ui::Core::Helper
+        matestack_app App
 
         def index
           render SearchPage
@@ -239,11 +243,9 @@ describe "Form Component", type: :feature, js: true do
 
       class Components::SomeComponent < Matestack::Ui::Component
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input id: "my-test-input", key: :foo, type: :text
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -251,10 +253,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: success_form_test_path(id: 42),
           }
         end
 
@@ -282,13 +281,11 @@ describe "Form Component", type: :feature, js: true do
     it "range input can be initialized with min, max, step and value" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input id: "range-input",
               key: :range_input, type: :range,
               init: 3, min: 0, max: 10, step: 1, list: "my_list"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 

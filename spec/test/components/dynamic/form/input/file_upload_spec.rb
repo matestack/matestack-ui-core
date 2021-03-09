@@ -67,7 +67,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file_1, type: :file, id: "file-1-input"
@@ -76,9 +76,7 @@ describe "Form Component", type: :feature, js: true do
             br
             form_input key: :files, type: :file, multiple: true, id: "files-input"
             br
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "uploaded_successfully", id: 'async-form' do
             plain "{{event.data.title}}"
@@ -95,7 +93,7 @@ describe "Form Component", type: :feature, js: true do
             for: :my_form,
             method: :post,
             multipart: true,
-            path: :form_input_file_upload_success_form_test_path,
+            path: form_input_file_upload_success_form_test_path,
             success: {
               emit: "uploaded_successfully"
             }
@@ -170,20 +168,15 @@ describe "Form Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
+        def response
           @test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
           @test_model.file.attach(io: File.open("#{File.dirname(__FILE__)}/test_files/matestack-logo.png"), filename: 'matestack-logo.png')
-        end
-
-        def response
-          form form_config, :include do
+          m_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file, type: :file, id: "file-1-input"
             br
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
         end
 
@@ -192,7 +185,7 @@ describe "Form Component", type: :feature, js: true do
             for: @test_model,
             method: :post,
             multipart: true,
-            path: :form_input_file_upload_success_form_test_path,
+            path: form_input_file_upload_success_form_test_path,
             success: {
               emit: "uploaded_successfully"
             }
@@ -215,16 +208,14 @@ describe "Form Component", type: :feature, js: true do
       
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file, type: :file, id: "file-1-input"
             br
             form_input key: :files, type: :file, multiple: true, id: "files-input"
             br
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
         end
 
@@ -233,7 +224,7 @@ describe "Form Component", type: :feature, js: true do
             for: :my_form,
             method: :post,
             multipart: true,
-            path: :form_input_file_upload_failure_form_test_path,
+            path: form_input_file_upload_failure_form_test_path,
             failure: {
               emit: "upload_failed"
             }
@@ -255,16 +246,14 @@ describe "Form Component", type: :feature, js: true do
     it "gets properly resetted when form is successfully submitted" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          m_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file_1, type: :file, id: "file-1-input"
             br
             form_input key: :files, type: :file, multiple: true, id: "files-input"
             br
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "uploaded_successfully", hide_on: "form_submitted", id: 'async-form' do
             plain "{{event.data.file_1.instance}}"
@@ -278,7 +267,7 @@ describe "Form Component", type: :feature, js: true do
             for: :my_form,
             method: :post,
             multipart: true,
-            path: :form_input_file_upload_success_form_test_path,
+            path: form_input_file_upload_success_form_test_path,
             emit: "form_submitted",
             success: {
               emit: "uploaded_successfully"
@@ -320,9 +309,7 @@ describe "Form Component", type: :feature, js: true do
     #     form form_config do
     #       form_checkbox key: :checkbox, label: 'Checkbox', options: [1, 2, 3, 4]
     #       form_input key: :title, label: 'Title'
-    #       form_submit do
-    #         button text: 'Submit'
-    #       end
+  #         button 'Submit'
     #     end
     #     async rerender_on: 'update', id: 'async' do
     #       plain params[:test][:checkbox]

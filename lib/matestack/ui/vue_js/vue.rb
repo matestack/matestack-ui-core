@@ -68,6 +68,11 @@ module Matestack
           @internal
         end
 
+        def self.inherited(subclass)
+          subclass.internal(*internal_options)
+          super
+        end
+
         def internal_options
           self.class.internal_options || []
         end
@@ -79,7 +84,7 @@ module Matestack
                 method_name = value[:as] || key
                 required = value[:required]
                 internal_context.send(:"#{method_name}=", self.options.delete(key))
-                raise "required option '#{key}' is missing for #{self}" if internal_context.send(method_name).nil? && required
+                raise "required option '#{key}' is missing for #{self.class}" if internal_context.send(method_name).nil? && required
               end
             else
               internal_context.send(:"#{option}=", self.options.delete(option))

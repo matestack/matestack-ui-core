@@ -22,12 +22,10 @@ describe "form errors", type: :feature, js: true do
   it "should render error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text
           form_textarea id: "textarea", key: :foo, type: :text
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -35,10 +33,7 @@ describe "form errors", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :form_error_failure_form_test_path,
-          params: {
-            id: 42
-          }
+          path: form_error_failure_form_test_path(id: 42),
         }
       end
     end
@@ -50,18 +45,16 @@ describe "form errors", type: :feature, js: true do
     expect(page).to have_content('seems to be invalid', count: 2)
     expect(page).to have_selector('#text-input.error')
     expect(page).to have_selector('#textarea.error')
-    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]', count: 2)
+    expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]', count: 2)
   end
 
   it "can turn off error messages with form config and turn explicit on" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text
-          form_textarea id: "textarea", key: :foo, type: :text, errors: { wrapper: { tag: :div }, tag: :div }
-          form_submit do
-            button text: "Submit me!"
-          end
+          form_textarea id: "textarea", key: :foo, type: :text, errors: { wrapper: { tag: :span }, tag: :span }
+          button "Submit me!"
         end
       end
 
@@ -69,10 +62,7 @@ describe "form errors", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :form_error_failure_form_test_path,
-          params: {
-            id: 42
-          },
+          path: form_error_failure_form_test_path(id: 42),
           errors: false
         }
       end
@@ -85,19 +75,17 @@ describe "form errors", type: :feature, js: true do
     expect(page).to have_selector('#text-input.error')
     expect(page).to have_selector('#textarea.error')
     expect(page).to have_content('seems to be invalid', count: 1)
-    expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
-    expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
+    expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
+    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
   end
   
   it "lets you turn errors of component based" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text
           form_textarea id: "textarea", key: :foo, type: :text, errors: false
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -105,10 +93,7 @@ describe "form errors", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :form_error_failure_form_test_path,
-          params: {
-            id: 42
-          },
+          path: form_error_failure_form_test_path(id: 42),
           errors: {
             input: { class: 'my-error' }
           }
@@ -125,17 +110,15 @@ describe "form errors", type: :feature, js: true do
     expect(page).not_to have_selector('#text-input.error')
     expect(page).to have_selector('#textarea.my-error')
     expect(page).not_to have_selector('#textarea.error')
-    expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]', count: 1)
+    expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]', count: 1)
   end
   
   it "lets you customize errors and errors wrapper" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        m_form form_config do
           form_input id: "text-input", key: :foo, type: :text
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
 
@@ -143,10 +126,7 @@ describe "form errors", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :form_error_failure_form_test_path,
-          params: {
-            id: 42
-          },
+          path: form_error_failure_form_test_path(id: 42),
           errors: { 
             wrapper: { 
               tag: :div, 

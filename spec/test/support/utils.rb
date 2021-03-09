@@ -31,12 +31,11 @@ module Utils
   end
 
   def matestack_app(&block)
-    MatestackWrapperApp.define_method(:response, block)
+    MatestackWrapperApp.define_method(:app_body, block)
   end
 
   def reset_matestack_app
-    MatestackWrapperApp.define_method(:response) do |&block|
-      block.call
+    MatestackWrapperApp.define_method(:app_body) do
     end
   end
 end

@@ -862,7 +862,7 @@ describe "Action Component", type: :feature, js: true do
     end
 
     class FollowResponseExample::Pages::TestModelPage < Matestack::Ui::Page
-      required :test_model
+      optional :test_model
       def response
         h1 ctx.test_model.title
         plain "This page has been loaded via redirect_to and follow_response."
@@ -959,7 +959,6 @@ describe "Action Component", type: :feature, js: true do
     class FollowResponseExample::Pages::TestModelPage < Matestack::Ui::Page
       optional :test_model
       def response
-        byebug
         h1 ctx.test_model.title
         plain "This page has been loaded via redirect_to and follow_response."
       end

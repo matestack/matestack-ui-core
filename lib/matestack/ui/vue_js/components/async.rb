@@ -11,6 +11,7 @@ module Matestack
           # register itself as an async component in the context
           def initialize(html_tag = nil, text = nil, options = {}, &block)
             super(html_tag, text, options, &block)
+            Matestack::Ui::Core::Context.async_components = {} if Matestack::Ui::Core::Context.async_components.nil?
             Matestack::Ui::Core::Context.async_components[self.internal_context.id] = self
           end
 
@@ -20,19 +21,21 @@ module Matestack
 
           def response
             if params[:component_key]
-              div id: internal_context.id, class: 'matestack-async-component-root' do
-                yield unless is_not_requested?
+              div id: internal_context.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+                yield
               end
             else
               vue_component do
                 div class: 'matestack-async-component-container', 'v-bind:class': '{ "loading": loading === true }' do
-                  div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate == null' do
-                    div id: internal_context.id, class: 'matestack-async-component-root' do
+                  div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate == null', 'v-bind:class': '{ "loading": loading === true }' do
+                    div id: internal_context.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
                       yield unless is_deferred?
                     end
                   end
-                  div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate != null' do
-                    Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'asyncTemplate')
+                  div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate != null', 'v-bind:class': '{ "loading": loading === true }' do
+                    div id: internal_context.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+                      Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'asyncTemplate')
+                    end
                   end
                 end
               end

@@ -5,6 +5,8 @@ module Matestack
         module Form
           class Base < Matestack::Ui::VueJs::Vue
 
+            internal :key, :type, :label, :init, :errors, :id, :multiple, :placeholder
+
             def form_context
               Matestack::Ui::VueJs::Components::Form::Context.form_context
             end
@@ -12,57 +14,66 @@ module Matestack
             # options/settings
 
             def key
-              @key ||= options.delete(:key)
+              internal_context.key
+              # @key ||= options.delete(:key)
             end
 
             def type
-              @type ||= options[:type]
+              internal_context.type
+              # @type ||= options[:type]
             end
 
             def input_label
-              @input_label ||= options.delete(:label)
+              internal_context.label
+              # @input_label ||= options.delete(:label)
             end
 
             def init
-              @init ||= options.delete(:init)
+              internal_context.init
+              # @init = @init.nil? ? options.delete(:init) : @init
             end
 
             def error_config
-              @error_config ||= options.delete(:errors) || {}
+              internal_context.errors
+              # @error_config = @error_config.nil? ? self.options.delete(:errors) : @error_config
             end
 
             def id
-              @id ||= options.delete(:id) || attribute_key
+              internal_context.id || key
+              # @id ||= options.delete(:id) || key
             end
 
             def multiple
-              @multiple ||= options.delete(:multiple)
+              internal_context.multiple
+              # @multiple ||= options.delete(:multiple)
             end
 
             def placeholder
-              @placeholder ||= options.delete(:placeholder)
+              internal_context.placeholder
+              # @placeholder ||= options.delete(:placeholder)
             end
 
             # calculated attributes
 
             def attributes
               {
-                ref: "input.#{key}",
+                ref: "input.#{attribute_key}",
                 id: id,
                 '@change': change_event,
-                'init-value': init_value,
-                'v-bind:class': "{ '#{error_class}': #{error_key} }",
+                'init-value': init_value || (internal_context.multiple ? [] : nil),
+                'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
               }.tap do |attrs|
-                attrs[:"#{v_model_type}"] = (type == :file ? {} : input_key)
+                attrs[:"#{v_model_type}"] = input_key unless type == :file
               end
             end
 
             def attribute_key
-              attr_key = if for_attribute = form_context.for_attribute
-                "#{for_attribute}.#{key}"
-              else
-                key.to_s
-              end
+              key.to_s + "#{'[]' if internal_context.multiple && internal_context.type == :file}"
+              # attr_key = if for_attribute = form_context.for_attribute
+              #   "#{for_attribute}.#{key}"
+              # else
+              #   key.to_s
+              # end
             end
 
             def name
@@ -70,7 +81,7 @@ module Matestack
             end
 
             def init_value
-              return init unless init
+              return init unless init.nil?
               if form_context.for_option.respond_to?(key)
                 form_context.for_option.send(key)
               end
@@ -91,19 +102,56 @@ module Matestack
               (type == :number || init_value.is_a?(Numeric)) ? 'v-model.number' : 'v-model'
             end
 
+            # error rendering
+
+            def display_errors?
+              if form_context.internal_context.errors == false
+                error_config ? true : false
+              else
+                error_config != false
+              end
+            end
+
             def error_key
               "$parent.errors['#{key}']"
             end
 
             def error_class
-              error_config.dig(:class) || 'error'
+              get_from_error_config(:class) || 'error'
             end
 
-            # TODO add options to customize every tag and error class
+            def error_tag
+              get_from_error_config(:tag) || :div
+              # error_config.is_a?(Hash) && error_config.dig(:tag) || :div
+            end
+
+            def input_error_class
+              get_from_error_config(:input, :class) || 'error'
+              # error_config.is_a?(Hash) && error_config.dig(:input, :class) || 'error'
+            end
+
+            def wrapper_tag
+              get_from_error_config(:wrapper, :tag) || :div
+              # error_config.is_a?(Hash) && error_config.dig(:wrapper, :tag) || :div
+            end
+
+            def wrapper_error_class
+              get_from_error_config(:wrapper, :class) || 'errors'
+              # error_config.is_a?(Hash) && error_config.dig(:wrapper, :class) || 'errors'
+            end
+
+            def get_from_error_config(*keys)
+              comp_error_config = error_config.dig(*keys) if error_config.is_a?(Hash)
+              form_error_config = form_context.internal_context.errors.dig(*keys) if form_context.internal_context.errors.is_a?(Hash)
+              comp_error_config || form_error_config
+            end
+
             def render_errors
-              div class: 'errors', 'v-if': error_key do
-                div class: 'error', 'v-for': "error in #{error_key}" do
-                  plain vue.error
+              if display_errors?
+                Matestack::Ui::Component.new(wrapper_tag, class: wrapper_error_class, 'v-if': error_key) do
+                  Matestack::Ui::Component.new(error_tag, class: error_class, 'v-for': "error in #{error_key}") do
+                    plain vue.error
+                  end
                 end
               end
             end

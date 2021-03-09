@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe "Cable Component", type: :feature, js: true do
   include Utils
-  # include Matestack::Ui::Core::Helper
 
   before :each do
 
@@ -25,17 +24,17 @@ describe "Cable Component", type: :feature, js: true do
     matestack_render do
       cable
     end
-    expect(page).to have_content('Required property id is missing for Matestack::Ui::Core::Cable::Cable')
+    expect(page).to have_content("required option 'id' is missing for Matestack::Ui::VueJs::Components::Cable")
   end
 
   it 'should work after a page transition' do
     matestack_render(reset_app: false, page: MatestackTransitionPage) do
       cable id: 'cable-replace', replace_on: 'replace' do
-        paragraph id: 'id', text: 'Paragraph'
+        paragraph 'Paragraph', id: 'id'
       end
     end
     matestack_render(reset_app: false) do
-      transition path: :matestack_transition_test_path, text: 'Transition'
+      transition 'Transition', path: matestack_transition_test_path
     end
     expect(page).to have_content('Transition')
     expect(page).not_to have_content('Paragraph')
@@ -50,7 +49,7 @@ describe "Cable Component", type: :feature, js: true do
   it 'should be possible to add vue.js components' do
     matestack_render do
       cable id: 'cable-replace', replace_on: 'replace' do
-        paragraph text: 'paragraph', id: 'id'
+        paragraph 'paragraph', id: 'id'
       end
       toggle show_on: 'test' do
         plain 'event successful emitted'
@@ -60,8 +59,8 @@ describe "Cable Component", type: :feature, js: true do
     expect(page).not_to have_selector('button', text: 'Click')
     expect(page).not_to have_content('event successful emitted')
     # onclick = matestack_component(:heading, text: 'test')
-    onclick = matestack_component(:onclick, emit: :test) { button text: 'Click' }
-    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \"#{onclick}\" })".gsub("\n", "")
+    onclick = Matestack::Ui::VueJs::Components::Onclick.(emit: 'test') { Matestack::Ui::Component.new(:button, 'Click') }.html_safe
+    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \'#{onclick}\' })".gsub("\n", "")
     page.execute_script(script)
     expect(page).not_to have_selector('p#id', text: 'paragraph')
     expect(page).to have_selector('button', text: 'Click')
@@ -76,12 +75,11 @@ describe "Cable Component", type: :feature, js: true do
     # tried all hints found on Stackoverflow etc
     matestack_render do
       cable id: 'cable-replace', replace_on: 'replace' do
-        form for: :some_object, path: "/", method: :post do
+        m_form for: :some_object, path: "/", method: :post do
           form_input key: :foo, type: :text, label: :foo, id: :foo
         end
       end
     end
-
     # this was throwing a console error in v.1.3.0
     # "Interpolation inside attributes has been removed. Use v-bind or the colon shorthand instead. For example, instead of <div id="{{ val }}">, use <div :id="val">."
     # fixed in v.1.3.1 without explicitly testing it...
@@ -99,11 +97,10 @@ describe "Cable Component", type: :feature, js: true do
         plain 'event successful emitted'
       end
     end
-
     expect(page).not_to have_content('event successful emitted')
 
-    onclick = matestack_component(:onclick, emit: :test) { button text: 'Click' }
-    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \"#{onclick}\" })".gsub("\n", "")
+    onclick = Matestack::Ui::VueJs::Components::Onclick.(emit: 'test') { Matestack::Ui::Component.new(:button, 'Click') }.html_safe
+    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \'#{onclick}\' })".gsub("\n", "")
     page.execute_script(script)
 
     expect(page).to have_selector('button', text: 'Click')
