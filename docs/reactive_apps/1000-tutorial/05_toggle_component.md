@@ -1,19 +1,20 @@
 # Essential Guide 5: Toggle Component
 
-Demo: [Matestack Demo](https://demo.matestack.io)<br>
-Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Demo: [Matestack Demo](https://demo.matestack.io)  
+ Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the fifth part of our tutorial about building a web application with matestack.
 
 ## Introduction
 
-In this guide, we will introduce matestacks `toggle` and `onclick` components. For this we will 
-- add a show more button to the person show page
-- add more content to the show page
+In this guide, we will introduce matestacks `toggle` and `onclick` components. For this we will
+
+* add a show more button to the person show page
+* add more content to the show page
 
 ## Prerequisites
 
-We expect you to have successfully finished the [previous guide](/docs/reactive_apps/1000-tutorial/04_forms_edit_new_create_update_delete.md).
+We expect you to have successfully finished the [previous guide](04_forms_edit_new_create_update_delete.md).
 
 ## Adding a show more button with onclick
 
@@ -82,18 +83,19 @@ The `toggle` component will be hidden on page loads. When we click our 'Show mor
 
 Run `rails s` and head over to [localhost:3000](http://localhost:3000/) and open the details of one person to test it out.
 
-To learn more, check out the [complete API documentation](/docs/api/100-components/toggle.md) for the `toggle` component.
+To learn more, check out the [complete API documentation](../../api/100-components/toggle.md) for the `toggle` component.
 
 ## Saving the status quo
 
 As usual, we want to commit the progress to Git. In the repo root, run
 
-```sh
+```bash
 git add . && git commit -m "add show more toggle to person show page"
 ```
 
 ## Recap & outlook
 
-We added a show more button to our persons show page and learned how to use the `onclick` and `toggle` components and what they can be used for.  
+We added a show more button to our persons show page and learned how to use the `onclick` and `toggle` components and what they can be used for.
 
-Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`async` component](/docs/reactive_apps/1000-tutorial/06_async_component.md).
+Take a well deserved rest and make sure to come back to the next part of this series, introducing the powerful [`async` component](06_async_component.md).
+

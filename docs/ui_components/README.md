@@ -5,7 +5,6 @@ Matestack enables you to implement reusable UI components in pure Ruby in order 
 `app/matestack/components/card.rb`
 
 ```ruby
-
 class Components::Card < Matestack::Ui::Component
 
   requires :body
@@ -23,10 +22,9 @@ class Components::Card < Matestack::Ui::Component
   end
 
 end
-
 ```
 
-Such a component is defined within your application. We call them custom components. While implementing these, you use Matestack's core components in order to define your UI: Above we used methods like `heading`, `paragraph`, `img` and `div`. These are all what we call core components provided trough a core component registry which is automatically loaded. These core components representing the corresponding HTML tags. Calling `div` for example would result in `<div></div>`  after rendering. Matestack provides a always expanding wide set of w3c's specified HTML tags, enabling you to write UIs in pure Ruby. All available components are listed in our [components api](/docs/api/100-components/).
+Such a component is defined within your application. We call them custom components. While implementing these, you use Matestack's core components in order to define your UI: Above we used methods like `heading`, `paragraph`, `img` and `div`. These are all what we call core components provided trough a core component registry which is automatically loaded. These core components representing the corresponding HTML tags. Calling `div` for example would result in `<div></div>` after rendering. Matestack provides a always expanding wide set of w3c's specified HTML tags, enabling you to write UIs in pure Ruby. All available components are listed in our [components api](../api/100-components/).
 
 ## Component registry
 
@@ -53,11 +51,11 @@ end
 
 ## Usage on Rails views
 
-We can now use our components on our Rails views (and later on on Matestack pages and apps as well).
+We can now use our components on our Rails views \(and later on on Matestack pages and apps as well\).
 
 `app/views/products/index.html.erb`.
 
-```html
+```markup
 <%= @products.each do |product| %>
   <%= matestack_component :card, title: product.title, body: product.description, image: product.gallery_image_url %>
 <% end %>
@@ -70,7 +68,6 @@ The registered `card` component can also be used on other registered custom comp
 `app/matestack/components/products/detail.rb`
 
 ```ruby
-
 class Components::Products::Detail < Matestack::Ui::Component
 
   requires :product
@@ -84,7 +81,6 @@ class Components::Products::Detail < Matestack::Ui::Component
   end
 
 end
-
 ```
 
 ## Accessing data in components
@@ -92,3 +88,4 @@ end
 In components you have access to your helpers and all Rails helpers. You don't have access to controller instance variables, because components should be reusable everywhere and therefore not depend on instance variables set in controller actions.
 
 To access data inside components we can define required and/or optional properties which are passed to the component via hash and used with getter methods in the component. Our `card` for example requires a body in order to show a minimal Bootstrap card.
+

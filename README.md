@@ -15,6 +15,8 @@ Reactivity included if desired.
 
 You end up writing 50% less code while increasing productivity, maintainability and developer happiness. Work with pure Ruby. If necessary, extend with pure JavaScript. No Opal involved.
 
+[<img src="https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg" width="350">](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
+
 The main goals are:
 
 - More maintainable UI code, using a component-based structure written in Ruby
@@ -25,13 +27,33 @@ The main goals are:
 it alongside your classic views and incrementally turn your Rails-App into a
 dynamic Web-App.
 
+## Compatibility
+
+### Ruby/Rails
+
+`matestack-ui-core` is tested against:
+
+- Rails 6.1.1 + Ruby 3.0.0
+- Rails 6.1.1 + Ruby 2.7.2
+- Rails 6.0.3.4 + Ruby 2.6.6
+- Rails 5.2.4.4 + Ruby 2.6.6
+
+Rails versions below 5.2 are not supported.
+
+### Vue.js
+
+`matestack-ui-core` currently uses Vue.js 2.6.12 and Vuex 3.6.2 for its reactivity features.
+Custom reactive components are bound to these versions as well.
+
+Vue 3 / Vuex 4 update is planned for Q2 2021.
+
 ## Documentation/Installation
 
 Documentation can be found [here](https://docs.matestack.io)
 
 ## Getting started
 
-A getting started guide can be found [here](https://docs.matestack.io/docs/start/150-getting_started)
+A getting started guide can be found [here](https://docs.matestack.io/start/150-getting_started)
 
 ## Changelog
 

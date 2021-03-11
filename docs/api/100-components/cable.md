@@ -1,8 +1,8 @@
-# Matestack Core Component: Cable
+# Cable
 
 The `cable` component enables us to update the DOM based on events and data pushed via ActionCable without a browser reload.
 
-Please read the [ActionCable Guide](/docs/reactive_components/1000-action_cable/README.md) if you need help setting up ActionCable for your project, and make sure you have set up ActionCable correctly. The following code snippet is crucial to make the `cable` component work correctly:
+Please read the [ActionCable Guide](../../reactive_components/1000-action_cable.md) if you need help setting up ActionCable for your project, and make sure you have set up ActionCable correctly. The following code snippet is crucial to make the `cable` component work correctly:
 
 `app/javascript/channels/matestack_ui_core_channel.js`
 
@@ -16,7 +16,6 @@ consumer.subscriptions.create("MatestackUiCoreChannel", {
 ```
 
 ## `cable(*args, &block)`
-----
 
 Returns a Vue.js driven cable component initially containing content specified by a block.
 
@@ -86,7 +85,6 @@ ActionCable.server.broadcast("matestack_ui_core", {
 
 `data` can also be an array of components.
 
-
 * `prepend_on` - Expects a string that matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will be **prepended** to the current cable component DOM.
 
 In your app, page or component:
@@ -109,7 +107,6 @@ ActionCable.server.broadcast("matestack_ui_core", {
 ```
 
 `data` can also be an array of components.
-
 
 * `replace_on` - Expects a string that matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will **replace** the whole current cable component DOM.
 
@@ -134,7 +131,6 @@ ActionCable.server.broadcast("matestack_ui_core", {
 
 `data` can also be an array of components.
 
-
 * `update_on` - Expects a string that matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of HTML will **update** a specific element iditified by its root ID within the current cable component DOM.
 
 In your app, page or component:
@@ -157,7 +153,6 @@ ActionCable.server.broadcast("matestack_ui_core", {
 ```
 
 `data` can also be an array of components.
-
 
 * `delete_on` - Expects a string that matches the event which will be emitted via ActionCable on the serverside. Event payload data in form of a string containing the ID will **remove** a specific element identified by its root ID within the current cable component DOM.
 
@@ -182,5 +177,5 @@ ActionCable.server.broadcast("matestack_ui_core", {
 
 `data` can also be an Array of ID-strings.
 
-
 * `html attributes` - all the canonical [HTML global attributes](https://www.w3schools.com/tags/ref_standardattributes.asp) can be set via options and will be added to the surrounding cable div.
+

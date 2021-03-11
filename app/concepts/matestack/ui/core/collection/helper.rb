@@ -91,7 +91,13 @@ module Matestack::Ui::Core::Collection
       end
     end
 
-    def set_collection id: nil, init_offset: 0, init_limit: nil, base_count: nil, filtered_count: nil, data: nil
+    # since ruby 3 changed hash <-> keyword argument transformation, we need to
+    # adjust this method call in order to stay compatible with ruby 2.x and ruby 3.x
+    def set_collection options_hash
+      _set_collection **options_hash
+    end
+
+    def _set_collection id: nil, init_offset: 0, init_limit: nil, base_count: nil, filtered_count: nil, data: nil
       @collections = {} if @collections.nil?
 
       collection_config = CollectionConfig.new(

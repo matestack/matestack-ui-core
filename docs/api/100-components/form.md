@@ -1,13 +1,13 @@
-# Matestack Core Component: Form
+# Form
 
 The `form` core component is a Vue.js driven component. It enables you to implement dynamic forms without writing JavaScript. It relies on child components to collect and submit user input: `form_input`, `form_textarea`, `form_radio`, `form_select`, `form_checkbox` and `form_submit`. They are described on their own documentation page
 
-- [form_input](/docs/api/100-components/form_input.md)
-- [form_textarea](/docs/api/100-components/form_textarea.md)
-- [form_radio](/docs/api/100-components/form_radio.md)
-- [form_select](/docs/api/100-components/form_select.md)
-- [form_checkbox](/docs/api/100-components/form_checkbox.md)
-- [form_submit](/docs/api/100-components/form_submit.md)
+* [form\_input](form_input.md)
+* [form\_textarea](form_textarea.md)
+* [form\_radio](form_radio.md)
+* [form\_select](form_select.md)
+* [form\_checkbox](form_checkbox.md)
+* [form\_submit](form_submit.md)
 
 ## Parameters
 
@@ -103,6 +103,7 @@ or
 ```ruby
 path: action_test_path(id: 42)
 ```
+
 if you want to use rails url helper methods.
 
 ### Params
@@ -140,7 +141,6 @@ multipart: true # default is false which results in form submission via "Content
 ### Success
 
 The success part of the `form` component gets triggered once the controller action we wanted to call returns a success code, usually the `2xx` HTTP status code.
-
 
 #### Emit event
 
@@ -197,9 +197,9 @@ Same applies for the `failure` configuration.
 
 #### Perform redirect
 
-We can also perform a redirect (full page load) that only gets triggered on success and also accepts further params:
+We can also perform a redirect \(full page load\) that only gets triggered on success and also accepts further params:
 
-Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page (including the surrounding app) gets reloaded!
+Please be aware, that emiting a event doen't have an effect when performing a redirect instead of a transition, as the whole page \(including the surrounding app\) gets reloaded!
 
 ```ruby
 success: {
@@ -260,7 +260,6 @@ success: {
 }
 ```
 
-
 ### Failure
 
 As counterpart to the success part of the `form` component, there is also the possibility to define the failure behavior. This is what gets triggered after the response to our `form` submit returns a failure code, usually in the range of `400` or `500` HTTP status codes.
@@ -274,7 +273,6 @@ failure: {
   emit: 'my_form_failure'
 }
 ```
-
 
 #### Perform transition
 
@@ -319,7 +317,7 @@ id: 'my-form-id'
 
 which renders as an HTML `id` attribute, like so:
 
-```html
+```markup
 <form id="my-form-id" class="matestack-form">...</form>
 ```
 
@@ -333,16 +331,15 @@ class: 'my-form-class'
 
 which renders as an HTML `class` attribute, like so:
 
-```html
+```markup
 <form class="matestack-form my-form-class">...</form>
 ```
 
-
 ## Error rendering
 
-If the server is responding with a well formatted error response and status after submitting the form, matestack will automatically render server error messages right next to the corresponding input (matching error and input key). Additionally the input itself will get a 'error' css class; the parent form will get a 'has-errors' css class.
+If the server is responding with a well formatted error response and status after submitting the form, matestack will automatically render server error messages right next to the corresponding input \(matching error and input key\). Additionally the input itself will get a 'error' css class; the parent form will get a 'has-errors' css class.
 
-The described approach is suitable for all form_* input components.
+The described approach is suitable for all form\_\* input components.
 
 By default it would look like this:
 
@@ -350,7 +347,7 @@ By default it would look like this:
 form_input key: :title, type: :text
 ```
 
-```html
+```markup
 <form class="matestack-form has-errors">
   <input type="text" class="error">
   <span class="errors">
@@ -362,9 +359,9 @@ form_input key: :title, type: :text
 </form>
 ```
 
-when a `4xx` JSON server response like that was given (ActiveRecord errors format):
+when a `4xx` JSON server response like that was given \(ActiveRecord errors format\):
 
-```json
+```javascript
 {
   "errors":
     {
@@ -384,7 +381,7 @@ form_input key: :foo, type: :text,  errors: {
 form_input key: :bar, type: :text,  errors: false
 ```
 
-```html
+```markup
 <form class="matestack-form has-errors">
   <input type="text" class="error">
   <div class="my-errors">
@@ -425,7 +422,7 @@ def form_config
 
 Outputs errors as:
 
-```html
+```markup
 <input type="text" class="my-field-error" />
 <div class="my-errors">
   <div class="my-error">
@@ -440,7 +437,7 @@ Outputs errors as:
 
 The form will get a 'loading' css class while submitting the form and waiting for a server response:
 
-```html
+```markup
 <form class="matestack-form loading">
 
 </form>
@@ -454,7 +451,6 @@ If you simply want to disable your submit button, you can use a simple Vue.js bi
 form_submit do
   button text: "Submit me!", attributes: { "v-bind:disabled": "loading()" }
 end
-
 ```
 
 If you want to adjust the submit element more flexible while the form is being submitted, you could use the event mechanism of the form in combination with the `toggle` component:
@@ -485,13 +481,11 @@ def my_form_config
     }
   }
 end
-
 ```
 
 ## Form and other Vue.js components
 
-The child components `form_*` have to be placed within the scope of the parent `form` component, without any other Vue.js component like `toggle`, `async` creating a new scope between the child component and the parent form component**
-
+The child components `form_*` have to be placed within the scope of the parent `form` component, without any other Vue.js component like `toggle`, `async` creating a new scope between the child component and the parent form component\*\*
 
 ```ruby
 # that's working:
@@ -599,9 +593,9 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-When we visit `localhost:3000/example`, fill in the input field with *bar* and click the submit button, our `FormTestController` receives the input.
+When we visit `localhost:3000/example`, fill in the input field with _bar_ and click the submit button, our `FormTestController` receives the input.
 
-Furthermore, our *bar* input disappears from the input field - Easy!
+Furthermore, our _bar_ input disappears from the input field - Easy!
 
 ### Example 2: Async submit request with failure event
 
@@ -640,13 +634,13 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-Now, when we visit our example page on `localhost:3000/example` and fill in the input field with e.g. *bar* and hit the submit button, we get displayed both `server says: form had errors` and `'foo': [ 'seems to be invalid' ]`. Just what we expected to receive!
+Now, when we visit our example page on `localhost:3000/example` and fill in the input field with e.g. _bar_ and hit the submit button, we get displayed both `server says: form had errors` and `'foo': [ 'seems to be invalid' ]`. Just what we expected to receive!
 
 ### Example 3: Async submit request with success transition
 
 In this example, things get a bit more complex. We now want to transition to another page of our application after successfully submitting a form!
 
-In order to additionally show a success/failure message, we define our matestack app layout with messages, using the *async core component*:
+In order to additionally show a success/failure message, we define our matestack app layout with messages, using the _async core component_:
 
 ```ruby
 class ExampleApp < Matestack::Ui::App
@@ -668,7 +662,7 @@ class ExampleApp < Matestack::Ui::App
 end
 ```
 
-On our first example page, we define our form to transfer us to the second page (`form_test_page_2_path`) on successful input:
+On our first example page, we define our form to transfer us to the second page \(`form_test_page_2_path`\) on successful input:
 
 ```ruby
 class ExampleApp::Pages::ExamplePage < Matestack::Ui::Page
@@ -706,7 +700,7 @@ class ExampleApp::Pages::ExamplePage < Matestack::Ui::Page
 end
 ```
 
-On the second example page, we aim for our failure path (`failure_form_test_path`) on purpose and define our form to transfer us to the first page (`form_test_page_1_path`) on failed input:
+On the second example page, we aim for our failure path \(`failure_form_test_path`\) on purpose and define our form to transfer us to the first page \(`form_test_page_1_path`\) on failed input:
 
 ```ruby
 class ExampleApp::Pages::SecondExamplePage < Matestack::Ui::Page
@@ -768,16 +762,15 @@ scope :form_test do
 end
 ```
 
-Now, if we visit `localhost:form_test/page1`, we can fill in the input field with e.g. *bar* and click the submit button.
+Now, if we visit `localhost:form_test/page1`, we can fill in the input field with e.g. _bar_ and click the submit button.
 
-We then get displayed our nice success message (`server says: form submitted successfully`) and get transferred to our second page.
+We then get displayed our nice success message \(`server says: form submitted successfully`\) and get transferred to our second page.
 
-If we fill in the the input field there and hit the submit button, we not only see the failure messages (`server says: form had errors` and `'foo': [ 'seems to be invalid' ]`), we also get transferred back to the first page, just the way we specified this behavior in the page definition above!
+If we fill in the the input field there and hit the submit button, we not only see the failure messages \(`server says: form had errors` and `'foo': [ 'seems to be invalid' ]`\), we also get transferred back to the first page, just the way we specified this behavior in the page definition above!
 
 ### Example 3.1: Async submit request with success transition - dynamically determined by server
 
-In the example shown above, the `success` `transition` is statically defined. Sometimes the `transition` needs to be dynamically controlled within the server action.
-Imagine creating a new Active Record instance with a `form`. If you want to show the fresh instance on another page and therefore want to define a `transition` after successful form submission, you would need to know the ID of the fresh instance! That is not possible, as the ID is auto-generated and depends on the current environment/state. Therefore you can tell the `form` component to follow a transition, which the server action defines after creating the new instance (and now knowing the ID):
+In the example shown above, the `success` `transition` is statically defined. Sometimes the `transition` needs to be dynamically controlled within the server action. Imagine creating a new Active Record instance with a `form`. If you want to show the fresh instance on another page and therefore want to define a `transition` after successful form submission, you would need to know the ID of the fresh instance! That is not possible, as the ID is auto-generated and depends on the current environment/state. Therefore you can tell the `form` component to follow a transition, which the server action defines after creating the new instance \(and now knowing the ID\):
 
 On the `page`:
 
@@ -859,7 +852,7 @@ Now, we can visit `localhost:3000/example` and fill in the input fields with var
 
 ### Example 5: Initialization with a value
 
-Our form_input field doesn't need to be empty when we load the page. We can `init` it with all kinds of values:
+Our form\_input field doesn't need to be empty when we load the page. We can `init` it with all kinds of values:
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -887,11 +880,11 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-Now, when we visit `localhost:3000/example`, we see our input field already welcomes us with the value *some value*!
+Now, when we visit `localhost:3000/example`, we see our input field already welcomes us with the value _some value_!
 
 ### Example 6: Pre-filling the input field with a placeholder
 
-Instead of a predefined value, we can also just show a placeholder in our form_input component:
+Instead of a predefined value, we can also just show a placeholder in our form\_input component:
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -919,11 +912,11 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-Now, when we visit `localhost:3000/example`, the input field is technically empty, but we see the text *some placeholder*. In contrary to the `init` value in example 5, the placeholder can't get submitted)!
+Now, when we visit `localhost:3000/example`, the input field is technically empty, but we see the text _some placeholder_. In contrary to the `init` value in example 5, the placeholder can't get submitted\)!
 
 ### Example 7: Defining a label
 
-Another useful feature is that we can also give a *label* to our form_input!
+Another useful feature is that we can also give a _label_ to our form\_input!
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -951,7 +944,7 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-Now, when we visit `localhost:3000/example`, the input field carries a *some label*-label.
+Now, when we visit `localhost:3000/example`, the input field carries a _some label_-label.
 
 ### Example 8: Asynchronously display error messages
 
@@ -983,8 +976,7 @@ class ExamplePage < Matestack::Ui::Page
 end
 ```
 
-If we head to `localhost:3000/example`, and fill in the input field with, e.g., *text* and click the submit button, we will get displayed our error message of `seems to be invalid`. Neat!
-
+If we head to `localhost:3000/example`, and fill in the input field with, e.g., _text_ and click the submit button, we will get displayed our error message of `seems to be invalid`. Neat!
 
 ### Example 9: Mapping the form to an Active Record Model
 
@@ -1031,6 +1023,7 @@ end
 
 Notice that we only _prepared_ the title, but missed out on the description.
 
-If we head to our example page on `localhost:3000/example`, we can already see the title input field filled in with *Title*. Trying to submit the form right away gives us the error message (`can't be blank`) because the description is, of course, still missing!
+If we head to our example page on `localhost:3000/example`, we can already see the title input field filled in with _Title_. Trying to submit the form right away gives us the error message \(`can't be blank`\) because the description is, of course, still missing!
 
 After filling in the description with some input and hitting the submit button again, the instance of our `TestModel` gets successfully saved in the database - just the way we want it to work.
+
