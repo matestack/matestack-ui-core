@@ -5,9 +5,6 @@ module Matestack
         
         def self.included(base)
           base.extend ClassMethods
-          base.class_eval do
-            include ComponentRegistry
-          end
         end
         
         module ClassMethods

@@ -1,17 +1,8 @@
-class Demo::FirstPage < Matestack::Ui::Page
+class Demo::FirstPage < ApplicationPage
 
   optional :user
 
   def response
-
-    div do 
-      foobar name: 'Test' do
-        div do
-          paragraph content
-        end
-      end
-    end
-
     # Demo::Components::Header.()
     header slots: { first: method(:a_slot), user: method(:stuff) }, user: 'Nils'
     h1 'First page with new logic!'
@@ -37,7 +28,7 @@ class Demo::FirstPage < Matestack::Ui::Page
     end
 
     async id: 'time', rerender_on: 'show' do
-      div Time.now
+      div ::Time.now
     end
 
     paragraph time_ago_in_words(1.minute.ago)

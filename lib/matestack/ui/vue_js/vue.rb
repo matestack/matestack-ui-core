@@ -50,6 +50,7 @@ module Matestack
 
         def self.inherited(subclass)
           subclass.vue_name(self.vue_name)
+          subclass.internal(*internal_options)
           super
         end
 
@@ -66,11 +67,6 @@ module Matestack
 
         def self.internal_options
           @internal
-        end
-
-        def self.inherited(subclass)
-          subclass.internal(*internal_options)
-          super
         end
 
         def internal_options

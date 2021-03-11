@@ -1,4 +1,4 @@
-class Demo::Components::Header < Matestack::Ui::Component
+class Demo::Components::Header < ApplicationComponent
 
   optional :user
 
@@ -8,9 +8,12 @@ class Demo::Components::Header < Matestack::Ui::Component
       slot slots[:first], number
     end
     slot slots[:user]
-    div do
-      h2 ctx.user
+    toggle show_on: 'show', hide_on: 'hide' do
+      div do
+        h2 ctx.user
+      end
     end
+    isolate_test rerender_on: 'isolate', public_options: { foo: :bar }
   end
 
 end

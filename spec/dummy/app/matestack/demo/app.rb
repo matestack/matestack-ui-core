@@ -4,7 +4,7 @@ class Demo::App < Matestack::Ui::App
     html do
       head do
         unescape csrf_meta_tags
-        plain Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag('application').html_safe
+        unescape javascript_pack_tag('application')
       end
       body do
         matestack do
