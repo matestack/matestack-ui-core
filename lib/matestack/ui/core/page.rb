@@ -2,17 +2,17 @@ module Matestack
   module Ui
     module Core
       class Page < Base
-        
+
         def initialize(options = {})
           super(nil, nil, options)
         end
-        
+
         def create_children
           self.page do
             self.response
           end
         end
-        
+
         def page
           if params[:only_page]
             div class: 'matestack-page-root' do
@@ -37,20 +37,21 @@ module Matestack
             end
           end
         end
-        
+
         def component_attributes
           {
             is: 'matestack-ui-core-page-content',
             ref: 'some-id',
             ':params': params.to_json,
             ':component-config': {
+              #TODO Remove?!
               show_on: 'a-event',
               hide_on: 'test'
             }.to_json,
             'inline-template': true
           }
         end
-        
+
       end
     end
   end

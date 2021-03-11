@@ -1,6 +1,10 @@
 //used in specs!
 
-MatestackUiCore.Vue.component('test-component', {
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
+import MatestackUiCore from 'matestack-ui-core'
+
+Vue.component('test-component', {
   mixins: [MatestackUiCore.componentMixin],
   data: function data() {
     return {
@@ -24,7 +28,7 @@ MatestackUiCore.Vue.component('test-component', {
   }
 });
 
-MatestackUiCore.Vue.component('my-test-component', {
+Vue.component('my-test-component', {
   mixins: [MatestackUiCore.componentMixin],
   data: function data() {
     return {
@@ -39,7 +43,7 @@ MatestackUiCore.Vue.component('my-test-component', {
   }
 });
 
-MatestackUiCore.Vue.component('custom-form-input-test', {
+Vue.component('custom-form-input-test', {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formInputMixin],
   data() {
     return {};
@@ -61,7 +65,7 @@ MatestackUiCore.Vue.component('custom-form-input-test', {
   }
 });
 
-MatestackUiCore.Vue.component('custom-form-textarea-test', {
+Vue.component('custom-form-textarea-test', {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formTextareaMixin],
   data() {
     return {};
@@ -83,7 +87,7 @@ MatestackUiCore.Vue.component('custom-form-textarea-test', {
   }
 });
 
-MatestackUiCore.Vue.component('custom-form-radio-test', {
+Vue.component('custom-form-radio-test', {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formRadioMixin],
   data() {
     return {};
@@ -105,7 +109,7 @@ MatestackUiCore.Vue.component('custom-form-radio-test', {
   }
 });
 
-MatestackUiCore.Vue.component('custom-form-checkbox-test', {
+Vue.component('custom-form-checkbox-test', {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formCheckboxMixin],
   data() {
     return {};
@@ -127,7 +131,7 @@ MatestackUiCore.Vue.component('custom-form-checkbox-test', {
   }
 });
 
-MatestackUiCore.Vue.component('custom-form-select-test', {
+Vue.component('custom-form-select-test', {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formSelectMixin],
   data() {
     return {};

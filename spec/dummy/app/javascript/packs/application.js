@@ -10,7 +10,20 @@
 require("@rails/ujs").start()
 require("channels")
 
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
 
 import MatestackUiCore from 'matestack-ui-core'
+
+let matestackUiApp = undefined
+
+document.addEventListener('DOMContentLoaded', () => {
+  matestackUiApp = new Vue({
+    el: "#matestack-ui",
+    store: MatestackUiCore.store
+  })
+})
+
+//for specs only
 
 import '../js/components'
