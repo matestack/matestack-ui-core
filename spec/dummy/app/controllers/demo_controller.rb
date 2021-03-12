@@ -10,13 +10,17 @@ class DemoController < ActionController::Base
     render Demo::SecondPage
   end
 
+  def collection
+    render Demo::Pages::Collection
+  end
+
   def action
     if params[:test][:foo]
       render json: {}, status: :ok
     else
       render json: { errors: { foo: ['missing'] } }, status: :unprocessable_entity
     end
-    ActionCable.server.broadcast('matestack_ui_core', { 
+    ActionCable.server.broadcast('matestack_ui_core', {
       event: 'replace',
       data: Demo::Components::Time.()
     })

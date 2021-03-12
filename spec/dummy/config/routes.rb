@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get :rails_speed, to: 'demo#index', as: :rails_speed
   # root to: 'my_app#my_first_page'
 
+  scope :demo do
+    get :collection, to: 'demo#collection', as: :collection_demo
+  end
+
   scope :components_tests do
     get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"
     get "custom_components_test", to: 'components_tests#custom_components_test'
