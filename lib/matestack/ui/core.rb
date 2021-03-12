@@ -4,7 +4,7 @@ require "#{base_path}/version"
 module Matestack
   module Ui
     module Core
-      
+
     end
   end
 end
@@ -52,8 +52,13 @@ require "#{vue_js_base_path}/components/form/select"
 require "#{vue_js_base_path}/components/collection/helper"
 require "#{vue_js_base_path}/components/collection/content"
 require "#{vue_js_base_path}/components/collection/filter"
+require "#{vue_js_base_path}/components/collection/filter_input"
+require "#{vue_js_base_path}/components/collection/filter_submit"
+require "#{vue_js_base_path}/components/collection/filter_reset"
 require "#{vue_js_base_path}/components/collection/next"
 require "#{vue_js_base_path}/components/collection/order"
+require "#{vue_js_base_path}/components/collection/order_toggle"
+require "#{vue_js_base_path}/components/collection/order_toggle_indicator"
 require "#{vue_js_base_path}/components/collection/page"
 require "#{vue_js_base_path}/components/collection/previous"
 require "#{vue_js_base_path}/components"
