@@ -21,8 +21,8 @@ module Matestack
           self.escape = self.options.delete(:escape) || true
           self.parent = Matestack::Ui::Core::Context.parent
           self.parent.children << self if self.parent if self.bind_to_parent
+          self.prepare
           Matestack::Ui::Core::Context.parent = self
-          # create children
           create_children(&block)
           Matestack::Ui::Core::Context.parent = self.parent
           self
@@ -40,12 +40,17 @@ module Matestack
           end
         end
 
+        def prepare
+          # can be optionally overwritten in subclass in order to set
+          # instance vars for example, might get deprecated in the future
+        end
+
         # create child items by either running the response method if exists or executing the block
         # overwrite if needed (like in pages or apps)
         def create_children(&block)
           if respond_to?(:response)
             self.response &block
-          else 
+          else
             block.call if block_given?
           end
         end
