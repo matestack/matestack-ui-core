@@ -12,7 +12,7 @@ class Demo::FirstPage < ApplicationPage
     isolate_test rerender_on: 'isolate', public_options: { foo: :bar }
 
     rails_render partial: '/some_partial', locals: { foo: 1 }
-    rails_render file: '/some_view', locals: { foo: 1 }
+    rails_render template: '/some_view', locals: { foo: 1 }
 
     # integrating toggle component
     toggle show_on: 'show' do
@@ -41,7 +41,7 @@ class Demo::FirstPage < ApplicationPage
 
     cable id: 'test-cable', replace_on: :replace do
       div 'Start content'
-    end 
+    end
 
   end
 
