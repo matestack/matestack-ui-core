@@ -10,8 +10,10 @@ class Demo::Pages::Collection < ApplicationPage
     order = get_collection_order(@collection_id)
 
     filtered_query = base_query
+    filtered_query = filtered_query.where(id: filter[:bar]) if filter[:bar].present?
     filtered_query = filtered_query.where('title LIKE ?', "%#{filter[:title]}%") if filter[:title].present?
-    ordered_query = filtered_query.order(order)
+    ordered_query = filtered_query
+    ordered_query = filtered_query.order(order) if order.present?
 
     @collection = set_collection(
       id: @collection_id,
@@ -23,9 +25,9 @@ class Demo::Pages::Collection < ApplicationPage
   end
 
   def response
-    order
-    filter
-    async id: 'dummy-collection', rerender_on: "#{@collection_id}-update" do
+    order_partial
+    filter_partial
+    async id: 'dummy-collection-async', rerender_on: "#{@collection_id}-update" do
       collection_content @collection.config do
         @collection.paginated_data.each do |dummy|
           paragraph dummy.title
@@ -35,24 +37,25 @@ class Demo::Pages::Collection < ApplicationPage
     end
   end
 
-  def order
+  def order_partial
     collection_order @collection.config do
       plain "sort by:"
       collection_order_toggle key: :title do
         button do
           plain "Title"
-          collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;', default: "default"
+          collection_order_toggle_indicator key: :title, asc: '&#8593;', desc: '&#8595;', default: ""
         end
       end
     end
   end
 
-  def filter
+  def filter_partial
     collection_filter @collection.config do
-      collection_filter_input key: :title, type: :text, class: "form-control"
-      collection_filter_submit do
-        button 'Filter'
-      end
+      form_input key: :title, type: :text, label: 'Test', class: "form-control"
+      form_checkbox key: :xyz, label: 'Check'
+      form_checkbox key: :bar, options: [1,2,3]
+      form_select key: :wtf, options: [1,2,3]
+      button 'Submit', type: "submit"
       collection_filter_reset do
         button 'Reset'
       end
