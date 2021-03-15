@@ -6,7 +6,7 @@ module Matestack::Ui::VueJs::Components::Collection
       controller_params.each do |param_key, param_value|
         if param_key.start_with?("#{collection_id}-filter-")
           param_key.gsub("#{collection_id}-filter-", "")
-          filter_hash[param_key.gsub("#{collection_id}-filter-", "").to_sym] = param_value
+          filter_hash[param_key.gsub("#{collection_id}-filter-", "").to_sym] = JSON.parse(param_value)
         end
       end
       if key.nil?
@@ -48,6 +48,7 @@ module Matestack::Ui::VueJs::Components::Collection
         base_count,
         data,
         controller_params,
+        get_collection_filter(id)
       )
 
       @collections[id.to_sym] = collection_config
@@ -62,7 +63,7 @@ module Matestack::Ui::VueJs::Components::Collection
 
   end
 
-  CollectionConfig = Struct.new(:id, :init_offset, :init_limit, :filtered_count, :base_count, :data, :params) do
+  CollectionConfig = Struct.new(:id, :init_offset, :init_limit, :filtered_count, :base_count, :data, :params, :filter_state) do
 
     def paginated_data
       resulting_data = data
@@ -113,6 +114,10 @@ module Matestack::Ui::VueJs::Components::Collection
           return current_to
         end
       end
+    end
+
+    def filter_state
+
     end
 
     def config

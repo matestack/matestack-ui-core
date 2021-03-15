@@ -59,14 +59,6 @@ module Matestack
              Matestack::Ui::VueJs::Components::Collection::Filter.(text, options, &block)
           end
 
-          def collection_filter_input(text=nil, options=nil, &block)
-             Matestack::Ui::VueJs::Components::Collection::FilterInput.(text, options, &block)
-          end
-
-          def collection_filter_submit(text=nil, options=nil, &block)
-             Matestack::Ui::VueJs::Components::Collection::FilterSubmit.(text, options, &block)
-          end
-
           def collection_filter_reset(text=nil, options=nil, &block)
              Matestack::Ui::VueJs::Components::Collection::FilterReset.(text, options, &block)
           end
