@@ -7,7 +7,7 @@ class Demo::SecondPage < Matestack::Ui::Page
     end
 
     m_form method: :post, for: :test, path: action_path, success: { emit: :success } do
-      form_input key: :foo, type: :text, label: 'Test'
+      form_input key: :foo, tsype: :text, label: 'Test'
       form_textarea key: :textarea, label: 'Test'
       form_checkbox key: :bar, options: [1,2,3]
       form_checkbox key: :xyz, label: 'Check'

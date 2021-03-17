@@ -20,15 +20,11 @@ module Matestack
 
             def input_attributes
               attributes.merge({
-                type: internal_context.type,
-                multiple: internal_context.multiple,
-                placeholder: internal_context.placeholder,
+                type: ctx.type,
+                multiple: ctx.multiple,
+                placeholder: ctx.placeholder,
               }).merge(self.options)
             end
-
-            # def key
-            #   super.to_s + "#{'[]' if internal_context.multiple && internal_context.type == :file}"
-            # end
 
             def config
               {

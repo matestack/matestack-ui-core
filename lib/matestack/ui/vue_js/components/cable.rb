@@ -7,13 +7,8 @@ module Matestack
 
           attr_accessor :block_content
 
-          internal :append_on, :prepend_on, :delete_on, :update_on, :replace_on
-          internal id: { required: true }
-
-          # %component{dynamic_tag_attributes.merge('v-bind:initial-template': "#{render_content.to_json}")}
-          #   %div{class: "matestack-cable-component-container", "v-bind:class": "{ 'loading': loading === true }"}
-          #     %div{class: "matestack-cable-component-wrapper", "v-if": "cableTemplate != null", "v-bind:class": "{ 'loading': loading === true }"}
-          #       %v-runtime-template{":template":"cableTemplate"}
+          required :id
+          optional :append_on, :prepend_on, :delete_on, :update_on, :replace_on
 
           def create_children(&block)
             # first render block content
@@ -23,7 +18,7 @@ module Matestack
 
           def content(&block)
             Matestack::Ui::Core::Base.new(:without_parent, nil, nil) do
-              div(class: 'matestack-cable-component-root', id: internal_context.id, &block)
+              div(class: 'matestack-cable-component-root', id: ctx.id, &block)
             end
           end
 
@@ -56,14 +51,14 @@ module Matestack
 
           def config
             {
-              id: internal_context.id,
-              component_key: internal_context.id,
+              id: ctx.id,
+              component_key: ctx.id,
               # events
-              append_on: internal_context.append_on,
-              prepend_on: internal_context.prepend_on,
-              delete_on: internal_context.delete_on,
-              update_on: internal_context.update_on,
-              replace_on: internal_context.replace_on,
+              append_on: ctx.append_on,
+              prepend_on: ctx.prepend_on,
+              delete_on: ctx.delete_on,
+              update_on: ctx.update_on,
+              replace_on: ctx.replace_on,
             }
           end
 

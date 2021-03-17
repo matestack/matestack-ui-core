@@ -5,7 +5,7 @@ module Matestack
         class Isolated < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-isolate'
 
-          internal :defer, :init_on, :public_options, :rerender_on, :rerender_delay
+          optional :defer, :init_on, :public_options, :rerender_on, :rerender_delay
 
           def create_children
             # content only should be rendered if param :component_class is present
@@ -23,7 +23,7 @@ module Matestack
           def isolated
             Matestack::Ui::Core::Base.new(:component, component_attributes) do
               div class: 'matestack-isolated-component-container', 'v-bind:class': '{ loading: loading === true }' do
-                unless internal_context.defer || internal_context.init_on
+                unless ctx.defer || ctx.init_on
                   div class: 'matestack-isolated-component-wrapper', 'v-if': 'isolatedTemplate == null', 'v-bind:class': '{ loading: loading === true }' do
                     yield
                   end
@@ -38,11 +38,11 @@ module Matestack
           def config
             {
               component_class: self.class.name,
-              public_options: internal_context.public_options,
-              defer: internal_context.defer,
-              rerender_on: internal_context.rerender_on,
-              rerender_delay: internal_context.rerender_delay,
-              init_on: internal_context.init_on,
+              public_options: ctx.public_options,
+              defer: ctx.defer,
+              rerender_on: ctx.rerender_on,
+              rerender_delay: ctx.rerender_delay,
+              init_on: ctx.init_on,
             }
           end
 

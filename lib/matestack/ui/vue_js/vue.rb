@@ -5,7 +5,6 @@ module Matestack
 
         def initialize(html_tag = nil, text = nil, options = {}, &block)
           extract_options(text, options)
-          create_internal_context
           super(html_tag, text, options, &block)
         end
         
@@ -50,44 +49,9 @@ module Matestack
 
         def self.inherited(subclass)
           subclass.vue_name(self.vue_name)
-          subclass.internal(*internal_options)
           super
         end
 
-        # implementing a internal context which allows to specify options which will be deleted from the options hash
-        # and can be accessed inside a vue component scope
-
-        def internal_context
-          @internal_context ||= OpenStruct.new
-        end
-
-        def self.internal(*args)
-          @internal = (@internal || []).concat(args)
-        end
-
-        def self.internal_options
-          @internal
-        end
-
-        def internal_options
-          self.class.internal_options || []
-        end
-
-        def create_internal_context
-          self.internal_options.uniq.each do |option|
-            if option.is_a?(Hash)
-              option.each do |key, value|
-                method_name = value[:as] || key
-                required = value[:required]
-                internal_context.send(:"#{method_name}=", self.options.delete(key))
-                raise "required option '#{key}' is missing for #{self.class}" if internal_context.send(method_name).nil? && required
-              end
-            else
-              internal_context.send(:"#{option}=", self.options.delete(option))
-            end
-          end
-        end
-          
       end
     end
   end

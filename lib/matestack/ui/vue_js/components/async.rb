@@ -5,14 +5,14 @@ module Matestack
         class Async < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-async'
 
-          internal :show_on, :hide_on, :rerender_on, :defer
-          internal id: { required: true }
+          required :id
+          optional :show_on, :hide_on, :rerender_on, :defer
 
           # register itself as an async component in the context
           def initialize(html_tag = nil, text = nil, options = {}, &block)
             super(html_tag, text, options, &block)
             Matestack::Ui::Core::Context.async_components = {} if Matestack::Ui::Core::Context.async_components.nil?
-            Matestack::Ui::Core::Context.async_components[self.internal_context.id] = self
+            Matestack::Ui::Core::Context.async_components[self.ctx.id] = self
           end
 
           def create_children(&block)
@@ -21,19 +21,19 @@ module Matestack
 
           def response
             if params[:component_key]
-              div id: internal_context.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+              div id: ctx.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
                 yield
               end
             else
               vue_component do
                 div class: 'matestack-async-component-container', 'v-bind:class': '{ "loading": loading === true }' do
                   div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate == null', 'v-bind:class': '{ "loading": loading === true }' do
-                    div id: internal_context.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+                    div id: ctx.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
                       yield unless is_deferred?
                     end
                   end
                   div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate != null', 'v-bind:class': '{ "loading": loading === true }' do
-                    div id: internal_context.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+                    div id: ctx.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
                       Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'asyncTemplate')
                     end
                   end
@@ -44,20 +44,20 @@ module Matestack
 
           def config
             {
-              component_key: internal_context.id,
-              show_on: internal_context.show_on,
-              hide_on: internal_context.hide_on,
-              rerender_on: internal_context.rerender_on,
-              defer: internal_context.defer
+              component_key: ctx.id,
+              show_on: ctx.show_on,
+              hide_on: ctx.hide_on,
+              rerender_on: ctx.rerender_on,
+              defer: ctx.defer
             }
           end
 
           def is_deferred?
-            internal_context.defer
+            ctx.defer
           end
 
           def is_not_requested?
-            params[:component_key].present? && params[:component_key] != internal_context.id
+            params[:component_key].present? && params[:component_key] != ctx.id
           end
 
         end

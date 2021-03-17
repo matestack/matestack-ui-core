@@ -32,6 +32,12 @@ module Matestack
           def optional_property_keys
             @optional
           end
+
+          def inherited(subclass)
+            subclass.required(*required_property_keys)
+            subclass.optional(*optional_property_keys)
+            super
+          end
         end
     
         def context 

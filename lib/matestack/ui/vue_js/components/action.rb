@@ -5,8 +5,7 @@ module Matestack
         class Action < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-action'
 
-          internal :path, :success, :failure, :notify, :confirm, :confirm_text, :data
-          internal method: { as: :action_method }
+          optional :path, :success, :failure, :notify, :confirm, :confirm_text, :data
 
           def response
             a attributes do
@@ -16,22 +15,26 @@ module Matestack
 
           def attributes
             {
-              href: internal_context.path,
+              href: ctx.path,
               '@click.prevent': 'perform',
             }.merge(options)
           end
 
           def config
             {}.tap do |conf|
-              conf[:action_path] = internal_context.path
-              conf[:method] = internal_context.action_method
-              conf[:success] = internal_context.success
-              conf[:failure] = internal_context.failure
-              conf[:notify] = true if internal_context.notify.nil?
-              conf[:confirm] = internal_context.confirm
-              conf[:confirm_text] = internal_context.confirm.try(:[], :text) || 'Are you sure?'
-              conf[:data] = internal_context.data
+              conf[:action_path] = ctx.path
+              conf[:method] = action_method
+              conf[:success] = ctx.success
+              conf[:failure] = ctx.failure
+              conf[:notify] = true if ctx.notify.nil?
+              conf[:confirm] = ctx.confirm
+              conf[:confirm_text] = ctx.confirm.try(:[], :text) || 'Are you sure?'
+              conf[:data] = ctx.data
             end
+          end
+
+          def action_method
+            @action_method ||= options.delete(:method)
           end
 
         end

@@ -5,7 +5,7 @@ module Matestack
         module Form
           class Base < Matestack::Ui::VueJs::Vue
 
-            internal :key, :type, :label, :init, :errors, :id, :multiple, :placeholder
+            optional :key, :type, :label, :init, :errors, :id, :multiple, :placeholder
 
             def form_context
               Matestack::Ui::VueJs::Components::Form::Context.form_context
@@ -14,43 +14,35 @@ module Matestack
             # options/settings
 
             def key
-              internal_context.key
-              # @key ||= options.delete(:key)
+              ctx.key
             end
 
             def type
-              internal_context.type
-              # @type ||= options[:type]
+              ctx.type
             end
 
             def input_label
-              internal_context.label
-              # @input_label ||= options.delete(:label)
+              ctx.label
             end
 
             def init
-              internal_context.init
-              # @init = @init.nil? ? options.delete(:init) : @init
+              ctx.init
             end
 
             def error_config
-              internal_context.errors
-              # @error_config = @error_config.nil? ? self.options.delete(:errors) : @error_config
+              ctx.errors
             end
 
             def id
-              internal_context.id || key
-              # @id ||= options.delete(:id) || key
+              ctx.id || key
             end
 
             def multiple
-              internal_context.multiple
-              # @multiple ||= options.delete(:multiple)
+              ctx.multiple
             end
 
             def placeholder
-              internal_context.placeholder
-              # @placeholder ||= options.delete(:placeholder)
+              ctx.placeholder
             end
 
             # calculated attributes
@@ -60,7 +52,7 @@ module Matestack
                 ref: "input.#{attribute_key}",
                 id: id,
                 '@change': change_event,
-                'init-value': init_value || (internal_context.multiple ? [] : nil),
+                'init-value': init_value || (ctx.multiple ? [] : nil),
                 'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
               }.tap do |attrs|
                 attrs[:"#{v_model_type}"] = input_key unless type == :file
@@ -68,12 +60,7 @@ module Matestack
             end
 
             def attribute_key
-              key.to_s + "#{'[]' if internal_context.multiple && internal_context.type == :file}"
-              # attr_key = if for_attribute = form_context.for_attribute
-              #   "#{for_attribute}.#{key}"
-              # else
-              #   key.to_s
-              # end
+              key.to_s + "#{'[]' if ctx.multiple && ctx.type == :file}"
             end
 
             def name
@@ -105,7 +92,7 @@ module Matestack
             # error rendering
 
             def display_errors?
-              if form_context.internal_context.errors == false
+              if form_context.ctx.errors == false
                 error_config ? true : false
               else
                 error_config != false
@@ -142,7 +129,7 @@ module Matestack
 
             def get_from_error_config(*keys)
               comp_error_config = error_config.dig(*keys) if error_config.is_a?(Hash)
-              form_error_config = form_context.internal_context.errors.dig(*keys) if form_context.internal_context.errors.is_a?(Hash)
+              form_error_config = form_context.ctx.errors.dig(*keys) if form_context.ctx.errors.is_a?(Hash)
               comp_error_config || form_error_config
             end
 

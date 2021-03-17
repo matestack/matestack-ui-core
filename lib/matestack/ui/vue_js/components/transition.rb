@@ -5,7 +5,7 @@ module Matestack
         class Transition < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-transition'
 
-          internal :path, :delay
+          optional :path, :delay
 
           def response
             link attributes do
@@ -20,16 +20,16 @@ module Matestack
 
           def attributes
             {
-              href: internal_context.path,
-              '@click.prevent': "navigateTo(\"#{internal_context.path}\")",
+              href: ctx.path,
+              '@click.prevent': "navigateTo(\"#{ctx.path}\")",
               "v-bind:class": "{ active: isActive, 'active-child': isChildActive }"
             }
           end
 
           def config
             {
-              link_path: internal_context.path,
-              delay: internal_context.delay,
+              link_path: ctx.path,
+              delay: ctx.delay,
             }
           end
 

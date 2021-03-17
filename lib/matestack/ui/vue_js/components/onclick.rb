@@ -5,7 +5,7 @@ module Matestack
         class Onclick < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-onclick'
 
-          internal :emit, :data
+          optional :emit, :data
 
           def response
             div class: "matestack-onclick-component-root", '@click': 'perform' do
@@ -17,8 +17,8 @@ module Matestack
 
           def config
             {
-              emit: internal_context.emit,
-              data: internal_context.data,
+              emit: ctx.emit,
+              data: ctx.data,
             }
           end
 
