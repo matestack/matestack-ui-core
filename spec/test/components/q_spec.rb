@@ -21,7 +21,7 @@ describe 'Q Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <q>This is simple quote text</q>
-      <q id="my-id" class="my-class" cite="this is a cite">This is a enhanced quote with text</q>
+      <q id="my-id" cite="this is a cite" class="my-class">This is a enhanced quote with text</q>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
@@ -40,7 +40,7 @@ describe 'Q Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <q>This is simple quote text</q>
-      <q id="my-id" class="my-class" cite="this is a cite">This is a enhanced quote with text</q>
+      <q id="my-id" cite="this is a cite" class="my-class">This is a enhanced quote with text</q>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

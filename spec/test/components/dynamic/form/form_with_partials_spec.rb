@@ -22,7 +22,7 @@ describe "form component", type: :feature, js: true do
   it "should work with partials" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_input id: "text-input", key: :foo, type: :text
           input_partial
           button "Submit me!"

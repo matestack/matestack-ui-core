@@ -17,10 +17,10 @@ describe 'Data component', type: :feature, js: true do
     visit '/example'
     static_output = page.html
     expected_static_output = <<~HTML
-      <data id="foo" class="bar" value="1301">
+      <data id="foo" value="1301" class="bar">
         Data example 1
       </data>
-      <data id="foo" class="bar" value="1300">
+      <data id="foo" value="1300" class="bar">
         Data example 2
       </data>
     HTML

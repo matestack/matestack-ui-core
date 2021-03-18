@@ -28,10 +28,14 @@ module Matestack
             if app && params[:only_page].nil? && params[:component_key].nil? && params[:component_class].nil?
               render_app app, page, options
             else
-              if params[:component_key]
+              if params[:component_key] && params[:component_class].nil?
                 render_component app, page, params[:component_key], options
               elsif params[:component_class]
-                render html: params[:component_class].constantize.(public_options: JSON.parse(params[:public_options]))
+                if params[:component_key]
+                  render_component nil, params[:component_class].constantize, params[:component_key], JSON.parse(params[:public_options] || '{}')
+                else 
+                  render html: params[:component_class].constantize.(public_options: JSON.parse(params[:public_options] || '{}'))
+                end
               else
                 render_page page, options
               end
@@ -50,7 +54,7 @@ module Matestack
         end
         
         def render_component(app, page, component_key, options)
-          app.new(options) { page.new(options) } # create page structure in order to later access registered async components
+          app ? app.new(options) { page.new(options) } : page.new(options) # create page structure in order to later access registered async components
           render html: Matestack::Ui::Core::Context.async_components[component_key].render_content.html_safe, layout: false
         end
         

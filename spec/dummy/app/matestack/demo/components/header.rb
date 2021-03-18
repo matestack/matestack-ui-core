@@ -5,9 +5,9 @@ class Demo::Components::Header < ApplicationComponent
   def response
     h1 'This is a header'
     [1,2].each do |number|
-      slot slots[:first], number
+      slot :first, number
     end
-    slot slots[:user]
+    slot :user
     toggle show_on: 'show', hide_on: 'hide' do
       div do
         h2 ctx.user

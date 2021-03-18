@@ -22,13 +22,10 @@ describe 'Template component', type: :feature, js: true do
 
     visit '/example'
     static_output = page.html
+    # template tags are excluded from the output
     expected_static_output = <<~HTML 
-      <template id="foo" class="bar">
-        <p>Template example 1</p>
-      </template>
-      <template id="foobar" class="bar">
-        <p>I am part of a partial</p>
-      </template>
+      <p>Template example 1</p>
+      <p>I am part of a partial</p>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

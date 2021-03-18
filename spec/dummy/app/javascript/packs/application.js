@@ -14,7 +14,7 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 
 import MatestackUiCore from 'matestack-ui-core'
-
+window.MatestackUiCore = MatestackUiCore // making MatestackUiCore globally available for test compatability
 let matestackUiApp = undefined
 
 document.addEventListener('DOMContentLoaded', () => {

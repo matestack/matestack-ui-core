@@ -22,7 +22,7 @@ describe "form input", type: :feature, js: true do
   it "should render error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_input id: "text-input", key: :foo, type: :text
           button "Submit me!"
         end
@@ -48,7 +48,7 @@ describe "form input", type: :feature, js: true do
   it "can turn off error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_input id: "text-input", key: :foo, type: :text, errors: false
           button "Submit me!"
         end
@@ -73,7 +73,7 @@ describe "form input", type: :feature, js: true do
   it "lets you customize errors" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_input id: "text-input", key: :foo, type: :text, errors: { wrapper: {}, tag: :div, class: 'my-error' }
           button "Submit me!"
         end
@@ -102,7 +102,7 @@ describe "form input", type: :feature, js: true do
   it "lets you customize errors and errors wrapper" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_input id: "text-input", key: :foo, type: :text, errors: { 
             wrapper: { tag: :div, class: 'my-errors'}, tag: :div, class: 'my-error' 
           }

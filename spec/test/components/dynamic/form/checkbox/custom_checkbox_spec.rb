@@ -43,7 +43,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_checkbox_test key: :bar, id: "bar", options: { "Option 1": 1, "Option 2": 2 }
             button 'Submit me!'
           end
@@ -70,7 +70,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox key: :foo, id: "foo", options: { "Option 1": 1, "Option 2": 2 }
             custom_form_checkbox_test key: :bar, id: "bar", options: { "Option 3": 3, "Option 4": 4 }
             button 'Submit me!'
@@ -104,7 +104,7 @@ describe "Form Component", type: :feature, js: true do
     it "can display server errors async" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_checkbox_test id: "foo", key: :foo, type: :text
             button "Submit me!"
           end
@@ -128,7 +128,7 @@ describe "Form Component", type: :feature, js: true do
     it "takes an array of options or hash and submits (multiple) selected item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_checkbox_test id: "my-array-test-checkbox", key: :array_input, options: ["Array Option 1","Array Option 2"]
             custom_form_checkbox_test id: "my-hash-test-checkbox", key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }
             button "Submit me!"
@@ -157,7 +157,7 @@ describe "Form Component", type: :feature, js: true do
     it "can be initialized by (multiple) item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            m_form form_config do
+            matestack_form form_config do
               custom_form_checkbox_test id: "my-array-test-checkbox", key: :array_input, options: ["Array Option 1","Array Option 2"], init: ["Array Option 1", "Array Option 2"]
               custom_form_checkbox_test id: "my-hash-test-checkbox", key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }, init: ["2"]
               button "Submit me!"
@@ -201,7 +201,7 @@ describe "Form Component", type: :feature, js: true do
           @test_model = TestModel.new
           @test_model.some_data = ["Array Option 2"]
           @test_model.more_data = ["my_second_key"]
-          m_form form_config do
+          matestack_form form_config do
             custom_form_checkbox_test id: "my-array-test-checkbox", key: :some_data, options: TestModel.array_options
             custom_form_checkbox_test id: "my-hash-test-checkbox", key: :more_data, options: TestModel.hash_options
             button "Submit me!"
@@ -248,7 +248,7 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           @test_model = TestModel.new
-          m_form form_config do
+          matestack_form form_config do
             custom_form_checkbox_test id: "my-array-test-checkbox", key: :status, label: 'Status'
             button "Submit me!"
             toggle show_on: 'success', id: 'async-page' do

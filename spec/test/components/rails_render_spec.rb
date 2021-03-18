@@ -22,7 +22,7 @@ describe 'Rails View Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: 'page' do
-          rails_render file: 'demo/header'
+          rails_render template: 'demo/header'
           rails_render partial: 'demo/header'
         end
       end

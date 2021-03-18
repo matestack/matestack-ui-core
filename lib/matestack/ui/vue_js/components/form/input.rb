@@ -19,17 +19,13 @@ module Matestack
             end
 
             def input_attributes
-              attributes.merge({
-                type: ctx.type,
-                multiple: ctx.multiple,
-                placeholder: ctx.placeholder,
-              }).merge(self.options)
+              attributes
             end
 
             def config
               {
                 init_value: init_value,
-                key: attribute_key,
+                key: key,
               }
             end
 

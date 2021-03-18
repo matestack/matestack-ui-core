@@ -38,7 +38,7 @@ describe "Form Component", type: :feature, js: true do
       class TestModelPage < Matestack::Ui::Page
         optional :test_model
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input id: 'title', key: :title, type: :text
             form_input id: 'description', key: :description, type: :text
             button "Save"
@@ -122,7 +122,7 @@ describe "Form Component", type: :feature, js: true do
     before do
       class SearchPage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input id: 'query', key: :query, type: :text
             button "Search"
           end
@@ -181,7 +181,7 @@ describe "Form Component", type: :feature, js: true do
     before do
       class SearchPage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input id: 'query', key: :query, type: :text
             button "Search"
           end
@@ -243,7 +243,7 @@ describe "Form Component", type: :feature, js: true do
 
       class Components::SomeComponent < Matestack::Ui::Component
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input id: "my-test-input", key: :foo, type: :text
             button "Submit me!"
           end
@@ -281,7 +281,7 @@ describe "Form Component", type: :feature, js: true do
     it "range input can be initialized with min, max, step and value" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input id: "range-input",
               key: :range_input, type: :range,
               init: 3, min: 0, max: 10, step: 1, list: "my_list"

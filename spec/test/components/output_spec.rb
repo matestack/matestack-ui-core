@@ -18,7 +18,7 @@ describe 'Output component', type: :feature, js: true do
     expected_static_output = <<~HTML
       <output name="x" for="a b"></output>
       <output>Only content</output>
-      <output id="my-id" class="my-class" name="x" for="a b" form="form_id" >All attributes</output>
+      <output id="my-id" name="x" for="a b" form="form_id" class="my-class">All attributes</output>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

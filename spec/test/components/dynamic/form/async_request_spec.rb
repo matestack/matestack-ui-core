@@ -9,7 +9,7 @@ describe "Form Component", type: :feature, js: true do
   before :all do
     class BasePage < Matestack::Ui::Page
       def response
-        m_form form_config, :include do
+        matestack_form form_config, :include do
           form_input id: "my-test-input", key: :foo, type: :text
           button text: "Submit me!"
         end

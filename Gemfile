@@ -12,7 +12,7 @@ gemspec
 # your gem to rubygems.org.
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 4.0.2'
   gem 'capybara'
   gem 'webpacker', '~> 4.0'
   gem 'pg', '>= 0.18', '< 2.0'
@@ -27,6 +27,6 @@ group :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem "generator_spec"
-  gem "rspec-retry" # repeating flaky tests
-  gem "rspec-wait", "~> 0.0.9"
+  # gem "rspec-retry" # repeating flaky tests
+  # gem "rspec-wait", "~> 0.0.9"
 end

@@ -9,7 +9,7 @@ class Demo::FirstPage < ApplicationPage
     transition 'Second Page', path: second_path
     abbr title: 'test'
 
-    isolate_test rerender_on: 'isolate', public_options: { foo: :bar }
+    isolate_test rerender_on: 'isolate', public_options: { foo: :bar }, defer: 1000
 
     rails_render partial: '/some_partial', locals: { foo: 1 }
     rails_render template: '/some_view', locals: { foo: 1 }
@@ -17,6 +17,10 @@ class Demo::FirstPage < ApplicationPage
     # integrating toggle component
     toggle show_on: 'show' do
       div 'I am toggable'
+    end
+
+    div class: 'foo', 'foo'=>123 do
+      plain 'Hello'
     end
 
     div do

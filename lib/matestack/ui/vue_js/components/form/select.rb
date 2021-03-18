@@ -10,14 +10,18 @@ module Matestack
               div class: 'matestack-ui-core-form-select' do
                 label input_label, for: id if input_label
                 select select_attributes do
-                  if placeholder
-                    option value: nil, disabled: true, selected: init_value.nil?, text: placeholder
-                  end
-                  select_options.to_a.each do |item|
-                    option item_label(item), value: item_value(item), disabled: item_disabled?(item)
-                  end
+                  render_options
                 end
                 render_errors
+              end
+            end
+
+            def render_options
+              if placeholder
+                option value: nil, disabled: true, selected: init_value.nil?, text: placeholder
+              end
+              select_options.to_a.each do |item|
+                option item_label(item), value: item_value(item), disabled: item_disabled?(item)
               end
             end
 
@@ -27,7 +31,8 @@ module Matestack
 
             def config
               {
-                init_value: init_value || [].to_json,
+                init_value: init_value,
+                key: key,
               }
             end
 
@@ -37,7 +42,7 @@ module Matestack
                 id: id,
                 ref: "select#{'.multiple' if multiple}.#{key}",
                 'value-type': item_value(select_options.first).is_a?(Integer) ? Integer : nil,
-                'init-value': init_value || [].to_json,
+                'init-value': init_value,
               })
             end
 
@@ -63,6 +68,10 @@ module Matestack
 
             def item_disabled?(item)
               disabled_options && disabled_options.to_a.include?(item)
+            end
+
+            def v_model_type
+              item_value(select_options.first).is_a?(Numeric) ? 'v-model.number' : 'v-model'
             end
 
             # attributes

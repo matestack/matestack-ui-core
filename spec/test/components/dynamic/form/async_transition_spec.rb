@@ -63,7 +63,7 @@ describe "Form Component", type: :feature, js: true do
     class BasePage < Matestack::Ui::Page
       def form_partial(number)
         h2 "This is Page #{number}"
-        m_form form_config, :include do
+        matestack_form form_config, :include do
           form_input id: "my-test-input-on-page-#{number}", key: :foo, type: :text
           button "Submit me!"
         end

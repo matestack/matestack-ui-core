@@ -8,11 +8,15 @@ module Matestack
 
             def response
               div class: 'matestack-ui-core-form-radio' do
-                radio_options.to_a.each do |item|
-                  input radio_attributes(item)
-                  label item_label(item), for: item_id(item)
-                end
+                render_options
                 render_errors
+              end
+            end
+
+            def render_options
+              radio_options.to_a.each do |item|
+                input radio_attributes(item)
+                label item_label(item), for: item_id(item)
               end
             end
 
@@ -23,24 +27,20 @@ module Matestack
             def config
               {
                 init_value: init_value,
+                key: key,
               }
             end
-
-            # checkbox rendering
-
 
             def radio_attributes(item)
               attributes.merge({
                 id: item_id(item),
-                name: item_label(item),
+                name: item_name(item),
                 value: item_value(item),
                 type: :radio,
                 ref: "select.#{key}",
                 'value-type': item_value(radio_options.first).is_a?(Integer) ? Integer : nil,
               })
             end
-
-            # checkbox options
 
             def radio_options
               @radio_options ||= options.delete(:options)
@@ -57,7 +57,15 @@ module Matestack
             end
 
             def item_id(item)
+              "#{id || key}_#{item_value(item)}"
+            end
+
+            def item_name(item)
               "#{key}_#{item_value(item)}"
+            end
+
+            def v_model_type
+              item_value(radio_options.first).is_a?(Numeric) ? 'v-model.number' : 'v-model'
             end
 
           end

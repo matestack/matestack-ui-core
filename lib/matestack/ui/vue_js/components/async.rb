@@ -48,7 +48,8 @@ module Matestack
               show_on: ctx.show_on,
               hide_on: ctx.hide_on,
               rerender_on: ctx.rerender_on,
-              defer: ctx.defer
+              defer: ctx.defer,
+              parent_class: isolated_parent ? isolated_parent.class.to_s : nil,
             }
           end
 
@@ -58,6 +59,10 @@ module Matestack
 
           def is_not_requested?
             params[:component_key].present? && params[:component_key] != ctx.id
+          end
+
+          def isolated_parent
+            Matestack::Ui::Core::Context.isolated_parent
           end
 
         end

@@ -43,7 +43,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_input_test key: :bar, type: :text, id: "bar"
             button 'Submit me!'
           end
@@ -75,7 +75,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input key: :foo, type: :text, id: "foo"
             custom_form_input_test key: :bar, type: :text, id: "bar"
             button 'Submit me!'
@@ -111,7 +111,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input",      key: :text_input, type: :text
             custom_form_input_test id: "email-input",     key: :email_input, type: :email
             custom_form_input_test id: "password-input",  key: :password_input, type: :password
@@ -152,7 +152,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input", key: :text_input, type: :text, init: "some value"
             button "Submit me!"
           end
@@ -175,7 +175,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input", key: :text_input, type: :text, init: "change me via JS"
             button "Submit me!"
           end
@@ -198,7 +198,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-            m_form form_config do
+            matestack_form form_config do
               custom_form_input_test id: "text-input", key: :text_input, type: :text, placeholder: "some placeholder"
               button "Submit me!"
             end
@@ -221,7 +221,7 @@ describe "Form Component", type: :feature, js: true do
     it "can display server errors async" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input", key: :foo, type: :text
             button "Submit me!"
           end
@@ -253,7 +253,7 @@ describe "Form Component", type: :feature, js: true do
         def response
           @test_model = TestModel.new
           @test_model.title = "Title"
-          m_form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "title", key: :title, type: :text
             custom_form_input_test id: "description", key: :description, type: :text
             button "Submit me!"

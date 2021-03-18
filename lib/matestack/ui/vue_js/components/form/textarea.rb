@@ -9,9 +9,13 @@ module Matestack
             def response
               div class: 'matestack-ui-core-form-textarea' do
                 label input_label, for: id if input_label
-                textarea attributes
+                textarea textarea_attributes
                 render_errors
               end
+            end
+
+            def textarea_attributes
+              attributes
             end
 
             def component_id
@@ -21,6 +25,7 @@ module Matestack
             def config
               {
                 init_value: init_value,
+                key: key
               }
             end
 

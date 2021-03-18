@@ -5,8 +5,8 @@ module Matestack
 
         attr_accessor :slots
 
-        def slot(some_arg, *args)
-          some_arg.call(*args)
+        def slot(key, *args)
+          slots[key].call(*args)
         end
 
       end

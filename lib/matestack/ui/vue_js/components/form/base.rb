@@ -48,13 +48,16 @@ module Matestack
             # calculated attributes
 
             def attributes
-              {
+              (options || {}).merge({
                 ref: "input.#{attribute_key}",
                 id: id,
+                type: ctx.type,
+                multiple: ctx.multiple,
+                placeholder: ctx.placeholder,
                 '@change': change_event,
                 'init-value': init_value || (ctx.multiple ? [] : nil),
                 'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
-              }.tap do |attrs|
+              }).tap do |attrs|
                 attrs[:"#{v_model_type}"] = input_key unless type == :file
               end
             end

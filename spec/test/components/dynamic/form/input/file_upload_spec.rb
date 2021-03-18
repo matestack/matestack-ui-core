@@ -67,7 +67,7 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file_1, type: :file, id: "file-1-input"
@@ -171,7 +171,7 @@ describe "Form Component", type: :feature, js: true do
         def response
           @test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
           @test_model.file.attach(io: File.open("#{File.dirname(__FILE__)}/test_files/matestack-logo.png"), filename: 'matestack-logo.png')
-          m_form form_config do
+          matestack_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file, type: :file, id: "file-1-input"
@@ -208,7 +208,7 @@ describe "Form Component", type: :feature, js: true do
       
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file, type: :file, id: "file-1-input"
@@ -246,7 +246,7 @@ describe "Form Component", type: :feature, js: true do
     it "gets properly resetted when form is successfully submitted" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input key: :title, type: :text, placeholder: "title", id: "title-input"
             br
             form_input key: :file_1, type: :file, id: "file-1-input"

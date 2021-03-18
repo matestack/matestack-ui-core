@@ -38,6 +38,7 @@ module Matestack
             self.text = text
             self.options = options || {}
           end
+          self.options.symbolize_keys!
         end
 
         def prepare

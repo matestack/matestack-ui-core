@@ -18,7 +18,7 @@ describe 'Dialog component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <dialog>Simple dialog tag</dialog>
-      <dialog id="my-id" class="my-class" open="open">Enhanced dialog tag</dialog>
+      <dialog id="my-id" open="open" class="my-class">Enhanced dialog tag</dialog>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

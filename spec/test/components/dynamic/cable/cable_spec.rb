@@ -24,7 +24,7 @@ describe "Cable Component", type: :feature, js: true do
     matestack_render do
       cable
     end
-    expect(page).to have_content("required option 'id' is missing for Matestack::Ui::VueJs::Components::Cable")
+    expect(page).to have_content("required property 'id' is missing for 'Matestack::Ui::VueJs::Components::Cable'")
   end
 
   it 'should work after a page transition' do
@@ -75,7 +75,7 @@ describe "Cable Component", type: :feature, js: true do
     # tried all hints found on Stackoverflow etc
     matestack_render do
       cable id: 'cable-replace', replace_on: 'replace' do
-        m_form for: :some_object, path: "/", method: :post do
+        matestack_form for: :some_object, path: "/", method: :post do
           form_input key: :foo, type: :text, label: :foo, id: :foo
         end
       end

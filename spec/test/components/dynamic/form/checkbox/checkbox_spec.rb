@@ -33,7 +33,7 @@ describe "Form Component", type: :feature, js: true do
     it "takes an array of options or hash and submits (multiple) selected item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox key: :array_input, options: ["Array Option 1","Array Option 2"]
             form_checkbox key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }
             button "Submit me!"
@@ -62,7 +62,7 @@ describe "Form Component", type: :feature, js: true do
     it "renders auto generated IDs based on user specified ID and optional user specified class per checkbox" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            m_form form_config do
+            matestack_form form_config do
               form_checkbox id: "foo", key: :foo, options: [1, 2]
               form_checkbox id: "bar", key: :bar, options: [1, 2], class: "some-class"
               button "Submit me!"
@@ -88,7 +88,7 @@ describe "Form Component", type: :feature, js: true do
     it "can be initialized by (multiple) item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox id: "my-array-test-checkbox", key: :array_input, options: ["Array Option 1","Array Option 2"], init: ["Array Option 1", "Array Option 2"]
             form_checkbox id: "my-hash-test-checkbox", key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }, init: ["2"]
             button "Submit me!"
@@ -133,7 +133,7 @@ describe "Form Component", type: :feature, js: true do
           @test_model = TestModel.new
           @test_model.some_data = ["Array Option 2"]
           @test_model.more_data = ["my_second_key"]
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox id: "my-array-test-checkbox", key: :some_data, options: TestModel.array_options
             form_checkbox id: "my-hash-test-checkbox", key: :more_data, options: TestModel.hash_options
             button "Submit me!"
@@ -180,7 +180,7 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           @test_model = TestModel.new
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox id: "my-array-test-checkbox", key: :status, label: 'Status'
             button "Submit me!"
             toggle show_on: 'success', id: 'async-page' do
@@ -219,7 +219,7 @@ describe "Form Component", type: :feature, js: true do
           @test_model = TestModel.new
           @test_model.status = 1
           @test_model.some_boolean_value = true
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
             form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
             form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config', init: 1
@@ -265,7 +265,7 @@ describe "Form Component", type: :feature, js: true do
           @test_model = TestModel.new
           @test_model.status = 0
           @test_model.some_boolean_value = false
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
             form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
             form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config', init: 0
@@ -308,7 +308,7 @@ describe "Form Component", type: :feature, js: true do
       class ExamplePage < Matestack::Ui::Page
         def response
           @test_model = TestModel.new
-          m_form form_config do
+          matestack_form form_config do
             form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
             form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
             form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config' #, init: 0

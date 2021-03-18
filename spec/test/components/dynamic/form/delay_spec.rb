@@ -30,7 +30,7 @@ describe "Form Component", type: :feature, js: true do
     it "if set, delays form submit" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          m_form form_config do
+          matestack_form form_config do
             form_input key: :foo, type: :text, id: "my-test-input"
             button 'Submit me!'
           end

@@ -22,7 +22,7 @@ describe "form checkbox", type: :feature, js: true do
   it "should render error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_checkbox id: "foo", key: :foo, options: [1, 2]
           button "Submit me!"
         end
@@ -49,7 +49,7 @@ describe "form checkbox", type: :feature, js: true do
   it "can turn off error messages" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_checkbox id: "foo", key: :foo, options: [1, 2], errors: false
           button "Submit me!"
         end
@@ -73,7 +73,7 @@ describe "form checkbox", type: :feature, js: true do
   it "lets you customize errors" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_checkbox id: "foo", key: :foo, options: [1, 2], errors: { wrapper: {}, tag: :div, class: 'my-error' }
           button "Submit me!"
         end
@@ -103,7 +103,7 @@ describe "form checkbox", type: :feature, js: true do
   it "lets you customize errors and errors wrapper" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        m_form form_config do
+        matestack_form form_config do
           form_checkbox id: "foo", key: :foo, options: [1, 2], errors: {
             wrapper: { tag: :div, class: 'my-errors'}, tag: :div, class: 'my-error'
           }

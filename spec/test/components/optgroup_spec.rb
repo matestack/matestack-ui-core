@@ -62,7 +62,7 @@ describe 'Optgroup component', type: :feature, js: true do
         <option>Option K</option>
         <option>Option L</option>
       </optgroup>
-      <optgroup label="Not Disabled Group 3" class="group" id="not-disabled">
+      <optgroup label="Not Disabled Group 3" id="not-disabled" class="group">
         <option>Option M</option>
         <option>Option N</option>
         <option>Option O</option>

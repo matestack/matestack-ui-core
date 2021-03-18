@@ -27,7 +27,7 @@ TODO: Provide proper migration guide
 
 * `Matestack::Ui::DynamicActionviewComponent, Matestack::Ui::Core::Actionview::Dynamic` and static removed -> is not needed
 
-* slots api has changed. Always use `method(:your_slot_method)` to pass slots into another component. Use `slot slots[:your_slot]` to render the slot. Pass optional params to slots in order to use with your method `slot slots[:your_slot], 'A param'`.
+* slots api has changed. Always use `method(:your_slot_method)` to pass slots into another component. Use `slot :your_slot` to render the slot. Pass optional params to slots in order to use with your method `slot :your_slot, 'A param'`.
 
 * Properties are now accessed via a context `context` or short `ctx`. Access your defined `required` or `optional` properties via `ctx.your_property`
 * `requires` is removed please use `required`
@@ -35,6 +35,8 @@ TODO: Provide proper migration guide
 * Slots given with a :slots key are accessible trough a slots method, but you can use custom properties to also use slots. Recommended to always use :slots param for better encapsulating slots from params.
 
 * You can pass a component an argument and options like `header 'Your headline', color: :blue`. Access it now with `self.text # or text` instead of `@argument`
+
+* `isolate` doesn't raise 'not authorized' anymore. When isolate is not authorized no content is returned. Only a warning is logged to the console
 
 ## v1.5.0 Release - 2021-03-07
 
