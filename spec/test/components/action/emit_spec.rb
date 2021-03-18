@@ -35,7 +35,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :action_emit_path,
+            path: action_emit_path,
             data: {
               foo: "bar"
             },

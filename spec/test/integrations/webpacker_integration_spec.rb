@@ -1,22 +1,19 @@
 describe "Webpacker integration", type: :feature, js: true do
 
-  before(:all) do
-    # Compile webpack javascripts
-    result = `cd spec/dummy && yarn install && rake webpacker:compile`
-    raise "rake webpacker:compile has failed." if result.include? "Error"
-  end
-
   before do
     Rails.application.routes.draw do
       get '/webpack_test', to: 'webpack_test#my_action', as: 'webpack_test_action'
     end
 
-    class WebpackTestController < ActionController::Base
-      layout "application_with_webpack"
+    module Pages
+    end
 
-      include Matestack::Ui::Core::ApplicationHelper
+    class WebpackTestController < ActionController::Base
+      include Matestack::Ui::Core::Helper
+      matestack_app Demo::App
 
       def my_action
+        render Pages::WebpackTest::MyAction
       end
     end
 
@@ -36,12 +33,13 @@ describe "Webpacker integration", type: :feature, js: true do
 
   specify "Matestack can be used in layouts that use a javascript_pack_tag (webpack) rather than the asset pipeline" do
     visit "/webpack_test"
-
+    sleep
     expect(page).to have_text "Hello from matestack with webpacker"
   end
 
   specify "MatestackUiCore is exposed to the global namespace" do
     visit "/webpack_test"
+    byebug
     expect(page).to have_text "Hello from matestack with webpacker"
 
     expect(page.evaluate_script("typeof MatestackUiCore")).to eq "object"

@@ -38,7 +38,7 @@ describe "Action Component", type: :feature, js: true do
         def action_config
           return {
             method: :post,
-            path: :action_delay_test_path,
+            path: action_delay_test_path,
             data: {
               foo: DateTime.now.strftime('%Q')
             },

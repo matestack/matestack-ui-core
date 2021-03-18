@@ -31,7 +31,7 @@ describe "Form Component", type: :feature, js: true do
           select select_attributes do
             render_options
           end
-          button "change value", "@click": "changeValueViaJs(2)"
+          button "change value", "@click": "changeValueViaJs(2)", type: :button
           render_errors
         end
       end

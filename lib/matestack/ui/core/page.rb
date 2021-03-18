@@ -21,6 +21,11 @@ module Matestack
           else
             Base.new(:component, component_attributes) do
               div class: 'matestack-page-container', 'v-bind:class': '{ "loading": loading === true }'  do
+                if Matestack::Ui::Core::Context.app.respond_to? :loading_state_element
+                  div class: 'loading-state-element-wrapper', 'v-bind:class': '{ "loading": loading === true }'  do
+                    Matestack::Ui::Core::Context.app.loading_state_element
+                  end
+                end
                 div class: 'matestack-page-wrapper', 'v-bind:class': '{ "loading": loading === true }' do
                   div 'v-if': 'asyncPageTemplate == null' do
                     div class: 'matestack-page-root' do

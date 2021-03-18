@@ -34,8 +34,8 @@ describe "Page", type: :feature, js: true do
 
       def response
         div id: "my-component" do
-          slot slots[:my_first_slot]
-          slot slots[:my_second_slot]
+          slot :my_first_slot
+          slot :my_second_slot
         end
       end
 

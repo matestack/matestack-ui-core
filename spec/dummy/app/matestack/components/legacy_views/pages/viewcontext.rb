@@ -2,7 +2,7 @@ class Components::LegacyViews::Pages::Viewcontext < Matestack::Ui::Component
 
   def response
     div id: "my-component" do
-      if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+      if view_context.view_renderer.instance_of?(ActionView::Renderer)
         plain "has access to ActionView Context"
       end
       plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here

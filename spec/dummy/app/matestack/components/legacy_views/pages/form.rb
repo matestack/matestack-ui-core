@@ -1,16 +1,14 @@
-class Components::LegacyViews::Pages::Form < Matestack::Ui::StaticComponent
+class Components::LegacyViews::Pages::Form < Matestack::Ui::Component
 
   def response
-    form form_config do
+    matestack_form form_config do
       form_input key: :title, type: :text, label: 'Title', id: 'title'
-      form_submit do
-        button text: 'Save'
-      end
+      button 'Save'
     end
     async rerender_on: 'form_success', id: 'async-dummy-list' do
       ul do
         DummyModel.all.order(title: :asc).each do |dummy|
-          li text: dummy.title
+          li dummy.title
         end
       end
     end
@@ -22,7 +20,7 @@ class Components::LegacyViews::Pages::Form < Matestack::Ui::StaticComponent
     {
       for: DummyModel.new,
       method: :post,
-      path: :legacy_views_create_path,
+      path: legacy_views_create_path,
       success: {
         emit: 'form_success',
       },

@@ -29,7 +29,7 @@ module Matestack
         end
         
         def unescape(text)
-          Matestack::Ui::Core::Base.new(nil, text.html_safe, escape: false)
+          Matestack::Ui::Core::Base.new(nil, text&.html_safe, escape: false)
         end
         alias unescaped unescape
         deprecate :unescaped, :unescape, 2021, 10

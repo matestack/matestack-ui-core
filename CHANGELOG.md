@@ -38,6 +38,12 @@ TODO: Provide proper migration guide
 
 * `isolate` doesn't raise 'not authorized' anymore. When isolate is not authorized no content is returned. Only a warning is logged to the console
 
+* implicit rendering in a controller does not work anymore. Specify the page in a render call
+
+
+TODOS
+* at the moment there is no rendering of a "default app" when no matestack app is specified
+
 ## v1.5.0 Release - 2021-03-07
 
 ### Improvements

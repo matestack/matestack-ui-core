@@ -5,7 +5,7 @@ module Matestack
         class Action < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-action'
 
-          optional :path, :success, :failure, :notify, :confirm, :confirm_text, :data
+          optional :path, :success, :failure, :notify, :confirm, :confirm_text, :data, :delay, :emit
 
           def response
             a attributes do
@@ -30,6 +30,8 @@ module Matestack
               conf[:confirm] = ctx.confirm
               conf[:confirm_text] = ctx.confirm.try(:[], :text) || 'Are you sure?'
               conf[:data] = ctx.data
+              conf[:delay] = ctx.delay
+              conf[:emit] = ctx.emit
             end
           end
 

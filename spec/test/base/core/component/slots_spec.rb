@@ -32,8 +32,8 @@ describe "Component", type: :feature, js: true do
         def response
           @foo = "foo from component"
           div id: "my-component" do
-            slot slots[:my_first_slot]
-            slot slots[:my_second_slot]
+            slot :my_first_slot
+            slot :my_second_slot
           end
         end
 
@@ -114,8 +114,8 @@ describe "Component", type: :feature, js: true do
         def response
           @foo = "foo from other component"
           div id: "my-other-component" do
-            slot slots[:my_slot_from_component]
-            slot slots[:my_slot_from_page]
+            slot :my_slot_from_component
+            slot :my_slot_from_page
             plain @foo
           end
         end

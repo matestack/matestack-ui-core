@@ -31,7 +31,7 @@ module Matestack
           def isolated
             Matestack::Ui::Core::Base.new(:component, component_attributes) do
               div class: 'matestack-isolated-component-container', 'v-bind:class': '{ loading: loading === true }' do
-                if loading_state_element
+                if self.respond_to? :loading_state_element
                   div class: 'loading-state-element-wrapper', 'v-bind:class': '{ loading: loading === true }' do
                     loading_state_element
                   end
@@ -69,9 +69,6 @@ module Matestack
 
           def authorized?
             raise "'authorized?' needs to be implemented by '#{self.class}'"
-          end
-
-          def loading_state_element
           end
 
           def only_public_options!

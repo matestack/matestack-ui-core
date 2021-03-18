@@ -116,7 +116,7 @@ describe "Page", type: :feature, js: true do
           end
         end
 
-        def my_loading_spinner
+        def loading_state_element
           div id: "loading-spinner" do
             plain "loading..."
           end

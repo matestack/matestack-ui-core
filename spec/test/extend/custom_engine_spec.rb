@@ -12,8 +12,8 @@ describe "Engine Components", type: :feature, js: true do
     module Matestack::Ui::Core end
 
     class EngineComponentTestController < ActionController::Base
-      include Matestack::Ui::Core::ApplicationHelper
-      layout "application"
+      include Matestack::Ui::Core::Helper
+      matestack_app Demo::App
 
       def my_action
         render Pages::ExamplePage
