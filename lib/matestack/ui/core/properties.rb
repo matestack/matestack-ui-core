@@ -17,10 +17,14 @@ module Matestack
         end
         
         module ClassMethods
+          extend Gem::Deprecate
+
           def required(*args)
             @required = (@required || []).concat(args)
           end
-          
+          alias requires required
+          deprecate :requires, :required, 2021, 10
+
           def optional(*args)
             @optional = (@optional || []).concat(args)
           end
