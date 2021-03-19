@@ -8,7 +8,7 @@ module Matestack
             required :page
             
             def response
-              a '@click': "goToPage(#{ctx.page})" do
+              a options.merge('@click': "goToPage(#{ctx.page})") do
                 yield
               end
             end
