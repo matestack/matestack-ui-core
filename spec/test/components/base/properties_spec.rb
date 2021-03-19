@@ -198,4 +198,49 @@ describe 'Properties Mechanism', type: :feature, js: true do
     expect(component.context.foobar).to eq('component')
   end
 
+  it 'should create instance method with given alias name for required properties' do
+    class AliasPropertyComponent < Matestack::Ui::Component
+      required method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherAliasPropertyComponent < Matestack::Ui::Component
+      required :bla, method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    component = AliasPropertyComponent.new(nil, method: 'Its my method', response: 'Response')
+    another_component = AnotherAliasPropertyComponent.new(nil, bla: 'hi', method: 'Its my method', response: 'Response')
+    expect(component.context.respond_to? :my_method).to be(true)
+    expect(component.context.my_method).to eq('Its my method')
+    expect(component.context.respond_to? :test).to be(true)
+    expect(component.context.test).to eq('Response')
+    expect(another_component.context.bla).to eq('hi')
+    expect(another_component.context.my_method).to eq('Its my method')
+    expect(another_component.context.test).to eq('Response')
+  end
+
+  it 'should create instance method with given alias name for optional properties' do
+    class OptionalAliasPropertyComponent < Matestack::Ui::Component
+      optional method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherOptionalAliasPropertyComponent < Matestack::Ui::Component
+      optional :bla, method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    component = OptionalAliasPropertyComponent.new(nil, method: 'Its my method', response: 'Response')
+    another_component = AnotherOptionalAliasPropertyComponent.new(nil, bla: 'hi', method: 'its my method', response: 'response')
+    expect(component.context.respond_to? :my_method).to be(true)
+    expect(component.context.my_method).to eq('Its my method')
+    expect(component.context.respond_to? :test).to be(true)
+    expect(component.context.test).to eq('Response')
+    expect(another_component.context.bla).to eq('hi')
+    expect(another_component.context.my_method).to eq('its my method')
+    expect(another_component.context.test).to eq('response')
+    expect(component.context.test).to eq('Response')
+  end
+
 end

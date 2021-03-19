@@ -54,13 +54,23 @@ module Matestack
         end
         
         def create_context
-          self.required_property_keys.uniq.each do |key|
-            raise "required property '#{key}' is missing for '#{self.class}'" unless self.options.has_key? key
-            context.send(:"#{key}=", self.options.delete(key))
-          end if self.required_property_keys
-          self.optional_property_keys.uniq.each do |key|
-            context.send(:"#{key}=", self.options.delete(key))
-          end if self.optional_property_keys
+          create_context_for_properties(self.required_property_keys, required: true)
+          create_context_for_properties(self.optional_property_keys)
+        end
+
+        def create_context_for_properties(properties, required: false)
+          properties.uniq.each do |property|
+            if property.is_a? Hash
+              property.each do |key, value|
+                method_name = value[:as] || key
+                raise "required property '#{key}' is missing for '#{self.class}'" if required && self.options[key].nil?
+                context.send(:"#{method_name}=", self.options.delete(key))
+              end
+            else
+              raise "required property '#{property}' is missing for '#{self.class}'" if required && self.options[property].nil?
+              context.send(:"#{property}=", self.options.delete(property))
+            end
+          end if properties
         end
     
       end

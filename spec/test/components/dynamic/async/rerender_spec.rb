@@ -194,7 +194,7 @@ describe "Async Component", type: :feature, js: true do
         html do
           head do
             unescape csrf_meta_tags
-            unesacape javascript_pack_tag('application')
+            unescape javascript_pack_tag('application')
           end
           body do
             matestack do
