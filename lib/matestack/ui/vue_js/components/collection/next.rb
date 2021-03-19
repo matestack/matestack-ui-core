@@ -6,7 +6,7 @@ module Matestack
           class Next < Matestack::Ui::Component
             
             def response
-              a '@click': 'next()' do
+              a options.merge('@click': 'next()') do
                 yield
               end
             end
