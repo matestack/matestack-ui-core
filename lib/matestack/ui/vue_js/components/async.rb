@@ -29,7 +29,13 @@ module Matestack
                 div class: 'matestack-async-component-container', 'v-bind:class': '{ "loading": loading === true }' do
                   div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate == null', 'v-bind:class': '{ "loading": loading === true }' do
                     div async_attributes do
-                      yield unless is_deferred?
+                      if params[:component_key]
+                        # we need to yield if a request is looking for a async component, indicated through present params[:component_key]
+                        # the requested component could be hidden within this deferred async!
+                        yield
+                      else
+                        yield unless is_deferred?
+                      end
                     end
                   end
                   div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate != null', 'v-bind:class': '{ "loading": loading === true }' do
