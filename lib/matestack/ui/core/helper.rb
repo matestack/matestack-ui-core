@@ -51,7 +51,7 @@ module Matestack
         end
         
         def render_page(page, options, layout)
-          render html: page.new(options).render_content.html_safe, layout: layout
+          render html: page.new(options).render_content.html_safe, layout: false
         end
         
         def render_component(app, page, component_key, options)
