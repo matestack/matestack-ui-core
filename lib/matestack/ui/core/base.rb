@@ -5,8 +5,6 @@ module Matestack
     module Core
       class Base
         include ActionView::Helpers::TagHelper
-        # include Webpacker::Helper
-        include ActionView::Helpers::AssetTagHelper
 
         include Matestack::Ui::Core::Properties
         include Matestack::Ui::Core::TagHelper
