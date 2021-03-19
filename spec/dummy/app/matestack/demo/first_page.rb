@@ -33,6 +33,20 @@ class Demo::FirstPage < ApplicationPage
 
     async id: 'time', rerender_on: 'show' do
       div ::Time.now
+      async id: 'another-time', rerender_on: 'time' do
+        div ::Time.now, style: 'margin: 10px;'
+        async id: 'another-time-2', rerender_on: 'time-2' do
+          div ::Time.now, style: 'margin: 20px;'
+        end
+      end
+    end
+
+    onclick emit: 'time', data: { foo: :bar } do
+      button 'Inner Time'
+    end
+
+    onclick emit: 'time-2', data: { foo: :bar } do
+      button 'Inner Time 2'
     end
 
     paragraph time_ago_in_words(1.minute.ago)

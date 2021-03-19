@@ -32,8 +32,6 @@ module Matestack
         def extract_options(text, options)
           if text.is_a? Hash
             self.options = text
-            warn "[DEPRECATION] passing text with option :text is deprecated. Please pass text as first argument." if self.options.has_key?(:text)
-            self.text = self.options.delete(:text)
           else
             self.text = text
             self.options = options || {}
