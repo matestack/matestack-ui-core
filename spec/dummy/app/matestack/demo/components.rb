@@ -14,7 +14,7 @@ module Demo
     end
 
     def foobar(options = nil)
-      Demo::Components::Tes.(options)
+      Demo::Components::Test.(options)
     end
 
   end

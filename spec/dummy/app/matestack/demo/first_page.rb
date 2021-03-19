@@ -3,8 +3,8 @@ class Demo::FirstPage < ApplicationPage
   optional :user
 
   def response
-    # Demo::Components::Header.()
-    header slots: { user: method(:stuff) }, user: 'Nils', foo: :bar
+    Demo::Components::Header.(slots: { first: method(:a_slot), user: method(:stuff) })
+    header slots: { first: method(:a_slot), user: method(:stuff) }, user: 'Nils', foo: :bar
     h1 'First page with new logic!', data: { foo: :bar }
     transition 'Second Page', path: second_path
     abbr title: 'test'
