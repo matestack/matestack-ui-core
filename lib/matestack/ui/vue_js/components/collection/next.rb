@@ -6,7 +6,7 @@ module Matestack
           class Next < Matestack::Ui::Component
             
             def response
-              link '@click': 'next()' do
+              a '@click': 'next()' do
                 yield
               end
             end

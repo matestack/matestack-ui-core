@@ -6,7 +6,7 @@ module Matestack
           class FilterReset < Matestack::Ui::Component
 
             def response
-              link '@click': 'resetFilter()' do
+              a '@click': 'resetFilter()' do
                 yield
               end
             end

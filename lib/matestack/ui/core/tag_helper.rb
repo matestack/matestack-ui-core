@@ -50,8 +50,14 @@ module Matestack
           end
           Matestack::Ui::Core::Base.new(:img, text, options, &block)
         end
-        
-        def link(text = nil, options = {}, &block)
+
+        def a(text = nil, options = {}, &block)
+          # if :path attribut given rename to href
+          if text.is_a?(Hash)
+            text[:href] = text.delete(:path) if text[:href].nil?
+          else
+            options[:href] = options.delete(:path) if options[:href].nil?
+          end
           Matestack::Ui::Core::Base.new(:a, text, options, &block)
         end
 

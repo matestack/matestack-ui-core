@@ -6,7 +6,7 @@ module Matestack
           class Previous < Matestack::Ui::Component
             
             def response
-              link '@click': 'previous()' do
+              a '@click': 'previous()' do
                 yield
               end
             end

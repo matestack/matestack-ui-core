@@ -40,6 +40,8 @@ TODO: Provide proper migration guide
 
 * implicit rendering in a controller does not work anymore. Specify the page in a render call
 
+* `link` removed -> now renders usual html link tag
+
 
 TODOS
 * at the moment there is no rendering of a "default app" when no matestack app is specified

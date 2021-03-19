@@ -8,7 +8,7 @@ module Matestack
           optional :path, :delay
 
           def response
-            link attributes do
+            a attributes do
               if block_given?
                 yield
               end
@@ -19,11 +19,11 @@ module Matestack
           protected
 
           def attributes
-            {
+            options.merge({
               href: ctx.path,
               '@click.prevent': "navigateTo(\"#{ctx.path}\")",
               "v-bind:class": "{ active: isActive, 'active-child': isChildActive }"
-            }
+            })
           end
 
           def config

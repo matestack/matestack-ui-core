@@ -28,18 +28,26 @@ module Matestack
               vue_component do
                 div class: 'matestack-async-component-container', 'v-bind:class': '{ "loading": loading === true }' do
                   div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate == null', 'v-bind:class': '{ "loading": loading === true }' do
-                    div id: ctx.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+                    div async_attributes do
                       yield unless is_deferred?
                     end
                   end
                   div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate != null', 'v-bind:class': '{ "loading": loading === true }' do
-                    div id: ctx.id, class: 'matestack-async-component-root', 'v-if': 'showing' do
+                    div async_attributes do
                       Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'asyncTemplate')
                     end
                   end
                 end
               end
             end
+          end
+
+          def async_attributes
+            options.merge({
+              id: ctx.id, 
+              class: 'matestack-async-component-root', 
+              'v-if': 'showing'
+            })
           end
 
           def config

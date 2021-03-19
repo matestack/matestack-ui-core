@@ -8,7 +8,7 @@ module Matestack
             required :key
 
             def response
-              link '@click': "toggleOrder(\"#{ctx.key}\")" do
+              a '@click': "toggleOrder(\"#{ctx.key}\")" do
                 yield
               end
             end

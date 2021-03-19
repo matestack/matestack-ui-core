@@ -1,13 +1,13 @@
 require_relative '../support/utils'
 include Utils
 
-describe 'Link Component', type: :feature, js: true do
+describe 'a Component', type: :feature, js: true do
 
   it 'Example 1 - Text Option' do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link 'here', href: "https://matestack.org"
+          a 'here', href: "https://matestack.org"
         end
       end
     end
@@ -26,7 +26,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link href: "https://matestack.org", title: "The matestack website" do
+          a path: "https://matestack.org", title: "The matestack website" do
             plain 'here'
           end
         end
@@ -37,7 +37,7 @@ describe 'Link Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <div id="foo" class="bar">
-        <a href="https://matestack.org" title="The matestack website">here</a>
+        <a title="The matestack website" href="https://matestack.org">here</a>
       </div>
     HTML
     expect(stripped(static_output)).to ( include(stripped(expected_static_output)) )
@@ -47,7 +47,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link href: "https://matestack.org", target: "_blank" do
+          a href: "https://matestack.org", target: "_blank" do
             plain 'here'
           end
         end
@@ -73,7 +73,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link href: link_test_path do
+          a href: link_test_path do
             plain 'here'
           end
         end
@@ -94,7 +94,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link text: 'Click', href: inline_edit_path
+          a text: 'Click', href: inline_edit_path
         end
       end
     end
@@ -113,7 +113,7 @@ describe 'Link Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          link href: single_endpoint_path(number: 1), text: 'Call API endpoint 1'
+          a href: single_endpoint_path(number: 1), text: 'Call API endpoint 1'
         end
       end
     end
@@ -131,7 +131,7 @@ describe 'Link Component', type: :feature, js: true do
   it "behaves correctly with anchor links (no reload, retain anchor)" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        link href: "#someanchor", text: "go to anchor", id: "my-link"
+        a href: "#someanchor", text: "go to anchor", id: "my-link"
         br times: 200
         div id: "someanchor" do
           plain "hello!"
@@ -176,7 +176,7 @@ describe 'Link Component', type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          link href: "#someanchor", text: "go to anchor", id: "my-link"
+          a href: "#someanchor", text: "go to anchor", id: "my-link"
           br times: 200
           div id: "someanchor" do
             plain "hello!"
@@ -213,7 +213,7 @@ describe 'Link Component', type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          link href: "?a=true", text: "go to anchor", id: "my-link"
+          a href: "?a=true", text: "go to anchor", id: "my-link"
           br times: 200
           div id: "my-div" do
             plain "#{DateTime.now.strftime('%Q')}"

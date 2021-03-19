@@ -8,7 +8,7 @@ module Matestack
             required :page
             
             def response
-              link '@click': "goToPage(#{ctx.page})" do
+              a '@click': "goToPage(#{ctx.page})" do
                 yield
               end
             end
