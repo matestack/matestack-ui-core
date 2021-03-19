@@ -6,7 +6,7 @@ module Matestack
           class Previous < Matestack::Ui::Component
             
             def response
-              a '@click': 'previous()' do
+              a options.merge('@click': 'previous()') do
                 yield
               end
             end
