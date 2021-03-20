@@ -22,10 +22,27 @@ module Matestack
           setup_context
           if args.first.is_a?(Class) && args.first.ancestors.include?(Base)
             raise 'expected a hash as second argument' unless args.second.is_a?(Hash) || args.second.nil?
+
+            begin
+              controller_layout = self.class.send(:_layout)
+            rescue
+              controller_layout = nil
+            end
+
             options = args.second || {}
             app = options.delete(:matestack_app) || self.class.matestack_app
-            layout = app ? app.layout : false
             page = args.first
+
+            if controller_layout == false
+              layout = app ? app.layout : false
+            else
+              if controller_layout.nil?
+                layout = "application"
+              else
+                layout = controller_layout
+              end
+            end
+            
             if app && params[:only_page].nil? && params[:component_key].nil? && params[:component_class].nil?
               render_app app, page, options, layout
             else
@@ -38,7 +55,11 @@ module Matestack
                   render html: params[:component_class].constantize.(public_options: JSON.parse(params[:public_options] || '{}'))
                 end
               else
-                render_page page, options, layout
+                if params[:only_page]
+                  render_page page, options, false
+                else
+                  render_page page, options, layout
+                end
               end
             end
           else
@@ -51,7 +72,7 @@ module Matestack
         end
         
         def render_page(page, options, layout)
-          render html: page.new(options).render_content.html_safe, layout: false
+          render html: page.new(options).render_content.html_safe, layout: layout
         end
         
         def render_component(app, page, component_key, options)
