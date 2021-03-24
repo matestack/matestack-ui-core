@@ -46,9 +46,7 @@ describe "Async Component", type: :feature, js: true do
     visit "/example"
 
     expect(page).to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
-
     sleep 1
-
     expect(page).to have_css '.matestack-async-component-container .matestack-async-component-wrapper', visible: :all
     expect(page).not_to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
 

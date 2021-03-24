@@ -1,41 +1,26 @@
-require_relative "../support/utils"
-include Utils
+require 'rails_helper'
 
 describe "Address Component", type: :feature, js: true do
-  it "Example 1 - yield a given block" do
+  include Utils
 
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        address do
-          plain "Codey McCodeface"
-          br
-          plain "1 Developer Avenue"
-          br
-          plain "Techville"
-        end
+  it "Example 1 - yield a given block" do
+    matestack_render do
+      address do
+        plain "Codey McCodeface"
+        br
+        plain "1 Developer Avenue"
+        br
+        plain "Techville"
       end
     end
-    
-    visit "/example"
-    static_output = page.html
-    expected_static_output = <<~HTML
-      <address>Codey McCodeface<br/>1 Developer Avenue<br/>Techville</address>
-    HTML
-    expect(stripped(static_output)).to include(stripped(expected_static_output))
+    expect(page).to have_selector('address br', count: 2, visible: false)
+    expect(page).to have_selector('address', text: "Codey McCodeface\n1 Developer Avenue\nTechville")
   end
   
   it "Example 2 - render options[:text] param" do
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        address text: "PO Box 12345"
-      end
+    matestack_render do
+      address "PO Box 12345"
     end
-    
-    visit "/example"
-    static_output = page.html
-    expected_static_output = <<~HTML
-      <address>PO Box 12345</address>
-    HTML
-    expect(stripped(static_output)).to include(stripped(expected_static_output))
+    expect(page).to have_selector('address', text: "PO Box 12345")
   end
 end

@@ -19,8 +19,6 @@ load 'rails/tasks/engine.rake'
 
 load 'rails/tasks/statistics.rake'
 
-load 'lib/tasks/matestack/ui/core_tasks.rake'
-
 require 'bundler/gem_tasks'
 
 require 'rake/testtask'

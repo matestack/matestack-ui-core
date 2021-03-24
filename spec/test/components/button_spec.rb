@@ -16,8 +16,8 @@ describe 'Button Component', type: :feature, js: true do
           plain 'Click me too, m8'
         end
         # button with text and block - does render text and neglect block
-        button text: 'I am prefered' do
-          plain 'I will not get shown'
+        button text: 'I will not get shown' do
+          plain 'I am prefered'
         end
       end
     end

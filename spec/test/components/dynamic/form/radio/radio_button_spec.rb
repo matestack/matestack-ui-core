@@ -71,12 +71,10 @@ describe "Form Component", type: :feature, js: true do
     it "generates unique names for each radio button group and value" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_radio id: 'group-one-radio', key: :array_input_one, options: ['foo','bar']
             form_radio id: 'group-two-radio', key: :array_input_two, options: ['foo', 'bar']
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button text: 'Submit me!'
           end
         end
 
@@ -84,10 +82,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :form_select_radio_spec_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: form_select_radio_spec_success_form_test_path(id: 42),
           }
         end
       end

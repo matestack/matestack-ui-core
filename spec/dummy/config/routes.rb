@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
 
-  mount Matestack::Ui::Core::Engine, at: '/matestack'
+  # mount Matestack::Ui::Core::Engine, at: '/matestack'
 
-  root to: 'my_app#my_first_page'
+  root to: 'demo#first'
+  get :second, to: 'demo#second', as: :second
+  post :action, to: 'demo#action', as: :action
+
+  get :speed, to: 'demo#speed', as: :speed
+  get :rails_speed, to: 'demo#index', as: :rails_speed
+  # root to: 'my_app#my_first_page'
+
+  scope :demo do
+    get :collection, to: 'demo#collection', as: :collection_demo
+  end
 
   scope :components_tests do
     get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"

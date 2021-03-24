@@ -11,8 +11,8 @@ describe 'Creating custom components', type: :feature, js: true do
     module Matestack::Ui::Core end
 
     class ComponentTestController < ActionController::Base
-      include Matestack::Ui::Core::ApplicationHelper
-      layout 'application'
+      include Matestack::Ui::Core::Helper
+      matestack_app Demo::App
 
       def my_action
         render(ExamplePage)
@@ -54,7 +54,7 @@ describe 'Creating custom components', type: :feature, js: true do
     module Components end
 
     class Components::OwnDynamic < Matestack::Ui::VueJsComponent
-      vue_js_component_name "custom-own-dynamic"
+      vue_name "custom-own-dynamic"
 
       def response
         div id: 'my-component-1' do
@@ -113,7 +113,7 @@ describe 'Creating custom components', type: :feature, js: true do
   it 'by extending actionview components - static' do
     module Components end
 
-    class Components::TimeAgo < Matestack::Ui::StaticActionviewComponent
+    class Components::TimeAgo < Matestack::Ui::Component
       def prepare
         @from_time = Time.now - 3.days - 14.minutes - 25.seconds
       end
@@ -142,8 +142,8 @@ describe 'Creating custom components', type: :feature, js: true do
   it 'by extending actionview components - dynamic' do
     module Components end
 
-    class Components::TimeClick < Matestack::Ui::DynamicActionviewComponent
-      vue_js_component_name "custom-time-click"
+    class Components::TimeClick < Matestack::Ui::VueJsComponent
+      vue_name "custom-time-click"
 
       def prepare
         @start_time = Time.now

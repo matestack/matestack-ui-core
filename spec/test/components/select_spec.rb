@@ -21,7 +21,7 @@ describe 'Input Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <select id="foo" class="bar">
-        <option  label="Option 1" selected="selected" value="1"></option>
+        <option  label="Option 1" value="1" selected="selected"></option>
         <option  label="Option 2" value="2"></option>
         <option  label="Option 3" value="3"></option>
       </select>

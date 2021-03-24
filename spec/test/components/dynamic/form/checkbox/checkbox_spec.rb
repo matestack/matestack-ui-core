@@ -33,23 +33,18 @@ describe "Form Component", type: :feature, js: true do
     it "takes an array of options or hash and submits (multiple) selected item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
-            form_checkbox id: "my-array-test-checkbox", key: :array_input, options: ["Array Option 1","Array Option 2"]
-            form_checkbox id: "my-hash-test-checkbox", key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }
-            form_submit do
-              button text: "Submit me!"
-            end
+          matestack_form form_config do
+            form_checkbox key: :array_input, options: ["Array Option 1","Array Option 2"]
+            form_checkbox key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }
+            button "Submit me!"
           end
         end
 
         def form_config
-          return {
+          {
             for: :my_object,
             method: :post,
-            path: :checkbox_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: checkbox_success_form_test_path(id: 42),
           }
         end
 
@@ -67,12 +62,10 @@ describe "Form Component", type: :feature, js: true do
     it "renders auto generated IDs based on user specified ID and optional user specified class per checkbox" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config, :include do
+            matestack_form form_config do
               form_checkbox id: "foo", key: :foo, options: [1, 2]
               form_checkbox id: "bar", key: :bar, options: [1, 2], class: "some-class"
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
         end
 
@@ -80,16 +73,12 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :checkbox_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: checkbox_success_form_test_path(id: 42),
           }
         end
       end
 
       visit "/example"
-
       expect(page).to have_selector('#foo_1')
       expect(page).to have_selector('#foo_2')
       expect(page).to have_selector('.some-class#bar_1')
@@ -99,23 +88,18 @@ describe "Form Component", type: :feature, js: true do
     it "can be initialized by (multiple) item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config, :include do
-              form_checkbox id: "my-array-test-checkbox", key: :array_input, options: ["Array Option 1","Array Option 2"], init: ["Array Option 1", "Array Option 2"]
-              form_checkbox id: "my-hash-test-checkbox", key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }, init: ["2"]
-              form_submit do
-                button text: "Submit me!"
-              end
-            end
+          matestack_form form_config do
+            form_checkbox id: "my-array-test-checkbox", key: :array_input, options: ["Array Option 1","Array Option 2"], init: ["Array Option 1", "Array Option 2"]
+            form_checkbox id: "my-hash-test-checkbox", key: :hash_input, options: { "Hash Option 1": "1", "Hash Option 2": "2" }, init: ["2"]
+            button "Submit me!"
+          end
         end
 
         def form_config
           {
             for: :my_object,
             method: :post,
-            path: :checkbox_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: checkbox_success_form_test_path(id: 42),
           }
         end
       end
@@ -144,19 +128,15 @@ describe "Form Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
+        
+        def response
           @test_model = TestModel.new
           @test_model.some_data = ["Array Option 2"]
           @test_model.more_data = ["my_second_key"]
-        end
-
-        def response
-          form form_config, :include do
+          matestack_form form_config do
             form_checkbox id: "my-array-test-checkbox", key: :some_data, options: TestModel.array_options
             form_checkbox id: "my-hash-test-checkbox", key: :more_data, options: TestModel.hash_options
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -164,7 +144,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: @test_model,
             method: :post,
-            path: :checkbox_model_form_test_path
+            path: checkbox_model_form_test_path
           }
         end
       end
@@ -177,13 +157,13 @@ describe "Form Component", type: :feature, js: true do
 
       uncheck "Hash Option 2"
       click_button "Submit me!"
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
 
       check "Hash Option 2"
       check "Hash Option 1"
       check "Array Option 1"
       click_button "Submit me!"
-      expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
       #form should now be reset
       expect(page).to have_field('Array Option 1', checked: false)
       expect(page).to have_field('Array Option 2', checked: true)
@@ -198,16 +178,11 @@ describe "Form Component", type: :feature, js: true do
       load "#{Rails.root}/app/models/test_model.rb"
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @test_model = TestModel.new
-        end
-
         def response
-          form form_config, :include do
+          @test_model = TestModel.new
+          matestack_form form_config do
             form_checkbox id: "my-array-test-checkbox", key: :status, label: 'Status'
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
             toggle show_on: 'success', id: 'async-page' do
               plain 'Success'
             end
@@ -218,7 +193,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: @test_model,
             method: :post,
-            path: :checkbox_model_form_test_path,
+            path: checkbox_model_form_test_path,
             success: {
               emit: :success
             }
@@ -240,21 +215,16 @@ describe "Form Component", type: :feature, js: true do
       load "#{Rails.root}/app/models/test_model.rb"
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
+        def response
           @test_model = TestModel.new
           @test_model.status = 1
           @test_model.some_boolean_value = true
-        end
-
-        def response
-          form form_config, :include do
+          matestack_form form_config do
             form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
             form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
             form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config', init: 1
             form_checkbox id: "init-as-boolean-from-config", key: :bar, label: 'Boolean Value from Config', init: true
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
             toggle show_on: 'success', id: 'async-page' do
               plain 'Success'
             end
@@ -291,21 +261,16 @@ describe "Form Component", type: :feature, js: true do
       load "#{Rails.root}/app/models/test_model.rb"
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
+        def response
           @test_model = TestModel.new
           @test_model.status = 0
           @test_model.some_boolean_value = false
-        end
-
-        def response
-          form form_config, :include do
+          matestack_form form_config do
             form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
             form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
             form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config', init: 0
             form_checkbox id: "init-as-boolean-from-config", key: :bar, label: 'Boolean Value from Config', init: false
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
             toggle show_on: 'success', id: 'async-page' do
               plain 'Success'
             end
@@ -330,7 +295,6 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field('Boolean Value from Model', checked: false)
       expect(page).to have_field('Integer Value from Config', checked: false)
       expect(page).to have_field('Boolean Value from Config', checked: false)
-
       expect_any_instance_of(FormTestController).to receive(:expect_params)
         .with(hash_including(test_model: { status: false, some_boolean_value: false, foo: false, bar: false }))
       click_button "Submit me!"
@@ -342,21 +306,14 @@ describe "Form Component", type: :feature, js: true do
       load "#{Rails.root}/app/models/test_model.rb"
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @test_model = TestModel.new
-          # @test_model.status = 0
-          # @test_model.some_boolean_value = false
-        end
-
         def response
-          form form_config, :include do
+          @test_model = TestModel.new
+          matestack_form form_config do
             form_checkbox id: "init-as-integer-from-model", key: :status, label: 'Integer Value from Model'
             form_checkbox id: "init-as-boolean-from-model", key: :some_boolean_value, label: 'Boolean Value from Model'
             form_checkbox id: "init-as-integer-from-config", key: :foo, label: 'Integer Value from Config' #, init: 0
             form_checkbox id: "init-as-boolean-from-config", key: :bar, label: 'Boolean Value from Config' #, init: false
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
             toggle show_on: 'success', id: 'async-page' do
               plain 'Success'
             end

@@ -11,12 +11,8 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem "trailblazer-cells"
-gem "cells-rails"
-gem "cells-haml"
-
 group :development, :test do
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 4.0.2'
   gem 'capybara'
   gem 'webpacker', '~> 4.0'
   gem 'pg', '>= 0.18', '< 2.0'
@@ -25,13 +21,12 @@ group :development, :test do
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
   gem 'webmock'
-  gem 'turbolinks'
 end
 
 group :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem "generator_spec"
-  gem "rspec-retry" # repeating flaky tests
-  gem "rspec-wait", "~> 0.0.9"
+  # gem "rspec-retry" # repeating flaky tests
+  # gem "rspec-wait", "~> 0.0.9"
 end

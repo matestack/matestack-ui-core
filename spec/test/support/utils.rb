@@ -16,7 +16,10 @@ module Utils
   # ends up on Object so the method is available on a class level which
   # for tests allows a relatively convenient access
   def register_component(dsl_method, component_class)
-    Matestack::Ui::Core::Component::Registry.register_component(dsl_method, component_class)
+    # Matestack::Ui::Component.register({ dsl_method => component_class })
+    Matestack::Ui::Core::Base.define_method(dsl_method) do |text = nil, options = {}, &block|
+      component_class.call(text, options, &block)
+    end
   end
 
   # even more test convenience
@@ -31,10 +34,11 @@ module Utils
   end
 
   def matestack_app(&block)
-    MatestackWrapperApp.define_method(:response, block)
+    MatestackWrapperApp.define_method(:app_body, block)
   end
 
   def reset_matestack_app
-    matestack_app { yield_page }
+    MatestackWrapperApp.define_method(:app_body) do
+    end
   end
 end

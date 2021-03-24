@@ -7,7 +7,7 @@ describe "Onclick Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         onclick emit: 'show_message' do
-          button text: 'click me'
+          button 'click me'
         end
         toggle show_on: 'show_message' do
           plain "some message"
@@ -26,7 +26,7 @@ describe "Onclick Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         onclick emit: 'show_message', data: "some static data" do
-          button text: 'click me'
+          button 'click me'
         end
         toggle show_on: 'show_message' do
           plain "some message"

@@ -4,17 +4,10 @@ include Utils
 describe "Component", type: :feature, js: true do
 
   before :all do
-
-    module Components end
-
     module Pages end
-
-    module Matestack::Ui::Core end
-
     class ComponentTestController < ActionController::Base
-      layout "application"
-
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
+      matestack_app App
 
       def my_action
         render Pages::ExamplePage
@@ -36,10 +29,11 @@ describe "Component", type: :feature, js: true do
     it "and emit events" do
       # the vue.js component 'my-test-component' is defined in `spec/dummy/assets/javascripts/test/components.js`
       class TestComponent < Matestack::Ui::VueJsComponent
+        vue_name 'test-component'
 
         def response
           div id: "my-component" do
-            button attributes: {"@click": "emitMessage(\"some_event\", \"hello event bus!\")"} do
+            button "@click": "emitMessage(\"some_event\", \"hello event bus!\")" do
               plain "click me!"
             end
           end
@@ -56,28 +50,26 @@ describe "Component", type: :feature, js: true do
             test_component
           end
           toggle show_on: "some_event" do
-            plain "received some_event with: {{event.payload}}"
+            plain "received some_event with: {{ event.data }}"
           end
         end
 
       end
 
       visit "component_dynamic_event_bus_access_spec/component_test"
-
       expect(page).not_to have_content("received some_event with: hello event bus!")
-
       click_on "click me!"
-
       expect(page).to have_content("received some_event with: hello event bus!")
     end
 
     it "and receive events" do
       # the vue.js component 'my-test-component' is defined in `spec/dummy/assets/javascripts/test/components.js`
       class TestComponent < Matestack::Ui::VueJsComponent
+        vue_name 'test-component'
 
         def response
           div id: "my-component" do
-            plain "received some_event with: {{received_message}}"
+            plain "received some_event with: {{ received_message }}"
           end
         end
 
@@ -91,19 +83,16 @@ describe "Component", type: :feature, js: true do
           div id: "div-on-page" do
             test_component
           end
-          onclick emit: "some_external_event", emit_payload: "hello from outside!" do
-            button text: "click me!"
+          onclick emit: "some_external_event", data: "hello from outside!" do
+            button "click me!"
           end
         end
 
       end
 
       visit "component_dynamic_event_bus_access_spec/component_test"
-
       expect(page).not_to have_content("received some_event with: hello from outside!")
-
       click_on "click me!"
-
       expect(page).to have_content("received some_event with: hello from outside!")
     end
 

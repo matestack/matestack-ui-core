@@ -7,10 +7,10 @@ describe "Async Component", type: :feature, js: true do
     class Components::LegacyViews::Pages::Async < Matestack::Ui::Component
       def response
         async rerender_on: 'update_time', id: 'async-legacy-integratable' do
-          paragraph text: DateTime.now.strftime('%Q'), id: 'time'
+          paragraph DateTime.now.strftime('%Q'), id: 'time'
         end
         onclick emit: 'update_time' do
-          button text: 'Click me!'
+          button 'Click me!'
         end
         toggle show_on: 'async_rerender_error', id: 'async-error' do
           plain 'Error - {{event.data.id}}'
@@ -32,11 +32,11 @@ describe "Async Component", type: :feature, js: true do
         def response
           collection.each_with_index do |item, index|
             async rerender_on: "update_item_#{index}, update_items", id: "async-legacy-integratable-#{index}" do
-              paragraph text: "#{item} - #{DateTime.now.strftime('%Q')}"
+              paragraph "#{item} - #{DateTime.now.strftime('%Q')}"
             end
           end
           onclick emit: 'update_items' do
-            button text: 'Click me!'
+            button 'Click me!'
           end
           toggle show_on: 'async_rerender_error', id: 'async-error' do
             plain 'Error - {{event.data.id}}'

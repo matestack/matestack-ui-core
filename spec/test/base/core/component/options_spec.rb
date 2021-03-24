@@ -8,7 +8,7 @@ describe "Component", type: :feature, js: true do
     class ComponentTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage
@@ -30,10 +30,10 @@ describe "Component", type: :feature, js: true do
     it "components can take an options hash" do
 
       class SomeStaticComponent < Matestack::Ui::Component
-
+        optional :some_option, :some_other
         def response
           div id: "my-component" do
-            plain "got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
+            plain "got some option: #{ctx.some_option} and some other option: #{ctx.some_other[:option]}"
           end
         end
 
@@ -60,11 +60,12 @@ describe "Component", type: :feature, js: true do
 
       class SpecialComponent < Matestack::Ui::Component
 
-        requires :some_option
+        required :some_option
+        optional :some_other
 
         def response
           div id: "my-component" do
-            plain "got some option: #{@options[:some_option]} and some other option: #{@options[:some_other][:option]}"
+            plain "got some option: #{ctx.some_option} and some other option: #{ctx.some_other[:option]}"
           end
         end
 
@@ -83,7 +84,7 @@ describe "Component", type: :feature, js: true do
 
       visit "component_options_spec/component_test"
 
-      expect(page).to have_content("Required property some_option is missing for SpecialComponent")
+      expect(page).to have_content("required property 'some_option' is missing for 'SpecialComponent'")
     end
 
     it "components can manually validate if given options are correct and raise error if not"

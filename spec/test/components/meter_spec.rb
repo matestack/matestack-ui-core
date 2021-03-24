@@ -1,32 +1,20 @@
-require_relative '../support/utils'
-include Utils
+require 'rails_helper'
 
 describe 'Meter Component', type: :feature, js: true do
+  include Utils
 
   it 'Renders an meter tag on the page' do
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        #label for: 'meter_id'
-        meter id: 'meter_id', value: 0.6
-        #label for: 'meter'
-        meter id: 'meter', min: 0, max: 10, value: 6 do
-          plain '6 out of 10. 60%.'
-        end
-        meter id: 'meter', low: 2, high: 8, optimum: 6, min: 0, max: 10, value: 6 do
-          plain '6 out of 10. 60%.'
-        end
+    matestack_render do
+      #label for: 'meter_id'
+      meter id: 'meter_id', value: 0.6
+      #label for: 'meter'
+      meter '6 out of 10. 60%.', id: 'meter', min: 0, max: 10, value: 6
+      meter id: 'meter', low: 2, high: 8, optimum: 6, min: 0, max: 10, value: 6 do
+        plain '6 out of 10. 60%.'
       end
     end
-
-    visit '/example'
-    output_html = page.html
-    expected_output = <<~HTML 
-      <meter id="meter_id" value="0.6"></meter>
-      <meter id="meter" max="10" min="0" value="6">6 out of 10. 60%.</meter>
-      <meter high="8" id="meter" low="2" max="10" min="0" optimum="6" value="6">
-        6 out of 10. 60%.
-      </meter>
-    HTML
-    expect(stripped(output_html)).to include(stripped(expected_output))
+    expect(page).to have_selector("meter#meter_id[value='0.6']")
+    expect(page).to have_selector("meter#meter[value='6'][min='0'][max='10']", text: '6 out of 10. 60%.')
+    expect(page).to have_selector("meter#meter[value='6'][min='0'][max='10'][optimum='6'][high='8'][low='2']", text: '6 out of 10. 60%.')
   end
 end
