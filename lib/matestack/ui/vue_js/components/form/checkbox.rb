@@ -51,8 +51,8 @@ module Matestack
                 '@change': change_event,
                 'init-value': (init_value || []).to_json,
                 'v-bind:class': "{ '#{error_class}': #{error_key} }",
-                'value-type': item_value(checkbox_options.first).is_a?(Integer) ? Integer : nil,
-                "#{v_model_type}": input_key,
+                'value-type': value_type(item),
+                "#{v_model_type(item)}": input_key,
               }.merge(self.options)
             end
 

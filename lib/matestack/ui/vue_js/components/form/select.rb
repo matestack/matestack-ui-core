@@ -41,7 +41,7 @@ module Matestack
                 multiple: multiple,
                 id: id,
                 ref: "select#{'.multiple' if multiple}.#{key}",
-                'value-type': item_value(select_options.first).is_a?(Integer) ? Integer : nil,
+                'value-type': value_type(select_options.first),
                 'init-value': init_value,
               })
             end

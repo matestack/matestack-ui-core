@@ -38,7 +38,7 @@ module Matestack
                 value: item_value(item),
                 type: :radio,
                 ref: "select.#{key}",
-                'value-type': item_value(radio_options.first).is_a?(Integer) ? Integer : nil,
+                'value-type': value_type(item_value(radio_options.first))
               })
             end
 

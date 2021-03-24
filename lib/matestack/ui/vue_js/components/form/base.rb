@@ -87,9 +87,22 @@ module Matestack
               "$parent.data['#{key}']"
             end
 
-            # set v-model.number for all numeric init values
-            def v_model_type
-              (type == :number || init_value.is_a?(Numeric)) ? 'v-model.number' : 'v-model'
+            # set v-model.number for all numeric init values or options
+            def v_model_type(item=nil)
+              if item.nil?
+                (type == :number || init_value.is_a?(Numeric)) ? 'v-model.number' : 'v-model'
+              else
+                item.is_a?(Integer) ? 'v-model.number' : 'v-model'
+              end
+            end
+          
+            # set value-type "Integer" for all numeric init values or options
+            def value_type(item=nil)
+              if item.nil?
+                (type == :number || init_value.is_a?(Numeric)) ? Integer : nil
+              else
+                item.is_a?(Integer)? Integer : nil
+              end
             end
 
             # error rendering
