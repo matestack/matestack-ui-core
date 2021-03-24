@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Work In Progress](README.md)
+* [2.0.0 Migration Guide \(WIP\)](2.0.0-migration-guide-wip.md)
 * [Changelog](changelog.md)
 
 ## WIP
