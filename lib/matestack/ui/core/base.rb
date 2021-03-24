@@ -29,10 +29,14 @@ module Matestack
         # check if text is given and set text and options accordingly
         def extract_options(text, options)
           if text.is_a? Hash
-            self.options = text
+            # we need to dup the text object because we're deleting keys from this object which manipulates the object passed in here
+            # if this object is reused after beeing injected into this component, the keys would be missing 
+            self.options = text.dup 
           else
             self.text = text
-            self.options = options || {}
+            # we need to dup the options object because we're deleting keys from this object which manipulates the object passed in here
+            # if this object is reused after beeing injected into this component, the keys would be missing 
+            self.options = options.dup || {}
           end
           self.options.symbolize_keys!
         end
