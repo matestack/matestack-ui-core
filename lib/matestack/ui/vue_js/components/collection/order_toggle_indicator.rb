@@ -5,7 +5,8 @@ module Matestack
         module Collection
           class OrderToggleIndicator < Matestack::Ui::Component
 
-            required :key, :asc, :desc, :default
+            required :key, :asc, :desc
+            optional :default
 
             def response
               span do

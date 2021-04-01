@@ -21,7 +21,7 @@ describe "Render", type: :feature, js: true do
     Rails.application.reload_routes!
   end
 
-  it "wraps a Page with a minimal default App when no App is explicitly specified" do
+  it "does not wrap a Page with a minimal default App when no App is explicitly specified" do
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -47,8 +47,9 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example_a"
 
-    # dom structure implies correct rendering with wrapping minimal app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+    expect(page).not_to have_selector('div.matestack-app-wrapper')
+
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -163,43 +164,6 @@ describe "Render", type: :feature, js: true do
     visit "render_app_resolving_spec/second_example_c"
     # dom structure implies correct rendering with wrapping specified app
     text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
-    expect(text).to eq("hello from page")
-  end
-
-  it "does not wrap a Page with an App when explicitly set to false" do
-
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        matestack do
-          div do
-            plain "hello from page"
-          end
-        end
-      end
-    end
-
-    # otherwise the matestack_app_class class var would be set as specified in the former spec
-    class RenderTestDController < ActionController::Base
-      include Matestack::Ui::Core::Helper
-      layout "application"
-
-      def example
-        render ExamplePage # should be wrapped by a minimal default
-      end
-
-      def second_example
-        render ExamplePage, matestack_app: false # should not be wrapped by an app at all
-      end
-    end
-
-    visit "render_app_resolving_spec/example_d"
-    # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]//div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
-    expect(text).to eq("hello from page")
-
-    visit "render_app_resolving_spec/second_example_d"
-    # dom structure implies correct rendering without app
-    text = find(:xpath, '//div[@class="matestack-page-root"]/div').text
     expect(text).to eq("hello from page")
   end
 

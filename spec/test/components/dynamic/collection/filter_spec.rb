@@ -24,7 +24,7 @@ describe "Collection Component", type: :feature, js: true do
 
     it "Example 1 - Filterable collection" do
       class ExamplePage < Matestack::Ui::Page
-        include Matestack::Ui::Core::Collection::Helper
+        include Matestack::Ui::VueJs::Components::Collection::Helper
 
         def prepare
           my_collection_id = "my-first-collection"
@@ -47,12 +47,10 @@ describe "Collection Component", type: :feature, js: true do
 
         def filter
           collection_filter @my_collection.config do
-            collection_filter_select id: "my-title-filter-select-ends-with", key: :ends_with, type: :dropdown, options: (1..10).to_a, placeholder: "Ends with"
-            collection_filter_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
-            collection_filter_input id: "my-description-filter-input", key: :description, type: :text, placeholder: "Filter by description"
-            collection_filter_submit do
-              button text: "filter"
-            end
+            form_select id: "my-title-filter-select-ends-with", key: :ends_with, type: :dropdown, options: (1..10).to_a, placeholder: "Ends with"
+            form_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
+            form_input id: "my-description-filter-input", key: :description, type: :text, placeholder: "Filter by description"
+            button text: "filter", type: :submit
             collection_filter_reset do
               button text: "reset"
             end

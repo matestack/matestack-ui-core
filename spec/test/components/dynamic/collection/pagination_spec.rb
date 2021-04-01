@@ -24,7 +24,7 @@ describe "Collection Component", type: :feature, js: true do
 
     it "Example 2 - Paginated collection" do
       class ExamplePage < Matestack::Ui::Page
-        include Matestack::Ui::Core::Collection::Helper
+        include Matestack::Ui::VueJs::Components::Collection::Helper
 
         def prepare
           my_collection_id = "my-first-collection"
@@ -148,16 +148,15 @@ describe "Collection Component", type: :feature, js: true do
           }, status: :ok
         end
       end
-  
+
       Rails.application.routes.append do
         delete '/delete_test_model_2', to: 'collection_test#destroy_test_model', as: 'delete_test_model_2'
       end
       Rails.application.reload_routes!
-  
+
       class ExamplePage < Matestack::Ui::Page
-        include Matestack::Ui::Core::HasViewContext
-        include Matestack::Ui::Core::Collection::Helper
-  
+        include Matestack::Ui::VueJs::Components::Collection::Helper
+
         def prepare
           my_collection_id = "my-first-collection"
           my_base_query = TestModel.all
@@ -168,12 +167,12 @@ describe "Collection Component", type: :feature, js: true do
             init_limit: 5
           })
         end
-  
+
         def response
           heading size: 2, text: "My Collection"
           content
         end
-  
+
         def content
           async rerender_on: "my-first-collection-update", id: "my-collection" do
             collection_content @my_collection.config do
@@ -193,45 +192,42 @@ describe "Collection Component", type: :feature, js: true do
             end
           end
         end
-  
+
         def paginator
           plain "showing #{@my_collection.from}"
           plain "to #{@my_collection.to}"
           plain "from total #{@my_collection.base_count}"
-  
+
           collection_content_previous do
             button text: "previous"
           end
-  
+
           @my_collection.pages.each do |page|
             collection_content_page_link page: page do
               button text: page
             end
           end
-  
+
           collection_content_next do
             button text: "next"
           end
         end
-  
+
         def my_action_config id
           {
             method: :delete,
-            path: :delete_test_model_2_path,
-            params:{
-              id: id
-            },
+            path: delete_test_model_2_path(id: id),
             success: {
               emit: "my-first-collection-update"
             }
           }
         end
       end
-  
+
       visit "/example"
       click_button "3"
       expect(page).to have_content("showing 11 to 11 from total 11")
-  
+
       click_button "delete some-title-11"
       expect(page).to have_content("showing 6 to 10 from total 10")
     end

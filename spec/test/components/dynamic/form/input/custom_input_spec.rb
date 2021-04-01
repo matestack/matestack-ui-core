@@ -277,8 +277,9 @@ describe "Form Component", type: :feature, js: true do
 
       value = "#{DateTime.now}"
       fill_in "description", with: value
-      page.find("body").click #defocus
+      click_button "Submit me!" #defocus, click again
       click_button "Submit me!"
+      page.save_screenshot("test.png")
       expect(page).to have_field("title", with: "Title")
       expect(page).to have_field("description", with: "")
       expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')

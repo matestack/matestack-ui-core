@@ -30,12 +30,12 @@ module Matestack
         def extract_options(text, options)
           if text.is_a? Hash
             # we need to dup the text object because we're deleting keys from this object which manipulates the object passed in here
-            # if this object is reused after beeing injected into this component, the keys would be missing 
-            self.options = text.dup 
+            # if this object is reused after beeing injected into this component, the keys would be missing
+            self.options = text.dup
           else
             self.text = text
             # we need to dup the options object because we're deleting keys from this object which manipulates the object passed in here
-            # if this object is reused after beeing injected into this component, the keys would be missing 
+            # if this object is reused after beeing injected into this component, the keys would be missing
             self.options = options.dup || {}
           end
           self.options.symbolize_keys!
@@ -68,12 +68,13 @@ module Matestack
           if children.empty?
             child_content = self.escape ? ERB::Util.html_escape(text) : text if text
           else
-            child_content = children.map { |child| child.render_content }.join.html_safe
+            # using "\n" in order to preserve the 1.x rendering behavior which impacts appearance in browser
+            child_content = (children.map { |child| " \n " + child.render_content }.join + " \n ").html_safe
           end
           result = ''
           if self.html_tag
             result = tag.public_send(self.html_tag, child_content, self.options || {})
-          else
+          elsif child_content
             result = child_content
           end
           result
