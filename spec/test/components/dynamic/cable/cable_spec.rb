@@ -66,7 +66,7 @@ describe "Cable Component", type: :feature, js: true do
     expect(page).to have_selector('button', text: 'Click')
     expect(page).not_to have_content('event successful emitted')
 
-    click_on 'Click'
+    click_button 'Click'
     expect(page).to have_content('event successful emitted')
   end
 
@@ -106,7 +106,7 @@ describe "Cable Component", type: :feature, js: true do
     expect(page).to have_selector('button', text: 'Click')
     expect(page).not_to have_content('event successful emitted')
 
-    click_on 'Click'
+    click_button 'Click'
     expect(page).to have_content('event successful emitted')
   end
 
