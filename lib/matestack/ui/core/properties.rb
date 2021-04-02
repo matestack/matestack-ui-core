@@ -12,8 +12,7 @@ module Matestack
           def initialize(html_tag = nil, text = nil, options = {}, &block)
             extract_options(text, options)
             create_context
-            # warn "[DEPRECATION] passing text with option :text is deprecated. Please pass text as first argument." if self.options.has_key?(:text)
-            self.text = self.options.delete(:text) if self.options.has_key?(:text)
+            set_text
             super
           end
         end
@@ -78,6 +77,28 @@ module Matestack
           end if properties
         end
 
+        def set_text
+          # the text property is treated specially since 2.0.0 enables text injection for all components like:
+          #
+          # some_component "foo", class: "whatever" -> self.text -> "foo"
+          #
+          # prior to 2.0.0, text injection happened like that:
+          #
+          # some_component text: "foo", class: "whatever" -> self.options[:text] -> "foo"
+          #
+          # in both cases "foo" should be available via self.context.text AND self.text
+          #
+          # in 2.0.0 text is available via context.text if text is marked as required or optional
+          # in order to have a consistent access, we make this text accessable via self.text as well in this case
+          # in all cases, text is accessable via self.text AND self.context.text
+          # we make the passed in text option available via context.text by default, even if not marked as required or optional
+          #
+          # additionally we need to delete text from the options, as they might be used to be rendered as
+          # tag attributes without any whitelisting as happened prior to 2.0.0
+          self.text = self.options.delete(:text) if self.options.has_key?(:text)
+          self.context.text = self.text
+        end
+        
       end
     end
   end
