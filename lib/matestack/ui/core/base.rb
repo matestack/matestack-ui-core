@@ -73,7 +73,7 @@ module Matestack
           end
           result = ''
           if self.html_tag
-            result = tag.public_send(self.html_tag, child_content, self.options || {})
+            result = tag.public_send(self.html_tag, child_content, **self.options || {})
           elsif child_content
             result = child_content
           end
