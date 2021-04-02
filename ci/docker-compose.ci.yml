@@ -33,8 +33,6 @@ services:
       dockerfile: ./ci/Dockerfile.test_6_1_ruby_2_7
     environment:
       RAILS_ENV: test
-    ports:
-      - "33123:33123"
     volumes:
       - "../ci/artifacts:/app/ci/artifacts"
     links:
