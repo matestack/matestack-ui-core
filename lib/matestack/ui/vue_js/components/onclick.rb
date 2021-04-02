@@ -8,15 +8,16 @@ module Matestack
           optional :emit, :data
 
           def response
-            div onclick_attributes do
+            a onclick_attributes do
               yield
             end
           end
 
           def onclick_attributes
             options.merge({
-              class: "matestack-onclick-component-root", 
-              '@click': 'perform'
+              class: "matestack-onclick-component-root",
+              '@click.prevent': 'perform',
+              href: "#"
             })
           end
 
