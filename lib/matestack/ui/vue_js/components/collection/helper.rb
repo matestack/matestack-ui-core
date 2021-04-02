@@ -120,7 +120,7 @@ module Matestack::Ui::VueJs::Components::Collection
 
     end
 
-    def vue_props
+    def config
       self.to_h.except(:context)
     end
 
