@@ -10,7 +10,7 @@ module Matestack
             required :id
             required :filter_state
 
-            def config
+            def vue_props
               super.merge({
                 id: ctx.id
               })

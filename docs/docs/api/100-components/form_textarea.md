@@ -94,10 +94,10 @@ MatestackUiCore.Vue.component('my-form-textarea', {
   },
   mounted: function(){
     // use/initialize any third party library here
-    // you can access the default initial value via this.componentConfig["init_value"]
+    // you can access the default initial value via this.props["init_value"]
     // if you need to, you can access your own component config data which added
     // within the prepare method of the corresponding Ruby class
-    // this.componentConfig["foo"] would be "bar" in this case
+    // this.props["foo"] would be "bar" in this case
   }
 });
 ```

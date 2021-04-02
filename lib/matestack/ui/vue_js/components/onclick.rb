@@ -22,7 +22,7 @@ module Matestack
 
           protected
 
-          def config
+          def vue_props
             {
               emit: ctx.emit,
               data: ctx.data,

@@ -14,7 +14,7 @@ module Matestack
               end
             end
 
-            def config
+            def vue_props
               {
                 id: ctx.id
               }

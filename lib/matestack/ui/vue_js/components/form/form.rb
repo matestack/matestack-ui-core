@@ -30,7 +30,7 @@ module Matestack
               }
             end
 
-            def config
+            def vue_props
               {
                 for: for_attribute,
                 submit_path: ctx.path,

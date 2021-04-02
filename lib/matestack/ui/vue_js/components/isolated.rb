@@ -52,7 +52,7 @@ module Matestack
             end
           end
 
-          def config
+          def vue_props
             {
               component_class: self.class.name,
               public_options: ctx.public_options,

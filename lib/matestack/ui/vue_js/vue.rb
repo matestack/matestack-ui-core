@@ -7,7 +7,7 @@ module Matestack
           extract_options(text, options)
           super(html_tag, text, options, &block)
         end
-        
+
         def create_children(&block)
           vue_component do
             self.response do
@@ -15,17 +15,17 @@ module Matestack
             end
           end
         end
-        
+
         def vue_component(&block)
           Matestack::Ui::Core::Base.new(:component, component_attributes, &block)
         end
-        
+
         def component_attributes
           {
             is: vue_name,
             ref: component_id,
             ':params': params.to_json,
-            ':component-config': self.config.to_json,
+            ':props': self.vue_props.to_json,
             'inline-template': true
           }
         end
@@ -33,15 +33,20 @@ module Matestack
         def component_id
           options[:id] || nil
         end
-          
-        def config
+
+        def vue_props
           # raise "config needs to be overwritten by #{self.class}"
         end
-        
+        alias :config :vue_props
+
+        def vue_props
+          # raise "config needs to be overwritten by #{self.class}"
+        end
+
         def self.vue_name(name = nil)
           name ? @vue_name = name : @vue_name
         end
-        
+
         def vue_name
           raise "vue_name missing for #{self.class}" unless self.class.vue_name
           self.class.vue_name

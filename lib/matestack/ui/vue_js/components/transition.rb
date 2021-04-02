@@ -26,7 +26,7 @@ module Matestack
             })
           end
 
-          def config
+          def vue_props
             {
               link_path: ctx.path,
               delay: ctx.delay,

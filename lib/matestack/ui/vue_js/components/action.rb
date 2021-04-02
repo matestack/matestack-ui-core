@@ -20,7 +20,7 @@ module Matestack
             }.merge(options)
           end
 
-          def config
+          def vue_props
             {}.tap do |conf|
               conf[:action_path] = ctx.path
               conf[:method] = action_method

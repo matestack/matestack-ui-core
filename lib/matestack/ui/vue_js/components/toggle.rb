@@ -22,7 +22,7 @@ module Matestack
 
           protected
 
-          def config
+          def vue_props
             {
               show_on: ctx.show_on,
               hide_on: ctx.hide_on,

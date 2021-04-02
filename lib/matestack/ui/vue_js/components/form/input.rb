@@ -22,7 +22,7 @@ module Matestack
               attributes
             end
 
-            def config
+            def vue_props
               {
                 init_value: init_value,
                 key: key,

@@ -49,7 +49,7 @@ module Matestack
             }
           end
 
-          def config
+          def vue_props
             {
               id: ctx.id,
               component_key: ctx.id,
