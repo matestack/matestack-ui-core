@@ -152,7 +152,7 @@ end
 This data is then available as:
 
 ```javascript
-this.props["some_serverside_data"]
+this.componentConfig["some_serverside_data"]
 ```
 
 within the Vue.js JavaScript component.
@@ -177,7 +177,7 @@ Please make sure to integrate the `componentMixin` which gives the JavaScript co
 The JavaScript component can access the serverside injected data like:
 
 ```javascript
-this.props["some_serverside_data"]
+this.componentConfig["some_serverside_data"]
 ```
 
 if implemented like
