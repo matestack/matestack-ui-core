@@ -753,7 +753,7 @@ end
 
 Wow! We just had to copy and paste a JavaScript snippet once in order to integrate ActionCable, broadcast an event from the controller action and without any more added complexity, we get synced clients, implemented in pure Ruby! Fantastic!
 
-We will take a short break before adding the next cool reactivity feature add refactor a little bit! Matestack encourages you to create a readable and maintainable UI implemetation. Therefore we will move some complexity from the current index page to a self contained Matestack component!
+We will take a short break before adding the next cool reactivity feature and refactor a little bit! Matestack encourages you to create a readable and maintainable UI implemetation. Therefore we will move some complexity from the current index page to a self contained Matestack component!
 
 ## Create a Matestack component
 
