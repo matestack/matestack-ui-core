@@ -755,7 +755,7 @@ Wow! We just had to copy and paste a JavaScript snippet once in order to integra
 
 We will take a short break before adding the next cool reactivity feature and refactor a little bit! Matestack encourages you to create a readable and maintainable UI implemetation. Therefore we will move some complexity from the current index page to a self contained Matestack component!
 
-## Create a Matestack component
+## Create a Matestack Component
 
 * [x] Create a components folder within the matestack folder
 
@@ -765,6 +765,7 @@ touch app/matestack/components/post.rb
 ```
 
 * [x] Move code from the index page to the new component
+* [x] adjust references to the given post parameter to be called as a method of the context object (`context.post.id`)
 
 `app/matestack/components/post.rb`
 
@@ -775,16 +776,16 @@ class Components::Post < Matestack::Ui::Component
 
   def response
     # copied from the index page
-    async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
+    async rerender_on: "cable__liked_post_#{context.post.id}", id: "post-#{context.post.id}" do
       div class: "mb-3 p-3 rounded shadow-sm" do
         heading size: 5 do
-          plain post.username
-          small text: post.created_at.strftime("%d.%m.%Y %H:%M")
+          plain context.post.username
+          small text: context.post.created_at.strftime("%d.%m.%Y %H:%M")
         end
-        paragraph text: post.body, class: "mb-5"
-        action path: like_post_path(post), method: :put do
+        paragraph text: context.post.body, class: "mb-5"
+        action path: like_post_path(context.post), method: :put do
           button class: "btn btn-light" do
-            plain "Like (#{post.likes_count})"
+            plain "Like (#{context.post.likes_count})"
           end
         end
       end
@@ -794,38 +795,6 @@ class Components::Post < Matestack::Ui::Component
 end
 ```
 
-* [x] Create a component registry file
-
-```bash
-touch app/matestack/components/registry.rb
-```
-
-* [x] Register the new component
-
-`app/matestack/components/registry.rb`
-
-```ruby
-module Components::Registry
-
-  Matestack::Ui::Core::Component::Registry.register_components(
-    post_component: Components::Post,
-  )
-
-end
-```
-
-* [x] Include the component registry in your application controller
-
-`app/controllers/application_controller.rb`
-
-```ruby
-class ApplicationController < ActionController::Base
-
-  include Matestack::Ui::Core::ApplicationHelper
-  include Components::Registry
-
-end
-```
 
 * [x] Adjust the index page in order to use the new component
 
@@ -845,33 +814,33 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    # ...
+  # ...
 
-    def post_list_partial
-      async rerender_on: "submitted", id: "post-list" do
-        @posts.each do |post|
-          # post_partial(post)
-          post_component post: post
-        end
+  def post_list_partial
+    async rerender_on: "submitted", id: "post-list" do
+      @posts.each do |post|
+        # post_partial(post)
+        Components::Post.(post: post)
       end
     end
+  end
 
-    # def post_partial post
-    #   async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
-    #     div class: "mb-3 p-3 rounded shadow-sm" do
-    #       heading size: 5 do
-    #         plain post.username
-    #         small text: post.created_at.strftime("%d.%m.%Y %H:%M")
-    #       end
-    #       paragraph text: post.body, class: "mb-5"
-    #       action path: like_post_path(post), method: :put do
-    #         button class: "btn btn-light" do
-    #           plain "Like (#{post.likes_count})"
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
+  # def post_partial post
+  #   async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
+  #     div class: "mb-3 p-3 rounded shadow-sm" do
+  #       heading size: 5 do
+  #         plain post.username
+  #         small text: post.created_at.strftime("%d.%m.%Y %H:%M")
+  #       end
+  #       paragraph text: post.body, class: "mb-5"
+  #       action path: like_post_path(post), method: :put do
+  #         button class: "btn btn-light" do
+  #           plain "Like (#{post.likes_count})"
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 
 end
 ```
@@ -881,6 +850,93 @@ end
 * [x] Navigate to `localhost:3000/posts`
 
 Everything should be the same! We just refactored some code in order to better manage complexity.
+
+
+## Component Registry
+
+Components can be invoked as we have done above (`Components::Post.(post: post)`). But sometimes the namespace can get a little long and in the interest of keeping our code beautiful, we can register our components so we can call them like:
+
+```ruby
+  # ...
+
+  def post_list_partial
+    async rerender_on: "submitted", id: "post-list" do
+      @posts.each do |post|
+        # post_partial(post)
+        post_component post: post
+      end
+    end
+  end
+
+  # ...
+```
+
+Let's refactor and set up a component registry and register our component. 
+
+* [x] Create a component registry file
+
+```bash
+touch app/matestack/components/registry.rb
+```
+
+* [x] Register the new component
+
+`app/matestack/components/registry.rb`
+
+```ruby
+module Components::Registry
+
+  def post_component(post)
+    Components::Post.(post: post)
+  end
+
+end
+```
+
+* [x] Adjust the index page in order to use the component in the new way
+
+`app/matestack/twitter_clone/posts/index.rb`
+
+
+```ruby
+class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
+
+  def prepare
+    @posts = Post.all
+  end
+
+  def response
+    post_form_partial
+    post_list_partial
+  end
+
+  private
+
+  # ...
+
+  def post_list_partial
+    async rerender_on: "submitted", id: "post-list" do
+      @posts.each do |post|
+        # post_partial(post)
+        post_component post: post
+      end
+    end
+  end
+
+  # ...
+
+end
+```
+
+
+**Test the current state again**
+
+* [x] Navigate to `localhost:3000/posts`
+
+Everything should be the same after this small refactoring.
+
+
+
 
 Now we will cover the last topic of this guide:
 
