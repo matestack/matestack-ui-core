@@ -68,6 +68,8 @@ end
 
 ## Import Matestack's JavaScript
 
+Previously, in version 1.5, Vue and Vuex were imported automatically. Now this must be done manually which is the webpacker way. You can import it in `app/javascript/packs/application.js` or in another pack if you need.
+
 * [x] Modify the JavaScript pack in order to require `matestack-ui-core` and deactivate `turbolinks`:
 
 `app/javascript/packs/application.js`
@@ -82,10 +84,14 @@ require("@rails/ujs").start()
 // require("turbolinks").start() //remove
 require("@rails/activestorage").start()
 require("channels")
-import MatestackUiCore from 'matestack-ui-core' //add
+
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
+
+import MatestackUiCore from 'matestack-ui-core'
 ```
 
-## Application layout and views
+## Application Layout and Views
 
 On `app/views/layouts/application.html.erb` do:
 
@@ -100,11 +106,11 @@ On `app/views/layouts/application.html.erb` do:
 <html>
   <head>
     <title>TwitterClone</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
