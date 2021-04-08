@@ -232,7 +232,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 end
 ```
 
-## Add Matestack to the controller
+## Add Matestack to the Controller
 
 * [x] Reference Matestack's app and page on the controller and `index` action:
 
