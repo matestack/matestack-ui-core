@@ -299,9 +299,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
             form_textarea key: :body, placeholder: "What's up?", class: "form-control"
           end
           div class: "mb-3" do
-            form_submit do
-              button type: :submit, class: "btn btn-primary", text: "Post!"
-            end
+            button 'submit', type: :submit, class: "btn btn-primary", text: "Post!"
           end
         end
       end
