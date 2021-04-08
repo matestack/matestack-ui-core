@@ -599,6 +599,7 @@ rails generate channel MatestackUiCoreChannel
 
 ```javascript
 import consumer from "./consumer"
+import MatestackUiCore from 'matestack-ui-core'
 
 consumer.subscriptions.create("MatestackUiCoreChannel", {
   connected() {
