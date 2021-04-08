@@ -137,7 +137,7 @@ On `app/views/layouts/application.html.erb` do:
 ```ruby
 class ApplicationController < ActionController::Base
 
-  include Matestack::Ui::Core::ApplicationHelper
+  include Matestack::Ui::Core::Helper
 
 end
 ```
