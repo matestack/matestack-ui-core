@@ -291,7 +291,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
     def post_form_partial
       div class: "mb-3 p-3 rounded shadow-sm" do
         heading size: 4, text: "New Post", class: "mb-3"
-        form form_config_helper do
+        matestack_form form_config_helper do
           div class: "mb-3" do
             form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
           end
