@@ -581,7 +581,7 @@ end
 
 * [x] Navigate to `localhost:3000/posts`
 
-Great! Now we get instant feedback after performing successful or non successful form submissions! And still no line of JavaScript involved! The same approach would work for our actions, but we do not want to have that feedback after performing the actions in this example!
+Great! Now we get instant feedback after performing successful or unsuccessful form submissions! And still no line of JavaScript involved! The same approach would work for our actions, but we do not want to have that feedback after performing the actions in this example!
 
 All of the above described reactivity only applies for one client. A second user wouldn't see the new post, unless he reloads his browser page. But of course, we want to sync all connected clients! It's time to integrate ActionCable!
 
@@ -690,8 +690,9 @@ end
 def form_config_helper
   {
     for: Post.new, path: posts_path, method: :post,
-    errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } },
-    success: { emit: "submitted" }
+    success: { emit: "submitted" },
+    failure: { emit: "form_failed" },
+    errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
   }
 end
 
