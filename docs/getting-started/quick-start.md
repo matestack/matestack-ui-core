@@ -256,7 +256,7 @@ end
 
 **Test the current state**
 
-* [x] Fire up the Rails server and see what we got until now \(heads up: we need a little bit more code\)
+* [x] Fire up the Rails server and see what we got at this point \(heads up: we still need a little more code yet.\)
 
 ```bash
 rails s
