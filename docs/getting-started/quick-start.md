@@ -266,7 +266,7 @@ rails s
 
 You should see the heading "Twitte Clone" and that's it. We don't have any posts in our database, so we need a `form` to create one!
 
-## Add a reactive form
+## Add a Reactive Form
 
 * [x] Add a reactive `form` to the index page
 * [x] Use the `form_config_helper` method returning a config hash in order to inject a hash into the form without polluting the code
