@@ -520,7 +520,7 @@ When you click the "Like" button on a post, you will see the counter increasing 
 
 Great! We added a reactive form and reactive actions. We can now add some reactive feedback on top using the toggle component!
 
-## Add reactive feedback using the `toggle` component
+## Add Reactive Feedback Using the `toggle` Component
 
 * [x] Add failure event submission to the form config like: `failure: { emit: "form_failed" },`
 * [x] Add a `toggle` component in order to render the success message for 5 seconds
