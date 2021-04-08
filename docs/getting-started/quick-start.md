@@ -89,6 +89,15 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 
 import MatestackUiCore from 'matestack-ui-core'
+
+let matestackUiApp = undefined
+
+document.addEventListener('DOMContentLoaded', () => {
+  matestackUiApp = new Vue({
+    el: "#matestack-ui",
+    store: MatestackUiCore.store
+  })
+})
 ```
 
 ## Application Layout and Views
