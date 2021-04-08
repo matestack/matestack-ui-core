@@ -180,7 +180,7 @@ class PostsController < ApplicationController
 end
 ```
 
-## Matestack app and pages
+## Matestack App and Pages
 
 * [x] Add a `matestack` folder and create a Matestack app and a Matestack `Post` index page file:
 
