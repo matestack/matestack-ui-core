@@ -886,13 +886,14 @@ touch app/matestack/components/registry.rb
 ```ruby
 module Components::Registry
 
-  def post_component(post)
+  def post_component(post:)
     Components::Post.(post: post)
   end
 
 end
 ```
 
+* [x] Adjust the index page to include the Components::Registry
 * [x] Adjust the index page in order to use the component in the new way
 
 `app/matestack/twitter_clone/posts/index.rb`
@@ -900,6 +901,8 @@ end
 
 ```ruby
 class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
+
+  include Components::Registry
 
   def prepare
     @posts = Post.all
