@@ -428,7 +428,7 @@ end
 
 * [x] Navigate to `localhost:3000/posts`
 
-Cool! Now you should see the list automatically updating itself after form submission without a browser page reload! And we didn't write any JavaScript for that. Just two lines of simple Ruby code! How cool is that?
+Cool! Now you should see the list automatically updating itself after form submission without a browser page reload! And we didn't have to write any JavaScript. Just two lines of simple Ruby code! How cool is that?
 
 Now we need to add some `action` components in order to "like" the posts.
 
