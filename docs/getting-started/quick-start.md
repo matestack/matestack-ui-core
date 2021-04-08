@@ -384,7 +384,7 @@ end
 
 You should see a basic index page with a form at the top. When submitting the form without any values, ActiveRecord errors should appear below the input fields without a browser page reload. When submitting valid data, the form should reset automatically without a browser page reload, but you will still have to reload the browser in order to see the new post! 
 
-To get that reactivity to work, we need to add the `async` component.
+To get that reactivity to work, we need make use of the `async` component.
 
 ## Add Matestack's Async Component
 
