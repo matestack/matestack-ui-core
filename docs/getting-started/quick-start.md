@@ -382,9 +382,11 @@ end
 
 * [x] Navigate to `localhost:3000/posts`
 
-You should see a basic index page with a form on top. When submitting the form without any values, ActiveRecord errors should appear below the inputs without browser page reload. When submitting valid data, the form should reset automatically without browser page reload, but you would have to reload the browser in order to see the new post! That's why we need to add the `async` component.
+You should see a basic index page with a form at the top. When submitting the form without any values, ActiveRecord errors should appear below the input fields without a browser page reload. When submitting valid data, the form should reset automatically without a browser page reload, but you will still have to reload the browser in order to see the new post! 
 
-## Add Matestack's async component
+To get that reactivity to work, we need to add the `async` component.
+
+## Add Matestack's Async Component
 
 * [x] Add `success: { emit: "submitted" }` to the form config
 * [x] Wrap the `post_list_partial` with an `async`, configured to rerender when the event `submitted` is received
