@@ -115,7 +115,7 @@ On `app/views/layouts/application.html.erb` do:
 <html>
   <head>
     <title>TwitterClone</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
