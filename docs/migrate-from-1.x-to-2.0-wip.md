@@ -1,4 +1,4 @@
-# Migrating form 1.x to 2.0 \[WIP\]
+# Migrating from 1.x to 2.0 \[WIP\]
 
 ## Improvements
 
@@ -9,6 +9,7 @@
 * Easier API for component development
 * Improved naming schemas
 * Reworked docs
+* **Change to MIT License**
 
 ## Breaking changes
 

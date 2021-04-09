@@ -12,7 +12,7 @@ Based on a strong foundation - Rails with all the sugar you love - Matestack ena
 
 **which leads to beautiful reactive web UI implemented in pure Ruby:**
 
-![](../.gitbook/assets/image%20%2813%29.png)
+![](../.gitbook/assets/image%20%289%29%20%281%29.png)
 
 yielding following advantages:
 

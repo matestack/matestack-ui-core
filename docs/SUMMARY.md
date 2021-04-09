@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Welcome](README.md)
-* [Migrating form 1.x to 2.0 \[WIP\]](migrate-from-1.x-to-2.0-wip.md)
+* [Migrating from 1.x to 2.0 \[WIP\]](migrate-from-1.x-to-2.0-wip.md)
 
 ## Getting started
 
