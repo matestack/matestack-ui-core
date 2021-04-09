@@ -180,7 +180,7 @@ That's it. When we now try to sign in with incorrect credentials the `form` comp
 
 ## Devise sign out
 
-Creating a sign out button in matestack is very straight forward. We use matestacks [`action` component](../components-api/reactive-core-components/action.md) to create a sign out button. See the example below:
+Creating a sign out button in matestack is very straight forward. We use matestacks [`action` component](../built-in-reactivity/call-server-side-actions/action-component-api.md) to create a sign out button. See the example below:
 
 ```ruby
 action sign_out_config do

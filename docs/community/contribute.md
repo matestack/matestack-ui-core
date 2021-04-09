@@ -1,4 +1,4 @@
-# Contribute
+# Contribute \[WIP\]
 
 We are very happy about anyone that wants to improve this project! Please make sure to read this guide before starting your work to avoid unnecessary trouble down the road! Always feel welcomed to reach out to us via [Discord](https://discord.gg/c6tQxFG) or mail if you are unsure or need further information.
 
