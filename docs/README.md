@@ -73,7 +73,7 @@ Rails versions below 5.2 are not supported.
 
 `matestack-ui-core` requires Vue.js and Vuex for its reactivity features. Following version ranges are supported:
 
-* Vue.js 2.6.0
+* Vue.js ^2.6.0
 * Vuex ^3.6.0
 
 {% hint style="info" %}
@@ -85,7 +85,7 @@ Vue 3 / Vuex 4 update is planned for Q2 2021.
 `matestack-ui-core` is designed to be installed via Npm or Yarn and bundled via something like Webpacker together with all your other dependencies.
 
 {% hint style="warning" %}
-Since 2.0.0 we're not shipping a prebundled JavaScript asset for Rails assets pipeline \(Sprockets\) users anymore.
+Since 2.0.0 we're not shipping a pre-bundled JavaScript assets for Rails assets pipeline \(Sprockets\) users anymore.
 {% endhint %}
 
 ## Getting Started
@@ -97,20 +97,4 @@ Before you dive into some code, you should read about the basic architecture con
 After that, it might be a good idea to boost your knowledge with our quick start guide:
 
 {% page-ref page="getting-started/quick-start.md" %}
-
-## Deep Dive
-
-Craft your UI based on your components written in pure Ruby. Utilizing Ruby's amazing language features, you're able to create a cleaner and more maintainable UI implementation:
-
-Learn more about UI components implemented in pure Ruby:
-
-What about going even one step further and implement **reactive** UIs in pure Ruby? Matestack's reactive core components can be used with a simple Ruby DSL enabling you to create reactive UIs without touching JavaScript!
-
-Learn more about the optional reactivity system built on top of Vue.js and how you can use reactive core components in pure Ruby:
-
-{% page-ref page="built-in-reactivity/overview.md" %}
-
-The last step in order to leverage the full Matestack power: Create app \(~Rails layout\) and page \(Rails ~view\) classes and implement dynamic page transitions without any JavaScript implementation required optionally enriched with some CSS animations.
-
-Learn more about SPA-like Apps implemented in pure Ruby:
 
