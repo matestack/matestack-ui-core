@@ -7,6 +7,10 @@ description: >-
 
 # Welcome
 
+{% hint style="info" %}
+Version 2.0.0 will be released on the 12th of April and proudly presented at RailsConf. Click here for a sneak peek: [https://docs.matestack.io/v/2.0.0/](https://docs.matestack.io/v/2.0.0/)
+{% endhint %}
+
 ### **What is Matestack?**
 
 Matestack enables Rails developers to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. Thanks to reactive core components built on top of Vue.js, reactivity can be optionally added without writing JavaScript, just using a simple Ruby DSL.
