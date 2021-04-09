@@ -8,6 +8,8 @@
 
 # matestack-ui-core | UI in pure Ruby
 
+**Version 2.0.0 will be released on the 12th of April and proudly presented at RailsConf. Click here for a sneak peek: https://docs.matestack.io/v/2.0.0/**
+
 Boost your productivity & easily create component based web UIs in pure Ruby.
 Reactivity included if desired.
 
