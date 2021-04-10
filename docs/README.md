@@ -9,6 +9,13 @@ description: >-
 
 {% hint style="info" %}
 Version 2.0.0 will be released on the 12th of April and proudly presented at RailsConf. Click here for a sneak peek: [https://docs.matestack.io/v/2.0.0/](https://docs.matestack.io/v/2.0.0/)
+
+**Most important changes:**
+
+* Change to MIT License
+* 5 to 12 times better rendering performance \(depending on the context\)
+* Removed Trailblazer dependency
+* Improved core code readability/maintainability
 {% endhint %}
 
 ### **What is Matestack?**
