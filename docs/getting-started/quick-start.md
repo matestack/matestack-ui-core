@@ -939,7 +939,7 @@ end
 Everything should be the same after this small refactoring.
 
 
-
+## The Cable Component
 
 Now we will cover the last topic of this guide:
 
@@ -947,7 +947,7 @@ As described before, the `async` rerenders it's whole body. The `async` wrapping
 
 But now imagine, your post list will be too big at some point. We should switch the reactivity approach to a more granular on. Let's use the `cable` component alongside our already added ActionCable introduction and reuse pretty much all written code!
 
-## Use the `cable` component for list rerendering
+## Use the `cable` Component For List Rerendering
 
 * [x] Use the `cable` instead of the `async` component
 
