@@ -1020,7 +1020,7 @@ You probably don't realize any difference on the UI, but now ONLY the fresh post
 
 The `cable` component can `prepend`, `append`, `update` and `delete` elements within its body or `replace` its whole body with something pushed from the server. We want to use the `update` feature in order to rerender a specific post when liked:
 
-## Adjust the `cable` component for post rerendering
+## Adjust the `cable` Component for Post Rerendering
 
 * [x] Add the `update_on` config to the `cable` config
 
