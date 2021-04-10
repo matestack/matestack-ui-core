@@ -450,7 +450,7 @@ end
 
 * [x] Add the `like` action on the controller:
 
-`app/controller/posts_controller.rb`
+`app/controllers/posts_controller.rb`
 
 ```ruby
 # ...
@@ -634,7 +634,7 @@ end
 * [x] Broadcast the `cable__created_post` event from the `create` action on the posts controller
 * [x] Broadcast the `cable__liked_post_xyz` event from the `like` action on the posts controller
 
-`app/controller/posts_controller.rb`
+`app/controllers/posts_controller.rb`
 
 ```ruby
 # ...
@@ -983,7 +983,7 @@ end
 
 * [x] Adjust the ActionCable broadcast on the `create` action on the post controller
 
-`app/controller/posts_controller.rb`
+`app/controllers/posts_controller.rb`
 
 ```ruby
 # ...
@@ -1085,7 +1085,7 @@ end
 
 * [x] Adjust the ActionCable broadcast on the `like` action on the post controller
 
-`app/controller/posts_controller.rb`
+`app/controllers/posts_controller.rb`
 
 ```ruby
 # ...
@@ -1648,7 +1648,7 @@ end
 
 * [x] Add the update action to the posts controller
 
-`app/controller/posts_controller.rb`
+`app/controllers/posts_controller.rb`
 
 ```ruby
 # ...
