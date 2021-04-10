@@ -945,7 +945,7 @@ Now we will cover the last topic of this guide:
 
 As described before, the `async` rerenders it's whole body. The `async` wrapping the whole post list therefore rerenders ALL posts. If our list of posts grows, the performance of the rerendering will decrease. In a lot of usecases, this will not be an issue since the UI is not too big/too complex. So go ahead and use `async` everywhere you're not rerendering big or complex UIs and enjoy the simplicity of that rerendering approach!
 
-But now imagine, your post list will be too big at some point. We should switch the reactivity approach to a more granular on. Let's use the `cable` component alongside our already added ActionCable introduction and reuse pretty much all written code!
+But now imagine, your post list will be too big at some point. We should switch the reactivity approach to a more granular one. Let's use the `cable` component alongside our already added ActionCable introduction and reuse pretty much all written code!
 
 ## Use the `cable` Component For List Rerendering
 
