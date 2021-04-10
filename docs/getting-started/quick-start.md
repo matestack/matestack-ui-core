@@ -995,7 +995,7 @@ def create
   if @post.save
     ActionCable.server.broadcast('matestack_ui_core', {
       event: 'cable__created_post',
-      data: matestack_component(:post_component, post: @post) # add this line
+      data: post_component(post: @post) # add this line
     })
     render json: {
       message: 'Post was successfully created.'
