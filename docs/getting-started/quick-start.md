@@ -546,7 +546,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
   def post_form_partial
     div class: "mb-3 p-3 rounded shadow-sm" do
       heading size: 4, text: "New Post", class: "mb-3"
-      form form_config_helper do
+      matestack_form form_config_helper do
         # ...
       end
     end
@@ -1280,7 +1280,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
   def post_form_partial
     div class: "mb-3 p-3 rounded shadow-sm" do
       heading size: 4, text: "New Post", class: "mb-3"
-      form form_config_helper do
+      matestack_form form_config_helper do
         # div class: "mb-3" do
         #   form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
         # end
@@ -1585,8 +1585,6 @@ And now, let's do something that isn't possible in Twitter: Editing. Tweets. Inl
 * [x] Wrap your code into toggle components, switching the currently visible content
 
 `app/matestack/components/post.rb`
-
-# todo: context.post 
 
 ```ruby
 class Components::Post < Matestack::Ui::Component
