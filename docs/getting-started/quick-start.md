@@ -319,7 +319,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
     {
       for: Post.new, path: posts_path, method: :post,
       # optional: in order to map Bootstrap's CSS classes, you can adjust the form error rendering like so:
-      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+      errors: {wrapper: {tag: :div, class: 'invalid-feedback'}, input: {class: 'is-invalid'}}
     }
   end
 
@@ -389,7 +389,7 @@ To get that reactivity to work, we need make use of the `async` component.
 
 ## Add Matestack's Async Component
 
-* [x] Add `success: { emit: "submitted" }` to the form config
+* [x] Add `success: {emit: "submitted"}` to the form config
 * [x] Wrap the `post_list_partial` with an `async`, configured to rerender when the event `submitted` is received
 
 `app/matestack/twitter_clone/pages/posts/index.rb`
@@ -400,11 +400,11 @@ To get that reactivity to work, we need make use of the `async` component.
 def form_config_helper
   {
     for: Post.new, path: posts_path, method: :post,
-    errors: { 
-      wrapper: { tag: :div, class: 'invalid-feedback' }, 
-      input: { class: 'is-invalid' } 
+    errors: {
+      wrapper: {tag: :div, class: 'invalid-feedback'}, 
+      input: {class: 'is-invalid'} 
     },
-    success: { emit: "submitted" }
+    success: {emit: "submitted"}
   }
 end
 
@@ -501,7 +501,7 @@ def post_partial(post)
         small text: post.created_at.strftime("%d.%m.%Y %H:%M")
       end
       paragraph text: post.body, class: "mb-5"
-      action path: like_post_path(post), method: :put, success: { emit: "liked_post_#{post.id}" } do
+      action path: like_post_path(post), method: :put, success: {emit: "liked_post_#{post.id}"} do
         button class: "btn btn-light" do
           plain "Like (#{post.likes_count})"
         end
@@ -523,7 +523,7 @@ Great! We added a reactive form and reactive actions. We can now add some reacti
 
 ## Add Reactive Feedback Using the `toggle` Component
 
-* [x] Add failure event submission to the form config like: `failure: { emit: "form_failed" },`
+* [x] Add failure event submission to the form config like: `failure: {emit: "form_failed"},`
 * [x] Add a `toggle` component in order to render the success message for 5 seconds
 * [x] Add a `toggle` component in order to render the failure message for 5 seconds
 
@@ -565,9 +565,9 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
   def form_config_helper
     {
       for: Post.new, path: posts_path, method: :post,
-      success: { emit: "submitted" },
-      failure: { emit: "form_failed" },
-      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+      success: {emit: "submitted"},
+      failure: {emit: "form_failed"},
+      errors: {wrapper: {tag: :div, class: 'invalid-feedback'}, input: {class: 'is-invalid'}}
     }
   end
 
@@ -690,9 +690,9 @@ end
 def form_config_helper
   {
     for: Post.new, path: posts_path, method: :post,
-    success: { emit: "submitted" },
-    failure: { emit: "form_failed" },
-    errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+    success: {emit: "submitted"},
+    failure: {emit: "form_failed"},
+    errors: {wrapper: {tag: :div, class: 'invalid-feedback'}, input: {class: 'is-invalid'}}
   }
 end
 
@@ -730,7 +730,7 @@ def post_partial post
         small text: post.created_at.strftime("%d.%m.%Y %H:%M")
       end
       paragraph text: post.body, class: "mb-5"
-      # action path: like_post_path(post), method: :put, success: { emit: "liked_post_#{post.id}" } do
+      # action path: like_post_path(post), method: :put, success: {emit: "liked_post_#{post.id}"} do
       action path: like_post_path(post), method: :put do
         button class: "btn btn-light" do
           plain "Like (#{post.likes_count})"
@@ -1386,9 +1386,9 @@ class TwitterClone::Pages::Profile::Edit < Matestack::Ui::Page
   def form_config_helper
     {
       for: :profile, path: profile_update_path, method: :put,
-      success: { emit: "submitted" },
-      failure: { emit: "form_failed" },
-      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+      success: {emit: "submitted"},
+      failure: {emit: "form_failed"},
+      errors: {wrapper: {tag: :div, class: 'invalid-feedback'}, input: {class: 'is-invalid'}}
     }
   end
 
@@ -1436,7 +1436,7 @@ class ProfileController < ApplicationController
     if profile_params[:username].blank?
       render json: {
         message: 'Profile could not be updated.',
-        errors: { username: ["can't be blank!"] }
+        errors: {username: ["can't be blank!"]}
       }, status: :unprocessable_entity
     else
       cookies[:username] = profile_params[:username]
@@ -1645,9 +1645,9 @@ class Components::Post < Matestack::Ui::Component
   def form_config_helper
     {
       for: context.post, path: post_path(id: context.post.id), method: :put,
-      success: { emit: "updated" },
-      failure: { emit: "form_failed" },
-      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+      success: {emit: "updated"},
+      failure: {emit: "form_failed"},
+      errors: {wrapper: {tag: :div, class: 'invalid-feedback'}, input: {class: 'is-invalid'}}
     }
   end
 
