@@ -186,6 +186,7 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:username, :body)
   end
+
 end
 ```
 
@@ -297,42 +298,42 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    def post_form_partial
+  def post_form_partial
+    div class: "mb-3 p-3 rounded shadow-sm" do
+      heading size: 4, text: "New Post", class: "mb-3"
+      matestack_form form_config_helper do
+        div class: "mb-3" do
+          form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
+        end
+        div class: "mb-3" do
+          form_textarea key: :body, placeholder: "What's up?", class: "form-control"
+        end
+        div class: "mb-3" do
+          button 'submit', type: :submit, class: "btn btn-primary", text: "Post!"
+        end
+      end
+    end
+  end
+
+  def form_config_helper
+    {
+      for: Post.new, path: posts_path, method: :post,
+      # optional: in order to map Bootstrap's CSS classes, you can adjust the form error rendering like so:
+      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+    }
+  end
+
+  def post_list_partial
+    @posts.each do |post|
       div class: "mb-3 p-3 rounded shadow-sm" do
-        heading size: 4, text: "New Post", class: "mb-3"
-        matestack_form form_config_helper do
-          div class: "mb-3" do
-            form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
-          end
-          div class: "mb-3" do
-            form_textarea key: :body, placeholder: "What's up?", class: "form-control"
-          end
-          div class: "mb-3" do
-            button 'submit', type: :submit, class: "btn btn-primary", text: "Post!"
-          end
+        heading size: 5 do
+          plain post.username
+          small text: post.created_at.strftime("%d.%m.%Y %H:%M")
         end
+        paragraph text: post.body
       end
     end
-
-    def form_config_helper
-      {
-        for: Post.new, path: posts_path, method: :post,
-        # optional: in order to map Bootstrap's CSS classes, you can adjust the form error rendering like so:
-        errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
-      }
-    end
-
-    def post_list_partial
-      @posts.each do |post|
-        div class: "mb-3 p-3 rounded shadow-sm" do
-          heading size: 5 do
-            plain post.username
-            small text: post.created_at.strftime("%d.%m.%Y %H:%M")
-          end
-          paragraph text: post.body
-        end
-      end
-    end
+  end
 
 end
 ```
@@ -542,37 +543,35 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    def post_form_partial
-      div class: "mb-3 p-3 rounded shadow-sm" do
-        heading size: 4, text: "New Post", class: "mb-3"
-        form form_config_helper do
-          # ...
-        end
-      end
-      toggle show_on: "submitted", hide_after: 5000 do
-        div class: "container fixed-bottom w-100 bg-success text-white p-3 rounded-top" do
-          heading size: 4, text: "Success: {{ event.data.message }}"
-        end
-      end
-      toggle show_on: "form_failed", hide_after: 5000 do
-        div class: "container fixed-bottom w-100 bg-danger text-white p-3 rounded-top" do
-          heading size: 4, text: "Error: {{ event.data.message }}"
-        end
+  def post_form_partial
+    div class: "mb-3 p-3 rounded shadow-sm" do
+      heading size: 4, text: "New Post", class: "mb-3"
+      form form_config_helper do
+        # ...
       end
     end
-
-    private
-
-      def form_config_helper
-        {
-          for: Post.new, path: posts_path, method: :post,
-          success: { emit: "submitted" },
-          failure: { emit: "form_failed" },
-          errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
-        }
+    toggle show_on: "submitted", hide_after: 5000 do
+      div class: "container fixed-bottom w-100 bg-success text-white p-3 rounded-top" do
+        heading size: 4, text: "Success: {{ event.data.message }}"
       end
+    end
+    toggle show_on: "form_failed", hide_after: 5000 do
+      div class: "container fixed-bottom w-100 bg-danger text-white p-3 rounded-top" do
+        heading size: 4, text: "Error: {{ event.data.message }}"
+      end
+    end
+  end
 
-      # ...
+  def form_config_helper
+    {
+      for: Post.new, path: posts_path, method: :post,
+      success: { emit: "submitted" },
+      failure: { emit: "form_failed" },
+      errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
+    }
+  end
+
+  # ...
 
 end
 ```
@@ -967,16 +966,16 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    # ...
+  # ...
 
-    def post_list_partial
-      # async rerender_on: "submitted", id: "post-list" do
-      cable prepend_on: "cable__created_post", id: "post-list" do
-        @posts.each do |post|
-          post_component post: post
-        end
+  def post_list_partial
+    # async rerender_on: "submitted", id: "post-list" do
+    cable prepend_on: "cable__created_post", id: "post-list" do
+      @posts.each do |post|
+        post_component post: post
       end
     end
+  end
 
 end
 ```
@@ -1040,16 +1039,16 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    # ...
+  # ...
 
-    def post_list_partial
-      # cable prepend_on: "cable__created_post", id: "post-list" do
-      cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
-        @posts.each do |post|
-          post_component post: post
-        end
+  def post_list_partial
+    # cable prepend_on: "cable__created_post", id: "post-list" do
+    cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
+      @posts.each do |post|
+        post_component post: post
       end
     end
+  end
 
 end
 ```
@@ -1162,8 +1161,6 @@ Relax, it's super simple:
 
 `app/matestack/twitter_clone/posts/index.rb`
 
-# todo: indetation of private sections
-
 ```ruby
 class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
@@ -1178,22 +1175,22 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    # ...
+  # ...
 
-    def posts
-      Post.all
-    end
+  def posts
+    Post.all
+  end
 
-    def post_list_partial
-      async defer: true, id: "deferred-post-list" do
-        cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
-          # @posts.each do |post|
-          posts.each do |post|
-            post_component post: post
-          end
+  def post_list_partial
+    async defer: true, id: "deferred-post-list" do
+      cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
+        # @posts.each do |post|
+        posts.each do |post|
+          post_component post: post
         end
       end
     end
+  end
 
 end
 ```
@@ -1280,36 +1277,36 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 
   private
 
-    def post_form_partial
-      div class: "mb-3 p-3 rounded shadow-sm" do
-        heading size: 4, text: "New Post", class: "mb-3"
-        form form_config_helper do
-          # div class: "mb-3" do
-          #   form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
-          # end
-          div class: "mb-3" do
-            form_input key: :body, type: :text, placeholder: "What's up?", class: "form-control"
-          end
-          div class: "mb-3" do
-            form_submit do
-              button type: :submit, class: "btn btn-primary", text: "Post!"
-            end
+  def post_form_partial
+    div class: "mb-3 p-3 rounded shadow-sm" do
+      heading size: 4, text: "New Post", class: "mb-3"
+      form form_config_helper do
+        # div class: "mb-3" do
+        #   form_input key: :username, type: :text, placeholder: "Username", class: "form-control"
+        # end
+        div class: "mb-3" do
+          form_input key: :body, type: :text, placeholder: "What's up?", class: "form-control"
+        end
+        div class: "mb-3" do
+          form_submit do
+            button type: :submit, class: "btn btn-primary", text: "Post!"
           end
         end
       end
-      # toggle show_on: "submitted", hide_after: 5000 do
-      #   div class: "container fixed-bottom w-100 bg-success text-white p-3 rounded-top" do
-      #     heading size: 4, text: "Success: {{ event.data.message }}"
-      #   end
-      # end
-      # toggle show_on: "form_failed", hide_after: 5000 do
-      #   div class: "container fixed-bottom w-100 bg-danger text-white p-3 rounded-top" do
-      #     heading size: 4, text: "Error: {{ event.data.message }}"
-      #   end
-      # end
     end
+    # toggle show_on: "submitted", hide_after: 5000 do
+    #   div class: "container fixed-bottom w-100 bg-success text-white p-3 rounded-top" do
+    #     heading size: 4, text: "Success: {{ event.data.message }}"
+    #   end
+    # end
+    # toggle show_on: "form_failed", hide_after: 5000 do
+    #   div class: "container fixed-bottom w-100 bg-danger text-white p-3 rounded-top" do
+    #     heading size: 4, text: "Error: {{ event.data.message }}"
+    #   end
+    # end
+  end
 
-    # ...
+  # ...
 
 end
 ```
@@ -1453,10 +1450,10 @@ class ProfileController < ApplicationController
 
   private
 
-    # Only allow a list of trusted parameters through.
-    def profile_params
-      params.require(:profile).permit(:username)
-    end
+  # Only allow a list of trusted parameters through.
+  def profile_params
+    params.require(:profile).permit(:username)
+  end
 
 end
 ```
