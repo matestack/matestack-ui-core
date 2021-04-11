@@ -1064,16 +1064,16 @@ class Components::Post < Matestack::Ui::Component
   requires :post
 
   def response
-    # async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{post.id}" do
-      div class: "mb-3 p-3 rounded shadow-sm", id: "post-#{post.id}" do
+    # async rerender_on: "cable__liked_post_#{post.id}", id: "post-#{context.post.id}" do
+      div class: "mb-3 p-3 rounded shadow-sm", id: "post-#{context.post.id}" do
         heading size: 5 do
-          plain post.username
-          small text: post.created_at.strftime("%d.%m.%Y %H:%M")
+          plain context.post.username
+          small text: context.post.created_at.strftime("%d.%m.%Y %H:%M")
         end
-        paragraph text: post.body, class: "mb-5"
-        action path: like_post_path(post), method: :put do
+        paragraph text: context.post.body, class: "mb-5"
+        action path: like_post_path(context.post), method: :put do
           button class: "btn btn-light" do
-            plain "Like (#{post.likes_count})"
+            plain "Like (#{context.post.likes_count})"
           end
         end
       end
@@ -1084,6 +1084,8 @@ end
 ```
 
 * [x] Adjust the ActionCable broadcast on the `like` action on the post controller
+
+# todo: cable__liked_post not working here
 
 `app/controllers/posts_controller.rb`
 
@@ -1101,7 +1103,7 @@ def like
       # no id required in the event name, the cable component will figure out which post
       # should be updated using the root element ID of the pushed component
       event: "cable__liked_post", # change the event name
-      data: matestack_component(:post_component, post: @post) # add this line
+      data: post_component(post: @post) # add this line
     })
     render json: {
       message: 'Post was successfully liked.'
@@ -1121,7 +1123,7 @@ def create
   if @post.save
     ActionCable.server.broadcast('matestack_ui_core', {
       event: 'cable__created_post',
-      data: matestack_component(:post_component, post: @post) # add this line
+      data: post_component(post: @post)
     })
     render json: {
       message: 'Post was successfully created.'
@@ -1144,7 +1146,7 @@ end
 
 Again: you probably don't realize any difference on the UI, but now ONLY the updated post will be rendered on the server and pushed to the `cable` component mounted in the browser.
 
-The `cable` component is configured to `updated` the component pushed from the server on the `cable__liked_post` event. The `cable` component then reads the ID of the root element of the pushed component, looks for that ID within it's body and updates this element with the pushed component.
+The `cable` component is configured to `update` the component pushed from the server on the `cable__liked_post` event. The `cable` component then reads the ID of the root element of the pushed component, looks for that ID within it's body and updates this element with the pushed component.
 
 Now, we're rerendering the list and its elements completely with the `cable` component. As described, this is an ALTERNATIVE approach to the introduced `async` component approach. The `cable` component requires a bit more implementation and brain power but makes our reactivity more scalable. Use the `cable` component wherever you think `async` would be too slow at some point!
 
@@ -1576,6 +1578,8 @@ And now we do something, what's not possible in Twitter: Editing. Tweets. Inline
 
 `app/matestack/components/post.rb`
 
+# todo: context.post 
+
 ```ruby
 class Components::Post < Matestack::Ui::Component
 
@@ -1649,6 +1653,8 @@ end
 * [x] Add the update action to the posts controller
 
 `app/controllers/posts_controller.rb`
+
+# todo: matestack_component
 
 ```ruby
 # ...
