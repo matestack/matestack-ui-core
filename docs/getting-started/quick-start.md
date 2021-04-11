@@ -1210,6 +1210,11 @@ Using this approach, it is super simple to speed up initial page loads without a
 
 Want some sugar? How about adding a CSS animation while lazy loading the post list?
 
+```bash
+mkdir -p app/javascript/packs/stylesheets
+touch app/javascript/packs/stylesheets/application.scss
+```
+
 `app/javascript/packs/stylesheets/application.scss`
 
 ```css
@@ -1237,11 +1242,15 @@ import "./stylesheets/application.scss";
 
 Speaking of fade effects: Let's add a second page in order to show, how you can use Matestacks app and `transition` component in order to implement dynamic page transitions without full browser page reload and without adding any JavaScript!
 
-## Implement dynamic page transitions
+## Implement Dynamic Page Transitions
 
 We will create a profile page in order to save the username in a session cookie rather than asking for the username on the post form! Obviously, you would use proper user management via something like `devise` in a real world example!
 
 * [x] Add an view helper method in order to access the session cookie from a Matestack page
+
+```bash
+touch app/helpers/cookie_helper.rb
+```
 
 `app/helpers/cookie_helper.rb`
 
@@ -1256,7 +1265,8 @@ end
 ```
 
 * [x] Remove the username input from the post form
-* [x] Remove the toggle components from the post index page; we will add them to the app in a bit enabling the new profile page to trigger them as well!
+* [x] Remove the toggle components from the post index page; we will add them to the app in a moment, enabling the new profile page to trigger them as well!
+* [ ] 
 
 `app/matestack/twitter_clone/posts/index.rb`
 
@@ -1355,7 +1365,7 @@ touch app/matestack/twitter_clone/pages/profile/edit.rb
 
 * [x] Add some code to the profile edit page
 
-`app/matestack/twitter_clone/pages/profile`
+`app/matestack/twitter_clone/pages/profile/edit.rb`
 
 ```ruby
 class TwitterClone::Pages::Profile::Edit < Matestack::Ui::Page
@@ -1363,14 +1373,12 @@ class TwitterClone::Pages::Profile::Edit < Matestack::Ui::Page
   def response
     div class: "mb-3 p-3 rounded shadow-sm" do
       heading size: 4, text: "Your Profile", class: "mb-3"
-      form form_config_helper do
+      matestack_form form_config_helper do
         div class: "mb-3" do
           form_input key: :username, type: :text, placeholder: "Username", class: "form-control", init: current_username
         end
         div class: "mb-3" do
-          form_submit do
-            button type: :submit, class: "btn btn-primary", text: "Save!"
-          end
+          button 'submit', type: :submit, class: "btn btn-primary", text: "Save!"
         end
       end
     end
@@ -1447,6 +1455,7 @@ class ProfileController < ApplicationController
     def profile_params
       params.require(:profile).permit(:username)
     end
+
 end
 ```
 
@@ -1470,7 +1479,7 @@ class TwitterClone::App < Matestack::Ui::App
         button class: "btn btn-light", text: "Your Profile"
       end
       div class: "mt-5" do
-        yield_page
+        yield if block_given?
       end
       # add the toggle components here, this way all pages are able to trigger them!
       toggle show_on: "submitted", hide_after: 5000 do
