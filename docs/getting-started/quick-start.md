@@ -1315,8 +1315,6 @@ end
 
 `app/matestack/twitter_clone/posts/index.rb`
 
-# todo: matestack_component
-
 ```ruby
 # ...
 
@@ -1337,7 +1335,7 @@ def create
     if @post.save
       ActionCable.server.broadcast('matestack_ui_core', {
         event: 'cable__created_post',
-        data: matestack_component(:post_component, post: @post)
+        data: post_component(post: @post)
       })
       render json: {
         message: 'Post was successfully created.'
@@ -1661,8 +1659,6 @@ end
 * [x] Add the update action to the posts controller
 
 `app/controllers/posts_controller.rb`
-
-# todo: matestack_component
 
 ```ruby
 # ...
