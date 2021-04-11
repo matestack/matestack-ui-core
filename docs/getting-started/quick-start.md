@@ -1467,7 +1467,7 @@ class TwitterClone::App < Matestack::Ui::App
   def response
     div class: "container" do
       # heading size: 1, text: "Twitter Clone", class: "mb-5"
-      # yield_page
+      # yield if block_given?
       heading size: 1, text: "Twitter Clone"
       transition path: posts_path do
         button class: "btn btn-light", text: "Timeline"
@@ -1507,7 +1507,7 @@ end
 * [x] Again: see how the page is updated without a full browser page reload, maybe even inspect your browsers network monitor ;\)
 * [x] Post something and enjoy not to enter a username anymore \(use a private tab if you want to act as a different user!\)
 
-Great, we just added a second page and added some `transition` components to our app and without further effort, we implemented dynamic page transitions without touching any JavaScript. The `transition` component triggered the app to request the desired page at the server targeting the appropriate controller action through Rails routing and adjusted the DOM where we placed the `yield_page` on our app!
+Great, we just added a second page and added some `transition` components to our app and without further effort, we implemented dynamic page transitions without touching any JavaScript. The `transition` component triggered the app to request the desired page at the server targeting the appropriate controller action through Rails routing and adjusted the DOM where we placed the `yield if block_given?` on our app!
 
 And you know what: let's add some CSS animations!
 
@@ -1562,7 +1562,7 @@ class TwitterClone::App < Matestack::Ui::App
         button class: "btn btn-light", text: "Your Profile"
       end
       div class: "mt-5" do
-        yield_page
+        yield if block_given?
       end
     end
   end
