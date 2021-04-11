@@ -1154,13 +1154,15 @@ Ok, let's lazy load the list of posts in order to speed up initial page load whe
 
 Relax, it's super simple:
 
-## Lazy load the post list with async's `defer` feature
+## Lazy Load the Post List With Async's `defer` Feature
 
 * [x] Wrap an `async` component around the `cable` component
 * [x] Configure this `async` to defer its rendering
 * [x] Move the ActiveRecord query out of the `prepare` method into a helper method
 
 `app/matestack/twitter_clone/posts/index.rb`
+
+# todo: indetation of private sections
 
 ```ruby
 class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
