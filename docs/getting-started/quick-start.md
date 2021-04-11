@@ -1318,6 +1318,8 @@ end
 
 `app/matestack/twitter_clone/posts/index.rb`
 
+# todo: matestack_component
+
 ```ruby
 # ...
 
@@ -1579,7 +1581,7 @@ end
 * [x] Click on the transition components
 * [x] Enjoy the fade effects once again :\)
 
-And now we do something, what's not possible in Twitter: Editing. Tweets. Inline. In pure Ruby! \(Just because it's nice to showcase that\)
+And now, let's do something that isn't possible in Twitter: Editing. Tweets. Inline. In pure Ruby! \(Just because it's nice to showcase that\)
 
 ## Inline Editing
 
@@ -1597,21 +1599,21 @@ class Components::Post < Matestack::Ui::Component
   requires :post
 
   def response
-    div class: "mb-3 p-3 rounded shadow-sm", id: "post-#{post.id}" do
+    div class: "mb-3 p-3 rounded shadow-sm", id: "post-#{context.post.id}" do
       heading size: 5 do
-        plain post.username
-        small text: post.created_at.strftime("%d.%m.%Y %H:%M")
+        plain context.post.username
+        small text: context.post.created_at.strftime("%d.%m.%Y %H:%M")
       end
-      toggle hide_on: "edit-post-#{post.id}", show_on: "updated", init_show: true do
+      toggle hide_on: "edit-post-#{context.post.id}", show_on: "updated", init_show: true do
         show_partial
       end
-      toggle show_on: "edit-post-#{post.id}", hide_on: "updated" do
+      toggle show_on: "edit-post-#{context.post.id}", hide_on: "updated" do
         edit_partial
       end
-      # paragraph text: post.body, class: "mb-5"
-      # action path: like_post_path(post), method: :put do
+      # paragraph text: context.post.body, class: "mb-5"
+      # action path: like_post_path(context.post), method: :put do
       #   button class: "btn btn-light" do
-      #     plain "Like (#{post.likes_count})"
+      #     plain "Like (#{context.post.likes_count})"
       #   end
       # end
     end
@@ -1620,16 +1622,16 @@ class Components::Post < Matestack::Ui::Component
   private
 
   def show_partial
-    paragraph text: post.body, class: "mb-5"
-    action path: like_post_path(post), method: :put do
+    paragraph text: context.post.body, class: "mb-5"
+    action path: like_post_path(context.post), method: :put do
       button class: "btn btn-light" do
-        plain "Like (#{post.likes_count})"
+        plain "Like (#{context.post.likes_count})"
       end
     end
     # onclick emits an event triggering the toggle components to show/hide
     # we use Bootstraps "d-inline" utility class here because onclick renders
     # a block element (will be changed to an inline element in a future release)
-    onclick emit: "edit-post-#{post.id}", class: "d-inline" do
+    onclick emit: "edit-post-#{context.post.id}", class: "d-inline" do
       button class: "btn btn-link" do
         plain "Edit"
       end
@@ -1637,21 +1639,19 @@ class Components::Post < Matestack::Ui::Component
   end
 
   def edit_partial
-    form form_config_helper do
+    matestack_form form_config_helper do
       div class: "mb-3" do
         form_input key: :body, type: :text, placeholder: "What's up?", class: "form-control"
       end
       div class: "mb-3" do
-        form_submit do
-          button type: :submit, class: "btn btn-primary", text: "Update!"
-        end
+        button 'submit', type: :submit, class: "btn btn-primary", text: "Update!"
       end
     end
   end
 
   def form_config_helper
     {
-      for: post, path: post_path(id: post.id), method: :put,
+      for: context.post, path: post_path(id: context.post.id), method: :put,
       success: { emit: "updated" },
       failure: { emit: "form_failed" },
       errors: { wrapper: { tag: :div, class: 'invalid-feedback' }, input: { class: 'is-invalid' } }
@@ -1677,7 +1677,7 @@ def update
   if @post.update(post_params)
     ActionCable.server.broadcast('matestack_ui_core', {
       event: "cable__updated_post",
-      data: matestack_component(:post_component, post: @post)
+      data: post_component(post: @post)
     })
     render json: {
       message: 'Post was successfully updated.'
