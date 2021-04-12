@@ -8,7 +8,7 @@ description: >-
 # Welcome
 
 {% hint style="info" %}
-Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](https://github.com/matestack/matestack-ui-core/tree/cde5bfddeb4f2b4ef5808e310731351f020dba69/docs/docs/migrate-from-1.x-to-2.0.md)
+Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](migrate-from-1.x-to-2.0.md)
 
 **Most important changes:**
 
