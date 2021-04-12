@@ -8,7 +8,7 @@ Based on a strong foundation - Rails with all the sugar you love - Matestack ena
 
 1. to implement HTML structures in pure Ruby \[matestack-ui-core\]
 2. to compose pre-built reactive components based on Vue.js in pure Ruby \(extendable with custom JavaScript if required\) \[matestack-ui-core\]
-3. to compose pre-built or custom styled components in pure Ruby ****\[e.g. matestack-ui-bootstrap\]
+3. to compose pre-built or custom styled components in pure Ruby _\*\*_\[e.g. matestack-ui-bootstrap\]
 
 **which leads to beautiful reactive web UI implemented in pure Ruby:**
 
@@ -56,7 +56,7 @@ div class: "card shadow-sm border-0 bg-light" do
 end
 ```
 
-We're now using pure Ruby in order to create well known HTML structures without any abstraction. Still as flexible as pure HTML but we're now able to use all kind of Ruby's language features in order to structure our UI implementation! 
+We're now using pure Ruby in order to create well known HTML structures without any abstraction. Still as flexible as pure HTML but we're now able to use all kind of Ruby's language features in order to structure our UI implementation!
 
 Learn more about Matestack's HTML rendering:
 
@@ -77,14 +77,14 @@ class Components::CardComponent < Matestack::Ui::Component
       end
     end
   end
-    
+
 end
 ```
 {% endcode %}
 
-We put this code in a self contained Ruby class which we call a **Matestack component.** When a new instance of this class is called, the main response method will return the desired HTML string. Within this Ruby class, we're now able to simply break out of deeply nested HTML structures and create a flat implementation. We end up splitting UI code into small semantically separated chunks. 
+We put this code in a self contained Ruby class which we call a **Matestack component.** When a new instance of this class is called, the main response method will return the desired HTML string. Within this Ruby class, we're now able to simply break out of deeply nested HTML structures and create a flat implementation. We end up splitting UI code into small semantically separated chunks.
 
-Doing this we increase readability and maintainability of our implementation: 
+Doing this we increase readability and maintainability of our implementation:
 
 {% code title="app/matestack/components/card\_component.rb" %}
 ```ruby
@@ -105,12 +105,12 @@ class Components::CardComponent < Matestack::Ui::Component
       paragraph "bar", class: "card-text"
     end
   end
-    
+
 end
 ```
 {% endcode %}
 
-**That’s just a very simple example. Can you imagine how powerful that is when working on complex UIs?**You can use all kinds of Ruby’s language features to craft your HTML structure!  Think of shared modules, class inheritance or even meta-programming!
+**That’s just a very simple example. Can you imagine how powerful that is when working on complex UIs?**You can use all kinds of Ruby’s language features to craft your HTML structure! Think of shared modules, class inheritance or even meta-programming!
 
 In order to make our component reusable, we define a component API and use injected content like this:
 
@@ -136,7 +136,7 @@ class Components::CardComponent < Matestack::Ui::Component
       paragraph context.content, class: "card-text" if context.content
     end
   end
-    
+
 end
 ```
 {% endcode %}
@@ -173,7 +173,7 @@ We simply call our component class and pass in required and optional parameters:
 
 **Using a Matestack Component on a Matestack page:**
 
-Alternatively ****we substitute the Rails view with a **Matestack page** and call the component there:
+Alternatively **\*\*we substitute the Rails view with a** Matestack page\*\* and call the component there:
 
 {% code title="app/matestack/pages/product\_overview.rb" %}
 ```ruby
@@ -256,15 +256,15 @@ Imagine this simple use case: You want to click somewhere on the UI and want to 
 
 ![](../.gitbook/assets/onclick_toggle.gif)
 
-These methods are calling the pre-built reactive core components which are associated with a Vue.js JavaScript counterpart. The response method of a component or page class returns an HTML string. Each Vue.js component reference, in this case `onclick` and `toggle` triggers the rendering of  a special HTML `<component>` tag containing the configuration hash as tag attributes \(e.g `emit: hello`\) and the given block as the inner HTML \(e.g. `button 'click me'`\)
+These methods are calling the pre-built reactive core components which are associated with a Vue.js JavaScript counterpart. The response method of a component or page class returns an HTML string. Each Vue.js component reference, in this case `onclick` and `toggle` triggers the rendering of a special HTML `<component>` tag containing the configuration hash as tag attributes \(e.g `emit: hello`\) and the given block as the inner HTML \(e.g. `button 'click me'`\)
 
 When this HTML is parsed by Vue.js in the browser, the referenced Vue.js components, which are included in Matestack’s JavaScript are mounted and get the configuration hash injected. The inner HTML is treated as the components template. We then have two Vue.js component up and running in the browser! Additionally an event hub is mounted which enables communication between all components.
 
 In the above shown example we defined an UI which will show a button and when that button is clicked the event “hello” is emitted and then received from the `toggle` component which will show its content, in this case a span containing a string “hello world”
 
-Thanks to specific configurations and specific blocks you can adjust the behavior and the look of the pre-built reactive components according to your needs. 
+Thanks to specific configurations and specific blocks you can adjust the behavior and the look of the pre-built reactive components according to your needs.
 
-And that’s true for all pre-built components doing **way more complex** things for you: 
+And that’s true for all pre-built components doing **way more complex** things for you:
 
 **What about submitting a reactive form and perform a partial UI Update with server side rendered content afterwards without a browser reload...implemented in a few lines of Ruby?**
 
@@ -348,7 +348,7 @@ class SomePage < Matestack::Ui::Page
 end
 ```
 
-Using this approach you are able to fill up the last 10% of custom reactivity your app might need it \(or even not!\) Do you realize how much JavaScript hustle can be avoided using Matestack’s built-in reactivity system while still being completely flexible? 
+Using this approach you are able to fill up the last 10% of custom reactivity your app might need it \(or even not!\) Do you realize how much JavaScript hustle can be avoided using Matestack’s built-in reactivity system while still being completely flexible?
 
 **That’s what we call flexible abstraction!**
 
@@ -360,7 +360,7 @@ How much do you enjoy copy&pasting complex DOM structures and giant chains of CS
 
 Do you remember the Bootstrap card component example from earlier? Wouldn’t it be cool to have all Bootstrap components available like that in pure Ruby?
 
-That's at least what we thought and why we've created `matestack-ui-bootstrap`shipping all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! 
+That's at least what we thought and why we've created `matestack-ui-bootstrap`shipping all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before!
 
 So a card would be implemented like that:
 
@@ -384,8 +384,6 @@ Based on `matestack-ui-core` and `matestack-ui-bootstrap` this reactive dummy ap
 ![https://dummy.matestack.io](../.gitbook/assets/image%20%281%29.png)
 
 {% hint style="warning" %}
-**You want to learn more?**`matestack-ui-bootstrap` is a separate Gem and documented here: ****[**https://matestack.gitbook.io/matestack-ui-bootstrap**](https://matestack.gitbook.io/matestack-ui-bootstrap/)
+**You want to learn more?**`matestack-ui-bootstrap` is a separate Gem and documented here: **\*\*\[**[https://matestack.gitbook.io/matestack-ui-bootstrap\*\*\]\(https://matestack.gitbook.io/matestack-ui-bootstrap/](https://matestack.gitbook.io/matestack-ui-bootstrap**]%28https://matestack.gitbook.io/matestack-ui-bootstrap/)\)
 {% endhint %}
-
-
 

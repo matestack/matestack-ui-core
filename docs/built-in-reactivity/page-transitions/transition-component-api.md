@@ -82,7 +82,7 @@ get 'my_example_app/page2', to: 'example_app_pages#page2', as: 'page2'
 class ExampleAppPagesController < ExampleController
 
   include Matestack::Ui::Core::Helper
-  
+
   matestack_app ExampleApp
 
   def page1

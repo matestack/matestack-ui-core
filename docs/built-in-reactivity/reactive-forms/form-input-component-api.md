@@ -37,7 +37,7 @@ Defines the key which should be used when posting the form data to the server.
 
 Pass in as symbol. Defines the type of the `input`. All HTML input types are supported.
 
-### placeholder 
+### placeholder
 
 Defines the placeholder.
 
@@ -120,7 +120,7 @@ If you want to create your own input component, that's easily done since `v.1.3.
 class Components::MyFormInput < Matestack::Ui::VueJs::Components::Form::Input
 
   vue_name "my-form-input"
-  
+
   # optionally add some data here, which will be accessible within your Vue.js component
   def vue_props
     {

@@ -41,7 +41,6 @@ end
 
 ### Apps
 
-
 #### yield\_page
 
 * Use `yield` instead of `yield_page`
@@ -190,7 +189,7 @@ end
 * include your registry in components, pages, and apps directly instead of including it in your controller
 * create base classes for apps, pages and components inherting from Matestack's base classes including the registry\(ies\) and let your apps, pages and components inherit from them
 
-As this is just a plain Ruby module, you need to include it in all contexts you want to use the alias method (unlike the registry prior to 2.0.0). It's a good idea to create your own ApplicationPage, ApplicationComponent and ApplicationApp as base classes for your pages, components ans apps. In there, you include your component registry module(s) only once and have access to the alias methods in all child classes:
+As this is just a plain Ruby module, you need to include it in all contexts you want to use the alias method \(unlike the registry prior to 2.0.0\). It's a good idea to create your own ApplicationPage, ApplicationComponent and ApplicationApp as base classes for your pages, components ans apps. In there, you include your component registry module\(s\) only once and have access to the alias methods in all child classes:
 
 ```ruby
 class ApplicationPage < Matestack::Ui::Page
@@ -597,7 +596,6 @@ Vue.component('some-component', {
 
 #### Root form component name
 
-
 * renamed `form` to `matestack_form` as `form` is now rendering the HTML form
 * `matestack_form` renders the Vue.js driven form as prior to 2.0.0
 
@@ -613,7 +611,6 @@ def response
     button "submit", type: :submit
   end
 end
-
 ```
 
 #### Submit
@@ -639,7 +636,6 @@ def response
     button "loading...", type: :submit, disabled: true, "v-if": "loading"
   end
 end
-
 ```
 
 #### Custom form components
@@ -803,11 +799,12 @@ You can keep the block style by simply applying following styles to your applica
 ### Minor HTML rendering changes
 
 * In general: content blocks take precedence over text or :text option
-* `area` coords will no longer be automatically joined -> html option does exactly what is expected, no magic
+* `area` coords will no longer be automatically joined -&gt; html option does exactly what is expected, no magic
 * `italic` and `icon` are now called with the corresponding html tag `i`
 * `a` has no more option :path which can take a symbol and renders it with rails url helper. Use :href/:path with or without rails url helper instead
-* `unescaped` renamed to `unescape` as it fits the naming conventions more. For example rails html_escape not html_escaped. `unescaped` is deprecated now
+* `unescaped` renamed to `unescape` as it fits the naming conventions more. For example rails html\_escape not html\_escaped. `unescaped` is deprecated now
 * `video` has no more magic creation of source tag or automatically fetch asset path to keep dsl as close to html as possible
 * removed alias `pg` for `paragraph`
 * `transition` can no longer handle symbols as path. Use rails path helper instead
-* `Matestack::Ui::DynamicActionviewComponent, Matestack::Ui::Core::Actionview::Dynamic` and static removed -> is not needed
+* `Matestack::Ui::DynamicActionviewComponent, Matestack::Ui::Core::Actionview::Dynamic` and static removed -&gt; is not needed
+

@@ -33,7 +33,7 @@ class Components::Products::Trending < Matestack::Ui::Component
 end
 ```
 
-As you see, we used the `rails_render` component here to render our products teaser partial. Given the string rails searches for a partial in `app/views/products/_teaser.html.erb`. As our product teaser partial uses a `product` we pass in a product as a `local`. 
+As you see, we used the `rails_render` component here to render our products teaser partial. Given the string rails searches for a partial in `app/views/products/_teaser.html.erb`. As our product teaser partial uses a `product` we pass in a product as a `local`.
 
 `rails_render` works with ERB, Haml and Slim Templates, as long as you have installed and configured the desired templating engine correctly in your Rails app.
 
@@ -59,7 +59,7 @@ class Components::Products::Index < Matestack::Ui::Component
   def prepare
     @products = Product.where(trending: true)
   end
-  
+
   def response
     rails_render template: '/static/index', locals: { products: @products }
   end

@@ -12,7 +12,7 @@ end
 
 Defines the key which should be used when posting the form data to the server.
 
-### placeholder 
+### placeholder
 
 Defines the placeholder.
 
@@ -20,7 +20,7 @@ Defines the placeholder.
 
 Defines the label which will be rendered right before the textarea tag. You can also use the `label` component in order to create more complex label structures.
 
-### required 
+### required
 
 If set to true, HTML validations will be triggered on form submit.
 

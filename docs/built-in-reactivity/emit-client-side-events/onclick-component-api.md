@@ -29,7 +29,7 @@ class ExamplePage < Matestack::Ui::Page
       plain "Render this text when the 'abc' event is emitted"
     end
   end
-  
+
 end
 ```
 

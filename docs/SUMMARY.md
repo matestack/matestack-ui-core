@@ -90,3 +90,4 @@
 * [Core Team \[WIP\]](about/team.md)
 * [Sponsoring \[WIP\]](about/sponsoring-wip.md)
 * [Legal Details \[WIP\]](about/legal-details-wip.md)
+

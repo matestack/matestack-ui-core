@@ -24,7 +24,7 @@ will be rendered to:
 </div>
 ```
 
-That's working because `matestack-ui-core` defines all kind of Ruby methods targeting Rails ActionView `tag` helper, rendering the desired HTML tag and content as a String. 
+That's working because `matestack-ui-core` defines all kind of Ruby methods targeting Rails ActionView `tag` helper, rendering the desired HTML tag and content as a String.
 
 Following tags are supported:
 
@@ -56,7 +56,7 @@ hr class: "some-class"
 
 ### Tags
 
-The following tags take content via a block OR first \(non-hash\) argument and all kind of tag attributes, e.g.: 
+The following tags take content via a block OR first \(non-hash\) argument and all kind of tag attributes, e.g.:
 
 ```ruby
 # define inner HTML via a block
@@ -211,7 +211,7 @@ end
 
 ## Custom HTML Tags
 
-If you want to use HTML tags which are not supported by Matestack's rendering mechanism by default, you can call ActionView's `tag` helper manually: 
+If you want to use HTML tags which are not supported by Matestack's rendering mechanism by default, you can call ActionView's `tag` helper manually:
 
 [https://apidock.com/rails/ActionView/Helpers/TagHelper/tag](https://apidock.com/rails/ActionView/Helpers/TagHelper/tag)
 

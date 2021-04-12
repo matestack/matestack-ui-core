@@ -1,6 +1,6 @@
 # Components on Rails views
 
-If you already have plenty of Rails views \(ERB, Haml or Slim\) and want to start creating small UI components in pure Ruby, you are able to use components on these existing views. 
+If you already have plenty of Rails views \(ERB, Haml or Slim\) and want to start creating small UI components in pure Ruby, you are able to use components on these existing views.
 
 {% code title="app/matestack/components/products/teaser.rb" %}
 ```ruby

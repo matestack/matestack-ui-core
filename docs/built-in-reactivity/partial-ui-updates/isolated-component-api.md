@@ -155,7 +155,7 @@ class MyIsolated < Matestack::Ui::IsolatedComponent
     # check access here using current_user for example when using Devise
     # true means, this isolated component is public
   end
-  
+
 end
 ```
 
@@ -168,7 +168,7 @@ class Home < Matestack::Ui::Page
     h1 'Welcome'
     MyIsolated.()
   end
-  
+
 end
 ```
 
@@ -184,7 +184,7 @@ class Home < Matestack::Ui::Page
     MyIsolated.(defer: true)
     MyIsolated.(defer: 2000)
   end
-  
+
 end
 ```
 
@@ -202,7 +202,7 @@ class Home < Matestack::Ui::Page
       button 'Update Time!'
     end
   end
-  
+
 end
 ```
 
@@ -220,7 +220,7 @@ class Home < Matestack::Ui::Page
       button 'Update Time!'
     end
   end
-  
+
 end
 ```
 
@@ -238,7 +238,7 @@ class Home < Matestack::Ui::Page
       button 'Init Time!'
     end
   end
-  
+
 end
 ```
 
@@ -287,7 +287,7 @@ class Match::Pages::Index < Matestack::Ui::Page
       Components::Match::IsolatedScore.(public_options: { id: match.id }, rerender_on: "update_match_#{match.id}")
     end
   end
-  
+
 end
 ```
 

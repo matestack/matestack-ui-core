@@ -1,6 +1,6 @@
 # Overview
 
-Matestack implements a reactive  `matestack_form` component which wraps different child form input components like text inputs, number inputs, textareas, selects, checkboxes, radio buttons and more in order to collect user input. The `matestack_form` component is implemented with Vue.js and is designed to submit its data via an async HTTP request, usually targeting a Rails controller action through Rails routing, when submitted. The `form` can reset itself, render server side errors, emit events and perform transitions without full browser page reload after form submission. Alternatively, the form can perform a redirect resulting in a full browser page reload after submission.
+Matestack implements a reactive `matestack_form` component which wraps different child form input components like text inputs, number inputs, textareas, selects, checkboxes, radio buttons and more in order to collect user input. The `matestack_form` component is implemented with Vue.js and is designed to submit its data via an async HTTP request, usually targeting a Rails controller action through Rails routing, when submitted. The `form` can reset itself, render server side errors, emit events and perform transitions without full browser page reload after form submission. Alternatively, the form can perform a redirect resulting in a full browser page reload after submission.
 
 {% hint style="danger" %}
 Using the method `form` will render a standard HTML form rather than the following described Vue.js driven form, called via `matestack_form`
@@ -8,7 +8,7 @@ Using the method `form` will render a standard HTML form rather than the followi
 If required, together with methods like `input`, `select` ... a basic HTML `form` can be rendered and submitted to the server without any reactive behavior.
 {% endhint %}
 
-### Basic configuration
+## Basic configuration
 
 Like Rails' `form_for`, Matestack's `matestack_form` takes a hash as parameter which is used to configure the form. Within the block of a `matestack_form`, child components like `form_input` are used to collect user input:
 
@@ -37,7 +37,7 @@ Each form requires a few keys for configuration: `:for`, `:path`, `:method`.
 * `:path` specifies the target path, the form is submitted to \(can be a plain String or a Rails url helper method\)
 * `:method` sets the HTTP method the form is using to submit its data, can be `:post` or `:put`
 
-### Serverside action
+## Serverside action
 
 As mentioned, the `matestack_form` posts its data to a specified Rails controller action through Rails routing.
 
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
 end
 ```
 
-### Form success and failure behavior
+## Form success and failure behavior
 
 Forms will be submitted asynchronously and in case of errors dynamically extended to show errors belonging to inputs fields. In case of a successful request the form is resetted, unless configured not to do so.
 
@@ -190,7 +190,7 @@ Read more about success and failure behavior and all configuration possibilities
 
 {% page-ref page="form-component-api.md" %}
 
-### Input components
+## Input components
 
 Inside a form you can use our form input components `form_input`, `form_textarea`, `form_select`, `form_radio` and `form_checkbox`. Do not use the basic input components `input`, `textarea` and so on, because they do not work with matestack forms. Instead use the _form input_ components. Each input component requires a `:key` which represents the params name as which this inputs value get's submitted. If you specified an active record object or similar in the `form` with the `:for` options, inputs will be prefilled with the value of the corresponding attribute or method of the object. It is also possible to specify `:label` in order to create labels for the input on the fly.
 
@@ -221,6 +221,4 @@ Inside a form you can use our form input components `form_input`, `form_textarea
 {% page-ref page="form-select-component-api.md" %}
 
 {% page-ref page="form-radio-component-api.md" %}
-
-
 

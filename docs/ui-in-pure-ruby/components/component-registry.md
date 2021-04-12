@@ -4,7 +4,7 @@
 Since version 2.0.0, components do not need to be registered anymore but can be called via an alias method defined in a Ruby module like:
 {% endhint %}
 
-By default, components can be called directly like `Components::Card.(title: "foo", body: "bar")` which will return the desired HTML string. 
+By default, components can be called directly like `Components::Card.(title: "foo", body: "bar")` which will return the desired HTML string.
 
 If desired, you can create alias methods in order to avoid the class call syntax:
 
@@ -15,7 +15,7 @@ module Components::Registry
   def card(text=nil, options=nil, &block)
     Components::Card.(text, options, &block)
   end
-  
+
   #...
 
 end
@@ -55,6 +55,4 @@ class ApplicationApp< Matestack::Ui::App
 end
 ```
 {% endcode %}
-
-
 

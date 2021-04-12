@@ -100,7 +100,7 @@ success: {
 }
 ```
 
-A controller action that  respond with the url the page should transition to, could look like this:
+A controller action that respond with the url the page should transition to, could look like this:
 
 ```ruby
 class SomeController < ApplicationController
@@ -111,7 +111,7 @@ class SomeController < ApplicationController
       transition_to: some_path(id: 42)
     }, status: :ok
   end
-  
+
 end
 ```
 
@@ -141,7 +141,7 @@ success: {
 }
 ```
 
-A controller action that  respond with the url the page should transition to, could look like this:
+A controller action that respond with the url the page should transition to, could look like this:
 
 ```ruby
 class SomeController < ApplicationController
@@ -152,7 +152,7 @@ class SomeController < ApplicationController
       transition_to: some_path(id: 42)
     }, status: :ok
   end
-  
+
 end
 ```
 

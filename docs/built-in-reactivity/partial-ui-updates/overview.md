@@ -489,7 +489,7 @@ class BookingsList < IsolatedComponent
   def availabilities
     Booking.some_long_runnning_availability_check
   end
-  
+
   def authorized?
     true
   end
@@ -500,6 +500,4 @@ end
 Deferring such slow parts of your UI speeds up your page load significantly. But remember to always try to improve your query or logic performance as isolated components are not your general solution to fast page loads.
 
 {% page-ref page="isolated-component-api.md" %}
-
-
 

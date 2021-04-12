@@ -306,7 +306,7 @@ which renders as an HTML `id` attribute, like so:
 <form id="my-form-id" class="matestack-form">...</form>
 ```
 
-#### Class 
+#### Class
 
 This parameter accepts a string of classes that the form component should have:
 

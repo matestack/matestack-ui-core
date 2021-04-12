@@ -44,7 +44,7 @@ class SomePage < Matestack::Ui::Page
       my_partial "foo from page"
     end
   end
-  
+
   private # optionally mark your partials as private
 
   def my_partial text
@@ -108,13 +108,13 @@ class SomePage < Matestack::Ui::Page
       end 
     end
   end
-  
+
   private # optionally mark your helper methods as private
 
   def is_admin?
     true # some crazy Ruby logic!
   end
-  
+
   def latest_users
     User.last(10) # calling ActiveRecord models for example
   end
@@ -172,7 +172,7 @@ class SoomeController < ActionController::Base
   def some_page
     render SomePage, foo: 'bar', bar: 'baz'
   end
-  
+
 end
 ```
 

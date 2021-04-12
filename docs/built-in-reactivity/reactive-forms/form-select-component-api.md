@@ -107,7 +107,7 @@ matestack_form my_form_config do
 end
 ```
 
-### multiple 
+### multiple
 
 If set to true, a native HTML multiple select will be rendered. Selected values will be posted as an Array to the server.
 
@@ -135,7 +135,7 @@ matestack_form my_form_config do
 end
 ```
 
-### placeholder 
+### placeholder
 
 Defines the placeholder which will be rendered as first, disabled option.
 
