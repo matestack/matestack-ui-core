@@ -2,38 +2,11 @@
 
 Devise is one of the most popular gems for authentication. Find out more about Devise [here](https://github.com/plataformatec/devise/).
 
-In order to integrate it fully in matestack apps and pages we need to adjust a few things. This guide explains what exactly needs to be adjusted.
-
-## Setting up Devise
-
-We install devise by following devise [installation guide](https://github.com/plataformatec/devise/#getting-started).
-
-First we add `gem 'devise'` to our `Gemfile` and run `bundle install`. Afterwards we need to run devise installation task with `rails generate devise:install`.
-
-Then we need to add an action mailer config like devise tolds us at the end of the installation task. We therefore add the following line to our `config/environments/development.rb`.
-
-```ruby
-config.action_mailer.default_url_options = {
-  host: 'localhost',
-  port: 3000
-}
-```
-
-## Devise models
-
-Generating a devise model or updating an existing one works as usual. Just use devise generator to create a model. If you already have a model which you want to extend for use with devise take a look at the devise documentation on how to do so.
-
-Let's create a user model for example by running
-
-```bash
-rails generate devise user
-```
-
-And ensure `devise_for :user` is added to the `app/config/routes.rb`
+In order to integrate it fully in Matestack apps and pages we need to adjust a few things. This guide explains what exactly needs to be adjusted.
 
 ## Devise helpers
 
-Again nothing unusual here. We can access devise helper methods inside our controllers, apps, pages and components like we would normally do. In case of our user model this means we could access `current_user` or `user_signed_in?` in apps, pages and components.
+We can access devise helper methods inside our controllers, apps, pages and components like we would normally do. In case of our user model this means we could access `current_user` or `user_signed_in?` in apps, pages and components.
 
 For example:
 
@@ -63,7 +36,7 @@ end
 
 ## Devise sign in
 
-Using the default devise sign in views should work without a problem, but they will not be integrated with a matestack app. Let's assume we have a profile matestack app called `Profile::App`. If we want to take advantage of matestacks transitions features \(not reloading our app layout between page transitions\) we can not use devise views, because we would need to redirect to them and therefore need to reload the whole page. Requiring us for example to implement our navigation twice. In our `Profile::App` and also in our devise sign in view.
+Using the default devise sign in views should work without a problem, but they will not be integrated with a Matestack app. Let's assume we have a profile Matestack app called `Profile::App`. If we want to take advantage of Matestack's transitions features \(not reloading our app layout between page transitions\) we can not use devise views, because we would need to redirect to them and therefore need to reload the whole page. Requiring us for example to implement our navigation twice. In our `Profile::App` and also in our devise sign in view.
 
 Therefore we need to adjust a few things and create some pages. First we create a custom sign in page containing a form with email and password inputs.
 
@@ -73,13 +46,11 @@ Therefore we need to adjust a few things and create some pages. First we create 
 class Profile::Pages::Sessions::SignIn < Matestack::Ui::Page
 
   def response
-    heading text: 'Sign in'
-    form form_config do
+    h1 'Sign in'
+    matestack_form form_config do
       form_input label: 'Email', key: :email, type: :email 
       form_input label: 'Password', key: :password, type: :password 
-      form_submit do
-        button text: 'Sign in'
-      end
+      button text: 'Sign in', type: :submit
     end
     toggle show_on: 'sign_in_failure' do
       plain 'Your email or password is not valid.'
@@ -94,7 +65,7 @@ class Profile::Pages::Sessions::SignIn < Matestack::Ui::Page
       method: :post,
       path: user_session_path,
       success: {
-        transition: {
+        redirect: { # or transition, if your app layout does not change
           follow_response: true
         }
       },
@@ -108,8 +79,6 @@ end
 ```
 
 This page displays a form with an email and password input. The default required parameters for a devise sign in. It also contains a `toggle` component which gets shown when the event `sign_in_failure` is emitted. This event gets emitted in case our form submit was unsuccessful as we specified it in our `form_config` hash. If the form is successful our app will make a transition to the page the server would redirect to.
-
-Remember to use `redirect` instead of `transition`, if you have conditional content depending on a logged in user inside your app. You have to use `redirect` because the app needs to be reloaded, which happens only with `redirect`.
 
 In order to render our sign in page when someone tries to access a route which needs authentication or visits the sign in page we must override devise session controller in order to render our page. We do this by configuring our routes to use a custom controller.
 
@@ -125,14 +94,12 @@ Rails.application.routes.draw do
 end
 ```
 
-Override the `new` action in order to render our sign in page and set the correct matestack app in the controller. Also remember to include the components registry. This is necessary if you use custom components in your app or page, because without it matestack can't resolve them.
+Override the `new` action in order to render our sign in page and set the correct Matestack app in the controller. Also remember to include the components registry. This is necessary if you use custom components in your app or page, because without it Matestack can't resolve them.
 
 `app/controllers/users/sessions_controller.rb`
 
 ```ruby
 class Users::SessionsController < Devise::SessionsController
-  # include your component registry in order to use custom components
-  include Components::Registry
 
   matestack_app Profile::App # specify the corresponding app to wrap pages in
 
@@ -174,17 +141,17 @@ config.warden do |manager|
 end
 ```
 
-That's it. When we now try to sign in with incorrect credentials the `form` component triggers the `sign_in_failure` event, which sets off our `toggle` component resulting in displaying the error message.
+That's it. When we now try to sign in with incorrect credentials the `matestack_form` component triggers the `sign_in_failure` event, which sets off our `toggle` component resulting in displaying the error message.
 
-**Wrap Up** That's it. Now you have a working sign in with devise fully integrated into matestack. All we needed to do was creating a sign in page, updating our routes to use a custom session controller, overriding the new action, creating a custom failure app and updating the devise config.
+**Wrap Up** That's it. Now you have a working sign in with devise fully integrated into Matestack. All we needed to do was creating a sign in page, updating our routes to use a custom session controller, overriding the new action, creating a custom failure app and updating the devise config.
 
 ## Devise sign out
 
-Creating a sign out button in matestack is very straight forward. We use matestacks [`action` component](../components-api/reactive-core-components/action.md) to create a sign out button. See the example below:
+Creating a sign out button in Matestack is very straight forward. We use matestacks [`action` component](../built-in-reactivity/call-server-side-actions/action-component-api.md) to create a sign out button. See the example below:
 
 ```ruby
 action sign_out_config do
-  button text: 'Sign out'
+  button 'Sign out'
 end
 ```
 
@@ -194,7 +161,7 @@ def sign_out_config
      method: :get,
      path: destroy_admin_session_path,
      success: {
-       transition: {
+       redirect: {
          follow_response: true
        }
      }
@@ -202,11 +169,11 @@ def sign_out_config
 end
 ```
 
-Notice the `method: :get` in the configuration hash. We use a http GET request to sign out, because the browser will follow the redirect send from devise session controller and then matestack tries to load the page where we have been redirected to. When we would use a DELETE request the action we would be redirected to from the browser will be also requested with a http DELETE request, which will result in a rails routing error. Therefore we use GET and need to configure devise accordingly by changing the `sign_out_via` configuration parameter.
+Notice the `method: :get` in the configuration hash. We use a http GET request to sign out, because the browser will follow the redirect send from devise session controller and then Matestack tries to load the page where we have been redirected to. When we would use a DELETE request the action we would be redirected to from the browser will be also requested with a http DELETE request, which will result in a rails routing error. Therefore we use GET and need to configure devise accordingly by changing the `sign_out_via` configuration parameter.
 
 ```ruby
 # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = :get
+config.sign_out_via = :get
 ```
 
 That's all we have to do.

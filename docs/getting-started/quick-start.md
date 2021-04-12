@@ -1,4 +1,8 @@
-# Quick Start
+# Quick Start \[WIP\]
+
+{% hint style="danger" %}
+Migration to 2.0.0 in progress
+{% endhint %}
 
 In this step-by-step guide, I will show you how to create a Twitter clone in pure Ruby with Matestack, following the great screencasts from Chris McCord [Phoenix LiveView Twitter Clone](https://youtu.be/MZvmYaFkNJI) and Nate Hopkins [Stimulus Reflex Twitter Clone](https://youtu.be/F5hA79vKE_E). We will use the Gem `matestack-ui-core`, which enables us to implement our UI in some Ruby classes rather than writing ERB, HAML or Slim views. Furthermore we don't need to touch JavaScript in order to create reactive UI features, such as updating the DOM without a full browser page reload or syncing multiple web clients through Action Cable!
 
