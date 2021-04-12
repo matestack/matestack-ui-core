@@ -473,7 +473,7 @@ describe "Isolate Component", type: :feature, js: true do
 
     sleep 1
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("some-event")')
 
     expect(page).not_to have_content(async_timestamp_before)
 
@@ -650,7 +650,7 @@ describe "Isolate Component", type: :feature, js: true do
 
     sleep 1
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("some-event")')
 
     expect(page).not_to have_content(timestamp_before)
 
@@ -658,7 +658,7 @@ describe "Isolate Component", type: :feature, js: true do
 
     sleep 1
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("or-another")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("or-another")')
 
     expect(page).not_to have_content(timestamp_after)
 
@@ -683,7 +683,7 @@ describe "Isolate Component", type: :feature, js: true do
 
     component_timestamp_before = page.find('#isolated-component-timestamp').text.to_i
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("some-event")')
 
     expect(page).not_to have_content(component_timestamp_before)
 
@@ -707,7 +707,7 @@ describe "Isolate Component", type: :feature, js: true do
     sleep 1
     expect(page).not_to have_css '#isolated-component-timestamp', visible: :all
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("some-event")')
     expect(page).to have_css '#isolated-component-timestamp', visible: :all
   end
 
@@ -738,7 +738,7 @@ describe "Isolate Component", type: :feature, js: true do
     visit "/example"
     async_timestamp_before = page.find('#timestamp-in-async').text.to_i
     sleep 1
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some-event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("some-event")')
     expect(page).not_to have_content(async_timestamp_before)
     async_timestamp_after = page.find('#timestamp-in-async').text.to_i #still find a timestamp, otherwise would throw an error
   end

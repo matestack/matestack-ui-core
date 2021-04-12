@@ -140,14 +140,14 @@ describe "Async Component", type: :feature, js: true do
       expect(page).not_to have_content("waited for 'my_event'")
       
       sleep 2
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
       expect(page).to have_content("waited for 'my_event'")
       deferred_timestamp = page.find("#my-deferred-div").text #deferred loading after click
       expect(deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(2000, 4000).inclusive
       
       sleep 1
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_other_event")')
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_other_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
       expect(page).to have_content("waited for 'my_event'")
       new_deferred_timestamp = page.find("#my-deferred-div").text #deferred loading after another click
       expect(new_deferred_timestamp.to_i - deferred_timestamp.to_i).to be_between(1000, 2000).inclusive

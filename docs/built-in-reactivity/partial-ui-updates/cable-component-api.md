@@ -12,7 +12,7 @@ import MatestackUiCore form 'matestack-ui-core';
 consumer.subscriptions.create("MatestackUiCoreChannel", {
   //...
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```

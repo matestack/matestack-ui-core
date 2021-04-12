@@ -13,12 +13,12 @@ MatestackUiCore.Vue.component('some-component', {
     return {}
   },
   mounted(){
-    MatestackUiCore.matestackEventHub.$emit("some-event", { some: "optional data" })
+    MatestackUiCore.eventHub.$emit("some-event", { some: "optional data" })
   }
 })
 ```
 
-Use `MatestackUiCore.matestackEventHub.$emit(EVENT_NAME, OPTIONAL PAYLOAD)`
+Use `MatestackUiCore.eventHub.$emit(EVENT_NAME, OPTIONAL PAYLOAD)`
 
 ## Receiving events
 
@@ -36,10 +36,10 @@ MatestackUiCore.Vue.component('some-component', {
     }
   },
   mounted(){
-    MatestackUiCore.matestackEventHub.$on("some-event", this.reactToEvent)
+    MatestackUiCore.eventHub.$on("some-event", this.reactToEvent)
   },
   beforeDestroy: function() {
-    matestackEventHub.$off("some-event", this.reactToEvent)
+    eventHub.$off("some-event", this.reactToEvent)
   }
 })
 ```

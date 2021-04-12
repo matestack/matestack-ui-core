@@ -12,7 +12,7 @@ describe "Async Component", type: :feature, js: true do
     end
     expect(page).to have_content('Time now:')
     initial_timestamp = page.find("p").text # initial page load
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("update")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("update")')
     expect(page).to have_content('Time now:')
     expect(page).not_to have_content(initial_timestamp)
   end
@@ -31,7 +31,7 @@ describe "Async Component", type: :feature, js: true do
     expect(page).to have_content('A page inside the app')
     expect(page).to have_content('Time now:')
     initial_timestamp = page.find("p").text # initial page load
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("update")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("update")')
     expect(page).to have_content('Time now:')
     expect(page).not_to have_content(initial_timestamp)
     reset_matestack_app

@@ -23,18 +23,18 @@ describe "Toggle Component", type: :feature, js: true do
     expect(page).not_to have_selector "#my-div"
     expect(page).not_to have_selector "#my-second-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
     expect(page).to have_selector "#my-div"
     expect(page).not_to have_selector "#my-second-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_2")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("multi_event_2")')
     expect(page).to have_selector "#my-div"
     expect(page).to have_selector "#my-second-div"
 
     visit "/example"
     expect(page).not_to have_selector "#my-second-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_1")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("multi_event_1")')
     expect(page).to have_selector "#my-second-div"
   end
 
@@ -58,18 +58,18 @@ describe "Toggle Component", type: :feature, js: true do
     expect(page).to have_selector "#my-div"
     expect(page).to have_selector "#my-second-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
     expect(page).not_to have_selector "#my-div"
     expect(page).to have_selector "#my-second-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_2")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("multi_event_2")')
     expect(page).not_to have_selector "#my-div"
     expect(page).not_to have_selector "#my-second-div"
 
     visit "/example"
     expect(page).to have_selector "#my-second-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_1")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("multi_event_1")')
     expect(page).not_to have_selector "#my-second-div"
   end
 
@@ -87,10 +87,10 @@ describe "Toggle Component", type: :feature, js: true do
     visit "/example"
     expect(page).not_to have_selector "#my-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_show_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_show_event")')
     expect(page).to have_selector "#my-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_hide_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_hide_event")')
     expect(page).not_to have_selector "#my-div"
   end
 
@@ -108,10 +108,10 @@ describe "Toggle Component", type: :feature, js: true do
     visit "/example"
     expect(page).to have_selector "#my-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_hide_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_hide_event")')
     expect(page).not_to have_selector "#my-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_show_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_show_event")')
     expect(page).to have_selector "#my-div"
   end
 
@@ -129,7 +129,7 @@ describe "Toggle Component", type: :feature, js: true do
     visit "/example"
     expect(page).not_to have_selector "#my-div"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
     expect(page).to have_selector "#my-div"
 
     sleep 1
@@ -150,7 +150,7 @@ describe "Toggle Component", type: :feature, js: true do
     visit "/example"
     expect(page).not_to have_content "test!"
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event", { message: "test!" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event", { message: "test!" })')
     expect(page).to have_content "test!"
   end
 

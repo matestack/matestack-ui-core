@@ -104,7 +104,7 @@ describe 'Creating custom components', type: :feature, js: true do
     visit '/custom_component_test'
     page.execute_script(component_definition)
     # refresh script only needed in tests, see explanation on page definition above
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("refresh")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("refresh")')
     expect(page).to have_content('Show on pageview')
     sleep 0.5
     expect(page).to have_content('Show after 300ms')
@@ -195,7 +195,7 @@ describe 'Creating custom components', type: :feature, js: true do
     visit '/custom_component_test'
     page.execute_script(component_definition)
     # refresh script only needed in tests, see explanation on page definition above
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("refresh")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("refresh")')
     expect(page).to have_content('Now I show: less than 5 seconds')
     sleep 0.5
     expect(page).to have_content('Later I show: less than 5 seconds')

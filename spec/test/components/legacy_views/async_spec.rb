@@ -21,7 +21,7 @@ describe "Async Component", type: :feature, js: true do
     visit 'legacy_views/async_custom_component'
     initial_content = page.find("#time").text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("update_time")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("update_time")')
     expect(page).not_to have_content(initial_content)
   end
 
@@ -53,7 +53,7 @@ describe "Async Component", type: :feature, js: true do
       end
 
       Components::LegacyViews::Pages::Async.collection[0] = 'aaa'
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("update_item_0")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("update_item_0")')
 
       expect(page).to have_content('aaa')
       expect(page).to have_content('bb')
@@ -61,7 +61,7 @@ describe "Async Component", type: :feature, js: true do
 
       time = Time.now
       Components::LegacyViews::Pages::Async.collection.map! { |item| "#{item} - #{time}"}
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("update_items")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("update_items")')
       expect(page).to have_content("aaa - #{time}")
       expect(page).to have_content("bb - #{time}")
       expect(page).to have_content("cc - #{time}")
@@ -74,7 +74,7 @@ describe "Async Component", type: :feature, js: true do
       end
 
       Components::LegacyViews::Pages::Async.collection = %w[aa bb]
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("update_items")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("update_items")')
       expect(page).to have_content('aa')
       expect(page).to have_content('bb')
       expect(page).to have_content('cc') # old element remains on the page

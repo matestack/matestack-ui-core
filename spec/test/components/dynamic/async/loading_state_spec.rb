@@ -20,7 +20,7 @@ describe "Async Component", type: :feature, js: true do
 
     expect(page).to have_css '.matestack-async-component-container .matestack-async-component-wrapper', visible: :all
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
 
     expect(page).to have_css '.matestack-async-component-container.loading .matestack-async-component-wrapper.loading', visible: :all
 

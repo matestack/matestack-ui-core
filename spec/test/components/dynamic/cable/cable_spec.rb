@@ -41,7 +41,7 @@ describe "Cable Component", type: :feature, js: true do
     click_on 'Transition'
     expect(page).not_to have_content('Transition')
     expect(page).to have_selector('p#id', text: 'Paragraph')
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("replace", { data: "<h1 id=\"id\">replaced</h1>" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("replace", { data: "<h1 id=\"id\">replaced</h1>" })')
     expect(page).to have_selector('h1#id', text: 'replaced')
     reset_matestack_app
   end
@@ -60,7 +60,7 @@ describe "Cable Component", type: :feature, js: true do
     expect(page).not_to have_content('event successful emitted')
     # onclick = matestack_component(:heading, text: 'test')
     onclick = Matestack::Ui::VueJs::Components::Onclick.(emit: 'test') { Matestack::Ui::Component.new(:button, 'Click') }.html_safe
-    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \'#{onclick}\' })".gsub("\n", "")
+    script = "MatestackUiCore.eventHub.$emit('replace', { data: \'#{onclick}\' })".gsub("\n", "")
     page.execute_script(script)
     expect(page).not_to have_selector('p#id', text: 'paragraph')
     expect(page).to have_selector('button', text: 'Click')
@@ -100,7 +100,7 @@ describe "Cable Component", type: :feature, js: true do
     expect(page).not_to have_content('event successful emitted')
 
     onclick = Matestack::Ui::VueJs::Components::Onclick.(emit: 'test') { Matestack::Ui::Component.new(:button, 'Click') }.html_safe
-    script = "MatestackUiCore.matestackEventHub.$emit('replace', { data: \'#{onclick}\' })".gsub("\n", "")
+    script = "MatestackUiCore.eventHub.$emit('replace', { data: \'#{onclick}\' })".gsub("\n", "")
     page.execute_script(script)
 
     expect(page).to have_selector('button', text: 'Click')

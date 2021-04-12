@@ -155,7 +155,7 @@ end
 As an example, we can fire the following event:
 
 ```javascript
-MatestackUiCore.matestackEventHub.$emit("my_event", { message: "test!" })
+MatestackUiCore.eventHub.$emit("my_event", { message: "test!" })
 ```
 
 As a result, the event message gets shown _after_ our event was fired!

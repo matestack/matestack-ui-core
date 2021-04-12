@@ -89,7 +89,7 @@ describe "Component", type: :feature, js: true do
       element = page.find("#timestamp")
       before_content = element.text
 
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("some_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("some_event")')
       expect(page).not_to have_content(before_content)# check if async reload has really worked!
       expect(page).to have_content("has access to ActionView Context")
       expect(page).to have_content("Test Link")

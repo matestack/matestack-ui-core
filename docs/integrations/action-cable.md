@@ -14,7 +14,7 @@ It also generates the corresponding server side `MatestackUiCoreChannel < Applic
 
 The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel". 
 
-All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.matestackEventHub` with the received data.
+All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.eventHub` with the received data.
 
 `app/javascript/channels/matestack_ui_core_channel.js`
 
@@ -32,7 +32,7 @@ consumer.subscriptions.create("MatestackUiCoreChannel", {
   },
 
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -171,7 +171,7 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create("PublicChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -197,7 +197,7 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create("PrivateChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
