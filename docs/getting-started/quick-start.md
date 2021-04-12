@@ -1,18 +1,16 @@
-# Quick Start \[WIP\]
+# Tutorial
 
-{% hint style="danger" %}
-Migration to 2.0.0 in progress
-{% endhint %}
+## Create a reactive Twitter clone in pure Ruby 
 
 In this step-by-step guide, I will show you how to create a Twitter clone in pure Ruby with Matestack, following the great screencasts from Chris McCord [Phoenix LiveView Twitter Clone](https://youtu.be/MZvmYaFkNJI) and Nate Hopkins [Stimulus Reflex Twitter Clone](https://youtu.be/F5hA79vKE_E). We will use the Gem `matestack-ui-core`, which enables us to implement our UI in some Ruby classes rather than writing ERB, HAML or Slim views. Furthermore we don't need to touch JavaScript in order to create reactive UI features, such as updating the DOM without a full browser page reload or syncing multiple web clients through Action Cable!
 
-I've added a screencast \(two parts\) showing you what you will be doing in this tutorial:
+I've added a small demo showing you what you will be creating in this tutorial:
 
 [![](https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg)](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
 
 _This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out_ [_this guide_](https://docs.matestack.io/docs/ui_components/100-rails_integration)
 
-## Setup
+### Setup
 
 * [x] Create a new Rails app and install some dependencies:
 
@@ -29,7 +27,7 @@ yarn add matestack-ui-core
 rails g scaffold Post body:text likes_count:integer username:string
 ```
 
-## Model & Database
+### Model & Database
 
 * [x] Modify generated migration in order to add defaults:
 
@@ -70,7 +68,7 @@ class Post < ApplicationRecord
 end
 ```
 
-## Import Matestack's JavaScript
+### Import Matestack's JavaScript
 
 Previously, in version 1.5, Vue and Vuex were imported automatically. Now this must be done manually which is the webpacker way. You can import it in `app/javascript/packs/application.js` or in another pack if you need.
 
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 ```
 
-## Application Layout and Views
+### Application Layout and Views
 
 On `app/views/layouts/application.html.erb` do:
 
@@ -141,7 +139,7 @@ On `app/views/layouts/application.html.erb` do:
 
 * [x] Delete all generated `app/views/posts` views - we don't need them!
 
-## Controller
+### Controller
 
 * [x] Add Matestack's helper to your application controller:
 
@@ -194,7 +192,7 @@ class PostsController < ApplicationController
 end
 ```
 
-## Matestack App and Pages
+### Matestack App and Pages
 
 * [x] Add a `matestack` folder and create a Matestack app and a Matestack `Post` index page file:
 
@@ -246,7 +244,7 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 end
 ```
 
-## Add Matestack to the Controller
+### Add Matestack to the Controller
 
 * [x] Reference Matestack's app and page on the controller and `index` action:
 
@@ -280,7 +278,7 @@ rails s
 
 You should see the heading "Twitte Clone" and that's it. We don't have any posts in our database, so we need a `form` to create one!
 
-## Add a Reactive Form
+### Add a Reactive Form
 
 * [x] Add a reactive `form` to the index page
 * [x] Use the `form_config_helper` method returning a config hash in order to inject a hash into the form without polluting the code
@@ -387,11 +385,11 @@ end
 
 * [x] Navigate to `localhost:3000/posts`
 
-You should see a basic index page with a form at the top. When submitting the form without any values, ActiveRecord errors should appear below the input fields without a browser page reload. When submitting valid data, the form should reset automatically without a browser page reload, but you will still have to reload the browser in order to see the new post! 
+You should see a basic index page with a form at the top. When submitting the form without any values, ActiveRecord errors should appear below the input fields without a browser page reload. When submitting valid data, the form should reset automatically without a browser page reload, but you will still have to reload the browser in order to see the new post!
 
 To get that reactivity to work, we need make use of the `async` component.
 
-## Add Matestack's Async Component
+### Add Matestack's Async Component
 
 * [x] Add `success: {emit: "submitted"}` to the form config
 * [x] Wrap the `post_list_partial` with an `async`, configured to rerender when the event `submitted` is received
@@ -437,7 +435,7 @@ Cool! Now you should see the list automatically updating itself after form submi
 
 Now we need to add some `action` components in order to "like" the posts.
 
-## Enable "likes"
+### Enable "likes"
 
 * [x] Add the `like` route:
 
@@ -525,7 +523,7 @@ When you click the "Like" button on a post, you will see the counter increasing 
 
 Great! We added a reactive form and reactive actions. We can now add some reactive feedback on top using the toggle component!
 
-## Add Reactive Feedback Using the `toggle` Component
+### Add Reactive Feedback Using the `toggle` Component
 
 * [x] Add failure event submission to the form config like: `failure: {emit: "form_failed"},`
 * [x] Add a `toggle` component in order to render the success message for 5 seconds
@@ -588,7 +586,7 @@ Great! Now we get instant feedback after performing successful or unsuccessful f
 
 All of the above described reactivity only applies for one client. A second user wouldn't see the new post, unless he reloads his browser page. But of course, we want to sync all connected clients! It's time to integrate ActionCable!
 
-## Integrate Action Cable
+### Integrate Action Cable
 
 * [x] Generate an ActionCabel channel
 
@@ -758,7 +756,7 @@ Wow! We just had to copy and paste a JavaScript snippet once in order to integra
 
 We will take a short break before adding the next cool reactivity feature and refactor a little bit! Matestack encourages you to create a readable and maintainable UI implemetation. Therefore we will move some complexity from the current index page to a self contained Matestack component!
 
-## Create a Matestack Component
+### Create a Matestack Component
 
 * [x] Create a components folder within the matestack folder
 
@@ -768,7 +766,7 @@ touch app/matestack/components/post.rb
 ```
 
 * [x] Move code from the index page to the new component
-* [x] adjust references to the given post parameter to be called as a method of the context object (`context.post.id`)
+* [x] adjust references to the given post parameter to be called as a method of the context object \(`context.post.id`\)
 
 `app/matestack/components/post.rb`
 
@@ -797,7 +795,6 @@ class Components::Post < Matestack::Ui::Component
 
 end
 ```
-
 
 * [x] Adjust the index page in order to use the new component
 
@@ -854,10 +851,9 @@ end
 
 Everything should be the same! We just refactored some code in order to better manage complexity.
 
+### Component Registry
 
-## Component Registry
-
-Components can be invoked as we have done above (`Components::Post.(post: post)`). But sometimes the namespace can get a little long and in the interest of keeping our code beautiful, we can register our components so we can call them like:
+Components can be invoked as we have done above \(`Components::Post.(post: post)`\). But sometimes the namespace can get a little long and in the interest of keeping our code beautiful, we can register our components so we can call them like:
 
 ```ruby
   # ...
@@ -874,7 +870,7 @@ Components can be invoked as we have done above (`Components::Post.(post: post)`
   # ...
 ```
 
-Let's refactor and set up a component registry and register our component. 
+Let's refactor and set up a component registry and register our component.
 
 * [x] Create a component registry file
 
@@ -900,7 +896,6 @@ end
 * [x] Adjust the index page in order to use the component in the new way
 
 `app/matestack/twitter_clone/posts/index.rb`
-
 
 ```ruby
 class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
@@ -934,15 +929,13 @@ class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
 end
 ```
 
-
 **Test the current state again**
 
 * [x] Navigate to `localhost:3000/posts`
 
 Everything should be the same after this small refactoring.
 
-
-## The Cable Component
+### The Cable Component
 
 Now we will cover the last topic of this guide:
 
@@ -950,7 +943,7 @@ As described before, the `async` rerenders it's whole body. The `async` wrapping
 
 But now imagine, your post list will be too big at some point. We should switch the reactivity approach to a more granular one. Let's use the `cable` component alongside our already added ActionCable introduction and reuse pretty much all written code!
 
-## Use the `cable` Component For List Rerendering
+### Use the `cable` Component For List Rerendering
 
 * [x] Use the `cable` instead of the `async` component
 
@@ -1023,7 +1016,7 @@ You probably don't realize any difference on the UI, but now ONLY the fresh post
 
 The `cable` component can `prepend`, `append`, `update` and `delete` elements within its body or `replace` its whole body with something pushed from the server. We want to use the `update` feature in order to rerender a specific post when liked:
 
-## Adjust the `cable` Component for Post Rerendering
+### Adjust the `cable` Component for Post Rerendering
 
 * [x] Add the `update_on` config to the `cable` config
 
@@ -1087,8 +1080,6 @@ end
 ```
 
 * [x] Adjust the ActionCable broadcast on the `like` action on the post controller
-
-# todo: cable__liked_post not working here
 
 `app/controllers/posts_controller.rb`
 
@@ -1157,7 +1148,7 @@ Ok, let's lazy load the list of posts in order to speed up initial page load whe
 
 Relax, it's super simple:
 
-## Lazy Load the Post List With Async's `defer` Feature
+### Lazy Load the Post List With Async's `defer` Feature
 
 * [x] Wrap an `async` component around the `cable` component
 * [x] Configure this `async` to defer its rendering
@@ -1243,7 +1234,7 @@ import "./stylesheets/application.scss";
 
 Speaking of fade effects: Let's add a second page in order to show, how you can use Matestacks app and `transition` component in order to implement dynamic page transitions without full browser page reload and without adding any JavaScript!
 
-## Implement Dynamic Page Transitions
+### Implement Dynamic Page Transitions
 
 We will create a profile page in order to save the username in a session cookie rather than asking for the username on the post form! Obviously, you would use proper user management via something like `devise` in a real world example!
 
@@ -1268,7 +1259,6 @@ end
 * [x] Remove the username input from the post form
 * [x] Remove the toggle components from the post index page; we will add them to the app in a moment, enabling the new profile page to trigger them as well!
 * [ ] 
-
 `app/matestack/twitter_clone/posts/index.rb`
 
 ```ruby
@@ -1582,11 +1572,12 @@ end
 
 And now, let's do something that isn't possible in Twitter: Editing. Tweets. Inline. In pure Ruby! \(Just because it's nice to showcase that\)
 
-## Inline Editing
+### Inline Editing
 
 * [x] Add an edit form
 * [x] Add an `onclick` component emit an event indicating that we want to show the form now
 * [x] Wrap your code into toggle components, switching the currently visible content
+* [x] Adjust the cable component to react to an additional event
 
 `app/matestack/components/post.rb`
 
@@ -1688,6 +1679,36 @@ end
 # ...
 ```
 
+`app/matestack/twitter_clone/posts/index.rb`
+
+```ruby
+class TwitterClone::Pages::Posts::Index < Matestack::Ui::Page
+
+  def prepare
+    @posts = Post.all
+  end
+
+  def response
+    post_form_partial
+    post_list_partial
+  end
+
+  private
+
+  # ...
+
+  def post_list_partial
+      # cable prepend_on: "cable__created_post", update_on: "cable__liked_post", id: "post-list" do
+      cable prepend_on: "cable__created_post", update_on: "cable__liked_post, cable__updated_post", id: "post-list" do
+       @posts.each do |post|
+        post_component post: post
+      end
+    end
+  end
+
+end
+```
+
 **Test the current state**
 
 * [x] Navigate to `localhost:3000/posts`
@@ -1696,7 +1717,7 @@ end
 * [x] Do it again. And again!
 * [x] Party around! You've reached the end of the tutorial!
 
-## Conclusion
+### Conclusion
 
 We've built a reactive Twitter clone in pure Ruby. Fantastic! :\)
 
