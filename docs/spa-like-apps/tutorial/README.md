@@ -21,5 +21,5 @@ Get started by reading the [introduction](00_introduction.md).
 13. [Wrap Up](https://github.com/matestack/matestack-ui-core/tree/829eb2f5a7483ef4b78450a5429589ec8f8123e8/docs/reactive_apps/1000-tutorial/12_wrap_up.md)
 14. [Heroku Deployment](https://github.com/matestack/matestack-ui-core/tree/829eb2f5a7483ef4b78450a5429589ec8f8123e8/docs/reactive_apps/1000-tutorial/13_heroku_deployment.md)
 
-![Demo Application](../../.gitbook/assets/demo_screenshot%20%281%29.png) Above screenshot shows the startpage of our application which we will create together in this tutorial.
+![Demo Application](../../.gitbook/assets/demo_screenshot.png) Above screenshot shows the startpage of our application which we will create together in this tutorial.
 

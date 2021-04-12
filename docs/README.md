@@ -7,6 +7,18 @@ description: >-
 
 # Welcome
 
+{% hint style="info" %}
+Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](./docs/migrate-from-1.x-to-2.0.md)
+
+**Most important changes:**
+
+* Changed to MIT License
+* 5 to 12 times better rendering performance \(depending on the context\)
+* Removed Trailblazer dependency
+* Improved core code readability/maintainability
+{% endhint %}
+
+
 ## **What is Matestack?**
 
 Matestack enables Rails developers to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. Thanks to reactive core components built on top of Vue.js, reactivity can be optionally added without writing JavaScript, just using a simple Ruby DSL.

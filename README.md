@@ -8,6 +8,16 @@
 
 # matestack-ui-core | UI in pure Ruby
 
+----
+**Version 2.0.0 will be released on the 12th of April and proudly presented at RailsConf. Click here for a sneak peek: https://docs.matestack.io/v/2.0.0/**
+
+Most important changes in 2.0.0:
+* Change to MIT License
+* 5 to 12 times better rendering performance (depending on the context)
+* Removed Trailblazer dependency
+* Improved core code readability/maintainability
+----
+
 Boost your productivity & easily create component based web UIs in pure Ruby.
 Reactivity included if desired.
 
