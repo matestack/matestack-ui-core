@@ -1081,8 +1081,6 @@ end
 
 * [x] Adjust the ActionCable broadcast on the `like` action on the post controller
 
-## todo: cable\_\_liked\_post not working here
-
 `app/controllers/posts_controller.rb`
 
 ```ruby
