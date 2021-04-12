@@ -1,50 +1,8 @@
 # Changelog
 
-## v2.0.0 Release (in progress, not released)
+## v2.0.0 Release - 2021-04-12
 
-TODO: Provide proper migration guide
-
-* removed internal dependencies from cells, haml and trailblazer-cells
-
-* passing text with option :text is deprecated, please pass text as first argument
-
-* changes for components
-  * `area` coords will no longer be automatically joined -> html option does exactly what is expected, no magic
-* content blocks take precedence over text or :text option
-* `heading` component does not exist anymore. use `h1`,`h2`,`h3`...instead
-* `italic` and `icon` are now called with the corresponding html tag `i`
-* `link`has no more option :path which can take a symbol and renders it with rails url helper. Use :href with or without rails url helper instead
-* `unescaped` renamed to `unescape` as it fits the naming conventions more. For example rails html_escape not html_escaped. `unescaped` is deprecated now
-* `video` has no more magic creation of source tag or automatically fetch asset path to keep dsl as close to html as possible
-* removed alias `pg` for `paragraph`
-* `rails_view` is replaced by `rails_render`. Use `rails_render partial: '/some_partial', locals: { foo: 1 }; rails_render file: '/some_view', locals: { foo: 1 }` to render a partial or a file or anything you want. Use the same as you would use rails `render`
-
-* `Matestack::Ui::Core::Component::Registry.register_components` Registry was removed. Write a module with methods to use your components via methods
-
-* an app now defines the complete layout, including the head, scripts, csrf tags etc.
-
-* `transition` can no longer handle symbols as path. Use rails path helper instead
-
-* `Matestack::Ui::DynamicActionviewComponent, Matestack::Ui::Core::Actionview::Dynamic` and static removed -> is not needed
-
-* slots api has changed. Always use `method(:your_slot_method)` to pass slots into another component. Use `slot :your_slot` to render the slot. Pass optional params to slots in order to use with your method `slot :your_slot, 'A param'`.
-
-* Properties are now accessed via a context `context` or short `ctx`. Access your defined `required` or `optional` properties via `ctx.your_property`
-* `requires` is deprecated please use `required`
-
-* Slots given with a :slots key are accessible trough a slots method, but you can use custom properties to also use slots. Recommended to always use :slots param for better encapsulating slots from params.
-
-* You can pass a component an argument and options like `header 'Your headline', color: :blue`. Access it now with `self.text # or text` instead of `@argument`
-
-* `isolate` doesn't raise 'not authorized' anymore. When isolate is not authorized no content is returned. Only a warning is logged to the console
-
-* implicit rendering in a controller does not work anymore. Specify the page in a render call
-
-* `link` removed -> now renders usual html link tag
-
-
-TODOS
-* at the moment there is no rendering of a "default app" when no matestack app is specified
+Please refer to the [migration guide](./docs/migrate-from-1.x-to-2.0.md)
 
 ## v1.5.0 Release - 2021-03-07
 

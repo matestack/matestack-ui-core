@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Welcome](README.md)
-* [Migrating from 1.x to 2.0 \[WIP\]](migrate-from-1.x-to-2.0-wip.md)
+* [Migrating from 1.x to 2.0](migrate-from-1.x-to-2.0.md)
 
 ## Getting started
 
@@ -90,4 +90,3 @@
 * [Core Team \[WIP\]](about/team.md)
 * [Sponsoring \[WIP\]](about/sponsoring-wip.md)
 * [Legal Details \[WIP\]](about/legal-details-wip.md)
-
