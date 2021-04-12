@@ -8,7 +8,7 @@
     "logo.png",
     "LICENSE"
   ],
-  "license": "LGPLv3",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "v-runtime-template": "^1.5.2",
