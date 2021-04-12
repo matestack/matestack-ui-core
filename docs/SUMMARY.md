@@ -7,7 +7,7 @@
 
 * [Installation & Update](getting-started/installation-update.md)
 * [Concepts & Rails Integration](getting-started/concepts-rails-integration.md)
-* [Quick Start \[WIP\]](getting-started/quick-start.md)
+* [Tutorial](getting-started/quick-start.md)
 * [Support & Feedback \[WIP\]](getting-started/support-and-feedback.md)
 * [Common Issues \[WIP\]](getting-started/common-issues.md)
 
