@@ -4,7 +4,7 @@ Matestack apps enable you to implement SPA-like web apps utilizing page transiti
 
 ## Concept of apps, pages and components
 
-![Matestack app, pages, components concept](../.gitbook/assets/concept%20%283%29.png)
+![Matestack app, pages, components concept](../.gitbook/assets/concept.png)
 
 Apps are similiar to layouts in Rails. Apps wrap pages with provided content, like a top navigation or a sidebar as displayed in the above image. You will always have at least one app in your Rails application, but you can have as much as you want. For example you could have a public app, which wraps your landing, contact, about pages with a top navigation and a private app, which wraps management pages with a sidebar and different top navigation.
 

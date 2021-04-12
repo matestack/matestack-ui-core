@@ -1,7 +1,7 @@
 # Creating a SPA-like App with Matestack
 
 Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 ## Guide Assumptions
 

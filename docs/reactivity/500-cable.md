@@ -14,12 +14,12 @@ Please make sure to setup ActionCable correctly. Esspecially following implement
 consumer.subscriptions.create("MatestackUiCoreChannel", {
   //...
   received(data) {
-    MatestackUiCore.eventHub.$emit(data.event, data)
+    MatestackUiCore.matestackEventHub.$emit(data.event, data)
   }
 });
 ```
 
-ActionCable pushes data as JSON to the client. You need to make sure to pass this data correctly into the `eventHub` after receiving ActionCable event.
+ActionCable pushes data as JSON to the client. You need to make sure to pass this data correctly into the `matestackEventHub` after receiving ActionCable event.
 
 ## `cable` vs `async` component
 

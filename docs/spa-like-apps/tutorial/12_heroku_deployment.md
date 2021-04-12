@@ -1,7 +1,7 @@
 # Essential Guide 12: Heroku Deployment with Postgres
 
 Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 ## Introduction
 
@@ -23,14 +23,12 @@ In the Gemfile, replace the line starting with `gem 'sqlite3'` with `gem 'pg'`.
 
 Make sure to run `bundle install` afterwards and replace the contents of `config/database.yml` with
 
-Note for Linux/Ubuntu users You may need to install additional libraries by running   
- `sudo apt-get -y install postgresql postgresql-contrib libpq-dev` instead of only running   
- `sudo apt-get install postgresql`. &lt;/details&gt;   
+Note for Linux/Ubuntu users You may need to install additional libraries by running  
+`sudo apt-get -y install postgresql postgresql-contrib libpq-dev` instead of only running  
+`sudo apt-get install postgresql`. &lt;/details&gt;
 
-
-Note for postgres role error If you get an error from postgres stating that your role is missing add it by creating a user. To do so run below codesnippet.   
- `sudo su - postgres && createuser -s -r postgres` &lt;/details&gt;   
-
+Note for postgres role error If you get an error from postgres stating that your role is missing add it by creating a user. To do so run below codesnippet.  
+`sudo su - postgres && createuser -s -r postgres` &lt;/details&gt;
 
 ```yaml
 default: &default

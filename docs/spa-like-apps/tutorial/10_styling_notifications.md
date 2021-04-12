@@ -1,7 +1,7 @@
 # Essential Guide 10: Styling and Notifications
 
 Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the tenth part of our tutorial about building a web application with matestack.
 

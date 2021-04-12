@@ -10,7 +10,7 @@ Please read the [ActionCable Guide](../../integrations/action-cable.md) if you n
 consumer.subscriptions.create("MatestackUiCoreChannel", {
   //...
   received(data) {
-    MatestackUiCore.eventHub.$emit(data.event, data)
+    MatestackUiCore.matestackEventHub.$emit(data.event, data)
   }
 });
 ```

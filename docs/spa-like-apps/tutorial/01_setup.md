@@ -1,7 +1,7 @@
 # Essential Guide 1: Setup
 
 Demo: [Matestack Demo](https://demo.matestack.io)  
- Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
+Github Repo: [Matestack Demo Application](https://github.com/matestack/matestack-demo-application)
 
 Welcome to the first part of our tutorial about building a web application with matestack.
 
@@ -31,8 +31,7 @@ rails new matestack-demo-application --skip-turbolinks
 
 We skip turbolinks, because matestack has it's own loading api which makes turbolinks unnecessary. Using turbolinks in a matestack application can result in unwanted behavior and errors.
 
-Remove turbolinks if installed We encourage you to remove turbolinks if it's installed. To do so remove the line `gem 'turbolinks', '~> 5'` from your Gemfile and remove `require("turbolinks").start()` from the `app/javascript/packs/application.js` file. To clean things up remove the two `"data-turbolinks-track": "reload"` key/value pairs from your `app/views/application.html.erb`. &lt;/details&gt;   
-
+Remove turbolinks if installed We encourage you to remove turbolinks if it's installed. To do so remove the line `gem 'turbolinks', '~> 5'` from your Gemfile and remove `require("turbolinks").start()` from the `app/javascript/packs/application.js` file. To clean things up remove the two `"data-turbolinks-track": "reload"` key/value pairs from your `app/views/application.html.erb`. &lt;/details&gt;
 
 Switch into the newly created project via
 
