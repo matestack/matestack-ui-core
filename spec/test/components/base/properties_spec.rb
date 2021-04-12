@@ -5,17 +5,17 @@ describe 'Properties Mechanism', type: :feature, js: true do
 
   before :all do
     class PropertyComponent < Matestack::Ui::Component
-      requires :title
-      requires :foo
+      required :title
+      required :foo
       optional :description, :bar
       optional :text
 
       def response
-        paragraph text: title
-        paragraph text: foo
-        paragraph text: description
-        paragraph text: bar
-        paragraph text: text
+        paragraph ctx.title
+        paragraph ctx.foo
+        paragraph ctx.description
+        paragraph ctx.bar
+        paragraph ctx.text
       end
 
       register_self_as :property_component
@@ -31,8 +31,7 @@ describe 'Properties Mechanism', type: :feature, js: true do
       end
 
       visit '/example'
-      expect(page).to have_content(Matestack::Ui::Core::Properties::PropertyMissingException.to_s)
-      expect(page).to have_content('Required property title is missing for PropertyComponent')
+      expect(page).to have_content("required property 'title' is missing for 'PropertyComponent'")
     end
 
     it 'should raise exception if other required property is missing' do
@@ -43,12 +42,11 @@ describe 'Properties Mechanism', type: :feature, js: true do
       end
 
       visit '/example'
-      expect(page).to have_content(Matestack::Ui::Core::Properties::PropertyMissingException.to_s)
-      expect(page).to have_content('Required property foo is missing for PropertyComponent')
+      expect(page).to have_content("required property 'foo' is missing for 'PropertyComponent'")
     end
   end
 
-  describe 'defining methods' do
+  describe 'defining properties' do
     it 'should define instance methods for required properties' do
       class ExamplePage < Matestack::Ui::Page
         def response
@@ -58,12 +56,12 @@ describe 'Properties Mechanism', type: :feature, js: true do
       visit '/example'
       expect(page).to have_content('Title')
       expect(page).to have_content('Foo')
-      prop_component = PropertyComponent.new(title: 'Title', foo: 'Foo')
-      expect(prop_component.respond_to?(:title)).to be(true)
-      expect(prop_component.respond_to?(:foo)).to be(true)
+      prop_component = PropertyComponent.new(nil, title: 'Title', foo: 'Foo')
+      expect(prop_component.context.respond_to?(:title)).to be(true)
+      expect(prop_component.context.respond_to?(:foo)).to be(true)
     end
 
-    it 'should define instance methods for optional properties' do
+    it 'should define context with instance methods for optional properties' do
       class ExamplePage < Matestack::Ui::Page
         def response
           property_component title: 'Title', foo: 'Foo', description: 'Description', bar: 'Bar'
@@ -72,108 +70,23 @@ describe 'Properties Mechanism', type: :feature, js: true do
       visit '/example'
       expect(page).to have_content('Description')
       expect(page).to have_content('Bar')
-      prop_component = PropertyComponent.new(title: 'Title', foo: 'Foo')
-      expect(prop_component.respond_to?(:description)).to be(true)
-      expect(prop_component.respond_to?(:bar)).to be(true)
+      prop_component = PropertyComponent.new(nil, title: 'Title', foo: 'Foo')
+      expect(prop_component.context.respond_to?(:description)).to be(true)
+      expect(prop_component.context.respond_to?(:bar)).to be(true)
     end
   end
 
-  # it 'should raise exception if required property overwrites existing method' do
-  #   class TempPropertyComponent < Matestack::Ui::Component
-  #     requires :response
-  #     def response
-  #     end
-  #     register_self_as :temp_property_component
-  #   end
-
-  #   class ExamplePage < Matestack::Ui::Page
-  #     def response
-  #       temp_property_component response: 'Foobar'
-  #     end
-  #   end
-
-  #   expect { visit '/example' }.to raise_error(Matestack::Ui::Core::Properties::PropertyOverwritingExistingMethodException)
-  #   # expect(page).to have_content(Matestack::Ui::Core::Properties::PropertyOverwritingExistingMethodException.to_s)
-  #   # expect(page).to have_content('Property "response" would overwrite already defined instance method for TempPropertyComponent')
-  # end
-
-  # it 'should raise exception if optional property overwrites existing method' do
-  #   class TempOptionalPropertyComponent < Matestack::Ui::Component
-  #     optional :response
-  #     def response
-  #     end
-  #     register_self_as :temp_optional_property_component
-  #   end
-
-  #   class ExamplePage < Matestack::Ui::Page
-  #     def response
-  #       temp_optional_property_component response: 'Foobar'
-  #     end
-  #   end
-
-  #   visit '/example'
-  #   expect(page).to have_content(Matestack::Ui::Core::Properties::PropertyOverwritingExistingMethodException.to_s)
-  #   expect(page).to have_content('Property "response" would overwrite already defined instance method for TempOptionalPropertyComponent')
-  # end
-
-  it 'should create instance method with given alias name for required properties' do
-    class AliasPropertyComponent < Matestack::Ui::Component
-      requires method: { as: :my_method }, response: { as: :test }
-      def response
-      end
-    end
-    class AnotherAliasPropertyComponent < Matestack::Ui::Component
-      requires :bla, method: { as: :my_method }, response: { as: :test }
-      def response
-      end
-    end
-    component = AliasPropertyComponent.new(method: 'Its my method', response: 'Response')
-    another_component = AnotherAliasPropertyComponent.new(bla: 'hi', method: 'Its my method', response: 'Response')
-    expect(component.respond_to? :my_method).to be(true)
-    expect(component.my_method).to eq('Its my method')
-    expect(component.respond_to? :test).to be(true)
-    expect(component.test).to eq('Response')
-    expect(another_component.bla).to eq('hi')
-    expect(another_component.my_method).to eq('Its my method')
-    expect(another_component.test).to eq('Response')
-  end
-
-  it 'should create instance method with given alias name for optional properties' do
-    class OptionalAliasPropertyComponent < Matestack::Ui::Component
-      optional method: { as: :my_method }, response: { as: :test }
-      def response
-      end
-    end
-    class AnotherOptionalAliasPropertyComponent < Matestack::Ui::Component
-      optional :bla, method: { as: :my_method }, response: { as: :test }
-      def response
-      end
-    end
-    component = OptionalAliasPropertyComponent.new(method: 'Its my method', response: 'Response')
-    another_component = AnotherOptionalAliasPropertyComponent.new(bla: 'hi', method: 'its my method', response: 'response')
-    expect(component.respond_to? :my_method).to be(true)
-    expect(component.my_method).to eq('Its my method')
-    expect(component.respond_to? :test).to be(true)
-    expect(component.test).to eq('Response')
-    expect(another_component.bla).to eq('hi')
-    expect(another_component.my_method).to eq('its my method')
-    expect(another_component.test).to eq('response')
-    expect(component.test).to eq('Response')
-  end
-
-  it 'should be accesible in setup' do
+  it 'should be accesible in prepare' do
     class SetupComponent < Matestack::Ui::Component
-      requires :title, :desc
-      def setup
-        @foo = title
-      end
+      required :title, :desc
       def prepare
-        @bar = desc
+        @foo = ctx.title
+        @bar = ctx.desc
       end
       def response
         plain @foo
-        paragraph text: @foo
-        paragraph text: @bar
+        paragraph @foo
+        paragraph @bar
       end
       register_self_as :setup_component
     end
@@ -194,12 +107,10 @@ describe 'Properties Mechanism', type: :feature, js: true do
 
   it 'should work with slots' do
     class SlotComponent < Matestack::Ui::Component
-      requires slot: { as: :some_slot }
-      optional :other_slot
       def response
         div do
-          slot some_slot
-          slot other_slot
+          slot :first
+          slot :second
         end
       end
       register_self_as :slot_component
@@ -207,19 +118,15 @@ describe 'Properties Mechanism', type: :feature, js: true do
 
     class ExamplePage < Matestack::Ui::Page
       def response
-        slot_component slot: some_slot, other_slot: other_slot
+        slot_component slots: { first: method(:some_slot), second: method(:other_slot) }
       end
 
       def some_slot
-        slot do
-          paragraph text: 'Foo'
-        end
+        paragraph 'Foo'
       end
 
       def other_slot
-        slot do
-          paragraph text: 'bar'
-        end
+        paragraph 'bar'
       end
     end
 
@@ -236,44 +143,44 @@ describe 'Properties Mechanism', type: :feature, js: true do
 
   it 'should inherit optional attributes' do
     class Component < Matestack::Ui::Component
-      optional :foobar, response: { as: :test }
+      optional :foobar, :response
       def response
       end
     end
     class AnotherComponent < Component
       optional :custom
     end
-    another_component = AnotherComponent.new(custom: 'hi', foobar: 'foobar', response: 'response')
-    component = Component.new(foobar: 'Foobar', response: 'Response')
-    expect(another_component.respond_to? :custom).to be(true)
-    expect(another_component.custom).to eq('hi')
-    expect(another_component.respond_to? :foobar).to be(true)
-    expect(another_component.foobar).to eq('foobar')
-    expect(another_component.respond_to? :test).to be(true)
-    expect(another_component.test).to eq('response')
-    expect(component.respond_to? :foobar).to be(true)
-    expect(component.respond_to? :test).to be(true)
+    another_component = AnotherComponent.new(nil, custom: 'hi', foobar: 'foobar', response: 'response')
+    component = Component.new(nil, foobar: 'Foobar', response: 'Response')
+    expect(another_component.context.respond_to? :custom).to be(true)
+    expect(another_component.context.custom).to eq('hi')
+    expect(another_component.context.respond_to? :foobar).to be(true)
+    expect(another_component.context.foobar).to eq('foobar')
+    expect(another_component.context.respond_to? :response).to be(true)
+    expect(another_component.context.response).to eq('response')
+    expect(component.context.respond_to? :foobar).to be(true)
+    expect(component.context.respond_to? :response).to be(true)
   end
 
   it 'should inherit required attributes' do
     class Component < Matestack::Ui::Component
-      requires :foobar, response: { as: :test }
+      required :foobar, :response
       def response
       end
     end
     class AnotherComponent < Component
-      requires :custom
+      required :custom2
     end
-    another_component = AnotherComponent.new(custom: 'hi', foobar: 'foobar', response: 'response')
-    component = Component.new(foobar: 'Foobar', response: 'Response')
-    expect(another_component.respond_to? :custom).to be(true)
-    expect(another_component.custom).to eq('hi')
-    expect(another_component.respond_to? :foobar).to be(true)
-    expect(another_component.foobar).to eq('foobar')
-    expect(another_component.respond_to? :test).to be(true)
-    expect(another_component.test).to eq('response')
-    expect(component.respond_to? :foobar).to be(true)
-    expect(component.respond_to? :test).to be(true)
+    another_component = AnotherComponent.new(nil, custom2: 'hi', foobar: 'foobar', response: 'response')
+    component = Component.new(nil, foobar: 'Foobar', response: 'Response')
+    expect(another_component.context.respond_to? :custom2).to be(true)
+    expect(another_component.context.custom2).to eq('hi')
+    expect(another_component.context.respond_to? :foobar).to be(true)
+    expect(another_component.context.foobar).to eq('foobar')
+    expect(another_component.context.respond_to? :response).to be(true)
+    expect(another_component.context.response).to eq('response')
+    expect(component.context.respond_to? :foobar).to be(true)
+    expect(component.context.respond_to? :response).to be(true)
   end
 
   it 'should do something :D' do
@@ -283,12 +190,57 @@ describe 'Properties Mechanism', type: :feature, js: true do
     class AnotherComponent2 < Component2
       optional :foobar
     end
-    another_component = AnotherComponent2.new(foobar: 'another_component')
-    expect(another_component.respond_to? :foobar).to be(true)
-    expect(another_component.foobar).to eq('another_component')
-    component = Component2.new(foobar: 'component')
-    expect(component.respond_to? :foobar).to be(true)
-    expect(component.foobar).to eq('component')
+    another_component = AnotherComponent2.new(nil, foobar: 'another_component')
+    expect(another_component.context.respond_to? :foobar).to be(true)
+    expect(another_component.context.foobar).to eq('another_component')
+    component = Component2.new(nil, foobar: 'component')
+    expect(component.context.respond_to? :foobar).to be(true)
+    expect(component.context.foobar).to eq('component')
+  end
+
+  it 'should create instance method with given alias name for required properties' do
+    class AliasPropertyComponent < Matestack::Ui::Component
+      required method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherAliasPropertyComponent < Matestack::Ui::Component
+      required :bla, method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    component = AliasPropertyComponent.new(nil, method: 'Its my method', response: 'Response')
+    another_component = AnotherAliasPropertyComponent.new(nil, bla: 'hi', method: 'Its my method', response: 'Response')
+    expect(component.context.respond_to? :my_method).to be(true)
+    expect(component.context.my_method).to eq('Its my method')
+    expect(component.context.respond_to? :test).to be(true)
+    expect(component.context.test).to eq('Response')
+    expect(another_component.context.bla).to eq('hi')
+    expect(another_component.context.my_method).to eq('Its my method')
+    expect(another_component.context.test).to eq('Response')
+  end
+
+  it 'should create instance method with given alias name for optional properties' do
+    class OptionalAliasPropertyComponent < Matestack::Ui::Component
+      optional method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    class AnotherOptionalAliasPropertyComponent < Matestack::Ui::Component
+      optional :bla, method: { as: :my_method }, response: { as: :test }
+      def response
+      end
+    end
+    component = OptionalAliasPropertyComponent.new(nil, method: 'Its my method', response: 'Response')
+    another_component = AnotherOptionalAliasPropertyComponent.new(nil, bla: 'hi', method: 'its my method', response: 'response')
+    expect(component.context.respond_to? :my_method).to be(true)
+    expect(component.context.my_method).to eq('Its my method')
+    expect(component.context.respond_to? :test).to be(true)
+    expect(component.context.test).to eq('Response')
+    expect(another_component.context.bla).to eq('hi')
+    expect(another_component.context.my_method).to eq('its my method')
+    expect(another_component.context.test).to eq('response')
+    expect(component.context.test).to eq('Response')
   end
 
 end

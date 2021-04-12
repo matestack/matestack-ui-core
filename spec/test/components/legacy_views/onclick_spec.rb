@@ -8,7 +8,7 @@ describe "Onclick Component", type: :feature, js: true do
     expect(page).to have_content('Onclick Custom Component')
     expect(page).not_to have_content('clicked')
 
-    click_on 'Click me!'
+    click_button 'Click me!'
     expect(page).to have_content('clicked')
   end
 

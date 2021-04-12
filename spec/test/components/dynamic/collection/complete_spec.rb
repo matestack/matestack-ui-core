@@ -22,7 +22,7 @@ describe "Collection Component", type: :feature, js: true do
 
   it "Example 1 - Paginated, filtered and ordered collection" do
     class ExamplePage < Matestack::Ui::Page
-      include Matestack::Ui::Core::Collection::Helper
+      include Matestack::Ui::VueJs::Components::Collection::Helper
 
       def prepare
         my_collection_id = "my-first-collection"
@@ -49,10 +49,8 @@ describe "Collection Component", type: :feature, js: true do
 
       def filter
         collection_filter @my_collection.config do
-          collection_filter_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
-          collection_filter_submit do
-            button text: "filter"
-          end
+          form_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
+          button text: "filter", type: :submit
           collection_filter_reset do
             button text: "reset"
           end
@@ -180,7 +178,7 @@ describe "Collection Component", type: :feature, js: true do
 
   it "Example 2 - Multiple paginated, filtered and ordered collection on one page" do
     class ExamplePage < Matestack::Ui::Page
-      include Matestack::Ui::Core::Collection::Helper
+      include Matestack::Ui::VueJs::Components::Collection::Helper
 
       def prepare
         my_second_collection_id = "my-second-collection"
@@ -236,10 +234,8 @@ describe "Collection Component", type: :feature, js: true do
 
       def filter_1
         collection_filter @my_first_collection.config do
-          collection_filter_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
-          collection_filter_submit do
-            button text: "filter"
-          end
+          form_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
+          button text: "filter", type: :submit
           collection_filter_reset do
             button text: "reset"
           end
@@ -295,10 +291,8 @@ describe "Collection Component", type: :feature, js: true do
 
       def filter_2
         collection_filter @my_second_collection.config do
-          collection_filter_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
-          collection_filter_submit do
-            button text: "filter"
-          end
+          form_input id: "my-title-filter-input", key: :title, type: :text, placeholder: "Filter by title"
+          button text: "filter", type: :submit
           collection_filter_reset do
             button text: "reset"
           end
@@ -485,7 +479,7 @@ describe "Collection Component", type: :feature, js: true do
     Rails.application.reload_routes!
 
     class ExamplePage < Matestack::Ui::Page
-      include Matestack::Ui::Core::Collection::Helper
+      include Matestack::Ui::VueJs::Components::Collection::Helper
 
       def prepare
         my_collection_id = "my-first-collection"
@@ -523,10 +517,7 @@ describe "Collection Component", type: :feature, js: true do
       def my_action_config id
         {
           method: :delete,
-          path: :delete_test_model_path,
-          params:{
-            id: id
-          },
+          path: delete_test_model_path(id: id),
           success: {
             emit: "my-first-collection-update"
           }

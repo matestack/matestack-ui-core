@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.0 Release - 2021-04-12
+
+Please refer to the [migration guide](./docs/migrate-from-1.x-to-2.0.md)
+
 ## v1.5.0 Release - 2021-03-07
 
 ### Improvements

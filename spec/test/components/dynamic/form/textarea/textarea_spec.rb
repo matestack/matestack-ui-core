@@ -34,14 +34,12 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             div do
               some_partial
             end
             some_component
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
@@ -78,11 +76,9 @@ describe "Form Component", type: :feature, js: true do
     it "Example 1 - Supports 'text', 'password', 'number', 'email', 'textarea', 'range' type" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_textarea id: "textarea-input", key: :textarea_input
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -90,10 +86,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :textarea_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: textarea_success_form_test_path(id: 42),
           }
         end
       end
@@ -111,11 +104,9 @@ describe "Form Component", type: :feature, js: true do
     it "can be initialized with value" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_textarea id: "textarea", key: :textarea, init: "some value"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
   
@@ -123,10 +114,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :textarea_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: textarea_success_form_test_path(id: 42),
           }
         end
       end
@@ -138,11 +126,9 @@ describe "Form Component", type: :feature, js: true do
     it "can get a label" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config, :include do
+            matestack_form form_config do
               form_textarea id: "textarea", key: :textarea, label: "some label"
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
         end
   
@@ -150,10 +136,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :textarea_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: textarea_success_form_test_path(id: 42),
           }
         end
       end
@@ -165,11 +148,9 @@ describe "Form Component", type: :feature, js: true do
     it "can display server errors async" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_textarea id: "textarea", key: :foo
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
   
@@ -177,10 +158,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :textarea_failure_form_test_path,
-            params: {
-              id: 42
-            }
+            path: textarea_failure_form_test_path(id: 42),
           }
         end
       end
@@ -188,7 +166,7 @@ describe "Form Component", type: :feature, js: true do
       visit "/example"
       fill_in "textarea", with: "text"
       click_button "Submit me!"
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
     end
 
     it "can be mapped to an Active Record Model" do
@@ -205,12 +183,10 @@ describe "Form Component", type: :feature, js: true do
         end
   
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_textarea id: "title", key: :title
             form_textarea id: "description", key: :description
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
   
@@ -218,7 +194,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: @test_model,
             method: :post,
-            path: :textarea_model_form_test_path
+            path: textarea_model_form_test_path
           }
         end
       end
@@ -227,7 +203,7 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field("title", with: "Title")
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
   
       value = "#{DateTime.now}"
       fill_in "description", with: value
@@ -235,7 +211,7 @@ describe "Form Component", type: :feature, js: true do
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
       expect(page).to have_field("description", with: "")
-      expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
       expect(TestModel.last.description).to eq(value)
     end
 

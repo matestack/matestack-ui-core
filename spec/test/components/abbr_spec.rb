@@ -16,7 +16,7 @@ describe 'Abbr Component', type: :feature, js: true do
     visit '/example'
     static_output = page.html
     expected_static_output = <<~HTML
-      <abbr title="Hypertext Markup Language">HTML</abbr>
+    <abbr title="Hypertext Markup Language">HTML</abbr>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end

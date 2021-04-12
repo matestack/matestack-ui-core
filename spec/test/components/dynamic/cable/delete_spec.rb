@@ -16,13 +16,13 @@ describe "Cable Component - delete", type: :feature, js: true do
       expect(page).to have_selector("#delete-cable > p#p#{n}", text: "Number: #{n}")
     end
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("delete", { data: "p2" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("delete", { data: "p2" })')
     expect(page).not_to have_selector('#delete-cable > p#p2')
     5.times do |n|
       expect(page).to have_selector("#delete-cable > p#p#{n}", text: "Number: #{n}") unless n == 2
     end
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("delete", { data: "p4" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("delete", { data: "p4" })')
     expect(page).not_to have_selector('#delete-cable > p#p4')
     5.times do |n|
       expect(page).to have_selector("#delete-cable > p#p#{n}", text: "Number: #{n}") unless n == 2 || n == 4
@@ -42,7 +42,7 @@ describe "Cable Component - delete", type: :feature, js: true do
       expect(page).to have_selector("#delete-cable > p#p#{n}", text: "Number: #{n}")
     end
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("delete", { data: ["p2", "p4"] })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("delete", { data: ["p2", "p4"] })')
     expect(page).not_to have_selector('#delete-cable > p#p2')
     expect(page).not_to have_selector('#delete-cable > p#p4')
     5.times do |n|

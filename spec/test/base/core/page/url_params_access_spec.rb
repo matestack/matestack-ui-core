@@ -7,7 +7,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage

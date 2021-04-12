@@ -52,8 +52,10 @@ Rails versions below 5.2 are not supported.
 
 ### Vue.js
 
-`matestack-ui-core` currently uses Vue.js 2.6.12 and Vuex 3.6.2 for its reactivity features.
-Custom reactive components are bound to these versions as well.
+`matestack-ui-core` optionally requires Vue.js and Vuex for its reactivity features. Following version ranges are supported:
+
+- Vue.js ^2.6.0
+- Vuex ^3.6.0
 
 Vue 3 / Vuex 4 update is planned for Q2 2021.
 
@@ -63,7 +65,7 @@ Documentation can be found [here](https://docs.matestack.io)
 
 ## Getting started
 
-A getting started guide can be found [here](https://docs.matestack.io/start/150-getting_started)
+A getting started guide can be found [here](https://docs.matestack.io/getting-started/tutorial)
 
 ## Changelog
 
@@ -98,16 +100,16 @@ The Ruby method \"div\" for example calls one of the static core components, res
 
 class Components::Card < Matestack::Ui::Component
 
-  requires :body
+  required :body
   optional :title
   optional :image
 
   def response
     div class: "card shadow-sm border-0 bg-light" do
-      img path: image, class: "w-100" if image.present?
+      img path: context.image, class: "w-100" if context.image.present?
       div class: "card-body" do
-        heading size: 5, text: title if title.present?
-        paragraph class: "card-text", text: body
+        h5 context.title if context.title.present?
+        paragraph context.body, class: "card-text"
       end
     end
   end
@@ -118,30 +120,16 @@ end
 
 #### Use your Ruby UI components on your existing Rails views
 
-Register your Ruby UI component classes with your desired DSL method and use the \"matestack_component\" helper in order to render your component within existing ERB views or Rails controllers.
-The Ruby method \"card\" for example calls your \"Card\" class, enabling you to create a reuseable card components, abstracting UI complexity in your ow components.
+Components can be then called on Rails views (not only! see below), enabling you to create a reusable card components, abstracting UI complexity in your own components.
 
 `app/views/your_view.html.erb`
 
 ```erb
 
 <!-- some other erb markup -->
-<%= matestack_component :card, title: "hello", body: "world" %>
+<%= Components::Card.(title: "hello", body: "world") %>
 <!-- some other erb markup -->
 
-```
-
-`app/matestack/components/registry.rb`
-
-```ruby
-module Components::Registry
-
-  Matestack::Ui::Core::Component::Registry.register_components(
-    card: Components::Card,
-    #...
-  )
-
-end
 ```
 
 
@@ -156,23 +144,23 @@ Using this approach helps you to create a clean, readable and maintainable codeb
 
 class Components::Card < Matestack::Ui::Component
 
-  requires :body
+  required :body
   optional :title
   optional :image
   optional :footer
 
   def response
     div class: "card shadow-sm border-0 bg-light" do
-      img path: image, class: "w-100" if image.present?
+      img path: context.image, class: "w-100" if context.image.present?
       card_content
-      card_footer if footer.present?
+      card_footer if context.footer.present?
     end
   end
 
   def card_content
     div class: "card-body" do
-      heading size: 5, text: title if title.present?
-      paragraph class: "card-text", text: body
+      h5 context.title if context.title.present?
+      paragraph context.body, class: "card-body"
     end
   end
 
@@ -190,7 +178,7 @@ end
 
 ```erb
 <!-- some other erb markup -->
-<%= matestack_component :card, title: "hello", body: "world", footer: "foo" %>
+<%= Components::Card.(title: "hello", body: "world", footer: "foo") %>
 <!-- some other erb markup -->
 ```
 
@@ -208,7 +196,7 @@ class Components::BlueCard < Components::Card
 
   def response
     div class: "card shadow-sm border-0 bg-primary text-white" do
-      img path: image, class: "w-100" if image.present?
+      img path: context.image, class: "w-100" if context.image.present?
       card_content #defined in parent class
       card_footer if footer.present? #defined in parent class
     end
@@ -218,24 +206,11 @@ end
 
 ```
 
-`app/matestack/components/registry.rb`
-
-```ruby
-module Components::Registry
-
-  Matestack::Ui::Core::Component::Registry.register_components(
-    blue_card: Components::BlueCard,
-    #...
-  )
-
-end
-```
-
 `app/views/your_view.html.erb`
 
 ```erb
 <!-- some other erb markup -->
-<%= matestack_component :blue_card, title: "hello", body: "world" %>
+<%= Components::BlueCard.(title: "hello", body: "world") %>
 <!-- some other erb markup -->
 ```
 
@@ -250,15 +225,15 @@ You decide when using a Ruby method partial should be replaced by another self c
 
 class Components::Card < Matestack::Ui::Component
 
-  requires :body
+  required :body
   optional :title
   optional :image
 
   def response
     div class: "card shadow-sm border-0 bg-light" do
-      img path: image, class: "w-100" if image.present?
+      img path: context.image, class: "w-100" if context.image.present?
       # calling the CardBody component rather than using Ruby method partials
-      card_body title: title, body: body
+      Components::CardBody.(title: context.title, body: context.body)
     end
   end
 
@@ -271,15 +246,15 @@ end
 
 class Components::CardBody < Matestack::Ui::Component
 
-  requires :body
+  required :body
   optional :title
 
   def response
     # Just an example. Would make more sense, if this component had
     # a more complex structure
     div class: "card-body" do
-      heading size: 5, text: title if title.present?
-      paragraph class: "card-text", text: body
+      h5 context.title if context.title.present?
+      paragraph context.body, class: "card-body"
     end
   end
 
@@ -287,20 +262,6 @@ end
 
 ```
 
-
-`app/matestack/components/registry.rb`
-
-```ruby
-module Components::Registry
-
-  Matestack::Ui::Core::Component::Registry.register_components(
-    card: Components::Card,
-    card_body: Components::CardBody,
-    #...
-  )
-
-end
-```
 
 #### Yield components into components
 
@@ -314,17 +275,17 @@ Using this approach gives you more flexibility when using your UI components. Of
 
 class Components::Card < Matestack::Ui::Component
 
-  requires :body
+  required :body
   optional :title
   optional :image
 
   def response
     div class: "card shadow-sm border-0 bg-light" do
-      img path: image, class: "w-100" if image.present?
-      card_body do
+      img path: context.image, class: "w-100" if context.image.present?
+      Components::CardBody.() do
         # yielding a block into the card_body component
-        heading size: 5, text: title if title.present?
-        paragraph class: "card-text", text: body
+        h5 context.title if context.title.present?
+        paragraph context.body, class: "card-body"
       end
     end
   end
@@ -343,7 +304,7 @@ class Components::CardBody < Matestack::Ui::Component
     # Just an example. Would make more sense, if this component had
     # a more complex structure
     div class: "card-body" do
-      yield_components
+      yield if block_given?
     end
   end
 
@@ -362,27 +323,26 @@ Slots help you to build complex UI components with multiple named content placeh
 
 class Components::Card < Matestack::Ui::Component
 
-  requires :body
+  required :body
   optional :title
   optional :image
 
   def response
     div class: "card shadow-sm border-0 bg-light" do
-      img path: image, class: "w-100" if image.present?
-      card_body slots: { heading: heading_slot, body: body_slot }
+      img path: context.image, class: "w-100" if context.image.present?
+      Components::CardBody.(slots: {
+        heading: method(:heading_slot),
+        body: method(:body_slot)
+      })
     end
   end
 
   def heading_slot
-    slot do
-      heading size: 5, text: title if title.present?
-    end
+    h5 context.title if context.title.present?      
   end
 
   def body_slot
-    slot do
-      paragraph class: "card-text", text: body
-    end
+    paragraph context.body, class: "card-body"
   end
 
 end
@@ -394,17 +354,17 @@ end
 
 class Components::CardBody < Matestack::Ui::Component
 
-  requires :slots
+  required :slots
 
   def response
     # Just an example. Would make more sense, if this component had
     # a more complex structure
     div class: "card-body" do
       div class: "heading-section" do
-        slot slots[:heading]
+        slot :heading
       end
       div class: "body-section" do
-        slot slots[:body]
+        slot :body
       end
     end
   end
@@ -431,7 +391,7 @@ class Components::SomeComponent < Matestack::Ui::Component
 
   def response
     onclick emit: "some_event" do
-      button text: "click me"
+      button "click me"
     end
     toggle show_on: "some_event", hide_after: 5000 do
       plain "Oh yes! You clicked me!"
@@ -455,7 +415,7 @@ class Components::SomeComponent < Matestack::Ui::Component
 
   def response
     action my_action_config do
-      button text: "click me"
+      button "click me"
     end
     toggle show_on: "some_event", hide_after: 5000 do
       plain "Success!"
@@ -488,16 +448,10 @@ Events emitted by the \"form\" component can be used to toggle parts of the UI.
 
 class Components::SomeComponent < Matestack::Ui::Component
 
-  def prepare
-    @new_active_record_instance = MyActiveRecordModel.new
-  end
-
   def response
-    form my_form_config do
+    matestack_form my_form_config do
       form_input key: :some_attribute, type: :text
-      form_submit do
-        button text: "click me"
-      end
+      button "click me", type: :submit
     end
     toggle show_on: "submitted", hide_after: 5000 do
       span class: "message success" do
@@ -513,7 +467,7 @@ class Components::SomeComponent < Matestack::Ui::Component
 
   def my_form_config
     {
-      for: @new_active_record_instance,
+      for: MyActiveRecordModel.new,
       path: some_rails_route_path,
       method: :post,
       success: {
@@ -531,7 +485,7 @@ end
 
 #### Implement asynchronous, event-based UI rerendering in pure Ruby
 
-Using matestack's built-in event system, you can rerender parts of the UI on client side events, such as form or action submissions. Even server side events pushed via ActionCable may be received!
+Using Matestack's built-in event system, you can rerender parts of the UI on client side events, such as form or action submissions. Even server side events pushed via ActionCable may be received!
 The \"async\" component requests a new version of its body at the server via an HTTP GET request after receiving the configured event. After successfu server response, the DOM of the \"async\" component gets updated. Everything else stays untouched.
 
 `app/matestack/components/some_component.rb`
@@ -541,14 +495,14 @@ The \"async\" component requests a new version of its body at the server via an 
 class Components::SomeComponent < Matestack::Ui::Component
 
   def response
-    form my_form_config do
+    matestack_form my_form_config do
       #...
     end
     #...
     async rerender_on: "submitted", id: "my-model-list" do
       ul do
         MyActiveRecordModel.last(5).each do |model|
-          li text: model.some_attribute
+          li model.some_attribute
         end
       end
     end
@@ -582,14 +536,14 @@ The \"cable\" component can be configured to receive events and data pushed via 
 class Components::SomeComponent < Matestack::Ui::Component
 
   def response
-    form my_form_config do
+    matestack_form my_form_config do
       #...
     end
     #...
     ul do
       cable prepend_on: "new_element_created", id: "mocked-instance-list" do
         MyActiveRecordModel.last(5).each do |model|
-          li text: model
+          li model
         end
       end
     end
@@ -605,7 +559,7 @@ end
 # within your controller action handling the form input
 ActionCable.server.broadcast("matestack_ui_core", {
   event: "new_element_created",
-  data: matestack_component(:li, text: params[:some_attribute])
+  data: "<li>foo</li>" # or better: calling a component here
 })
 
 ```
@@ -638,11 +592,11 @@ end
 ```ruby
 class Components::MyVueJsComponent < Matestack::Ui::VueJsComponent
 
-  vue_js_component_name "my-vue-js-component"
+  vue_name "my-vue-js-component"
 
   def response
     div class: "my-vue-js-component" do
-      button attributes: {"@click": "increaseValue"}
+      button "@click": "increaseValue"
       br
       plain "{{ dynamicValue }}!"
     end
@@ -654,7 +608,7 @@ end
 `app/matestack/components/my_vue_js_component.js`
 
 ```javascript
-MatestackUiCore.Vue.component('my-vue-js-component', {
+Vue.component('my-vue-js-component', {
   mixins: [MatestackUiCore.componentMixin],
   data: () => {
     return {
@@ -664,7 +618,7 @@ MatestackUiCore.Vue.component('my-vue-js-component', {
   methods: {
     increaseValue(){
       this.dynamicValue++
-      MatestackUiCore.matestackEventHub.$emit("some_event")
+      MatestackUiCore.eventHub.$emit("some_event")
     }
   }
 });
@@ -688,15 +642,15 @@ class SomeApp::App < Matestack::Ui::App
   def response
     nav do
       transition path: page1_path do
-        button text: "Page 1"
+        button "Page 1"
       end
       transition path: page2_path do
-        button text: "Page 2"
+        button "Page 2"
       end
     end
     main do
       div class: "container" do
-        yield_page
+        yield
       end
     end
   end
@@ -750,8 +704,7 @@ Work with controllers, actions and routing as you're used to! Controller hooks (
 
 class SomeController < ApplicationController
 
-  include Matestack::Ui::Core::ApplicationHelper
-  include Components::Registry
+  include Matestack::Ui::Core::Helper
 
   matestack_app SomeApp::App
 
@@ -795,23 +748,21 @@ class SomeApp::App < Matestack::Ui::App
   def response
     nav do
       transition path: page1_path do
-        button text: "Page 1"
+        button "Page 1"
       end
       transition path: page2_path do
-        button text: "Page 2"
+        button "Page 2"
       end
     end
     main do
       div class: "container" do
-        yield_page slots: { loading_state: loading_state_element }
+        yield
       end
     end
   end
 
   def loading_state_element
-    slot do
-      div class: 'some-loading-element-styles'
-    end
+    div class: 'some-loading-element-styles'
   end
 
 end
@@ -847,4 +798,5 @@ end
 ```
 
 ## License
-matestack-ui-core is an Open Source project licensed under the terms of the [LGPLv3 license](./LICENSE)
+
+`matestack-ui-core` is an Open Source project licensed under the terms of the [MIT license](./LICENSE)

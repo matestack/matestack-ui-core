@@ -12,7 +12,7 @@ describe "Cable Component - replace", type: :feature, js: true do
     expect(page).to have_selector('#replace-cable')
     expect(page).to have_selector('#replace-cable > p', text: 'foobar')
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("replace", { data: "<h1 id=\"h1\">replaced</h1>" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("replace", { data: "<h1 id=\"h1\">replaced</h1>" })')
     expect(page).to have_selector('#replace-cable')
     expect(page).not_to have_selector('#replace-cable > p')
     expect(page).to have_selector('#replace-cable > h1#h1', text: 'replaced')
@@ -28,7 +28,7 @@ describe "Cable Component - replace", type: :feature, js: true do
     expect(page).to have_selector('#replace-cable > p', text: 'foobar')
 
     page.execute_script(
-      'MatestackUiCore.matestackEventHub.$emit("replace", { data: ["<h1 id=\"h1\">replaced</h1>", "<h2 id=\"h2\">another</h2>"] })'
+      'MatestackUiCore.eventHub.$emit("replace", { data: ["<h1 id=\"h1\">replaced</h1>", "<h2 id=\"h2\">another</h2>"] })'
     )
     expect(page).to have_selector('#replace-cable')
     expect(page).not_to have_selector('#replace-cable > p')

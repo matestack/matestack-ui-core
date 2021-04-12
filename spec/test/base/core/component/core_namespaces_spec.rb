@@ -14,7 +14,7 @@ describe "Component", type: :feature, js: true do
     class ComponentTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render Pages::ExamplePage

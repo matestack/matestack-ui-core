@@ -7,7 +7,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage
@@ -34,49 +34,39 @@ describe "Page", type: :feature, js: true do
 
       def response
         div id: "my-component" do
-          slot @options[:my_first_slot]
-          slot @options[:my_second_slot]
+          slot :my_first_slot
+          slot :my_second_slot
         end
       end
 
       register_self_as(:example_component)
-
     end
 
     class ExamplePage < Matestack::Ui::Page
-
-      def prepare
-        @foo = "foo from page"
-      end
-
+      
       def response
+        @foo = "foo from page"
         div do
-          example_component my_first_slot: my_simple_slot, my_second_slot: my_second_simple_slot
+          example_component slots: { my_first_slot: method(:my_simple_slot), my_second_slot: method(:my_second_simple_slot) }
         end
       end
 
       def my_simple_slot
-        slot {
-          span id: "my_simple_slot" do
-            plain "some content"
-          end
-        }
+        span id: "my_simple_slot" do
+          plain "some content"
+        end
       end
 
       def my_second_simple_slot
-        slot {
-          span id: "my_simple_slot" do
-            plain @foo
-          end
-        }
+        span id: "my_simple_slot" do
+          plain @foo
+        end
       end
 
     end
 
     visit "page_slots_spec/page_test"
-
     static_output = page.html
-
     expected_static_output = <<~HTML
     <div>
       <div id="my-component">

@@ -8,12 +8,22 @@ describe "Page", type: :feature, js: true do
     class MyApp < Matestack::Ui::App
 
       def response
-        nav do
-          transition path: :loading_state_page_1_path, text: "Page 1"
-          transition path: :loading_state_page_2_path, text: "Page 2"
-        end
-        main do
-          page_content
+        html do
+          head do
+            unescape csrf_meta_tags
+            plain Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag('application').html_safe
+          end
+          body do
+            matestack do
+              nav do
+                transition "Page 1", path: loading_state_page_1_path 
+                transition "Page 2", path: loading_state_page_2_path 
+              end
+              main do
+                yield
+               end
+            end
+          end
         end
       end
 
@@ -22,7 +32,7 @@ describe "Page", type: :feature, js: true do
     class PageTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
       matestack_app MyApp
 
       def page_1
@@ -87,21 +97,29 @@ describe "Page", type: :feature, js: true do
       class MyApp < Matestack::Ui::App
 
         def response
-          nav do
-            transition path: :loading_state_page_1_path, text: "Page 1"
-            transition path: :loading_state_page_2_path, text: "Page 2"
-          end
-          main do
-            page_content slots: { loading_state: my_loading_spinner }
+          html do
+            head do
+              unescape csrf_meta_tags
+              plain Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag('application').html_safe
+            end
+            body do
+              matestack do
+                nav do
+                  transition "Page 1", path: loading_state_page_1_path 
+                  transition "Page 2", path: loading_state_page_2_path 
+                end
+                main do
+                  yield
+                 end
+              end
+            end
           end
         end
 
-        def my_loading_spinner
-          slot {
-            div id: "loading-spinner" do
-              plain "loading..."
-            end
-          }
+        def loading_state_element
+          div id: "loading-spinner" do
+            plain "loading..."
+          end
         end
 
       end

@@ -36,12 +36,10 @@ describe "Form Component", type: :feature, js: true do
         class ExamplePage < Matestack::Ui::Page
 
           def response
-            form form_config, :include do
+            matestack_form form_config do
               form_select id: "my-array-test-dropdown", key: :array_input, options: ["Array Option 1","Array Option 2"]
               form_select id: "my-hash-test-dropdown", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
           end
 
@@ -67,12 +65,10 @@ describe "Form Component", type: :feature, js: true do
       it "can be initialized with value" do
         class ExamplePage < Matestack::Ui::Page
           def response
-            form form_config, :include do
+            matestack_form form_config do
               form_select id: "my-array-test-dropdown", key: :array_input, options: ["Array Option 1","Array Option 2"], init: "Array Option 1"
               form_select id: "my-hash-test-dropdown", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, init: 1
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
           end
 
@@ -109,13 +105,11 @@ describe "Form Component", type: :feature, js: true do
           end
 
           def response
-            form form_config, :include do
+            matestack_form form_config do
               form_input id: "description", key: :description, type: :text
               # TODO: Provide better Enum Options API
               form_select id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
           end
 
@@ -155,13 +149,11 @@ describe "Form Component", type: :feature, js: true do
           end
 
           def response
-            form form_config, :include do
+            matestack_form form_config do
               form_input id: "description", key: :description, type: :text
               # TODO: Provide better Enum Options API
               form_select id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
           end
 
@@ -201,12 +193,10 @@ describe "Form Component", type: :feature, js: true do
           end
 
           def response
-            form form_config, :include do
+            matestack_form form_config do
               # TODO: Provide better Enum Options API
               form_select id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
           end
 
@@ -223,7 +213,7 @@ describe "Form Component", type: :feature, js: true do
         expect(page).to have_field("status", with: nil)
 
         click_button "Submit me!"
-        expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+        expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
       end
 
       it "can have a label"
@@ -233,12 +223,10 @@ describe "Form Component", type: :feature, js: true do
       it "can have a class" do
         class ExamplePage < Matestack::Ui::Page
           def response
-            form form_config, :include do
+            matestack_form form_config do
               form_select id: "my-array-test-dropdown", key: :array_input, options: ["Array Option 1","Array Option 2"], class: "form-control"
               form_select id: "my-hash-test-dropdown", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, class: "form-control"
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
           end
 

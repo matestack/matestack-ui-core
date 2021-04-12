@@ -16,7 +16,7 @@ describe "Cable Component - update", type: :feature, js: true do
       expect(page).to have_selector("#update-cable > p#p#{n}", text: "Number: #{n}")
     end
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("update", { data: "<h1 id=\"p2\">updated</h1>" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("update", { data: "<h1 id=\"p2\">updated</h1>" })')
     expect(page).not_to have_selector('#update-cable > p#p2')
     expect(page).to have_selector('#update-cable > h1#p2', text: 'updated')
     5.times do |n|
@@ -38,7 +38,7 @@ describe "Cable Component - update", type: :feature, js: true do
     end
 
     page.execute_script(
-      'MatestackUiCore.matestackEventHub.$emit("update", { data: ["<h1 id=\"p2\">updated</h1>", "<h2 id=\"p4\">another</h2>"] })'
+      'MatestackUiCore.eventHub.$emit("update", { data: ["<h1 id=\"p2\">updated</h1>", "<h2 id=\"p4\">another</h2>"] })'
     )
     expect(page).not_to have_selector('#update-cable > p#p2')
     expect(page).not_to have_selector('#update-cable > p#p4')

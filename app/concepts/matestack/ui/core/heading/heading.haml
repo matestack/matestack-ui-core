@@ -1,5 +1,0 @@
-- if text.blank? && block_given?
-  = content_tag("h#{size || 1}", html_attributes) do
-    = yield
-- else
-  = content_tag("h#{size || 1}", text, html_attributes)

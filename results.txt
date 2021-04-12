@@ -1,0 +1,10 @@
+Capybara starting Puma...
+* Version 4.3.5 , codename: Mysterious Traveller
+* Min threads: 0, max threads: 4
+* Listening on tcp://0.0.0.0:33123
+.............................................................................................................................
+
+Finished in 12.69 seconds (files took 2.38 seconds to load)
+125 examples, 0 failures
+
+Coverage report generated for Unit Tests to /app/coverage. 209 / 2187 LOC (9.56%) covered.

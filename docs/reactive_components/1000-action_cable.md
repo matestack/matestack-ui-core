@@ -12,7 +12,7 @@ The setup differs slightly depending on your usage of websockets or the asset pi
 
 Create a channel using the rails generator. Run the command `rails generate channel MatestackUiCoreChannel`. This will create a `app/javascript/channels/matestack_ui_core_channel.js` file where you can setup your subscriptions. It also generates the corresponding server side `MatestackUiCoreChannel < ApplicationCable::Channel` class.
 
-The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel". All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.matestackEventHub` with the received data.
+The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel". All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.eventHub` with the received data.
 
 `app/javascript/channels/matestack_ui_core_channel.js`
 
@@ -29,7 +29,7 @@ consumer.subscriptions.create("MatestackUiCoreChannel", {
   },
 
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -53,7 +53,7 @@ App.matestack_ui_core = App.cable.subscriptions.create("MatestackUiCoreChannel",
   },
 
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -191,7 +191,7 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create("PublicChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -216,7 +216,7 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create("PrivateChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```

@@ -10,28 +10,28 @@ describe 'Table Components table, th, tr, td, thead, tbody, tfoot', type: :featu
         table class: 'foo' do
           thead class: 'head' do
             tr class: 'bar' do
-              th text: 'First'
-              th text: 'Matestack'
-              th text: 'Table'
+              th 'First'
+              th 'Matestack'
+              th 'Table'
             end
           end
           tbody class: 'body' do
             tr do
-              td text: 'One'
-              td text: 'Two'
-              td text: 'Three'
+              td 'One'
+              td 'Two'
+              td 'Three'
             end
             tr do
-              td text: 'Uno'
-              td text: 'Dos'
-              td text: 'Tres'
+              td 'Uno'
+              td 'Dos'
+              td 'Tres'
             end
           end
           tfoot class: 'foot' do
             tr do
-              td text: 'Eins'
-              td text: 'Zwei'
-              td text: 'Drei'
+              td 'Eins'
+              td 'Zwei'
+              td 'Drei'
             end
           end
         end
@@ -76,34 +76,40 @@ describe 'Table Components table, th, tr, td, thead, tbody, tfoot', type: :featu
   it 'Example 2, when thead, tbody, tfoot are omitted, then tbody is implied' do
 
     class ExamplePage < Matestack::Ui::Page
-      def prepare
+      def users
         @users = ['Jonas', 'Pascal', 'Chris']
+      end
+
+      def numbers
         @numbers = ['One', 'Two', 'Three']
+      end
+
+      def numeros
         @numeros = ['Uno', 'Dos', 'Tres']
       end
 
       def response
         table id: 'my-table-component', class: 'foo' do
           tr id: 'my-first-table-row', class: 'bar' do
-            @users.each do |user|
-              th class: 'user-cell', text: user
+            users.each do |user|
+              th user, class: 'user-cell'
             end
           end
           tr do
-            @numbers.each do |number|
-              td text: number
+            numbers.each do |number|
+              td number
             end
           end
           tr do
-            @numeros.each do |numero|
-              td text: numero
+            numeros.each do |numero|
+              td numero
             end
           end
           tr do
             td do
               plain 'Do'
             end
-            td text: 'Custom'
+            td 'Custom'
             td do
               plain 'Stuff'
             end
@@ -152,15 +158,15 @@ describe 'Table Components table, th, tr, td, thead, tbody, tfoot', type: :featu
         table do
           thead do
             tr do
-              th text: 'First'
-              th text: 'Matestack'
-              th text: 'Table'
+              th 'First'
+              th 'Matestack'
+              th 'Table'
             end
           end
           tr do
-            td text: 'One'
-            td text: 'Two'
-            td text: 'Three'
+            td 'One'
+            td 'Two'
+            td 'Three'
           end
         end
       end

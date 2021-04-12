@@ -12,33 +12,31 @@ describe "Page", type: :feature, js: true do
     Rails.application.reload_routes!
   end
 
-  it "can access controller instance variables" do
-
+  it "should not be able to access controller instance variables" do
     class ExamplePage < Matestack::Ui::Page
-
+      optional :bar
       def response
         div do
-          plain @bar
+          plain ctx.bar
         end
+        plain @foo
       end
-
     end
 
     class PageTestController < ActionController::Base
-      layout "application"
-
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         @bar = "foo"
-        render ExamplePage
+        @foo = 'bar'
+        render ExamplePage, bar: @bar
       end
 
     end
 
     visit "page_controller_instance_spec/page_test"
-
     expect(page).to have_content("foo")
+    expect(page).not_to have_content("bar")
   end
 
 end

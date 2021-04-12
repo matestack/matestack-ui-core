@@ -33,29 +33,23 @@ describe "Form Component", type: :feature, js: true do
     it "renders auto generated IDs based on user specified ID and optional user specified class per radio button" do
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config, :include do
-              form_radio id: "foo", key: :foo, options: [1, 2]
-              form_radio id: "bar", key: :bar, options: [1, 2], class: "some-class"
-              form_submit do
-                button text: "Submit me!"
-              end
-            end
+          matestack_form form_config do
+            form_radio id: "foo", key: :foo, options: [1, 2]
+            form_radio id: "bar", key: :bar, options: [1, 2], class: "some-class"
+            button text: "Submit me!"
+          end
         end
 
         def form_config
           {
             for: :my_object,
             method: :post,
-            path: :radio_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: radio_success_form_test_path(id: 42),
           }
         end
       end
 
       visit "/example"
-
       expect(page).to have_selector('#foo_1')
       expect(page).to have_selector('#foo_2')
       expect(page).to have_selector('.some-class#bar_1')
@@ -65,12 +59,10 @@ describe "Form Component", type: :feature, js: true do
     it "takes an array of options or hash and submits one selected item" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_radio id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"]
             form_radio id: "my-hash-test-radio", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -78,10 +70,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :radio_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: radio_success_form_test_path(id: 42),
           }
         end
       end
@@ -97,12 +86,10 @@ describe "Form Component", type: :feature, js: true do
     it "can be initialized by (multiple) item(s)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_radio id: "my-array-test-radio", key: :array_input, options: ["Array Option 1","Array Option 2"], init: "Array Option 1"
             form_radio id: "my-hash-test-radio", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, init: 2
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -110,10 +97,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: :my_object,
             method: :post,
-            path: :radio_success_form_test_path,
-            params: {
-              id: 42
-            }
+            path: radio_success_form_test_path(id: 42),
           }
         end
       end
@@ -142,13 +126,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -156,7 +138,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: @test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: radio_model_form_test_path
           }
         end
       end
@@ -188,13 +170,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -202,7 +182,7 @@ describe "Form Component", type: :feature, js: true do
           {
             for: @test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: radio_model_form_test_path
           }
         end
       end
@@ -234,13 +214,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -248,7 +226,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: @test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: radio_model_form_test_path
           }
         end
       end
@@ -280,13 +258,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -294,7 +270,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: 'test_model',
             method: :post,
-            path: :radio_model_form_test_path
+            path: radio_model_form_test_path
           }
         end
       end
@@ -325,13 +301,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             form_radio id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button text: "Submit me!"
           end
         end
 
@@ -339,7 +313,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :test_model,
             method: :post,
-            path: :radio_model_form_test_path
+            path: radio_model_form_test_path
           }
         end
       end

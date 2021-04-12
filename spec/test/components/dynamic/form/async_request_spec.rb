@@ -9,11 +9,9 @@ describe "Form Component", type: :feature, js: true do
   before :all do
     class BasePage < Matestack::Ui::Page
       def response
-        form form_config, :include do
+        matestack_form form_config, :include do
           form_input id: "my-test-input", key: :foo, type: :text
-          form_submit do
-            button text: "Submit me!"
-          end
+          button text: "Submit me!"
         end
       end
     
@@ -21,10 +19,7 @@ describe "Form Component", type: :feature, js: true do
         return {
           for: :my_object,
           method: :post,
-          path: :async_request_success_form_test_path,
-          params: {
-            id: 42
-          }
+          path: async_request_success_form_test_path(id: 42),
         }
       end
     end
@@ -102,7 +97,7 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def form_config
-          super.merge(path: :async_request_failure_form_test_path, failure: { emit: "my_form_failure" })
+          super.merge(path: async_request_failure_form_test_path(id: 42), failure: { emit: "my_form_failure" })
         end
       end
 

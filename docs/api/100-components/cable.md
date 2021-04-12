@@ -10,7 +10,7 @@ Please read the [ActionCable Guide](../../reactive_components/1000-action_cable.
 consumer.subscriptions.create("MatestackUiCoreChannel", {
   //...
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```

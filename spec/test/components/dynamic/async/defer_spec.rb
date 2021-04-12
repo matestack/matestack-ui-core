@@ -20,11 +20,8 @@ describe "Async Component", type: :feature, js: true do
 
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @current_time = DateTime.now.strftime('%Q')
-        end
-
         def response
+          @current_time = DateTime.now.strftime('%Q')
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
@@ -57,11 +54,8 @@ describe "Async Component", type: :feature, js: true do
 
     it "deferred loading with a specific timeout" do
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @current_time = DateTime.now.strftime('%Q')
-        end
-
         def response
+          @current_time = DateTime.now.strftime('%Q')
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
@@ -90,11 +84,8 @@ describe "Async Component", type: :feature, js: true do
     it "multiple deferred loadings with a specific timeout" do
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @current_time = DateTime.now.strftime('%Q')
-        end
-
         def response
+          @current_time = DateTime.now.strftime('%Q')
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
@@ -130,11 +121,8 @@ describe "Async Component", type: :feature, js: true do
 
     it "deferred loading without any timeout, triggered by on_show event" do
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @current_time = DateTime.now.strftime('%Q')
-        end
-
         def response
+          @current_time = DateTime.now.strftime('%Q')
           div id: "my-reference-div" do
             plain "#{@current_time}"
           end
@@ -150,16 +138,17 @@ describe "Async Component", type: :feature, js: true do
       visit "/example"
       initial_timestamp = page.find("#my-reference-div").text #initial page load
       expect(page).not_to have_content("waited for 'my_event'")
-
+      
       sleep 2
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
       expect(page).to have_content("waited for 'my_event'")
       deferred_timestamp = page.find("#my-deferred-div").text #deferred loading after click
       expect(deferred_timestamp.to_i - initial_timestamp.to_i).to be_between(2000, 4000).inclusive
-
+      
       sleep 1
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_other_event")')
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_other_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
+      expect(page).to have_content("waited for 'my_event'")
       new_deferred_timestamp = page.find("#my-deferred-div").text #deferred loading after another click
       expect(new_deferred_timestamp.to_i - deferred_timestamp.to_i).to be_between(1000, 2000).inclusive
     end

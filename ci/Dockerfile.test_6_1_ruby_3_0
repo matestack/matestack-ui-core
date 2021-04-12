@@ -3,7 +3,7 @@ FROM ruby:3.0-alpine3.12
 RUN gem install bundler:2.1.4
 
 RUN apk update --no-cache && \
-    apk add build-base postgresql-dev git nodejs yarn tzdata bash sqlite-dev && \
+    apk add build-base postgresql-dev git nodejs yarn tzdata bash sqlite-dev shared-mime-info npm && \
     mkdir -p /app
 
 WORKDIR /app
@@ -43,8 +43,14 @@ RUN mv _Gemfile Gemfile
 RUN mv _Gemfile.lock Gemfile.lock
 RUN mv _yarn.lock yarn.lock
 
+WORKDIR /app/spec/dummy
 
-RUN rm /app/spec/dummy/db/schema.rb
+RUN npm install
+RUN ./bin/webpack
 
-RUN rm /app/spec/dummy/config/application.rb
-RUN mv /app/spec/dummy/config/application.6.1_rb /app/spec/dummy/config/application.rb
+RUN rm ./db/schema.rb
+
+RUN rm ./config/application.rb
+RUN mv ./config/application.6.1_rb /app/spec/dummy/config/application.rb
+
+WORKDIR /app

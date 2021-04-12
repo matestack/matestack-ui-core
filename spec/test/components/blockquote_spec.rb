@@ -22,7 +22,7 @@ describe 'Blockquote Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <blockquote>This is simple blockquote text</blockquote>
-      <blockquote cite="this is a cite" id="my-id" class="my-class">This is a enhanced blockquote with text</blockquote>
+      <blockquote id="my-id" cite="this is a cite" class="my-class">This is a enhanced blockquote with text</blockquote>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
@@ -32,9 +32,9 @@ describe 'Blockquote Component', type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         # simple blockquote
-        blockquote text: 'This is simple blockquote text'
+        blockquote 'This is simple blockquote text'
         # enhanced blockquote
-        blockquote id: 'my-id', class: 'my-class', cite: 'this is a cite', text: 'This is a enhanced blockquote with text'
+        blockquote 'This is a enhanced blockquote with text', id: 'my-id', class: 'my-class', cite: 'this is a cite'
       end
     end
 
@@ -42,7 +42,7 @@ describe 'Blockquote Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <blockquote>This is simple blockquote text</blockquote>
-      <blockquote cite="this is a cite" id="my-id" class="my-class">This is a enhanced blockquote with text</blockquote>
+      <blockquote id="my-id" cite="this is a cite" class="my-class">This is a enhanced blockquote with text</blockquote>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))
   end
