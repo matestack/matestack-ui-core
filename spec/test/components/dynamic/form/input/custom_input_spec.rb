@@ -21,15 +21,14 @@ describe "Form Component", type: :feature, js: true do
   before :each do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
 
-    class Components::CustomFormInputTest < Matestack::Ui::Core::Form::Input::Base
-
-      vue_js_component_name "custom-form-input-test"
+    class Components::CustomFormInputTest < Matestack::Ui::VueJs::Components::Form::Input
+      vue_name "custom-form-input-test"
 
       def response
         div class: "custom-input-markup" do
-          label text: "my form input"
+          label "my form input"
           input input_attributes
-          button attributes: {"@click": "changeValueViaJs(42)"}, text: "change value"
+          button "change value", "@click": "changeValueViaJs(42)", type: :button
           render_errors
         end
       end
@@ -44,11 +43,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_input_test key: :bar, type: :text, id: "bar"
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
         end
 
@@ -78,12 +75,10 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             form_input key: :foo, type: :text, id: "foo"
             custom_form_input_test key: :bar, type: :text, id: "bar"
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
@@ -116,15 +111,13 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input",      key: :text_input, type: :text
             custom_form_input_test id: "email-input",     key: :email_input, type: :email
             custom_form_input_test id: "password-input",  key: :password_input, type: :password
             custom_form_input_test id: "number-input",    key: :number_input, type: :number
             custom_form_input_test id: "range-input",     key: :range_input, type: :range
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -159,11 +152,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input", key: :text_input, type: :text, init: "some value"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -184,11 +175,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input", key: :text_input, type: :text, init: "change me via JS"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -209,11 +198,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config do
+            matestack_form form_config do
               custom_form_input_test id: "text-input", key: :text_input, type: :text, placeholder: "some placeholder"
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
         end
 
@@ -234,11 +221,9 @@ describe "Form Component", type: :feature, js: true do
     it "can display server errors async" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "text-input", key: :foo, type: :text
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -254,29 +239,24 @@ describe "Form Component", type: :feature, js: true do
       visit "/example"
       fill_in "text-input", with: "text"
       click_button "Submit me!"
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
     end
 
     it "can be mapped to an Active Record Model" do
       Object.send(:remove_const, :TestModel)
 
       class TestModel < ApplicationRecord
-        validates :description, presence:true
+        validates :description, presence: true
       end
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
+        def response
           @test_model = TestModel.new
           @test_model.title = "Title"
-        end
-
-        def response
-          form form_config do
+          matestack_form form_config do
             custom_form_input_test id: "title", key: :title, type: :text
             custom_form_input_test id: "description", key: :description, type: :text
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -293,15 +273,16 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field("title", with: "Title")
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
 
       value = "#{DateTime.now}"
       fill_in "description", with: value
-      # page.find("body").click #defocus
+      click_button "Submit me!" #defocus, click again
       click_button "Submit me!"
+      page.save_screenshot("test.png")
       expect(page).to have_field("title", with: "Title")
       expect(page).to have_field("description", with: "")
-      expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
       expect(TestModel.last.description).to eq(value)
     end
 

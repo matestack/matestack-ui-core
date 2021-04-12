@@ -21,9 +21,9 @@ describe "Form Component", type: :feature, js: true do
   before :each do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
 
-    class Components::CustomFormSelectTest < Matestack::Ui::Core::Form::Select::Base
+    class Components::CustomFormSelectTest < Matestack::Ui::VueJs::Components::Form::Select
 
-      vue_js_component_name "custom-form-select-test"
+      vue_name "custom-form-select-test"
 
       def response
         div class: "custom-input-markup" do
@@ -31,7 +31,7 @@ describe "Form Component", type: :feature, js: true do
           select select_attributes do
             render_options
           end
-          button attributes: {"@click": "changeValueViaJs(2)"}, text: "change value"
+          button "change value", "@click": "changeValueViaJs(2)", type: :button
           render_errors
         end
       end
@@ -46,11 +46,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_select_test key: :bar, id: "bar", options: { "Option 1": 1, "Option 2": 2 }
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
         end
 
@@ -80,12 +78,10 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             form_select key: :foo, id: "foo", options: { "Option 1": 1, "Option 2": 2 }
             custom_form_select_test key: :bar, id: "bar", options: { "Option 3": 3, "Option 4": 4 }
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
@@ -116,11 +112,9 @@ describe "Form Component", type: :feature, js: true do
     it "can display server errors async" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_select_test id: "foo", key: :foo, options: { "Option 1": 1, "Option 2": 2 }
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -136,19 +130,17 @@ describe "Form Component", type: :feature, js: true do
       visit "/example"
 
       click_button "Submit me!"
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
     end
 
     it "takes an array of options or hash and submits selected item" do
       class ExamplePage < Matestack::Ui::Page
 
         def response
-          form form_config, :include do
+          matestack_form form_config, :include do
             custom_form_select_test id: "my-array-test-dropdown", key: :array_input, options: ["Array Option 1","Array Option 2"]
             custom_form_select_test id: "my-hash-test-dropdown", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -174,12 +166,10 @@ describe "Form Component", type: :feature, js: true do
     it "can be initialized with value" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config, :include do
             custom_form_select_test id: "my-array-test-dropdown", key: :array_input, options: ["Array Option 1","Array Option 2"], init: "Array Option 1"
             custom_form_select_test id: "my-hash-test-dropdown", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, init: 1
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -216,13 +206,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             custom_form_select_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -262,13 +250,11 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config, :include do
             form_input id: "description", key: :description, type: :text
             # TODO: Provide better Enum Options API
             custom_form_select_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -308,12 +294,10 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config, :include do
+          matestack_form form_config, :include do
             # TODO: Provide better Enum Options API
             custom_form_select_test id: "status", key: :status, options: TestModel.statuses, init: TestModel.statuses[@test_model.status]
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -330,18 +314,16 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field("status", with: nil)
 
       click_button "Submit me!"
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
     end
 
     it "can have a class" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config, :include do
             custom_form_select_test id: "my-array-test-dropdown", key: :array_input, options: ["Array Option 1","Array Option 2"], class: "form-control"
             custom_form_select_test id: "my-hash-test-dropdown", key: :hash_input, options: { "Hash Option 1": 1, "Hash Option 2": 2 }, class: "form-control"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 

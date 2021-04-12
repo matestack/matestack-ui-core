@@ -28,11 +28,9 @@ describe "Form Component", type: :feature, js: true do
     it "if set, emits event directly when form is submitted (not waiting for success or failure)" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config, :include do
+          matestack_form form_config do
             form_input key: :foo, type: :text, id: "my-test-input"
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
@@ -43,7 +41,7 @@ describe "Form Component", type: :feature, js: true do
           return {
             for: :my_object,
             method: :post,
-            path: :form_emit_success_submit_path,
+            path: form_emit_success_submit_path,
             emit: "form_submitted"
           }
         end

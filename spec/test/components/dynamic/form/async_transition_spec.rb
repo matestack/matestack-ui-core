@@ -33,16 +33,26 @@ describe "Form Component", type: :feature, js: true do
     
     class Example::App < Matestack::Ui::App
       def response
-        heading size: 1, text: "My Example App Layout"
-        main do
-          page_content
-        end
-        toggle show_on: "my_form_success", hide_after: 300, id: 'async-form-success' do
-          plain "{{event.data.message}}"
-        end
-        toggle show_on: "my_form_failure", hide_after: 300, id: 'async-form-failure' do
-          plain "{{event.data.message}}"
-          plain "{{event.data.errors}}"
+        html do
+          head do
+            unescape csrf_meta_tags
+            plain Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag('application').html_safe
+          end
+          body do
+            matestack do
+              h1 "My Example App Layout"
+              main do
+                yield
+              end
+              toggle show_on: "my_form_success", hide_after: 300, id: 'async-form-success' do
+                plain "{{event.data.message}}"
+              end
+              toggle show_on: "my_form_failure", hide_after: 300, id: 'async-form-failure' do
+                plain "{{event.data.message}}"
+                plain "{{event.data.errors}}"
+              end
+            end
+          end
         end
       end
     end
@@ -52,12 +62,10 @@ describe "Form Component", type: :feature, js: true do
     
     class BasePage < Matestack::Ui::Page
       def form_partial(number)
-        heading size: 2, text: "This is Page #{number}"
-        form form_config, :include do
+        h2 "This is Page #{number}"
+        matestack_form form_config, :include do
           form_input id: "my-test-input-on-page-#{number}", key: :foo, type: :text
-          form_submit do
-            button text: "Submit me!"
-          end
+          button "Submit me!"
         end
       end
     
@@ -65,10 +73,7 @@ describe "Form Component", type: :feature, js: true do
         {
           for: :my_object,
           method: :post,
-          path: :async_transition_success_form_test_path,
-          params: {
-            id: 42
-          },
+          path: async_transition_success_form_test_path(id: 42),
         }
       end
     end
@@ -83,10 +88,7 @@ describe "Form Component", type: :feature, js: true do
           success: {
             emit: "my_form_success",
             transition: {
-              path: :form_test_page_2_path,
-              params: {
-                id: 42
-              }
+              path: form_test_page_2_path(id: 42),
             }
           }
         )
@@ -100,11 +102,11 @@ describe "Form Component", type: :feature, js: true do
     
       def form_config
         super.merge(
-          path: :async_transition_failure_form_test_path,
+          path: async_transition_failure_form_test_path(id: 42),
           failure: {
             emit: "my_form_failure",
             transition: {
-              path: :form_test_page_1_path
+              path: form_test_page_1_path
             }
           }
         )
@@ -118,11 +120,7 @@ describe "Form Component", type: :feature, js: true do
     
       def form_config
         super.merge(
-          path: :async_transition_success_form_test_with_transition_path,
-          params: {
-            id: 42,
-            to_page: 4
-          },
+          path: async_transition_success_form_test_with_transition_path(id: 42, to_page: 4),
           success: {
             emit: "my_form_success",
             transition: {
@@ -140,11 +138,7 @@ describe "Form Component", type: :feature, js: true do
     
       def form_config
         super.merge(
-          path: :async_transition_failure_form_test_with_transition_path,
-          params: {
-            id: 42,
-            to_page: 3
-          },
+          path: async_transition_failure_form_test_with_transition_path(id: 42, to_page: 3),
           failure: {
             emit: "my_form_failure",
             transition: {
@@ -162,11 +156,7 @@ describe "Form Component", type: :feature, js: true do
 
       def form_config
         super.merge(
-          path: :async_transition_success_form_test_with_redirect_path,
-          params: {
-            id: 42,
-            to_page: 6
-          },
+          path: async_transition_success_form_test_with_redirect_path(id: 42, to_page: 6),
           success: {
             emit: "my_form_success",
             redirect: {
@@ -184,11 +174,7 @@ describe "Form Component", type: :feature, js: true do
 
       def form_config
         super.merge(
-          path: :async_transition_failure_form_test_with_redirect_path,
-          params: {
-            id: 42,
-            to_page: 5
-          },
+          path: async_transition_failure_form_test_with_redirect_path(id: 42, to_page: 5),
           failure: {
             emit: "my_form_success",
             redirect: {
@@ -209,10 +195,7 @@ describe "Form Component", type: :feature, js: true do
           success: {
             emit: "my_form_success",
             redirect: {
-              path: :form_test_page_8_path,
-              params: {
-                id: 42
-              }
+              path: form_test_page_8_path(id: 42),
             }
           }
         )
@@ -226,11 +209,11 @@ describe "Form Component", type: :feature, js: true do
 
       def form_config
         super.merge(
-          path: :async_transition_failure_form_test_path,
+          path: async_transition_failure_form_test_path(id: 42),
           failure: {
             emit: "my_form_failure",
             redirect: {
-              path: :form_test_page_7_path
+              path: form_test_page_7_path
             }
           }
         )
@@ -238,7 +221,7 @@ describe "Form Component", type: :feature, js: true do
     end
     
     class ExampleAppPagesController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
       matestack_app Example::App
     
       def page1

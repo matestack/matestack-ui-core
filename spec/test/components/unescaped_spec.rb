@@ -3,7 +3,7 @@ describe "Unescaped Component", type: :feature, js: true do
   it "allows the insertion of pure HTML: Example 1" do
     class ExamplePage < Matestack::Ui::Page
       def response
-        unescaped <<~HTML
+        unescape <<~HTML
           <h1>Hello World</h1>
           <script>alert('Really Hello!')</script>
         HTML

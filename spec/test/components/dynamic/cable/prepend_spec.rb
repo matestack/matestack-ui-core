@@ -11,7 +11,7 @@ describe "Cable Component - prepend", type: :feature, js: true do
     end
     expect(page).to have_selector('#prepend-cable')
     expect(page).to have_selector('#prepend-cable > p', text: 'foobar')
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("prepend", { data: "<h1 id=\"h1\">Prepended</h1>" })')
+    page.execute_script('MatestackUiCore.eventHub.$emit("prepend", { data: "<h1 id=\"h1\">Prepended</h1>" })')
     expect(page).to have_selector('#prepend-cable')
     expect(page).to have_selector('#prepend-cable > h1#h1', text: 'Prepended')
     expect(page).to have_selector('#prepend-cable > h1#h1 + p', text: 'foobar')
@@ -26,7 +26,7 @@ describe "Cable Component - prepend", type: :feature, js: true do
     expect(page).to have_selector('#prepend-cable')
     expect(page).to have_selector('#prepend-cable > p', text: 'foobar')
     page.execute_script(
-      'MatestackUiCore.matestackEventHub.$emit("prepend", { data: ["<h1 id=\"h1\">Prepended</h1>", "<h2 id=\"h2\">another</h2>"] })'
+      'MatestackUiCore.eventHub.$emit("prepend", { data: ["<h1 id=\"h1\">Prepended</h1>", "<h2 id=\"h2\">another</h2>"] })'
     )
     expect(page).to have_selector('#prepend-cable')
     expect(page).to have_selector('#prepend-cable > h1#h1', text: 'Prepended')

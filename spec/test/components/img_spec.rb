@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Img Component', type: :feature, js: true do
+describe 'Img Component', type: :feature do
   include Utils
 
   it 'renders a img' do

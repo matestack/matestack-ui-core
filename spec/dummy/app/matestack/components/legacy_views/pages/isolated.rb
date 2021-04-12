@@ -7,7 +7,7 @@ class Components::LegacyViews::Pages::Isolated < Matestack::Ui::IsolatedComponen
     end
     hr
     async rerender_on: 'async_update_time', id: 'foobar' do
-      paragraph id: 'async-time', text: time
+      paragraph time, id: 'async-time'
     end
   end
 

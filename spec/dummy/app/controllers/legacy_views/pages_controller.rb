@@ -1,7 +1,7 @@
 class LegacyViews::PagesController < ApplicationController
-  include Matestack::Ui::Core::ApplicationHelper
-  include Components::Registry
-  include Matestack::Ui::Core::Collection::Helper
+  include Matestack::Ui::Core::Helper
+  include Matestack::Ui::VueJs::Components::Collection::Helper
+
   layout 'legacy_views'
 
   def action_inline

@@ -21,15 +21,15 @@ describe "Form Component", type: :feature, js: true do
   before :each do
     allow_any_instance_of(FormTestController).to receive(:expect_params)
 
-    class Components::CustomFormTextareaTest < Matestack::Ui::Core::Form::Textarea::Base
+    class Components::CustomFormTextareaTest < Matestack::Ui::VueJs::Components::Form::Textarea
 
-      vue_js_component_name "custom-form-textarea-test"
+      vue_name "custom-form-textarea-test"
 
       def response
         div class: "custom-input-markup" do
           label text: "my form textarea"
           textarea textarea_attributes
-          button attributes: {"@click": "changeValueViaJs(42)"}, text: "change value"
+          button "change value", type: :button, "@click": "changeValueViaJs(42)"
           render_errors
         end
       end
@@ -44,11 +44,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_textarea_test key: :bar, id: "bar"
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
         end
 
@@ -78,12 +76,10 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             form_textarea key: :foo, id: "foo"
             custom_form_textarea_test key: :bar, id: "bar"
-            form_submit do
-              button text: 'Submit me!'
-            end
+            button 'Submit me!'
           end
           toggle show_on: "form_submitted", id: 'async-form' do
             plain "form submitted!"
@@ -115,11 +111,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_textarea_test id: "text-input", key: :text_input, init: "some value"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -140,11 +134,9 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_textarea_test id: "text-input", key: :text_input, init: "change me via JS"
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -165,12 +157,10 @@ describe "Form Component", type: :feature, js: true do
 
       class ExamplePage < Matestack::Ui::Page
         def response
-            form form_config do
+            matestack_form form_config do
               form_textarea key: :foo, id: "foo", placeholder: "some placeholder"
               custom_form_textarea_test id: "text-input", key: :text_input, placeholder: "some placeholder"
-              form_submit do
-                button text: "Submit me!"
-              end
+              button "Submit me!"
             end
         end
 
@@ -191,11 +181,9 @@ describe "Form Component", type: :feature, js: true do
     it "can display server errors async" do
       class ExamplePage < Matestack::Ui::Page
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_textarea_test id: "text-input", key: :foo
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -211,7 +199,7 @@ describe "Form Component", type: :feature, js: true do
       visit "/example"
       fill_in "text-input", with: "text"
       click_button "Submit me!"
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"seems to be invalid")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"seems to be invalid")]')
     end
 
     it "can be mapped to an Active Record Model" do
@@ -228,12 +216,10 @@ describe "Form Component", type: :feature, js: true do
         end
 
         def response
-          form form_config do
+          matestack_form form_config do
             custom_form_textarea_test id: "title", key: :title
             custom_form_textarea_test id: "description", key: :description
-            form_submit do
-              button text: "Submit me!"
-            end
+            button "Submit me!"
           end
         end
 
@@ -250,7 +236,7 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_field("title", with: "Title")
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
-      expect(page).to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
 
       value = "#{DateTime.now}"
       fill_in "description", with: value
@@ -258,7 +244,7 @@ describe "Form Component", type: :feature, js: true do
       click_button "Submit me!"
       expect(page).to have_field("title", with: "Title")
       expect(page).to have_field("description", with: "")
-      expect(page).not_to have_xpath('//span[@class="errors"]/span[@class="error" and contains(.,"can\'t be blank")]')
+      expect(page).not_to have_xpath('//div[@class="errors"]/div[@class="error" and contains(.,"can\'t be blank")]')
       expect(TestModel.last.description).to eq(value)
     end
 

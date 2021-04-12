@@ -21,7 +21,7 @@ describe "Render", type: :feature, js: true do
     Rails.application.reload_routes!
   end
 
-  it "wraps a Page with a minimal default App when no App is explicitly specified" do
+  it "does not wrap a Page with a minimal default App when no App is explicitly specified" do
 
     class ExamplePage < Matestack::Ui::Page
 
@@ -37,7 +37,7 @@ describe "Render", type: :feature, js: true do
     class RenderTestAController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def example
         render ExamplePage
@@ -47,8 +47,9 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example_a"
 
-    # dom structure implies correct rendering with wrapping minimal app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+    expect(page).not_to have_selector('div.matestack-app-wrapper')
+
+    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -58,16 +59,20 @@ describe "Render", type: :feature, js: true do
 
     class ExampleApp::App < Matestack::Ui::App
       def response
-        div class: "my-app-layout" do
-          page_content
+        matestack do
+          div class: "my-app-layout" do
+            yield
+          end
         end
       end
     end
 
     class SomeOtherExampleApp < Matestack::Ui::App
       def response
-        div class: "my-other-app-layout" do
-          page_content
+        matestack do
+          div class: "my-other-app-layout" do
+            yield
+          end
         end
       end
     end
@@ -83,7 +88,7 @@ describe "Render", type: :feature, js: true do
     # otherwise the matestack_app_class class var would be set as specified in the former spec
     class RenderTestBController < ActionController::Base
       layout "application"
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def example
         render ExamplePage, matestack_app: ExampleApp::App
@@ -96,11 +101,11 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example_b"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
 
     visit "render_app_resolving_spec/second_example_b"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -110,16 +115,20 @@ describe "Render", type: :feature, js: true do
 
     class ExampleApp::App < Matestack::Ui::App
       def response
-        div class: "my-app-layout" do
-          page_content
+        matestack do
+          div class: "my-app-layout" do
+            yield
+          end
         end
       end
     end
 
     class SomeOtherExampleApp < Matestack::Ui::App
       def response
-        div class: "my-other-app-layout" do
-          page_content
+        matestack do
+          div class: "my-other-app-layout" do
+            yield
+          end
         end
       end
     end
@@ -134,7 +143,7 @@ describe "Render", type: :feature, js: true do
 
     # otherwise the matestack_app_class class var would be set as specified in the former spec
     class RenderTestCController < ActionController::Base
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
       layout "application"
       matestack_app ExampleApp::App
 
@@ -149,47 +158,12 @@ describe "Render", type: :feature, js: true do
 
     visit "render_app_resolving_spec/example_c"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+    text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
 
     visit "render_app_resolving_spec/second_example_c"
     # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
-    expect(text).to eq("hello from page")
-  end
-
-  it "does not wrap a Page with an App when explicitly set to false" do
-
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        div do
-          plain "hello from page"
-        end
-      end
-    end
-
-    # otherwise the matestack_app_class class var would be set as specified in the former spec
-    class RenderTestDController < ActionController::Base
-      include Matestack::Ui::Core::ApplicationHelper
-      layout "application"
-
-      def example
-        render ExamplePage # should be wrapped by a minimal default
-      end
-
-      def second_example
-        render ExamplePage, matestack_app: false # should not be wrapped by an app at all
-      end
-    end
-
-    visit "render_app_resolving_spec/example_d"
-    # dom structure implies correct rendering with wrapping specified app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
-    expect(text).to eq("hello from page")
-
-    visit "render_app_resolving_spec/second_example_d"
-    # dom structure implies correct rendering without app
-    text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-page-root"]/div').text
+    text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
     expect(text).to eq("hello from page")
   end
 
@@ -199,16 +173,20 @@ describe "Render", type: :feature, js: true do
       module Apps end
       class Apps::ExampleApp < Matestack::Ui::App
         def response
-          div class: "my-app-layout" do
-            page_content
+          matestack do
+            div class: "my-app-layout" do
+              yield
+            end
           end
         end
       end
 
       class Apps::SomeOtherExampleApp < Matestack::Ui::App
         def response
-          div class: "my-other-app-layout" do
-            page_content
+          matestack do
+            div class: "my-other-app-layout" do
+              yield
+            end
           end
         end
       end
@@ -236,7 +214,7 @@ describe "Render", type: :feature, js: true do
       # otherwise the matestack_app_class class var would be set as specified in the former spec
 
       class RenderTestEController < ActionController::Base
-        include Matestack::Ui::Core::ApplicationHelper
+        include Matestack::Ui::Core::Helper
         layout "application"
 
         def example
@@ -244,18 +222,18 @@ describe "Render", type: :feature, js: true do
         end
 
         def second_example
-          render Pages::SomeOtherExampleApp::ExamplePage,   matestack_app: Apps::SomeOtherExampleApp
+          render Pages::SomeOtherExampleApp::ExamplePage, matestack_app: Apps::SomeOtherExampleApp
         end
       end
 
       visit "render_app_resolving_spec/example_e"
       # dom structure implies correct rendering with wrapping specified app
-      text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+      text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
       expect(text).to eq("hello from example page")
 
       visit "render_app_resolving_spec/second_example_e"
       # dom structure implies correct rendering with wrapping specified app
-      text = find(:xpath, 'id("matestack-ui")/div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
+      text = find(:xpath, 'id("matestack-ui")//div[@class="matestack-app-wrapper"]/div[@class="my-other-app-layout"]//div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[1]').text
       expect(text).to eq("hello from some other example page")
     end
 

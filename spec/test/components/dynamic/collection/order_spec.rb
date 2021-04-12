@@ -24,7 +24,7 @@ describe "Collection Component", type: :feature, js: true do
 
     it "Example 3 - Ordered collection" do
       class ExamplePage < Matestack::Ui::Page
-        include Matestack::Ui::Core::Collection::Helper
+        include Matestack::Ui::VueJs::Components::Collection::Helper
 
         def prepare
           my_collection_id = "my-first-collection"

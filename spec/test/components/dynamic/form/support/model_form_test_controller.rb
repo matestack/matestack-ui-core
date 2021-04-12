@@ -1,4 +1,7 @@
 class ModelFormTestController < TestController
+  include Matestack::Ui::Core::Helper
+  matestack_app App
+
   def model_submit
     @test_model = TestModel.create(model_params)
     if @test_model.errors.any?

@@ -6,8 +6,7 @@ describe "Component", type: :feature, js: true do
   before :all do
 
     class ComponentTestController < ActionController::Base
-      include Matestack::Ui::Core::ApplicationHelper
-      layout "application"
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage
@@ -29,7 +28,7 @@ describe "Component", type: :feature, js: true do
       class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
-            yield_components
+            yield
           end
         end
 
@@ -37,11 +36,9 @@ describe "Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-        def prepare
-          @foo = "foo from page"
-        end
-
+        
         def response
+          @foo = "foo from page"
           div id: "div-on-page" do
             some_static_component do
               plain @foo

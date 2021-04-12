@@ -8,7 +8,7 @@ describe "Component", type: :feature, js: true do
     class ComponentTestController < ActionController::Base
       layout "application"
 
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def my_action
         render ExamplePage
@@ -33,7 +33,7 @@ describe "Component", type: :feature, js: true do
 
         def response
           div id: "my-component" do
-            plain @argument
+            plain self.text
           end
         end
 

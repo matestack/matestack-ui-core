@@ -18,8 +18,8 @@ describe 'Progress Component', type: :feature, js: true do
     visit '/example'
     static_output = page.html
     expected_static_output = <<~HTML
-      <progress max="100" value="75"></progress>
-      <progress id="my-id" max="330" value="33" class="my-class"></progress>
+      <progress value="75" max="100"></progress>
+      <progress id="my-id" value="33" max="330" class="my-class"></progress>
       <progress max="500"></progress>
     HTML
     expect(stripped(static_output)).to include(stripped(expected_static_output))

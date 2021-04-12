@@ -5,8 +5,8 @@ describe "Component", type: :feature, js: true do
 
   before :all do
     class ComponentTestController < ActionController::Base
-      layout "application"
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
+      matestack_app App
 
       def my_action
         render ExamplePage
@@ -27,7 +27,7 @@ describe "Component", type: :feature, js: true do
       class SomeStaticComponent < Matestack::Ui::Component
         def response
           div id: "my-component" do
-            if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+            if view_context.view_renderer.instance_of?(ActionView::Renderer)
               plain "has access to ActionView Context"
             end
             plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here
@@ -61,7 +61,7 @@ describe "Component", type: :feature, js: true do
             div id: "timestamp" do
               plain "#{DateTime.now.strftime('%Q')}"
             end
-            if @view_context.view_renderer.instance_of?(ActionView::Renderer)
+            if view_context.view_renderer.instance_of?(ActionView::Renderer)
               plain "has access to ActionView Context"
             end
             plain link_to "Test Link", "/some/page" # calling an ActionView Url Helper here
@@ -89,7 +89,7 @@ describe "Component", type: :feature, js: true do
       element = page.find("#timestamp")
       before_content = element.text
 
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("some_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("some_event")')
       expect(page).not_to have_content(before_content)# check if async reload has really worked!
       expect(page).to have_content("has access to ActionView Context")
       expect(page).to have_content("Test Link")

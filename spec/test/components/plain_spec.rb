@@ -25,7 +25,6 @@ describe "Plain Component", type: :feature, js: true do
           plain XSS::EVIL_SCRIPT
         end
       end
-
       visit "/example"
       expect(page.html).to include(XSS::ESCAPED_EVIL_SCRIPT)
     end

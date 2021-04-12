@@ -27,21 +27,21 @@ describe "Async Component", type: :feature, js: true do
     element = page.find("#my-div")
     before_content = element.text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
     expect(page).not_to have_content(before_content)
     element = page.find("#my-second-div")
     before_content = element.text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_1")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("multi_event_1")')
     expect(page).not_to have_content(before_content)
     element = page.find("#my-second-div")
     before_content = element.text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event_2")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("multi_event_2")')
     expect(page).not_to have_content(before_content)
   end
 
-  it "rerender on event behind yield_components" do
+  it "rerender on event behind yield" do
     class ExamplePage < Matestack::Ui::Page
       def response
         div do
@@ -59,7 +59,7 @@ describe "Async Component", type: :feature, js: true do
     class SomeComponent < Matestack::Ui::Component
       def response
         div id: "yielded-content-1" do
-          yield_components
+          yield
         end
         other_component do
           async rerender_on: "my_other_event", id: 'async-some-component' do
@@ -76,7 +76,7 @@ describe "Async Component", type: :feature, js: true do
     class OtherComponent < Matestack::Ui::Component
       def response
         div id: "nested-yielded-content-2" do
-          yield_components
+          yield
         end
       end
 
@@ -86,14 +86,14 @@ describe "Async Component", type: :feature, js: true do
     visit "/example"
     content_before = page.find("#yielded-async-1").text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
     expect(page).not_to have_content(content_before)
     within "#yielded-content-1" do
       expect(page).to have_content("yielded timestamp 1: ")
     end
     content_before = page.find("#nested-yielded-async-2").text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_other_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_other_event")')
     expect(page).not_to have_content(content_before)
     within "#nested-yielded-content-2" do
       expect(page).to have_content("yielded timestamp 2: ")
@@ -162,7 +162,7 @@ describe "Async Component", type: :feature, js: true do
     dynamic_content_before_on_other_component = page.find("#dynamic-content-on-other-component").text
     other_dynamic_content_before_on_other_component = page.find("#other-dynamic-content-on-other-component").text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
     expect(page).to have_content(static_content_before)
     expect(page).not_to have_content(dynamic_content_before)
     expect(page).to have_content(other_dynamic_content_before)
@@ -176,7 +176,7 @@ describe "Async Component", type: :feature, js: true do
     dynamic_content_before_on_other_component = page.find("#dynamic-content-on-other-component").text
     other_dynamic_content_before_on_other_component = page.find("#other-dynamic-content-on-other-component").text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("some_other_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("some_other_event")')
     expect(page).to have_content(static_content_before)
     expect(page).to have_content(dynamic_content_before)
     expect(page).not_to have_content(other_dynamic_content_before)
@@ -191,9 +191,19 @@ describe "Async Component", type: :feature, js: true do
 
     class Example::App < Matestack::Ui::App
       def response
-        heading size: 1, text: "My Example App Layout"
-        main do
-          page_content
+        html do
+          head do
+            unescape csrf_meta_tags
+            unescape javascript_pack_tag('application')
+          end
+          body do
+            matestack do
+              h1 "My Example App Layout"
+              main do
+                yield
+              end
+            end
+          end
         end
       end
     end
@@ -212,7 +222,7 @@ describe "Async Component", type: :feature, js: true do
     end
 
     class AsyncInAppPagesController < ExampleController
-      include Matestack::Ui::Core::ApplicationHelper
+      include Matestack::Ui::Core::Helper
 
       def example
         render Example::Pages::ExamplePage, matestack_app: Example::App
@@ -230,7 +240,8 @@ describe "Async Component", type: :feature, js: true do
     element = page.find("#my-div")
     before_content = element.text
 
-    page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+    page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
+    expect(page).not_to have_content(before_content)
     element = page.find("#my-div")
     after_content = element.text
     expect(before_content).not_to eq(after_content)
@@ -258,7 +269,7 @@ describe "Async Component", type: :feature, js: true do
       initial_content = (0..5).map { |item| page.find("#my-div-#{item}").text }
   
       # rerender first list element asynchronously, others should not change
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event_0")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_event_0")')
       expect(page).not_to have_content(initial_content[0])
       initial_content[0] = page.find("#my-div-0").text
       (0..5).each do |item| 
@@ -269,7 +280,7 @@ describe "Async Component", type: :feature, js: true do
       end
   
       # rerender all elements asynchronously, all should change
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("multi_event")')
       (0..5).each do |item| 
         expect(page).to have_content("#{item} -", count: 1)
       end
@@ -306,7 +317,7 @@ describe "Async Component", type: :feature, js: true do
       # rerender all elements asynchronously, item 4 should not be changed and
       # a 404 and emit failure event with correct id should be generated
       ExamplePage.items = (0..5).reject { |item| item == 4 }
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("multi_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("multi_event")')
       ExamplePage.items.each do |item| 
         expect(page).to have_content("#{item} -", count: 1)
       end
@@ -345,7 +356,7 @@ describe "Async Component", type: :feature, js: true do
       
       # rerender asynchronously, should return 404 and emit failure event with correct id, content of async should not be changed
       ExamplePage.active = false
-      page.execute_script('MatestackUiCore.matestackEventHub.$emit("my_event")')
+      page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')
       expect(page).to have_selector('#my-div')
       expect(page).to have_content(initial_content)
       expect(page).to have_content('Error - async-item')
