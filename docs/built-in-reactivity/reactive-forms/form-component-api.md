@@ -403,6 +403,7 @@ def form_config
       input: { class: 'my-field-error' }
     }
   }
+end
 ```
 
 Outputs errors as:
@@ -417,6 +418,48 @@ Outputs errors as:
 <input type="text" class="my-field-error" />
 <!-- without any errors, because its config takes precedence over the form config -->
 ```
+
+#### Error message rendering
+
+Given a server error response like that:
+
+```javascript
+{
+  "errors": {
+      "title": ["can't be blank"]
+  },
+  "message": "Something went wrong"
+}
+```
+
+now including a `message` which is not mapped to an input field, we can display this error message like:
+
+```ruby
+def response
+  matestack_form form_config do
+    form_input key: :foo, type: :text
+    # ...
+  end
+  # somewhere else or within the form:
+  toggle show_on: :form_failed, hide_on: :form_succeeded do
+    plain "{{event.data.message}}"
+  end
+end
+
+def my_form_config
+  {
+    #...
+    success: {
+      emit: "form_succeeded"
+    },
+    failure: {
+      emit: "form_failed"
+    }
+  }
+end
+```
+
+The `matestack_form` component emits the event together with all errors and the message coming from the server's response. The `toggle` component can then access all this data via `event.data.xyz`
 
 ## Loading state
 
