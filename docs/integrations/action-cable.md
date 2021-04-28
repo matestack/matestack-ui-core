@@ -6,17 +6,20 @@ In this guide we will provide information on how to create channels, consumers a
 
 ## Setup
 
-The setup differs slightly depending on your usage of websockets or the asset pipeline.
+Create a channel using the rails generator. Run the command `rails generate channel MatestackUiCoreChannel`.
 
-### Websockets
+This will create a `app/javascript/channels/matestack_ui_core_channel.js` file where you can setup your subscriptions.
 
-Create a channel using the rails generator. Run the command `rails generate channel MatestackUiCoreChannel`. This will create a `app/javascript/channels/matestack_ui_core_channel.js` file where you can setup your subscriptions. It also generates the corresponding server side `MatestackUiCoreChannel < ApplicationCable::Channel` class.
+It also generates the corresponding server side `MatestackUiCoreChannel < ApplicationCable::Channel` class.
 
-The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel". All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.matestackEventHub` with the received data.
+The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel".
+
+All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.eventHub` with the received data.
 
 `app/javascript/channels/matestack_ui_core_channel.js`
 
 ```javascript
+import MatestackUiCore from "matestack-ui-core"
 import consumer from "./consumer"
 
 consumer.subscriptions.create("MatestackUiCoreChannel", {
@@ -29,7 +32,7 @@ consumer.subscriptions.create("MatestackUiCoreChannel", {
   },
 
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -37,30 +40,6 @@ consumer.subscriptions.create("MatestackUiCoreChannel", {
 We expect the pushed data to include an _event_ key with the name of the event that should be triggered. We also pass the _data_ as event payload to the event emit, giving you the possibility to work with server side send data.
 
 If you do not want to use the rails generator just create the `matestack_ui_core_channel.js` yourself in `app/javascript/channels/` and paste the above code in it.
-
-### Asset pipeline
-
-Like with websockets you can use the rails generator to create a matestack ui core channel by running `rails generate channel MatestackUiCoreChannel`. This will create a `app/assets/javascript/channels/matestack_ui_core_channel.js` file where you can setup your subscriptions. It also generates the corresponding server side `MatestackUiCoreChannel < ApplicationCable::Channel` class.
-
-```javascript
-App.matestack_ui_core = App.cable.subscriptions.create("MatestackUiCoreChannel", {
-  connected() {
-    // Called when the subscription is ready for use on the server
-  },
-
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
-
-  received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
-  }
-});
-```
-
-We expect the pushed data to include an _event_ key with the name of the event that should be triggered. We also pass the _data_ as event payload to the event emit, giving you the possibility to work with server side send data.
-
-If you do not want to use the rails generator just create the `matestack_ui_core_channel.js` yourself in `app/assets/javascript/channels/` and paste the above code in it.
 
 ## Usage
 
@@ -155,18 +134,18 @@ With the above implemented connection authorization in place we will not be able
 ```ruby
 # app/channels/application_cable/connection.rb
 class Connection < ActionCable::Connection::Base
-    identified_by :current_user
+  identified_by :current_user
 
-    def connect
-      self.current_user = find_verified_user
-    end
-
-    protected
-
-    def find_verified_admin
-      env['warden'].user
-    end
+  def connect
+    self.current_user = find_verified_user
   end
+
+  protected
+
+  def find_verified_admin
+    env['warden'].user
+  end
+
 end
 ```
 
@@ -187,11 +166,12 @@ Corresponding front end channel subscription.
 
 ```javascript
 // app/javascript/channels/public_channel.js
+import MatestackUiCore from "matestack-ui-core"
 import consumer from "./consumer"
 
 consumer.subscriptions.create("PublicChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```
@@ -212,11 +192,12 @@ Corresponding front end channel subscription.
 
 ```javascript
 // app/javascript/channels/private_channel.js
+import MatestackUiCore from "matestack-ui-core"
 import consumer from "./consumer"
 
 consumer.subscriptions.create("PrivateChannel", {
   received(data) {
-    MatestackUiCore.matestackEventHub.$emit(data.event, data)
+    MatestackUiCore.eventHub.$emit(data.event, data)
   }
 });
 ```

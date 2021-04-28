@@ -30,7 +30,7 @@ Add the Matestack helper to your controllers. If you want to make the helpers av
 
 ```ruby
 class ApplicationController < ActionController::Base
-  include Matestack::Ui::Core::ApplicationHelper
+  include Matestack::Ui::Core::Helper
   #...
 end
 ```
@@ -53,10 +53,22 @@ $ yarn add matestack-ui-core
 
 This adds the npm package that provides the JavaScript corresponding to the matestack-ui-core ruby gem. Make sure that the npm package version matches the gem version. To find out what gem version you are using, you may use `bundle info matestack-ui-core`.
 
-Next, import 'matestack-ui-core' in your `app/javascript/packs/application.js`
+Next, import and setup 'matestack-ui-core' in your `app/javascript/packs/application.js`
 
 ```javascript
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
+
 import MatestackUiCore from 'matestack-ui-core'
+
+let matestackUiApp = undefined
+
+document.addEventListener('DOMContentLoaded', () => {
+  matestackUiApp = new Vue({
+    el: "#matestack-ui",
+    store: MatestackUiCore.store
+  })
+})
 ```
 
 and compile the JavaScript code with webpack:
@@ -69,19 +81,9 @@ $ bin/webpack --watch
 When you update the `matestack-ui-core` Ruby gem, make sure to update the npm package as well!
 {% endhint %}
 
-### Asset Pipeline
-
-If you are using the asset pipeline, you don't need to install the separate npm package. All required JavaScript libraries are provided by the `matestack-ui-core` gem.
-
-Require `matestack-ui-core` in your `app/assets/javascript/application.js`
-
-```javascript
-//= require matestack-ui-core
-```
-
 ### Turbolinks
 
-We recommend to \(remove/deactivate\)\([https://stackoverflow.com/a/38649595](https://stackoverflow.com/a/38649595)\) turbolinks, as there is no reason to use it alongside matestack-ui-core and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
+We recommend to \(remove/deactivate\)\([https://stackoverflow.com/a/38649595](https://stackoverflow.com/a/38649595)\) turbolinks within the scope you wish to build with Matestack, as there is no reason to use it alongside matestack-ui-core and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
 
 ### Application layout adjustments
 
@@ -139,12 +141,6 @@ and then check the installed version:
 ```bash
 bundle info matestack-ui-core
 ```
-
-### JavaScript via AssetPipeline/Sprockets
-
-If you've installed the JavaScript dependecies via AssetPipeline/Sprockets, updating the Ruby gem is enough! Nothing to do here!
-
-### JavaScript via Yarn
 
 If you've installed the JavaScript dependecies via Yarn/Webpacker you need to update the JavaScript assets via yarn:
 

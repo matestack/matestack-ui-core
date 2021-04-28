@@ -7,6 +7,17 @@ description: >-
 
 # Welcome
 
+{% hint style="info" %}
+Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](https://github.com/matestack/matestack-ui-core/tree/51eab6709c0ad424ba005891658db6b6b5b2c130/docs/docs/migrate-from-1.x-to-2.0.md)
+
+**Most important changes:**
+
+* Changed to MIT License
+* 5 to 12 times better rendering performance \(depending on the context\)
+* Removed Trailblazer dependency
+* Improved core code readability/maintainability
+{% endhint %}
+
 ## **What is Matestack?**
 
 Matestack enables Rails developers to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. Thanks to reactive core components built on top of Vue.js, reactivity can be optionally added without writing JavaScript, just using a simple Ruby DSL.
@@ -46,7 +57,7 @@ Additionally, most of Matestack does not require Action Cable or Redis, but can 
 Matestack currently offers two open source Ruby gems**:**
 
 * `matestack-ui-core` ships all you need to build reactive UIs in pure Ruby. You have to take care of styling and additional UI components yourself.
-* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **\(specs and docs in progress currently\) --&gt;** [**https://matestack.gitbook.io/matestack-ui-bootstrap/**](https://matestack.gitbook.io/matestack-ui-bootstrap/)\*\*\*\*
+* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **--&gt;** [**https://matestack.gitbook.io/matestack-ui-bootstrap**](https://matestack.gitbook.io/matestack-ui-bootstrap/)
 
 ## Live Demo
 
@@ -71,10 +82,21 @@ Rails versions below 5.2 are not supported.
 
 ### Vue.js
 
-`matestack-ui-core` currently uses Vue.js 2.6.12 and Vuex 3.6.2 for its reactivity features. Custom reactive components are currently bound to these versions as well.
+`matestack-ui-core` requires Vue.js and Vuex for its reactivity features. Following version ranges are supported:
+
+* Vue.js ^2.6.0
+* Vuex ^3.6.0
 
 {% hint style="info" %}
 Vue 3 / Vuex 4 update is planned for Q2 2021.
+{% endhint %}
+
+### Webpacker/Sprockets
+
+`matestack-ui-core` is designed to be installed via Npm or Yarn and bundled via something like Webpacker together with all your other dependencies.
+
+{% hint style="warning" %}
+Since 2.0.0 we're not shipping a pre-bundled JavaScript assets for Rails assets pipeline \(Sprockets\) users anymore.
 {% endhint %}
 
 ## Getting Started
@@ -86,24 +108,4 @@ Before you dive into some code, you should read about the basic architecture con
 After that, it might be a good idea to boost your knowledge with our quick start guide:
 
 {% page-ref page="getting-started/quick-start.md" %}
-
-## Deep Dive
-
-Craft your UI based on your components written in pure Ruby. Utilizing Ruby's amazing language features, you're able to create a cleaner and more maintainable UI implementation:
-
-Learn more about UI components implemented in pure Ruby:
-
-{% page-ref page="ui-components/component-overview.md" %}
-
-What about going even one step further and implement **reactive** UIs in pure Ruby? Matestack's reactive core components can be used with a simple Ruby DSL enabling you to create reactive UIs without touching JavaScript!
-
-Learn more about the optional reactivity system built on top of Vue.js and how you can use reactive core components in pure Ruby:
-
-{% page-ref page="reactivity/reactivity-overview.md" %}
-
-The last step in order to leverage the full Matestack power: Create app \(~Rails layout\) and page \(Rails ~view\) classes and implement dynamic page transitions without any JavaScript implementation required optionally enriched with some CSS animations.
-
-Learn more about SPA-like Apps implemented in pure Ruby:
-
-{% page-ref page="spa-like-apps/spa-overview.md" %}
 
