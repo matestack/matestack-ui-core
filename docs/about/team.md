@@ -26,8 +26,8 @@ Matestack heavily relies on a decent amount of time and energy following people 
 >
 > **Twitter**: [@rowellkeith](https://twitter.com/rowellkeith)
 >
-> Early 2021 Keith discovered Matestack and was kind of hooked right away. Having created reusable UI components composed on the serverside in PHP at some point 20 years ago, the concepts and goals of Matestack felt familiar. That's the way Keith want to build software for his clients \(again\). One mail and one video call later, Keith and Jonas decided to closely work together pushing Matestack forward.
-
+> Keith discovered Matestack in early 2021 and was hooked right away. He has been developing software since the late 80s and moved into web development at the turn of the century. For twenty years he has dreamed of being able to develop component-based UIs in ruby and now that reality is here. An email and a video call later, Keith and Jonas decided to work closely together to push Matestack forward. He describes Matestack as the most exciting thing he's seen in the software world since discovering Ruby.
+ 
 ## Former core team members
 
 Following awesome people have been a very important member of the Matestack core team in the past. Thank you!
