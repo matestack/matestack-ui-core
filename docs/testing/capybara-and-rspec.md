@@ -1,4 +1,4 @@
-# Capybara & Rspec \[WIP\]
+# Capybara & Rspec
 
 Matestack apps, pages and components can be tested with various test setups. We're using Rspec and Capybara a lot when creating apps with Matestack or work on Matestack's core itself and want to show you some basic elements of this setup.
 
@@ -257,5 +257,36 @@ Without adding `expect(page).to have_content("succeeded!")` after `click "submit
 
  Above described approaches and hints apply for actions as well!
 
-## Optional: Dockerized test setup \[WIP\]
+## Debugging specs
+
+When running specs in a headless browser, you're loosing insights on what exactly happens when a spec is failing. You have a simple yet powerful option to overcome this issue:
+
+As described within the Setup section, it's possible to tell Capybara, which port should be used by the webserver while executing the specs. \(By default it's randomly chosen on every spec run\). When adding a simple `sleep` after a `visit` in your spec, you can request the same page, your spec would visit in you local browser and review what's going on there by manually executing the steps your spec would perform while reviewing the DOM and browser debugging tools:
+
+{% tabs %}
+{% tab title="spec/features/form\_submission\_spec.rb" %}
+```ruby
+
+describe "Some Page", type: :feature, js: true do
+  
+  it "should render hello world" do
+    visit some_page_path
+    
+    p some_page_path # see the resolved URL string, copy to your browser
+    sleep # add the sleep after the visit
+    
+    fill_in "Name", with: "Foo"
+    click "submit me"
+    
+    expect(page).to have_content("succeeded!")
+  end
+
+end
+```
+{% endtab %}
+{% endtabs %}
+
+Execute the spec and then visit the logged path in your local browser via `localhost:33123/xyz` for example.
+
+This approach is especially useful when using factories in order to create temporary test data which is only accessible in your test ENV and that specific spec. In other words: you can review the test state way better compared to perform the spec steps in your local development ENV.
 
