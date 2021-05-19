@@ -78,7 +78,7 @@
 
 ## Testing
 
-* [Capybara & Rspec \[WIP\]](testing/capybara-and-rspec-wip.md)
+* [Capybara & Rspec](testing/capybara-and-rspec.md)
 
 ## Community
 

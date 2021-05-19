@@ -27,7 +27,7 @@ Matestack heavily relies on a decent amount of time and energy following people 
 > **Twitter**: [@rowellkeith](https://twitter.com/rowellkeith)
 >
 > Keith discovered Matestack in early 2021 and was hooked right away. He has been developing software since the late 80s and moved into web development at the turn of the century. For twenty years he has dreamed of being able to develop component-based UIs in ruby and now that reality is here. An email and a video call later, Keith and Jonas decided to work closely together to push Matestack forward. He describes Matestack as the most exciting thing he's seen in the software world since discovering Ruby.
- 
+
 ## Former core team members
 
 Following awesome people have been a very important member of the Matestack core team in the past. Thank you!
@@ -57,6 +57,4 @@ Matestack would not be where it is right now if these mates have not helped maki
 ### Sebastian Fiedlschuster & Tobias Pfeiffer
 
 > Back in 2020, Tobias and Sebastian were hired as external freelancers to help Jonas refactor the early 0.7 version of Matestack. They designed and implemented a new core architecture building the foundation of the 1.0 release. It was a pleasure to work with them and we're happy that we had a chance to use their expertise around Ruby! Hopefully our paths might cross in future again!
-
-
 

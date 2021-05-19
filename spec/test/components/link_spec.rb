@@ -90,25 +90,6 @@ describe 'a Component', type: :feature, js: true do
     expect(stripped(static_output)).to ( include(stripped(expected_static_output)) )
   end
 
-  it 'Example 5 - Rails Routing using symbols' do
-    class ExamplePage < Matestack::Ui::Page
-      def response
-        div id: "foo", class: "bar" do
-          a text: 'Click', href: inline_edit_path
-        end
-      end
-    end
-
-    visit "/example"
-    static_output = page.html
-    expected_static_output = <<~HTML
-      <div id="foo" class="bar">
-        <a href="/my_app/inline_edit">Click</a>
-      </div>
-    HTML
-    expect(stripped(static_output)).to ( include(stripped(expected_static_output)) )
-  end
-
   it 'Example 6 - Rails Routing using symbols with params' do
     class ExamplePage < Matestack::Ui::Page
       def response
