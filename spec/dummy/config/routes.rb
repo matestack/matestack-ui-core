@@ -1,18 +1,17 @@
 Rails.application.routes.draw do
 
-  # mount Matestack::Ui::Core::Engine, at: '/matestack'
+  # dummy app routes
 
   root to: 'demo#first'
-  get :second, to: 'demo#second', as: :second
-  post :action, to: 'demo#action', as: :action
-
-  get :speed, to: 'demo#speed', as: :speed
-  get :rails_speed, to: 'demo#index', as: :rails_speed
-  # root to: 'my_app#my_first_page'
 
   scope :demo do
+    get :first, to: 'demo#first', as: :first
+    get :second, to: 'demo#second', as: :second
+    post :action, to: 'demo#action', as: :action
     get :collection, to: 'demo#collection', as: :collection_demo
   end
+
+  # routes used within specs
 
   scope :components_tests do
     get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"
@@ -31,25 +30,6 @@ Rails.application.routes.draw do
 
   get '/example', to: 'example#page'
   get '/base_example', to: 'example#base'
-
-  scope :my_app do
-    get 'my_first_page', to: 'my_app#my_first_page'
-    get 'my_second_page', to: 'my_app#my_second_page'
-    get 'my_third_page', to: 'my_app#my_third_page'
-    get 'my_fourth_page', to: 'my_app#my_fourth_page'
-    get 'my_fifth_page', to: 'my_app#my_fifth_page'
-    get 'my_sixth_page', to: 'my_app#my_sixth_page'
-    get 'collection', to: 'my_app#collection'
-    get 'inline_edit', to: 'my_app#inline_edit'
-
-    get 'rails_view_and_partial', to: 'my_app#rails_view_and_partial'
-
-    post 'some_action', to: 'my_app#some_action'
-    post 'form_action', to: 'my_app#form_action'
-    post 'inline_form_action/:id', to: 'my_app#inline_form_action', as: "inline_form_action"
-
-    delete 'delete_dummy_model', to: 'my_app#delete_dummy_model'
-  end
 
   scope :api do
     get 'data', to: 'api#data'
