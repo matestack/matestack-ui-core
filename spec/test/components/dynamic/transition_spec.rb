@@ -8,35 +8,25 @@ describe "Transition Component", type: :feature, js: true do
     end
 
     class Example::App < Matestack::Ui::App
-      
+
       def response
-        html do
-          head do
-            unescape csrf_meta_tags
-            plain Matestack::Ui::Core::Context.controller.view_context.javascript_pack_tag('application').html_safe
+        h1 "My Example App Layout"
+        nav do
+          transition path: page1_path do
+            button "Page 1"
           end
-          body do
-            matestack do
-              h1 "My Example App Layout"
-              nav do
-                transition path: page1_path do
-                  button "Page 1"
-                end
-                transition path: page2_path(some_other_param: "bar") do
-                  button "Page 2"
-                end
-                transition path: page3_path, delay: 1500 do
-                  button "Page 3"
-                end
-              end
-              main do
-                yield
-              end
-              toggle show_on: "page_loading_triggered" do
-                plain "started a transition"
-              end
-            end
+          transition path: page2_path(some_other_param: "bar") do
+            button "Page 2"
           end
+          transition path: page3_path, delay: 1500 do
+            button "Page 3"
+          end
+        end
+        main do
+          yield
+        end
+        toggle show_on: "page_loading_triggered" do
+          plain "started a transition"
         end
       end
     end
@@ -125,6 +115,7 @@ describe "Transition Component", type: :feature, js: true do
 
   it "Example 1 - Perform transition from one page to another without page reload if related to app" do
     visit "/my_example_app/page1"
+    sleep
     expect(page).to have_content("My Example App Layout")
     expect(page).to have_button("Page 1")
     expect(page).to have_button("Page 2")
