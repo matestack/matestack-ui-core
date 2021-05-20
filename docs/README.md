@@ -57,7 +57,7 @@ Additionally, most of Matestack does not require Action Cable or Redis, but can 
 Matestack currently offers two open source Ruby gems**:**
 
 * `matestack-ui-core` ships all you need to build reactive UIs in pure Ruby. You have to take care of styling and additional UI components yourself.
-* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **--&gt;** [**https://matestack.gitbook.io/matestack-ui-bootstrap**](https://matestack.gitbook.io/matestack-ui-bootstrap/)
+* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **--&gt;** [https://docs.matestack.io/matestack-ui-bootstrap/](https://docs.matestack.io/matestack-ui-bootstrap/)
 
 ## Live Demo
 
@@ -108,4 +108,8 @@ Before you dive into some code, you should read about the basic architecture con
 After that, it might be a good idea to boost your knowledge with our quick start guide:
 
 {% page-ref page="getting-started/quick-start.md" %}
+
+## Roadmap
+
+Do you want to know what we're currently working on and what's planned for the next releases? Check out our GitHub Project board: [https://github.com/orgs/matestack/projects/1](https://github.com/orgs/matestack/projects/1)
 
