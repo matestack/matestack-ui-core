@@ -51,7 +51,7 @@ class SomeApp < Matestack::Ui::App
       my_partial "foo from app"
     end
   end
-  
+
   private # optionally mark your partials as private
 
   def my_partial text
@@ -129,7 +129,7 @@ class SomeApp < Matestack::Ui::App
   def is_admin?
     true # some crazy Ruby logic!
   end
-  
+
 end
 ```
 
@@ -153,9 +153,8 @@ class SomeApp < Matestack::Ui::App
       yield
     end
   end
-  
-end
 
+end
 ```
 
 ## Params access
@@ -174,7 +173,7 @@ class SomeApp < Matestack::Ui::App
       yield
     end
   end
-  
+
 end
 ```
 

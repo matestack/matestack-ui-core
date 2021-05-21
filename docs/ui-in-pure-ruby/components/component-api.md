@@ -47,7 +47,7 @@ class SomeComponent < Matestack::Ui::Component
       my_partial "foo from component"
     end
   end
-  
+
   private # optionally mark your partials as private
 
   def my_partial text
@@ -111,13 +111,13 @@ class SomeComponent < Matestack::Ui::Component
       end 
     end
   end
-  
+
   private # optionally mark your helper methods as private
 
   def is_admin?
     true # some crazy Ruby logic!
   end
-  
+
   def latest_users
     User.last(10) # calling ActiveRecord models for example
   end
@@ -246,7 +246,7 @@ end
 Matestack components give you the possibility to define an explicit API for your component describing required and optional options for a component. Using this approach, it's way easier to understand what data can be processed by your component.
 
 {% hint style="info" %}
-`required` and `optional` options will be deleted from the `options` hash and are only available via the `context` object. 
+`required` and `optional` options will be deleted from the `options` hash and are only available via the `context` object.
 {% endhint %}
 
 #### Required options
@@ -342,7 +342,7 @@ end
 
 #### Alias properties
 
-It's not possible to overwrite core methods of the OpenStruct object `context` 
+It's not possible to overwrite core methods of the OpenStruct object `context`
 
 ```markup
 [:!, :!=, :!~, :<=>, :==, :===, :=~, :[], :[]=, :__id__, :__send__, :acts_like?, :as_json, :blank?, :byebug, :class, :class_eval, :clone, :dclone, :debugger, :deep_dup, :define_singleton_method, :delete_field, :dig, :display, :dup, :duplicable?, :each_pair, :enum_for, :eql?, :equal?, :extend, :freeze, :frozen?, :gem, :hash, :html_safe?, :in?, :inspect, :instance_eval, :instance_exec, :instance_of?, :instance_values, :instance_variable_defined?, :instance_variable_get, :instance_variable_names, :instance_variable_set, :instance_variables, :is_a?, :itself, :kind_of?, :load_dependency, :marshal_dump, :marshal_load, :method, :method_missing, :methods, :nil?, :object_id, :presence, :presence_in, :present?, :pretty_inspect, :pretty_print, :pretty_print_cycle, :pretty_print_inspect, :pretty_print_instance_variables, :private_methods, :protected_methods, :public_method, :public_methods, :public_send, :remote_byebug, :remove_instance_variable, :require_dependency, :require_or_load, :respond_to?, :send, :singleton_class, :singleton_method, :singleton_methods, :table, :table!, :taint, :tainted?, :tap, :then, :to_enum, :to_h, :to_json, :to_param, :to_query, :to_s, :to_yaml, :trust, :try, :try!, :unloadable, :untaint, :untrust, :untrusted?, :with_options, :yield_self]
@@ -360,15 +360,11 @@ class SomeComponent < Matestack::Ui::Component
       plain "#{context.foo} - #{context.bar}"
     end
   end
-  
+
 end
 ```
 
-### 
-
 ### Text argument
-
-
 
 Sometimes you just want to pass in a simple \(text\) argument rather than a hash with multiple keys:
 
@@ -435,7 +431,7 @@ end
 
 ## Yielding inside components
 
-Components can yield a block with access to scope, where a block is defined. 
+Components can yield a block with access to scope, where a block is defined.
 
 ```ruby
 class SomeComponent < Matestack::Ui::Component

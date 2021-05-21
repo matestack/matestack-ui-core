@@ -78,7 +78,7 @@
 
 ## Testing
 
-* [Capybara & Rspec \[WIP\]](testing/capybara-and-rspec-wip.md)
+* [Capybara & Rspec](testing/capybara-and-rspec.md)
 
 ## Community
 
@@ -87,6 +87,7 @@
 
 ## About
 
-* [Core Team \[WIP\]](about/team.md)
+* [Core Team](about/team.md)
 * [Sponsoring \[WIP\]](about/sponsoring-wip.md)
 * [Legal Details \[WIP\]](about/legal-details-wip.md)
+

@@ -48,5 +48,3 @@ You can also combine `:emit` and one of `:transition`, `:redirect` if wanted.
 
 {% page-ref page="action-component-api.md" %}
 
-
-

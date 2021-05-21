@@ -8,7 +8,7 @@ description: >-
 # Welcome
 
 {% hint style="info" %}
-Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](./docs/migrate-from-1.x-to-2.0.md)
+Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](migrate-from-1.x-to-2.0.md)
 
 **Most important changes:**
 
@@ -17,7 +17,6 @@ Version 2.0.0 was released on the 12th of April and proudly presented at RailsCo
 * Removed Trailblazer dependency
 * Improved core code readability/maintainability
 {% endhint %}
-
 
 ## **What is Matestack?**
 
@@ -30,6 +29,10 @@ If necessary, extend with pure JavaScript. **No Opal involved.**
 {% endhint %}
 
 ## Why Matestack?
+
+Matestack presented and explained at RailsConf 2021:
+
+{% embed url="https://www.youtube.com/watch?v=bwsVgCb97v0" %}
 
 Matestack was created because modern web app development became more and more complex due to the rise of JavaScript frontend frameworks and the SPA frontend/REST API/JSON backend architecture. This sophisticated approach might be suitable for big teams and applications but is way to complex for most of small to medium sized teams and application scopes.
 
@@ -58,7 +61,7 @@ Additionally, most of Matestack does not require Action Cable or Redis, but can 
 Matestack currently offers two open source Ruby gems**:**
 
 * `matestack-ui-core` ships all you need to build reactive UIs in pure Ruby. You have to take care of styling and additional UI components yourself.
-* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **--&gt;** [**https://matestack.gitbook.io/matestack-ui-bootstrap**](https://matestack.gitbook.io/matestack-ui-bootstrap/)
+* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **--&gt;** [https://docs.matestack.io/matestack-ui-bootstrap/](https://docs.matestack.io/matestack-ui-bootstrap/)
 
 ## Live Demo
 
@@ -109,4 +112,8 @@ Before you dive into some code, you should read about the basic architecture con
 After that, it might be a good idea to boost your knowledge with our quick start guide:
 
 {% page-ref page="getting-started/quick-start.md" %}
+
+## Roadmap
+
+Do you want to know what we're currently working on and what's planned for the next releases? Check out our GitHub Project board: [https://github.com/orgs/matestack/projects/1](https://github.com/orgs/matestack/projects/1)
 

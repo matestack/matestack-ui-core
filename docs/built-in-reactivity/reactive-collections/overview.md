@@ -46,7 +46,7 @@ Pagination can be achieved quite easily with matestacks collection. We need to a
 class Shop::Pages::Products::Index < Matestack::Ui::Page
 
   include Matestack::Ui::VueJs::Components::Collection::Helper
-  
+
   def prepare
     @collection_id = 'products-collection'
     base_query = Products.all
@@ -227,7 +227,7 @@ end
 class Shop::Pages::Products::Index < Matestack::Ui::Page
 
   include Matestack::Ui::VueJs::Components::Collection::Helper
-  
+
   def prepare
     @collection_id = 'products-collection'
     base_query = Products.all
@@ -253,7 +253,7 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
       end
     end
   end
-  
+
   def my_action_config id
     {
       method: :delete,
@@ -263,10 +263,9 @@ class Shop::Pages::Products::Index < Matestack::Ui::Page
       }
     }
   end
-  
+
   # ...
 
 end
-
 ```
 

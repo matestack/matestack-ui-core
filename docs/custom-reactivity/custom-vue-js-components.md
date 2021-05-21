@@ -112,7 +112,7 @@ Like seen above, matestack renders a `component-config` prop as an attribute of 
 class SomeComponent < Matestack::Ui::VueJsComponent
 
   vue_name "some-component"
-  
+
   def vue_props
     {
       some_serverside_data: "bar"
@@ -173,8 +173,6 @@ class SomeComponent < Matestack::Ui::VueJsComponent
 
 end
 ```
-
-### 
 
 ### Params
 

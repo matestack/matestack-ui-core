@@ -6,13 +6,13 @@ In this guide we will provide information on how to create channels, consumers a
 
 ## Setup
 
-Create a channel using the rails generator. Run the command `rails generate channel MatestackUiCoreChannel`. 
+Create a channel using the rails generator. Run the command `rails generate channel MatestackUiCoreChannel`.
 
-This will create a `app/javascript/channels/matestack_ui_core_channel.js` file where you can setup your subscriptions. 
+This will create a `app/javascript/channels/matestack_ui_core_channel.js` file where you can setup your subscriptions.
 
 It also generates the corresponding server side `MatestackUiCoreChannel < ApplicationCable::Channel` class.
 
-The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel". 
+The `matestack_ui_core_channel.js` is responsible to create a subscription to the "MatestackUiCoreChannel".
 
 All we need to do is to tell this channel that it should trigger an event using the `MatestackUiCore.eventHub` with the received data.
 

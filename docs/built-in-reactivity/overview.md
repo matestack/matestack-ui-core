@@ -20,13 +20,13 @@ Imagine this simple use case: You want to click somewhere on the UI and want to 
 
 ![](../.gitbook/assets/onclick_toggle.gif)
 
-These methods are calling the pre-built reactive core components which are associated with a Vue.js JavaScript counterpart. The response method of a component or page class returns an HTML string. Each Vue.js component reference, in this case `onclick` and `toggle` triggers the rendering of  a special HTML `<component>` tag containing the configuration hash as tag attributes \(e.g `emit: hello`\) and the given block as the inner HTML \(e.g. `button 'click me'`\)
+These methods are calling the pre-built reactive core components which are associated with a Vue.js JavaScript counterpart. The response method of a component or page class returns an HTML string. Each Vue.js component reference, in this case `onclick` and `toggle` triggers the rendering of a special HTML `<component>` tag containing the configuration hash as tag attributes \(e.g `emit: hello`\) and the given block as the inner HTML \(e.g. `button 'click me'`\)
 
 When this HTML is parsed by Vue.js in the browser, the referenced Vue.js components, which are included in Matestack’s JavaScript are mounted and get the configuration hash injected. The inner HTML is treated as the components template. We then have two Vue.js component up and running in the browser! Additionally an event hub is mounted which enables communication between all components.
 
 In the above shown example we defined an UI which will show a button and when that button is clicked the event “hello” is emitted and then received from the `toggle` component which will show its content, in this case a span containing a string “hello world”.
 
-Thanks to specific configurations and specific blocks you can adjust the behavior and the look of the pre-built reactive components according to your needs. 
+Thanks to specific configurations and specific blocks you can adjust the behavior and the look of the pre-built reactive components according to your needs.
 
 Learn more:
 
@@ -34,7 +34,7 @@ Learn more:
 
 {% page-ref page="toggle-ui-states/" %}
 
-### Calling server side controller actions using the `action` component
+## Calling server side controller actions using the `action` component
 
 The `action` component is designed to call server side Rails controller actions from the web browser. Within your Ruby response of a page or component, you simply call the `action` component and configure it with a hash containing the rails controller action path and the desired HTTP method. Additionally you’re telling the action component to show a simple button with you specific block:
 
@@ -44,19 +44,19 @@ When this button is clicked, the `action` Vue.js component performs a background
 
 {% page-ref page="call-server-side-actions/" %}
 
-### Submit user input to Rails controller actions using the `matestack_form` component
+## Submit user input to Rails controller actions using the `matestack_form` component
 
 In the below shown example we’re calling the `matestack_form` component and pass in a configuration hash. This time we’re using a helper method as the configuration hash is a bit longer but we want to keep a clean UI implementation. We’re telling the form component to collect user input, in this case via an text input and when submitted, perform a background HTTP POST request containing this user input towards the specified Rails controller action:
 
 ![](../.gitbook/assets/form.gif)
 
-The controller action does its thing and may react with a positive or negative status code.  A negative response usually will contain server validation messages for example coming from ActiveRecord validations. These errors are received from the `form` Vue.js component in the browser and then rendered next to the relevant form input fields.
+The controller action does its thing and may react with a positive or negative status code. A negative response usually will contain server validation messages for example coming from ActiveRecord validations. These errors are received from the `form` Vue.js component in the browser and then rendered next to the relevant form input fields.
 
 In our example we configured the form component to emit an event “submitted” when the form was submitted successfully. If the Rails controller action responds with a positive status code, the form component emits the event to event hub, which can be received by other Vue.js components in the browser.
 
 {% page-ref page="reactive-forms/" %}
 
-### Partial UI updates on client/server side events using the `async` component
+## Partial UI updates on client/server side events using the `async` component
 
 The `async` component is designed to perform a partial UI update, requesting fresh content from the server. In the below shown example, we configure an `async` component to rerender itself on a event coming from a `matestack_form` component:
 
@@ -70,11 +70,11 @@ And then the `async` components on all connected web clients are doing their thi
 
 ![](../.gitbook/assets/async_server_side.gif.gif)
 
-### Partial UI updates pushed via ActionCable using the `cable` component
+## Partial UI updates pushed via ActionCable using the `cable` component
 
 If you’re into optimising the partial UI update mechanism, you can use Matestacks `cable` component. The `cable` component in this example is configured to append something on an event called “new\_tweet”
 
-Now we use the ActionCable integration to not only push a simple event to Matestack's event hub, but render a specific component \(in this example the custom `TweetComponent` rendering only one Tweet\) on the server and push  this specific HTML to all connected web clients:
+Now we use the ActionCable integration to not only push a simple event to Matestack's event hub, but render a specific component \(in this example the custom `TweetComponent` rendering only one Tweet\) on the server and push this specific HTML to all connected web clients:
 
 ![](../.gitbook/assets/_cable.gif)
 
@@ -84,13 +84,13 @@ This approach is way more fine tuned compared to the simple rerendering mechanis
 
 {% page-ref page="partial-ui-updates/" %}
 
-### Dynamic page transitions using the `transition` component
+## Dynamic page transitions using the `transition` component
 
 `transition` components enabling dynamic transitions from one page to another without a full browser page reload. Well, you need at least two pages for that to work! Let’s define them:
 
 ![](../.gitbook/assets/2021-04-08-18.07.38-docs.google.com-a014d7ddfea6.png)
 
-Two rails routes targeting two Rails controller actions, each responding with a different Matestack page. But wait! there’s  something else. We tell the controller to wrap all page responses in a **Matestack app**. 
+Two rails routes targeting two Rails controller actions, each responding with a different Matestack page. But wait! there’s something else. We tell the controller to wrap all page responses in a **Matestack app**.
 
 A Matestack **app** is therefore something like a Rails layout. Like a Rails layout yields Rails views, a Matestack **app** yields Matestack pages!
 
@@ -110,9 +110,9 @@ This HTML is than shipped back to the browser and will be picked up by the `page
 
 {% page-ref page="page-transitions/" %}
 
-### Rendering reactive data sets using the `collection` component
+## Rendering reactive data sets using the `collection` component
 
-The `collection` component displays ActiveRecord models or similar collections and add features like reactive filtering, paginating and ordering with ease. Each of these features requires no page reload to take effect, because the `collection` component leverages a `async` component in combination with the event hub to only reload the relevant content of the collection. 
+The `collection` component displays ActiveRecord models or similar collections and add features like reactive filtering, paginating and ordering with ease. Each of these features requires no page reload to take effect, because the `collection` component leverages a `async` component in combination with the event hub to only reload the relevant content of the collection.
 
 {% page-ref page="reactive-collections/" %}
 

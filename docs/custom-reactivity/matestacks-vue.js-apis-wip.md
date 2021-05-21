@@ -46,8 +46,8 @@ Vue.component('some-component', {
   mounted(){
     MatestackUiCore.eventHub.$on("some-event", this.reactToEvent)
   },
-  beforeDestroy: function() {
-    eventHub.$off("some-event", this.reactToEvent)
+  beforeDestroy(){
+    MatestackUiCore.eventHub.$off("some-event", this.reactToEvent)
   }
 })
 ```

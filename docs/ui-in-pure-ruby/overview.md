@@ -85,7 +85,7 @@ module Components::Registry
   def card(text=nil, options=nil, &block)
     Components::Card.(text, options, &block)
   end
-  
+
   #...
 
 end
@@ -126,7 +126,7 @@ end
 ```
 {% endcode %}
 
-In this basic example the page is using the Ruby methods [`div`](../components-api/core-components/div.md), [`span`](../components-api/core-components/span.md) and [`plain`](../components-api/core-components/plain.md) in order to create the desired UI and call the above defined component `Components::Card`
+In this basic example the page is using the Ruby methods [`div`](https://github.com/matestack/matestack-ui-core/tree/cde5bfddeb4f2b4ef5808e310731351f020dba69/docs/components-api/core-components/div.md), [`span`](https://github.com/matestack/matestack-ui-core/tree/cde5bfddeb4f2b4ef5808e310731351f020dba69/docs/components-api/core-components/span.md) and [`plain`](https://github.com/matestack/matestack-ui-core/tree/cde5bfddeb4f2b4ef5808e310731351f020dba69/docs/components-api/core-components/plain.md) in order to create the desired UI and call the above defined component `Components::Card`
 
 Pages are used as Rails view substitutes and therefore called in a Rails controller action:
 
@@ -167,7 +167,7 @@ end
 ```
 {% endcode %}
 
-In this basic example the app is using the methods `h1` and `main`  in order to create the markup as well as a `yield` in order to yield a page on a specific position. 
+In this basic example the app is using the methods `h1` and `main` in order to create the markup as well as a `yield` in order to yield a page on a specific position.
 
 Usually an app implies a specific context of your application. Multiple pages are then scoped within that context, which could lead to a file structure like:
 
@@ -199,7 +199,7 @@ class SomeController < ApplicationController
   def page_2
     render SomeApp::Pages::Page2
   end
-  
+
   def page_3
     render SomeApp::Pages::Page3, matestack_app: false # skip app layout on this page
   end
@@ -228,7 +228,7 @@ There are several ways to use the presented building blocks in your Rails app. `
 
 ### **Matestack components on Rails views**
 
-If you already have plenty of Rails views \(ERB, Haml or Slim\) and want to start creating small UI components in pure Ruby, you are able to use components on these existing views. 
+If you already have plenty of Rails views \(ERB, Haml or Slim\) and want to start creating small UI components in pure Ruby, you are able to use components on these existing views.
 
 {% code title="app/matestack/components/products/teaser.rb" %}
 ```ruby
@@ -377,6 +377,4 @@ app/matestack/
 │   │   │   products.rb
 │   │   │   orders.rb
 ```
-
-
 
