@@ -9,7 +9,7 @@
 # matestack-ui-core | UI in pure Ruby
 
 ----
-Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more details
+Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf.
 
 Most important changes:
 
@@ -19,14 +19,14 @@ Most important changes:
 - Improved core code readability/maintainability
 ----
 
+[<img src="https://img.youtube.com/vi/bwsVgCb97v0/0.jpg" width="350">](https://www.youtube.com/watch?v=bwsVgCb97v0)
+
 Boost your productivity & easily create component based web UIs in pure Ruby.
 Reactivity included if desired.
 
 `matestack-ui-core` enables you to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. Thanks to reactive core components, reactivity can be optionally added on top without writing JavaScript, just using a simple Ruby DSL.
 
 You end up writing 50% less code while increasing productivity, maintainability and developer happiness. Work with pure Ruby. If necessary, extend with pure JavaScript. No Opal involved.
-
-[<img src="https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg" width="350">](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
 
 The main goals are:
 
@@ -66,7 +66,7 @@ Documentation can be found [here](https://docs.matestack.io)
 
 ## Getting started
 
-A getting started guide can be found [here](https://docs.matestack.io/getting-started/tutorial)
+A getting started guide can be found [here](https://docs.matestack.io/getting-started/quick-start)
 
 ## Changelog
 
