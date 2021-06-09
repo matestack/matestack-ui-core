@@ -12,6 +12,8 @@ module Matestack
         attr_accessor :html_tag, :text, :options, :parent, :escape, :bind_to_parent
 
         def initialize(html_tag = nil, text = nil, options = {}, &block)
+          return unless render?
+
           self.bind_to_parent = ([:without_parent].include?(html_tag) ? false : true)
           self.slots = self.options.delete(:slots) if self.options
           # extract_options(text, options) is called in properties
@@ -24,6 +26,12 @@ module Matestack
           create_children(&block)
           Matestack::Ui::Core::Context.parent = self.parent
           self
+        end
+
+        # can be optionally overwritten in subclass 
+        # in order to conditionally render the component
+        def render?
+          true
         end
 
         # check if text is given and set text and options accordingly
