@@ -37,7 +37,7 @@ end
 
 Now, you are able to create UI components in pure Ruby and use them in your Rails views. Additionally you can substitute Rails views and layouts with Matestack pages and apps.
 
-If you want to use Matestack's optional reactivity features in pure Ruby \(through dynamic Vue.js components such as `form` and `async` or dynamic page transitions\), please perform the next steps to set up the JavaScript parts via AssetPipeline or Webpacker.
+If you want to use Matestack's optional reactivity features in pure Ruby \(through dynamic Vue.js components such as `form` and `async` or dynamic page transitions\), please perform the next steps to set up the JavaScript parts via Webpacker.
 
 {% hint style="info" %}
 Matestack's JavaScript is only required if you want to use reactive features. It's totally valid to just use the "static" features of Matestack, namely implement UI components, pages and apps in pure Ruby.
@@ -81,9 +81,36 @@ $ bin/webpack --watch
 When you update the `matestack-ui-core` Ruby gem, make sure to update the npm package as well!
 {% endhint %}
 
-### Turbolinks
+### Usage with Turbolinks/Turbo
 
-We recommend to \(remove/deactivate\)\([https://stackoverflow.com/a/38649595](https://stackoverflow.com/a/38649595)\) turbolinks within the scope you wish to build with Matestack, as there is no reason to use it alongside matestack-ui-core and there might appear some strange side effects. If you encounter strange page-transition/form-submit/action-submit behavior and have turbolinks activated, try to deactivate it first.
+If you want to use `matestack-ui-core` alongside with Turbolinks or Turbo, please add:
+
+```bash
+yarn add vue-turbolinks
+```
+
+And use following snippet instead:
+
+```javascript
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
+
+import MatestackUiCore from 'matestack-ui-core'
+
+import TurbolinksAdapter from 'vue-turbolinks'; // import vue-turbolinks
+Vue.use(TurbolinksAdapter); // tell Vue to use it
+
+let matestackUiApp = undefined
+
+// change the trigger event
+document.addEventListener('turbolinks:load', () => {
+  matestackUiApp = new Vue({
+    el: "#matestack-ui",
+    store: MatestackUiCore.store
+  })
+})
+
+```
 
 ### Application layout adjustments
 
