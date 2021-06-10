@@ -95,7 +95,7 @@ module Matestack
                 item.is_a?(Integer) ? 'v-model.number' : 'v-model'
               end
             end
-          
+
             # set value-type "Integer" for all numeric init values or options
             def value_type(item=nil)
               if item.nil?

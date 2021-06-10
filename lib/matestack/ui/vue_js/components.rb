@@ -31,6 +31,19 @@ module Matestack
              Matestack::Ui::VueJs::Components::Form::Form.(text, options, &block)
           end
 
+          def form_fields_for(text=nil, options=nil, &block)
+            # in order to provide a more intuitiv API while calling the default
+            # form, we transform the arguments a bit:
+            options[:for] = text
+            options[:fields_for] = options.delete(:key)
+            text = nil
+            Matestack::Ui::VueJs::Components::Form::Form.(text, options, &block)
+          end
+
+          def form_fields_for_remove_item(text=nil, options=nil, &block)
+             Matestack::Ui::VueJs::Components::Form::FieldsForRemoveItem.(text, options, &block)
+          end
+
           def form_input(text=nil, options=nil, &block)
              Matestack::Ui::VueJs::Components::Form::Input.(text, options, &block)
           end
