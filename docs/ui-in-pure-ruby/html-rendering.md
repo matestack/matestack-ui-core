@@ -209,6 +209,24 @@ end
 </div>
 ```
 
+## Rails View Helpers
+
+Using Rails view helpers \([https://api.rubyonrails.org/classes/ActionView/Helpers.html](https://api.rubyonrails.org/classes/ActionView/Helpers.html)\) in components, pages and apps is supported with some limitations currently. You just have to put a `plain` before a view helper, if this view helper is rendering a HTML string, for example:
+
+```ruby
+plain link_to "Show", post_path(@post)
+```
+
+{% hint style="info" %}
+A component needs to be called in context of a controller \(with included `Matestack::Ui::Core::Helper`\), which is true when you're calling components of Rails views or on Matestack Pages \(which are themselves called by a controller normally\).
+
+When calling a component in isolation \(which is possible\), the view helpers might not work properly!
+{% endhint %}
+
+{% hint style="danger" %}
+It's currently not possible to use view helpers requiring a block, such as the `form_for`. We're working on supporting them soon!
+{% endhint %}
+
 ## Custom HTML Tags
 
 If you want to use HTML tags which are not supported by Matestack's rendering mechanism by default, you can call ActionView's `tag` helper manually:
