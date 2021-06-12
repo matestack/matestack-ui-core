@@ -1,6 +1,6 @@
 # Tutorial
 
-## Create a reactive Twitter clone in pure Ruby 
+## Create a reactive Twitter clone in pure Ruby
 
 In this step-by-step guide, I will show you how to create a Twitter clone in pure Ruby with Matestack, following the great screencasts from Chris McCord [Phoenix LiveView Twitter Clone](https://youtu.be/MZvmYaFkNJI) and Nate Hopkins [Stimulus Reflex Twitter Clone](https://youtu.be/F5hA79vKE_E). We will use the Gem `matestack-ui-core`, which enables us to implement our UI in some Ruby classes rather than writing ERB, HAML or Slim views. Furthermore we don't need to touch JavaScript in order to create reactive UI features, such as updating the DOM without a full browser page reload or syncing multiple web clients through Action Cable!
 
@@ -9,6 +9,12 @@ I've added a small demo showing you what you will be creating in this tutorial:
 [![](https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg)](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
 
 _This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out_ [_this guide_](https://docs.matestack.io/docs/ui_components/100-rails_integration)
+
+{% hint style="info" %}
+The code for this twitter-clone is available in [this repository](https://github.com/matestack/twitter-clone).
+{% endhint %}
+
+
 
 ### Setup
 
@@ -403,8 +409,8 @@ def form_config_helper
   {
     for: Post.new, path: posts_path, method: :post,
     errors: {
-      wrapper: {tag: :div, class: 'invalid-feedback'}, 
-      input: {class: 'is-invalid'} 
+      wrapper: {tag: :div, class: 'invalid-feedback'},
+      input: {class: 'is-invalid'}
     },
     success: {emit: "submitted"}
   }
@@ -1258,7 +1264,7 @@ end
 
 * [x] Remove the username input from the post form
 * [x] Remove the toggle components from the post index page; we will add them to the app in a moment, enabling the new profile page to trigger them as well!
-* [ ] 
+* [ ]
 `app/matestack/twitter_clone/posts/index.rb`
 
 ```ruby
