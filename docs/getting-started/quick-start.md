@@ -10,6 +10,11 @@ I've added a small demo showing you what you will be creating in this tutorial:
 
 _This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out_ [_this guide_](../ui-in-pure-ruby/components/components-on-rails-views.md)
 
+{% hint style="info" %}
+The code for this twitter-clone is available in [this repository](https://github.com/matestack/twitter-clone).
+{% endhint %}
+
+
 ### Setup
 
 * [x] Create a new Rails app and install some dependencies:
@@ -403,8 +408,8 @@ def form_config_helper
   {
     for: Post.new, path: posts_path, method: :post,
     errors: {
-      wrapper: {tag: :div, class: 'invalid-feedback'}, 
-      input: {class: 'is-invalid'} 
+      wrapper: {tag: :div, class: 'invalid-feedback'},
+      input: {class: 'is-invalid'}
     },
     success: {emit: "submitted"}
   }
