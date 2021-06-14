@@ -11,7 +11,7 @@ I've added a small demo showing you what you will be creating in this tutorial:
 _This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out_ [_this guide_](../ui-in-pure-ruby/components/components-on-rails-views.md)
 
 {% hint style="info" %}
-The code for this twitter-clone is available in [this repository](https://github.com/matestack/twitter-clone).
+The code for this twitter clone tutorial is available in [this repository](https://github.com/matestack/twitter-clone).
 {% endhint %}
 
 
