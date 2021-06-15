@@ -27,13 +27,11 @@ module Matestack
                   end
                 end
                 div class: 'matestack-page-wrapper', 'v-bind:class': '{ "loading": loading === true }' do
-                  div 'v-if': 'asyncPageTemplate == null' do
-                    div id: page_id, class: 'matestack-page-root' do
+                  div id: page_id, class: 'matestack-page-root' do
+                    div 'v-if': 'asyncPageTemplate == null' do
                       yield
                     end
-                  end
-                  div 'v-if': 'asyncPageTemplate != null' do
-                    div id: page_id, class: 'matestack-page-root' do
+                    div 'v-if': 'asyncPageTemplate != null' do
                       Base.new('v-runtime-template', ':template': 'asyncPageTemplate')
                     end
                   end
