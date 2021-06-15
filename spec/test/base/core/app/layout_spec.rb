@@ -70,10 +70,11 @@ describe "App", type: :feature, js: true do
 
     visit "app_layout_spec/layout_page1"
     expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+    expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div[@class="matestack-page-root"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+    
     visit "app_layout_spec/layout_page2"
     expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
+    expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div[@class="matestack-page-root"]/div/div[@id="my-div-on-page-2"]/h2[contains(.,"This is Page 2")]')
   end
 
   it 'can use a layout file' do
@@ -113,10 +114,10 @@ describe "App", type: :feature, js: true do
       end
     end
 
-    visit "app_layout_spec/layout_page1"
-    expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/h1[contains(.,"My Example App Layout")]')
-    expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div/div[@class="matestack-page-root"]/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
-    expect(page).to have_selector('div#from-rails-layout', visible: false)
+     visit "app_layout_spec/layout_page1"
+     expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/h1[contains(.,"My Example App Layout")]')
+     expect(page).to have_xpath('//div[@class="matestack-app-wrapper"]/main/div[@class="matestack-page-container"]/div[@class="matestack-page-wrapper"]/div[@class="matestack-page-root"]/div/div[@id="my-div-on-page-1"]/h2[contains(.,"This is Page 1")]')
+     expect(page).to have_selector('div#from-rails-layout', visible: false)
   end
 
 end
