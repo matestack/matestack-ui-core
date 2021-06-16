@@ -56,7 +56,7 @@ module Matestack
                 emit: ctx.emit,
                 delay: ctx.delay,
                 fields_for: ctx.fields_for,
-                primary_key: context.for&.class&.primary_key
+                primary_key: for_object_primary_key
               }
             end
 
@@ -69,10 +69,13 @@ module Matestack
               @for_option ||= ctx.for
             end
 
+            def for_object_primary_key
+              context.for&.class&.primary_key rescue nil
+            end
+
             def form_method
               @form_method ||= options.delete(:method)
             end
-
           end
         end
       end
