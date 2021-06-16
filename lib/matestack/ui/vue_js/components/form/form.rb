@@ -9,6 +9,8 @@ module Matestack
             optional :for, :path, :success, :failure, :multipart, :emit, :delay, :errors
             optional :fields_for, :reject_blank
 
+            attr_accessor :prototype_template
+
             # setup form context to allow child components like inputs to access the form configuration
             def initialize(html_tag = nil, text = nil, options = {}, &block)
               previous_form_context = Matestack::Ui::VueJs::Components::Form::Context.form_context
@@ -23,7 +25,7 @@ module Matestack
 
             def response
               if context.fields_for
-                div class: "matestack-form-fields-for", "v-show": "hideNestedForm != true" do
+                div class: "matestack-form-fields-for", "v-show": "hideNestedForm != true", id: options[:id] do
                   form_input key: context.for&.class&.primary_key, type: :hidden # required for existing model mapping
                   form_input key: :_destroy, type: :hidden, init: true if context.reject_blank == true
                   yield

@@ -44,6 +44,10 @@ module Matestack
              Matestack::Ui::VueJs::Components::Form::FieldsForRemoveItem.(text, options, &block)
           end
 
+          def form_fields_for_add_item(text=nil, options=nil, &block)
+             Matestack::Ui::VueJs::Components::Form::FieldsForAddItem.(text, options, &block)
+          end
+
           def form_input(text=nil, options=nil, &block)
              Matestack::Ui::VueJs::Components::Form::Input.(text, options, &block)
           end
