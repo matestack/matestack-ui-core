@@ -56,7 +56,7 @@ module Matestack
                 emit: ctx.emit,
                 delay: ctx.delay,
                 fields_for: ctx.fields_for,
-                new_instance_on_demand: ctx.new_instance_on_demand
+                primary_key: context.for&.class&.primary_key
               }
             end
 
