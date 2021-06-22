@@ -8,7 +8,7 @@ I've added a small demo showing you what you will be creating in this tutorial:
 
 [![](https://img.youtube.com/vi/Mue5gs6Wtq4/0.jpg)](https://www.youtube.com/watch?v=Mue5gs6Wtq4)
 
-_This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out_ [_this guide_](../ui-in-pure-ruby/components/components-on-rails-views-wip.md)
+_This guide utilizes the full power of Matestack and uses `matestack-ui-core` as a complete substitute for Rails views. If you only want to create UI components in pure Ruby on existing Rails views, please check out_ [_this guide_](../ui-in-pure-ruby/components/components-on-rails-views.md)
 
 ### Setup
 
