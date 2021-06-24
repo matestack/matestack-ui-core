@@ -18,7 +18,7 @@
 * [Components](ui-in-pure-ruby/components/README.md)
   * [Component API](ui-in-pure-ruby/components/component-api.md)
   * [Component Registry](ui-in-pure-ruby/components/component-registry.md)
-  * [Components on Rails views](ui-in-pure-ruby/components/components-on-rails-views.md)
+  * [Components on Rails views](ui-in-pure-ruby/components/components-on-rails-views-wip.md)
 * [Pages](ui-in-pure-ruby/pages/README.md)
   * [Page API](ui-in-pure-ruby/pages/page-api-1.md)
   * [Rails Controller Integration](ui-in-pure-ruby/pages/rails-controller-integration.md)

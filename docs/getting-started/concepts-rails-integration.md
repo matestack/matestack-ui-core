@@ -8,7 +8,7 @@ Based on a strong foundation - Rails with all the sugar you love - Matestack ena
 
 1. to implement HTML structures in pure Ruby \[matestack-ui-core\]
 2. to compose pre-built reactive components based on Vue.js in pure Ruby \(extendable with custom JavaScript if required\) \[matestack-ui-core\]
-3. to compose pre-built or custom styled components in pure Ruby \[e.g. matestack-ui-bootstrap\]
+3. to compose pre-built or custom styled components in pure Ruby _\*\*_\[e.g. matestack-ui-bootstrap\]
 
 **which leads to beautiful reactive web UI implemented in pure Ruby:**
 
@@ -384,6 +384,6 @@ Based on `matestack-ui-core` and `matestack-ui-bootstrap` this reactive dummy ap
 ![https://dummy.matestack.io](../.gitbook/assets/image%20%281%29.png)
 
 {% hint style="warning" %}
-**You want to learn more?**`matestack-ui-bootstrap` is a separate Gem and documented here: [https://docs.matestack.io/matestack-ui-bootstrap/](https://docs.matestack.io/matestack-ui-bootstrap/)
+**You want to learn more?**`matestack-ui-bootstrap` is a separate Gem and documented here: **\*\*\[**[https://matestack.gitbook.io/matestack-ui-bootstrap\*\*\]\(https://matestack.gitbook.io/matestack-ui-bootstrap/](https://matestack.gitbook.io/matestack-ui-bootstrap**]%28https://matestack.gitbook.io/matestack-ui-bootstrap/)\)
 {% endhint %}
 

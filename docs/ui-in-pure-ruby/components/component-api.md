@@ -125,42 +125,6 @@ class SomeComponent < Matestack::Ui::Component
 end
 ```
 
-## Render?
-
-Use the `render?` method to conditionally render the component based on custom rules:
-
-```ruby
-class AdminComponent < Matestack::Ui::Component
-  required :user
-
-  def render?
-    context.user.admin?
-  end
-
-  def response
-    div id: "admin-component" do
-      plain "This component should only get rendered for admins"
-    end
-  end
-end
-```
-
-This is particularly useful to avoid plastering your views with conditional statements like `if` and `unless`.
-
-Instead of:
-
-```ruby
-  <% if current_user.admin? %>
-    <%= Components::AdminComponent.(user: current_user) %>
-  <% end %>
-```
-
-You can just use:
-
-```ruby
-  <%= Components::AdminComponent.(user: current_user) %>
-```
-
 ## Prepare
 
 Use a prepare method to resolve instance variables before rendering a component if required.
