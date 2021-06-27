@@ -767,6 +767,41 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
         .and change { DummyChildModel.count }.by(3)
       end
 
+      it "dynamically adds unlimited new nested forms and maps errors properly when nested forms are removed" do
+        visit "/example"
+        # sleep
+
+        click_on "add"
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_2')
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_3')
+
+        fill_in "dummy_model_title_input", with: "" # required input, trigger server validation
+        # fill_in "title_dummy_child_models_attributes_child_0", with: "" # via init value
+        fill_in "title_dummy_child_models_attributes_child_1", with: "" # required input, trigger server validation
+        fill_in "title_dummy_child_models_attributes_child_2", with: "dummy-child-model-title-2-value"
+        fill_in "title_dummy_child_models_attributes_child_3", with: "" # required input, trigger server validation
+
+        click_on("remove_dummy_child_models_attributes_child_1")
+
+        click_button "Submit me!"
+        expect(page).to have_content("failure!") # required to work properly!
+
+        expect(page).to have_selector("#dummy_model_title_input + .errors > .error", text: "can't be blank")
+        expect(page).not_to have_selector("#title_dummy_child_models_attributes_child_0 + .errors > .error", text: "can't be blank")
+        expect(page).not_to have_selector("#title_dummy_child_models_attributes_child_1 + .errors > .error", text: "can't be blank")
+        expect(page).not_to have_selector("#title_dummy_child_models_attributes_child_2 + .errors > .error", text: "can't be blank")
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_3 + .errors > .error", text: "can't be blank")
+
+        # expect proper form submission
+        # expect {
+        #   click_button "Submit me!"
+        #   expect(page).to have_content("success!") # required to work properly!
+        # }
+        # .to change { DummyModel.count }.by(1)
+        # .and change { DummyChildModel.count }.by(3)
+      end
+
 
     end
 
@@ -870,6 +905,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
         id_of_child_0 = id_of_child_1-1
 
         visit "/example"
+        # sleep
 
         expect(page.find("#dummy_model_title_input").value).to eq("existing-dummy-model-title")
         expect(page.find("#title_dummy_child_models_attributes_child_0").value).to eq("existing-dummy-child-model-title-1")
@@ -1080,6 +1116,133 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
         .and change { DummyChildModel.count }.by(0) # added one and removed one
 
         expect(DummyChildModel.last.title).to eq("new-dummy-child-model-title-3-value")
+      end
+
+      it "dynamically adds unlimited new nested forms and maps errors properly back and properly resets errors when missing value is provided" do
+
+        class ExamplePage < Matestack::Ui::Page
+
+          def response
+            matestack_form form_config do
+              form_input key: :title, type: :text, label: "dummy_model_title_input", id: "dummy_model_title_input"
+
+              @dummy_model.dummy_child_models.each do |dummy_child_model|
+                dummy_child_model_form dummy_child_model
+              end
+
+              form_fields_for_add_item key: :dummy_child_models_attributes, prototype: method(:dummy_child_model_form) do
+                button "add", type: :button # type: :button is important! otherwise remove on first item is triggered on enter
+              end
+
+              button "Submit me!"
+
+              plain "Errors: {{errors}}"
+
+              toggle show_on: "success", hide_after: 1000 do
+                plain "success!"
+              end
+              toggle show_on: "failure", hide_after: 1000 do
+                plain "failure!"
+              end
+            end
+          end
+
+        end
+
+        visit "/example"
+        # sleep
+
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_2')
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_3')
+
+        fill_in "title_dummy_child_models_attributes_child_0", with: "", fill_options: { clear: :backspace } # trigger server validation
+        # fill_in "title_dummy_child_models_attributes_child_1", with: "" # via init value
+        fill_in "title_dummy_child_models_attributes_child_2", with: "" # would trigger but will be removed
+        fill_in "title_dummy_child_models_attributes_child_3", with: "" # trigger server validation
+
+        click_on("remove_dummy_child_models_attributes_child_2")
+
+        click_button "Submit me!"
+        expect(page).to have_content("failure!") # required to work properly!
+
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_0 + .errors > .error", text: "can't be blank")
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_3 + .errors > .error", text: "can't be blank")
+
+        expect(page).to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ], "dummy_child_models[2].title": [ "can\'t be blank" ] }')
+
+        fill_in "title_dummy_child_models_attributes_child_3", with: "some-value" # provide missing input and reset error
+        # defocus input in order to trigger errors to disappear
+        page.find("#title_dummy_child_models_attributes_child_3").native.send_keys :tab
+
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_0 + .errors > .error", text: "can't be blank")
+        expect(page).not_to have_selector("#title_dummy_child_models_attributes_child_3 + .errors > .error", text: "can't be blank")
+
+        expect(page).to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ]')
+        expect(page).not_to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ], "dummy_child_models[2].title": [ "can\'t be blank" ] }')
+      end
+
+      it "dynamically adds unlimited new nested forms and maps errors properly back and properly resets errors when errornous item is removed" do
+
+        class ExamplePage < Matestack::Ui::Page
+
+          def response
+            matestack_form form_config do
+              form_input key: :title, type: :text, label: "dummy_model_title_input", id: "dummy_model_title_input"
+
+              @dummy_model.dummy_child_models.each do |dummy_child_model|
+                dummy_child_model_form dummy_child_model
+              end
+
+              form_fields_for_add_item key: :dummy_child_models_attributes, prototype: method(:dummy_child_model_form) do
+                button "add", type: :button # type: :button is important! otherwise remove on first item is triggered on enter
+              end
+
+              button "Submit me!"
+
+              plain "Errors: {{errors}}"
+
+              toggle show_on: "success", hide_after: 1000 do
+                plain "success!"
+              end
+              toggle show_on: "failure", hide_after: 1000 do
+                plain "failure!"
+              end
+            end
+          end
+
+        end
+
+        visit "/example"
+
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_2')
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_3')
+
+        fill_in "title_dummy_child_models_attributes_child_0", with: "", fill_options: { clear: :backspace } # trigger server validation
+        # fill_in "title_dummy_child_models_attributes_child_1", with: "" # via init value
+        fill_in "title_dummy_child_models_attributes_child_2", with: "" # would trigger but will be removed
+        fill_in "title_dummy_child_models_attributes_child_3", with: "" # trigger server validation
+
+        click_on("remove_dummy_child_models_attributes_child_2")
+
+        click_button "Submit me!"
+        expect(page).to have_content("failure!") # required to work properly!
+
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_0 + .errors > .error", text: "can't be blank")
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_3 + .errors > .error", text: "can't be blank")
+
+        expect(page).to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ], "dummy_child_models[2].title": [ "can\'t be blank" ] }')
+
+        click_on("remove_dummy_child_models_attributes_child_3") # remove element which causes errors
+
+        expect(page).to have_selector("#title_dummy_child_models_attributes_child_0 + .errors > .error", text: "can't be blank")
+        expect(page).not_to have_selector("#title_dummy_child_models_attributes_child_3 + .errors > .error", text: "can't be blank")
+
+        expect(page).to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ]')
+        expect(page).not_to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ], "dummy_child_models[2].title": [ "can\'t be blank" ] }')
       end
 
 
