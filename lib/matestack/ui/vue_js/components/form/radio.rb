@@ -16,7 +16,7 @@ module Matestack
             def render_options
               radio_options.to_a.each do |item|
                 input radio_attributes(item)
-                label item_label(item), for: item_id(item)
+                label item_label(item), ":for": item_id(item)
               end
             end
 
@@ -33,7 +33,7 @@ module Matestack
 
             def radio_attributes(item)
               attributes.merge({
-                id: item_id(item),
+                ":id": item_id(item),
                 name: item_name(item),
                 value: item_value(item),
                 type: :radio,
@@ -51,13 +51,13 @@ module Matestack
             def item_value(item)
               item.is_a?(Array) ? item.last : item
             end
-            
+
             def item_label(item)
               item.is_a?(Array) ? item.first : item
             end
 
             def item_id(item)
-              "#{id || key}_#{item_value(item)}"
+              "#{id || key}+'_#{item_value(item)}'"
             end
 
             def item_name(item)

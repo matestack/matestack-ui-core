@@ -34,7 +34,11 @@ module Matestack
             end
 
             def id
-              ctx.id || key
+              if ctx.id.present?
+                "'#{ctx.id}'"
+              else
+                "'#{key}'+$parent.nestedFormRuntimeId"
+              end
             end
 
             def multiple
@@ -50,7 +54,7 @@ module Matestack
             def attributes
               (options || {}).merge({
                 ref: "input.#{attribute_key}",
-                id: id,
+                ":id": id,
                 type: ctx.type,
                 multiple: ctx.multiple,
                 placeholder: ctx.placeholder,
@@ -95,7 +99,7 @@ module Matestack
                 item.is_a?(Integer) ? 'v-model.number' : 'v-model'
               end
             end
-          
+
             # set value-type "Integer" for all numeric init values or options
             def value_type(item=nil)
               if item.nil?

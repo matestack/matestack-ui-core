@@ -7,6 +7,9 @@ module Matestack
             vue_name 'matestack-ui-core-form'
 
             optional :for, :path, :success, :failure, :multipart, :emit, :delay, :errors
+            optional :fields_for, :reject_blank
+
+            attr_accessor :prototype_template
 
             # setup form context to allow child components like inputs to access the form configuration
             def initialize(html_tag = nil, text = nil, options = {}, &block)
@@ -16,9 +19,21 @@ module Matestack
               Matestack::Ui::VueJs::Components::Form::Context.form_context = previous_form_context
             end
 
+            def component_id
+              "matestack-form-fields-for-#{context.fields_for}-#{SecureRandom.hex}" if context.fields_for
+            end
+
             def response
-              form attributes do
-                yield
+              if context.fields_for
+                div class: "matestack-form-fields-for", "v-show": "hideNestedForm != true", id: options[:id] do
+                  form_input key: context.for&.class&.primary_key, type: :hidden # required for existing model mapping
+                  form_input key: :_destroy, type: :hidden, init: true if context.reject_blank == true
+                  yield
+                end
+              else
+                form attributes do
+                  yield
+                end
               end
             end
 
@@ -40,6 +55,8 @@ module Matestack
                 multipart: !!ctx.multipart,
                 emit: ctx.emit,
                 delay: ctx.delay,
+                fields_for: ctx.fields_for,
+                primary_key: for_object_primary_key
               }
             end
 
@@ -52,10 +69,13 @@ module Matestack
               @for_option ||= ctx.for
             end
 
+            def for_object_primary_key
+              context.for&.class&.primary_key rescue nil
+            end
+
             def form_method
               @form_method ||= options.delete(:method)
             end
-
           end
         end
       end

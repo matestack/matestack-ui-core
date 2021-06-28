@@ -8,7 +8,7 @@ module Matestack
 
             def response
               div class: 'matestack-ui-core-form-input' do
-                label input_label, for: id if input_label
+                label input_label, ":for": id if input_label
                 input input_attributes
                 render_errors
               end

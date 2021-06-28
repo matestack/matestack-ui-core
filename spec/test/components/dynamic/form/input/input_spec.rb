@@ -103,7 +103,6 @@ describe "Form Component", type: :feature, js: true do
 
     specify do
       test_model = TestModel.create title: "Foo", description: "This is a very nice foo!"
-      p test_model.id
       visit Rails.application.routes.url_helpers.some_test_model_path(test_model)
       expect(find_field(:title).value).to eq "Foo"
 
