@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.1.0 Release - 2021-06-28
+
+### Improvements
+
+- Nested Form Support #558
+- Component render? Method #553
+- Page Component Cleanup
+- Docs Cleanup
+
+### Bugfixes
+
+
 ## v2.0.0 Release - 2021-04-12
 
 Please refer to the [migration guide](./docs/migrate-from-1.x-to-2.0.md)
