@@ -144,16 +144,6 @@ end
 ```
 {% endcode %}
 
-Both the controller and action names will be dynamically added to the `id` attribute of the page's root element, allowing CSS rules to directly target specific pages, and tests to easily locate the page's content.
-
-For example, the above controller code will result in the following HTML markup:
-
-```markup
-  <div id="matestack-page-some-controller-overview" class="matestack-page-root">
-    <!-- page content -->
-  </div>
-```
-
 Learn more about Pages:
 
 {% page-ref page="pages/" %}
