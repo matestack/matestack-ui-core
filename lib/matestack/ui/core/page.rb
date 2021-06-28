@@ -46,13 +46,7 @@ module Matestack
         def component_attributes
           {
             is: 'matestack-ui-core-page-content',
-            ref: 'some-id',
             ':params': params.to_json,
-            ':component-config': {
-              #TODO Remove?!
-              show_on: 'a-event',
-              hide_on: 'test'
-            }.to_json,
             'inline-template': true
           }
         end
