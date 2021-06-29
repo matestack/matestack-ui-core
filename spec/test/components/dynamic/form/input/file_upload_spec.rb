@@ -12,11 +12,11 @@ describe "Form Component", type: :feature, js: true do
         render json: {
           title: "server received title: #{form_params[:title].to_s}",
           file_1: {
-            instance: "server received file_1 instance: #{form_params[:file_1] ||= 'nil'}",
+            instance: "server received file_1 instance: #{form_params[:file_1].nil? ? 'nil' : form_params[:file_1]}",
             name: "server received file_1 with name: #{form_params[:file_1].present? ? form_params[:file_1].original_filename : 'nil'}"
           },
           file_2: {
-            instance: "server received file_2 instance: #{form_params[:file_2] ||= 'nil'}",
+            instance: "server received file_2 instance: #{form_params[:file_2].nil? ? 'nil' : form_params[:file_2]}",
             name: "server received file_2 with name: #{form_params[:file_2].present? ? form_params[:file_2].original_filename : 'nil'}"
           },
           files: [
@@ -205,7 +205,7 @@ describe "Form Component", type: :feature, js: true do
       class TestModel < ApplicationRecord
         has_one_attached :file
       end
-      
+
       class ExamplePage < Matestack::Ui::Page
         def response
           matestack_form form_config do
@@ -289,6 +289,51 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_content("files[1] with name: corgi.mp4")
 
       fill_in "title-input", with: "bar"
+      click_button "Submit me!"
+      expect(page).to have_content("file_1 instance: nil")
+      expect(page).to have_content("file_1 with name: nil")
+      expect(page).to have_content("files[0] instance: nil")
+      expect(page).to have_content("files[1] instance: nil")
+      expect(page).to have_content("files[0] with name: nil")
+      expect(page).to have_content("files[1] with name: nil")
+    end
+
+    it "properly submits empty file uploads" do
+      class ExamplePage < Matestack::Ui::Page
+        def response
+          matestack_form form_config do
+            form_input key: :title, type: :text, placeholder: "title", id: "title-input"
+            br
+            form_input key: :file_1, type: :file, id: "file-1-input"
+            br
+            form_input key: :files, type: :file, multiple: true, id: "files-input"
+            br
+            button 'Submit me!'
+          end
+          toggle show_on: "uploaded_successfully", hide_on: "form_submitted", id: 'async-form' do
+            plain "{{event.data.file_1.instance}}"
+            plain "{{event.data.file_1.name}}"
+            plain "{{event.data.files}}"
+          end
+        end
+
+        def form_config
+          return {
+            for: :my_form,
+            method: :post,
+            multipart: true,
+            path: form_input_file_upload_success_form_test_path,
+            emit: "form_submitted",
+            success: {
+              emit: "uploaded_successfully"
+            }
+          }
+        end
+      end
+
+      visit '/example'
+      fill_in "title-input", with: "bar"
+
       click_button "Submit me!"
       expect(page).to have_content("file_1 instance: nil")
       expect(page).to have_content("file_1 with name: nil")

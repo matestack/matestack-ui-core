@@ -37,13 +37,13 @@ module Matestack
             def render_checkbox_options
               checkbox_options.to_a.each do |item|
                 input checkbox_attributes(item)
-                label item_label(item), for: item_id(item)
+                label item_label(item), ":for": item_id(item)
               end
             end
 
             def checkbox_attributes(item)
               {
-                id: item_id(item),
+                ":id": item_id(item),
                 type: :checkbox,
                 name: item_label(item),
                 value: item_value(item),
@@ -57,9 +57,9 @@ module Matestack
             end
 
             def render_true_false_checkbox
-              input true_false_checkbox_attributes.merge(type: :hidden, id: nil, value: 0)
-              input true_false_checkbox_attributes.merge(type: :checkbox, id: item_id(1))
-              label input_label, for: item_id(1) if input_label
+              input true_false_checkbox_attributes.merge(type: :hidden, ":id": nil, value: 0)
+              input true_false_checkbox_attributes.merge(type: :checkbox, ":id": item_id(1))
+              label input_label, ":for": item_id(1) if input_label
             end
 
             def true_false_checkbox_attributes
@@ -88,13 +88,13 @@ module Matestack
             def item_value(item)
               item.is_a?(Array) ? item.last : item
             end
-            
+
             def item_label(item)
               item.is_a?(Array) ? item.first : item
             end
 
             def item_id(item)
-              "#{id}_#{item_value(item).to_s.gsub(" ", '_')}"
+              "#{id}+'_#{item_value(item).to_s.gsub(" ", '_')}'"
             end
 
           end

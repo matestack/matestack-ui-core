@@ -128,7 +128,7 @@ describe "Form Component", type: :feature, js: true do
       end
 
       class ExamplePage < Matestack::Ui::Page
-        
+
         def response
           @test_model = TestModel.new
           @test_model.some_data = ["Array Option 2"]

@@ -8,7 +8,7 @@ module Matestack
 
             def response
               div class: 'matestack-ui-core-form-select' do
-                label input_label, for: id if input_label
+                label input_label, ":for": id if input_label
                 select select_attributes do
                   render_options
                 end
@@ -39,7 +39,7 @@ module Matestack
             def select_attributes
               attributes.merge({
                 multiple: multiple,
-                id: id,
+                ":id": id,
                 ref: "select#{'.multiple' if multiple}.#{key}",
                 'value-type': value_type(select_options.first),
                 'init-value': init_value,
@@ -57,7 +57,7 @@ module Matestack
             def item_value(item)
               item.is_a?(Array) ? item.last : item
             end
-            
+
             def item_label(item)
               item.is_a?(Array) ? item.first : item
             end
