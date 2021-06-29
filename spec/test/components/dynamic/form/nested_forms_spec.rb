@@ -573,6 +573,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
 
         end
         visit "/example"
+        # sleep
 
         click_on "add"
         click_on "add"

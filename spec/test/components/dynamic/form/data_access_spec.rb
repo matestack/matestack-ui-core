@@ -53,7 +53,7 @@ describe "Form Component", type: :feature, js: true do
 
     visit '/example'
 
-    expect(page).to have_content('{ "foo_input": null, "foo_textarea": null, "foo_single_checkbox": null, "foo_multi_checkbox": [], "foo_radio": null, "foo_select": 2 }')
+    expect(page).to have_content('{ "foo_input": null, "foo_textarea": null, "foo_select": 2, "foo_single_checkbox": null, "foo_multi_checkbox": [], "foo_radio": null }')
 
     fill_in "foo-input", with: "1"
     fill_in "foo-textarea", with: "2"
@@ -63,11 +63,11 @@ describe "Form Component", type: :feature, js: true do
     check "foo-multi-checkbox_2"
     choose "foo-radio-checkbox_3"
 
-    expect(page).to have_content('{ "foo_input": "1", "foo_textarea": "2", "foo_single_checkbox": true, "foo_multi_checkbox": [ 1, 2 ], "foo_radio": 3, "foo_select": 3 }')
+    expect(page).to have_content('{ "foo_input": "1", "foo_textarea": "2", "foo_select": 3, "foo_single_checkbox": true, "foo_multi_checkbox": [ 1, 2 ], "foo_radio": 3 }')
 
     click_on "Submit me!"
 
-    expect(page).to have_content('{ "foo_input": null, "foo_textarea": null, "foo_single_checkbox": null, "foo_multi_checkbox": [], "foo_radio": null, "foo_select": 2 }')
+    expect(page).to have_content('{ "foo_input": null, "foo_textarea": null, "foo_select": 2, "foo_single_checkbox": null, "foo_multi_checkbox": [], "foo_radio": null }')
 
   end
 
