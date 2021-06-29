@@ -11,6 +11,9 @@
 
 ### Bugfixes
 
+- Form Error Reset #539 via #558
+- Form File Upload Init File Value #550
+
 
 ## v2.0.0 Release - 2021-04-12
 
