@@ -34,7 +34,11 @@ module Matestack
             end
 
             def id
-              ctx.id || key
+              if ctx.id.present?
+                "'#{ctx.id}'"
+              else
+                "'#{key}'+$parent.nestedFormRuntimeId"
+              end
             end
 
             def multiple
@@ -50,12 +54,12 @@ module Matestack
             def attributes
               (options || {}).merge({
                 ref: "input.#{attribute_key}",
-                id: id,
+                ":id": id,
                 type: ctx.type,
                 multiple: ctx.multiple,
                 placeholder: ctx.placeholder,
                 '@change': change_event,
-                'init-value': init_value || (ctx.multiple ? [] : nil),
+                'init-value': init_value,
                 'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
               }).tap do |attrs|
                 attrs[:"#{v_model_type}"] = input_key unless type == :file
@@ -95,7 +99,7 @@ module Matestack
                 item.is_a?(Integer) ? 'v-model.number' : 'v-model'
               end
             end
-          
+
             # set value-type "Integer" for all numeric init values or options
             def value_type(item=nil)
               if item.nil?

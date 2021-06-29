@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (2.0.0)
+    matestack-ui-core (2.1.0)
       rails (>= 5.2)
 
 GEM
