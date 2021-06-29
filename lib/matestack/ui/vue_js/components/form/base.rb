@@ -59,7 +59,7 @@ module Matestack
                 multiple: ctx.multiple,
                 placeholder: ctx.placeholder,
                 '@change': change_event,
-                'init-value': init_value || (ctx.multiple ? [] : nil),
+                'init-value': init_value,
                 'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
               }).tap do |attrs|
                 attrs[:"#{v_model_type}"] = input_key unless type == :file

@@ -22,6 +22,11 @@ module Matestack
               attributes
             end
 
+            def init_value
+              return nil if ctx.type.to_s == "file" 
+              super
+            end
+
             def vue_props
               {
                 init_value: init_value,

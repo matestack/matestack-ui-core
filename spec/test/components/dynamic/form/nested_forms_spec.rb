@@ -80,7 +80,9 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
       params.require(:dummy_model).permit(
         :title,
         :description,
-        dummy_child_models_attributes: [:id, :_destroy, :title, :description]
+        :file,
+        files: [],
+        dummy_child_models_attributes: [:id, :_destroy, :title, :description, :file, files: []]
       )
     end
   end
@@ -97,8 +99,9 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
   end
 
   before :each do
-    DummyModel.destroy_all
+    ActiveStorage::Attachment.all.each { |attachment| attachment.purge }
     DummyChildModel.destroy_all
+    DummyModel.destroy_all
     allow_any_instance_of(NestedFormTestController).to receive(:expect_params)
   end
 
@@ -1245,6 +1248,149 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
         expect(page).not_to have_content('Errors: { "dummy_child_models[0].title": [ "can\'t be blank" ], "dummy_child_models[2].title": [ "can\'t be blank" ] }')
       end
 
+
+    end
+
+    describe "supports multipart form submit alongside file upload within parent model" do
+
+      before do
+        @dummy_model = DummyModel.create(title: "existing-dummy-model-title")
+        @dummy_model.dummy_child_models.create(title: "existing-dummy-child-model-title-1")
+        @dummy_model.dummy_child_models.create(title: "existing-dummy-child-model-title-2")
+
+        class ExamplePage < Matestack::Ui::Page
+
+          def prepare
+            @dummy_model = DummyModel.last
+          end
+
+          def response
+            matestack_form form_config do
+              form_input key: :title, type: :text, label: "dummy_model_title_input", id: "dummy_model_title_input"
+
+              form_input key: :file, type: :file, label: "dummy_model_file_input", id: "dummy_model_file_input"
+              form_input key: :files, type: :file, label: "dummy_model_files_input", id: "dummy_model_files_input", multiple: true
+
+              @dummy_model.dummy_child_models.each do |dummy_child_model|
+                dummy_child_model_form dummy_child_model
+              end
+
+              form_fields_for_add_item key: :dummy_child_models_attributes, prototype: method(:dummy_child_model_form) do
+                button "add", type: :button # type: :button is important! otherwise remove on first item is triggered on enter
+              end
+
+              button "Submit me!"
+
+              toggle show_on: "success", hide_after: 1000 do
+                plain "success!"
+              end
+              toggle show_on: "failure", hide_after: 1000 do
+                plain "failure!"
+              end
+            end
+          end
+
+          def dummy_child_model_form dummy_child_model = DummyChildModel.new
+            form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
+              form_input key: :title, type: :text, label: "dummy-child-model-title-input"
+              form_input key: :file, type: :file, label: "dummy-child-model-file-input"
+              form_input key: :files, type: :file, label: "dummy-child-model-files-input", multiple: true
+
+              form_fields_for_remove_item do
+                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+              end
+            end
+          end
+
+          def form_config
+            {
+              for: @dummy_model,
+              method: :put,
+              multipart: true,
+              path: nested_forms_spec_submit_update_path(id: @dummy_model.id),
+              success: { emit: "success" },
+              failure: { emit: "failure" }
+            }
+          end
+        end
+      end
+
+      it "and properly sends dynamically added child data as multipart format" do
+        id_of_parent = DummyModel.last.id
+        id_of_child_1 = DummyChildModel.last.id
+        id_of_child_0 = id_of_child_1-1
+
+        visit "/example"
+
+        expect(page).to have_selector('#dummy_model_title_input')
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_0')
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_1')
+        expect(page).not_to have_selector('#title_dummy_child_models_attributes_child_2')
+        expect(page).not_to have_selector('#title_dummy_child_models_attributes_child_3')
+
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_2')
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_3')
+
+
+        fill_in "title_dummy_child_models_attributes_child_2", with: "new-dummy-child-model-title-3-value"
+        fill_in "title_dummy_child_models_attributes_child_3", with: "new-dummy-child-model-title-4-value"
+
+        attach_file('dummy_model_file_input', "#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png")
+        attach_file "dummy_model_files_input", ["#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png", "#{File.dirname(__FILE__)}/input/test_files/corgi.mp4"]
+
+        attach_file('file_dummy_child_models_attributes_child_0', "#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png")
+        attach_file('file_dummy_child_models_attributes_child_2', "#{File.dirname(__FILE__)}/input/test_files/corgi.mp4")
+        attach_file('file_dummy_child_models_attributes_child_3', "#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png")
+
+        attach_file "files_dummy_child_models_attributes_child_0", ["#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png", "#{File.dirname(__FILE__)}/input/test_files/corgi.mp4"]
+        attach_file "files_dummy_child_models_attributes_child_2", ["#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png", "#{File.dirname(__FILE__)}/input/test_files/corgi.mp4"]
+        attach_file "files_dummy_child_models_attributes_child_3", ["#{File.dirname(__FILE__)}/input/test_files/matestack-logo.png", "#{File.dirname(__FILE__)}/input/test_files/corgi.mp4"]
+
+        expect {
+          click_button "Submit me!"
+          expect(page).to have_content("success!") # required to work properly!
+          # expect proper form reset (added items are kept, but value is resetted)
+          expect(page).to have_selector('#dummy_model_title_input')
+          expect(page).to have_selector('#title_dummy_child_models_attributes_child_0')
+          expect(page).to have_selector('#title_dummy_child_models_attributes_child_1')
+          expect(page).to have_selector('#title_dummy_child_models_attributes_child_2')
+          expect(page).to have_selector('#title_dummy_child_models_attributes_child_3')
+          expect(page.find("#dummy_model_title_input").value).to eq("existing-dummy-model-title")
+          expect(page.find("#title_dummy_child_models_attributes_child_0").value).to eq("existing-dummy-child-model-title-1")
+          expect(page.find("#title_dummy_child_models_attributes_child_1").value).to eq("existing-dummy-child-model-title-2")
+          expect(page.find("#title_dummy_child_models_attributes_child_2").value).to eq("new-dummy-child-model-title-3-value")
+          expect(page.find("#title_dummy_child_models_attributes_child_3").value).to eq("new-dummy-child-model-title-4-value")
+        }
+        .to change { DummyModel.count }.by(0)
+        .and change { DummyChildModel.count }.by(2)
+
+        id_of_child_3 = DummyChildModel.last.id
+        id_of_child_2 = id_of_child_3-1
+
+        expect(DummyChildModel.find(id_of_child_3).title).to eq("new-dummy-child-model-title-4-value")
+        expect(DummyChildModel.find(id_of_child_2).title).to eq("new-dummy-child-model-title-3-value")
+
+        expect(DummyModel.find(id_of_parent).file.blob.filename).to eq("matestack-logo.png")
+        expect(DummyModel.find(id_of_parent).files[0].blob.filename).to eq("matestack-logo.png")
+        expect(DummyModel.find(id_of_parent).files[1].blob.filename).to eq("corgi.mp4")
+
+        expect(DummyChildModel.find(id_of_child_0).file.blob.filename).to eq("matestack-logo.png")
+        expect(DummyChildModel.find(id_of_child_0).files[0].blob.filename).to eq("matestack-logo.png")
+        expect(DummyChildModel.find(id_of_child_0).files[1].blob.filename).to eq("corgi.mp4")
+
+        expect(DummyChildModel.find(id_of_child_1).file.blob.nil?).to be true
+        expect(DummyChildModel.find(id_of_child_1).files.empty?).to be true
+
+        expect(DummyChildModel.find(id_of_child_2).file.blob.filename).to eq("corgi.mp4")
+        expect(DummyChildModel.find(id_of_child_2).files[0].blob.filename).to eq("matestack-logo.png")
+        expect(DummyChildModel.find(id_of_child_2).files[1].blob.filename).to eq("corgi.mp4")
+
+        expect(DummyChildModel.find(id_of_child_3).file.blob.filename).to eq("matestack-logo.png")
+        expect(DummyChildModel.find(id_of_child_3).files[0].blob.filename).to eq("matestack-logo.png")
+        expect(DummyChildModel.find(id_of_child_3).files[1].blob.filename).to eq("corgi.mp4")
+      end
 
     end
 
