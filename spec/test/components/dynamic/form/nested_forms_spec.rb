@@ -1380,7 +1380,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
         expect(DummyChildModel.find(id_of_child_0).files[0].blob.filename).to eq("matestack-logo.png")
         expect(DummyChildModel.find(id_of_child_0).files[1].blob.filename).to eq("corgi.mp4")
 
-        expect(DummyChildModel.find(id_of_child_1).file.blob.nil?).to be true
+        expect(DummyChildModel.find(id_of_child_1).file.nil? || DummyChildModel.find(id_of_child_1).file&.blob&.nil?).to be true
         expect(DummyChildModel.find(id_of_child_1).files.empty?).to be true
 
         expect(DummyChildModel.find(id_of_child_2).file.blob.filename).to eq("corgi.mp4")
