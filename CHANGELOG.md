@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.1 Release - 2021-06-30
+
+### Bugfixes
+
+- Fixed clientside Data Access form new nested forms
+
 ## v2.1.0 Release - 2021-06-28
 
 ### Improvements
