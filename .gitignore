@@ -1,6 +1,5 @@
 .bundle/
 log/*.log
-pkg/
 node_modules/
 spec/dummy/db/*.sqlite3
 spec/dummy/db/*.sqlite3-journal
@@ -11,16 +10,6 @@ spec/dummy/public/packs-test/
 spec/dummy/yarn-error.log
 spec/dummy/storage/
 spec/dummy/tmp/
-builder/db/*.sqlite3
-builder/db/*.sqlite3-journal
-builder/log/*.log
-builder/node_modules/
-builder/yarn-error.log
-builder/storage/
-builder/tmp/
-builder/public/packs
 .idea/
 .vscode
 .byebug_history
-
-/coverage

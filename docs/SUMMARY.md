@@ -44,6 +44,7 @@
   * [Checkbox Component API](built-in-reactivity/reactive-forms/form-checkbox-component-api.md)
   * [Select Component API](built-in-reactivity/reactive-forms/form-select-component-api.md)
   * [Radio Component API](built-in-reactivity/reactive-forms/form-radio-component-api.md)
+  * [Nested Forms](built-in-reactivity/reactive-forms/nested-forms.md)
 * [Partial UI Updates](built-in-reactivity/partial-ui-updates/README.md)
   * [Overview](built-in-reactivity/partial-ui-updates/overview.md)
   * [Async Component API](built-in-reactivity/partial-ui-updates/async-component-api.md)

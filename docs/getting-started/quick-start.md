@@ -14,7 +14,6 @@ _This guide utilizes the full power of Matestack and uses `matestack-ui-core` as
 The code for this twitter clone tutorial is available in [this repository](https://github.com/matestack/twitter-clone).
 {% endhint %}
 
-
 ### Setup
 
 * [x] Create a new Rails app and install some dependencies:

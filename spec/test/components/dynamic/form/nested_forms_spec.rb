@@ -1395,6 +1395,123 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
 
     end
 
+    describe "supports addition of nested forms/models on top of EXISTING instances" do
+
+      before do
+        @dummy_model = DummyModel.create(title: "existing-dummy-model-title")
+
+        class ExamplePage < Matestack::Ui::Page
+
+          def prepare
+            @dummy_model = DummyModel.last
+          end
+
+          def response
+            matestack_form form_config do
+              form_input key: :title, type: :text, label: "dummy_model_title_input", id: "dummy_model_title_input"
+
+              @dummy_model.dummy_child_models.each do |dummy_child_model|
+                dummy_child_model_form dummy_child_model
+              end
+
+              form_fields_for_add_item key: :dummy_child_models_attributes, prototype: method(:dummy_child_model_form) do
+                button "add", type: :button # type: :button is important! otherwise remove on first item is triggered on enter
+              end
+
+              br
+              plain "data: {{data}}"
+              br
+
+              button "Submit me!"
+
+              toggle show_on: "success", hide_after: 1000 do
+                plain "success!"
+              end
+              toggle show_on: "failure", hide_after: 1000 do
+                plain "failure!"
+              end
+            end
+          end
+
+          def dummy_child_model_form dummy_child_model = DummyChildModel.new(title: "init-value")
+            form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
+              form_input key: :title, type: :text, label: "dummy-child-model-title-input"
+              form_fields_for_remove_item do
+                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+              end
+            end
+          end
+
+          def form_config
+            {
+              for: @dummy_model,
+              method: :put,
+              path: nested_forms_spec_submit_update_path(id: @dummy_model.id),
+              success: { emit: "success" },
+              failure: { emit: "failure" }
+            }
+          end
+        end
+      end
+
+      it "dynamically adds unlimited new nested forms and enable proper clientside data binding" do
+
+        visit "/example"
+        # sleep
+        expect(page).to have_selector('#dummy_model_title_input')
+        expect(page).not_to have_selector('#title_dummy_child_models_attributes_child_0')
+        expect(page).not_to have_selector('#title_dummy_child_models_attributes_child_1')
+
+        expect(page).to have_content('data: { "title": "existing-dummy-model-title" }')
+
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_0')
+
+        expect(page).to have_content('data: { "title": "existing-dummy-model-title", "dummy_child_models_attributes": [ { "_destroy": false, "id": null, "title": "init-value" } ] }')
+
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_1')
+
+        expect(page).to have_content('data: { "title": "existing-dummy-model-title", "dummy_child_models_attributes": [ { "_destroy": false, "id": null, "title": "init-value" }, { "_destroy": false, "id": null, "title": "init-value" } ] }')
+
+        fill_in "title_dummy_child_models_attributes_child_1", with: "new-value"
+
+        expect(page).to have_content('data: { "title": "existing-dummy-model-title", "dummy_child_models_attributes": [ { "_destroy": false, "id": null, "title": "init-value" }, { "_destroy": false, "id": null, "title": "new-value" } ] }')
+
+        click_on("remove_dummy_child_models_attributes_child_0")
+
+        expect(page).to have_content('data: { "title": "existing-dummy-model-title", "dummy_child_models_attributes": [ { "_destroy": true, "id": null, "title": "init-value" }, { "_destroy": false, "id": null, "title": "new-value" } ] }')
+      end
+
+      it "dynamically adds unlimited new nested forms and enable proper clientside data binding with initially present child models" do
+
+        dummy_model = DummyModel.last
+        child_model_0 = dummy_model.dummy_child_models.create(title: "existing-child-model-title")
+
+        visit "/example"
+        # sleep
+        expect(page).to have_selector('#dummy_model_title_input')
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_0')
+        expect(page).not_to have_selector('#title_dummy_child_models_attributes_child_1')
+
+        expect(page).to have_content("data: { \"dummy_child_models_attributes\": [ { \"_destroy\": false, \"id\": \"#{child_model_0.id}\", \"title\": \"existing-child-model-title\" } ], \"title\": \"existing-dummy-model-title\" }")
+
+        click_on "add"
+        expect(page).to have_selector('#title_dummy_child_models_attributes_child_1')
+
+        expect(page).to have_content("data: { \"dummy_child_models_attributes\": [ { \"_destroy\": false, \"id\": \"#{child_model_0.id}\", \"title\": \"existing-child-model-title\" }, { \"_destroy\": false, \"id\": null, \"title\": \"init-value\" } ], \"title\": \"existing-dummy-model-title\" }")
+
+        fill_in "title_dummy_child_models_attributes_child_1", with: "new-value"
+
+        expect(page).to have_content("data: { \"dummy_child_models_attributes\": [ { \"_destroy\": false, \"id\": \"#{child_model_0.id}\", \"title\": \"existing-child-model-title\" }, { \"_destroy\": false, \"id\": null, \"title\": \"new-value\" } ], \"title\": \"existing-dummy-model-title\" }")
+
+        click_on("remove_dummy_child_models_attributes_child_0")
+
+        expect(page).to have_content("data: { \"dummy_child_models_attributes\": [ { \"_destroy\": true, \"id\": \"#{child_model_0.id}\", \"title\": \"existing-child-model-title\" }, { \"_destroy\": false, \"id\": null, \"title\": \"new-value\" } ], \"title\": \"existing-dummy-model-title\" }")
+      end
+
+    end
+
   end
 
 end
