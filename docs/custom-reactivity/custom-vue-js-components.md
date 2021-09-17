@@ -46,7 +46,7 @@ Vue.component('some-component', {
     };
   },
   mounted(){
-    console.log(this.foo)
+    console.log(this.props['foo'])
   }
 });
 ```
@@ -60,7 +60,7 @@ The Vue.js JavaScript file needs to be imported by some kind of JavaScript packa
 For **Webpacker** it would look like this:
 
 ```javascript
-// app/javascript/packs/application.js 
+// app/javascript/packs/application.js
 import MatestackUiCore from 'matestack-ui-core'
 import '../../../app/matestack/components/some_component'
 ```
