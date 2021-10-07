@@ -85,10 +85,10 @@ module ApplicationCable
 
     protected
 
-    def find_verified_admin
+    def find_verified_user
       if verified_user = env['warden'].user
         verified_user
-      else 
+      else
         reject_unauthorized_connection
       end
     end
@@ -102,7 +102,7 @@ Now we can create a channel which streams for a specific user, enabling us to se
 
 ```ruby
 # app/channels/current_user_channel.rb
-class CurrentUserChannel < ApplicationCable::Channel  
+class CurrentUserChannel < ApplicationCable::Channel
   def subscribed
     stream_for current_user
   end
@@ -117,7 +117,7 @@ Emitting events for a user can now be done anywhere in your Rails application by
 
 ```ruby
 # sending to the current user
-CurrentUserChannel.broadcast_to(current_user, { 
+CurrentUserChannel.broadcast_to(current_user, {
   event: 'update'
 })
 
@@ -142,7 +142,7 @@ class Connection < ActionCable::Connection::Base
 
   protected
 
-  def find_verified_admin
+  def find_verified_user
     env['warden'].user
   end
 
