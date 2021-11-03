@@ -156,7 +156,7 @@ First a **public channel** to which every user can subscribe.
 ```ruby
 # app/channels/public_channel.rb
 class PublicChannel < ApplicationCable::Channel
-  def subscribe
+  def subscribed
     stream_from 'public'
   end
 end
@@ -181,7 +181,7 @@ Second a **channel only available for signed in users**. We reject clients that 
 ```ruby
 # app/channels/private_channel.rb
 class PrivateChannel < ApplicationCable::Channel
-  def subscribe
+  def subscribed
     return reject unless current_user
     stream_for current_user
   end
