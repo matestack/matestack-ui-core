@@ -4,15 +4,15 @@ module Matestack
       module Components
         class Toggle < Matestack::Ui::VueJs::Vue
           vue_name 'matestack-ui-core-toggle'
- 
+
           optional :show_on, :hide_on, :hide_after, :init_show
- 
+
           def response
             div toggle_attributes do
               yield
             end
           end
- 
+
           def toggle_attributes
             a = options.merge({
                                 class: "matestack-toggle-component-root",
@@ -21,9 +21,9 @@ module Matestack
             puts("**** #{a} !!!!")
             a
           end
- 
+
           protected
- 
+
           def vue_props
             {
               show_on: ctx.show_on,
@@ -38,4 +38,3 @@ module Matestack
     end
   end
  end
- 
