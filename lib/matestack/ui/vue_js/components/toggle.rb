@@ -15,7 +15,7 @@ module Matestack
 
           def toggle_attributes
             options.merge({
-              class: "matestack-toggle-component-root",
+              class: "matestack-toggle-component-root", 
               'v-if': 'showing'
             })
           end

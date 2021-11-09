@@ -11,4 +11,4 @@ class Demo::Components::Header < ApplicationComponent
     isolate_test rerender_on: 'isolate', public_options: { foo: :bar }
   end
 
- end 
+end
