@@ -14,12 +14,10 @@ module Matestack
           end
 
           def toggle_attributes
-            a = options.merge({
-                                class: "matestack-toggle-component-root",
-                                'v-if': 'showing'
-                              })
-            puts("**** #{a} !!!!")
-            a
+            options.merge({
+              class: "matestack-toggle-component-root",
+              'v-if': 'showing'
+            })
           end
 
           protected
@@ -32,9 +30,9 @@ module Matestack
               init_show: ctx.init_show,
             }
           end
- 
+
         end
       end
     end
   end
- end
+end
