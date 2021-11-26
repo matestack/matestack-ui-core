@@ -18,7 +18,7 @@ module Matestack
 
             def render_options
               if placeholder
-                option value: nil, disabled: true, selected: init_value.nil?, text: placeholder
+                option value: '', disabled: true, selected: init_value.nil?, text: placeholder
               end
               select_options.to_a.each do |item|
                 option item_label(item), value: item_value(item), disabled: item_disabled?(item)
