@@ -1,6 +1,4 @@
-# used in specs
-
-class LegacyViews::PagesController < ApplicationController
+class LegacyViewsController < ApplicationController
   include Matestack::Ui::Core::Helper
   include Matestack::Ui::VueJs::Components::Collection::Helper
 

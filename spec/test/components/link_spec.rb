@@ -91,10 +91,15 @@ describe 'a Component', type: :feature, js: true do
   end
 
   it 'Example 6 - Rails Routing using symbols with params' do
+    Rails.application.routes.append do
+      get '/some_link_test_path/:number', to: 'page_test#my_action', as: 'link_test_with_param'
+    end
+    Rails.application.reload_routes!
+
     class ExamplePage < Matestack::Ui::Page
       def response
         div id: "foo", class: "bar" do
-          a href: single_endpoint_path(number: 1), text: 'Call API endpoint 1'
+          a href: link_test_with_param_path(number: 1), text: 'Call API endpoint 1'
         end
       end
     end
@@ -103,7 +108,7 @@ describe 'a Component', type: :feature, js: true do
     static_output = page.html
     expected_static_output = <<~HTML
       <div id="foo" class="bar">
-        <a href="/api/data/1">Call API endpoint 1</a>
+        <a href="/some_link_test_path/1">Call API endpoint 1</a>
       </div>
     HTML
     expect(stripped(static_output)).to ( include(stripped(expected_static_output)) )

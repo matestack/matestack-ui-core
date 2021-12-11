@@ -1,3 +1,5 @@
+# used in specs
+
 class Components::LegacyViews::Pages::Form < Matestack::Ui::Component
 
   def response
