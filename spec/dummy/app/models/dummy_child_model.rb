@@ -1,3 +1,5 @@
+# used in specs
+
 class DummyChildModel < ApplicationRecord
 
   validates :title, presence: true, uniqueness: true

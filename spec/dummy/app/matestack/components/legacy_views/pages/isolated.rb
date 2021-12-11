@@ -1,3 +1,5 @@
+# used in specs
+
 class Components::LegacyViews::Pages::Isolated < Matestack::Ui::IsolatedComponent
 
   def response

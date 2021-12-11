@@ -1,4 +1,5 @@
-# used within specs only
+# used in specs only, look for the demo app here: ./demo/app.rb
+
 class App < Matestack::Ui::App
 
   def response

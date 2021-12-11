@@ -1,3 +1,5 @@
+# used in specs
+
 class Components::LegacyViews::Pages::Collection < Matestack::Ui::Component
 
   requires :collection_config

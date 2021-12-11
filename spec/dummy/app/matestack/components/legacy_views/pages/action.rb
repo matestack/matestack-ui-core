@@ -1,3 +1,5 @@
+# used in specs
+
 class Components::LegacyViews::Pages::Action < Matestack::Ui::Component
   required :time
 

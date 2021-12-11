@@ -5,36 +5,14 @@ Rails.application.routes.draw do
   root to: 'demo#first'
 
   scope :demo do
-    get :first, to: 'demo#first', as: :first
-    get :second, to: 'demo#second', as: :second
-    post :action, to: 'demo#action', as: :action
-    get :collection, to: 'demo#collection', as: :collection_demo
+    get :first, to: 'demo#first', as: :first_page
+    get :second, to: 'demo#second', as: :second_page
   end
 
   # routes used within specs
 
-  scope :components_tests do
-    get "static_rendering_test/:component", to: 'components_tests#static_rendering_test', as: "components_tests"
-    get "custom_components_test", to: 'components_tests#custom_components_test'
-  end
-
-  scope :components_tests_with_app do
-    get "static_rendering_test/:component", to: 'components_tests_with_app#static_rendering_test', as: "components_tests_with_app"
-  end
-
-  scope :form_tests do
-    get "input", to: 'form_tests#input'
-    post "submit", to: 'form_tests#submit'
-    get "back", to: 'form_tests#back'
-  end
-
   get '/example', to: 'example#page'
   get '/base_example', to: 'example#base'
-
-  scope :api do
-    get 'data', to: 'api#data'
-    get 'data/:number', to: 'api#single_endpoint', as: "single_endpoint"
-  end
 
   namespace :legacy_views do
     get 'action_inline', to: 'pages#action_inline'
