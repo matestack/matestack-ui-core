@@ -11,9 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
-    "v-runtime-template": "^1.5.2",
-    "vue": "^2.5.17",
-    "vuex": "^3.0.1"
+    "vue3-runtime-template": "^1.0.2",
+    "vuex": "^3.0.1",
+    "vue": "^3.1.0",
+    "@vue/compat": "^3.1.0"
   },
   "exports": {
     ".": "./lib/matestack/ui/vue_js/index.js"

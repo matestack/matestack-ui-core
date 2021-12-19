@@ -1,6 +1,6 @@
 //used in specs!
 
-import Vue from 'vue/dist/vue.esm'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import MatestackUiCore from 'matestack-ui-core'
 
