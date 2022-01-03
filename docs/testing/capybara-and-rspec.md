@@ -11,6 +11,8 @@ In this guide we assume that you know the basics of Rspec and Capybara and have 
 * [https://github.com/rspec/rspec-rails](https://github.com/rspec/rspec-rails)
 * [https://github.com/teamcapybara/capybara](https://github.com/teamcapybara/capybara)
 
+**Note**: Make sure you set `config.action_controller.allow_forgery_protection = true` in your `config/environments/test.rb' file.
+
 Additionally you need a Chrome browser installed on your system. 
 
 We recommend to configure Capybara in a separate file and require it in your `rails_helper.rb`
