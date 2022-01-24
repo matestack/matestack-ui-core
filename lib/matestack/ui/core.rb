@@ -12,7 +12,6 @@ end
 require "#{base_path}/context"
 require "#{base_path}/properties"
 require "#{base_path}/base"
-require "#{base_path}/vue_attributes"
 require "#{base_path}/component"
 require "#{base_path}/page"
 require "#{base_path}/app"
@@ -33,7 +32,11 @@ module Matestack
   end
 end
 
+require "#{vue_js_base_path}/utils"
+require "#{vue_js_base_path}/vue_attributes"
 require "#{vue_js_base_path}/vue"
+require "#{vue_js_base_path}/app"
+require "#{vue_js_base_path}/page"
 require "#{vue_js_base_path}/components/toggle"
 require "#{vue_js_base_path}/components/onclick"
 require "#{vue_js_base_path}/components/transition"

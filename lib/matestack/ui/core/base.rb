@@ -28,7 +28,7 @@ module Matestack
           self
         end
 
-        # can be optionally overwritten in subclass 
+        # can be optionally overwritten in subclass
         # in order to conditionally render the component
         def render?
           true
@@ -106,10 +106,12 @@ module Matestack
           return raise NameError, "#{name} is not defined for #{self.class}", caller
         end
 
-        # give easy access to vue data attributes
-        def vue
-          Matestack::Ui::Core::VueAttributes
-        end
+        # MOVED TO VUE MODULE
+        #
+        # # give easy access to vue data attributes
+        # def vue
+        #   Matestack::Ui::Core::VueAttributes
+        # end
 
       end
     end

@@ -33,13 +33,15 @@ module Matestack
         end
         alias unescaped unescape
 
-        def matestack(&block)
-          div(id: 'matestack-ui') do
-            Base.new(:component, component_attributes) do
-              div(class: 'matestack-app-wrapper', &block)
-            end
-          end
-        end
+        # REMOVED
+        #
+        # def matestack(&block)
+        #   div(id: 'matestack-ui') do
+        #     Base.new(:component, component_attributes) do
+        #       div(class: 'matestack-app-wrapper', &block)
+        #     end
+        #   end
+        # end
 
         # override image in order to implement automatically using rails assets path
         def img(text = nil, options = {}, &block)
