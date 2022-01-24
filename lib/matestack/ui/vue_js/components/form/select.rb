@@ -21,7 +21,11 @@ module Matestack
                 option value: nil, disabled: true, selected: init_value.nil?, text: placeholder
               end
               select_options.to_a.each do |item|
-                option item_label(item), value: item_value(item), disabled: item_disabled?(item)
+                option_config = {}.tap do |attrs|
+                  attrs[value_key(item)] = item_value(item)
+                  attrs[:disabled] = item_disabled?(item)
+                end
+                option item_label(item), option_config
               end
             end
 
@@ -37,10 +41,10 @@ module Matestack
             end
 
             def select_attributes
-              attributes.merge({
+              attributes.except(:options).merge({
                 multiple: multiple,
                 ":id": id,
-                ref: "select#{'.multiple' if multiple}.#{key}",
+                "matestack-ui-core-ref": scoped_ref("select#{'.multiple' if multiple}.#{key}"),
                 'value-type': value_type(select_options.first),
                 'init-value': init_value,
               })
@@ -72,6 +76,10 @@ module Matestack
 
             def v_model_type
               item_value(select_options.first).is_a?(Numeric) ? 'v-model.number' : 'v-model'
+            end
+
+            def value_key(value)
+              value.is_a?(Numeric) ? ':value' : 'value'
             end
 
             # attributes

@@ -46,9 +46,9 @@ module Matestack
                 ":id": item_id(item),
                 type: :checkbox,
                 name: item_label(item),
-                value: item_value(item),
-                ref: "select.multiple.#{key}",
-                '@change': change_event,
+                "#{value_key(item)}": item_value(item),
+                "matestack-ui-core-ref": scoped_ref("select.multiple.#{key}"),
+                'v-on:change': change_event,
                 'init-value': (init_value || []).to_json,
                 'v-bind:class': "{ '#{error_class}': #{error_key} }",
                 'value-type': value_type(item),
@@ -57,7 +57,7 @@ module Matestack
             end
 
             def render_true_false_checkbox
-              input true_false_checkbox_attributes.merge(type: :hidden, ":id": nil, value: 0)
+              input true_false_checkbox_attributes.merge(type: :hidden, ":id": nil)
               input true_false_checkbox_attributes.merge(type: :checkbox, ":id": item_id(1))
               label input_label, ":for": item_id(1) if input_label
             end
@@ -95,6 +95,10 @@ module Matestack
 
             def item_id(item)
               "#{id}+'_#{item_value(item).to_s.gsub(" ", '_')}'"
+            end
+
+            def value_key(value)
+              value.is_a?(Numeric) ? ':value' : 'value'
             end
 
           end

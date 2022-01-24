@@ -11,6 +11,14 @@ module Matestack
               Matestack::Ui::VueJs::Components::Form::Context.form_context
             end
 
+            def component_attributes
+              super.merge("matestack-ui-core-ref": "#{form_context.component_uid}-#{component_id}")
+            end
+
+            def component_id
+              # defined in subclass
+            end
+
             # options/settings
 
             def key
@@ -37,7 +45,7 @@ module Matestack
               if ctx.id.present?
                 "'#{ctx.id}'"
               else
-                "'#{key}'+$parent.nestedFormRuntimeId"
+                "'#{key}'+vc.parentNestedFormRuntimeId"
               end
             end
 
@@ -53,12 +61,12 @@ module Matestack
 
             def attributes
               (options || {}).merge({
-                ref: "input.#{attribute_key}",
+                "matestack-ui-core-ref": scoped_ref("input.#{attribute_key}"),
                 ":id": id,
                 type: ctx.type,
                 multiple: ctx.multiple,
                 placeholder: ctx.placeholder,
-                '@change': change_event,
+                'v-on:change': change_event,
                 'init-value': init_value,
                 'v-bind:class': "{ '#{input_error_class}': #{error_key} }",
               }).tap do |attrs|
@@ -82,13 +90,13 @@ module Matestack
             end
 
             def change_event
-              input_changed = "inputChanged('#{attribute_key}');"
-              input_changed << "filesAdded('#{attribute_key}');" if type == :file
+              input_changed = "vc.inputChanged('#{attribute_key}');"
+              input_changed << "vc.filesAdded('#{attribute_key}');" if type == :file
               input_changed
             end
 
             def input_key
-              "$parent.data['#{key}']"
+              "vc.parentFormData['#{key}']"
             end
 
             # set v-model.number for all numeric init values or options
@@ -120,7 +128,7 @@ module Matestack
             end
 
             def error_key
-              "$parent.errors['#{key}']"
+              "vc.parentFormErrors['#{key}']"
             end
 
             def error_class

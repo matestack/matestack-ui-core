@@ -20,21 +20,21 @@ module Matestack
             end
           else
             Base.new(:component, component_attributes) do
-              div class: 'matestack-page-container', 'v-bind:class': '{ "loading": loading === true }'  do
+              div class: 'matestack-page-container', 'v-bind:class': '{ "loading": vc.loading === true }'  do
                 if Matestack::Ui::Core::Context.app.respond_to? :loading_state_element
-                  div class: 'loading-state-element-wrapper', 'v-bind:class': '{ "loading": loading === true }'  do
+                  div class: 'loading-state-element-wrapper', 'v-bind:class': '{ "loading": vc.loading === true }'  do
                     Matestack::Ui::Core::Context.app.loading_state_element
                   end
                 end
-                div class: 'matestack-page-wrapper', 'v-bind:class': '{ "loading": loading === true }' do
-                  div 'v-if': 'asyncPageTemplate == null' do
+                div class: 'matestack-page-wrapper', 'v-bind:class': '{ "loading": vc.loading === true }' do
+                  div 'v-if': 'vc.asyncPageTemplate == null' do
                     div class: 'matestack-page-root' do
                       yield
                     end
                   end
-                  div 'v-if': 'asyncPageTemplate != null' do
+                  div 'v-if': 'vc.asyncPageTemplate != null' do
                     div class: 'matestack-page-root' do
-                      Base.new('v-runtime-template', ':template': 'asyncPageTemplate')
+                      Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.asyncPageTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
                     end
                   end
                 end
@@ -47,7 +47,7 @@ module Matestack
           {
             is: 'matestack-ui-core-page-content',
             ':params': params.to_json,
-            'inline-template': true
+            'v-slot': "{ vc, vueComponent }"
           }
         end
 

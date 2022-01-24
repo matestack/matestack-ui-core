@@ -4,13 +4,13 @@ module Matestack
       module Components
         module Collection
           class Previous < Matestack::Ui::Component
-            
+
             def response
-              a options.merge('@click': 'previous()') do
+              a options.merge('v-on:click': 'vc.previous()') do
                 yield
               end
             end
-            
+
           end
         end
       end

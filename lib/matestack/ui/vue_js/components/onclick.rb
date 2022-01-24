@@ -16,7 +16,7 @@ module Matestack
           def onclick_attributes
             options.merge({
               class: "matestack-onclick-component-root",
-              '@click.prevent': 'perform',
+              'v-on:click.prevent': 'vc.perform',
               href: "#"
             })
           end

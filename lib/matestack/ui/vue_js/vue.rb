@@ -17,7 +17,11 @@ module Matestack
         end
 
         def vue_component(&block)
-          Matestack::Ui::Core::Base.new(:component, component_attributes, &block)
+          Matestack::Ui::Core::Base.new(:component, component_attributes) do
+            Matestack::Ui::Core::Base.new("matestack-component-template", 'id': "uid-#{component_uid}") do
+              yield
+            end
+          end
         end
 
         def component_attributes
@@ -25,8 +29,8 @@ module Matestack
             is: vue_name,
             ref: component_id,
             ':params': params.to_json,
-            ':props': self.vue_props.to_json,
-            'inline-template': true
+            ':props': base_vue_props.merge(vue_props)&.to_json,
+            'v-slot': "{ vc, vueComponent }"
           }
         end
 
@@ -34,13 +38,21 @@ module Matestack
           options[:id] || nil
         end
 
+        def component_uid
+          @component_uid ||= SecureRandom.hex
+        end
+
+        def base_vue_props
+          { component_uid: component_uid }
+        end
+
         def vue_props
-          # raise "config needs to be overwritten by #{self.class}"
+          {} # can be overwritten in sub class
         end
         alias :config :vue_props
 
-        def vue_props
-          # raise "config needs to be overwritten by #{self.class}"
+        def scoped_ref(value)
+          return "#{component_uid}-#{value}" unless value.nil?
         end
 
         def self.vue_name(name = nil)

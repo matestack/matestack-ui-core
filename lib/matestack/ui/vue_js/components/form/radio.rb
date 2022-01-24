@@ -35,11 +35,12 @@ module Matestack
               attributes.merge({
                 ":id": item_id(item),
                 name: item_name(item),
-                value: item_value(item),
                 type: :radio,
-                ref: "select.#{key}",
+                "matestack-ui-core-ref": scoped_ref("select.#{key}"),
                 'value-type': value_type(item_value(radio_options.first))
-              })
+              }).tap do |attrs|
+                attrs[value_key(item)] = item_value(item)
+              end
             end
 
             def radio_options
@@ -66,6 +67,14 @@ module Matestack
 
             def v_model_type
               item_value(radio_options.first).is_a?(Numeric) ? 'v-model.number' : 'v-model'
+            end
+
+            def value_key(value)
+              if value.is_a?(Array)
+                value[1].is_a?(Numeric) ? ':value' : 'value'
+              else
+                value.is_a?(Numeric) ? ':value' : 'value'
+              end
             end
 
           end

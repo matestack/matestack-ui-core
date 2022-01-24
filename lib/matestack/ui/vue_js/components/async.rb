@@ -26,8 +26,8 @@ module Matestack
               end
             else
               vue_component do
-                div class: 'matestack-async-component-container', 'v-bind:class': '{ "loading": loading === true }' do
-                  div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate == null', 'v-bind:class': '{ "loading": loading === true }' do
+                div class: 'matestack-async-component-container', 'v-bind:class': '{ "loading": vc.loading === true }' do
+                  div class: 'matestack-async-component-wrapper', 'v-if': 'vc.asyncTemplate == null', 'v-bind:class': '{ "loading": vc.loading === true }' do
                     div async_attributes do
                       if params[:component_key]
                         # we need to yield if a request is looking for a async component, indicated through present params[:component_key]
@@ -38,8 +38,8 @@ module Matestack
                       end
                     end
                   end
-                  div class: 'matestack-async-component-wrapper', 'v-if': 'asyncTemplate != null', 'v-bind:class': '{ "loading": loading === true }' do
-                    Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'asyncTemplate')
+                  div class: 'matestack-async-component-wrapper', 'v-if': 'vc.asyncTemplate != null', 'v-bind:class': '{ "loading": vc.loading === true }' do
+                    Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.asyncTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
                   end
                 end
               end
@@ -48,9 +48,9 @@ module Matestack
 
           def async_attributes
             options.merge({
-              id: ctx.id, 
-              class: 'matestack-async-component-root', 
-              'v-if': 'showing'
+              id: ctx.id,
+              class: 'matestack-async-component-root',
+              'v-if': 'vc.showing'
             })
           end
 

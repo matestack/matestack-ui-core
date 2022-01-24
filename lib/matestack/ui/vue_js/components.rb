@@ -37,7 +37,7 @@ module Matestack
             options[:for] = text
             options[:fields_for] = options.delete(:key)
             text = nil
-            Matestack::Ui::VueJs::Components::Form::Form.(text, options, &block)
+            Matestack::Ui::VueJs::Components::Form::NestedForm.(text, options, &block)
           end
 
           def form_fields_for_remove_item(text=nil, options=nil, &block)

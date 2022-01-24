@@ -6,6 +6,18 @@ module Matestack
           class Input < Matestack::Ui::VueJs::Components::Form::Base
             vue_name 'matestack-ui-core-form-input'
 
+            def initialize(*)
+              super
+              if ctx.type.to_s == "file"
+                if !form_context.is_nested_form? && form_context.multipart_option != true
+                  raise "File Upload requires `multipart: true` in Form Config"
+                end
+                if form_context.is_nested_form? && form_context.parent_form_context.multipart_option != true
+                  raise "File Upload requires `multipart: true` in Form Config"
+                end
+              end
+            end
+
             def response
               div class: 'matestack-ui-core-form-input' do
                 label input_label, ":for": id if input_label
@@ -23,7 +35,7 @@ module Matestack
             end
 
             def init_value
-              return nil if ctx.type.to_s == "file" 
+              return nil if ctx.type.to_s == "file"
               super
             end
 

@@ -21,8 +21,8 @@ module Matestack
           def attributes
             options.merge({
               href: ctx.path,
-              '@click.prevent': "navigateTo(\"#{ctx.path}\")",
-              "v-bind:class": "{ active: isActive, 'active-child': isChildActive }"
+              'v-on:click.prevent': "vc.navigateTo(\"#{ctx.path}\")",
+              "v-bind:class": "{ active: vc.isActive, 'active-child': vc.isChildActive }"
             })
           end
 

@@ -2,13 +2,17 @@
   "name": "dummy",
   "private": true,
   "dependencies": {
+    "@babel/preset-env": "^7.16.7",
     "@rails/actioncable": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "4.2.2",
-    "webpack-merge": "^5.8.0",
+    "@rails/webpacker": "^5.0.0",
     "matestack-ui-core": "../../"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.2"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
 }

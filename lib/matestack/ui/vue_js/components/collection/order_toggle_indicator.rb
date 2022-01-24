@@ -10,11 +10,11 @@ module Matestack
 
             def response
               span do
-                span "v-if": "ordering['#{ctx.key}'] === undefined" do
+                span "v-if": "vc.ordering['#{ctx.key}'] === undefined" do
                   plain ctx.default
                 end
                 unescaped "{{
-                  orderIndicator(
+                  vc.orderIndicator(
                     '#{ctx.key}',
                     { asc: '#{ctx.asc}', desc: '#{ctx.desc}'}
                   )

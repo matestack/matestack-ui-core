@@ -14,7 +14,7 @@ gemspec
 group :development, :test do
   gem 'rspec-rails', '~> 4.0.2'
   gem 'capybara'
-  gem 'webpacker', '~> 4.0'
+  gem 'webpacker', '~> 5.0'
   gem 'pg', '>= 0.18', '< 2.0'
   gem 'selenium-webdriver'
   gem 'puma'

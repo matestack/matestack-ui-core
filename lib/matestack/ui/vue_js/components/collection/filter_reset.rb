@@ -6,7 +6,7 @@ module Matestack
           class FilterReset < Matestack::Ui::Component
 
             def response
-              a '@click': 'resetFilter()' do
+              a 'v-on:click': 'vc.resetFilter()' do
                 yield
               end
             end

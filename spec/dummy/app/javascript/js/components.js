@@ -1,11 +1,10 @@
 //used in specs!
 
-import Vue from 'vue'
-import Vuex from 'vuex'
 import MatestackUiCore from 'matestack-ui-core'
 
-Vue.component('test-component', {
+const testComponent = {
   mixins: [MatestackUiCore.componentMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data: function data() {
     return {
       dynamic_value: "foo",
@@ -14,7 +13,7 @@ Vue.component('test-component', {
   },
   methods:{
     emitMessage: function(event_name, message){
-      MatestackUiCore.matestackEventHub.$emit(event_name, message)
+      MatestackUiCore.eventHub.$emit(event_name, message)
     }
   },
   mounted(){
@@ -22,14 +21,15 @@ Vue.component('test-component', {
     setTimeout(function () {
       self.dynamic_value = "test-component: bar"
     }, 300);
-    MatestackUiCore.matestackEventHub.$on("some_external_event", function(data){
+    MatestackUiCore.eventHub.$on("some_external_event", function(data){
       self.received_message = data;
     })
   }
-});
+};
 
-Vue.component('my-test-component', {
+const myTestComponent = {
   mixins: [MatestackUiCore.componentMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data: function data() {
     return {
       dynamic_value: "foo"
@@ -41,10 +41,11 @@ Vue.component('my-test-component', {
       self.dynamic_value = "my-test-component: bar"
     }, 300);
   }
-});
+};
 
-Vue.component('custom-form-input-test', {
+const customFormInputComponent = {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formInputMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -59,14 +60,18 @@ Vue.component('custom-form-input-test', {
     }
   },
   mounted: function(){
-    if(this.$el.querySelector("#bar") != undefined){
-      this.$el.querySelector("#bar").classList.add("js-added-class")
+    if(this.getElement().querySelector("#bar") != undefined){
+      this.getElement().querySelector("#bar").classList.add("js-added-class")
+    }
+    if(this.getElement().querySelector("#baz") != undefined){
+      this.getElement().querySelector("#baz").classList.add("js-added-other-class")
     }
   }
-});
+};
 
-Vue.component('custom-form-textarea-test', {
+const customFormTextareaComponent = {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formTextareaMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -81,14 +86,15 @@ Vue.component('custom-form-textarea-test', {
     }
   },
   mounted: function(){
-    if(this.$el.querySelector("#bar") != undefined){
-      this.$el.querySelector("#bar").classList.add("js-added-class")
+    if(this.getElement().querySelector("#bar") != undefined){
+      this.getElement().querySelector("#bar").classList.add("js-added-class")
     }
   }
-});
+};
 
-Vue.component('custom-form-radio-test', {
+const customFormRadioComponent = {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formRadioMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -103,14 +109,15 @@ Vue.component('custom-form-radio-test', {
     }
   },
   mounted: function(){
-    if(this.$el.querySelector("#bar_1") != undefined){
-      this.$el.querySelector("#bar_1").classList.add("js-added-class")
+    if(this.getElement().querySelector("#bar_1") != undefined){
+      this.getElement().querySelector("#bar_1").classList.add("js-added-class")
     }
   }
-});
+};
 
-Vue.component('custom-form-checkbox-test', {
+const customFormCheckboxComponent = {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formCheckboxMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -125,14 +132,15 @@ Vue.component('custom-form-checkbox-test', {
     }
   },
   mounted: function(){
-    if(this.$el.querySelector("#bar_1") != undefined){
-      this.$el.querySelector("#bar_1").classList.add("js-added-class")
+    if(this.getElement().querySelector("#bar_1") != undefined){
+      this.getElement().querySelector("#bar_1").classList.add("js-added-class")
     }
   }
-});
+};
 
-Vue.component('custom-form-select-test', {
+const customFormSelectComponent = {
   mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formSelectMixin],
+  template: MatestackUiCore.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -147,8 +155,20 @@ Vue.component('custom-form-select-test', {
     }
   },
   mounted: function(){
-    if(this.$el.querySelector("#bar") != undefined){
-      this.$el.querySelector("#bar").classList.add("js-added-class")
+    if(this.getElement().querySelector("#bar") != undefined){
+      this.getElement().querySelector("#bar").classList.add("js-added-class")
     }
   }
-});
+};
+
+const registerCustomComponents = function(appInstance){
+  appInstance.component('custom-form-select-test', customFormSelectComponent)
+  appInstance.component('custom-form-checkbox-test', customFormCheckboxComponent)
+  appInstance.component('custom-form-radio-test', customFormRadioComponent)
+  appInstance.component('custom-form-textarea-test', customFormTextareaComponent)
+  appInstance.component('custom-form-input-test', customFormInputComponent)
+  appInstance.component('my-test-component', myTestComponent)
+  appInstance.component('test-component', testComponent)
+}
+
+export default registerCustomComponents

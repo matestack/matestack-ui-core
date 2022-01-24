@@ -16,7 +16,7 @@ module Matestack
           def attributes
             {
               href: ctx.path,
-              '@click.prevent': 'perform',
+              'v-on:click.prevent': 'vc.perform'
             }.merge(options)
           end
 

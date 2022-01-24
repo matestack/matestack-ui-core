@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   scope :demo do
     get :first, to: 'demo#first', as: :first_page
     get :second, to: 'demo#second', as: :second_page
+    post :ssr_call, to: 'demo#ssr_call', as: :ssr_call
+    post :form_submit, to: 'demo#form_submit', as: :form_submit
   end
 
   # routes used within specs

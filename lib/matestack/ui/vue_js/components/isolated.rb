@@ -29,23 +29,23 @@ module Matestack
           end
 
           def isolated
-            Matestack::Ui::Core::Base.new(:component, component_attributes) do
-              div class: 'matestack-isolated-component-container', 'v-bind:class': '{ loading: loading === true }' do
+            vue_component do
+              div class: 'matestack-isolated-component-container', 'v-bind:class': '{ loading: vc.loading === true }' do
                 if self.respond_to? :loading_state_element
-                  div class: 'loading-state-element-wrapper', 'v-bind:class': '{ loading: loading === true }' do
+                  div class: 'loading-state-element-wrapper', 'v-bind:class': '{ loading: vc.loading === true }' do
                     loading_state_element
                   end
                 end
                 unless ctx.defer || ctx.init_on
-                  div class: 'matestack-isolated-component-wrapper', 'v-if': 'isolatedTemplate == null', 'v-bind:class': '{ loading: loading === true }' do
+                  div class: 'matestack-isolated-component-wrapper', 'v-if': 'vc.isolatedTemplate == null', 'v-bind:class': '{ loading: vc.loading === true }' do
                     div class: 'matestack-isolated-component-root' do
                       yield
                     end
                   end
                 end
-                div class: 'matestack-isolated-component-wrapper', 'v-if': 'isolatedTemplate != null', 'v-bind:class': '{ loading: loading === true }' do
+                div class: 'matestack-isolated-component-wrapper', 'v-if': 'vc.isolatedTemplate != null', 'v-bind:class': '{ loading: vc.loading === true }' do
                   div class: 'matestack-isolated-component-root' do
-                    Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'isolatedTemplate')
+                    Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.isolatedTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
                   end
                 end
               end

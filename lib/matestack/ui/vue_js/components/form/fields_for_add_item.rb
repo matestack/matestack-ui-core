@@ -3,10 +3,10 @@ module Matestack
     module VueJs
       module Components
         module Form
-          class FieldsForAddItem < Matestack::Ui::Component
+          class FieldsForAddItem < Matestack::Ui::VueJs::Vue
+            vue_name 'matestack-ui-core-form-fields-for-add-item'
 
             required :key
-
             required :prototype
 
             attr_accessor :prototype_template_json
@@ -21,8 +21,8 @@ module Matestack
 
             def response
               div id: "prototype-template-for-#{context.key}", "v-pre": true, data: { ":template":  self.prototype_template_json }
-              Matestack::Ui::Core::Base.new('v-runtime-template', ':template': "nestedFormRuntimeTemplates['#{context.key}']")
-              a class: 'matestack-ui-core-form-fields-for-add-item', "@click.prevent": "addItem('#{context.key}')" do
+              Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': "vc.parentNestedFormRuntimeTemplates['#{context.key}']", ':vc': 'vc', ':vue-component': 'vueComponent')
+              a class: 'matestack-ui-core-form-fields-for-add-item', "@click.prevent": "vc.addItem('#{context.key}')" do
                 yield if block_given?
               end
             end

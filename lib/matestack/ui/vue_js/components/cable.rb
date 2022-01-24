@@ -29,7 +29,7 @@ module Matestack
           def response
             div container_attributes do
               div wrapper_attributes do
-                Matestack::Ui::Core::Base.new('v-runtime-template', ':template': 'cableTemplate')
+                Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.cableTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
               end
             end
           end
@@ -37,15 +37,15 @@ module Matestack
           def container_attributes
             {
               class: 'matestack-cable-component-container',
-              'v-bind:class': '{ loading: loading === true }'
+              'v-bind:class': '{ loading: vc.loading === true }'
             }
           end
 
           def wrapper_attributes
             {
               class: 'matestack-cable-component-wrapper',
-              'v-if': 'cableTemplate != null', 
-              'v-bind:class': '{ loading: loading === true }'
+              'v-if': 'vc.cableTemplate != null',
+              'v-bind:class': '{ loading: vc.loading === true }'
             }
           end
 

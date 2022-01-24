@@ -4,15 +4,15 @@ module Matestack
       module Components
         module Collection
           class Page < Matestack::Ui::Component
-            
+
             required :page
-            
+
             def response
-              a options.merge('@click': "goToPage(#{ctx.page})") do
+              a options.merge('v-on:click': "vc.goToPage(#{ctx.page})") do
                 yield
               end
             end
-            
+
           end
         end
       end
