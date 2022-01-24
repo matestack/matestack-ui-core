@@ -36,7 +36,7 @@ describe "Form Component", type: :feature, js: true do
           end
           div id: "timestamp" do
             toggle show_on: "form_submitted_successfully", id: 'async-form' do
-              paragraph "{{event.data.received_at}}", id: 'received_timestamp'
+              paragraph "{{vc.event.data.received_at}}", id: 'received_timestamp'
             end
           end
         end

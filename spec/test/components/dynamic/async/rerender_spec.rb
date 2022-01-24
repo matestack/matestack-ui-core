@@ -208,7 +208,7 @@ describe "Async Component", type: :feature, js: true do
       end
     end
 
-    module Example::Pages 
+    module Example::Pages
     end
 
     class Example::Pages::ExamplePage < Matestack::Ui::Page
@@ -261,30 +261,30 @@ describe "Async Component", type: :feature, js: true do
           end
         end
       end
-  
+
       visit "/example"
-      (0..5).each do |item| 
+      (0..5).each do |item|
         expect(page).to have_content("#{item} -", count: 1)
       end
       initial_content = (0..5).map { |item| page.find("#my-div-#{item}").text }
-  
+
       # rerender first list element asynchronously, others should not change
       page.execute_script('MatestackUiCore.eventHub.$emit("my_event_0")')
       expect(page).not_to have_content(initial_content[0])
       initial_content[0] = page.find("#my-div-0").text
-      (0..5).each do |item| 
+      (0..5).each do |item|
         expect(page).to have_content("#{item} -", count: 1)
       end
-      (1..5).each do |item| 
+      (1..5).each do |item|
         expect(page).to have_content(initial_content[item])
       end
-  
+
       # rerender all elements asynchronously, all should change
       page.execute_script('MatestackUiCore.eventHub.$emit("multi_event")')
-      (0..5).each do |item| 
+      (0..5).each do |item|
         expect(page).to have_content("#{item} -", count: 1)
       end
-      (0..5).each do |item| 
+      (0..5).each do |item|
         expect(page).not_to have_content(initial_content[item])
       end
     end
@@ -301,27 +301,27 @@ describe "Async Component", type: :feature, js: true do
             end
           end
           toggle show_on: 'async_rerender_error', id: 'async_error' do
-            plain 'Error - {{ event.data.id }}'
+            plain 'Error - {{ vc.event.data.id }}'
           end
         end
       end
-  
+
       ExamplePage.items = (0..5)
       visit "/example"
-      (0..5).each do |item| 
+      (0..5).each do |item|
         expect(page).to have_content("#{item} -", count: 1)
       end
       initial_content = (0..5).map { |item| page.find("#my-div-#{item}").text }
       expect(page).not_to have_content('Error - async-item-4')
-      
+
       # rerender all elements asynchronously, item 4 should not be changed and
       # a 404 and emit failure event with correct id should be generated
       ExamplePage.items = (0..5).reject { |item| item == 4 }
       page.execute_script('MatestackUiCore.eventHub.$emit("multi_event")')
-      ExamplePage.items.each do |item| 
+      ExamplePage.items.each do |item|
         expect(page).to have_content("#{item} -", count: 1)
       end
-      ExamplePage.items.each do |item| 
+      ExamplePage.items.each do |item|
         expect(page).not_to have_content(initial_content[item])
       end
       expect(page).to have_content(initial_content[4])
@@ -344,16 +344,16 @@ describe "Async Component", type: :feature, js: true do
             end
           end
           toggle show_on: 'async_rerender_error', id: 'async_error' do
-            plain 'Error - {{ event.data.id }}'
+            plain 'Error - {{ vc.event.data.id }}'
           end
         end
       end
-  
+
       ExamplePage.active = true
       visit "/example"
       initial_content = page.find("#my-div").text
       expect(page).not_to have_content('Error - async-item')
-      
+
       # rerender asynchronously, should return 404 and emit failure event with correct id, content of async should not be changed
       ExamplePage.active = false
       page.execute_script('MatestackUiCore.eventHub.$emit("my_event")')

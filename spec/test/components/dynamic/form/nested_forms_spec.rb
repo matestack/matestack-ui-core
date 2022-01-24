@@ -151,6 +151,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
 
     it "submits properly and enables creation of child elements via Rails nested attrbutes approach" do
       visit "/example"
+      # sleep
 
       expect_any_instance_of(NestedFormTestController).to receive(:expect_params)
         .with(
@@ -312,7 +313,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
                 form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
                   form_input key: :title, type: :text, label: "dummy-child-model-title-input"
                   form_fields_for_remove_item do
-                    button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                    button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
                   end
                 end
               end
@@ -437,7 +438,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
             form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
               form_input key: :title, type: :text, label: "dummy-child-model-title-input"
               form_fields_for_remove_item do
-                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
               end
             end
           end
@@ -566,7 +567,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
             form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
               form_input key: :title, type: :text, label: "dummy-child-model-title-input"
               form_fields_for_remove_item do
-                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
               end
             end
           end
@@ -845,7 +846,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
             form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
               form_input key: :title, type: :text, label: "dummy-child-model-title-input"
               form_fields_for_remove_item do
-                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
               end
             end
           end
@@ -976,7 +977,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
             form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
               form_input key: :title, type: :text, label: "dummy-child-model-title-input"
               form_fields_for_remove_item do
-                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
               end
             end
           end
@@ -1140,7 +1141,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
 
               button "Submit me!"
 
-              plain "Errors: {{errors}}"
+              plain "Errors: {{vc.errors}}"
 
               toggle show_on: "success", hide_after: 1000 do
                 plain "success!"
@@ -1205,7 +1206,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
 
               button "Submit me!"
 
-              plain "Errors: {{errors}}"
+              plain "Errors: {{vc.errors}}"
 
               toggle show_on: "success", hide_after: 1000 do
                 plain "success!"
@@ -1298,7 +1299,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
               form_input key: :files, type: :file, label: "dummy-child-model-files-input", multiple: true
 
               form_fields_for_remove_item do
-                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
               end
             end
           end
@@ -1419,7 +1420,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
               end
 
               br
-              plain "data: {{data}}"
+              plain "data: {{vc.data}}"
               br
 
               button "Submit me!"
@@ -1437,7 +1438,7 @@ describe "nested forms supporting nested attributes API from ActiveRecord models
             form_fields_for dummy_child_model, key: :dummy_child_models_attributes do
               form_input key: :title, type: :text, label: "dummy-child-model-title-input"
               form_fields_for_remove_item do
-                button "remove", ":id": "'remove'+nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
+                button "remove", ":id": "'remove'+vc.nestedFormRuntimeId", type: :button # id is just required in this spec, but type: :button is important! otherwise remove on first item is triggered on enter
               end
             end
           end

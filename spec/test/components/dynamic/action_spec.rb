@@ -130,7 +130,7 @@ describe "Action Component", type: :feature, js: true do
             button "Click me!"
           end
           toggle show_on: "my_action_success", hide_after: 300 do
-            plain "{{event.data.message}}"
+            plain "{{vc.event.data.message}}"
           end
         end
 
@@ -160,10 +160,10 @@ describe "Action Component", type: :feature, js: true do
             button "Click me!"
           end
           toggle show_on: "my_action_success", hide_after: 300 do
-            plain "{{event.data.message}}"
+            plain "{{vc.event.data.message}}"
           end
           toggle show_on: "my_action_failure", hide_after: 300 do
-            plain "{{event.data.message}}"
+            plain "{{vc.event.data.message}}"
           end
         end
 
@@ -205,10 +205,10 @@ describe "Action Component", type: :feature, js: true do
                 h1 'App'
                 yield
                 toggle show_on: "my_action_success", hide_after: 300 do
-                  plain "{{event.data.message}}"
+                  plain "{{vc.event.data.message}}"
                 end
                 toggle show_on: "my_action_failure", hide_after: 300 do
-                  plain "{{event.data.message}}"
+                  plain "{{vc.event.data.message}}"
                 end
               end
             end
@@ -311,10 +311,10 @@ describe "Action Component", type: :feature, js: true do
                 h1 'App'
                 yield
                 toggle show_on: "my_action_success", hide_after: 300 do
-                  plain "{{event.data.message}}"
+                  plain "{{vc.event.data.message}}"
                 end
                 toggle show_on: "my_action_failure", hide_after: 300 do
-                  plain "{{event.data.message}}"
+                  plain "{{vc.event.data.message}}"
                 end
               end
             end
@@ -439,10 +439,10 @@ describe "Action Component", type: :feature, js: true do
                 h1 'App'
                 yield
                 toggle show_on: "my_action_success", hide_after: 300 do
-                  plain "{{event.data.message}}"
+                  plain "{{vc.event.data.message}}"
                 end
                 toggle show_on: "my_action_failure", hide_after: 300 do
-                  plain "{{event.data.message}}"
+                  plain "{{vc.event.data.message}}"
                 end
               end
             end

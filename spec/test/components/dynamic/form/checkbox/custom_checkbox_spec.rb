@@ -28,7 +28,7 @@ describe "Form Component", type: :feature, js: true do
         div class: "custom-input-markup" do
           label "my form input"
           render_options
-          button "change value", "@click": "changeValueViaJs(2)", type: :button
+          button "change value", "@click": "vc.changeValueViaJs(2)", type: :button
           render_errors
         end
       end

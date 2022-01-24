@@ -29,7 +29,7 @@ describe "Form Component", type: :feature, js: true do
         div class: "custom-input-markup" do
           label text: "my form textarea"
           textarea textarea_attributes
-          button "change value", type: :button, "@click": "changeValueViaJs(42)"
+          button "change value", type: :button, "@click": "vc.changeValueViaJs(42)"
           render_errors
         end
       end

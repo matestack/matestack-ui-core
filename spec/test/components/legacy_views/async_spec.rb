@@ -13,7 +13,7 @@ describe "Async Component", type: :feature, js: true do
           button 'Click me!'
         end
         toggle show_on: 'async_rerender_error', id: 'async-error' do
-          plain 'Error - {{event.data.id}}'
+          plain 'Error - {{vc.event.data.id}}'
         end
       end
     end
@@ -39,7 +39,7 @@ describe "Async Component", type: :feature, js: true do
             button 'Click me!'
           end
           toggle show_on: 'async_rerender_error', id: 'async-error' do
-            plain 'Error - {{event.data.id}}'
+            plain 'Error - {{vc.event.data.id}}'
           end
         end
       end

@@ -141,7 +141,7 @@ describe "Async Component", type: :feature, js: true do
       def response
         toggle show_on: "my_event", id: 'async-div' do
           div id: "my-div" do
-            plain "{{event.data.message}}"
+            plain "{{vc.event.data.message}}"
           end
         end
       end

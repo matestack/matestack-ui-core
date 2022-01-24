@@ -81,7 +81,7 @@ describe "Isolated Component defer", type: :feature, js: true do
     # only the component itself is resolved on the server side --> counter + 2
     expect(TouchedElementsCounter.instance.counter).to eq 2
   end
-  
+
   it "is deferred by a given time" do
     class ExamplePage < Matestack::Ui::Page
       def prepare

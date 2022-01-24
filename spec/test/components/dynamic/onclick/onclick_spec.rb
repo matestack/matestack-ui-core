@@ -31,7 +31,7 @@ describe "Onclick Component", type: :feature, js: true do
         toggle show_on: 'show_message' do
           plain "some message"
           br
-          plain "{{event.data}}"
+          plain "{{vc.event.data}}"
         end
       end
     end

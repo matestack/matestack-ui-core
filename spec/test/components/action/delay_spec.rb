@@ -30,7 +30,7 @@ describe "Action Component", type: :feature, js: true do
           end
           div id: "timestamp" do
             toggle show_on: "action_submitted_successfully" do
-              plain "{{event.data.received_at}}"
+              plain "{{vc.event.data.received_at}}"
             end
           end
         end

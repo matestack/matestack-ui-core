@@ -45,11 +45,11 @@ describe "Form Component", type: :feature, js: true do
                 yield
               end
               toggle show_on: "my_form_success", hide_after: 300, id: 'async-form-success' do
-                plain "{{event.data.message}}"
+                plain "{{vc.event.data.message}}"
               end
               toggle show_on: "my_form_failure", hide_after: 300, id: 'async-form-failure' do
-                plain "{{event.data.message}}"
-                plain "{{event.data.errors}}"
+                plain "{{vc.event.data.message}}"
+                plain "{{vc.event.data.errors}}"
               end
             end
           end

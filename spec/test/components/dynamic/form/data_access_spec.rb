@@ -27,10 +27,10 @@ describe "Form Component", type: :feature, js: true do
     class ExamplePage < Matestack::Ui::Page
       def response
         matestack_form form_config do
-          plain "{{ data }}"
+          plain "{{ vc.data }}"
           form_input key: :foo_input, type: :text, id: "foo-input"
           form_textarea key: :foo_textarea, type: :text, id: "foo-textarea"
-          form_select key: :foo_select, options: [1, 2, 3], id: "foo-select", init: 2
+          form_select key: :foo_select, options: [1, 2, 3, "baaar"], id: "foo-select", init: 2
           form_checkbox key: :foo_single_checkbox, id: "foo-single-checkbox"
           form_checkbox key: :foo_multi_checkbox, options: [1, 2, 3], id: "foo-multi-checkbox"
           form_radio key: :foo_radio, options: [1, 2, 3], id: "foo-radio-checkbox"

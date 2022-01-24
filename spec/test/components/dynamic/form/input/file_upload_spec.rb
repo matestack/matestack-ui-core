@@ -79,12 +79,12 @@ describe "Form Component", type: :feature, js: true do
             button 'Submit me!'
           end
           toggle show_on: "uploaded_successfully", id: 'async-form' do
-            plain "{{event.data.title}}"
-            plain "{{event.data.file_1.instance}}"
-            plain "{{event.data.file_1.name}}"
-            plain "{{event.data.file_2.instance}}"
-            plain "{{event.data.file_2.name}}"
-            plain "{{event.data.files}}"
+            plain "{{vc.event.data.title}}"
+            plain "{{vc.event.data.file_1.instance}}"
+            plain "{{vc.event.data.file_1.name}}"
+            plain "{{vc.event.data.file_2.instance}}"
+            plain "{{vc.event.data.file_2.name}}"
+            plain "{{vc.event.data.files}}"
           end
         end
 
@@ -256,9 +256,9 @@ describe "Form Component", type: :feature, js: true do
             button 'Submit me!'
           end
           toggle show_on: "uploaded_successfully", hide_on: "form_submitted", id: 'async-form' do
-            plain "{{event.data.file_1.instance}}"
-            plain "{{event.data.file_1.name}}"
-            plain "{{event.data.files}}"
+            plain "{{vc.event.data.file_1.instance}}"
+            plain "{{vc.event.data.file_1.name}}"
+            plain "{{vc.event.data.files}}"
           end
         end
 
@@ -277,9 +277,13 @@ describe "Form Component", type: :feature, js: true do
       end
 
       visit '/example'
+      expect(page.find('#file-1-input').value).to eq("")
+      expect(page.find('#files-input').value).to eq("")
       fill_in "title-input", with: "bar"
       attach_file('file-1-input', "#{File.dirname(__FILE__)}/test_files/matestack-logo.png")
       attach_file("files-input", ["#{File.dirname(__FILE__)}/test_files/matestack-logo.png", "#{File.dirname(__FILE__)}/test_files/corgi.mp4"])
+      expect(page.find('#file-1-input').value).not_to eq("")
+      expect(page.find('#files-input').value).not_to eq("")
       click_button "Submit me!"
       expect(page).to have_content("file_1 instance: #<ActionDispatch::Http::UploadedFile")
       expect(page).to have_content("file_1 with name: matestack-logo.png")
@@ -287,6 +291,8 @@ describe "Form Component", type: :feature, js: true do
       expect(page).to have_content("files[1] instance: #<ActionDispatch::Http::UploadedFile")
       expect(page).to have_content("files[0] with name: matestack-logo.png")
       expect(page).to have_content("files[1] with name: corgi.mp4")
+      expect(page.find('#file-1-input').value).to eq("")
+      expect(page.find('#files-input').value).to eq("")
 
       fill_in "title-input", with: "bar"
       click_button "Submit me!"
@@ -311,9 +317,9 @@ describe "Form Component", type: :feature, js: true do
             button 'Submit me!'
           end
           toggle show_on: "uploaded_successfully", hide_on: "form_submitted", id: 'async-form' do
-            plain "{{event.data.file_1.instance}}"
-            plain "{{event.data.file_1.name}}"
-            plain "{{event.data.files}}"
+            plain "{{vc.event.data.file_1.instance}}"
+            plain "{{vc.event.data.file_1.name}}"
+            plain "{{vc.event.data.files}}"
           end
         end
 

@@ -56,7 +56,7 @@ describe "form errors", type: :feature, js: true do
         matestack_form form_config do
           form_input id: "text-input", key: :foo, type: :text
           button "Submit me!"
-          plain "Errors: {{errors}}"
+          plain "Errors: {{vc.errors}}"
         end
       end
 

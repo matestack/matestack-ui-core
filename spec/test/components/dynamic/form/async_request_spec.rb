@@ -71,7 +71,7 @@ describe "Form Component", type: :feature, js: true do
         def response
           super
           toggle show_on: "my_form_success", id: 'async-form' do
-            plain "{{event.data.message}}"
+            plain "{{vc.event.data.message}}"
           end
         end
 
@@ -91,8 +91,8 @@ describe "Form Component", type: :feature, js: true do
         def response
           super
           toggle show_on: "my_form_failure", id: 'async-form' do
-            plain "{{event.data.message}}"
-            plain "{{event.data.errors}}"
+            plain "{{vc.event.data.message}}"
+            plain "{{vc.event.data.errors}}"
           end
         end
 

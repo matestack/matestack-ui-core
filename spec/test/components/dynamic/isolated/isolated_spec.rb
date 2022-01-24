@@ -61,8 +61,12 @@ describe "Isolate Component", type: :feature, js: true do
 
       def response
         div id: "page-div" do
-          some_isolated_component
-          some_other_component
+          div id: "first" do
+            some_isolated_component
+          end
+          div id: "second" do
+            some_other_component
+          end
         end
       end
 
@@ -70,10 +74,10 @@ describe "Isolate Component", type: :feature, js: true do
 
     visit "/example"
     # used on page
-    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="matestack-isolated-component-root"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
+    expect(page).to have_xpath('//div[@id="page-div"]/div[@id="first"]/matestack-component-template/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="matestack-isolated-component-root"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
     # used on component
-    expect(page).to have_xpath('//div[@id="page-div"]/div[@class="some-other-component"]/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="matestack-isolated-component-root"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
+    expect(page).to have_xpath('//div[@id="page-div"]/div[@id="second"]/div[@class="some-other-component"]/matestack-component-template/div[@class="matestack-isolated-component-container"]/div[@class="matestack-isolated-component-wrapper"]/div[@class="matestack-isolated-component-root"]/div[@class="some-isolated-component"]/span[@id="text" and contains(.,"some isolated compenent")]')
 
   end
 
