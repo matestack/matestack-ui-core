@@ -15,6 +15,6 @@
 %>
 <%=
   Matestack::Ui::VueJs::Components::Async.(show_on: 'action_successful', id: 'async-action-success') do
-    plain "Action was successful {{ event.data.time }}"
+    plain "Action was successful {{ vc.event.data.time }}"
   end
 %>

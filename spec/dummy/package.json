@@ -6,7 +6,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "^5.0.0",
-    "matestack-ui-core": "../../"
+    "matestack-ui-vue_js": "../../"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.2"

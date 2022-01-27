@@ -11,18 +11,10 @@ require("@rails/ujs").start()
 require("channels")
 
 import { createApp } from 'vue'
-import MatestackUiCore from 'matestack-ui-core'
-
-//for specs only
-window.MatestackUiCore = MatestackUiCore // making MatestackUiCore globally available for test compatability
-// MatestackUiCore.Vue = Vue // test compatability
-import registerCustomComponents from '../js/components' //for specs only
-//for specs only
+import MatestackUiVueJs from 'matestack-ui-vue_js'
 
 const appInstance = createApp({})
 
-registerCustomComponents(appInstance) //for specs only
-
 document.addEventListener('DOMContentLoaded', () => {
-  MatestackUiCore.mount(appInstance, '#matestack-ui')
+  MatestackUiVueJs.mount(appInstance)
 })

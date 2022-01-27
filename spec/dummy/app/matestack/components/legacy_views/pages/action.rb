@@ -14,10 +14,10 @@ class Components::LegacyViews::Pages::Action < Matestack::Ui::Component
       end
       action_in_partial
       toggle show_on: 'action_successful', id: 'async-action-success' do
-        plain "Action was successful {{ event.data.time }}"
+        plain "Action was successful {{ vc.event.data.time }}"
       end
       toggle show_on: 'action_failed', id: 'async-action-failure' do
-        plain "Action has failed {{ event.data.time }}"
+        plain "Action has failed {{ vc.event.data.time }}"
       end
       paragraph 'header called from inside custom component'
       rails_render template: 'demo/header', foo: 'Bar'

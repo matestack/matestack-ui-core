@@ -1,10 +1,10 @@
 //used in specs!
 
-import MatestackUiCore from 'matestack-ui-core'
+import MatestackUiVueJs from 'matestack-ui-vue_js'
 
 const testComponent = {
-  mixins: [MatestackUiCore.componentMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data: function data() {
     return {
       dynamic_value: "foo",
@@ -13,7 +13,7 @@ const testComponent = {
   },
   methods:{
     emitMessage: function(event_name, message){
-      MatestackUiCore.eventHub.$emit(event_name, message)
+      MatestackUiVueJs.eventHub.$emit(event_name, message)
     }
   },
   mounted(){
@@ -21,15 +21,15 @@ const testComponent = {
     setTimeout(function () {
       self.dynamic_value = "test-component: bar"
     }, 300);
-    MatestackUiCore.eventHub.$on("some_external_event", function(data){
+    MatestackUiVueJs.eventHub.$on("some_external_event", function(data){
       self.received_message = data;
     })
   }
 };
 
 const myTestComponent = {
-  mixins: [MatestackUiCore.componentMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data: function data() {
     return {
       dynamic_value: "foo"
@@ -44,8 +44,8 @@ const myTestComponent = {
 };
 
 const customFormInputComponent = {
-  mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formInputMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin, MatestackUiVueJs.formInputMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -70,8 +70,8 @@ const customFormInputComponent = {
 };
 
 const customFormTextareaComponent = {
-  mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formTextareaMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin, MatestackUiVueJs.formTextareaMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -93,8 +93,8 @@ const customFormTextareaComponent = {
 };
 
 const customFormRadioComponent = {
-  mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formRadioMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin, MatestackUiVueJs.formRadioMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -116,8 +116,8 @@ const customFormRadioComponent = {
 };
 
 const customFormCheckboxComponent = {
-  mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formCheckboxMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin, MatestackUiVueJs.formCheckboxMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
@@ -139,8 +139,8 @@ const customFormCheckboxComponent = {
 };
 
 const customFormSelectComponent = {
-  mixins: [MatestackUiCore.componentMixin, MatestackUiCore.formSelectMixin],
-  template: MatestackUiCore.componentHelpers.inlineTemplate,
+  mixins: [MatestackUiVueJs.componentMixin, MatestackUiVueJs.formSelectMixin],
+  template: MatestackUiVueJs.componentHelpers.inlineTemplate,
   data() {
     return {};
   },
