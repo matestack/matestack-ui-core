@@ -21,7 +21,7 @@ module Matestack
 
             def response
               div id: "prototype-template-for-#{context.key}", "v-pre": true, data: { ":template":  self.prototype_template_json }
-              Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': "vc.parentNestedFormRuntimeTemplates['#{context.key}']", ':vc': 'vc', ':vue-component': 'vueComponent')
+              Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': "vc.parentNestedFormRuntimeTemplates['#{context.key}']", ':vc': 'vc')
               a class: 'matestack-ui-core-form-fields-for-add-item', "@click.prevent": "vc.addItem('#{context.key}')" do
                 yield if block_given?
               end

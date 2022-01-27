@@ -29,7 +29,7 @@ module Matestack
           def response
             div container_attributes do
               div wrapper_attributes do
-                Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.cableTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
+                Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.cableTemplate', ':vc': 'vc')
               end
             end
           end

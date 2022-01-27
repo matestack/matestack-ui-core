@@ -31,7 +31,7 @@ module Matestack
             ref: component_id,
             ':params': params.to_json,
             ':props': base_vue_props.merge(vue_props)&.to_json,
-            'v-slot': "{ vc, vueComponent }"
+            'v-slot': "{ vc }"
           }
         end
 

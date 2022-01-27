@@ -3,6 +3,14 @@ module Matestack
     module VueJs
       module Components
 
+          def matestack_vue_js_app(text=nil, options=nil, &block)
+             Matestack::Ui::VueJs::Components::App.(text, options, &block)
+          end
+
+          def page_switch(text=nil, options=nil, &block)
+             Matestack::Ui::VueJs::Components::PageSwitch.(text, options, &block)
+          end
+
           def toggle(text=nil, options=nil, &block)
              Matestack::Ui::VueJs::Components::Toggle.(text, options, &block)
           end
@@ -103,7 +111,6 @@ module Matestack
           def collection_content_page_link(text=nil, options=nil, &block)
              Matestack::Ui::VueJs::Components::Collection::Page.(text, options, &block)
           end
-
 
       end
     end

@@ -14,11 +14,12 @@ require "#{base_path}/properties"
 require "#{base_path}/base"
 require "#{base_path}/component"
 require "#{base_path}/page"
-require "#{base_path}/app"
+require "#{base_path}/layout"
 require "#{base_path}/helper"
 
 # require abbreveations for apps, pages and components
-require "matestack/ui/app"
+require "matestack/ui/app" # deprecated
+require "matestack/ui/layout"
 require "matestack/ui/page"
 require "matestack/ui/component"
 
@@ -35,8 +36,8 @@ end
 require "#{vue_js_base_path}/utils"
 require "#{vue_js_base_path}/vue_attributes"
 require "#{vue_js_base_path}/vue"
-require "#{vue_js_base_path}/app"
-require "#{vue_js_base_path}/page"
+require "#{vue_js_base_path}/components/app"
+require "#{vue_js_base_path}/components/page_switch"
 require "#{vue_js_base_path}/components/toggle"
 require "#{vue_js_base_path}/components/onclick"
 require "#{vue_js_base_path}/components/transition"
@@ -70,3 +71,4 @@ require "#{vue_js_base_path}/initialize"
 
 # require abbreveations for apps, pages and components
 require "matestack/ui/vue_js_component"
+require "matestack/ui/isolated_component"

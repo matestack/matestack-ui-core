@@ -1,1 +1,1 @@
-Matestack::Ui::App = Matestack::Ui::Core::App
+Matestack::Ui::App = Matestack::Ui::Core::Layout

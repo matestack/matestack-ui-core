@@ -45,7 +45,7 @@ module Matestack
                 end
                 div class: 'matestack-isolated-component-wrapper', 'v-if': 'vc.isolatedTemplate != null', 'v-bind:class': '{ loading: vc.loading === true }' do
                   div class: 'matestack-isolated-component-root' do
-                    Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.isolatedTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
+                    Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.isolatedTemplate', ':vc': 'vc')
                   end
                 end
               end

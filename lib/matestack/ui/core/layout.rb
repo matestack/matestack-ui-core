@@ -1,7 +1,7 @@
 module Matestack
   module Ui
     module Core
-      class App < Base
+      class Layout < Base
 
         def initialize(options = {})
           @controller = Context.controller

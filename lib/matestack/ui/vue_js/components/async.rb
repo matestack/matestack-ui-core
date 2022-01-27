@@ -39,7 +39,7 @@ module Matestack
                     end
                   end
                   div class: 'matestack-async-component-wrapper', 'v-if': 'vc.asyncTemplate != null', 'v-bind:class': '{ "loading": vc.loading === true }' do
-                    Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.asyncTemplate', ':vc': 'vc', ':vue-component': 'vueComponent')
+                    Matestack::Ui::Core::Base.new('matestack-ui-core-runtime-render', ':template': 'vc.asyncTemplate', ':vc': 'vc')
                   end
                 end
               end
