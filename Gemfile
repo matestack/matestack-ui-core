@@ -23,11 +23,11 @@ group :development, :test do
   gem 'simplecov', require: false, group: :test
   gem 'byebug'
   gem 'webmock'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :test do
-  gem 'pry-rails'
-  gem 'pry-byebug'
   gem "generator_spec"
   # gem "rspec-retry" # repeating flaky tests
   # gem "rspec-wait", "~> 0.0.9"
