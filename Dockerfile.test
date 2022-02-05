@@ -6,6 +6,9 @@ RUN apk update --no-cache && \
     apk add build-base postgresql-dev git nodejs yarn tzdata bash sqlite-dev npm && \
     mkdir -p /app
 
+# https://github.com/pry/pry/issues/1248
+RUN apk --update add less
+
 WORKDIR /app
 
 COPY ./lib/ /app/lib/
