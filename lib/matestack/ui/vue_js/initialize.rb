@@ -1,4 +1,4 @@
-class Matestack::Ui::Core::Base
+module Matestack::Ui::VueJs::Initialize
 
   include Matestack::Ui::VueJs::Components
 
