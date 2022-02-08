@@ -1,4 +1,4 @@
-# HTML Rendering
+# Basic Rendering Mechanism
 
 Matestack’s rendering mechanism takes care of converting Ruby into HTML:
 
@@ -24,9 +24,27 @@ will be rendered to:
 </div>
 ```
 
-That's working because `matestack-ui-core` defines all kind of Ruby methods targeting Rails ActionView `tag` helper, rendering the desired HTML tag and content as a String.
+That's working because `matestack-ui-core` defines all kind of Ruby methods targeting Rails ActionView `tag` helper, rendering the desired HTML tag and content as a String. This enables you to build a well known DOM structure while writing and utilizing pure Ruby!
 
-Following tags are supported:
+As you can see, you can add CSS classes and ids as well as custom tag attributes. This way `matestack-ui-core` can be combined with various [CSS frameworks](broken-reference), your custom styles and all kinds of reactivity systems.&#x20;
+
+It’s already fun to write pure Ruby instead of HTML or any other templating engine syntax but this approach is really paying of, when you start using Ruby's language features in order to split your UI implementation into various small chunks, organized through included modules, class inheritance or simply multiple Ruby methods within one class!
+
+{% hint style="info" %}
+The above shown Ruby code lives in Ruby classes inheriting from `Matestack::Ui::Component`, `Matestack::Ui::Page` or Matestack::Ui::Layout - they are described in the following sections of these docs and might look like this:
+
+```ruby
+class Components::HelloWorld < Matestack::Ui::Component
+
+  def response
+    div class: "my-class" do
+      plain "hello world!"
+    end
+  end
+
+end
+```
+{% endhint %}
 
 ## Supported HTML Tags
 
@@ -40,23 +58,23 @@ hr class: "some-class"
 # ...
 ```
 
-* area 
-* base 
-* br 
-* col 
-* hr 
-* img \| _you can use `src` or `path` in order to reference the url to the image_
-* input 
-* link 
-* meta 
-* param 
-* command 
-* keygen 
+* area
+* base
+* br
+* col
+* hr
+* img | _you can use `src` or `path` in order to reference the url to the image_
+* input
+* link
+* meta
+* param
+* command
+* keygen
 * source
 
 ### Tags
 
-The following tags take content via a block OR first \(non-hash\) argument and all kind of tag attributes, e.g.:
+The following tags take content via a block OR first (non-hash) argument and all kind of tag attributes, e.g.:
 
 ```ruby
 # define inner HTML via a block
@@ -68,7 +86,7 @@ span "foo", class: "some-class"
 # ...
 ```
 
-* a \| _you can use `href` or `path` in order to reference the url of the link_
+* a | _you can use `href` or `path` in order to reference the url of the link_
 * abbr
 * acronym
 * address
@@ -113,12 +131,12 @@ span "foo", class: "some-class"
 * form
 * frame
 * frameset
-* h1 \| _also available via `heading size: 1`_
-* h2 \| _also available via `heading size: 2`_
-* h3 \| _also available via `heading size: 3`_
-* h4 \| _also available via `heading size: 4`_
-* h5 \| _also available via `heading size: 5`_
-* h6 \| _also available via `heading size: 6`_
+* h1 | _also available via `heading size: 1`_
+* h2 | _also available via `heading size: 2`_
+* h3 | _also available via `heading size: 3`_
+* h4 | _also available via `heading size: 4`_
+* h5 | _also available via `heading size: 5`_
+* h6 | _also available via `heading size: 6`_
 * head
 * header
 * html
@@ -141,7 +159,7 @@ span "foo", class: "some-class"
 * optgroup
 * option
 * output
-* paragraph \| _p is not working as it's an alias for puts in Ruby core_
+* paragraph | _p is not working as it's an alias for puts in Ruby core_
 * picture
 * pre
 * progress
@@ -209,24 +227,6 @@ end
 </div>
 ```
 
-## Rails View Helpers
-
-Using Rails view helpers \([https://api.rubyonrails.org/classes/ActionView/Helpers.html](https://api.rubyonrails.org/classes/ActionView/Helpers.html)\) in components, pages and apps is supported with some limitations currently. You just have to put a `plain` before a view helper, if this view helper is rendering a HTML string, for example:
-
-```ruby
-plain link_to "Show", post_path(@post)
-```
-
-{% hint style="info" %}
-A component needs to be called in context of a controller \(with included `Matestack::Ui::Core::Helper`\), which is true when you're calling components of Rails views or on Matestack Pages \(which are themselves called by a controller normally\).
-
-When calling a component in isolation \(which is possible\), the view helpers might not work properly!
-{% endhint %}
-
-{% hint style="danger" %}
-It's currently not possible to use view helpers requiring a block, such as the `form_for`. We're working on supporting them soon!
-{% endhint %}
-
 ## Custom HTML Tags
 
 If you want to use HTML tags which are not supported by Matestack's rendering mechanism by default, you can call ActionView's `tag` helper manually:
@@ -242,4 +242,3 @@ will render:
 ```markup
 <xyz>foo</xyz>
 ```
-
