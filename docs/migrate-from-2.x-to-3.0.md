@@ -1,3 +1,5 @@
+# Migrating from 2.x to 3.0
+
 # Installation & setup changes
 
 ## Core/Vuejs repo and gem split

@@ -1,2 +1,0 @@
-# Collection Component API \[WIP\]
-
