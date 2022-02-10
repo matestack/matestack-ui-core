@@ -10,21 +10,21 @@ gem 'matestack-ui-core'
 
 and run
 
-```text
+```
 $ bundle install
 ```
 
 ### Matestack folder
 
-Create a folder called 'matestack' in your app directory. All your Matestack apps, pages and components will be defined there.
+Create a folder called `matestack` in your app directory. All your Matestack layouts, pages and components will be defined there.
 
-```text
+```
 $ mkdir app/matestack
 ```
 
 ### Controller setup
 
-Add the Matestack helper to your controllers. If you want to make the helpers available in all controllers, add it to your 'ApplicationController' this way:
+Add the Matestack helper to your controllers. If you want to make the helpers available in all controllers, add it to your `ApplicationController` :
 
 `app/controllers/application_controller.rb`
 
@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-Now, you are able to create UI components in pure Ruby and use them in your Rails views. Additionally you can substitute Rails views and layouts with Matestack pages and apps.
+Now, you are able to create UI components in pure Ruby and use them in your Rails views. Additionally you can substitute Rails views and layouts with Matestack pages and layouts.
 
 ## Update
 

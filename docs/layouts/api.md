@@ -1,6 +1,6 @@
-# App API
+# API
 
-An app defines a layout within its `response` method and yields the content of a page in its layout.
+A layout class defines a layout within its `response` method and is suppose to yield the content of a page.
 
 ## Response
 
@@ -178,4 +178,3 @@ end
 ```
 
 Now, visiting the respective route to the page, e.g. via `/xyz?foo=bar`, the page reads the `[:foo]` from the params and displays it.
-

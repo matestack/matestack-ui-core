@@ -1,6 +1,6 @@
-# Reusing Rails Views or Partials
+# Integrating Rails Views or Partials
 
-Matestack `rails_render` component offers the possibility to render a view or partial by passing it's name and required params to it
+Matestack `rails_render` component offers the possibility to render a view or partial by passing its name and required params to it.
 
 ## Components reusing partials
 
@@ -66,4 +66,3 @@ class Components::Products::Index < Matestack::Ui::Component
 
 end
 ```
-

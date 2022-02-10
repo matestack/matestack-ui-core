@@ -1,6 +1,4 @@
-# Component API
-
-See below for an overview of the various possibilities Matestack provides for component implementation:
+# API
 
 ## Response
 
@@ -402,7 +400,7 @@ end
 
 ### Text argument
 
-Sometimes you just want to pass in a simple \(text\) argument rather than a hash with multiple keys:
+Sometimes you just want to pass in a simple (text) argument rather than a hash with multiple keys:
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -637,7 +635,7 @@ class Some::Component < Matestack::Ui::Component
 end
 ```
 
-Then, put both components \(note that some component uses other component so that's how they're both in here\) to use on the example page:
+Then, put both components (note that some component uses other component so that's how they're both in here) to use on the example page:
 
 ```ruby
 class ExamplePage < Matestack::Ui::Page
@@ -718,4 +716,3 @@ class ExamplePage < Matestack::Ui::Page
 
 end
 ```
-
