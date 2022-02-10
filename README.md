@@ -6,18 +6,14 @@
 
 ![matestack logo](./logo.png)
 
-# matestack-ui-core | UI in pure Ruby
+# matestack-ui-core | Component based web UIs in pure Ruby for Rails
 
 Boost your productivity & easily create component based web UIs in pure Ruby.
 
-`matestack-ui-core` enables you to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app.
-
-`matestack-ui-core` can progressively replace the classic Rails-View-Layer. You are able to use
+`matestack-ui-core` enables you to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. `matestack-ui-core` can progressively replace the classic Rails-View-Layer. You are able to use
 it alongside your classic views.
 
 ## Compatibility
-
-### Ruby/Rails
 
 `matestack-ui-core` is tested against:
 
@@ -35,7 +31,7 @@ Documentation can be found [here](https://docs.matestack.io/matestack-ui-core)
 
 ## Getting started
 
-A getting started guide can be found [here](https://docs.matestack.io/matestack-ui-core/getting-started/quick-start)
+A getting started guide can be found [here](https://docs.matestack.io/matestack-ui-core/getting-started/hello-world)
 
 ## Changelog
 
@@ -49,7 +45,7 @@ As a low-barrier feedback channel for our early users, we have set up a Discord 
 
 We are happy to accept contributors of any kind! In order to make it as easy and fun as possible to contribute to `matestack-ui-core`, we would like to onboard contributors personally! Best way to become a contributor: Ping us on Discord! We will schedule a video call with you and show you, how and what to work on :)
 
-## Features
+## Feature walk-through
 
 ### 1. Create UI components in pure Ruby
 
