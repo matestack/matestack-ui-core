@@ -10,9 +10,15 @@ describe 'Creating custom components', type: :feature, js: true do
 
     module Matestack::Ui::Core end
 
+    class SomeLayout < Matestack::Ui::Layout
+      def response
+        yield
+      end
+    end
+
     class ComponentTestController < ActionController::Base
       include Matestack::Ui::Core::Helper
-      matestack_layout App
+      matestack_layout SomeLayout
 
       def my_action
         render(ExamplePage)
