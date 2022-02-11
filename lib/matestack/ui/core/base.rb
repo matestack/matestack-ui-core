@@ -14,7 +14,11 @@ module Matestack
         def initialize(html_tag = nil, text = nil, options = {}, &block)
           return unless render?
 
-          self.bind_to_parent = ([:without_parent].include?(html_tag) ? false : true)
+          if options && options[:detach_from_parent] == true
+            self.bind_to_parent = false
+          else
+            self.bind_to_parent = ([:without_parent].include?(html_tag) ? false : true)
+          end
           self.slots = self.options.delete(:slots) if self.options
           # extract_options(text, options) is called in properties
           self.html_tag = html_tag if self.bind_to_parent
@@ -101,17 +105,25 @@ module Matestack
         end
 
         def method_missing(name, *args, &block)
-          return view_context.send(name, *args, &block) if view_context && view_context.respond_to?(name, true)
-          return Rails.application.routes.url_helpers.send(name, *args, &block) if Rails.application.routes.url_helpers.respond_to?(name, true)
+          if view_context && view_context.respond_to?(name, true)
+            if block_given?
+              view_context_response = view_context.send(name, *args, &Proc.new)
+              return view_context_response
+            else
+              view_context_response = view_context.send(name, *args)
+              return view_context_response
+            end
+          end
+          if Rails.application.routes.url_helpers.respond_to?(name, true)
+            return Rails.application.routes.url_helpers.send(name, *args, &block)
+          end
           return raise NameError, "#{name} is not defined for #{self.class}", caller
         end
 
-        # MOVED TO VUE MODULE
-        #
-        # # give easy access to vue data attributes
-        # def vue
-        #   Matestack::Ui::Core::VueAttributes
-        # end
+        def to_str
+          render_content
+        end
+        alias to_s to_str
 
       end
     end

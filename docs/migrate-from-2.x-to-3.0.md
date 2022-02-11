@@ -39,7 +39,7 @@ class DemoController < ActionController::Base
 end
 ```
 
-# `Matestack::Ui::Layout` `Matestack::Ui::Page` wrapping DOM structures
+## `Matestack::Ui::Layout` `Matestack::Ui::Page` wrapping DOM structures
 
 - previously, `Matestack::Ui::App` added some wrapping DOM structure around the whole layout and around it's `yield`
 - this enabled dynamic page transition and loading state animations

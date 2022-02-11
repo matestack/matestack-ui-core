@@ -24,8 +24,9 @@ module Matestack
           end
         end
 
-        def plain(text)
-          Matestack::Ui::Core::Base.new(nil, text, nil)
+        def plain(text=nil, options=nil, &block)
+          raise "please specify an argument or block when using plain" if text.nil? && !block_given?
+          Matestack::Ui::Core::Base.new(nil, text||yield, options)
         end
 
         def unescape(text)
@@ -89,6 +90,17 @@ module Matestack
         def rails_render(options = {})
           plain render options
         end
+
+        def detached(text=nil, options=nil, &block)
+          options = {} if options.nil?
+          options[:detach_from_parent] = true
+          Matestack::Ui::Core::Base.new(nil, text, options, &block)
+        end
+
+        def detached_to_s(text=nil, options=nil, &block)
+          detached(text, options, &block).to_str
+        end
+        alias matestack_to_s detached_to_s
 
       end
     end
