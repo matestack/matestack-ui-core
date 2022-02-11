@@ -12,6 +12,3 @@ COPY ./lib/ /app/lib/
 COPY matestack-ui-core.gemspec /app/
 COPY Gemfile* /app/
 RUN bundle install
-
-COPY package.json yarn* /app/
-RUN yarn install

@@ -13,9 +13,6 @@ COPY matestack-ui-core.gemspec /app/
 COPY Gemfile* /app/
 RUN bundle install
 
-COPY package.json yarn* /app/
-RUN yarn install
-
 RUN apk update && apk upgrade \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
