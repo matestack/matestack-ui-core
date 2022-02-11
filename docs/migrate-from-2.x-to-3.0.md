@@ -12,6 +12,15 @@
 **Please follow the migration guide within the docs of `matestack-ui-vuejs` when using reactivity features of `matestack-ui-core` 2.x**
 {% endhint %}
 
+## Remove `matestack-ui-core` JavaScript package
+
+- `matestack-ui-core` does not ship a JavaScript package anymore
+- please remove the package from your application and switch to `matestack-ui-vuejs` for the VueJs driven reactivity if required
+
+```
+yarn remove matestack-ui-core
+```
+
 ## `Matestack::Ui::App` is now called `Matestack::Ui::Layout`
 
 * `Matestack::Ui::App` was always meant to be a layout wrapping pages, but was supercharged with some vuejs logic before splitting the `core` and `vuejs` repos
