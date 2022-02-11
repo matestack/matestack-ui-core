@@ -4,9 +4,16 @@ include CoreSpecUtils
 describe "Component", type: :feature, js: true do
 
   before :all do
+
+    class SomeLayout < Matestack::Ui::Layout
+      def response
+        yield
+      end
+    end
+
     class ComponentTestController < ActionController::Base
       include Matestack::Ui::Core::Helper
-      matestack_layout App
+      matestack_layout SomeLayout
 
       def my_action
         render ExamplePage
