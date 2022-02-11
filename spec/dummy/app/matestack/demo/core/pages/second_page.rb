@@ -10,4 +10,5 @@ class Demo::Core::Pages::SecondPage < Matestack::Ui::Page
     # you can call components on pages:
     Demo::Core::Components::StaticComponent.call(foo: "baz")
   end
+
 end
