@@ -24,22 +24,18 @@ module Matestack
           end
         end
 
-        def plain(text)
-          Matestack::Ui::Core::Base.new(nil, text, nil)
+        def plain(text=nil, options=nil, &block)
+          if block_given?
+            Matestack::Ui::Core::Base.new(nil, yield, options)
+          else
+            Matestack::Ui::Core::Base.new(nil, text, options)
+          end
         end
 
         def unescape(text)
           Matestack::Ui::Core::Base.new(nil, text&.html_safe, escape: false)
         end
         alias unescaped unescape
-
-        def matestack(&block)
-          div(id: 'matestack-ui') do
-            Base.new(:component, component_attributes) do
-              div(class: 'matestack-app-wrapper', &block)
-            end
-          end
-        end
 
         # override image in order to implement automatically using rails assets path
         def img(text = nil, options = {}, &block)
@@ -87,6 +83,17 @@ module Matestack
         def rails_render(options = {})
           plain render options
         end
+
+        def detached(text=nil, options=nil, &block)
+          options = {} if options.nil?
+          options[:detach_from_parent] = true
+          Matestack::Ui::Core::Base.new(nil, text, options, &block)
+        end
+
+        def detached_to_s(text=nil, options=nil, &block)
+          detached(text, options, &block).to_str
+        end
+        alias matestack_to_s detached_to_s
 
       end
     end

@@ -1,119 +1,414 @@
 ---
 description: >-
   Matestack Ui Core - Boost your productivity & easily create component based
-  web UIs in pure Ruby. Reactivity based on Vue.js included if desired. No Opal
-  involved.
+  web UIs in pure Ruby.
 ---
 
 # Welcome
 
 {% hint style="info" %}
-Version 2.0.0 was released on the 12th of April and proudly presented at RailsConf. Click here for more [details](migrate-from-1.x-to-2.0.md)
+Version 3.0.0 was released on the xth of February 2022. Click here for more [details](migrate-from-2.x-to-3.0.md)
 
 **Most important changes:**
 
-* Changed to MIT License
-* 5 to 12 times better rendering performance \(depending on the context\)
-* Removed Trailblazer dependency
-* Improved core code readability/maintainability
+* Split `matestack-ui-core` into `matestack-ui-core` and `matestack-ui-vuejs`
+* Rails 7 support
+* Vue 3 support in `matestack-ui-vuejs`
+
+****
+
+**If you want to see the docs for Version 2.1, click** [**here**](https://docs.matestack.io/matestack-ui-core/v/2.1/)**:**
 {% endhint %}
 
-## **What is Matestack?**
+## **About**
 
-Matestack enables Rails developers to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. Thanks to reactive core components built on top of Vue.js, reactivity can be optionally added without writing JavaScript, just using a simple Ruby DSL.
-
-If necessary, extend with pure JavaScript. **No Opal involved.**
-
-{% hint style="success" %}
-**Share feedback, get support and get involved!** Join our growing [community](community/discord.md), get to know the [core team](about/team.md) and learn how to [contribute ](community/contribute.md)in order to make Matestack better every day!
-{% endhint %}
-
-## Why Matestack?
-
-Matestack presented and explained at RailsConf 2021:
-
-{% embed url="https://www.youtube.com/watch?v=bwsVgCb97v0" %}
-
-Matestack was created because modern web app development became more and more complex due to the rise of JavaScript frontend frameworks and the SPA frontend/REST API/JSON backend architecture. This sophisticated approach might be suitable for big teams and applications but is way to complex for most of small to medium sized teams and application scopes.
-
-In contrast, Matestack helps Rails developers creating modern, reactive web apps while focusing on **simplicity**, **developer happiness** and **productivity**:
-
-* [x] Use Ruby’s amazing language features while creating your UI
-* [x] Skip using templating engine syntax and write pure Ruby instead
-* [x] Reduce the amount of required JavaScript in order to build reactive web UIs
-* [x] Create a single application, managing the full stack from database to a reactive UI in pure Ruby
-* [x] **Drastically reduce the complexity of building reactive web applications** 
-
-## What makes Matestack different?
-
-[Hotwire](https://hotwire.dev) and [Stimulus Reflex](https://docs.stimulusreflex.com) are awesome gems. They reduce the amount of required JavaScript when implementing reactive web UIs. They allow us to use more Rails and less JavaScript. **Great!**
-
-Matestack, developed since 2018, goes even one step further: **Use more Ruby and less of everything else** \(JavaScript, ERB/HAML/SLIM, CSS\).
-
-{% hint style="info" %}
-**Why?** Because Ruby is just beautiful! More Ruby = More developer happiness = Higher productivity
-{% endhint %}
-
-Additionally, most of Matestack does not require Action Cable or Redis, but can optionally use the power of these tools.
-
-## Ecosystem
-
-Matestack currently offers two open source Ruby gems**:**
-
-* `matestack-ui-core` ships all you need to build reactive UIs in pure Ruby. You have to take care of styling and additional UI components yourself.
-* `matestack-ui-bootstrap`ships all you need to build beautiful, reactive UIs in pure Ruby and smart CRUD components based on Bootstrap v5. Don't think about styling anymore and just create admin or application UIs faster than ever before! **--&gt;** [https://docs.matestack.io/matestack-ui-bootstrap/](https://docs.matestack.io/matestack-ui-bootstrap/)
-
-## Live Demo
-
-Based on `matestack-ui-core` and `matestack-ui-bootstrap` this reactive dummy app was created in pure Ruby without writing any JavaScript, ERB/HAML/SLIM and CSS: \([check it out](https://dummy.matestack.io) \| [source code](https://github.com/matestack/matestack-ui-bootstrap/tree/main/spec/dummy)\)
-
-![https://dummy.matestack.io](.gitbook/assets/image%20%281%29.png)
+`matestack-ui-core` enables you to craft maintainable, **component based** web UIs in **pure Ruby**, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. It can progressively replace the classic Rails-View-Layer. You are able to use it alongside your Rails views.
 
 ## Compatibility
 
-### Ruby/Rails
+`matestack-ui-core` is automatically tested against:
 
-`matestack-ui-core` and `matestack-ui-bootstrap` are automatically tested against:
-
+* Rails 7.0.1 + Ruby 3.0.0
 * Rails 6.1.1 + Ruby 3.0.0
 * Rails 6.1.1 + Ruby 2.7.2
 * Rails 6.0.3.4 + Ruby 2.6.6
 * Rails 5.2.4.4 + Ruby 2.6.6
 
 {% hint style="danger" %}
-Rails versions below 5.2 are not supported.
-{% endhint %}
-
-### Vue.js
-
-`matestack-ui-core` requires Vue.js and Vuex for its reactivity features. Following version ranges are supported:
-
-* Vue.js ^2.6.0
-* Vuex ^3.6.0
-
-{% hint style="info" %}
-Vue 3 / Vuex 4 update is planned for Q2 2021.
-{% endhint %}
-
-### Webpacker/Sprockets
-
-`matestack-ui-core` is designed to be installed via Npm or Yarn and bundled via something like Webpacker together with all your other dependencies.
-
-{% hint style="warning" %}
-Since 2.0.0 we're not shipping a pre-bundled JavaScript assets for Rails assets pipeline \(Sprockets\) users anymore.
+Rails versions below 5.2 are not officially supported.
 {% endhint %}
 
 ## Getting Started
 
-Before you dive into some code, you should read about the basic architecture concepts and different ways to build with Matestack:
+Start right away and install `matestack-ui-core` on top of your Rails app, or read something about the features below.
 
-{% page-ref page="getting-started/concepts-rails-integration.md" %}
+{% content-ref url="getting-started/installation-update.md" %}
+[installation-update.md](getting-started/installation-update.md)
+{% endcontent-ref %}
 
-After that, it might be a good idea to boost your knowledge with our quick start guide:
+## Feature walk-through
 
-{% page-ref page="getting-started/quick-start.md" %}
+### 1. Create UI components in pure Ruby
 
-## Roadmap
+Craft your UI based on your components written in pure Ruby. Utilizing Ruby's amazing language features, you're able to create a cleaner and more maintainable UI implementation.
 
-Do you want to know what we're currently working on and what's planned for the next releases? Check out our GitHub Project board: [https://github.com/orgs/matestack/projects/1](https://github.com/orgs/matestack/projects/1)
+**Implement UI components in pure Ruby**
 
+Create Ruby classes within your Rails project and call Matestack's core components through a Ruby DSL in order to craft your UIs. The Ruby method "div" for example calls one of the static core components, responsible for rendering HTML tags. A component can take Strings, Integers Symbols, Arrays or Hashes (...) as optional properties (e.g. "title") or require them (e.g. "body").
+
+`app/matestack/components/card.rb`
+
+```ruby
+class Components::Card < Matestack::Ui::Component
+
+  required :body
+  optional :title
+  optional :image
+
+  def response
+    div class: "card shadow-sm border-0 bg-light" do
+      img path: context.image, class: "w-100" if context.image.present?
+      div class: "card-body" do
+        h5 context.title if context.title.present?
+        paragraph context.body, class: "card-text"
+      end
+    end
+  end
+
+end
+```
+
+**Use your Ruby UI components on your existing Rails views**
+
+Components can be then called on Rails views (not only! see below), enabling you to create a reusable card components, abstracting UI complexity in your own components.
+
+`app/views/your_view.html.erb`
+
+```erb
+<!-- some other erb markup -->
+<%= Components::Card.call(title: "hello", body: "world") %>
+<!-- some other erb markup -->
+```
+
+**Use Ruby methods as partials**
+
+Split your UI implementation into multiple small chunks helping others (and yourself) to better understand your implementation. Using this approach helps you to create a clean, readable and maintainable codebase.
+
+`app/matestack/components/card.rb`
+
+```ruby
+class Components::Card < Matestack::Ui::Component
+
+  required :body
+  optional :title
+  optional :image
+  optional :footer
+
+  def response
+    div class: "card shadow-sm border-0 bg-light" do
+      img path: context.image, class: "w-100" if context.image.present?
+      card_content
+      card_footer if context.footer.present?
+    end
+  end
+
+  def card_content
+    div class: "card-body" do
+      h5 context.title if context.title.present?
+      paragraph context.body, class: "card-body"
+    end
+  end
+
+  def card_footer
+    div class: "card-footer text-muted" do
+      plain footer
+    end
+  end
+
+end
+```
+
+`app/views/your_view.html.erb`
+
+```erb
+<!-- some other erb markup -->
+<%= Components::Card.call(title: "hello", body: "world", footer: "foo") %>
+<!-- some other erb markup -->
+```
+
+**Use class inheritance**
+
+Because it's just a Ruby class, you can use class inheritance in order to further improve the quality of your UI implementation. Class inheritance can be used to easily create variants of UI components but still reuse parts of the implementation.
+
+`app/matestack/components/blue_card.rb`
+
+```ruby
+class Components::BlueCard < Components::Card
+
+  def response
+    div class: "card shadow-sm border-0 bg-primary text-white" do
+      img path: context.image, class: "w-100" if context.image.present?
+      card_content #defined in parent class
+      card_footer if context.footer.present? #defined in parent class
+    end
+  end
+
+end
+```
+
+`app/views/your_view.html.erb`
+
+```erb
+<!-- some other erb markup -->
+<%= Components::BlueCard.call(title: "hello", body: "world") %>
+<!-- some other erb markup -->
+```
+
+**Use components within components**
+
+Just like you used matestack's core components on your own UI component, you can use your own UI components within other custom UI components. You decide when using a Ruby method partial should be replaced by another self contained UI component!
+
+`app/matestack/components/card.rb`
+
+```ruby
+class Components::Card < Matestack::Ui::Component
+
+  required :body
+  optional :title
+  optional :image
+
+  def response
+    div class: "card shadow-sm border-0 bg-light" do
+      img path: context.image, class: "w-100" if context.image.present?
+      # calling the CardBody component rather than using Ruby method partials
+      Components::CardBody.call(title: context.title, body: context.body)
+    end
+  end
+
+end
+```
+
+`app/matestack/components/card_body.rb`
+
+```ruby
+class Components::CardBody < Matestack::Ui::Component
+
+  required :body
+  optional :title
+
+  def response
+    # Just an example. Would make more sense, if this component had
+    # a more complex structure
+    div class: "card-body" do
+      h5 context.title if context.title.present?
+      paragraph context.body, class: "card-body"
+    end
+  end
+
+end
+```
+
+**Yield components into components**
+
+Sometimes it's not enough to just pass simple data into a component. No worries! You can just yield a block into your components! Using this approach gives you more flexibility when using your UI components. Ofcourse yielding can be used alongside passing in simple params.
+
+`app/matestack/components/card.rb`
+
+```ruby
+class Components::Card < Matestack::Ui::Component
+
+  required :body
+  optional :title
+  optional :image
+
+  def response
+    div class: "card shadow-sm border-0 bg-light" do
+      img path: context.image, class: "w-100" if context.image.present?
+      Components::CardBody.call() do
+        # yielding a block into the card_body component
+        h5 context.title if context.title.present?
+        paragraph context.body, class: "card-body"
+      end
+    end
+  end
+
+end
+```
+
+`app/matestack/components/card_body.rb`
+
+```ruby
+class Components::CardBody < Matestack::Ui::Component
+
+  def response
+    # Just an example. Would make more sense, if this component had
+    # a more complex structure
+    div class: "card-body" do
+      yield if block_given?
+    end
+  end
+
+end
+```
+
+**Use named slots for advanced content injection**
+
+If you need to inject multiple blocks into your UI component, you can use "slots"! Slots help you to build complex UI components with multiple named content placeholders for highest implementation flexibility!
+
+`app/matestack/components/card.rb`
+
+```ruby
+class Components::Card < Matestack::Ui::Component
+
+  required :body
+  optional :title
+  optional :image
+
+  def response
+    div class: "card shadow-sm border-0 bg-light" do
+      img path: context.image, class: "w-100" if context.image.present?
+      Components::CardBody.call(slots: {
+        heading: method(:heading_slot),
+        body: method(:body_slot)
+      })
+    end
+  end
+
+  def heading_slot
+    h5 context.title if context.title.present?      
+  end
+
+  def body_slot
+    paragraph context.body, class: "card-body"
+  end
+
+end
+```
+
+`app/matestack/components/card_body.rb`
+
+```ruby
+class Components::CardBody < Matestack::Ui::Component
+
+  required :slots
+
+  def response
+    # Just an example. Would make more sense, if this component had
+    # a more complex structure
+    div class: "card-body" do
+      div class: "heading-section" do
+        slot :heading
+      end
+      div class: "body-section" do
+        slot :body
+      end
+    end
+  end
+
+end
+```
+
+### 2. Substitute Rails Views with Matestack Pages
+
+Until here we used Matestack components on Rails views. If desired you can go one step further and use Matestack components on something called a Matestack Page:
+
+A Matestack page can be compared to a Rails view and might be yielded within a layout provided by an associated Matestack layout class (see below). The page itself uses Matestack's HTML rendering mechanism in a `response` method and may additionally call other components in order to define a specific UI.
+
+{% code title="app/matestack/pages/some_page.rb" %}
+```ruby
+class Pages::SomePage < Matestack::Ui::Page
+
+  def response
+    div class: "container" do
+      span id: "hello" do
+        plain "hello world!"
+      end
+      Components::Card.call(title: "foo", body: "bar")
+    end
+  end
+
+end
+```
+{% endcode %}
+
+Pages are used as Rails view substitutes and therefore called in a Rails controller action:
+
+{% code title="app/controllers/some_controller.rb" %}
+```ruby
+class SomeController < ApplicationController
+
+  include Matestack::Ui::Core::Helper
+
+  def overview
+    render Pages::SomePage
+  end
+
+end
+```
+{% endcode %}
+
+The page response - in this case - will be yielded into the Rails layout if not specified differently.
+
+### 3. Wrap Matestack Pages in Matestack Layouts
+
+Just like a Rails layout would yield a Rails view, a Matestack layout yields a Matestack page. The layout uses Matestack's HTML rendering mechanism in a `response` method and may additionally call other components in order to define a specific UI.
+
+{% code title="app/matestack/some_app/some_layout.rb" %}
+```ruby
+class SomeApp::SomeLayout < Matestack::Ui::Layout
+
+  def response
+    h1 "Some App"
+    main do
+      yield
+    end
+  end
+
+end
+```
+{% endcode %}
+
+In this basic example the layout is using the methods `h1` and `main` in order to create the markup as well as a `yield` in order to yield a page on a specific position.
+
+{% hint style="info" %}
+A Matestack layout itself will be yielded into the Rails layout, unless the Rails layout is disabled in the controller via:`layout false`
+{% endhint %}
+
+Usually a layout implies a specific context of your application. Multiple pages are then scoped within that context, which could lead to a file structure like:
+
+```bash
+app/matestack/
+|
+└───some_app/
+│   │   some_layout.rb
+│   └───pages/
+│   │   │   page1.rb
+│   │   │   page2.rb
+│   │   │   page3.rb
+```
+
+and then used in a controller like this:
+
+{% code title="app/controllers/some_controller.rb" %}
+```ruby
+class SomeController < ApplicationController
+
+  include Matestack::Ui::Core::Helper
+
+  matestack_layout SomeApp::SomeLayout
+
+  def page_1
+    render SomeApp::Pages::Page1
+  end
+
+  def page_2
+    render SomeApp::Pages::Page2
+  end
+
+  def page_3
+    render SomeApp::Pages::Page3, matestack_layout: false # skip app layout on this page
+  end
+
+end
+```
+{% endcode %}

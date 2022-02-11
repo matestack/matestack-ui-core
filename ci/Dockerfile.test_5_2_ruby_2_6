@@ -13,9 +13,6 @@ COPY matestack-ui-core.gemspec /app/
 COPY ./ci/Gemfile.5.2 /app/Gemfile
 RUN bundle install
 
-COPY package.json /app/
-RUN yarn install
-
 RUN apk update && apk upgrade \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
@@ -34,14 +31,11 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 
 RUN mv Gemfile _Gemfile
 RUN mv Gemfile.lock _Gemfile.lock
-RUN mv yarn.lock _yarn.lock
 COPY . /app
 RUN rm Gemfile
 RUN rm Gemfile.lock
-RUN rm yarn.lock
 RUN mv _Gemfile Gemfile
 RUN mv _Gemfile.lock Gemfile.lock
-RUN mv _yarn.lock yarn.lock
 
 WORKDIR /app/spec/dummy
 
