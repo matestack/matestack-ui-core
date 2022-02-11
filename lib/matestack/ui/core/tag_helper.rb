@@ -25,8 +25,11 @@ module Matestack
         end
 
         def plain(text=nil, options=nil, &block)
-          raise "please specify an argument or block when using plain" if text.nil? && !block_given?
-          Matestack::Ui::Core::Base.new(nil, text||yield, options)
+          if block_given?
+            Matestack::Ui::Core::Base.new(nil, yield, options)
+          else
+            Matestack::Ui::Core::Base.new(nil, text, options)
+          end
         end
 
         def unescape(text)
