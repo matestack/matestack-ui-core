@@ -3,7 +3,7 @@ module Matestack
     module Core
       class Context < ActiveSupport::CurrentAttributes
 
-        attribute :app
+        attribute :layout
         attribute :parent
         attribute :isolated_parent
         attribute :params
