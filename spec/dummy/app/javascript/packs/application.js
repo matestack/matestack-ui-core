@@ -9,12 +9,3 @@
 
 require("@rails/ujs").start()
 require("channels")
-
-import { createApp } from 'vue'
-import MatestackUiVueJs from 'matestack-ui-vue_js'
-
-const appInstance = createApp({})
-
-document.addEventListener('DOMContentLoaded', () => {
-  MatestackUiVueJs.mount(appInstance)
-})

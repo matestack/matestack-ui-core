@@ -5,8 +5,7 @@
     "@babel/preset-env": "^7.16.7",
     "@rails/actioncable": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "^5.0.0",
-    "matestack-ui-vue_js": "../../"
+    "@rails/webpacker": "^5.0.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.2"
