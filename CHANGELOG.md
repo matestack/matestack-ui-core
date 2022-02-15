@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0.rc2 Release - 2022-02-15
+
+### Bugfixes
+
+- fixing ActionView integration when using Ruby 3.x
+
 ## v3.0.0.rc1 Release - 2022-02-11
 
 - Please read the [migration guide](docs/migrate-from-2.x-to-3.0.md)

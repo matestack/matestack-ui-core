@@ -104,15 +104,10 @@ module Matestack
           end
         end
 
-        def method_missing(name, *args, &block)
+        def method_missing(name, *args, **kwargs, &block)
           if view_context && view_context.respond_to?(name, true)
-            if block_given?
-              view_context_response = view_context.send(name, *args, &Proc.new)
-              return view_context_response
-            else
-              view_context_response = view_context.send(name, *args)
-              return view_context_response
-            end
+            view_context_response = view_context.send(name, *args, **kwargs, &block)
+            return view_context_response
           end
           if Rails.application.routes.url_helpers.respond_to?(name, true)
             return Rails.application.routes.url_helpers.send(name, *args, &block)
