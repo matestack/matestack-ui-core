@@ -1,6 +1,11 @@
 name: specs
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
 
 jobs:
   test_7_0_ruby_3_0:
