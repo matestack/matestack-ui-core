@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.0 Release - 2022-03-04
+
+- same as v3.0.0.rc2
+
 ## v3.0.0.rc2 Release - 2022-02-15
 
 ### Bugfixes
