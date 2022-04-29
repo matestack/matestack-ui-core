@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.1 Release - 2022-04-29
+
+### Bugfixes
+
+- fixing layout resolving issue when using the `turbo-rails` gem (like seen in a fresh Rails 7 setup)
+
 ## v3.0.0 Release - 2022-03-04
 
 - same as v3.0.0.rc2
