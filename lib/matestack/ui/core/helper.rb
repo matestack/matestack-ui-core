@@ -36,7 +36,10 @@ module Matestack
             if controller_layout == false
               root_layout = layout ? layout.layout : false
             else
-              if controller_layout.nil?
+              # when using the turbo-rails gem, controller_layout is a Proc
+              # https://github.com/hotwired/turbo-rails/blob/v1.0.1/app/controllers/turbo/frames/frame_request.rb#L16
+              # and not nil or a string indicating which layout to be used like before
+              if controller_layout.nil? || controller_layout.is_a?(Proc)
                 root_layout = "application"
               else
                 root_layout = controller_layout
