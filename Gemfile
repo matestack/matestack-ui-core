@@ -11,7 +11,9 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem 'rails', '7.0.1'
+gem 'rails', '~> 7.0.1'
+
+gem 'turbo-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 4.0.2'

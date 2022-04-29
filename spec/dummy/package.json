@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/preset-env": "^7.16.7",
+    "@hotwired/turbo-rails": "^7.1.1",
     "@rails/actioncable": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "^5.0.0"
