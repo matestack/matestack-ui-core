@@ -10,7 +10,7 @@ gem 'matestack-ui-core'
 
 and run
 
-```text
+```
 $ bundle install
 ```
 
@@ -18,7 +18,7 @@ $ bundle install
 
 Create a folder called 'matestack' in your app directory. All your Matestack apps, pages and components will be defined there.
 
-```text
+```
 $ mkdir app/matestack
 ```
 
@@ -37,7 +37,7 @@ end
 
 Now, you are able to create UI components in pure Ruby and use them in your Rails views. Additionally you can substitute Rails views and layouts with Matestack pages and apps.
 
-If you want to use Matestack's optional reactivity features in pure Ruby \(through dynamic Vue.js components such as `form` and `async` or dynamic page transitions\), please perform the next steps to set up the JavaScript parts via Webpacker.
+If you want to use Matestack's optional reactivity features in pure Ruby (through dynamic Vue.js components such as `form` and `async` or dynamic page transitions), please perform the next steps to set up the JavaScript parts via Webpacker.
 
 {% hint style="info" %}
 Matestack's JavaScript is only required if you want to use reactive features. It's totally valid to just use the "static" features of Matestack, namely implement UI components, pages and apps in pure Ruby.
@@ -47,7 +47,7 @@ Matestack's JavaScript is only required if you want to use reactive features. It
 
 Add 'matestack-ui-core' to your `package.json` by running:
 
-```text
+```
 $ yarn add matestack-ui-core
 ```
 
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 and compile the JavaScript code with webpack:
 
-```text
+```
 $ bin/webpack --watch
 ```
 
@@ -109,12 +109,11 @@ document.addEventListener('turbolinks:load', () => {
     store: MatestackUiCore.store
   })
 })
-
 ```
 
 ### Application layout adjustments
 
-You need to add the ID "matestack-ui" to some part of your application layout \(or any layout you use\). That's required for Matestack's Vue.js to work properly!
+You need to add the ID "matestack-ui" to some part of your application layout (or any layout you use). That's required for Matestack's Vue.js to work properly!
 
 For Example, your `app/views/layouts/application.html.erb` should look like this:
 
@@ -151,7 +150,9 @@ Don't apply the "matestack-ui" id to the body tag.
 
 Some of Matestack's reactive core components may be used with or require ActionCable. If you want to use ActionCable, please read the action cable guide:
 
-{% page-ref page="../integrations/action-cable.md" %}
+{% content-ref url="../integrations/action-cable.md" %}
+[action-cable.md](../integrations/action-cable.md)
+{% endcontent-ref %}
 
 ## Update
 
@@ -169,11 +170,17 @@ and then check the installed version:
 bundle info matestack-ui-core
 ```
 
+### JavaScript Package
+
 If you've installed the JavaScript dependecies via Yarn/Webpacker you need to update the JavaScript assets via yarn:
 
 ```bash
-yarn update matestack-ui-core
+yarn upgrade matestack-ui-core
 ```
+
+{% hint style="warning" %}
+Ensure to update the JavaScript dependency version in your package.json if the version specified on it is locked.
+{% endhint %}
 
 and finally check if the correct version is installed:
 
@@ -184,4 +191,3 @@ yarn list --pattern "matestack-ui-core"
 {% hint style="warning" %}
 The Ruby gem version and the npm package version should match!
 {% endhint %}
-
