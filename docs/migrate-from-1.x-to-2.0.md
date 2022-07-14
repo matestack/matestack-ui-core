@@ -19,9 +19,9 @@ We decided to switch back to the MIT License in order to emphasize that we want 
 
 ### Trailblazer Cell dependency removed
 
-We did a complete Ruby core rewrite and removed the internal dependencies from `cells`, `haml` and `trailblazer-cells`. We're now using pure Ruby for Matestack's HTML rendering and component based UI structuring. We removed the dependency as we realized that we're just using a small subset of Trailblazer's `cell` feature and are better of when implementing our own business logic. Thank you Trailblazer for bringing us so far!
+We did a complete Ruby core rewrite and removed the internal dependencies from `cells`, `haml` and `trailblazer-cells`. We're now using pure Ruby for Matestack's HTML rendering and component based UI structuring. We removed the dependency as we realized that we're just using a small subset of Trailblazer's `cell` feature and are better off when implementing our own business logic. Thank you Trailblazer for bringing us so far!
 
-We only used Trailblazer's `cell` API internally. If you just used the documented API of Matestack, you only need to follow the following migration steps:
+We only used Trailblazer's `cell` API internally. If you just used the documented API of Matestack, you only need to follow the below migration steps:
 
 ### Rails controller
 
