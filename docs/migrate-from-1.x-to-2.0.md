@@ -41,7 +41,7 @@ end
 
 ### Apps
 
-#### yield\_page
+#### `yield_page`
 
 * Use `yield` instead of `yield_page`
 
@@ -61,7 +61,7 @@ class SomeApp < Matestack::Ui::Component
 end
 ```
 
-or if you want to yield in some method other than response:
+or if you want to yield in some method other than `response`:
 
 ```ruby
 class SomeApp < Matestack::Ui::App
@@ -163,8 +163,8 @@ end
 
 #### Registry
 
-**Definition**
-
+{% tabs %}
+{% tab title="Definition" %}
 ```ruby
 module Components::Registry
 
@@ -183,15 +183,29 @@ module Components::Registry
 
 end
 ```
+{% endtab %}
 
-**Usage**
+{% tab title="Usage" %}
+* Include your registry in components, pages, and apps **directly** instead of including it in your controller.
 
-* include your registry in components, pages, and apps directly instead of including it in your controller
-* create base classes for apps, pages and components inherting from Matestack's base classes including the registry(ies) and let your apps, pages and components inherit from them
+_or_
 
-As this is just a plain Ruby module, you need to include it in all contexts you want to use the alias method (unlike the registry prior to 2.0.0). It's a good idea to create your own ApplicationPage, ApplicationComponent and ApplicationApp as base classes for your pages, components ans apps. In there, you include your component registry module(s) only once and have access to the alias methods in all child classes:
+* Create base classes for apps, pages and components inherting from Matestack's base classes including the registry(ies) and let your apps, pages and components **inherit** from them. As this is just a plain Ruby module, you need to include it in all contexts you want to use the alias method (unlike the registry prior to 2.0.0).
+
+{% hint style="info" %}
+It's a good idea to create your own
+
+* `ApplicationPage`
+* `ApplicationComponent`
+* `ApplicationVueJsComponent`
+* `and ApplicationApp`
+
+as base classes for your pages, components and apps. There, you include your component registry module(s) only once and have access to the alias methods in all child classes.
+{% endhint %}
 
 ```ruby
+# Example base class strategy usage
+
 class ApplicationPage < Matestack::Ui::Page
 
   include Components::Registry
@@ -204,12 +218,20 @@ class ApplicationComponent < Matestack::Ui::Component
 
 end
 
-class ApplicationApp< Matestack::Ui::App
+class ApplicationVueJsComponent < Matestack::Ui::VueJsComponent
+
+  include Components::Registry
+
+end
+
+class ApplicationApp < Matestack::Ui::App
 
   include Components::Registry
 
 end
 ```
+{% endtab %}
+{% endtabs %}
 
 #### Slots
 
