@@ -11,26 +11,27 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem 'rails', '~> 7.0.1'
+gem 'rails', '~> 7.2.0'
 
 gem 'turbo-rails'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 4.0.2'
+  gem 'rspec-rails', '~> 7.0'
   gem 'capybara'
   gem 'webpacker', '~> 5.0'
   gem 'pg', '>= 0.18', '< 2.0'
   gem 'selenium-webdriver'
   gem 'puma'
   gem 'simplecov', require: false, group: :test
-  gem 'byebug'
+  gem 'debug'
   gem 'webmock'
 end
 
 group :test do
   gem 'pry-rails'
-  gem 'pry-byebug'
+  gem 'pry'
   gem "generator_spec"
   # gem "rspec-retry" # repeating flaky tests
   # gem "rspec-wait", "~> 0.0.9"
 end
+

@@ -61,8 +61,8 @@ module Matestack
         # create child items by either running the response method if exists or executing the block
         # overwrite if needed (like in pages or apps)
         def create_children(&block)
-          if respond_to?(:response)
-            self.response &block
+          if self.class.method_defined?(:response)
+            self.response(&block)
           else
             block.call if block_given?
           end
@@ -113,6 +113,12 @@ module Matestack
             return Rails.application.routes.url_helpers.send(name, *args, &block)
           end
           return raise NameError, "#{name} is not defined for #{self.class}", caller
+        end
+
+        def respond_to_missing?(name, include_private = false)
+          (view_context && view_context.respond_to?(name, true)) ||
+            Rails.application.routes.url_helpers.respond_to?(name, true) ||
+            super
         end
 
         def to_str

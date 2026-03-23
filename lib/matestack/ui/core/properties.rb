@@ -1,6 +1,26 @@
 module Matestack
   module Ui
     module Core
+      # Replaces OpenStruct (removed from Ruby 3.4 stdlib) with a minimal
+      # hash-backed object that supports dynamic get/set via method_missing.
+      class PropertyContext
+        def initialize
+          @data = {}
+        end
+
+        def method_missing(name, *args)
+          if name.to_s.end_with?('=')
+            @data[name.to_s.chomp('=').to_sym] = args.first
+          else
+            @data[name.to_s.to_sym]
+          end
+        end
+
+        def respond_to_missing?(_name, _include_private = false)
+          true
+        end
+      end
+
       module Properties
 
         def self.included(base)
@@ -45,7 +65,7 @@ module Matestack
         end
 
         def context
-          @context ||= OpenStruct.new
+          @context ||= PropertyContext.new
         end
         alias :ctx :context
 
