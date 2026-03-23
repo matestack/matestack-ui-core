@@ -10,20 +10,19 @@
 
 Boost your productivity & easily create component based web UIs in pure Ruby.
 
-`matestack-ui-core` enables you to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. `matestack-ui-core` can progressively replace the classic Rails-View-Layer. You are able to use
-it alongside your classic views.
+`matestack-ui-core` enables you to craft maintainable web UIs in pure Ruby, skipping ERB and HTML. UI code becomes a native and fun part of your Rails app. `matestack-ui-core` can progressively replace the classic Rails-View-Layer. You are able to use it alongside your classic views.
+
+> **Note:** Version 4.0.0 is a pre-release (`4.0.0.beta1`) targeting Rails 8 and Ruby 3.2+. If you are on an older Rails/Ruby version, use the `3.x` release series.
 
 ## Compatibility
 
-`matestack-ui-core` is tested against:
+`matestack-ui-core` 4.x is tested against:
 
-- Rails 7.0.1 + Ruby 3.0.0
-- Rails 6.1.1 + Ruby 3.0.0
-- Rails 6.1.1 + Ruby 2.7.2
-- Rails 6.0.3.4 + Ruby 2.6.6
-- Rails 5.2.4.4 + Ruby 2.6.6
+- Rails 8.1 + Ruby 3.4
 
-Rails versions below 5.2 are not supported.
+**Requirements:** Rails >= 8.0, Ruby >= 3.2
+
+For older Rails/Ruby versions, use `matestack-ui-core` 3.x.
 
 ## Documentation/Installation
 
