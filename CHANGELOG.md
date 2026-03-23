@@ -1,5 +1,20 @@
 # Changelog
 
+## v4.0.0.beta1 Release - 2026-03-23
+
+### Breaking Changes
+
+- **Rails >= 8.0 required** (dropped support for Rails 5.2, 6.x, 7.x)
+- **Ruby >= 3.2 required** (dropped support for Ruby 2.6, 2.7, 3.0, 3.1)
+- Removed webpacker support; asset pipeline now uses propshaft
+- Removed legacy multi-version application config files (`application.5.2_rb`, etc.)
+- Removed webpack config files
+
+### Improvements
+
+- Full compatibility with Rails 8.1 and Ruby 3.4
+- CI migrated from Docker Compose to native GitHub Actions (Ruby 3.4, Postgres 16)
+
 ## v3.0.1 Release - 2022-04-29
 
 ### Bugfixes
