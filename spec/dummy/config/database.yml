@@ -8,7 +8,8 @@ default: &default
 
 test:
   <<: *default
-  host: postgres_test
+  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { "5432" } %>
   database: test
 
 development:
