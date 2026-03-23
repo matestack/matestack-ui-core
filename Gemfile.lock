@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    matestack-ui-core (3.0.1)
-      rails (>= 5.2)
+    matestack-ui-core (4.0.0.beta1)
+      rails (>= 8.0)
 
 GEM
   remote: https://rubygems.org/
